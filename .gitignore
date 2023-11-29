@@ -1,0 +1,10 @@
+# IDEs
+.idea/
+.vs/
+.vscode/
+
+# Project exclude paths
+cmake-build-*/
+
+# Generated
+test/Config.h.in
