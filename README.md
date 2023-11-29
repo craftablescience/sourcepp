@@ -1,2 +1,2 @@
 # studiomodelpp
-C++ library for manipulating Valve studiomodel formats
+C++ library for parsing Valve's studiomodel formats
