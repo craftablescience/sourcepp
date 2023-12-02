@@ -41,3 +41,11 @@ TEST(Reader, v47_readMDL_airboat) {
 	                         readFileToBuffer(TEST_MODEL_ROOT_PATH "airboat.vvd"));
 	ASSERT_TRUE(opened);
 }
+
+TEST(Reader, v49_readMDL_life_preserver) {
+	StudioModel model;
+	bool opened = model.open(readFileToBuffer(TEST_MODEL_ROOT_PATH "life_preserver.mdl"),
+	                         readFileToBuffer(TEST_MODEL_ROOT_PATH "life_preserver.vtx"),
+	                         readFileToBuffer(TEST_MODEL_ROOT_PATH "life_preserver.vvd"));
+	ASSERT_TRUE(opened);
+}
