@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <span>
 #include <vector>
 
 #include "../math/Vector.h"
@@ -22,14 +23,16 @@ struct Strip {
 		FLAG_IS_TRISTRIP = 1 << 1,
 	};
 
-	//int indexCount;
-	//int indexOffset;
+	//int indicesCount;
+	//int indicesOffset;
+	std::span<unsigned short> indices;
 
-	//int vertexCount;
-	//int vertexOffset;
+	//int verticesCount;
+	//int verticesOffset;
+	std::span<Vertex> vertices;
 
-	short boneCount;
-	Flags flags;
+	short boneCount = 0;
+	Flags flags = FLAG_NONE;
 
 	//int boneStateChangeCount;
 	//int boneStateChangeOffset;
@@ -108,7 +111,7 @@ struct VTX {
 	int vertexCacheSize;
 	unsigned short maxBonesPerStrip;
 	unsigned short maxBonesPerTriangle;
-	unsigned short maxBonesPerVertex;
+	int maxBonesPerVertex;
 	//int checksum;
 	int numLODs;
 

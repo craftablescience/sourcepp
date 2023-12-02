@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
 project(studiomodelpp)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 option(STUDIOMODELPP_BUILD_TESTS "Build tests for studiomodelpp" OFF)
 
 list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/internal/BufferStream.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/internal/Helpers.h"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/math/Matrix.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/math/Quaternion.h"
@@ -18,6 +19,7 @@ list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/studiomodelpp.h"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/src/internal/BufferStream.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/internal/Helpers.cpp"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/src/structs/MDL.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/structs/VTX.cpp"
@@ -36,8 +38,8 @@ if(STUDIOMODELPP_BUILD_TESTS)
     FetchContent_MakeAvailable(googletest)
     enable_testing()
 
-    set(STUDIOMODELPP_TEST_MODEL_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/test/res/test")
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/test/Config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/test/Config.h.in")
+    set(STUDIOMODELPP_TEST_MODEL_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/test/Config.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/test/Config.h")
 
     add_executable(${PROJECT_NAME}test
             "${CMAKE_CURRENT_SOURCE_DIR}/test/Config.h.in"

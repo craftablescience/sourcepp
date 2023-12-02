@@ -2,6 +2,8 @@
 
 namespace studiomodelpp {
 
+#pragma pack(push, 1)
+
 struct Vector2 {
 	float x;
 	float y;
@@ -19,5 +21,7 @@ struct Vector4 {
 	float z;
 	float w;
 };
+
+#pragma pack(pop)
 
 } // namespace studiomodelpp

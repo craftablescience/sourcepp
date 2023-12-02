@@ -7,7 +7,7 @@ using namespace studiomodelpp::internal;
 
 constexpr int VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);
 
-bool VVD::open(const std::byte* data, std::size_t size, int mdlChecksum) {
+bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int mdlChecksum) {
 	BufferStream stream{data, size};
 
 	int id = stream.read<int>();
@@ -30,16 +30,11 @@ bool VVD::open(const std::byte* data, std::size_t size, int mdlChecksum) {
 	int verticesOffset = stream.read<int>();
 	int tangentsOffset = stream.read<int>();
 
-	std::size_t numTotalVertices = 0;
-	for (int i : this->numVerticesInLOD) {
-		numTotalVertices += i;
-	}
-
 	stream.seek(verticesOffset);
-	stream.read(this->vertices, numTotalVertices);
+	stream.read(this->vertices, this->numVerticesInLOD[0]);
 
 	stream.seek(tangentsOffset);
-	for (std::size_t i = 0; i < numTotalVertices; i++) {
+	for (std::size_t i = 0; i < this->numVerticesInLOD[0]; i++) {
 		this->vertices[i].tangent = stream.read<Vector4>();
 	}
 

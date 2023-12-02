@@ -12,9 +12,9 @@ void BufferStream::seek(std::uint64_t offset, std::ios::seekdir offsetFrom) {
     if (offsetFrom == std::ios::beg)
         this->streamPos = offset;
     else if (offsetFrom == std::ios::cur)
-        this->streamPos += offsetFrom;
+        this->streamPos += offset;
     else if (offsetFrom == std::ios::end)
-        this->streamPos = this->streamLen + offsetFrom;
+        this->streamPos = this->streamLen + offset;
 }
 
 void BufferStream::skip(std::uint64_t offset) {

@@ -19,7 +19,7 @@ struct Bone {
 		// todo(flags): Bone
 	};
 
-	// int nameIndex;
+	//int nameIndex;
 	std::string name;
 
 	int parent;
@@ -215,6 +215,8 @@ struct MDL {
 
 	//int id;
 	int version;
+	// Varies between int and long based on version
+	// todo: figure out what versions it's a long
 	int checksum;
 
 	//char name[64];

@@ -8,17 +8,11 @@ bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 	if (!mdlData || !vtxData || !vvdData || !mdlSize || !vtxSize || !vvdSize) {
 		return false;
 	}
-
-	if (!this->mdl.open(mdlData, mdlSize)) {
+	if ((!this->mdl.open(mdlData, mdlSize) ||
+		!this->vtx.open(vtxData, vtxSize, this->mdl.version, this->mdl.checksum)) ||
+		!this->vvd.open(vvdData, vvdSize, this->mdl.version, this->mdl.checksum)) {
 		return false;
 	}
-	if (!this->vtx.open(vtxData, vtxSize, this->mdl.version, this->mdl.checksum)) {
-		return false;
-	}
-	if (!this->vvd.open(vvdData, vvdSize, this->mdl.checksum)) {
-		return false;
-	}
-
 	return true;
 }
 

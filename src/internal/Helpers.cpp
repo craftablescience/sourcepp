@@ -4,10 +4,10 @@
 
 using namespace studiomodelpp;
 
-void internal::readStringAtOffset(BufferStream& stream, std::string& str) {
+void internal::readStringAtOffset(BufferStream& stream, std::string& str, std::ios::seekdir offsetFrom) {
 	int offset = stream.read<int>();
 	auto pos = stream.tell();
-	stream.seek(offset, std::ios::cur);
+	stream.seek(offset, offsetFrom);
 	stream.read(str);
 	stream.seek(pos);
 }

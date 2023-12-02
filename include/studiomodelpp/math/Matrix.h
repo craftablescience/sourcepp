@@ -2,6 +2,8 @@
 
 namespace studiomodelpp {
 
+#pragma pack(push, 1)
+
 template<unsigned char M, unsigned char N>
 class Matrix {
 public:
@@ -12,5 +14,7 @@ public:
 private:
 	float data[M][N];
 };
+
+#pragma pack(pop)
 
 } // namespace studiomodelpp

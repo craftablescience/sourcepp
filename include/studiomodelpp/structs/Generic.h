@@ -12,10 +12,10 @@ struct BBox {
 	Vector3 bboxMin;
 	Vector3 bboxMax;
 
-	// int hitboxNameOffset;
+	//int hitboxNameOffset;
 	std::string name;
 
-	// int _unused0[8];
+	//int _unused0[8];
 };
 
 struct Movement {

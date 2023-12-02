@@ -20,7 +20,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	stream.read(this->checksum);
 
 	auto nameBytes = stream.readBytes<64>();
-	this->name = std::string{reinterpret_cast<const char* const>(nameBytes.data())};
+	this->name = std::string{reinterpret_cast<const char*>(nameBytes.data())};
 
 	// dataLength
 	stream.skip<int>();
@@ -31,7 +31,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	stream.read(this->hullMax);
 	stream.read(this->viewBBoxMin);
 	stream.read(this->viewBBoxMax);
-	stream.read(this->flags);
+	this->flags = static_cast<Flags>(stream.read<int>());
 
 	int boneCount = stream.read<int>();
 	int boneOffset = stream.read<int>();
@@ -42,11 +42,13 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int hitboxSetCount = stream.read<int>();
 	int hitboxSetOffset = stream.read<int>();
 
-	int animDescCount = stream.read<int>();
-	int animDescOffset = stream.read<int>();
+	//int animDescCount = stream.read<int>();
+	//int animDescOffset = stream.read<int>();
+	stream.skip<int, 2>();
 
-	int sequenceDescCount = stream.read<int>();
-	int sequenceDescOffset = stream.read<int>();
+	//int sequenceDescCount = stream.read<int>();
+	//int sequenceDescOffset = stream.read<int>();
+	stream.skip<int, 2>();
 
 	stream.read(this->activityListVersion);
 	stream.read(this->eventsIndexed);
@@ -92,17 +94,20 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.skip<int, 8>();
 	}
 
-	stream.seek(hitboxSetOffset);
 	for (int i = 0; i < hitboxSetCount; i++) {
+		auto hitboxSetPos = hitboxSetOffset + i * (sizeof(int) * 3);
+		stream.seek(hitboxSetPos);
+
 		auto& hitboxSet = this->hitboxSets.emplace_back();
 
 		readStringAtOffset(stream, hitboxSet.name);
-
 		int hitboxCount = stream.read<int>();
 		int hitboxOffset = stream.read<int>();
 
-		stream.seek(hitboxOffset);
 		for (int j = 0; j < hitboxCount; j++) {
+			auto hitboxPos = hitboxOffset + j * (sizeof(int) * 11 + sizeof(Vector3) * 2);
+			stream.seek(hitboxSetPos + hitboxPos);
+
 			auto& hitbox = hitboxSet.hitboxes.emplace_back();
 
 			stream.read(hitbox.bone);
@@ -116,6 +121,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
+	/*
 	stream.seek(animDescOffset);
 	for (int i = 0; i < animDescCount; i++) {
 		// todo(wrapper)
@@ -125,33 +131,25 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < sequenceDescCount; i++) {
 		// todo(wrapper)
 	}
+	*/
 
 	stream.seek(materialOffset);
 	for (int i = 0; i < materialCount; i++) {
 		auto& material = this->materials.emplace_back();
 
-		int nameOffset = stream.read<int>();
-		auto pos = stream.tell();
-		stream.seek(nameOffset, std::ios::cur);
-		stream.read(material.name);
-		stream.seek(pos);
-
+		readStringAtOffset(stream, material.name);
 		stream.read(material.flags);
 
 		// used
+		stream.skip<int>();
 		// _unused0
-		stream.skip<int, 14>();
+		stream.skip<int, 13>();
 	}
 
 	stream.seek(materialDirOffset);
 	for (int i = 0; i < materialDirCount; i++) {
 		auto& materialDir = this->materialDirectories.emplace_back();
-
-		int nameOffset = stream.read<int>();
-		auto pos = stream.tell();
-		stream.seek(nameOffset, std::ios::cur);
-		stream.read(materialDir);
-		stream.seek(pos);
+		readStringAtOffset(stream, materialDir, std::ios::beg);
 	}
 
 	return true;

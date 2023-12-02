@@ -28,7 +28,8 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 	int bodyPartOffset = stream.read<int>();
 
 	for (int i = 0; i < bodyPartCount; i++) {
-		stream.seek(bodyPartOffset + i * ((sizeof(int) * 2)));
+		auto bodyPartPos = bodyPartOffset + i * ((sizeof(int) * 2));
+		stream.seek(bodyPartPos);
 
 		auto& bodyPart = this->bodyParts.emplace_back();
 
@@ -36,7 +37,8 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 		int modelOffset = stream.read<int>();
 
 		for (int j = 0; j < modelCount; j++) {
-			stream.seek(bodyPartOffset + modelOffset + j * (sizeof(int) * 2));
+			auto modelPos = modelOffset + j * (sizeof(int) * 2);
+			stream.seek(bodyPartPos + modelPos);
 
 			auto& model = bodyPart.models.emplace_back();
 
@@ -44,7 +46,8 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 			int modelLODOffset = stream.read<int>();
 
 			for (int k = 0; k < modelLODCount; k++) {
-				stream.seek(bodyPartOffset + modelOffset + modelLODOffset + k * (sizeof(int) * 3));
+				auto modelLODPos = modelLODOffset + k * (sizeof(int) * 2 + sizeof(float));
+				stream.seek(bodyPartPos + modelPos + modelLODPos);
 
 				auto& modelLOD = model.modelLODs.emplace_back();
 
@@ -54,7 +57,8 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 				stream.read(modelLOD.switchDistance);
 
 				for (int l = 0; l < meshCount; l++) {
-					stream.seek(bodyPartOffset + modelOffset + modelLODOffset + meshOffset + l * (sizeof(int) * 2) + sizeof(Mesh::Flags));
+					auto meshPos = meshOffset + l * (sizeof(int) * 2 + sizeof(Mesh::Flags));
+					stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos);
 
 					auto& mesh = modelLOD.meshes.emplace_back();
 
@@ -68,7 +72,8 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 						if (mdlVersion >= 49) {
 							stripGroupNumInts += 2;
 						}
-						stream.seek(bodyPartOffset + modelOffset + modelLODOffset + meshOffset + stripGroupOffset + m * (sizeof(int) * stripGroupNumInts + sizeof(StripGroup::Flags)));
+						auto stripGroupPos = stripGroupOffset + m * (sizeof(int) * stripGroupNumInts + sizeof(StripGroup::Flags));
+						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos);
 
 						auto& stripGroup = mesh.stripGroups.emplace_back();
 
@@ -76,7 +81,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 						int vertexOffset = stream.read<int>();
 
 						auto stripGroupCurrentPos = stream.tell();
-						stream.seek(bodyPartOffset + modelOffset + modelLODOffset + meshOffset + stripGroupOffset + vertexOffset);
+						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + vertexOffset);
 						for (int n = 0; n < vertexCount; n++) {
 							auto& vertex = stripGroup.vertices.emplace_back();
 
@@ -94,7 +99,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 						int indexOffset = stream.read<int>();
 
 						stripGroupCurrentPos = stream.tell();
-						stream.seek(bodyPartOffset + modelOffset + modelLODOffset + meshOffset + stripGroupOffset + indexOffset);
+						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + indexOffset);
 						for (int n = 0; n < indexCount; n++) {
 							auto& index = stripGroup.indices.emplace_back();
 							stream.read(index);
@@ -107,16 +112,23 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 						stream.read(stripGroup.flags);
 
 						if (mdlVersion >= 49) {
-							// todo: mesh topology?
+							// mesh topology
 							stream.skip<int, 2>();
 						}
 
-						stream.seek(bodyPartOffset + modelOffset + modelLODOffset + meshOffset + stripGroupOffset + stripOffset);
+						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset);
 						for (int n = 0; n < stripCount; n++) {
 							auto& strip = stripGroup.strips.emplace_back();
 
-							// todo: maybe get a std::span of parent array?
-							stream.skip<int, 4>();
+							int indicesCount = stream.read<int>();
+							int indicesOffset = stream.read<int>();
+							// todo: check if offset is in bytes
+							strip.indices = std::span<unsigned short>(stripGroup.indices.begin() + indicesOffset, indicesCount);
+
+							int verticesCount = stream.read<int>();
+							int verticesOffset = stream.read<int>();
+							// todo: check if offset is in bytes
+							strip.vertices = std::span<Vertex>(stripGroup.vertices.begin() + verticesOffset, verticesCount);
 
 							stream.read(strip.boneCount);
 							stream.read(strip.flags);
