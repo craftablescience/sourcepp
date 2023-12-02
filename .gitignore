@@ -7,4 +7,4 @@
 cmake-build-*/
 
 # Generated
-test/Config.h.in
+test/Config.h

@@ -1,0 +1,3 @@
+#pragma once
+
+#define TEST_MODEL_ROOT_PATH "${STUDIOMODELPP_TEST_MODEL_ROOT_PATH}"
