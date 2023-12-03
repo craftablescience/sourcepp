@@ -6,6 +6,10 @@
 
 namespace studiomodelpp {
 
+constexpr int ROOT_LOD = 0;
+constexpr int MAX_LOD_COUNT = 8;
+//constexpr int MAX_BONES_PER_VERTEX = 3;
+
 struct BBox {
 	int bone;
 	int group;

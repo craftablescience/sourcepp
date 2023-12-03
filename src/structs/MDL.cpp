@@ -59,6 +59,12 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int materialDirCount = stream.read<int>();
 	int materialDirOffset = stream.read<int>();
 
+	// todo: skins
+	stream.skip<int, 3>();
+
+	int bodyPartCount = stream.read<int>();
+	int bodyPartOffset = stream.read<int>();
+
 	// Done reading sequentially, start seeking to offsets
 
 	stream.seek(boneOffset);
@@ -150,6 +156,47 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < materialDirCount; i++) {
 		auto& materialDir = this->materialDirectories.emplace_back();
 		readStringAtOffset(stream, materialDir, std::ios::beg);
+	}
+
+	for (int i = 0; i < bodyPartCount; i++) {
+		auto bodyPartPos = bodyPartOffset + i * (sizeof(int) * 4);
+		stream.seek(bodyPartPos);
+
+		auto& bodyPart = this->bodyParts.emplace_back();
+
+		readStringAtOffset(stream, bodyPart.name);
+
+		int modelsCount = stream.read<int>();
+		// base
+		stream.skip<int>();
+		int modelsOffset = stream.read<int>();
+
+		for (int j = 0; j < modelsCount; j++) {
+			auto modelPos = modelsOffset + j * (64 + sizeof(float) + sizeof(int) * 20);
+			stream.seek(bodyPartPos + modelPos);
+
+			auto& model = bodyPart.models.emplace_back();
+
+			auto modelNameBytes = stream.readBytes<64>();
+			model.name = std::string{reinterpret_cast<const char*>(modelNameBytes.data())};
+
+			stream.read(model.type);
+			stream.read(model.boundingRadius);
+
+			int meshesCount = stream.read<int>();
+			int meshesOffset = stream.read<int>();
+
+			for (int k = 0; k < meshesCount; k++) {
+				auto meshPos = meshesOffset + k * (sizeof(int) * (18 + MAX_LOD_COUNT) + sizeof(Vector3));
+				stream.seek(bodyPartPos + modelPos + meshPos);
+
+				auto& mesh = model.meshes.emplace_back();
+
+				stream.read(mesh.material);
+				stream.skip<int, 8>();
+				stream.read(mesh.center);
+			}
+		}
 	}
 
 	return true;

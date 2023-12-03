@@ -6,12 +6,9 @@
 #include <vector>
 
 #include "../math/Vector.h"
+#include "Generic.h"
 
 namespace studiomodelpp::VVD {
-
-constexpr int ROOT_LOD = 0;
-constexpr int MAX_LOD_COUNT = 8;
-//constexpr int MAX_BONES_PER_VERTEX = 3;
 
 struct Fixup {
 	int LOD;

@@ -192,6 +192,64 @@ struct Material {
 	//int _unused0[13];
 };
 
+struct Mesh {
+	int material;
+
+	//int modelOffset;
+
+	//int verticesCount;
+	//int verticesOffset;
+
+	//int flexesCount;
+	//int flexesOffset;
+
+	//int materialType;
+	//int materialParam;
+
+	//int meshID;
+
+	Vector3 center;
+
+	//int modelVertexData;
+	//int numLODVertexes[MAX_LOD_COUNT];
+	//int _unused[8];
+};
+
+struct Model {
+	//char name[64];
+	std::string name;
+
+	int type;
+
+	float boundingRadius;
+
+	//int meshesCount;
+	//int meshesOffset;
+	std::vector<Mesh> meshes;
+
+	//int verticesCount;
+	//int verticesOffset;
+	//int tangentsOffset;
+
+	//int attachmentsCount;
+	//int attachmentsOffset;
+
+	//int eyeballsCount;
+	//int eyeballsOffset;
+
+	//int _unused0[10];
+};
+
+struct BodyPart {
+	//int nameOffset;
+	std::string name;
+
+	//int modelsCount;
+	int base; // No idea what this is, might as well expose it
+	//int modelsOffset;
+	std::vector<Model> models;
+};
+
 struct MDL {
 	[[nodiscard]] bool open(const std::byte* data, std::size_t size);
 
@@ -211,6 +269,8 @@ struct MDL {
 		FLAG_BUILT_IN_PREVIEW_MODE          = 1 << 15,
 		FLAG_DO_NOT_CAST_SHADOWS            = 1 << 17,
 		FLAG_CAST_TEXTURE_SHADOWS           = 1 << 18,
+		FLAG_SUBDIVISION_SURFACE            = 1 << 19,
+		FLAG_VERT_ANIM_FIXED_POINT_SCALE    = 1 << 21,
 	};
 
 	//int id;
@@ -267,6 +327,7 @@ struct MDL {
 
 	//int bodyPartCount;
 	//int bodyPartOffset;
+	std::vector<BodyPart> bodyParts;
 
 	//int attachmentCount;
 	//int attachmentOffset;
