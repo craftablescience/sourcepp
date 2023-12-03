@@ -1,7 +1,6 @@
 #include <studiomodelpp/structs/VTX.h>
 
 #include <studiomodelpp/internal/BufferStream.h>
-#include <studiomodelpp/structs/MDL.h>
 
 using namespace studiomodelpp::VTX;
 using namespace studiomodelpp::internal;

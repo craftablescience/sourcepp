@@ -7,12 +7,7 @@
 
 #include "../math/Vector.h"
 #include "Generic.h"
-
-namespace studiomodelpp::MDL {
-
-class MDL;
-
-} // namespace studiomodelpp::MDL
+#include "MDL.h"
 
 namespace studiomodelpp::VVD {
 

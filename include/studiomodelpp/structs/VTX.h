@@ -6,12 +6,7 @@
 #include <vector>
 
 #include "../math/Vector.h"
-
-namespace studiomodelpp::MDL {
-
-class MDL;
-
-} // namespace studiomodelpp::MDL
+#include "MDL.h"
 
 namespace studiomodelpp::VTX {
 

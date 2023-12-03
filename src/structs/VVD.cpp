@@ -1,7 +1,6 @@
 #include <studiomodelpp/structs/VVD.h>
 
 #include <studiomodelpp/internal/BufferStream.h>
-#include <studiomodelpp/structs/MDL.h>
 
 using namespace studiomodelpp::VVD;
 using namespace studiomodelpp::internal;
