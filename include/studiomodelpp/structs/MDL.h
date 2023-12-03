@@ -227,9 +227,10 @@ struct Model {
 	//int meshesOffset;
 	std::vector<Mesh> meshes;
 
-	//int verticesCount;
-	//int verticesOffset;
-	//int tangentsOffset;
+	// These do not map to raw memory
+	int verticesCount;
+	int verticesOffset;
+	int tangentsOffset;
 
 	//int attachmentsCount;
 	//int attachmentsOffset;
