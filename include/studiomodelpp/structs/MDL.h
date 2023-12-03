@@ -67,8 +67,13 @@ struct HitboxSet {
 /*
 struct AnimDesc {
 	enum Flags : int {
-		FLAG_NONE = 0,
-		// todo(flags): AnimDesc
+		FLAG_NONE     = 0,
+		FLAG_RAW_POS  = 1 << 0,
+		FLAG_RAW_ROT  = 1 << 1,
+		FLAG_ANIM_POS = 1 << 2,
+		FLAG_ANIM_ROT = 1 << 3,
+		FLAG_DELTA    = 1 << 4,
+		FLAG_RAW_ROT2 = 1 << 5,
 	};
 
 	//int basePointer;
@@ -109,7 +114,7 @@ struct AnimDesc {
 struct SequenceDesc {
 	enum Flags : int {
 		FLAG_NONE = 0,
-		// todo(flags): SequenceDesc
+		FLAG_LOOPING = 1 << 0,
 	};
 
 	//int basePointer;
@@ -272,6 +277,7 @@ struct MDL {
 		FLAG_CAST_TEXTURE_SHADOWS           = 1 << 18,
 		FLAG_SUBDIVISION_SURFACE            = 1 << 19,
 		FLAG_VERT_ANIM_FIXED_POINT_SCALE    = 1 << 21,
+		FLAG_EXTRA_VERTEX_DATA              = 1 << 26,
 	};
 
 	//int id;

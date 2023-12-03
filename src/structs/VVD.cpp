@@ -1,13 +1,14 @@
 #include <studiomodelpp/structs/VVD.h>
 
 #include <studiomodelpp/internal/BufferStream.h>
+#include <studiomodelpp/structs/MDL.h>
 
 using namespace studiomodelpp::VVD;
 using namespace studiomodelpp::internal;
 
 constexpr int VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);
 
-bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int mdlChecksum) {
+bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStream stream{data, size};
 
 	int id = stream.read<int>();
@@ -18,7 +19,7 @@ bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int 
 	stream.read(this->version);
 
 	int checksum = stream.read<int>();
-	if (checksum != mdlChecksum) {
+	if (checksum != mdl.checksum) {
 		return false;
 	}
 

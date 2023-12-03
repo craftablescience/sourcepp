@@ -7,6 +7,12 @@
 
 #include "../math/Vector.h"
 
+namespace studiomodelpp::MDL {
+
+class MDL;
+
+} // namespace studiomodelpp::MDL
+
 namespace studiomodelpp::VTX {
 
 struct Vertex {
@@ -105,7 +111,7 @@ struct BodyPart {
 };
 
 struct VTX {
-	[[nodiscard]] bool open(const std::byte* data, std::size_t size, int mdlVersion, int mdlChecksum);
+	[[nodiscard]] bool open(const std::byte* data, std::size_t size, const MDL::MDL& mdl);
 
 	int version;
 	int vertexCacheSize;

@@ -1,11 +1,12 @@
 #include <studiomodelpp/structs/VTX.h>
 
 #include <studiomodelpp/internal/BufferStream.h>
+#include <studiomodelpp/structs/MDL.h>
 
 using namespace studiomodelpp::VTX;
 using namespace studiomodelpp::internal;
 
-bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlChecksum) {
+bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStream stream{data, size};
 
 	stream.read(this->version);
@@ -15,7 +16,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 	stream.read(this->maxBonesPerVertex);
 
 	int checksum = stream.read<int>();
-	if (checksum != mdlChecksum) {
+	if (checksum != mdl.checksum) {
 		return false;
 	}
 
@@ -69,7 +70,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 
 					for (int m = 0; m < stripGroupCount; m++) {
 						int stripGroupNumInts = 6;
-						if (mdlVersion >= 49) {
+						if (mdl.version >= 49) {
 							stripGroupNumInts += 2;
 						}
 						auto stripGroupPos = stripGroupOffset + m * (sizeof(int) * stripGroupNumInts + sizeof(StripGroup::Flags));
@@ -111,7 +112,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 
 						stream.read(stripGroup.flags);
 
-						if (mdlVersion >= 49) {
+						if (mdl.version >= 49) {
 							// mesh topology
 							stream.skip<int, 2>();
 						}
@@ -136,7 +137,7 @@ bool VTX::open(const std::byte* data, std::size_t size, int mdlVersion, int mdlC
 							// todo: bone stuff
 							stream.skip<int, 2>();
 
-							if (mdlVersion >= 49) {
+							if (mdl.version >= 49) {
 								// mesh topology
 								stream.skip<int, 2>();
 							}

@@ -8,6 +8,12 @@
 #include "../math/Vector.h"
 #include "Generic.h"
 
+namespace studiomodelpp::MDL {
+
+class MDL;
+
+} // namespace studiomodelpp::MDL
+
 namespace studiomodelpp::VVD {
 
 struct Fixup {
@@ -36,7 +42,7 @@ struct Vertex {
 };
 
 struct VVD {
-	[[nodiscard]] bool open(const std::byte* data, std::size_t size, int mdlVersion, int mdlChecksum);
+	[[nodiscard]] bool open(const std::byte* data, std::size_t size, const MDL::MDL& mdl);
 
 	//int id;
 	int version;

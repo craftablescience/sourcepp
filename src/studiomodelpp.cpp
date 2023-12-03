@@ -9,8 +9,8 @@ bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 		return false;
 	}
 	if ((!this->mdl.open(mdlData, mdlSize) ||
-		!this->vtx.open(vtxData, vtxSize, this->mdl.version, this->mdl.checksum)) ||
-		!this->vvd.open(vvdData, vvdSize, this->mdl.version, this->mdl.checksum)) {
+		!this->vtx.open(vtxData, vtxSize, this->mdl)) ||
+		!this->vvd.open(vvdData, vvdSize, this->mdl)) {
 		return false;
 	}
 	this->opened = true;
