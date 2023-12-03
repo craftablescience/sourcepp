@@ -16,19 +16,18 @@ struct Fixup {
 	int vertexCount;
 };
 
-// todo(vvd): bone weight
-/*
 struct BoneWeight {
 	//float weight[MAX_BONES_PER_VERTEX];
-    std::vector<float> weight;
+    std::array<float, MAX_BONES_PER_VERTEX> weight;
+
 	//char bone[MAX_BONES_PER_VERTEX];
 	//char boneCount;
-    std::vector<char> bone;
+    std::vector<char> bones;
 };
-*/
 
 struct Vertex {
-	//BoneWeight boneWeight;
+	BoneWeight boneWeight;
+
 	Vector3 position;
 	Vector3 normal;
 	Vector2 uv;

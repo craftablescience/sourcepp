@@ -31,11 +31,27 @@ bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int 
 	int tangentsOffset = stream.read<int>();
 
 	stream.seek(verticesOffset);
-	stream.read(this->vertices, this->numVerticesInLOD[0]);
+	for (int i = 0; i < this->numVerticesInLOD[0]; i++) {
+		auto& vertex = this->vertices.emplace_back();
+
+		stream.read(vertex.boneWeight.weight);
+
+		std::array<char, MAX_BONES_PER_VERTEX> bones;
+		stream.read(bones);
+		char boneCount = stream.read<char>();
+		for (int j = 0; j < boneCount && j < MAX_BONES_PER_VERTEX; j++) {
+			vertex.boneWeight.bones.push_back(bones[j]);
+		}
+
+		stream.read(vertex.position);
+		stream.read(vertex.normal);
+		stream.read(vertex.uv);
+		// tangents are assigned below
+	}
 
 	stream.seek(tangentsOffset);
 	for (std::size_t i = 0; i < this->numVerticesInLOD[0]; i++) {
-		this->vertices[i].tangent = stream.read<Vector4>();
+		this->vertices.at(i).tangent = stream.read<Vector4>();
 	}
 
 	stream.seek(fixupsOffset);
