@@ -51,16 +51,16 @@ struct StripGroup {
 		FLAG_SUPPRESS_HW_MORPH = 1 << 3,
 	};
 
-	int vertexCount;
-	int vertexOffset;
+	//int vertexCount;
+	//int vertexOffset;
 	std::vector<Vertex> vertices;
 
-	int indexCount;
-	int indexOffset;
+	//int indexCount;
+	//int indexOffset;
 	std::vector<unsigned short> indices;
 
-	int stripCount;
-	int stripOffset;
+	//int stripCount;
+	//int stripOffset;
 	std::vector<Strip> strips;
 
 	Flags flags;
