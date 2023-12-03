@@ -143,7 +143,14 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < materialCount; i++) {
 		auto& material = this->materials.emplace_back();
 
-		readStringAtOffset(stream, material.name);
+		// regular readStringAtOffset cuts off 4 characters in the beginning
+		// why??? who the hell knows
+		int materialNameOffset = stream.read<int>();
+		auto pos = stream.tell();
+		stream.seek(materialNameOffset - 4, std::ios::cur);
+		stream.read(material.name);
+		stream.seek(pos);
+
 		stream.read(material.flags);
 
 		// used
