@@ -1,2 +1,2 @@
 # studiomodelpp
-C++ library for parsing Valve's studiomodel formats
+A modern C++ library for sanely parsing Valve's studiomodel formats
