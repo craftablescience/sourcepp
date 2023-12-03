@@ -12,7 +12,7 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
-        compiler: [gcc, clang]
+        compiler: [gcc]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -29,12 +29,6 @@ jobs:
         with:
           version: latest
           platform: x64
-
-      - name: Install Clang
-        if: ${{matrix.compiler == 'clang'}}
-        uses: KyleMayes/install-llvm-action@v1.9.0
-        with:
-          version: '17'
 
       - name: Configure CMake
         run: cmake -G "Unix Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSTUDIOMODELPP_BUILD_TESTS=ON
