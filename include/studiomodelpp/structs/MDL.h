@@ -403,4 +403,4 @@ struct MDL {
 	//int _unused3;
 };
 
-} // namespace studiomodelpp
+} // namespace studiomodelpp::MDL

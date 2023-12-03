@@ -36,7 +36,7 @@ struct Vertex {
 };
 
 struct VVD {
-	bool open(const std::byte* data, std::size_t size, int mdlVersion, int mdlChecksum);
+	[[nodiscard]] bool open(const std::byte* data, std::size_t size, int mdlVersion, int mdlChecksum);
 
 	//int id;
 	int version;
