@@ -36,7 +36,7 @@ bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int 
 
 		stream.read(vertex.boneWeight.weight);
 
-		std::array<char, MAX_BONES_PER_VERTEX> bones;
+		std::array<char, MAX_BONES_PER_VERTEX> bones{};
 		stream.read(bones);
 		char boneCount = stream.read<char>();
 		for (int j = 0; j < boneCount && j < MAX_BONES_PER_VERTEX; j++) {

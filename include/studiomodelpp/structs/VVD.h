@@ -28,11 +28,11 @@ struct BoneWeight {
 struct Vertex {
 	BoneWeight boneWeight;
 
-	Vector3 position;
-	Vector3 normal;
-	Vector2 uv;
+	Vector3 position{};
+	Vector3 normal{};
+	Vector2 uv{};
 
-	Vector4 tangent; // Taken from tangents data section
+	Vector4 tangent{}; // Taken from tangents data section
 };
 
 struct VVD {
