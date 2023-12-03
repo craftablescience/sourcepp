@@ -39,7 +39,13 @@ bool VVD::open(const std::byte* data, std::size_t size, int /*mdlVersion*/, int 
 	}
 
 	stream.seek(fixupsOffset);
-	stream.read(this->fixups, fixupsCount);
+	for (int i = 0; i < fixupsCount; i++) {
+		auto& fixup = this->fixups.emplace_back();
+
+		stream.read(fixup.LOD);
+		stream.read(fixup.sourceVertexID);
+		stream.read(fixup.vertexCount);
+	}
 
 	return true;
 }

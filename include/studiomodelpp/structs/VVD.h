@@ -42,12 +42,15 @@ struct VVD {
 	//int id;
 	int version;
 	//int checksum;
+
 	int numLODs;
 	//int numVerticesInLOD[MAX_LOD_COUNT];
 	std::array<int, MAX_LOD_COUNT> numVerticesInLOD;
+
 	//int fixupsCount;
 	//int fixupsOffset;
 	std::vector<Fixup> fixups;
+
 	//int verticesOffset;
 	std::vector<Vertex> vertices;
 	//int tangentsOffset;
