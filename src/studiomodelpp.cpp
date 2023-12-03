@@ -5,7 +5,7 @@ using namespace studiomodelpp;
 bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 					   const std::byte* vtxData, std::size_t vtxSize,
                        const std::byte* vvdData, std::size_t vvdSize) {
-	if (!mdlData || !vtxData || !vvdData || !mdlSize || !vtxSize || !vvdSize) {
+	if (this->opened || !mdlData || !vtxData || !vvdData || !mdlSize || !vtxSize || !vvdSize) {
 		return false;
 	}
 	if ((!this->mdl.open(mdlData, mdlSize) ||
@@ -13,6 +13,7 @@ bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 		!this->vvd.open(vvdData, vvdSize, this->mdl.version, this->mdl.checksum)) {
 		return false;
 	}
+	this->opened = true;
 	return true;
 }
 
@@ -38,4 +39,8 @@ bool StudioModel::open(const std::vector<unsigned char>& mdlData,
 	return this->open(mdlData.data(), mdlData.size(),
 	                  vtxData.data(), vtxData.size(),
 	                  vvdData.data(), vvdData.size());
+}
+
+StudioModel::operator bool() const {
+	return this->opened;
 }

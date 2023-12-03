@@ -17,6 +17,10 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	}
 
 	stream.read(this->version);
+	if (this->version < 44 || this->version > 49) {
+		return false;
+	}
+
 	stream.read(this->checksum);
 
 	auto nameBytes = stream.readBytes<64>();
