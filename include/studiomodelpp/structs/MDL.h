@@ -209,10 +209,10 @@ struct Mesh {
 	//int flexesCount;
 	//int flexesOffset;
 
-	//int materialType;
-	//int materialParam;
+	int materialType;
+	int materialParam;
 
-	//int meshID;
+	int meshID;
 
 	Vector3 center;
 

@@ -207,7 +207,13 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				auto& mesh = model.meshes.emplace_back();
 
 				stream.read(mesh.material);
-				stream.skip<int, 8>();
+				stream.skip<int>();
+				stream.read(mesh.verticesCount);
+				stream.read(mesh.verticesOffset);
+				stream.skip<int, 2>();
+				stream.read(mesh.materialType);
+				stream.read(mesh.materialParam);
+				stream.read(mesh.meshID);
 				stream.read(mesh.center);
 			}
 		}
