@@ -235,7 +235,7 @@ struct Model {
 	// These do not map to raw memory
 	int verticesCount;
 	int verticesOffset;
-	int tangentsOffset;
+	//int tangentsOffset;
 
 	//int attachmentsCount;
 	//int attachmentsOffset;

@@ -197,6 +197,9 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			int meshesCount = stream.read<int>();
 			int meshesOffset = stream.read<int>();
 
+			stream.read(model.verticesCount);
+			stream.read(model.verticesOffset);
+
 			for (int k = 0; k < meshesCount; k++) {
 				auto meshPos = meshesOffset + k * (sizeof(int) * (18 + MAX_LOD_COUNT) + sizeof(Vector3));
 				stream.seek(bodyPartPos + modelPos + meshPos);
