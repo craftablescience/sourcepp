@@ -202,8 +202,9 @@ struct Mesh {
 
 	//int modelOffset;
 
-	//int verticesCount;
-	//int verticesOffset;
+	// These do not map to raw memory
+	int verticesCount;
+	int verticesOffset;
 
 	//int flexesCount;
 	//int flexesOffset;
