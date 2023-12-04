@@ -16,6 +16,9 @@ bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	}
 
 	stream.read(this->version);
+	if (this->version != 4) {
+		return false;
+	}
 
 	int checksum = stream.read<int>();
 	if (checksum != mdl.checksum) {

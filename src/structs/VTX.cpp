@@ -9,6 +9,10 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStream stream{data, size};
 
 	stream.read(this->version);
+	if (this->version != 7) {
+		return false;
+	}
+
 	stream.read(this->vertexCacheSize);
 	stream.read(this->maxBonesPerStrip);
 	stream.read(this->maxBonesPerTriangle);
