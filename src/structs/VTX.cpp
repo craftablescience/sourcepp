@@ -121,14 +121,14 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							auto& strip = stripGroup.strips.emplace_back();
 
 							int indicesCount = stream.read<int>();
-							int indicesOffset = stream.read<int>();
+							stream.read(strip.indicesOffset);
 							// todo: check if offset is in bytes
-							strip.indices = std::span<unsigned short>(stripGroup.indices.begin() + indicesOffset, indicesCount);
+							strip.indices = std::span<unsigned short>(stripGroup.indices.begin() + strip.indicesOffset, indicesCount);
 
 							int verticesCount = stream.read<int>();
-							int verticesOffset = stream.read<int>();
+							stream.read(strip.verticesOffset);
 							// todo: check if offset is in bytes
-							strip.vertices = std::span<Vertex>(stripGroup.vertices.begin() + verticesOffset, verticesCount);
+							strip.vertices = std::span<Vertex>(stripGroup.vertices.begin() + strip.verticesOffset, verticesCount);
 
 							stream.read(strip.boneCount);
 							stream.read(strip.flags);

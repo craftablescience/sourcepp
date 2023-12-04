@@ -25,11 +25,11 @@ struct Strip {
 	};
 
 	//int indicesCount;
-	//int indicesOffset;
+	int indicesOffset = 0; // Offset from the start of the strip group indices
 	std::span<unsigned short> indices;
 
 	//int verticesCount;
-	//int verticesOffset;
+	int verticesOffset = 0; // Offset from the start of the strip group vertices
 	std::span<Vertex> vertices;
 
 	short boneCount = 0;
