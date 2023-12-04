@@ -43,8 +43,10 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int boneControllerCount = stream.read<int>();
 	int boneControllerOffset = stream.read<int>();
 
-	int hitboxSetCount = stream.read<int>();
-	int hitboxSetOffset = stream.read<int>();
+	// todo: hitboxes
+	stream.skip<int, 2>();
+	//int hitboxSetCount = stream.read<int>();
+	//int hitboxSetOffset = stream.read<int>();
 
 	//int animDescCount = stream.read<int>();
 	//int animDescOffset = stream.read<int>();
@@ -104,6 +106,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.skip<int, 8>();
 	}
 
+	// todo: hitbox names are being read incorrectly causing rare crashes, disabled for now
+	/*
 	for (int i = 0; i < hitboxSetCount; i++) {
 		auto hitboxSetPos = hitboxSetOffset + i * (sizeof(int) * 3);
 		stream.seek(hitboxSetPos);
@@ -124,12 +128,16 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			stream.read(hitbox.group);
 			stream.read(hitbox.bboxMin);
 			stream.read(hitbox.bboxMax);
-			readStringAtOffset(stream, hitbox.name);
+
+			// Needs to be read from the base of the data structure
+			// !!! this is wrong !!!
+			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 2 + sizeof(Vector3) * 2);
 
 			// _unused0
 			stream.skip<int, 8>();
 		}
 	}
+	*/
 
 	/*
 	stream.seek(animDescOffset);
@@ -147,13 +155,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < materialCount; i++) {
 		auto& material = this->materials.emplace_back();
 
-		// regular readStringAtOffset cuts off 4 characters in the beginning
-		// why??? who the hell knows
-		int materialNameOffset = stream.read<int>();
-		auto pos = stream.tell();
-		stream.seek(materialNameOffset - 4, std::ios::cur);
-		stream.read(material.name);
-		stream.seek(pos);
+		// Needs to be read from the base of the data structure
+		readStringAtOffset(stream, material.name, std::ios::cur, sizeof(int));
 
 		stream.read(material.flags);
 
