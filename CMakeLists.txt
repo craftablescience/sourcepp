@@ -4,8 +4,9 @@ set(CMAKE_CXX_STANDARD 20)
 
 option(STUDIOMODELPP_BUILD_TESTS "Build tests for studiomodelpp" OFF)
 
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
+
 list(APPEND ${PROJECT_NAME}_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/internal/BufferStream.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/internal/Helpers.h"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/math/Matrix.h"
@@ -18,7 +19,6 @@ list(APPEND ${PROJECT_NAME}_SOURCES
 
         "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/studiomodelpp.h"
 
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/internal/BufferStream.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/internal/Helpers.cpp"
 
         "${CMAKE_CURRENT_SOURCE_DIR}/src/structs/MDL.cpp"
@@ -27,6 +27,9 @@ list(APPEND ${PROJECT_NAME}_SOURCES
 
         "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp.cpp")
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SOURCES})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE bufferstream)
+
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 if(STUDIOMODELPP_BUILD_TESTS)

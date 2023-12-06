@@ -1,9 +1,8 @@
 #include <studiomodelpp/structs/VTX.h>
 
-#include <studiomodelpp/internal/BufferStream.h>
+#include <BufferStream.h>
 
 using namespace studiomodelpp::VTX;
-using namespace studiomodelpp::internal;
 
 bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStream stream{data, size};
@@ -90,12 +89,12 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							auto& vertex = stripGroup.vertices.emplace_back();
 
 							// todo: process bone data
-							stream.skip<unsigned char, 4>();
+							stream.skip<unsigned char>(4);
 
 							stream.read(vertex.meshVertexID);
 
 							// ditto
-							stream.skip<char, 3>();
+							stream.skip<char>(3);
 						}
 						stream.seek(stripGroupCurrentPos);
 
@@ -117,7 +116,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 						if (mdl.version >= 49) {
 							// mesh topology
-							stream.skip<int, 2>();
+							stream.skip<int>(2);
 						}
 
 						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset);
@@ -138,11 +137,11 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							stream.read(strip.flags);
 
 							// todo: bone stuff
-							stream.skip<int, 2>();
+							stream.skip<int>(2);
 
 							if (mdl.version >= 49) {
 								// mesh topology
-								stream.skip<int, 2>();
+								stream.skip<int>(2);
 							}
 						}
 					}

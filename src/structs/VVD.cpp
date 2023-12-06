@@ -1,9 +1,8 @@
 #include <studiomodelpp/structs/VVD.h>
 
-#include <studiomodelpp/internal/BufferStream.h>
+#include <BufferStream.h>
 
 using namespace studiomodelpp::VVD;
-using namespace studiomodelpp::internal;
 
 constexpr int VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);
 

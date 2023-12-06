@@ -1,6 +1,6 @@
 #include <studiomodelpp/structs/MDL.h>
 
-#include <studiomodelpp/internal/BufferStream.h>
+#include <BufferStream.h>
 #include <studiomodelpp/internal/Helpers.h>
 
 using namespace studiomodelpp::MDL;
@@ -22,9 +22,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	}
 
 	stream.read(this->checksum);
-
-	auto nameBytes = stream.readBytes<64>();
-	this->name = std::string{reinterpret_cast<const char*>(nameBytes.data())};
+    stream.read(this->name, 64);
 
 	// dataLength
 	stream.skip<int>();
@@ -44,17 +42,17 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int boneControllerOffset = stream.read<int>();
 
 	// todo: hitboxes
-	stream.skip<int, 2>();
+	stream.skip<int>(2);
 	//int hitboxSetCount = stream.read<int>();
 	//int hitboxSetOffset = stream.read<int>();
 
 	//int animDescCount = stream.read<int>();
 	//int animDescOffset = stream.read<int>();
-	stream.skip<int, 2>();
+	stream.skip<int>(2);
 
 	//int sequenceDescCount = stream.read<int>();
 	//int sequenceDescOffset = stream.read<int>();
-	stream.skip<int, 2>();
+	stream.skip<int>(2);
 
 	stream.read(this->activityListVersion);
 	stream.read(this->eventsIndexed);
@@ -66,7 +64,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int materialDirOffset = stream.read<int>();
 
 	// todo: skins
-	stream.skip<int, 3>();
+	stream.skip<int>(3);
 
 	int bodyPartCount = stream.read<int>();
 	int bodyPartOffset = stream.read<int>();
@@ -95,7 +93,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.read(bone.contents);
 
 		// _unused0
-		stream.skip<int, 8>();
+		stream.skip<int>(8);
 	}
 
 	stream.seek(boneControllerOffset);
@@ -103,7 +101,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		this->boneControllers.push_back(stream.read<BoneController>());
 
 		// _unused0
-		stream.skip<int, 8>();
+		stream.skip<int>(8);
 	}
 
 	// todo: hitbox names are being read incorrectly causing rare crashes, disabled for now
@@ -163,7 +161,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		// used
 		stream.skip<int>();
 		// _unused0
-		stream.skip<int, 13>();
+		stream.skip<int>(13);
 	}
 
 	stream.seek(materialDirOffset);
@@ -191,9 +189,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 			auto& model = bodyPart.models.emplace_back();
 
-			auto modelNameBytes = stream.readBytes<64>();
-			model.name = std::string{reinterpret_cast<const char*>(modelNameBytes.data())};
-
+			stream.read(model.name, 64);
 			stream.read(model.type);
 			stream.read(model.boundingRadius);
 
@@ -213,7 +209,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				stream.skip<int>();
 				stream.read(mesh.verticesCount);
 				stream.read(mesh.verticesOffset);
-				stream.skip<int, 2>();
+				stream.skip<int>(2);
 				stream.read(mesh.materialType);
 				stream.read(mesh.materialParam);
 				stream.read(mesh.meshID);

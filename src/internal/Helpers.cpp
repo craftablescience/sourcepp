@@ -1,6 +1,6 @@
 #include <studiomodelpp/internal/Helpers.h>
 
-#include <studiomodelpp/internal/BufferStream.h>
+#include <BufferStream.h>
 
 using namespace studiomodelpp;
 
