@@ -31,7 +31,7 @@ jobs:
           platform: x64
 
       - name: Configure CMake
-        run: cmake -G "Unix Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSTUDIOMODELPP_BUILD_TESTS=ON
+        run: cmake -G "Unix Makefiles" -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
 
       - name: Build
         run: cmake --build ${{github.workspace}}/build --config ${{matrix.build_type}}
@@ -62,7 +62,7 @@ jobs:
           spectre: true
 
       - name: Configure CMake
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSTUDIOMODELPP_BUILD_TESTS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
 
       - name: Build
         run: cmake --build build --config ${{matrix.build_type}}
