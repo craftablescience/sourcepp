@@ -5,8 +5,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options
-option(USE_DMXPP         "Build dmxpp library"         ON)
-option(USE_STUDIOMODELPP "Build studiomodelpp library" ON)
+option(SOURCEPP_USE_DMXPP         "Build dmxpp library"                ON)
+option(SOURCEPP_USE_STUDIOMODELPP "Build studiomodelpp library"        ON)
+option(SOURCEPP_USE_VMFPP         "Build vmfpp library"                ON)
+option(SOURCEPP_BUILD_TESTS       "Build tests for enabled libraries" OFF)
 
 
 # BufferStream
@@ -15,67 +17,22 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
 
 # Shared code
 list(APPEND ${PROJECT_NAME}_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/Helpers.h"
-
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/BufferUtils.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/StringUtils.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Matrix.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Quaternion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
-
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/Helpers.cpp")
-
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/BufferUtils.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/StringUtils.cpp")
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
-# dmxpp
-if(USE_DMXPP)
-    set(DMXPP_NAME "dmxpp")
-    option(DMXPP_BUILD_TESTS "Build tests for dmxpp" OFF)
+# Tests, part 1
+if(SOURCEPP_BUILD_TESTS)
+    set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
 
-    list(APPEND ${DMXPP_NAME}_SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/structs/Value.h"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/dmxpp.h"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/structs/Value.cpp"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/dmxpp.cpp")
-
-    add_library(${DMXPP_NAME} STATIC ${${DMXPP_NAME}_SOURCES})
-    target_link_libraries(${DMXPP_NAME} PUBLIC ${PROJECT_NAME})
-else()
-    set(DMXPP_BUILD_TESTS OFF)
-endif()
-
-
-# studiomodelpp
-if(USE_STUDIOMODELPP)
-    set(STUDIOMODELPP_NAME "studiomodelpp")
-    option(STUDIOMODELPP_BUILD_TESTS "Build tests for studiomodelpp" OFF)
-
-    list(APPEND ${STUDIOMODELPP_NAME}_SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/MDL.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VTX.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VVD.h"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/studiomodelpp.h"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/MDL.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VTX.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VVD.cpp"
-
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/studiomodelpp.cpp")
-
-    add_library(${STUDIOMODELPP_NAME} STATIC ${${STUDIOMODELPP_NAME}_SOURCES})
-    target_link_libraries(${STUDIOMODELPP_NAME} PUBLIC ${PROJECT_NAME})
-else()
-    set(STUDIOMODELPP_BUILD_TESTS OFF)
-endif()
-
-
-# Tests
-if(DMXPP_BUILD_TESTS OR STUDIOMODELPP_BUILD_TESTS)
     include(FetchContent)
     FetchContent_Declare(
             googletest
@@ -87,27 +44,56 @@ if(DMXPP_BUILD_TESTS OR STUDIOMODELPP_BUILD_TESTS)
     set(${PROJECT_NAME}_ASSET_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h")
 
-    set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
-
     list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES
             "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.cpp")
-    if(DMXPP_BUILD_TESTS)
-        list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/dmxpp.cpp")
-    endif()
-    if(STUDIOMODELPP_BUILD_TESTS)
-        list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/studiomodelpp.cpp")
-    endif()
+    list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
+endif()
 
+
+# Add scripts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_scripts")
+include(AddPrettyParser)
+
+
+# dmxpp
+if(SOURCEPP_USE_DMXPP)
+    add_pretty_parser(dmxpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/structs/Value.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/dmxpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/structs/Value.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/dmxpp.cpp")
+endif()
+
+
+# studiomodelpp
+if(SOURCEPP_USE_STUDIOMODELPP)
+    add_pretty_parser(studiomodelpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/MDL.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VTX.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VVD.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/studiomodelpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/MDL.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VTX.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VVD.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/studiomodelpp.cpp")
+endif()
+
+
+# vmfpp
+if(SOURCEPP_USE_VMFPP)
+    add_pretty_parser(vmfpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vmfpp/structs/Node.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vmfpp/vmfpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/structs/Node.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/vmfpp.cpp")
+endif()
+
+
+# Tests, part 2
+if(SOURCEPP_BUILD_TESTS)
     add_executable(${SOURCEPP_TEST_NAME} ${${SOURCEPP_TEST_NAME}_SOURCES})
-    target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC gtest_main)
-    if(DMXPP_BUILD_TESTS)
-        target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC dmxpp)
-    endif()
-    if(STUDIOMODELPP_BUILD_TESTS)
-        target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC studiomodelpp)
-    endif()
-
+    target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC ${${SOURCEPP_TEST_NAME}_DEPS})
     include(GoogleTest)
-    gtest_discover_tests(${PROJECT_NAME}_test)
+    gtest_discover_tests(${SOURCEPP_TEST_NAME})
 endif()

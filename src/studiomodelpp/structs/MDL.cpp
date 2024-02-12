@@ -1,7 +1,7 @@
 #include <studiomodelpp/structs/MDL.h>
 
 #include <BufferStream.h>
-#include <sourcepp/detail/Helpers.h>
+#include <sourcepp/detail/BufferUtils.h>
 
 using namespace sourcepp;
 using namespace sourcepp::detail;

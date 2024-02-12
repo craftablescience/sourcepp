@@ -1,4 +1,4 @@
-#include <sourcepp/detail/Helpers.h>
+#include <sourcepp/detail/BufferUtils.h>
 
 #include <BufferStream.h>
 
