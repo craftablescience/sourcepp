@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options
+option(USE_DMXPP         "Build dmxpp library"         ON)
 option(USE_STUDIOMODELPP "Build studiomodelpp library" ON)
 
 
@@ -27,6 +28,27 @@ target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 
+# dmxpp
+if(USE_DMXPP)
+    set(DMXPP_NAME "dmxpp")
+    option(DMXPP_BUILD_TESTS "Build tests for dmxpp" OFF)
+
+    list(APPEND ${DMXPP_NAME}_SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/structs/Value.h"
+
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/dmxpp.h"
+
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/structs/Value.cpp"
+
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/dmxpp.cpp")
+
+    add_library(${DMXPP_NAME} STATIC ${${DMXPP_NAME}_SOURCES})
+    target_link_libraries(${DMXPP_NAME} PUBLIC ${PROJECT_NAME})
+else()
+    set(DMXPP_BUILD_TESTS OFF)
+endif()
+
+
 # studiomodelpp
 if(USE_STUDIOMODELPP)
     set(STUDIOMODELPP_NAME "studiomodelpp")
@@ -47,11 +69,13 @@ if(USE_STUDIOMODELPP)
 
     add_library(${STUDIOMODELPP_NAME} STATIC ${${STUDIOMODELPP_NAME}_SOURCES})
     target_link_libraries(${STUDIOMODELPP_NAME} PUBLIC ${PROJECT_NAME})
+else()
+    set(STUDIOMODELPP_BUILD_TESTS OFF)
 endif()
 
 
 # Tests
-if(USE_STUDIOMODELPP AND STUDIOMODELPP_BUILD_TESTS)
+if(DMXPP_BUILD_TESTS OR STUDIOMODELPP_BUILD_TESTS)
     include(FetchContent)
     FetchContent_Declare(
             googletest
@@ -63,14 +87,27 @@ if(USE_STUDIOMODELPP AND STUDIOMODELPP_BUILD_TESTS)
     set(${PROJECT_NAME}_ASSET_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h")
 
-    if(USE_STUDIOMODELPP AND STUDIOMODELPP_BUILD_TESTS)
-        add_executable(${STUDIOMODELPP_NAME}_test
-                "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h"
-                "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.cpp"
-                "${CMAKE_CURRENT_SOURCE_DIR}/test/studiomodelpp.cpp")
-        target_link_libraries(${STUDIOMODELPP_NAME}_test PUBLIC ${STUDIOMODELPP_NAME} gtest_main)
+    set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
+
+    list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.cpp")
+    if(DMXPP_BUILD_TESTS)
+        list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/dmxpp.cpp")
+    endif()
+    if(STUDIOMODELPP_BUILD_TESTS)
+        list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/studiomodelpp.cpp")
+    endif()
+
+    add_executable(${SOURCEPP_TEST_NAME} ${${SOURCEPP_TEST_NAME}_SOURCES})
+    target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC gtest_main)
+    if(DMXPP_BUILD_TESTS)
+        target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC dmxpp)
+    endif()
+    if(STUDIOMODELPP_BUILD_TESTS)
+        target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC studiomodelpp)
     endif()
 
     include(GoogleTest)
-    gtest_discover_tests(${STUDIOMODELPP_NAME}_test)
+    gtest_discover_tests(${PROJECT_NAME}_test)
 endif()
