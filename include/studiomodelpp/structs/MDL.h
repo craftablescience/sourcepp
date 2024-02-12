@@ -6,9 +6,10 @@
 #include <string>
 #include <vector>
 
-#include "../math/Matrix.h"
-#include "../math/Quaternion.h"
-#include "../math/Vector.h"
+#include <sourcepp/math/Matrix.h>
+#include <sourcepp/math/Quaternion.h>
+#include <sourcepp/math/Vector.h>
+
 #include "Generic.h"
 
 namespace studiomodelpp::MDL {
@@ -24,13 +25,13 @@ struct Bone {
 
 	int parent;
 	int boneController[6];
-	Vector3 position;
-	Quaternion rotationQuat;
-	Vector3 rotationEuler;
-	Vector3 positionScale;
-	Vector3 rotationScale;
-	Matrix<3,4> poseToBose;
-	Quaternion alignment;
+	sourcepp::Vector3 position;
+	sourcepp::Quaternion rotationQuat;
+	sourcepp::Vector3 rotationEuler;
+	sourcepp::Vector3 positionScale;
+	sourcepp::Vector3 rotationScale;
+	sourcepp::Matrix<3,4> poseToBose;
+	sourcepp::Quaternion alignment;
 	Flags flags;
 	int procType;
 	int procIndex;
@@ -214,7 +215,7 @@ struct Mesh {
 
 	int meshID;
 
-	Vector3 center;
+	sourcepp::Vector3 center;
 
 	//int modelVertexData;
 	//int numLODVertexes[MAX_LOD_COUNT];
@@ -291,12 +292,12 @@ struct MDL {
 	std::string name;
 	//int dataLength;
 
-	Vector3 eyePosition;
-	Vector3 illuminationPosition;
-	Vector3 hullMin;
-	Vector3 hullMax;
-	Vector3 viewBBoxMin;
-	Vector3 viewBBoxMax;
+	sourcepp::Vector3 eyePosition;
+	sourcepp::Vector3 illuminationPosition;
+	sourcepp::Vector3 hullMin;
+	sourcepp::Vector3 hullMax;
+	sourcepp::Vector3 viewBBoxMin;
+	sourcepp::Vector3 viewBBoxMax;
 
 	Flags flags;
 

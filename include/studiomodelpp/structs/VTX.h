@@ -5,7 +5,6 @@
 #include <span>
 #include <vector>
 
-#include "../math/Vector.h"
 #include "MDL.h"
 
 namespace studiomodelpp::VTX {

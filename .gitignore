@@ -7,4 +7,4 @@
 cmake-build-*/
 
 # Generated
-test/Config.h
+test/Helpers.h

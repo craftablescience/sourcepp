@@ -1,6 +1,6 @@
 #pragma once
 
-namespace studiomodelpp {
+namespace sourcepp {
 
 #pragma pack(push, 1)
 
@@ -24,4 +24,4 @@ struct Vector4 {
 
 #pragma pack(pop)
 
-} // namespace studiomodelpp
+} // namespace sourcepp

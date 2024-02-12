@@ -2,6 +2,7 @@
 
 #include <BufferStream.h>
 
+using namespace sourcepp;
 using namespace studiomodelpp::VVD;
 
 constexpr int VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "../math/Vector.h"
+#include <sourcepp/math/Vector.h>
 
 namespace studiomodelpp {
 
@@ -13,8 +13,8 @@ constexpr int MAX_BONES_PER_VERTEX = 3;
 struct BBox {
 	int bone;
 	int group;
-	Vector3 bboxMin;
-	Vector3 bboxMax;
+	sourcepp::Vector3 bboxMin;
+	sourcepp::Vector3 bboxMax;
 
 	//int hitboxNameOffset;
 	std::string name;
@@ -33,8 +33,8 @@ struct Movement {
 	float velocityStart;
 	float velocityEnd;
 	float yawEnd;
-	Vector3 movement;
-	Vector3 relativePosition;
+	sourcepp::Vector3 movement;
+	sourcepp::Vector3 relativePosition;
 };
 
 } // namespace studiomodelpp

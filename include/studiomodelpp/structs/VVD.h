@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <vector>
 
-#include "../math/Vector.h"
 #include "Generic.h"
 #include "MDL.h"
 
@@ -29,11 +28,11 @@ struct BoneWeight {
 struct Vertex {
 	BoneWeight boneWeight;
 
-	Vector3 position{};
-	Vector3 normal{};
-	Vector2 uv{};
+	sourcepp::Vector3 position{};
+	sourcepp::Vector3 normal{};
+	sourcepp::Vector2 uv{};
 
-	Vector4 tangent{}; // Taken from tangents data section
+	sourcepp::Vector4 tangent{}; // Taken from tangents data section
 };
 
 struct VVD {

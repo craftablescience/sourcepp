@@ -1,0 +1,9 @@
+#pragma once
+
+#include <cstddef>
+#include <string>
+#include <vector>
+
+#define ASSET_ROOT "${sourcepp_ASSET_ROOT}"
+
+std::vector<std::byte> readFileToBuffer(const std::string& path);
