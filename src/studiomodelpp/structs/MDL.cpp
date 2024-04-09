@@ -164,7 +164,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	stream.seek(materialDirOffset);
 	for (int i = 0; i < materialDirCount; i++) {
 		auto& materialDir = this->materialDirectories.emplace_back();
-		readStringAtOffset(stream, materialDir, std::ios::beg);
+		readStringAtOffset(stream, materialDir, std::ios::beg, 0);
 	}
 
 	for (int i = 0; i < bodyPartCount; i++) {
