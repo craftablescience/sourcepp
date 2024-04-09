@@ -311,7 +311,7 @@ struct MDL {
 
 	//int hitboxCount;
 	//int hitboxOffset;
-	//std::vector<HitboxSet> hitboxSets;
+	std::vector<HitboxSet> hitboxSets;
 
 	//int localAnimationCount;
 	//int localAnimationOffset;

@@ -42,10 +42,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int boneControllerCount = stream.read<int>();
 	int boneControllerOffset = stream.read<int>();
 
-	// todo: hitboxes
-	//int hitboxSetCount = stream.read<int>();
-	//int hitboxSetOffset = stream.read<int>();
-	stream.skip<int>(2);
+	int hitboxSetCount = stream.read<int>();
+	int hitboxSetOffset = stream.read<int>();
 
 	//int animDescCount = stream.read<int>();
 	//int animDescOffset = stream.read<int>();
@@ -105,8 +103,6 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.skip<int>(8);
 	}
 
-	// todo: hitbox names are being read incorrectly causing rare crashes, disabled for now
-	/*
 	for (int i = 0; i < hitboxSetCount; i++) {
 		auto hitboxSetPos = hitboxSetOffset + i * (sizeof(int) * 3);
 		stream.seek(hitboxSetPos);
@@ -127,16 +123,12 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			stream.read(hitbox.group);
 			stream.read(hitbox.bboxMin);
 			stream.read(hitbox.bboxMax);
-
-			// Needs to be read from the base of the data structure
-			// !!! this is wrong !!!
-			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 2 + sizeof(Vector3) * 2);
+			readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 4 + sizeof(Vector3) * 2);
 
 			// _unused0
-			stream.skip<int, 8>();
+			stream.skip<int>(8);
 		}
 	}
-	*/
 
 	/*
 	stream.seek(animDescOffset);
