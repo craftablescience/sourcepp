@@ -43,9 +43,9 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int boneControllerOffset = stream.read<int>();
 
 	// todo: hitboxes
-	stream.skip<int>(2);
 	//int hitboxSetCount = stream.read<int>();
 	//int hitboxSetOffset = stream.read<int>();
+	stream.skip<int>(2);
 
 	//int animDescCount = stream.read<int>();
 	//int animDescOffset = stream.read<int>();
@@ -90,7 +90,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.read(bone.procType);
 		stream.read(bone.procIndex);
 		stream.read(bone.physicsBone);
-		readStringAtOffset(stream, bone.surfacePropName);
+		readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int) * 12 + sizeof(Vector3) * 4 + sizeof(Quaternion) * 2 + sizeof(Matrix<3, 4>) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
 		// _unused0
@@ -155,7 +155,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		auto& material = this->materials.emplace_back();
 
 		// Needs to be read from the base of the data structure
-		readStringAtOffset(stream, material.name, std::ios::cur, sizeof(int));
+		readStringAtOffset(stream, material.name);
 
 		stream.read(material.flags);
 
