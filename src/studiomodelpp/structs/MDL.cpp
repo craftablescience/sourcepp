@@ -123,7 +123,11 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			stream.read(hitbox.group);
 			stream.read(hitbox.bboxMin);
 			stream.read(hitbox.bboxMax);
-			readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 4 + sizeof(Vector3) * 2);
+
+			// note: we don't know what model versions use absolute vs. relative offsets here
+			//       and this is unimportant, so skip parsing the bbox name here
+			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 3 + sizeof(Vector3) * 2);
+			hitbox.name = "";
 
 			// _unused0
 			stream.skip<int>(8);
