@@ -6,9 +6,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options (General)
 option(SOURCEPP_USE_DMXPP         "Build dmxpp library"                ON)
+option(SOURCEPP_USE_FGDPP         "Build fgdpp library"                ON)
 option(SOURCEPP_USE_STUDIOMODELPP "Build studiomodelpp library"        ON)
 option(SOURCEPP_USE_VMFPP         "Build vmfpp library"                ON)
-option(SOURCEPP_USE_FGDPP         "Build fgdpp library"                ON)
 option(SOURCEPP_BUILD_TESTS       "Build tests for enabled libraries" OFF)
 
 
