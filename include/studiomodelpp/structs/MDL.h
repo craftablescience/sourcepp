@@ -333,6 +333,8 @@ struct MDL {
 	//int skinReferenceCount;
 	//int skinReferenceFamilyCount;
 	//int skinReferenceIndex;
+	// Each vector is an individual skin, which holds indices into the materials vector
+	std::vector<std::vector<short>> skins;
 
 	//int bodyPartCount;
 	//int bodyPartOffset;
