@@ -258,7 +258,7 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 		return;
 	}
 
-	auto fileSize = static_cast<std::streamsize>(std::filesystem::file_size(std::filesystem::path{path}));
+	auto fileSize = static_cast<std::streamsize>(std::filesystem::file_size(path));
 	this->rawFGDFile = std::string(fileSize, ' ');
 	file.read(this->rawFGDFile.data(), fileSize);
 	file.close();
@@ -285,11 +285,11 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 
 			exclusionList.push_back(currentPath);
 
-			auto includeFilePath = std::string{dirPath} + std::filesystem::path::preferred_separator + match[1].str();
+			auto includeFilePath = std::string{dirPath} + '/' + match[1].str();
 			file.open(includeFilePath);
 			if (!file.is_open()) continue;
 
-			auto includeSize = static_cast<std::streamsize>(std::filesystem::file_size(std::filesystem::path{includeFilePath}));
+			auto includeSize = static_cast<std::streamsize>(std::filesystem::file_size(includeFilePath));
 			std::string includeFileContents(includeSize, ' ');
 			file.read(includeFileContents.data(), includeSize);
 			file.close();
