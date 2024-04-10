@@ -4,21 +4,17 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-# Options
+# Options (General)
 option(SOURCEPP_USE_DMXPP         "Build dmxpp library"                ON)
 option(SOURCEPP_USE_STUDIOMODELPP "Build studiomodelpp library"        ON)
 option(SOURCEPP_USE_VMFPP         "Build vmfpp library"                ON)
 option(SOURCEPP_USE_FGDPP         "Build fgdpp library"                ON)
 option(SOURCEPP_BUILD_TESTS       "Build tests for enabled libraries" OFF)
 
-option(SLOME_UNIFIED_FGD "Unified FDD are FGD Alterations made by TeamSpen's HammerAddons.
-[https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD]
-and is fully backwards compatible with Valve's FGD standard." OFF)
 
+# Options (Library)
+option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD) made by TeamSpen's HammerAddons. Fully backwards compatible with Valve's FGD standard." OFF)
 
-if(SOURCEPP_USE_FGDPP AND FGDPP_UNIFIED_FGD)
-    add_definitions(-DFGDPP_UNIFIED_FGD)
-endif ()
 
 # BufferStream
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
@@ -75,6 +71,18 @@ if(SOURCEPP_USE_DMXPP)
 endif()
 
 
+# fgdpp
+if(SOURCEPP_USE_FGDPP)
+    add_pretty_parser(fgdpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/structs/entityproperties.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/fgdpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/fgdpp/fgdpp.cpp")
+    if(FGDPP_ENABLE_SPEN_FGD_SUPPORT)
+        target_compile_definitions(fgdpp PUBLIC FGDPP_UNIFIED_FGD)
+    endif()
+endif()
+
+
 # studiomodelpp
 if(SOURCEPP_USE_STUDIOMODELPP)
     add_pretty_parser(studiomodelpp SOURCES
@@ -97,14 +105,6 @@ if(SOURCEPP_USE_VMFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/structs/Node.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/vmfpp.cpp")
 endif()
-
-# fgdpp
-if(SOURCEPP_USE_FGDPP)
-    add_pretty_parser(fgdpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/structs/entityproperties.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/fgdpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/fgdpp/fgdpp.cpp")
-endif ()
 
 
 # Tests, part 2
