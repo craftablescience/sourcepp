@@ -62,8 +62,9 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int materialDirCount = stream.read<int>();
 	int materialDirOffset = stream.read<int>();
 
-	// todo: skins
-	stream.skip<int>(3);
+    int skinReferenceCount = stream.read<int>();
+    int skinReferenceFamilyCount = stream.read<int>();
+    int skinReferenceOffset = stream.read<int>();
 
 	int bodyPartCount = stream.read<int>();
 	int bodyPartOffset = stream.read<int>();
@@ -127,6 +128,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			// note: we don't know what model versions use absolute vs. relative offsets here
 			//       and this is unimportant, so skip parsing the bbox name here
 			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 3 + sizeof(Vector3) * 2);
+			stream.skip<int>();
 			hitbox.name = "";
 
 			// _unused0
@@ -166,6 +168,15 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		auto& materialDir = this->materialDirectories.emplace_back();
 		readStringAtOffset(stream, materialDir, std::ios::beg, 0);
 	}
+
+    stream.seek(skinReferenceOffset);
+    for (int i = 0; i < skinReferenceFamilyCount; i++) {
+        std::vector<short> skinFamily;
+        for (int j = 0; j < skinReferenceCount; j++) {
+            skinFamily.push_back(stream.read<short>());
+        }
+        this->skins.push_back(std::move(skinFamily));
+    }
 
 	for (int i = 0; i < bodyPartCount; i++) {
 		auto bodyPartPos = bodyPartOffset + i * (sizeof(int) * 4);
