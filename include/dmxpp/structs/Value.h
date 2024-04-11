@@ -4,7 +4,6 @@
 #include <concepts>
 #include <cstddef>
 #include <cstdint>
-#include <optional>
 #include <string>
 #include <string_view>
 #include <type_traits>
@@ -200,16 +199,13 @@ struct Attribute {
 	Value::ID type;
 	Value::Generic value;
 
+	[[nodiscard]] bool isArray() const;
+
+	[[nodiscard]] std::string getValue() const;
+
 	template<typename T>
-	std::optional<T> getValueAs() const {
-		if constexpr (std::holds_alternative<T>(this->value)) {
-			try {
-				return std::get<T>(this->value);
-			} catch (const std::bad_variant_access&) {
-				return std::nullopt;
-			}
-		}
-		return std::nullopt;
+	[[nodiscard]] T getValueAs() const {
+		return std::get<T>(this->value);
 	}
 };
 
