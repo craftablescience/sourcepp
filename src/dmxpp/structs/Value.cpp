@@ -121,9 +121,9 @@ std::string Attribute::getValue() const {
 			std::string out = "[";
 			for (int i = 0; i < elements.size(); i++) {
 				if (elements[i].index == -2) {
-					out += (i == 0 ? "" : " ") + std::string{"GUID: "} + elements[i].stubGUID + (i == elements.size() - 1 ? "" : ",\n");
+					out += (i == 0 ? "" : " ") + std::string{"GUID: "} + elements[i].stubGUID + (i == elements.size() - 1 ? "" : ",");
 				} else {
-					out += (i == 0 ? "" : " ") + std::string{"#"} + std::to_string(elements[i].index) + (i == elements.size() - 1 ? "" : ",\n");
+					out += (i == 0 ? "" : " ") + std::string{"#"} + std::to_string(elements[i].index) + (i == elements.size() - 1 ? "" : ",");
 				}
 			}
 			return out + ']';
@@ -132,7 +132,7 @@ std::string Attribute::getValue() const {
 			auto ints = this->getValueAs<std::vector<int>>();
 			std::string out = "[";
 			for (int i = 0; i < ints.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::to_string(ints[i]) + (i == ints.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::to_string(ints[i]) + (i == ints.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
@@ -140,7 +140,7 @@ std::string Attribute::getValue() const {
 			auto floats = this->getValueAs<std::vector<float>>();
 			std::string out = "[";
 			for (int i = 0; i < floats.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::to_string(floats[i]) + (i == floats.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::to_string(floats[i]) + (i == floats.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
@@ -148,7 +148,7 @@ std::string Attribute::getValue() const {
 			auto bools = this->getValueAs<std::vector<bool>>();
 			std::string out = "[";
 			for (int i = 0; i < bools.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::string{bools[i] ? "true" : "false"} + (i == bools.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::string{bools[i] ? "true" : "false"} + (i == bools.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
@@ -179,7 +179,7 @@ std::string Attribute::getValue() const {
 			auto times = this->getValueAs<std::vector<float>>();
 			std::string out = "[";
 			for (int i = 0; i < times.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::to_string(times[i]) + (i == times.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::to_string(times[i]) + (i == times.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
