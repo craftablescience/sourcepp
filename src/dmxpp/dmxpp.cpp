@@ -59,10 +59,18 @@ DMX::operator bool() const {
 }
 
 std::string_view DMX::getFormatType() const {
-	return this->encodingType;
+	return this->formatType;
 }
 
 int DMX::getFormatVersion() const {
+	return this->formatVersion;
+}
+
+std::string_view DMX::getEncodingType() const {
+	return this->encodingType;
+}
+
+int DMX::getEncodingVersion() const {
 	return this->encodingVersion;
 }
 

@@ -29,6 +29,10 @@ public:
 
 	[[nodiscard]] int getFormatVersion() const;
 
+	[[nodiscard]] std::string_view getEncodingType() const;
+
+	[[nodiscard]] int getEncodingVersion() const;
+
 	[[nodiscard]] const std::vector<Element>& getElements() const;
 
 protected:
