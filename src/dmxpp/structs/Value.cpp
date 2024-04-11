@@ -1,6 +1,6 @@
 #include <dmxpp/structs/Value.h>
 
-#include <format>
+#include <sstream>
 
 using namespace dmxpp;
 
@@ -82,7 +82,10 @@ std::string Attribute::getValue() const {
 		case BYTEARRAY: {
 			std::string out;
 			for (auto byte : this->getValueAs<Value::ByteArray>()) {
-				out += std::format("{:x}", static_cast<unsigned char>(byte));
+				std::stringstream ss;
+				ss << std::hex << std::uppercase;
+				ss << static_cast<unsigned char>(byte);
+				out += ss.str();
 			}
 			return out;
 		}
@@ -163,7 +166,10 @@ std::string Attribute::getValue() const {
 			for (int i = 0; i < bytearrays.size(); i++) {
 				std::string hex;
 				for (auto byte : bytearrays[i]) {
-					hex += std::format("{:x}", static_cast<unsigned char>(byte));
+					std::stringstream ss;
+					ss << std::hex << std::uppercase;
+					ss << static_cast<unsigned char>(byte);
+					hex += ss.str();
 				}
 				out += (i == 0 ? "" : " ") + hex + (i == bytearrays.size() - 1 ? "" : ",\n");
 			}
