@@ -45,9 +45,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	int hitboxSetCount = stream.read<int>();
 	int hitboxSetOffset = stream.read<int>();
 
-	//int animDescCount = stream.read<int>();
-	//int animDescOffset = stream.read<int>();
-	stream.skip<int>(2);
+	int animDescCount = stream.read<int>();
+	int animDescOffset = stream.read<int>();
 
 	//int sequenceDescCount = stream.read<int>();
 	//int sequenceDescOffset = stream.read<int>();
@@ -136,12 +135,18 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
-	/*
+
 	stream.seek(animDescOffset);
 	for (int i = 0; i < animDescCount; i++) {
-		// todo(wrapper)
-	}
+        auto& animDesc = animationDescription.emplace_back();
+        stream.skip<int>();
+        readStringAtOffset(stream, animDesc.name, std::ios::cur,  sizeof(int) + 2);
+        stream.read<float>(animDesc.fps);
+        stream.read<AnimDesc::Flags>(animDesc.flags);
+        stream.read<int>(animDesc.frameCount);
 
+    }
+    /*
 	stream.seek(sequenceDescOffset);
 	for (int i = 0; i < sequenceDescCount; i++) {
 		// todo(wrapper)

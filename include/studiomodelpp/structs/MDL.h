@@ -65,7 +65,17 @@ struct HitboxSet {
 	std::vector<BBox> hitboxes;
 };
 
-/*
+struct Movement
+{
+    int endframe;
+    int motionFlags;
+    float startVelocity;
+    float endVelocity;
+    float angle;
+    sourcepp::Vector3 relativeMovementVector;
+    sourcepp::Vector3 position;
+};
+
 struct AnimDesc {
 	enum Flags : int {
 		FLAG_NONE     = 0,
@@ -111,7 +121,7 @@ struct AnimDesc {
 	//int zeroFrameIndex;
 	//float zeroFrameStallTime;
 };
-
+/*
 struct SequenceDesc {
 	enum Flags : int {
 		FLAG_NONE = 0,
@@ -315,6 +325,7 @@ struct MDL {
 
 	//int localAnimationCount;
 	//int localAnimationOffset;
+    std::vector<AnimDesc> animationDescription;
 
 	//int localSequenceCount;
 	//int localSequenceOffset;
