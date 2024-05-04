@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options (General)
 option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                  ON)
 option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                  ON)
+option(SOURCEPP_USE_KVPP                "Build kvpp library"                   ON)
 option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                  ON)
 option(SOURCEPP_USE_VICEPP              "Build vicepp library"                 ON)
 option(SOURCEPP_USE_VMFPP               "Build vmfpp library"                  ON)
@@ -115,6 +116,14 @@ if(SOURCEPP_USE_FGDPP)
     if(FGDPP_ENABLE_SPEN_FGD_SUPPORT)
         target_compile_definitions(fgdpp PUBLIC FGDPP_UNIFIED_FGD)
     endif()
+endif()
+
+
+# kvpp
+if(SOURCEPP_USE_KVPP)
+    add_pretty_parser(kvpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/kvpp/kvpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/kvpp/kvpp.cpp")
 endif()
 
 

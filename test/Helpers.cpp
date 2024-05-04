@@ -12,8 +12,25 @@ std::vector<std::byte> readFile(const std::string& path) {
 	return out;
 }
 
+std::string readTextFile(const std::string& path) {
+	std::ifstream file(path);
+	auto size = std::filesystem::file_size(path);
+	std::string out;
+	out.resize(size);
+	file.read(out.data(), static_cast<std::streamsize>(size));
+	if (out.back() == '\0') {
+		out.pop_back();
+	}
+	return out;
+}
+
 void createFile(const std::string& name, const std::vector<std::byte>& data) {
 	std::ofstream out{name.data(), std::ios::binary | std::ios::trunc};
 	out.unsetf(std::ios::skipws);
 	out.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(data.size()));
+}
+
+void createTextFile(const std::string& name, const std::string& data) {
+	std::ofstream out{name.data(), std::ios::trunc};
+	out.write(data.c_str(), static_cast<std::streamsize>(data.size()));
 }
