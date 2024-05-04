@@ -8,4 +8,8 @@
 
 std::vector<std::byte> readFile(const std::string& path);
 
+std::string readTextFile(const std::string& path);
+
 void createFile(const std::string& name, const std::vector<std::byte>& data);
+
+void createTextFile(const std::string& name, const std::vector<std::byte>& data);
