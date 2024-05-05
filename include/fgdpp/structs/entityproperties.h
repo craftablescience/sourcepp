@@ -8,6 +8,7 @@ namespace fgdpp {
 enum class ParseError {
 	NO_ERROR = 0,
 	TOKENIZATION_ERROR,
+//    PARSING_ERROR,
 	INVALID_DEFINITION,
 	INVALID_EQUALS,
 	INVALID_OPEN_BRACE,
@@ -39,16 +40,16 @@ struct ParsingError {
 
 #ifdef FGDPP_UNIFIED_FGD
 struct TagList {
-	std::vector<std::string_view> tags;
+	std::vector<sourcepp::detail::UtilStringView> tags;
 };
 #endif
 
 struct ClassProperty {
-	std::vector<std::string_view> properties;
+	std::vector<sourcepp::detail::UtilStringView> properties;
 };
 
 struct ClassProperties {
-	std::string_view name;
+	sourcepp::detail::UtilStringView name;
 	std::vector<ClassProperty> classProperties;
 };
 
@@ -66,8 +67,8 @@ enum class EntityIOPropertyType {
 };
 
 struct Choice {
-	std::string_view value;
-	std::string_view displayName;
+	sourcepp::detail::UtilStringView value;
+	sourcepp::detail::UtilStringView displayName;
 #ifdef FGDPP_UNIFIED_FGD
 	TagList tagList;
 #endif
@@ -76,18 +77,18 @@ struct Choice {
 struct Flag {
 	int value;
 	bool checked;
-	std::string_view displayName;
+	sourcepp::detail::UtilStringView displayName;
 #ifdef FGDPP_UNIFIED_FGD
 	TagList tagList;
 #endif
 };
 
 struct EntityProperties {
-	std::string_view propertyName;
-	std::string_view type;
-	std::string_view displayName;	   // The following 3 are optional and may be empty as a result.
-	std::string_view defaultValue;
-	std::vector<std::string_view> propertyDescription;
+	sourcepp::detail::UtilStringView propertyName;
+	sourcepp::detail::UtilStringView type;
+	sourcepp::detail::UtilStringView displayName;	   // The following 3 are optional and may be empty as a result.
+	sourcepp::detail::UtilStringView defaultValue;
+	std::vector<sourcepp::detail::UtilStringView> propertyDescription;
 	bool readOnly;
 	bool reportable;
 
@@ -95,10 +96,10 @@ struct EntityProperties {
 	TagList tagList;
 #endif
 
-	int choiceCount; // This is a special case if the EntityPropertyType is t_choices
+    // This is a special case if the EntityPropertyType is t_choices
 	std::vector<Choice> choices;
 
-	int flagCount; // This is a special case if the EntityPropertyType is t_flags
+	// This is a special case if the EntityPropertyType is t_flags
 	std::vector<Flag> flags;
 };
 
@@ -108,10 +109,10 @@ enum class IO {
 };
 
 struct InputOutput {
-	std::string_view name;
-	std::vector<std::string_view> description;
+	sourcepp::detail::UtilStringView name;
+	std::vector<sourcepp::detail::UtilStringView> description;
 	IO putType;
-	std::string_view stringType;
+	sourcepp::detail::UtilStringView stringType;
 	EntityIOPropertyType type;
 #ifdef FGDPP_UNIFIED_FGD
 	TagList tagList;
@@ -120,17 +121,17 @@ struct InputOutput {
 
 #ifdef FGDPP_UNIFIED_FGD
 struct EntityResource {
-	std::string_view key;
-	std::string_view value;
+	sourcepp::detail::UtilStringView key;
+	sourcepp::detail::UtilStringView value;
 	TagList tagList;
 };
 #endif
 
 struct Entity {
-	std::string_view type;
+	sourcepp::detail::UtilStringView type;
 	std::vector<ClassProperties> classProperties;
-	std::string_view entityName;
-	std::vector<std::string_view> entityDescription;
+	sourcepp::detail::UtilStringView entityName;
+	std::vector<sourcepp::detail::UtilStringView> entityDescription;
 	std::vector<EntityProperties> entityProperties;
 	std::vector<InputOutput> inputOutput;
 #ifdef FGDPP_UNIFIED_FGD
@@ -139,20 +140,20 @@ struct Entity {
 };
 
 struct AutoVisGroupChild {
-	std::string_view name;
-	std::vector<std::string_view> children;
+	sourcepp::detail::UtilStringView name;
+	std::vector<sourcepp::detail::UtilStringView> children;
 };
 
 struct AutoVisGroup {
-	std::string_view name;
+	sourcepp::detail::UtilStringView name;
 	struct std::vector<AutoVisGroupChild> children;
 };
 
 struct FGDFile {
 	Range mapSize{0,0};
 	std::vector<Entity> entities;
-	std::vector<std::string_view> materialExclusions;
-	std::vector<std::string_view> includes;
+	std::vector<sourcepp::detail::UtilStringView> materialExclusions;
+	std::vector<sourcepp::detail::UtilStringView> includes;
 	std::vector<AutoVisGroup> autoVisGroups;
 };
 

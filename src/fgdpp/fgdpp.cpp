@@ -6,25 +6,27 @@
 #include <filesystem>
 #include <fstream>
 #include <regex>
+#include <iostream>
 
 using namespace fgdpp;
+using namespace sourcepp::detail;
 
 constexpr int FGDPP_MAX_STR_CHUNK_LENGTH = 1024;
 
-constexpr char singleTokens[] = "{}[](),:=+";
-constexpr FGD::TokenType valueTokens[] = {FGD::OPEN_BRACE, FGD::CLOSE_BRACE, FGD::OPEN_BRACKET, FGD::CLOSE_BRACKET, FGD::OPEN_PARENTHESIS, FGD::CLOSE_PARENTHESIS, FGD::COMMA, FGD::COLUMN, FGD::EQUALS, FGD::PLUS};
-constexpr enum ParseError tokenErrors[] = {ParseError::INVALID_OPEN_BRACE, ParseError::INVALID_CLOSE_BRACE, ParseError::INVALID_OPEN_BRACKET, ParseError::INVALID_CLOSE_BRACKET, ParseError::INVALID_OPEN_PARENTHESIS, ParseError::INVALID_CLOSE_PARENTHESIS, ParseError::INVALID_COMMA, ParseError::INVALID_COLUMN, ParseError::INVALID_EQUALS, ParseError::INVALID_PLUS};
+constexpr const char singleTokens[11] = R"({}[](),:=+)";
+constexpr FGD::TokenType valueTokens[10] = {FGD::OPEN_BRACE, FGD::CLOSE_BRACE, FGD::OPEN_BRACKET, FGD::CLOSE_BRACKET, FGD::OPEN_PARENTHESIS, FGD::CLOSE_PARENTHESIS, FGD::COMMA, FGD::COLUMN, FGD::EQUALS, FGD::PLUS};
+constexpr enum ParseError tokenErrors[10] = {ParseError::INVALID_OPEN_BRACE, ParseError::INVALID_CLOSE_BRACE, ParseError::INVALID_OPEN_BRACKET, ParseError::INVALID_CLOSE_BRACKET, ParseError::INVALID_OPEN_PARENTHESIS, ParseError::INVALID_CLOSE_PARENTHESIS, ParseError::INVALID_COMMA, ParseError::INVALID_COLUMN, ParseError::INVALID_EQUALS, ParseError::INVALID_PLUS};
 
 std::string_view typeStrings[9] = {"string", "integer", "float", "bool", "void", "script", "vector", "target_destination", "color255"};
 EntityIOPropertyType typeList[9] = {EntityIOPropertyType::t_string, EntityIOPropertyType::t_integer, EntityIOPropertyType::t_float, EntityIOPropertyType::t_bool, EntityIOPropertyType::t_void, EntityIOPropertyType::t_script, EntityIOPropertyType::t_vector, EntityIOPropertyType::t_target_destination, EntityIOPropertyType::t_color255};
 
 namespace {
 
-bool ichar_equals(char a, char b) {
+inline bool ichar_equals(char a, char b) {
 	return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
 }
 
-bool iequals(std::string_view lhs, std::string_view rhs) {
+inline bool iequals(std::string_view lhs, std::string_view rhs) {
 	return std::ranges::equal(lhs, rhs, ichar_equals);
 }
 
@@ -33,6 +35,8 @@ bool iequals(std::string_view lhs, std::string_view rhs) {
 bool FGD::TokenizeFile() {
     if (this->rawFGDFile.empty())
         return false;
+
+    this->tokenList.reserve(rawFGDFile.length() / 2);
 
     int pos = 1, ln = 1, i = 0;
 
@@ -75,7 +79,7 @@ bool FGD::TokenizeFile() {
             token.type = STRING;
             token.associatedError = ParseError::INVALID_STRING;
 
-            token.string = {currentIteration, iterator};
+            token.string = std::string_view{currentIteration, iterator};
 
             int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
             token.range = {currentPos, pos - (currentPos - subtractFromRange)};
@@ -106,7 +110,7 @@ bool FGD::TokenizeFile() {
             token.line = ln;
             token.type = COMMENT;
 
-            token.string = {currentIteration, iterator};
+            token.string = std::string_view{currentIteration, iterator};
 
             int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
             token.range = {currentPos, pos - (currentPos - subtractFromRange)};
@@ -142,7 +146,7 @@ bool FGD::TokenizeFile() {
             token.associatedError = ParseError::INVALID_DEFINITION;
 
             int newStrLength = 0;
-            token.string = {currentIteration, iterator};
+            token.string = std::string_view{currentIteration, iterator};
 
             int subtractFromRange = (i - currentLength - newStrLength);
             token.range = {currentPos, pos - (currentPos - subtractFromRange)};
@@ -187,7 +191,7 @@ bool FGD::TokenizeFile() {
             token.type = NUMBER;
             token.associatedError = ParseError::INVALID_NUMBER;
 
-            token.string = {currentIteration, iterator};
+            token.string = std::string_view{currentIteration, iterator};
 
             token.range = {currentPos, pos};
 
@@ -208,7 +212,7 @@ bool FGD::TokenizeFile() {
             token.type = tType;
             token.associatedError = tParseError;
 
-            token.string = {iterator, std::next(iterator)};
+            token.string = std::string_view{iterator, std::next(iterator)};
 
 			token.range = {pos, pos + 1};
 
@@ -234,7 +238,7 @@ bool FGD::TokenizeFile() {
             token.type = LITERAL;
             token.associatedError = ParseError::INVALID_LITERAL;
 
-            token.string = {currentIteration, iterator};
+            token.string = std::string_view{currentIteration, iterator};
 
             int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
             token.range = {currentPos, pos - (currentPos - subtractFromRange)};
@@ -252,7 +256,7 @@ bool FGD::TokenizeFile() {
 }
 
 FGD::FGD(std::string_view path, bool parseIncludes) {
-	std::ifstream file{path.data()};
+	std::ifstream file{path.data(), std::ios::binary};
 	if (!file.is_open()) {
 		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
 		return;
@@ -268,45 +272,70 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 		exclusionList.emplace_back(path.data());
 
 		std::string_view dirPath = path.substr(0, path.find_last_of('/'));
-		std::smatch match;
-		std::regex exr{"@include+ \"(.*)\""};
 
-		while (std::regex_search(this->rawFGDFile, match, exr)) {
-			std::regex thisInclude("@include+ \"" + match[1].str() + "\"");
+        for(auto itr = rawFGDFile.begin(); itr != rawFGDFile.end(); itr++)
+        {
+            if(*itr != '@')
+                continue;
 
-			std::string currentPath = dirPath.data() + match[1].str();
+            if(std::string_view(itr, itr + 8) != "@include")
+                continue;
 
-			if (std::find_if(exclusionList.begin(), exclusionList.end(), [currentPath](const std::string& v) {
+            auto incStart = itr;
+
+            itr += 8;
+            while (*itr != '"')
+            {
+                if(itr == rawFGDFile.end()) {
+                    this->parseError = {ParseError::PREMATURE_EOF, 0, {0, static_cast<int>(rawFGDFile.length())}};
+                    return;
+                }
+                
+                itr++;
+            }
+            itr++;
+            auto strStart = itr;
+            while (*itr != '"')
+            {
+                if(itr == rawFGDFile.end()) {
+                    this->parseError = {ParseError::PREMATURE_EOF, 0, {0, static_cast<int>(rawFGDFile.length())}};
+                    return;
+                }
+                itr++;
+            }
+
+            std::string currentPath = std::string(dirPath) + '/' + std::string (strStart, itr);
+
+            if (std::find_if(exclusionList.begin(), exclusionList.end(), [currentPath](const std::string& v) {
 				return v == currentPath;
 			}) != exclusionList.end()) {
-				this->rawFGDFile = std::regex_replace(this->rawFGDFile, thisInclude, "");
+                auto dist = std::distance(this->rawFGDFile.begin(), incStart);
+                this->rawFGDFile = this->rawFGDFile.replace(incStart, itr, "");
+                itr = this->rawFGDFile.begin() + dist;
 				continue;
 			}
 
-			exclusionList.push_back(currentPath);
-
-			auto includeFilePath = std::string{dirPath} + '/' + match[1].str();
-			file.open(includeFilePath);
+            exclusionList.push_back(currentPath);
+            file.open(currentPath, std::ios::binary);
 			if (!file.is_open()) continue;
 
-			auto includeSize = static_cast<std::streamsize>(std::filesystem::file_size(includeFilePath));
+			auto includeSize = static_cast<std::streamsize>(std::filesystem::file_size(currentPath));
 			std::string includeFileContents(includeSize, ' ');
 			file.read(includeFileContents.data(), includeSize);
 			file.close();
-
-			this->rawFGDFile = std::regex_replace(this->rawFGDFile, thisInclude, includeFileContents, std::regex_constants::format_first_only);
-		}
+            auto dist = std::distance(this->rawFGDFile.begin(), incStart);
+            this->rawFGDFile = this->rawFGDFile.replace(incStart, itr, includeFileContents);
+            itr = this->rawFGDFile.begin() + dist;
+        }
 	}
 
-	std::erase(this->rawFGDFile, '\r');
-
 	if (!this->TokenizeFile()) {
-		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
+		this->parseError = {ParseError::TOKENIZATION_ERROR, 0, {0, 0}};
 		return;
 	}
 
 	if (!this->ParseFile()) {
-		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
+//		this->parseError = {ParseError::PARSING_ERROR, 0, {0, 0}};
 		return;
 	}
 }
@@ -328,7 +357,7 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 
 #ifdef FGDPP_UNIFIED_FGD
 bool FGD::TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& tagList) {
-    std::vector<std::string_view> fields;
+    std::vector<UtilStringView> fields;
 
     int i = 0;
     bool hasPlus = false;
@@ -340,8 +369,8 @@ bool FGD::TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& ta
         }
 
         if (iter->type == COMMA) {
+            tagList.tags.resize(i + 1);
             for (int j = 0; j < i; j++) {
-                tagList.tags.resize(j+1);
                 tagList.tags[j] = fields[j];
             }
 
@@ -355,11 +384,11 @@ bool FGD::TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& ta
             fields[i] = iter->string;
             i++;
         } else {
-            //std::string t{"+"};
-            //t.append(( iter )->string);
-            //TODO: We ned to identify +, trust me, we do.
-            fields.resize(i+1);
-            fields[i] = iter->string;
+            std::string t{"+"};
+            t.append(( iter )->string);
+            fields.resize(i + 1);
+            //One of the very few times we need to copy.
+            fields[i] = t;
             i++;
         }
 
@@ -367,8 +396,8 @@ bool FGD::TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& ta
     }
 
     if (i > 0) {
+        tagList.tags.resize(i + 1);
         for (int j = 0; j < i; j++) {
-            tagList.tags.resize(j+1);
             tagList.tags[j] = fields[j];
         }
     }
@@ -389,7 +418,8 @@ bool FGD::ParseFile() {
         if (iter->type != DEFINITION)
             continue;
 
-        if (iequals(iter->string, "@mapsize")) {
+
+        if (iequals(iter->string, R"(@mapsize)")) {
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != OPEN_PARENTHESIS) {
                 ErrorHandle(iter);
@@ -400,7 +430,7 @@ bool FGD::ParseFile() {
                 ErrorHandle(iter);
             }
 
-            this->FGDFileContents.mapSize.start = std::stoi(iter->string.data());
+            this->FGDFileContents.mapSize.start = std::stoi(iter->string.get_string());
 
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != COMMA) {
@@ -412,7 +442,7 @@ bool FGD::ParseFile() {
                 ErrorHandle(iter);
             }
 
-            this->FGDFileContents.mapSize.end = std::stoi(iter->string.data());
+            this->FGDFileContents.mapSize.end = std::stoi(iter->string.get_string());
 
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != CLOSE_PARENTHESIS) {
@@ -422,7 +452,7 @@ bool FGD::ParseFile() {
             continue;
         }
 
-        if (iequals(iter->string, "@AutoVisgroup")) {
+        if (iequals(iter->string, R"(@autovisgroup)")) {
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != EQUALS) {
                 ErrorHandle(iter);
@@ -467,9 +497,10 @@ bool FGD::ParseFile() {
 
                     visGroupChild.children.push_back(iter->string);
 
-                    visGroup.children.push_back(visGroupChild);
                     Forward(iter, { ErrorHandle(iter); });
                 }
+
+                visGroup.children.push_back(visGroupChild);
 
                 if (iter->type != CLOSE_BRACKET) {
                     ErrorHandle(iter);
@@ -486,7 +517,7 @@ bool FGD::ParseFile() {
             continue;
         }
 
-        if (iequals(iter->string, "@include")) {
+        if (iequals(iter->string, R"(@include)")) {
             Forward(iter, { ErrorHandle(iter); });
 
             if (iter->type != STRING) {
@@ -497,7 +528,7 @@ bool FGD::ParseFile() {
             continue;
         }
 
-        if (iequals(iter->string, "@MaterialExclusion")) {
+        if (iequals(iter->string, R"(@MaterialExclusion)")) {
             Forward(iter, { ErrorHandle(iter); });
 
             if (iter->type != OPEN_BRACKET) {
@@ -548,7 +579,7 @@ bool FGD::ParseFile() {
                         if (iter->type == COMMA) {
                             ClassProperty property;
                             for (int j = 0; j < i; j++) {
-                                property.properties.push_back(fields[j]);
+                                property.properties.emplace_back(fields[j]);
                             }
 
                             i = 0;
@@ -566,7 +597,7 @@ bool FGD::ParseFile() {
                     if (i > 0) {
                         ClassProperty property;
                         for (int j = 0; j < i; j++) {
-                            property.properties.push_back(fields[j]);
+                            property.properties.emplace_back(fields[j]);
                         }
 
                         i = 0;
@@ -627,7 +658,7 @@ bool FGD::ParseFile() {
             Forward(iter, { ErrorHandle(iter); });
             while (iter->type != CLOSE_BRACKET) {
 #ifdef FGDPP_UNIFIED_FGD
-				if (iequals(iter->string, "@resources")) {
+				if (iequals(iter->string, R"(@resources)")) {
 					Forward(iter, { ErrorHandle(iter); });
 
 					if (iter->type != OPEN_BRACKET) {
@@ -670,9 +701,9 @@ bool FGD::ParseFile() {
                     ErrorHandle(iter);
                 }
 
-                if (iequals(iter->string, "input") || iequals(iter->string, "output")) {
+                if (iequals(iter->string, R"(input)") || iequals(iter->string, R"(output)")) {
                     InputOutput inputOutput;
-                    inputOutput.putType = iequals(iter->string, "input") == 0 ? IO::INPUT : IO::OUTPUT;
+                    inputOutput.putType = iequals(iter->string, R"(input)") == 0 ? IO::INPUT : IO::OUTPUT;
 
                     Forward(iter, { ErrorHandle(iter); });
 
@@ -744,9 +775,7 @@ bool FGD::ParseFile() {
                     entity.inputOutput.push_back(inputOutput);
                     continue;
                 } else {
-                    EntityProperties entityProperties;
-                    entityProperties.flagCount = 0;
-                    entityProperties.choiceCount = 0;
+                    EntityProperties& entityProperties = entity.entityProperties.emplace_back();
                     entityProperties.readOnly = false;
                     entityProperties.reportable = false;
                     entityProperties.propertyName = iter->string;
@@ -779,12 +808,12 @@ bool FGD::ParseFile() {
                     }
 
                     Forward(iter, { ErrorHandle(iter); });
-                    if (iequals(iter->string, "readonly")) {
+                    if (iequals(iter->string, R"(readonly)")) {
                         entityProperties.readOnly = true;
                         Forward(iter, { ErrorHandle(iter); });
                     }
 
-                    if (iequals(iter->string, "*") || iequals(iter->string, "report")) {
+                    if (iequals(iter->string, R"(*)") || iequals(iter->string, R"(report)")) {
                         entityProperties.reportable = true;
                         Forward(iter, { ErrorHandle(iter); });
                     }
@@ -860,7 +889,7 @@ bool FGD::ParseFile() {
 
                     isFOC:
                     {
-                        bool isFlags = iequals(entityProperties.type, "flags");
+                        bool isFlags = iequals(entityProperties.type, R"(flags)");
 
                         Forward(iter, { ErrorHandle(iter); });
                         if (iter->type != OPEN_BRACKET) {
@@ -874,8 +903,8 @@ bool FGD::ParseFile() {
                             }
 
                             if (isFlags) {
-                                Flag flags;
-                                flags.value = std::stoi(iter->string.data());
+                                Flag& flags = entityProperties.flags.emplace_back();
+                                flags.value = std::stoi(iter->string.operator std::string());
 
                                 Forward(iter, { ErrorHandle(iter); });
                                 if (iter->type != COLUMN) {
@@ -911,7 +940,7 @@ bool FGD::ParseFile() {
 
                                 Forward(iter, { ErrorHandle(iter); });
                             } else {
-                                Choice choice;
+                                Choice& choice = entityProperties.choices.emplace_back();
                                 choice.value = iter->string;
 
                                 Forward(iter, { ErrorHandle(iter); });
@@ -951,4 +980,168 @@ bool FGD::ParseFile() {
     }
 
     return true;
+}
+
+UtilStringView FGD::Write() const {
+
+    auto& fileContents = this->FGDFileContents;
+    UtilStringView fgd = UtilStringView::make_self_owning("@mapsize(");
+    fgd << std::to_string(fileContents.mapSize.start) << "," << std::to_string(fileContents.mapSize.end) <<")\n\n";
+
+    for(const auto& groups : fileContents.autoVisGroups)
+    {
+       fgd << "@AutoVisGroup = " << groups.name << "\n\t[\n";
+       for(const auto& childGroup : groups.children)
+       {
+           fgd << "\t" << childGroup.name << "\n\t\t[\n";
+
+           for(const auto& contents : childGroup.children)
+               fgd << "\t\t" << contents << "\n";
+
+           fgd << "\t\t]\n";
+       }
+        fgd << "\t]\n";
+    }
+
+    for(const auto& entity : fileContents.entities)
+    {
+        fgd << entity.type << " ";
+        for(const auto& props : entity.classProperties)
+        {
+            fgd << props.name << "( ";
+
+            for(const auto& subProps : props.classProperties)
+                for(const auto& subsubprops : subProps.properties)
+                    fgd << subsubprops << " ";
+
+            fgd << ")\n\t";
+        }
+        fgd << "= " << entity.entityName;
+        if(!entity.entityDescription.empty())
+            fgd << " : ";
+        for(auto descs = entity.entityDescription.begin(); descs != entity.entityDescription.end(); descs++ )
+            fgd << *descs << ((std::next(descs) != entity.entityDescription.end()) ? " + " : "");
+        fgd << "\n\t[\n";
+
+        for(const auto& entProps : entity.entityProperties)
+            {
+                fgd << "\t" << entProps.propertyName << "(" << entProps.type << ") ";
+
+                if(entProps.readOnly)
+                    fgd << " readonly ";
+
+                if(entProps.reportable)
+                    fgd << " reportable ";
+
+                if(entProps.displayName.length() > 0)
+                    fgd << ": " << entProps.displayName;
+
+
+                if(entProps.displayName.length() <= 0 && entProps.defaultValue.length() > 0)
+                    fgd << " :";
+
+
+                if(entProps.defaultValue.length() > 0)
+                    fgd << " : " << entProps.defaultValue;
+
+
+                if(entProps.defaultValue.length() <= 0 && !entProps.propertyDescription.empty())
+                    fgd << " :";
+
+                if(!entProps.propertyDescription.empty())
+                    fgd << " : ";
+
+                for(auto descs = entProps.propertyDescription.begin(); descs != entProps.propertyDescription.end(); descs++ )
+                    fgd << *descs << ((std::next(descs) != entProps.propertyDescription.end()) ? " + " : "");
+
+                if(entProps.type == "choices")
+                {
+                    fgd << " = \n\t\t[\n";
+
+                    for(const auto &choice : entProps.choices)
+                    {
+                        fgd << "\t\t" << choice.value << (choice.displayName.length() > 0 ? ( UtilStringView("") << " : " << choice.displayName) : "") << "\n";
+                    }
+                    fgd << "\t\t]\n";
+                }
+
+                if(entProps.type == "flags")
+                {
+                    fgd << " = \n\t\t[\n";
+
+                    for(const auto &flags : entProps.flags)
+                    {
+                        fgd << "\t\t" << std::to_string(flags.value) << (flags.displayName.length() > 0 ? ( UtilStringView("") << " : " << flags.displayName) : " : ") << (flags.checked ? " : 0" : " : 1") << "\n";
+                    }
+                    fgd << "\t\t]\n";
+                }
+
+                fgd << "\n";
+            }
+
+        if(!entity.entityProperties.empty())
+            fgd << "\n";
+
+        std::vector<const InputOutput*> inputs;
+        std::vector<const InputOutput*> output;
+
+        for(auto& entIO : entity.inputOutput)
+        {
+            if(entIO.putType == IO::INPUT)
+                inputs.push_back(&entIO);
+            else
+                output.push_back(&entIO);
+        }
+
+        if(!inputs.empty())
+        {
+            fgd << "\n\t // Inputs\n";
+        }
+
+        for(const auto entIO : inputs)
+        {
+            fgd << "\t"
+                << "input "
+                << entIO->name << "("
+                << entIO->stringType
+                << ")";
+            if(!entIO->description.empty())
+            {
+                fgd << " : ";
+                for(auto descs = entIO->description.begin(); descs != entIO->description.end(); descs++ )
+                    fgd << *descs << ((std::next(descs) != entIO->description.end()) ? " + " : "");
+            }
+            fgd << "\n";
+        }
+
+        if(!output.empty())
+        {
+            fgd << "\n\t // Outputs\n";
+        }
+
+        for(const auto entIO : output)
+        {
+            fgd << "\t"
+            << "output "
+            << entIO->name << "("
+            << entIO->stringType
+            << ")";
+            if(!entIO->description.empty())
+            {
+                fgd << " : ";
+                for(auto descs = entIO->description.begin(); descs != entIO->description.end(); descs++ )
+                    fgd << *descs << ((std::next(descs) != entIO->description.end()) ? " + " : "");
+            }
+            fgd << "\n";
+        }
+
+        fgd << "\n\t]\n\n";
+
+
+    }
+
+    return fgd;
+
+
+
 }
