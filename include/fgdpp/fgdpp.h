@@ -4,9 +4,11 @@
 #include <string_view>
 #include <vector>
 
+#include "sourcepp/detail/StringUtils.h"
 #include "structs/entityproperties.h"
 
 namespace fgdpp {
+
 
 class FGD {
 	std::string rawFGDFile;
@@ -34,7 +36,7 @@ public:
 	struct Token {
 		TokenType type;
 		Range range;
-		std::string_view string;
+        sourcepp::detail::UtilStringView string;
 		int line;
 		ParseError associatedError;
 	};
@@ -43,20 +45,25 @@ public:
 
 public:
 	FGD(std::string_view path, bool parseIncludes);
+    FGD() = default;
 
 private:
 	bool TokenizeFile();
-
-	//PARSER.
+    //PARSER.
+    bool ParseFile();
 public:
 	FGDFile FGDFileContents;
 	ParsingError parseError{ParseError::NO_ERROR, 0, {0, 0}};
 
-	bool ParseFile();
 
 #ifdef FGDPP_UNIFIED_FGD
 	bool TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& tagList);
 #endif
+
+    //WRITE
+
+    [[nodiscard]] sourcepp::detail::UtilStringView Write() const;
+
 };
 
 } // namespace fgdpp
