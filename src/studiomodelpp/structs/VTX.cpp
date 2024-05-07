@@ -12,10 +12,11 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 		return false;
 	}
 
-	stream.read(this->vertexCacheSize);
-	stream.read(this->maxBonesPerStrip);
-	stream.read(this->maxBonesPerTriangle);
-	stream.read(this->maxBonesPerVertex);
+	stream
+		.read(this->vertexCacheSize)
+		.read(this->maxBonesPerStrip)
+		.read(this->maxBonesPerTriangle)
+		.read(this->maxBonesPerVertex);
 
 	int checksum = stream.read<int>();
 	if (checksum != mdl.checksum) {
@@ -133,8 +134,9 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							// todo: check if offset is in bytes
 							strip.vertices = std::span<Vertex>(stripGroup.vertices.begin() + strip.verticesOffset, verticesCount);
 
-							stream.read(strip.boneCount);
-							stream.read(strip.flags);
+							stream
+								.read(strip.boneCount)
+								.read(strip.flags);
 
 							// todo: bone stuff
 							stream.skip<int>(2);

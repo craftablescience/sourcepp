@@ -22,18 +22,17 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		return false;
 	}
 
-	stream.read(this->checksum);
-    stream.read(this->name, 64);
+	stream
+		.read(this->checksum)
+		.read(this->name, 64)
+		.skip<int>() // dataLength
+		.read(this->eyePosition)
+		.read(this->illuminationPosition)
+		.read(this->hullMin)
+		.read(this->hullMax)
+		.read(this->viewBBoxMin)
+		.read(this->viewBBoxMax);
 
-	// dataLength
-	stream.skip<int>();
-
-	stream.read(this->eyePosition);
-	stream.read(this->illuminationPosition);
-	stream.read(this->hullMin);
-	stream.read(this->hullMax);
-	stream.read(this->viewBBoxMin);
-	stream.read(this->viewBBoxMax);
 	this->flags = static_cast<Flags>(stream.read<int>());
 
 	int boneCount = stream.read<int>();
@@ -53,8 +52,9 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	//int sequenceDescOffset = stream.read<int>();
 	stream.skip<int>(2);
 
-	stream.read(this->activityListVersion);
-	stream.read(this->eventsIndexed);
+	stream
+		.read(this->activityListVersion)
+		.read(this->eventsIndexed);
 
 	int materialCount = stream.read<int>();
 	int materialOffset = stream.read<int>();
@@ -76,19 +76,20 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		auto& bone = this->bones.emplace_back();
 
 		readStringAtOffset(stream, bone.name);
-		stream.read(bone.parent);
-		stream.read(bone.boneController);
-		stream.read(bone.position);
-		stream.read(bone.rotationQuat);
-		stream.read(bone.rotationEuler);
-		stream.read(bone.positionScale);
-		stream.read(bone.rotationScale);
-		stream.read(bone.poseToBose);
-		stream.read(bone.alignment);
-		stream.read(bone.flags);
-		stream.read(bone.procType);
-		stream.read(bone.procIndex);
-		stream.read(bone.physicsBone);
+		stream
+			.read(bone.parent)
+			.read(bone.boneController)
+			.read(bone.position)
+			.read(bone.rotationQuat)
+			.read(bone.rotationEuler)
+			.read(bone.positionScale)
+			.read(bone.rotationScale)
+			.read(bone.poseToBose)
+			.read(bone.alignment)
+			.read(bone.flags)
+			.read(bone.procType)
+			.read(bone.procIndex)
+			.read(bone.physicsBone);
 		readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int) * 12 + sizeof(Vector3) * 4 + sizeof(Quaternion) * 2 + sizeof(Matrix<3, 4>) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
@@ -120,10 +121,11 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 			auto& hitbox = hitboxSet.hitboxes.emplace_back();
 
-			stream.read(hitbox.bone);
-			stream.read(hitbox.group);
-			stream.read(hitbox.bboxMin);
-			stream.read(hitbox.bboxMax);
+			stream
+				.read(hitbox.bone)
+				.read(hitbox.group)
+				.read(hitbox.bboxMin)
+				.read(hitbox.bboxMax);
 
 			// note: we don't know what model versions use absolute vs. relative offsets here
 			//       and this is unimportant, so skip parsing the bbox name here
@@ -197,15 +199,17 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 			auto& model = bodyPart.models.emplace_back();
 
-			stream.read(model.name, 64);
-			stream.read(model.type);
-			stream.read(model.boundingRadius);
+			stream
+				.read(model.name, 64)
+				.read(model.type)
+				.read(model.boundingRadius);
 
 			int meshesCount = stream.read<int>();
 			int meshesOffset = stream.read<int>();
 
-			stream.read(model.verticesCount);
-			stream.read(model.verticesOffset);
+			stream
+				.read(model.verticesCount)
+				.read(model.verticesOffset);
 
 			for (int k = 0; k < meshesCount; k++) {
 				auto meshPos = meshesOffset + k * (sizeof(int) * (18 + MAX_LOD_COUNT) + sizeof(Vector3));
@@ -213,15 +217,16 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 				auto& mesh = model.meshes.emplace_back();
 
-				stream.read(mesh.material);
-				stream.skip<int>();
-				stream.read(mesh.verticesCount);
-				stream.read(mesh.verticesOffset);
-				stream.skip<int>(2);
-				stream.read(mesh.materialType);
-				stream.read(mesh.materialParam);
-				stream.read(mesh.meshID);
-				stream.read(mesh.center);
+				stream
+					.read(mesh.material)
+					.skip<int>()
+					.read(mesh.verticesCount)
+					.read(mesh.verticesOffset)
+					.skip<int>(2)
+					.read(mesh.materialType)
+					.read(mesh.materialParam)
+					.read(mesh.meshID)
+					.read(mesh.center);
 			}
 		}
 	}
