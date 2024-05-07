@@ -31,9 +31,9 @@ TEST(fgdpp, parseWriteP2CE)
     auto& property = ent.classProperties.emplace_back();
     property.name = "base";
     auto& pp = property.classProperties.emplace_back();
-    pp.properties.emplace_back(std::string("func_brush"));
+    pp.properties.emplace_back("func_brush" );
 
-    ent.entityDescription.emplace_back() << quoted("An entity designed for having too many bitches.");
+    ent.entityDescription.emplace_back( quoted("An entity designed for having too many bitches.") );
 
     auto& io = ent.inputOutput.emplace_back();
     io.name = "cosume_flesh";
