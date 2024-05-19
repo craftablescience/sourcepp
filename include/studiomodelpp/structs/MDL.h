@@ -12,7 +12,19 @@
 
 #include "Generic.h"
 
+
+
 namespace studiomodelpp::MDL {
+
+    enum studioAnimFlags : unsigned char
+    {
+        ANIM_RAWPOS = 0x01, // Vector48
+        ANIM_RAWROT = 0x02, // Quaternion48
+        ANIM_ANIMPOS = 0x04, // mstudioanim_valueptr_t
+        ANIM_ANIMROT = 0x08, // mstudioanim_valueptr_t
+        ANIM_DELTA = 0x10,
+        ANIM_RAWROT2 = 0x20 // Quaternion64
+    };
 
 struct Bone {
 	enum Flags : int {
@@ -76,6 +88,38 @@ struct Movement
     sourcepp::Vector3 position;
 };
 
+union AnimationFrameValue
+{
+    struct
+    {
+        std::byte	valid;
+        std::byte	total;
+    } num;
+    short		value;
+};
+
+struct animationFrame
+{
+    bool isValid = false;
+    AnimationFrameValue val;
+};
+
+struct Animation
+{
+    std::byte bone; //byte to the bone *guitar riff*
+    studioAnimFlags flags;
+
+    short nextOffset;
+
+
+    animationFrame rotVOffsets[3] = {{},{},{}};
+    animationFrame posVOffsets[3] = {{},{},{}};
+
+    sourcepp::Quaternion48 quat48;
+    sourcepp::Quaternion64 quat64;
+    sourcepp::Vector48 pos;
+};
+
 struct AnimDesc {
 	enum Flags : int {
 		FLAG_NONE     = 0,
@@ -97,6 +141,7 @@ struct AnimDesc {
 
 	int frameCount;
 
+    std::vector<Movement> movement;
 	//int movementCount;
 	//int movementIndex;
 
@@ -104,6 +149,7 @@ struct AnimDesc {
 
 	//int animBlock;
 	//int animIndex;
+    std::vector<Animation> animations;
 
 	//int ikRuleCount;
 	//int ikRuleIndex;

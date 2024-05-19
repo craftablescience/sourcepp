@@ -145,6 +145,182 @@ bool MDL::open(const std::byte* data, std::size_t size) {
         stream.read<AnimDesc::Flags>(animDesc.flags);
         stream.read<int>(animDesc.frameCount);
 
+        int movementCount = stream.read<int>();
+        int movementIndex = stream.read<int>();
+
+        size_t current = stream.tell();
+        stream.seek(movementIndex);
+        for(int j = 0; j < movementCount; j++)
+        {
+            auto& movement = animDesc.movement.emplace_back();
+            stream.read<int>(movement.endframe);
+            stream.read<int>(movement.motionFlags);
+            stream.read<float>(movement.startVelocity);
+            stream.read<float>(movement.endVelocity);
+            stream.read<float>(movement.angle);
+            stream.read<sourcepp::Vector3>(movement.relativeMovementVector);
+            stream.read<sourcepp::Vector3>(movement.position);
+        }
+        stream.seek(current);
+
+        stream.skip<int>(7); // 6 unused 1 animBlock;
+
+
+        int animBlockIndex = stream.read<int>();
+
+        current = stream.tell();
+        stream.seek(animBlockIndex);
+        short nextIndex = 0;
+        do{
+            auto& anim = animDesc.animations.emplace_back();
+            anim.bone = stream.read<std::byte>();
+            anim.flags = stream.read<studioAnimFlags>();
+            nextIndex = anim.nextOffset = stream.read<short>();
+
+            if(anim.bone == std::byte(255))
+                continue; //no animation data.
+
+            if(anim.flags & ( studioAnimFlags::ANIM_RAWROT | studioAnimFlags::ANIM_RAWPOS | studioAnimFlags::ANIM_RAWROT2 ))
+            {
+                size_t offs = 4;
+                if(anim.flags & studioAnimFlags::ANIM_RAWROT)
+                {
+                    readValueFromPointerAtOffset<Quaternion48>(stream, anim.quat48, std::ios::cur, offs);
+                    offs+=4;
+                }
+                if(anim.flags & studioAnimFlags::ANIM_RAWROT2)
+                {
+                    readValueFromPointerAtOffset<Quaternion64>(stream, anim.quat64, std::ios::cur, offs);
+                    offs+=4;
+                }
+
+                if( anim.flags & studioAnimFlags::ANIM_RAWPOS)
+                {
+                    readValueFromPointerAtOffset<Vector48>(stream, anim.pos, std::ios::cur, offs);
+                }
+            }
+            else
+            {
+
+                struct threeShorts
+                {
+                    short one;
+                    short two;
+                    short three;
+
+                    short operator[](int i) const
+                    {
+                        if(i == 0)
+                        {
+                            return one;
+                        }
+
+                        if(i == 1)
+                        {
+                            return one;
+                        }
+
+                        if(i == 2)
+                        {
+                            return one;
+                        }
+                        return 0;
+                    }
+                };
+
+                threeShorts offs{};
+
+                readValueFromPointerAtOffset<threeShorts>(stream, offs, std::ios::cur, 4);
+
+                short offset1 = offs[0];
+                short offset2 = offs[1];
+                short offset3 = offs[2];;
+                size_t telloff1 = stream.tell();
+                if(offset1 > 0)
+                {
+                    stream.seek(telloff1 + offset1);
+                    anim.rotVOffsets[0].isValid = true;
+                    anim.rotVOffsets[0].val = stream.read<AnimationFrameValue>();
+                }
+                if(offset2 > 0)
+                {
+                    stream.seek(telloff1 + offset2);
+                    anim.rotVOffsets[0].isValid = true;
+                    anim.rotVOffsets[0].val = stream.read<AnimationFrameValue>();
+                }
+                if(offset3 > 0)
+                {
+                    stream.seek(telloff1 + offset3);
+                    anim.rotVOffsets[0].isValid = true;
+                    anim.rotVOffsets[0].val = stream.read<AnimationFrameValue>();
+                }
+                stream.seek(telloff1);
+                if(anim.flags & studioAnimFlags::ANIM_ANIMROT)
+                {
+                    offset1 = stream.read<short>();
+                    offset2 = stream.read<short>();
+                    offset3 = stream.read<short>();
+                    size_t telloff1 = stream.tell();
+                    if(offset1 > 0)
+                    {
+                        stream.seek(telloff1 + offset1);
+                        anim.posVOffsets[0].isValid = true;
+                        anim.posVOffsets[0].val = stream.read<AnimationFrameValue>();
+                    }
+                    if(offset2 > 0)
+                    {
+                        stream.seek(telloff1 + offset2);
+                        anim.posVOffsets[0].isValid = true;
+                        anim.posVOffsets[0].val = stream.read<AnimationFrameValue>();
+                    }
+                    if(offset3 > 0)
+                    {
+                        stream.seek(telloff1 + offset3);
+                        anim.posVOffsets[0].isValid = true;
+                        anim.posVOffsets[0].val = stream.read<AnimationFrameValue>();
+                    }
+                }
+                stream.seek(telloff1);
+
+            }
+
+
+//            short offsets[3];
+//
+//            offsets[0] = stream.read<short>();
+//            offsets[1] = stream.read<short>();
+//            offsets[2] = stream.read<short>();
+//            size_t tempCurr = stream.tell();
+//            size_t trueOffset = tempCurr + (sizeof(std::byte) * 2) + sizeof(short);
+//            if(offsets[0] > 0)
+//            {
+//                stream.seek(trueOffset + offsets[0]);
+//                anim.posVOffsets[0] = stream.read<AnimationFrameValue>();
+//            }
+//            if(offsets[1] > 0) {
+//                stream.seek(trueOffset + offsets[1]);
+//                anim.posVOffsets[1] = stream.read<AnimationFrameValue>();
+//            }
+//            if(offsets[2] > 0) {
+//                stream.seek(trueOffset + offsets[2]);
+//                anim.posVOffsets[2] = stream.read<AnimationFrameValue>();
+//            }
+
+//            if((flags & studioAnimFlags::ANIM_ANIMROT) != 0)
+//            {
+//
+//            }
+
+
+        } while (nextIndex != 0);
+        stream.seek(current);
+
+        stream.skip<int>(7);
+        stream.skip<short>(2);
+        stream.skip<int>();
+
+        stream.skip<float>();
+
     }
     /*
 	stream.seek(sequenceDescOffset);
