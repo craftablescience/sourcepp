@@ -111,10 +111,21 @@ std::string Attribute::getValue() const {
 		}
 		case MATRIX_4X4: {
 			auto mat4 = this->getValueAs<Value::Matrix4x4>();
-			return '[' + std::to_string(mat4.r0.x) + ", " + std::to_string(mat4.r0.y) + ", " + std::to_string(mat4.r0.z) + ", " + std::to_string(mat4.r0.w) + ",\n" +
-			       ' ' + std::to_string(mat4.r1.x) + ", " + std::to_string(mat4.r1.y) + ", " + std::to_string(mat4.r1.z) + ", " + std::to_string(mat4.r1.w) + ",\n" +
-			       ' ' + std::to_string(mat4.r2.x) + ", " + std::to_string(mat4.r2.y) + ", " + std::to_string(mat4.r2.z) + ", " + std::to_string(mat4.r2.w) + ",\n" +
-			       ' ' + std::to_string(mat4.r3.x) + ", " + std::to_string(mat4.r3.y) + ", " + std::to_string(mat4.r3.z) + ", " + std::to_string(mat4.r3.w) + ']';
+			std::string out;
+			for (int i = 0; i < 4; i++) {
+				out += (i == 0 ? '[' : ' ');
+				for (int j = 0; j < 4; j++) {
+					out += std::to_string(mat4(i,j));
+					if (j < 3) {
+						out += ", ";
+					} else if (i < 3) {
+						out += ",\n";
+					} else {
+						out += ']';
+					}
+				}
+			}
+			return out;
 		}
 		case ARRAY_ELEMENT: {
 			auto elements = this->getValueAs<std::vector<Value::Element>>();
@@ -220,11 +231,24 @@ std::string Attribute::getValue() const {
 		case ARRAY_MATRIX_4X4: {
 			auto matrices = this->getValueAs<std::vector<Value::Matrix4x4>>();
 			std::string out = "[";
-			for (int i = 0; i < matrices.size(); i++) {
-				out += std::string{"["} + std::to_string(matrices[i].r0.x) + ", " + std::to_string(matrices[i].r0.y) + ", " + std::to_string(matrices[i].r0.z) + ", " + std::to_string(matrices[i].r0.w) + ",\n" +
-				                   "  " + std::to_string(matrices[i].r1.x) + ", " + std::to_string(matrices[i].r1.y) + ", " + std::to_string(matrices[i].r1.z) + ", " + std::to_string(matrices[i].r1.w) + ",\n" +
-				                   "  " + std::to_string(matrices[i].r2.x) + ", " + std::to_string(matrices[i].r2.y) + ", " + std::to_string(matrices[i].r2.z) + ", " + std::to_string(matrices[i].r2.w) + ",\n" +
-				                   "  " + std::to_string(matrices[i].r3.x) + ", " + std::to_string(matrices[i].r3.y) + ", " + std::to_string(matrices[i].r3.z) + ", " + std::to_string(matrices[i].r3.w) + ']' + (i == matrices.size() - 1 ? "" : ",\n");
+			for (int m = 0; m < matrices.size(); m++) {
+				out += (m == 0 ? "[" : " [");
+				for (int i = 0; i < 4; i++) {
+					out += (i == 0 ? "" : "  ");
+					for (int j = 0; j < 4; j++) {
+						out += std::to_string(matrices[m](i,j));
+						if (j < 3) {
+							out += ", ";
+						} else if (i < 3) {
+							out += ",\n";
+						} else {
+							out += ']';
+						}
+					}
+				}
+				if (m < matrices.size() - 1) {
+					out += ",\n";
+				}
 			}
 			return out + ']';
 		}
