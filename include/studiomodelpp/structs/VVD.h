@@ -5,54 +5,53 @@
 #include <cstdint>
 #include <vector>
 
-#include "Generic.h"
 #include "MDL.h"
 
 namespace studiomodelpp::VVD {
 
 struct Fixup {
-	int LOD;
-	int sourceVertexID;
-	int vertexCount;
+	int32_t LOD;
+	int32_t sourceVertexID;
+	int32_t vertexCount;
 };
 
 struct BoneWeight {
 	//float weight[MAX_BONES_PER_VERTEX];
     std::array<float, MAX_BONES_PER_VERTEX> weight;
 
-	//char bone[MAX_BONES_PER_VERTEX];
-	//char boneCount;
-    std::vector<char> bones;
+	//int8_t bone[MAX_BONES_PER_VERTEX];
+	//int8_t boneCount;
+    std::vector<int8_t> bones;
 };
 
 struct Vertex {
 	BoneWeight boneWeight;
 
-	sourcepp::Vector3 position{};
-	sourcepp::Vector3 normal{};
-	sourcepp::Vector2 uv{};
+	sourcepp::Vec3f position{};
+	sourcepp::Vec3f normal{};
+	sourcepp::Vec2f uv{};
 
-	sourcepp::Vector4 tangent{}; // Taken from tangents data section
+	sourcepp::Vec4f tangent{}; // Taken from tangents data section
 };
 
 struct VVD {
 	[[nodiscard]] bool open(const std::byte* data, std::size_t size, const MDL::MDL& mdl);
 
-	//int id;
-	int version;
-	//int checksum;
+	//int32_t id;
+	int32_t version;
+	//int32_t checksum;
 
-	int numLODs;
-	//int numVerticesInLOD[MAX_LOD_COUNT];
-	std::array<int, MAX_LOD_COUNT> numVerticesInLOD;
+	int32_t numLODs;
+	//int32_t numVerticesInLOD[MAX_LOD_COUNT];
+	std::array<int32_t, MAX_LOD_COUNT> numVerticesInLOD;
 
-	//int fixupsCount;
-	//int fixupsOffset;
+	//int32_t fixupsCount;
+	//int32_t fixupsOffset;
 	std::vector<Fixup> fixups;
 
-	//int verticesOffset;
+	//int32_t verticesOffset;
 	std::vector<Vertex> vertices;
-	//int tangentsOffset;
+	//int32_t tangentsOffset;
 };
 
 } // namespace studiomodelpp::VVD

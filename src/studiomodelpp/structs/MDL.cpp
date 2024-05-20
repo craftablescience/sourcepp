@@ -7,25 +7,23 @@ using namespace sourcepp;
 using namespace sourcepp::detail;
 using namespace studiomodelpp::MDL;
 
-constexpr int MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
+constexpr int32_t MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
 
 bool MDL::open(const std::byte* data, std::size_t size) {
 	BufferStream stream{data, size};
 
-	int id = stream.read<int>();
-	if (id != MDL_ID) {
+	if (stream.read<int32_t>() != MDL_ID) {
 		return false;
 	}
 
-	stream.read(this->version);
-	if (this->version < 44 || this->version > 49) {
+	if (stream.read(this->version); this->version < 44 || this->version > 49) {
 		return false;
 	}
 
 	stream
 		.read(this->checksum)
 		.read(this->name, 64)
-		.skip<int>() // dataLength
+		.skip<int32_t>() // dataLength
 		.read(this->eyePosition)
 		.read(this->illuminationPosition)
 		.read(this->hullMin)
@@ -33,41 +31,41 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		.read(this->viewBBoxMin)
 		.read(this->viewBBoxMax);
 
-	this->flags = static_cast<Flags>(stream.read<int>());
+	this->flags = static_cast<Flags>(stream.read<int32_t>());
 
-	int boneCount = stream.read<int>();
-	int boneOffset = stream.read<int>();
+	auto boneCount = stream.read<int32_t>();
+	auto boneOffset = stream.read<int32_t>();
 
-	int boneControllerCount = stream.read<int>();
-	int boneControllerOffset = stream.read<int>();
+	auto boneControllerCount = stream.read<int32_t>();
+	auto boneControllerOffset = stream.read<int32_t>();
 
-	int hitboxSetCount = stream.read<int>();
-	int hitboxSetOffset = stream.read<int>();
+	auto hitboxSetCount = stream.read<int32_t>();
+	auto hitboxSetOffset = stream.read<int32_t>();
 
-	//int animDescCount = stream.read<int>();
-	//int animDescOffset = stream.read<int>();
-	stream.skip<int>(2);
+	//auto animDescCount = stream.read<int32_t>();
+	//auto animDescOffset = stream.read<int32_t>();
+	stream.skip<int32_t>(2);
 
-	//int sequenceDescCount = stream.read<int>();
-	//int sequenceDescOffset = stream.read<int>();
-	stream.skip<int>(2);
+	//auto sequenceDescCount = stream.read<int32_t>();
+	//auto sequenceDescOffset = stream.read<int32_t>();
+	stream.skip<int32_t>(2);
 
 	stream
 		.read(this->activityListVersion)
 		.read(this->eventsIndexed);
 
-	int materialCount = stream.read<int>();
-	int materialOffset = stream.read<int>();
+	auto materialCount = stream.read<int32_t>();
+	auto materialOffset = stream.read<int32_t>();
 
-	int materialDirCount = stream.read<int>();
-	int materialDirOffset = stream.read<int>();
+	auto materialDirCount = stream.read<int32_t>();
+	auto materialDirOffset = stream.read<int32_t>();
 
-    int skinReferenceCount = stream.read<int>();
-    int skinReferenceFamilyCount = stream.read<int>();
-    int skinReferenceOffset = stream.read<int>();
+    auto skinReferenceCount = stream.read<int32_t>();
+    auto skinReferenceFamilyCount = stream.read<int32_t>();
+    auto skinReferenceOffset = stream.read<int32_t>();
 
-	int bodyPartCount = stream.read<int>();
-	int bodyPartOffset = stream.read<int>();
+	auto bodyPartCount = stream.read<int32_t>();
+	auto bodyPartOffset = stream.read<int32_t>();
 
 	// Done reading sequentially, start seeking to offsets
 
@@ -90,11 +88,11 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(bone.procType)
 			.read(bone.procIndex)
 			.read(bone.physicsBone);
-		readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int) * 12 + sizeof(Vector3) * 4 + sizeof(Quaternion) * 2 + sizeof(Matrix<3, 4>) + sizeof(Bone::Flags));
+		readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(Vec3f) * 4 + sizeof(Quat) * 2 + sizeof(Matrix<3,4>) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
 		// _unused0
-		stream.skip<int>(8);
+		stream.skip<int32_t>(8);
 	}
 
 	stream.seek(boneControllerOffset);
@@ -102,21 +100,21 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		this->boneControllers.push_back(stream.read<BoneController>());
 
 		// _unused0
-		stream.skip<int>(8);
+		stream.skip<int32_t>(8);
 	}
 
 	for (int i = 0; i < hitboxSetCount; i++) {
-		auto hitboxSetPos = hitboxSetOffset + i * (sizeof(int) * 3);
+		auto hitboxSetPos = hitboxSetOffset + i * (sizeof(int32_t) * 3);
 		stream.seek(hitboxSetPos);
 
 		auto& hitboxSet = this->hitboxSets.emplace_back();
 
 		readStringAtOffset(stream, hitboxSet.name);
-		int hitboxCount = stream.read<int>();
-		int hitboxOffset = stream.read<int>();
+		auto hitboxCount = stream.read<int32_t>();
+		auto hitboxOffset = stream.read<int32_t>();
 
 		for (int j = 0; j < hitboxCount; j++) {
-			auto hitboxPos = hitboxOffset + j * (sizeof(int) * 11 + sizeof(Vector3) * 2);
+			auto hitboxPos = hitboxOffset + j * (sizeof(int32_t) * 11 + sizeof(Vec3f) * 2);
 			stream.seek(hitboxSetPos + hitboxPos);
 
 			auto& hitbox = hitboxSet.hitboxes.emplace_back();
@@ -129,12 +127,12 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 			// note: we don't know what model versions use absolute vs. relative offsets here
 			//       and this is unimportant, so skip parsing the bbox name here
-			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int) * 3 + sizeof(Vector3) * 2);
-			stream.skip<int>();
+			//readStringAtOffset(stream, hitbox.name, std::ios::cur, sizeof(int32_t) * 3 + sizeof(Vec3f) * 2);
+			stream.skip<int32_t>();
 			hitbox.name = "";
 
 			// _unused0
-			stream.skip<int>(8);
+			stream.skip<int32_t>(8);
 		}
 	}
 
@@ -160,9 +158,9 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.read(material.flags);
 
 		// used
-		stream.skip<int>();
+		stream.skip<int32_t>();
 		// _unused0
-		stream.skip<int>(13);
+		stream.skip<int32_t>(13);
 	}
 
 	stream.seek(materialDirOffset);
@@ -173,28 +171,28 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
     stream.seek(skinReferenceOffset);
     for (int i = 0; i < skinReferenceFamilyCount; i++) {
-        std::vector<short> skinFamily;
+        std::vector<int16_t> skinFamily;
         for (int j = 0; j < skinReferenceCount; j++) {
-            skinFamily.push_back(stream.read<short>());
+            skinFamily.push_back(stream.read<int16_t>());
         }
         this->skins.push_back(std::move(skinFamily));
     }
 
 	for (int i = 0; i < bodyPartCount; i++) {
-		auto bodyPartPos = bodyPartOffset + i * (sizeof(int) * 4);
+		auto bodyPartPos = bodyPartOffset + i * (sizeof(int32_t) * 4);
 		stream.seek(bodyPartPos);
 
 		auto& bodyPart = this->bodyParts.emplace_back();
 
 		readStringAtOffset(stream, bodyPart.name);
 
-		int modelsCount = stream.read<int>();
+		auto modelsCount = stream.read<int32_t>();
 		// base
-		stream.skip<int>();
-		int modelsOffset = stream.read<int>();
+		stream.skip<int32_t>();
+		auto modelsOffset = stream.read<int32_t>();
 
 		for (int j = 0; j < modelsCount; j++) {
-			auto modelPos = modelsOffset + j * (64 + sizeof(float) + sizeof(int) * 20);
+			auto modelPos = modelsOffset + j * (64 + sizeof(float) + sizeof(int32_t) * 20);
 			stream.seek(bodyPartPos + modelPos);
 
 			auto& model = bodyPart.models.emplace_back();
@@ -204,25 +202,25 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				.read(model.type)
 				.read(model.boundingRadius);
 
-			int meshesCount = stream.read<int>();
-			int meshesOffset = stream.read<int>();
+			auto meshesCount = stream.read<int32_t>();
+			auto meshesOffset = stream.read<int32_t>();
 
 			stream
 				.read(model.verticesCount)
 				.read(model.verticesOffset);
 
 			for (int k = 0; k < meshesCount; k++) {
-				auto meshPos = meshesOffset + k * (sizeof(int) * (18 + MAX_LOD_COUNT) + sizeof(Vector3));
+				auto meshPos = meshesOffset + k * (sizeof(int32_t) * (18 + MAX_LOD_COUNT) + sizeof(Vec3f));
 				stream.seek(bodyPartPos + modelPos + meshPos);
 
 				auto& mesh = model.meshes.emplace_back();
 
 				stream
 					.read(mesh.material)
-					.skip<int>()
+					.skip<int32_t>()
 					.read(mesh.verticesCount)
 					.read(mesh.verticesOffset)
-					.skip<int>(2)
+					.skip<int32_t>(2)
 					.read(mesh.materialType)
 					.read(mesh.materialParam)
 					.read(mesh.meshID)

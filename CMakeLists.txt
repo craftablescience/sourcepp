@@ -24,8 +24,9 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
 list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/BufferUtils.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/StringUtils.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Matrix.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Quaternion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/BufferUtils.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/StringUtils.cpp")

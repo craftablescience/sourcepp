@@ -10,6 +10,11 @@
 #include <variant>
 #include <vector>
 
+#include <sourcepp/math/Angles.h>
+#include <sourcepp/math/Integer.h>
+#include <sourcepp/math/Matrix.h>
+#include <sourcepp/math/Vector.h>
+
 namespace dmxpp {
 
 namespace Value {
@@ -17,7 +22,7 @@ namespace Value {
 struct Invalid {};
 
 struct Element {
-	std::uint32_t index;
+	uint32_t index;
 	std::string stubGUID;
 };
 
@@ -28,45 +33,28 @@ struct Time {
 };
 
 struct Color {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
-	unsigned char a;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
 };
 
-struct Vector2 {
-	float x;
-	float y;
-};
+using Vector2 = sourcepp::Vec2f;
 
-struct Vector3 {
-	float x;
-	float y;
-	float z;
-};
+using Vector3 = sourcepp::Vec3f;
 
-struct Vector4 {
-	float x;
-	float y;
-	float z;
-	float w;
-};
+using Vector4 = sourcepp::Vec4f;
 
-using EulerAngle = Vector3;
+using EulerAngles = sourcepp::EulerAngles;
 
-using Quaternion = Vector4;
+using Quaternion = sourcepp::Quat;
 
-struct Matrix4x4 {
-	Vector4 r0;
-	Vector4 r1;
-	Vector4 r2;
-	Vector4 r3;
-};
+using Matrix4x4 = sourcepp::Matrix<4,4>;
 
 using Generic = std::variant<
 	Invalid,
 	Element,
-	int,
+	int32_t,
 	float,
 	bool,
 	std::string,
@@ -81,7 +69,7 @@ using Generic = std::variant<
 	Matrix4x4,
 
 	std::vector<Element>,
-	std::vector<int>,
+	std::vector<int32_t>,
 	std::vector<float>,
 	std::vector<bool>,
 	std::vector<std::string>,
@@ -96,7 +84,7 @@ using Generic = std::variant<
 	std::vector<Matrix4x4>
 >;
 
-enum class ID : unsigned char {
+enum class ID : uint8_t {
 	INVALID = 0,
 
 	VALUE_START = 1,
@@ -144,14 +132,14 @@ constexpr ID byteToID(std::byte id) {
 
 constexpr ID arrayIDToInnerID(ID id) {
 	if (id >= ID::ARRAY_START) {
-		return static_cast<ID>(static_cast<unsigned char>(id) - static_cast<unsigned char>(ID::VALUE_END));
+		return static_cast<ID>(static_cast<uint8_t>(id) - static_cast<uint8_t>(ID::VALUE_END));
 	}
 	return id;
 }
 
 constexpr ID innerIDToArrayID(ID id) {
 	if (id <= ID::VALUE_END) {
-		return static_cast<ID>(static_cast<unsigned char>(id) + static_cast<unsigned char>(ID::VALUE_END));
+		return static_cast<ID>(static_cast<uint8_t>(id) + static_cast<uint8_t>(ID::VALUE_END));
 	}
 	return id;
 }

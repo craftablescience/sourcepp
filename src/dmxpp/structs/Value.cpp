@@ -72,7 +72,7 @@ std::string Attribute::getValue() const {
 			return '#' + std::to_string(element.index);
 		}
 		case INT:
-			return std::to_string(this->getValueAs<int>());
+			return std::to_string(this->getValueAs<int32_t>());
 		case FLOAT:
 			return std::to_string(this->getValueAs<float>());
 		case BOOL:

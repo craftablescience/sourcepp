@@ -11,30 +11,30 @@ constexpr int MAX_LOD_COUNT = 8;
 constexpr int MAX_BONES_PER_VERTEX = 3;
 
 struct BBox {
-	int bone;
-	int group;
-	sourcepp::Vector3 bboxMin;
-	sourcepp::Vector3 bboxMax;
+	int32_t bone;
+	int32_t group;
+	sourcepp::Vec3f bboxMin;
+	sourcepp::Vec3f bboxMax;
 
-	//int hitboxNameOffset;
+	//int32_t hitboxNameOffset;
 	std::string name;
 
-	//int _unused0[8];
+	//int32_t _unused0[8];
 };
 
 struct Movement {
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE = 0,
 		// todo(flags): Movement
 	};
 
-	int endFrame;
+	int32_t endFrame;
 	Flags flags;
 	float velocityStart;
 	float velocityEnd;
 	float yawEnd;
-	sourcepp::Vector3 movement;
-	sourcepp::Vector3 relativePosition;
+	sourcepp::Vec3f movement;
+	sourcepp::Vec3f relativePosition;
 };
 
 } // namespace studiomodelpp

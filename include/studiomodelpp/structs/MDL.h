@@ -6,8 +6,8 @@
 #include <string>
 #include <vector>
 
+#include <sourcepp/math/Angles.h>
 #include <sourcepp/math/Matrix.h>
-#include <sourcepp/math/Quaternion.h>
 #include <sourcepp/math/Vector.h>
 
 #include "Generic.h"
@@ -15,59 +15,59 @@
 namespace studiomodelpp::MDL {
 
 struct Bone {
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE = 0,
 		// todo(flags): Bone
 	};
 
-	//int nameIndex;
+	//int32_t nameIndex;
 	std::string name;
 
-	int parent;
-	int boneController[6];
-	sourcepp::Vector3 position;
-	sourcepp::Quaternion rotationQuat;
-	sourcepp::Vector3 rotationEuler;
-	sourcepp::Vector3 positionScale;
-	sourcepp::Vector3 rotationScale;
+	int32_t parent;
+	int32_t boneController[6];
+	sourcepp::Vec3f position;
+	sourcepp::Quat rotationQuat;
+	sourcepp::Vec3f rotationEuler;
+	sourcepp::Vec3f positionScale;
+	sourcepp::Vec3f rotationScale;
 	sourcepp::Matrix<3,4> poseToBose;
-	sourcepp::Quaternion alignment;
+	sourcepp::Quat alignment;
 	Flags flags;
-	int procType;
-	int procIndex;
-	int physicsBone;
+	int32_t procType;
+	int32_t procIndex;
+	int32_t physicsBone;
 
-	//int surfacePropNameIndex;
+	//int32_t surfacePropNameIndex;
 	std::string surfacePropName;
 
-	int contents;
+	int32_t contents;
 
-	//int _unused0[8];
+	//int32_t _unused0[8];
 };
 
 struct BoneController {
-	int bone;
-	int type;
+	int32_t bone;
+	int32_t type;
 	float start;
 	float end;
-	int rest;
-	int inputField;
+	int32_t rest;
+	int32_t inputField;
 
-	//int _unused0[8];
+	//int32_t _unused0[8];
 };
 
 struct HitboxSet {
-	//int nameIndex;
+	//int32_t nameIndex;
 	std::string name;
 
-	//int hitboxCount;
-	//int hitboxIndex;
+	//int32_t hitboxCount;
+	//int32_t hitboxIndex;
 	std::vector<BBox> hitboxes;
 };
 
 /*
 struct AnimDesc {
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE     = 0,
 		FLAG_RAW_POS  = 1 << 0,
 		FLAG_RAW_ROT  = 1 << 1,
@@ -77,191 +77,191 @@ struct AnimDesc {
 		FLAG_RAW_ROT2 = 1 << 5,
 	};
 
-	//int basePointer;
+	//int32_t basePointer;
 
-	//int nameIndex;
+	//int32_t nameIndex;
 	std::string name;
 	float fps;
 
 	Flags flags;
 
-	int frameCount;
+	int32_t frameCount;
 
-	//int movementCount;
-	//int movementIndex;
+	//int32_t movementCount;
+	//int32_t movementIndex;
 
-	//int _unused0[6];
+	//int32_t _unused0[6];
 
-	//int animBlock;
-	//int animIndex;
+	//int32_t animBlock;
+	//int32_t animIndex;
 
-	//int ikRuleCount;
-	//int ikRuleIndex;
+	//int32_t ikRuleCount;
+	//int32_t ikRuleIndex;
 
-	//int animBlockIKRuleIndex;
+	//int32_t animBlockIKRuleIndex;
 
-	//int localHierarchyIndexCount;
-	//int localHierarchyIndex;
+	//int32_t localHierarchyIndexCount;
+	//int32_t localHierarchyIndex;
 
-	//int sectionIndex;
-	//int sectionFrames;
+	//int32_t sectionIndex;
+	//int32_t sectionFrames;
 
-	//short zeroFrameSpan;
-	//short zeroFrameCount;
-	//int zeroFrameIndex;
+	//int16_t zeroFrameSpan;
+	//int16_t zeroFrameCount;
+	//int32_t zeroFrameIndex;
 	//float zeroFrameStallTime;
 };
 
 struct SequenceDesc {
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE = 0,
 		FLAG_LOOPING = 1 << 0,
 	};
 
-	//int basePointer;
+	//int32_t basePointer;
 
-	//int labelIndex;
-	//int activityLabelIndex;
+	//int32_t labelIndex;
+	//int32_t activityLabelIndex;
 
 	Flags flags;
 
-	//int activity;
-	//int activityWeight;
+	//int32_t activity;
+	//int32_t activityWeight;
 
-	//int eventCount;
-	//int eventIndex;
+	//int32_t eventCount;
+	//int32_t eventIndex;
 
-	Vector3 boundingBoxMin;
-	Vector3 boundingBoxMax;
+	sourcepp::Vec3f boundingBoxMin;
+	sourcepp::Vec3f boundingBoxMax;
 
-	int blendCount;
+	int32_t blendCount;
 
-	int animIndexIndex;
+	int32_t animIndexIndex;
 
-	int movementIndex;
+	int32_t movementIndex;
 
-	int groupSize[2];
-	int paramIndex[2];
+	int32_t groupSize[2];
+	int32_t paramIndex[2];
 	float paramStart[2];
 	float paramEnd[2];
-	int paramParent;
+	int32_t paramParent;
 
 	float fadeInTime;
 	float fadeOutTime;
 
-	int localEntryNode;
-	int localExitNode;
+	int32_t localEntryNode;
+	int32_t localExitNode;
 
-	int nodeFlags;
+	int32_t nodeFlags;
 
 	float entryPhase;
 	float exitPhase;
 
 	float lastFrame;
 
-	int nextSequence;
-	int pose;
+	int32_t nextSequence;
+	int32_t pose;
 
-	int ikRuleCount;
+	int32_t ikRuleCount;
 
-	//int autoLayerCount;
-	//int autoLayerIndex;
+	//int32_t autoLayerCount;
+	//int32_t autoLayerIndex;
 
-	int weightListIndex;
+	int32_t weightListIndex;
 
-	int poseKeyIndex;
+	int32_t poseKeyIndex;
 
-	//int ikLockCount;
-	//int ikLockIndex;
+	//int32_t ikLockCount;
+	//int32_t ikLockIndex;
 
-	//int keyValueIndex;
-	//int keyValueSize;
+	//int32_t keyValueIndex;
+	//int32_t keyValueSize;
 
-	int cyclePoseIndex;
+	int32_t cyclePoseIndex;
 
-	//int _unused0[7];
+	//int32_t _unused0[7];
 };
 */
 
 struct Material {
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE = 0,
 		// todo(flags): Material (Texture in MDL)
 	};
 
-	//int nameIndex;
+	//int32_t nameIndex;
 	std::string name;
 
 	Flags flags;
 
-	//int used; // No idea what this is
-	//int _unused0[13];
+	//int32_t used; // No idea what this is
+	//int32_t _unused0[13];
 };
 
 struct Mesh {
-	int material;
+	int32_t material;
 
-	//int modelOffset;
+	//int32_t modelOffset;
 
 	// These do not map to raw memory
-	int verticesCount;
-	int verticesOffset;
+	int32_t verticesCount;
+	int32_t verticesOffset;
 
-	//int flexesCount;
-	//int flexesOffset;
+	//int32_t flexesCount;
+	//int32_t flexesOffset;
 
-	int materialType;
-	int materialParam;
+	int32_t materialType;
+	int32_t materialParam;
 
-	int meshID;
+	int32_t meshID;
 
-	sourcepp::Vector3 center;
+	sourcepp::Vec3f center;
 
-	//int modelVertexData;
-	//int numLODVertexes[MAX_LOD_COUNT];
-	//int _unused[8];
+	//int32_t modelVertexData;
+	//int32_t numLODVertexes[MAX_LOD_COUNT];
+	//int32_t _unused[8];
 };
 
 struct Model {
 	//char name[64];
 	std::string name;
 
-	int type;
+	int32_t type;
 
 	float boundingRadius;
 
-	//int meshesCount;
-	//int meshesOffset;
+	//int32_t meshesCount;
+	//int32_t meshesOffset;
 	std::vector<Mesh> meshes;
 
 	// These do not map to raw memory
-	int verticesCount;
-	int verticesOffset;
-	//int tangentsOffset;
+	int32_t verticesCount;
+	int32_t verticesOffset;
+	//int32_t tangentsOffset;
 
-	//int attachmentsCount;
-	//int attachmentsOffset;
+	//int32_t attachmentsCount;
+	//int32_t attachmentsOffset;
 
-	//int eyeballsCount;
-	//int eyeballsOffset;
+	//int32_t eyeballsCount;
+	//int32_t eyeballsOffset;
 
-	//int _unused0[10];
+	//int32_t _unused0[10];
 };
 
 struct BodyPart {
-	//int nameOffset;
+	//int32_t nameOffset;
 	std::string name;
 
-	//int modelsCount;
-	int base; // No idea what this is, might as well expose it
-	//int modelsOffset;
+	//int32_t modelsCount;
+	int32_t base; // No idea what this is, might as well expose it
+	//int32_t modelsOffset;
 	std::vector<Model> models;
 };
 
 struct MDL {
 	[[nodiscard]] bool open(const std::byte* data, std::size_t size);
 
-	enum Flags : int {
+	enum Flags : int32_t {
 		FLAG_NONE                           = 0,
 		FLAG_AUTOGENERATED_HITBOX           = 1 <<  0,
 		FLAG_FORCE_OPAQUE                   = 1 <<  2,
@@ -282,135 +282,133 @@ struct MDL {
 		FLAG_EXTRA_VERTEX_DATA              = 1 << 26,
 	};
 
-	//int id;
-	int version;
-	// Varies between int and long based on version
-	// todo: figure out what versions it's a long
-	int checksum;
+	//int32_t id;
+	int32_t version;
+	int32_t checksum;
 
 	//char name[64];
 	std::string name;
-	//int dataLength;
+	//int32_t dataLength;
 
-	sourcepp::Vector3 eyePosition;
-	sourcepp::Vector3 illuminationPosition;
-	sourcepp::Vector3 hullMin;
-	sourcepp::Vector3 hullMax;
-	sourcepp::Vector3 viewBBoxMin;
-	sourcepp::Vector3 viewBBoxMax;
+	sourcepp::Vec3f eyePosition;
+	sourcepp::Vec3f illuminationPosition;
+	sourcepp::Vec3f hullMin;
+	sourcepp::Vec3f hullMax;
+	sourcepp::Vec3f viewBBoxMin;
+	sourcepp::Vec3f viewBBoxMax;
 
 	Flags flags;
 
-	//int boneCount;
-	//int boneOffset;
+	//int32_t boneCount;
+	//int32_t boneOffset;
 	std::vector<Bone> bones;
 
-	//int boneControllerCount;
-	//int boneControllerOffset;
+	//int32_t boneControllerCount;
+	//int32_t boneControllerOffset;
 	std::vector<BoneController> boneControllers;
 
-	//int hitboxCount;
-	//int hitboxOffset;
+	//int32_t hitboxCount;
+	//int32_t hitboxOffset;
 	std::vector<HitboxSet> hitboxSets;
 
-	//int localAnimationCount;
-	//int localAnimationOffset;
+	//int32_t localAnimationCount;
+	//int32_t localAnimationOffset;
 
-	//int localSequenceCount;
-	//int localSequenceOffset;
+	//int32_t localSequenceCount;
+	//int32_t localSequenceOffset;
 
-	int activityListVersion;
-	int eventsIndexed;
+	int32_t activityListVersion;
+	int32_t eventsIndexed;
 
-	//int materialCount;
-	//int materialOffset;
+	//int32_t materialCount;
+	//int32_t materialOffset;
 	std::vector<Material> materials;
 
-	//int materialDirCount;
-	//int materialDirOffset;
+	//int32_t materialDirCount;
+	//int32_t materialDirOffset;
 	std::vector<std::string> materialDirectories;
 
-	//int skinReferenceCount;
-	//int skinReferenceFamilyCount;
-	//int skinReferenceIndex;
+	//int32_t skinReferenceCount;
+	//int32_t skinReferenceFamilyCount;
+	//int32_t skinReferenceIndex;
 	// Each vector is an individual skin, which holds indices into the materials vector
-	std::vector<std::vector<short>> skins;
+	std::vector<std::vector<int16_t>> skins;
 
-	//int bodyPartCount;
-	//int bodyPartOffset;
+	//int32_t bodyPartCount;
+	//int32_t bodyPartOffset;
 	std::vector<BodyPart> bodyParts;
 
-	//int attachmentCount;
-	//int attachmentOffset;
+	//int32_t attachmentCount;
+	//int32_t attachmentOffset;
 
-	//int localNodeCount;
-	//int localNodeIndex;
-	//int localNodeNameIndex;
+	//int32_t localNodeCount;
+	//int32_t localNodeIndex;
+	//int32_t localNodeNameIndex;
 
-	//int flexDescCount;
-	//int flexDescIndex;
+	//int32_t flexDescCount;
+	//int32_t flexDescIndex;
 
-	//int flexControllerCount;
-	//int flexControllerIndex;
+	//int32_t flexControllerCount;
+	//int32_t flexControllerIndex;
 
-	//int flexRulesCount;
-	//int flexRulesIndex;
+	//int32_t flexRulesCount;
+	//int32_t flexRulesIndex;
 
-	//int ikChainCount;
-	//int ikChainIndex;
+	//int32_t ikChainCount;
+	//int32_t ikChainIndex;
 
-	//int mouthsCount;
-	//int mouthsIndex;
+	//int32_t mouthsCount;
+	//int32_t mouthsIndex;
 
-	//int localPoseParamCount;
-	//int localPoseParamIndex;
+	//int32_t localPoseParamCount;
+	//int32_t localPoseParamIndex;
 
-	//int surfacePropertyIndex;
+	//int32_t surfacePropertyIndex;
 
-	//int keyValueIndex;
-	//int keyValueCount;
+	//int32_t keyValueIndex;
+	//int32_t keyValueCount;
 
-	//int ikLockCount;
-	//int ikLockIndex;
+	//int32_t ikLockCount;
+	//int32_t ikLockIndex;
 
 	//float mass;
-	//int contentsFlags;
+	//int32_t contentsFlags;
 
-	//int includeModelCount;
-	//int includeModelIndex;
+	//int32_t includeModelCount;
+	//int32_t includeModelIndex;
 
-	//int virtualModel;
+	//int32_t virtualModel;
 
-	//int animationBlocksNameIndex;
+	//int32_t animationBlocksNameIndex;
 
-	//int animationBlocksCount;
-	//int animationBlocksIndex;
+	//int32_t animationBlocksCount;
+	//int32_t animationBlocksIndex;
 
-	//int animationBlockModel;
+	//int32_t animationBlockModel;
 
-	//int boneTableNameIndex;
+	//int32_t boneTableNameIndex;
 
-	//int vertexBase;
-	//int offsetBase;
+	//int32_t vertexBase;
+	//int32_t offsetBase;
 
 	//std::byte directionalDotProduct;
 
-	//unsigned char rootLOD;
-	//unsigned char numAllowedRootLODs;
+	//uint8_t rootLOD;
+	//uint8_t numAllowedRootLODs;
 
 	//std::byte _unused0;
-	//int _unused1;
+	//int32_t _unused1;
 
-	//int flexControllerUICount;
-	//int flexControllerUIIndex;
+	//int32_t flexControllerUICount;
+	//int32_t flexControllerUIIndex;
 
 	//float vertAnimFixedPointScale;
-	//int _unused2;
+	//int32_t _unused2;
 
 	// todo: header 2
-	//int header2Offset;
+	//int32_t header2Offset;
 
-	//int _unused3;
+	//int32_t _unused3;
 };
 
 } // namespace studiomodelpp::MDL

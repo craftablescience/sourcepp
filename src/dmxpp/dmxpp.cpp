@@ -20,9 +20,9 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 		return;
 	}
 	char encodingTypeData[64];
-	int encodingVersionData;
+	int32_t encodingVersionData;
 	char formatTypeData[64];
-	int formatVersionData;
+	int32_t formatVersionData;
 	// NOLINTNEXTLINE(*-err34-c)
 	std::sscanf(header.c_str(), "<!-- dmx encoding %s %i format %s %i -->\n", encodingTypeData, &encodingVersionData, formatTypeData, &formatVersionData);
 
@@ -91,11 +91,11 @@ bool DMX::openBinary(BufferStream& stream) {
 
 	// String list
 	std::vector<std::string> stringList;
-	std::uint32_t stringCount;
+	uint32_t stringCount;
 	if (stringListLengthIsShort) {
-		stringCount = stream.read<std::uint16_t>();
+		stringCount = stream.read<uint16_t>();
 	} else {
-		stringCount = stream.read<std::uint32_t>();
+		stringCount = stream.read<uint32_t>();
 	}
 	for (int i = 0; i < stringCount; i++) {
 		stringList.push_back(stream.read_string());
@@ -104,13 +104,13 @@ bool DMX::openBinary(BufferStream& stream) {
 	// Read a string index and get the string from the list
 	const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream) {
 		if (stringListIndicesAreShort) {
-			return stringList.at(stream.read<std::uint16_t>());
+			return stringList.at(stream.read<uint16_t>());
 		}
-		return stringList.at(stream.read<std::uint32_t>());
+		return stringList.at(stream.read<uint32_t>());
 	};
 
 	// Read elements
-	int elementCount = stream.read<std::int32_t>();
+	int elementCount = stream.read<int32_t>();
 	for (int i = 0; i < elementCount; i++) {
 		auto& element = this->elements.emplace_back();
 		element.type = readStringFromIndex(stream);
@@ -127,7 +127,7 @@ bool DMX::openBinary(BufferStream& stream) {
 	readValue = [&readValue, &readStringFromIndex](BufferStream& stream, Value::ID type, bool useStringList) -> Value::Generic {
 		const auto readArrayValue = [&readValue]<typename T>(BufferStream& stream, Value::ID type) {
 			std::vector<T> out;
-			auto size = stream.read<std::uint32_t>();
+			auto size = stream.read<uint32_t>();
 			out.reserve(size);
 			for (int i = 0; i < size; i++) {
 				out.push_back(std::get<T>(readValue(stream, Value::arrayIDToInnerID(type), true)));
@@ -140,7 +140,7 @@ bool DMX::openBinary(BufferStream& stream) {
 				return Value::Invalid{};
 			case ELEMENT: {
 				Value::Element value;
-				value.index = stream.read<std::uint32_t>();
+				value.index = stream.read<uint32_t>();
 				if (value.index == -2) {
 					// Parse the ASCII GUID if it's a stub
 					value.stubGUID = stream.read_string();
@@ -148,7 +148,7 @@ bool DMX::openBinary(BufferStream& stream) {
 				return value;
 			}
 			case INT:
-				return stream.read<std::int32_t>();
+				return stream.read<int32_t>();
 			case FLOAT:
 				return stream.read<float>();
 			case BOOL:
@@ -156,9 +156,9 @@ bool DMX::openBinary(BufferStream& stream) {
 			case STRING:
 				return useStringList ? readStringFromIndex(stream) : stream.read_string();
 			case BYTEARRAY:
-				return stream.read_bytes(stream.read<std::uint32_t>());
+				return stream.read_bytes(stream.read<uint32_t>());
 			case TIME:
-				return Value::Time{static_cast<float>(static_cast<double>(stream.read<std::int32_t>()) / 10000.0)};
+				return Value::Time{static_cast<float>(static_cast<double>(stream.read<int32_t>()) / 10000.0)};
 			case COLOR:
 				return stream.read<Value::Color>();
 			case VECTOR2:
@@ -174,7 +174,7 @@ bool DMX::openBinary(BufferStream& stream) {
 			case ARRAY_ELEMENT:
 				return readArrayValue.operator()<Value::Element>(stream, type);
 			case ARRAY_INT:
-				return readArrayValue.operator()<std::int32_t>(stream, type);
+				return readArrayValue.operator()<int32_t>(stream, type);
 			case ARRAY_FLOAT:
 				return readArrayValue.operator()<float>(stream, type);
 			case ARRAY_BOOL:
@@ -203,7 +203,7 @@ bool DMX::openBinary(BufferStream& stream) {
 
 	// Read element attributes
 	for (auto& element : this->elements) {
-		int attributeCount = stream.read<std::int32_t>();
+		int attributeCount = stream.read<int32_t>();
 		for (int i = 0; i < attributeCount; i++) {
 			auto& attribute = element.attributes.emplace_back();
 			attribute.name = readStringFromIndex(stream);
