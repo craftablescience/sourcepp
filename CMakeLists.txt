@@ -75,7 +75,7 @@ endif()
 # fgdpp
 if(SOURCEPP_USE_FGDPP)
     add_pretty_parser(fgdpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/structs/entityproperties.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/structs/EntityProperties.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/fgdpp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/fgdpp/fgdpp.cpp")
     if(FGDPP_ENABLE_SPEN_FGD_SUPPORT)
