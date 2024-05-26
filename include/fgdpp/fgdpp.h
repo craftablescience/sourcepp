@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-#include "structs/entityproperties.h"
+#include "structs/EntityProperties.h"
 
 namespace fgdpp {
 
