@@ -6,8 +6,6 @@
 
 namespace sourcepp {
 
-#pragma pack(push, 1)
-
 template<uint8_t M, uint8_t N, std::floating_point P = float>
 class Matrix {
 public:
@@ -21,7 +19,5 @@ public:
 private:
 	P data[M][N];
 };
-
-#pragma pack(pop)
 
 } // namespace sourcepp

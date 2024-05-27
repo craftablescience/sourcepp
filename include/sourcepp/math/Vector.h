@@ -1,8 +1,8 @@
 #pragma once
 
-namespace sourcepp {
+#include <concepts>
 
-#pragma pack(push, 1)
+namespace sourcepp {
 
 template<std::floating_point P>
 struct Vec2 {
@@ -21,7 +21,7 @@ struct Vec3 {
 using Vec3f = Vec3<float>;
 using Vec3d = Vec3<double>;
 
-template<std::floating_point P = float>
+template<std::floating_point P>
 struct Vec4 {
 	P x;
 	P y;
@@ -30,7 +30,5 @@ struct Vec4 {
 };
 using Vec4f = Vec4<float>;
 using Vec4d = Vec4<double>;
-
-#pragma pack(pop)
 
 } // namespace sourcepp
