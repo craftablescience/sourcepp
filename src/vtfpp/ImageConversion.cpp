@@ -1,7 +1,6 @@
 #include <vtfpp/ImageConversion.h>
 
 #include <iterator>
-#include <utility>
 
 #include <stb_image_write.h>
 
@@ -13,6 +12,8 @@ std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> ima
 	std::vector<std::byte> newData;
 	switch (format) {
 		case ImageFormat::RGBA8888:
+		case ImageFormat::UVWQ8888:
+		case ImageFormat::UVLX8888:
 			newData = {imageData.begin(), imageData.end()};
 			break;
 		case ImageFormat::ABGR8888:
@@ -24,41 +25,113 @@ std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> ima
 			}
 			break;
 		case ImageFormat::RGB888:
+		case ImageFormat::RGB888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 3) {
 				newData.push_back(imageData[i]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i + 2]);
-				newData.push_back(std::byte{255});
+				newData.push_back(std::byte{0xff});
 			}
 			break;
 		case ImageFormat::BGR888:
+		case ImageFormat::BGR888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 3) {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i + 0]);
-				newData.push_back(std::byte{255});
+				newData.push_back(std::byte{0xff});
 			}
 			break;
-
-		// todo: everything listed here
 		case ImageFormat::RGB565:
-		case ImageFormat::I8:
-		case ImageFormat::IA88:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				uint16_t pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
+				newData.push_back(static_cast<std::byte>(((((pixel >> 11) & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
+				newData.push_back(static_cast<std::byte>(((( pixel        & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(std::byte{0xff});
+			}
+			break;
 		case ImageFormat::P8:
+		case ImageFormat::I8:
+			for (int i = 0; i < imageData.size(); i += 1) {
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i]);
+				newData.push_back(std::byte{0xff});
+			}
+			break;
+		case ImageFormat::IA88:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 1]);
+			}
+			break;
 		case ImageFormat::A8:
-		case ImageFormat::RGB888_BLUESCREEN:
-		case ImageFormat::BGR888_BLUESCREEN:
+			for (int i = 0; i < imageData.size(); i += 1) {
+				newData.push_back(std::byte{0});
+				newData.push_back(std::byte{0});
+				newData.push_back(std::byte{0});
+				newData.push_back(imageData[i]);
+			}
+			break;
 		case ImageFormat::ARGB8888:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				newData.push_back(imageData[i + 3]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i + 2]);
+			}
+			break;
 		case ImageFormat::BGRA8888:
 		case ImageFormat::BGRX8888:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				newData.push_back(imageData[i + 2]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 3]);
+			}
+			break;
 		case ImageFormat::BGR565:
-		case ImageFormat::BGRX5551:
-		case ImageFormat::BGRA4444:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				uint16_t pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
+				newData.push_back(static_cast<std::byte>(((( pixel        & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >> 11) & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(std::byte{0xff});
+			}
+			break;
 		case ImageFormat::BGRA5551:
+		case ImageFormat::BGRX5551:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				uint16_t pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
+				newData.push_back(static_cast<std::byte>((((pixel >> 11) & 0x1f) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel >>  6) & 0x1f) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel >>  1) & 0x1f) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((  pixel        & 0x01) * 255));
+			}
+		case ImageFormat::BGRA4444:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				uint16_t pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
+				uint8_t b = (pixel & 0xf000) >> 12;
+				uint8_t g = (pixel & 0x0f00) >> 8;
+				uint8_t r = (pixel & 0x00f0) >> 4;
+				uint8_t a = (pixel & 0x000f);
+				newData.push_back(static_cast<std::byte>((r << 4) | r));
+				newData.push_back(static_cast<std::byte>((g << 4) | g));
+				newData.push_back(static_cast<std::byte>((b << 4) | b));
+				newData.push_back(static_cast<std::byte>((a << 4) | a));
+			}
+			break;
 		case ImageFormat::UV88:
-		case ImageFormat::UVWQ8888:
-		case ImageFormat::UVLX8888:
-
+			for (int i = 0; i < imageData.size(); i += 2) {
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(std::byte{0});
+				newData.push_back(std::byte{0xff});
+			}
+			break;
 		default:
 			break;
 	}
