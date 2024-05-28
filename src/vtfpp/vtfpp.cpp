@@ -26,9 +26,6 @@ Resource::ConvertedData Resource::convertData() const {
 				return std::string_view{""};
 			}
 			return std::string_view{reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()) + 1};
-		case ResourceType::AUX_COMPRESSION:
-			// todo: aux compression is weird
-			return {};
 		default:
 			break;
 	}
@@ -166,8 +163,24 @@ VTFFlag VTF::getFlags() const {
 	return this->flags;
 }
 
+ImageFormat VTF::getFormat() const {
+	return this->format;
+}
+
+uint8_t VTF::getMipCount() const {
+	return this->mipCount;
+}
+
 uint16_t VTF::getFrameCount() const {
 	return this->frameCount;
+}
+
+uint16_t VTF::getFaceCount() const {
+	return (static_cast<int32_t>(this->flags) & static_cast<int32_t>(VTFFlag::ENVMAP)) ? (this->minorVersion < 5 ? 7 : 6) : 1;
+}
+
+uint16_t VTF::getSliceCount() const {
+	return this->sliceCount;
 }
 
 uint16_t VTF::getStartFrame() const {
@@ -182,14 +195,6 @@ float VTF::getBumpMapScale() const {
 	return this->bumpMapScale;
 }
 
-ImageFormat VTF::getFormat() const {
-	return this->format;
-}
-
-uint8_t VTF::getMipCount() const {
-	return this->mipCount;
-}
-
 ImageFormat VTF::getThumbnailFormat() const {
 	return this->thumbnailFormat;
 }
@@ -200,10 +205,6 @@ uint8_t VTF::getThumbnailWidth() const {
 
 uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
-}
-
-uint16_t VTF::getSliceCount() const {
-	return this->sliceCount;
 }
 
 const std::vector<Resource>& VTF::getResources() const {

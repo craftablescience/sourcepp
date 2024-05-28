@@ -72,7 +72,15 @@ public:
 
 	[[nodiscard]] VTFFlag getFlags() const;
 
+	[[nodiscard]] ImageFormat getFormat() const;
+
+	[[nodiscard]] uint8_t getMipCount() const;
+
 	[[nodiscard]] uint16_t getFrameCount() const;
+
+	[[nodiscard]] uint16_t getFaceCount() const;
+
+	[[nodiscard]] uint16_t getSliceCount() const;
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
@@ -80,17 +88,11 @@ public:
 
 	[[nodiscard]] float getBumpMapScale() const;
 
-	[[nodiscard]] ImageFormat getFormat() const;
-
-	[[nodiscard]] uint8_t getMipCount() const;
-
 	[[nodiscard]] ImageFormat getThumbnailFormat() const;
 
 	[[nodiscard]] uint8_t getThumbnailWidth() const;
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
-
-	[[nodiscard]] uint16_t getSliceCount() const;
 
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 

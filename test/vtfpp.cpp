@@ -16,6 +16,7 @@ TEST(vtfpp, v75_read_vtf) {
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTFFlag::NONE);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
