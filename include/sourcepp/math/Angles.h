@@ -24,7 +24,7 @@ struct QuatCompressed48 {
 		float fz = (static_cast<float>(this->z) / 16383.5f) - 1.f; // z / ((2^15 - 1) / 2) - 1
 
 		// Recalculate w from the constraint that x^2 + y^2 + z^2 + w^2 = 1
-		float fw = std::sqrtf(1.f - fx * fx - fy * fy - fz * fz);
+		float fw = std::sqrt(1.f - fx * fx - fy * fy - fz * fz);
 
 		// Adjust w based on the stored sign bit
 		if (this->w == 0) {
@@ -49,7 +49,7 @@ struct QuatCompressed64 {
 		double fz = (static_cast<double>(this->z) / 1048575.5) - 1.0f; // z / ((2^21 - 1) / 2) - 1
 
 		// Recalculate w from the constraint that x^2 + y^2 + z^2 + w^2 = 1
-		double fw = sqrt(1.0 - fx * fx - fy * fy - fz * fz);
+		double fw = std::sqrt(1.0 - fx * fx - fy * fy - fz * fz);
 
 		// Adjust w based on the stored sign bit
 		if (this->w == 0) {
