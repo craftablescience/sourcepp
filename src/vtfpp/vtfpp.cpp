@@ -126,10 +126,12 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 		this->opened = stream.tell() == headerLength;
 
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
-			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)));
+			auto thumbnailLength = ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(thumbnailLength));
 		}
 		if (this->width > 0 && this->height > 0) {
-			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->format, this->getMipCount(), this->getFrameCount(), this->getFaceCount(), this->width, this->height, this->getSliceCount())));
+			auto imageLength = ImageFormatDetails::dataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
+			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(imageLength));
 		}
 	}
 }

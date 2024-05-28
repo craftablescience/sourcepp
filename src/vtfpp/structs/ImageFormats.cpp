@@ -1,5 +1,7 @@
 #include <vtfpp/structs/ImageFormats.h>
 
+#include <algorithm>
+
 #include <vtfpp/detail/Utility.h>
 
 using namespace vtfpp;
@@ -67,29 +69,17 @@ uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint16_t width, uint
 		case ATI1N:
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
-			if (width < 4 && width > 0) {
-				width = 4;
-			}
-			if (height < 4 && height > 0) {
-				height = 4;
-			}
-			return (bpp(format) * 2) * ((width + 3) / 4) * ((height + 3) / 4) * sliceCount;
+			return std::max((width + 3) / 4, 1) * std::max((height + 3) / 4, 1) * sliceCount * bpp(format) * 2;
 		default:
 			break;
 	}
-	return bpp(format) * width * height * sliceCount;
+	return width * height * sliceCount * bpp(format) / 8;
 }
 
 uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
 	uint32_t length = 0;
-	for (int i = mipCount - 1; i >= 0; i--) {
-		for (int j = 0; j < frameCount; j++) {
-			for (int k = 0; k < faceCount; k++) {
-				uint16_t mipWidth = ::getMipDim(i, width);
-				uint16_t mipHeight = ::getMipDim(i, height);
-				length += ImageFormatDetails::dataLength(format, mipWidth, mipHeight, sliceCount);
-			}
-		}
+	for (int mip = mipCount - 1; mip >= 0; mip--) {
+		length += ImageFormatDetails::dataLength(format, ::getMipDim(mip, width), ::getMipDim(mip, height), sliceCount) * frameCount * faceCount;
 	}
 	return length;
 }
