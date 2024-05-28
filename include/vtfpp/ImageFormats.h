@@ -308,6 +308,10 @@ namespace ImageFormatDetails {
 	return red(format) == -1;
 }
 
+[[nodiscard]] constexpr bool large(ImageFormat format) {
+	return red(format) > 8 || bpp(format) > 32;
+}
+
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
 	switch(format) {
 		using enum ImageFormat;
