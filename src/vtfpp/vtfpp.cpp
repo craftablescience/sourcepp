@@ -2,6 +2,8 @@
 
 #include <BufferStream.h>
 
+#include <vtfpp/ImageConversion.h>
+
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -82,39 +84,39 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 
 		int lastResourceIndex = -1;
 		for (int i = 0; i < resourceCount; i++) {
-			auto& resource = this->resources.emplace_back();
+			auto& resource = this->resources.emplace_back(new Resource{});
 
 			stream
-				.read(resource.type)
+				.read(resource->type)
 				.skip(2)
-				.read(resource.flags);
-			resource.data = stream.read_bytes(4);
+				.read(resource->flags);
+			resource->data = stream.read_bytes(4);
 
-			if (!(resource.flags & Resource::FLAG_NO_DATA)) {
+			if (!(resource->flags & Resource::FLAG_NO_DATA)) {
 				if (lastResourceIndex >= 0) {
-					auto lastOffset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex].data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
+					auto lastOffset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex]->data.data());
+					auto currentOffset = *reinterpret_cast<uint32_t*>(resource->data.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
-					this->resources[lastResourceIndex].data = stream.read_bytes(currentOffset - lastOffset);
+					this->resources[lastResourceIndex]->data = stream.read_bytes(currentOffset - lastOffset);
 					stream.seek(curPos);
 				}
 				lastResourceIndex = static_cast<int>(this->resources.size() - 1);
 			}
 		}
 		if (lastResourceIndex >= 0) {
-			auto offset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex].data.data());
+			auto offset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex]->data.data());
 			auto curPos = stream.tell();
 			stream.seek(offset);
-			this->resources[lastResourceIndex].data = stream.read_bytes(stream.size() - offset);
+			this->resources[lastResourceIndex]->data = stream.read_bytes(stream.size() - offset);
 			stream.seek(curPos);
 		}
 
 		// Null-terminate KeyValues data so std::string_view works
 		for (auto& resource : this->resources) {
-			if (resource.type == Resource::TYPE_KEYVALUES_DATA) {
-				resource.data.push_back(std::byte{'\0'});
+			if (resource->type == Resource::TYPE_KEYVALUES_DATA) {
+				resource->data.push_back(std::byte{'\0'});
 			}
 		}
 
@@ -126,12 +128,12 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 		this->opened = stream.tell() == headerLength;
 
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
-			auto thumbnailLength = ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(thumbnailLength));
+			auto thumbnailLength = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+			this->resources.emplace_back(new Resource{Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(thumbnailLength)});
 		}
 		if (this->width > 0 && this->height > 0) {
-			auto imageLength = ImageFormatDetails::dataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(imageLength));
+			auto imageLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
+			this->resources.emplace_back(new Resource{Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(imageLength)});
 		}
 	}
 }
@@ -213,15 +215,73 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
-const std::vector<Resource>& VTF::getResources() const {
+const std::vector<std::unique_ptr<Resource>>& VTF::getResources() const {
 	return this->resources;
 }
 
 const Resource* VTF::getResource(Resource::Type type) const {
 	for (const auto& resource : this->resources) {
-		if (resource.type == type) {
-			return &resource;
+		if (resource->type == type) {
+			return resource.get();
 		}
 	}
 	return nullptr;
+}
+
+std::span<const std::byte> VTF::getImageData(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+	if (auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+		uint32_t offset, length;
+		if (!ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
+			return {};
+		}
+		return std::span<const std::byte>{imageResource->data}.subspan(offset, length);
+	}
+	return {};
+}
+
+std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+	auto rawImageData = this->getImageData(mip, frame, face, slice);
+	if (rawImageData.empty()) {
+		return {};
+	}
+	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, this->width, this->height);
+}
+
+std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
+}
+
+std::vector<std::byte> VTF::convertImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+	auto rawImageData = this->getImageData(mip, frame, face, slice);
+	if (rawImageData.empty()) {
+		return {};
+	}
+	return ImageConversion::convertImageDataToFile(rawImageData, this->format, this->width, this->height);
+}
+
+std::span<const std::byte> VTF::getThumbnailData() const {
+	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
+		return {thumbnailResource->data};
+	}
+	return {};
+}
+
+std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
+	auto rawThumbnailData = this->getThumbnailData();
+	if (rawThumbnailData.empty()) {
+		return {};
+	}
+	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
+}
+
+std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
+	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
+}
+
+std::vector<std::byte> VTF::convertThumbnailDataToFile() const {
+	auto rawThumbnailData = this->getThumbnailData();
+	if (rawThumbnailData.empty()) {
+		return {};
+	}
+	return ImageConversion::convertImageDataToFile(rawThumbnailData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
 }

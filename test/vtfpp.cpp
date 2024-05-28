@@ -25,15 +25,22 @@ TEST(vtfpp, read_fmt_rgb888) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+
+#if 0
+	// Write PNG
+	auto data = vtf.convertImageDataToFile();
+#endif
 }
 
 TEST(vtfpp, read_v70) {
@@ -61,15 +68,17 @@ TEST(vtfpp, read_v70) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v70_nomip) {
@@ -97,15 +106,17 @@ TEST(vtfpp, read_v70_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v70_nothumb) {
@@ -133,13 +144,15 @@ TEST(vtfpp, read_v70_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v70_nothumb_nomip) {
@@ -167,13 +180,15 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v71) {
@@ -201,15 +216,17 @@ TEST(vtfpp, read_v71) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v71_nomip) {
@@ -237,15 +254,17 @@ TEST(vtfpp, read_v71_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v71_nothumb) {
@@ -273,13 +292,15 @@ TEST(vtfpp, read_v71_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v71_nothumb_nomip) {
@@ -307,13 +328,15 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v72) {
@@ -341,15 +364,17 @@ TEST(vtfpp, read_v72) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v72_nomip) {
@@ -377,15 +402,17 @@ TEST(vtfpp, read_v72_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v72_nothumb) {
@@ -413,13 +440,15 @@ TEST(vtfpp, read_v72_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v72_nothumb_nomip) {
@@ -447,13 +476,15 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v75) {
@@ -481,15 +512,17 @@ TEST(vtfpp, read_v75) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 4);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	const auto* lodControlInfo = vtf.getResource(Resource::TYPE_LOD_CONTROL_INFO);
 	ASSERT_TRUE(lodControlInfo);
@@ -530,15 +563,17 @@ TEST(vtfpp, read_v75_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
 	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v75_nothumb) {
@@ -566,13 +601,15 @@ TEST(vtfpp, read_v75_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_v75_nothumb_nomip) {
@@ -600,11 +637,13 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 
 	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_FALSE(thumbnail);
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
