@@ -122,7 +122,6 @@ if(SOURCEPP_USE_VTFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageFormats.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
     target_link_libraries(vtfpp PRIVATE stb_image)
 endif()
