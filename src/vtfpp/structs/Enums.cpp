@@ -1,7 +1,5 @@
 #include <vtfpp/structs/Enums.h>
 
-#include <algorithm>
-
 using namespace vtfpp;
 
 uint8_t ImageFormatDetails::bpp(ImageFormat format) {
