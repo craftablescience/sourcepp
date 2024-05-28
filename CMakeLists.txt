@@ -112,9 +112,11 @@ endif()
 # vtfpp
 if(SOURCEPP_USE_VTFPP)
     add_pretty_parser(vtfpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/structs/Enums.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/detail/Utility.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/structs/ImageFormats.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/structs/Enums.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/detail/Utility.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/structs/ImageFormats.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
 endif()
 
