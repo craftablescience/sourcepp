@@ -1,6 +1,8 @@
 #pragma once
 
 #include <cstddef>
+#include <memory>
+#include <span>
 #include <string_view>
 #include <tuple>
 #include <utility>
@@ -9,7 +11,7 @@
 
 #include <sourcepp/math/Vector.h>
 
-#include "structs/ImageFormats.h"
+#include "ImageFormats.h"
 
 namespace vtfpp {
 
@@ -147,9 +149,25 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] const std::vector<Resource>& getResources() const;
+	[[nodiscard]] const std::vector<std::unique_ptr<Resource>>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
+
+	[[nodiscard]] std::span<const std::byte> getImageData(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+
+	[[nodiscard]] std::vector<std::byte> getImageDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+
+	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+
+	[[nodiscard]] std::vector<std::byte> convertImageDataToFile(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+
+	[[nodiscard]] std::span<const std::byte> getThumbnailData() const;
+
+	[[nodiscard]] std::vector<std::byte> getThumbnailDataAs(ImageFormat newFormat) const;
+
+	[[nodiscard]] std::vector<std::byte> getThumbnailDataAsRGBA8888() const;
+
+	[[nodiscard]] std::vector<std::byte> convertThumbnailDataToFile() const;
 
 private:
 	bool opened = false;
@@ -185,7 +203,7 @@ private:
 
 	// Technically added in v7.3, but we can use it to store image and thumbnail data in v7.2 and lower anyway
 	//uint32_t resourceCount;
-	std::vector<Resource> resources;
+	std::vector<std::unique_ptr<Resource>> resources;
 	//uint8_t _padding3[4];
 };
 

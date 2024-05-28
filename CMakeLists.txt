@@ -21,6 +21,12 @@ option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https:
 add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
 
 
+# stb_image
+if(SOURCEPP_USE_VTFPP)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/stb_image")
+endif()
+
+
 # Shared code
 list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/BufferUtils.h"
@@ -112,12 +118,13 @@ endif()
 # vtfpp
 if(SOURCEPP_USE_VTFPP)
     add_pretty_parser(vtfpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/detail/Utility.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/structs/ImageFormats.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/detail/Utility.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/structs/ImageFormats.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageFormats.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
+    target_link_libraries(vtfpp PRIVATE stb_image)
 endif()
 
 
