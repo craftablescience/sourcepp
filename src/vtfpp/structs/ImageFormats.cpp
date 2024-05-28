@@ -1,6 +1,9 @@
-#include <vtfpp/structs/Enums.h>
+#include <vtfpp/structs/ImageFormats.h>
+
+#include <vtfpp/detail/Utility.h>
 
 using namespace vtfpp;
+using namespace vtfpp::detail;
 
 uint8_t ImageFormatDetails::bpp(ImageFormat format) {
 	switch (format) {
@@ -53,7 +56,7 @@ uint8_t ImageFormatDetails::bpp(ImageFormat format) {
 	return 0;
 }
 
-uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint32_t width, uint32_t height, uint32_t depth) {
+uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount) {
 	switch(format) {
 		using enum ImageFormat;
 		case DXT3:
@@ -70,9 +73,23 @@ uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint32_t width, uint
 			if (height < 4 && height > 0) {
 				height = 4;
 			}
-			return (bpp(format) * 2) * ((width + 3) / 4) * ((height + 3) / 4) * depth;
+			return (bpp(format) * 2) * ((width + 3) / 4) * ((height + 3) / 4) * sliceCount;
 		default:
 			break;
 	}
-	return bpp(format) * width * height * depth;
+	return bpp(format) * width * height * sliceCount;
+}
+
+uint32_t ImageFormatDetails::dataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
+	uint32_t length = 0;
+	for (int i = mipCount - 1; i >= 0; i--) {
+		for (int j = 0; j < frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				uint16_t mipWidth = ::getMipDim(i, width);
+				uint16_t mipHeight = ::getMipDim(i, height);
+				length += ImageFormatDetails::dataLength(format, mipWidth, mipHeight, sliceCount);
+			}
+		}
+	}
+	return length;
 }

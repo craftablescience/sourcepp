@@ -7,13 +7,13 @@ using namespace vtfpp;
 
 Resource::ConvertedData Resource::convertData() const {
 	switch (this->type) {
-		case ResourceType::CRC:
-		case ResourceType::EXTENDED_FLAGS:
+		case TYPE_CRC:
+		case TYPE_EXTENDED_FLAGS:
 			if (this->data.size() != 4) {
 				return {};
 			}
 			return *reinterpret_cast<const uint32_t*>(this->data.data());
-		case ResourceType::LOD_CONTROL_INFO:
+		case TYPE_LOD_CONTROL_INFO:
 			if (this->data.size() != 4) {
 				return {};
 			}
@@ -21,7 +21,7 @@ Resource::ConvertedData Resource::convertData() const {
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 0),
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1)
 			);
-		case ResourceType::KEYVALUES_DATA:
+		case TYPE_KEYVALUES_DATA:
 			if (this->data.size() <= 4) {
 				return std::string_view{""};
 			}
@@ -90,7 +90,7 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 				.read(resource.flags);
 			resource.data = stream.read_bytes(4);
 
-			if (!(static_cast<uint8_t>(resource.flags) & static_cast<uint8_t>(ResourceFlag::NO_DATA))) {
+			if (!(resource.flags & Resource::FLAG_NO_DATA)) {
 				if (lastResourceIndex >= 0) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex].data.data());
 					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
@@ -113,21 +113,25 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 
 		// Null-terminate KeyValues data so std::string_view works
 		for (auto& resource : this->resources) {
-			if (resource.type == ResourceType::KEYVALUES_DATA) {
+			if (resource.type == Resource::TYPE_KEYVALUES_DATA) {
 				resource.data.push_back(std::byte{'\0'});
 			}
 		}
+
+		this->opened = stream.tell() == headerLength;
 	} else {
+		while (stream.tell() % 16 != 0) {
+			stream.skip(1);
+		}
+		this->opened = stream.tell() == headerLength;
+
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
-			this->resources.emplace_back(ResourceType::THUMBNAIL_DATA, ResourceFlag::NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)));
+			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)));
 		}
 		if (this->width > 0 && this->height > 0) {
-			// todo: this is not correct, doesn't take into account faces/frames/mips
-			//this->resources.emplace_back(ResourceType::IMAGE_DATA, ResourceFlag::NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->format, this->width, this->height)));
+			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->format, this->getMipCount(), this->getFrameCount(), this->getFaceCount(), this->width, this->height, this->getSliceCount())));
 		}
 	}
-
-	this->opened = stream.tell() == headerLength;
 }
 
 VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, const VTFOptions& options)
@@ -159,7 +163,7 @@ uint16_t VTF::getHeight() const {
 	return this->height;
 }
 
-VTFFlag VTF::getFlags() const {
+VTF::Flags VTF::getFlags() const {
 	return this->flags;
 }
 
@@ -176,7 +180,7 @@ uint16_t VTF::getFrameCount() const {
 }
 
 uint16_t VTF::getFaceCount() const {
-	return (static_cast<int32_t>(this->flags) & static_cast<int32_t>(VTFFlag::ENVMAP)) ? (this->minorVersion < 5 ? 7 : 6) : 1;
+	return (this->flags & VTF::FLAG_ENVMAP) ? (this->minorVersion < 5 ? 7 : 6) : 1;
 }
 
 uint16_t VTF::getSliceCount() const {
@@ -211,7 +215,7 @@ const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
 }
 
-const Resource* VTF::getResource(ResourceType type) const {
+const Resource* VTF::getResource(Resource::Type type) const {
 	for (const auto& resource : this->resources) {
 		if (resource.type == type) {
 			return &resource;
