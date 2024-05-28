@@ -5,6 +5,36 @@
 using namespace sourcepp;
 using namespace vtfpp;
 
+Resource::ConvertedData Resource::convertData() const {
+	switch (this->type) {
+		case ResourceType::CRC:
+		case ResourceType::EXTENDED_FLAGS:
+			if (this->data.size() != 4) {
+				return {};
+			}
+			return *reinterpret_cast<const uint32_t*>(this->data.data());
+		case ResourceType::LOD_CONTROL_INFO:
+			if (this->data.size() != 4) {
+				return {};
+			}
+			return std::make_pair(
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 0),
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1)
+			);
+		case ResourceType::KEYVALUES_DATA:
+			if (this->data.size() <= 4) {
+				return std::string_view{""};
+			}
+			return std::string_view{reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()) + 1};
+		case ResourceType::AUX_COMPRESSION:
+			// todo: aux compression is weird
+			return {};
+		default:
+			break;
+	}
+	return {};
+}
+
 VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& options) {
 	BufferStream stream{vtfData, vtfSize};
 
@@ -83,9 +113,18 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 			this->resources[lastResourceIndex].data = stream.read_bytes(stream.size() - offset);
 			stream.seek(curPos);
 		}
+
+		// Null-terminate KeyValues data so std::string_view works
+		for (auto& resource : this->resources) {
+			if (resource.type == ResourceType::KEYVALUES_DATA) {
+				resource.data.push_back(std::byte{'\0'});
+			}
+		}
 	} else {
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
 			this->resources.emplace_back(ResourceType::THUMBNAIL_DATA, ResourceFlag::NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)));
+		}
+		if (this->width > 0 && this->height > 0) {
 			// todo: this is not correct, doesn't take into account faces/frames/mips
 			//this->resources.emplace_back(ResourceType::IMAGE_DATA, ResourceFlag::NONE, stream.read_bytes(ImageFormatDetails::dataLength(this->format, this->width, this->height)));
 		}
@@ -169,4 +208,13 @@ uint16_t VTF::getSliceCount() const {
 
 const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
+}
+
+const Resource* VTF::getResource(ResourceType type) const {
+	for (const auto& resource : this->resources) {
+		if (resource.type == type) {
+			return &resource;
+		}
+	}
+	return nullptr;
 }

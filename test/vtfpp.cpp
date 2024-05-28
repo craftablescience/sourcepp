@@ -30,17 +30,27 @@ TEST(vtfpp, v75_read_vtf) {
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 
 	// Resources
-	const auto& resources = vtf.getResources();
-	ASSERT_EQ(resources.size(), 4);
-	EXPECT_EQ(resources[0].type, ResourceType::THUMBNAIL_DATA);
-	EXPECT_EQ(resources[0].flags, ResourceFlag::NONE);
-	EXPECT_EQ(resources[0].data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
-	EXPECT_EQ(resources[1].type, ResourceType::IMAGE_DATA);
-	EXPECT_EQ(resources[1].flags, ResourceFlag::NONE);
+	const auto* thumbnail = vtf.getResource(ResourceType::THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, ResourceFlag::NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::dataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* image = vtf.getResource(ResourceType::IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, ResourceFlag::NONE);
 	// todo: dataLength that accepts faces/frames/mips
-	//EXPECT_EQ(resources[1].data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getWidth(), vtf.getHeight()));
-	EXPECT_EQ(resources[2].type, ResourceType::LOD_CONTROL_INFO);
-	EXPECT_EQ(resources[2].flags, ResourceFlag::NO_DATA);
-	EXPECT_EQ(resources[3].type, ResourceType::KEYVALUES_DATA);
-	EXPECT_EQ(resources[3].flags, ResourceFlag::NONE);
+	//EXPECT_EQ(image->data.size(), ImageFormatDetails::dataLength(vtf.getFormat(), vtf.getWidth(), vtf.getHeight()));
+
+	const auto* lodControlInfo = vtf.getResource(ResourceType::LOD_CONTROL_INFO);
+	ASSERT_TRUE(lodControlInfo);
+	EXPECT_EQ(lodControlInfo->flags, ResourceFlag::NO_DATA);
+	auto lodControlInfoData = lodControlInfo->getDataAsLODControlInfo();
+	EXPECT_EQ(lodControlInfoData.first, 31);
+	EXPECT_EQ(lodControlInfoData.second, 31);
+
+	const auto* keyValues = vtf.getResource(ResourceType::KEYVALUES_DATA);
+	ASSERT_TRUE(keyValues);
+	EXPECT_EQ(keyValues->flags, ResourceFlag::NONE);
+	auto keyValuesData = keyValues->getDataAsKeyValuesData();
+	EXPECT_STREQ(keyValuesData.data(), "\"Information\"\r\n{\r\n\t\"Author\" \"craftablescience\"\r\n\t\"Contact\" \"contact\"\r\n\t\"Version\" \"version\"\r\n\t\"Modification\" \"modification\"\r\n\t\"Description\" \"description\"\r\n\t\"Comments\" \"comments\"\r\n}\r\n");
 }

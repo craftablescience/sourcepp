@@ -1,6 +1,10 @@
 #pragma once
 
 #include <cstddef>
+#include <string_view>
+#include <tuple>
+#include <utility>
+#include <variant>
 #include <vector>
 
 #include <sourcepp/math/Vector.h>
@@ -15,6 +19,30 @@ struct Resource {
 	ResourceType type;
 	ResourceFlag flags;
 	std::vector<std::byte> data;
+
+	using ConvertedData = std::variant<
+			std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
+			uint32_t, // CRC, TSO
+			std::pair<uint8_t, uint8_t>, // LOD
+			std::string_view // KVD
+	>;
+	[[nodiscard]] ConvertedData convertData() const;
+
+	[[nodiscard]] uint32_t getDataAsCRC() const {
+		return std::get<uint32_t>(this->convertData());
+	}
+
+	[[nodiscard]] uint32_t getDataAsExtendedFlags() const {
+		return std::get<uint32_t>(this->convertData());
+	}
+
+	[[nodiscard]] std::pair<uint8_t, uint8_t> getDataAsLODControlInfo() const {
+		return std::get<std::pair<uint8_t, uint8_t>>(this->convertData());
+	}
+
+	[[nodiscard]] std::string_view getDataAsKeyValuesData() const {
+		return std::get<std::string_view>(this->convertData());
+	}
 };
 
 struct VTFOptions {
@@ -65,6 +93,8 @@ public:
 	[[nodiscard]] uint16_t getSliceCount() const;
 
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
+
+	[[nodiscard]] const Resource* getResource(ResourceType type) const;
 
 private:
 	bool opened = false;
