@@ -267,12 +267,22 @@ std::vector<std::byte> convertImageDataFromRGBA8888(std::span<const std::byte> i
 }
 
 std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
-	// todo: convert from a floating point format to rgba32323232f
+	// todo: convert from a large format to rgba32323232f
 	return {imageData.begin(), imageData.end()};
 }
 
 std::vector<std::byte> convertImageDataFromRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
-	// todo: convert from rgba32323232f to other formats
+	// todo: convert from rgba32323232f to other large formats
+	return {imageData.begin(), imageData.end()};
+}
+
+std::vector<std::byte> convertImageDataFromRGBA8888ToRGBA32323232F(std::span<const std::byte> imageData) {
+	// todo: convert from rgba8888 to rgba32323232f
+	return {imageData.begin(), imageData.end()};
+}
+
+std::vector<std::byte> convertImageDataFromRGBA32323232FToRGBA8888(std::span<const std::byte> imageData) {
+	// todo: convert from rgba32323232f to rgba8888
 	return {imageData.begin(), imageData.end()};
 }
 
@@ -288,13 +298,19 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	if (ImageFormatDetails::compressed(oldFormat)) {
 		intermediaryFormat = ImageFormat::RGBA8888;
 		// todo: decompress
-	} else {
-		if (ImageFormatDetails::red(oldFormat) > 8 || ImageFormatDetails::bpp(oldFormat) > 32) {
-			intermediaryFormat = ImageFormat::RGBA32323232F;
-			intermediaryData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
-		} else {
+	} else if (ImageFormatDetails::large(oldFormat)) {
+		intermediaryFormat = ImageFormat::RGBA32323232F;
+		intermediaryData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
+		if (!ImageFormatDetails::large(newFormat)) {
 			intermediaryFormat = ImageFormat::RGBA8888;
-			intermediaryData = ::convertImageDataToRGBA8888(imageData, oldFormat);
+			intermediaryData = ::convertImageDataFromRGBA32323232FToRGBA8888(imageData);
+		}
+	} else {
+		intermediaryFormat = ImageFormat::RGBA8888;
+		intermediaryData = ::convertImageDataToRGBA8888(imageData, oldFormat);
+		if (ImageFormatDetails::large(newFormat)) {
+			intermediaryFormat = ImageFormat::RGBA32323232F;
+			intermediaryData = ::convertImageDataFromRGBA8888ToRGBA32323232F(imageData);
 		}
 	}
 
@@ -312,10 +328,11 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	auto stbWriteFunc = [](void* out, void* data, int size) {
 		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
 	};
-	if (ImageFormatDetails::red(format) > 8 || ImageFormatDetails::bpp(format) > 32) {
+	if (ImageFormatDetails::large(format)) {
 		auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
 		stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, 4, reinterpret_cast<float*>(hdr.data()));
 	} else {
+		// This works for compressed formats too
 		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 #if 0
 		stbi_write_png("test.png", width, height, 4, rgba.data(), 0);
