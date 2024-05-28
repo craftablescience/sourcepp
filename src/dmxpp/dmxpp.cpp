@@ -45,11 +45,11 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 	}
 }
 
-DMX::DMX(const unsigned char* dmxData, std::size_t dmxSize) :
-		DMX(reinterpret_cast<const std::byte*>(dmxData), dmxSize) {}
+DMX::DMX(const unsigned char* dmxData, std::size_t dmxSize)
+		: DMX(reinterpret_cast<const std::byte*>(dmxData), dmxSize) {}
 
-DMX::DMX(const std::vector<std::byte>& dmxData) :
-		DMX(dmxData.data(), dmxData.size()) {}
+DMX::DMX(const std::vector<std::byte>& dmxData)
+		: DMX(dmxData.data(), dmxData.size()) {}
 
 DMX::DMX(const std::vector<unsigned char>& dmxData)
 		: DMX(dmxData.data(), dmxData.size()) {}

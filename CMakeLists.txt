@@ -9,6 +9,7 @@ option(SOURCEPP_USE_DMXPP         "Build dmxpp library"                ON)
 option(SOURCEPP_USE_FGDPP         "Build fgdpp library"                ON)
 option(SOURCEPP_USE_STUDIOMODELPP "Build studiomodelpp library"        ON)
 option(SOURCEPP_USE_VMFPP         "Build vmfpp library"                ON)
+option(SOURCEPP_USE_VTFPP         "Build vtfpp library"                ON)
 option(SOURCEPP_BUILD_TESTS       "Build tests for enabled libraries" OFF)
 
 
@@ -105,6 +106,16 @@ if(SOURCEPP_USE_VMFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vmfpp/vmfpp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/structs/Node.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/vmfpp.cpp")
+endif()
+
+
+# vtfpp
+if(SOURCEPP_USE_VTFPP)
+    add_pretty_parser(vtfpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/structs/Enums.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/structs/Enums.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
 endif()
 
 
