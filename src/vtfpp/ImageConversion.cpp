@@ -105,9 +105,9 @@ namespace {
 		case RGB565:
 			for (int i = 0; i < imageData.size(); i += 2) {
 				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
-				newData.push_back(static_cast<std::byte>(((((pixel >> 11) & 0x1f) * 527) + 23) >> 6));
-				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
 				newData.push_back(static_cast<std::byte>(((( pixel        & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >> 11) & 0x1f) * 527) + 23) >> 6));
 				newData.push_back(std::byte{0xff});
 			}
 			break;
@@ -156,9 +156,9 @@ namespace {
 		case BGR565:
 			for (int i = 0; i < imageData.size(); i += 2) {
 				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
-				newData.push_back(static_cast<std::byte>(((( pixel        & 0x1f) * 527) + 23) >> 6));
-				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
 				newData.push_back(static_cast<std::byte>(((((pixel >> 11) & 0x1f) * 527) + 23) >> 6));
+				newData.push_back(static_cast<std::byte>(((((pixel >>  5) & 0x3f) * 259) + 33) >> 6));
+				newData.push_back(static_cast<std::byte>(((( pixel        & 0x1f) * 527) + 23) >> 6));
 				newData.push_back(std::byte{0xff});
 			}
 			break;
@@ -376,7 +376,7 @@ namespace {
 
 	CMP_CompressOptions options{};
 	options.dwSize        = sizeof(options);
-	options.bDXT1UseAlpha = false;
+	options.bDXT1UseAlpha = format == ImageFormat::DXT1_ONE_BIT_ALPHA;
 	options.dwnumThreads  = 0;
 
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
@@ -410,7 +410,7 @@ namespace {
 
 	CMP_CompressOptions options{};
 	options.dwSize        = sizeof(options);
-	options.bDXT1UseAlpha = false;
+	options.bDXT1UseAlpha = format == ImageFormat::DXT1_ONE_BIT_ALPHA;
 	options.dwnumThreads  = 0;
 
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {

@@ -111,7 +111,6 @@ TEST(vtfpp, read_fmt_rgb565) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_rgb565.png", vtf.convertImageDataToFile());
 }
@@ -340,7 +339,6 @@ TEST(vtfpp, read_fmt_bgr565) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_bgr565.png", vtf.convertImageDataToFile());
 }
