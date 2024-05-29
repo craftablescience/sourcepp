@@ -128,7 +128,7 @@ namespace {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i]);
-				newData.push_back(imageData[i + 3]);
+				newData.push_back(std::byte{0xff});
 			}
 			break;
 		case BGR565:

@@ -63,8 +63,12 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 
 	// This will always be DXT1
 	stream.skip<ImageFormat>();
-	this->thumbnailFormat = ImageFormat::DXT1;
 	stream >> this->thumbnailWidth >> this->thumbnailHeight;
+	if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+		this->thumbnailFormat = ImageFormat::EMPTY;
+	} else {
+		this->thumbnailFormat = ImageFormat::DXT1;
+	}
 
 	if (this->minorVersion < 2) {
 		this->sliceCount = 1;
