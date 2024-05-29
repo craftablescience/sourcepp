@@ -280,9 +280,9 @@ namespace ImageFormatDetails {
 		case BGR888:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
-		case BGR565:
 			return 24;
 		case RGB565:
+		case BGR565:
 		case IA88:
 		case BGRX5551:
 		case BGRA4444:
