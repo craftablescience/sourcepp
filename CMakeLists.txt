@@ -1,20 +1,31 @@
-cmake_minimum_required(VERSION 3.16 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.21 FATAL_ERROR)
 project(sourcepp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options (General)
-option(SOURCEPP_USE_DMXPP         "Build dmxpp library"                ON)
-option(SOURCEPP_USE_FGDPP         "Build fgdpp library"                ON)
-option(SOURCEPP_USE_STUDIOMODELPP "Build studiomodelpp library"        ON)
-option(SOURCEPP_USE_VMFPP         "Build vmfpp library"                ON)
-option(SOURCEPP_USE_VTFPP         "Build vtfpp library"                ON)
-option(SOURCEPP_BUILD_TESTS       "Build tests for enabled libraries" OFF)
+option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                  ON)
+option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                  ON)
+option(SOURCEPP_USE_STUDIOMODELPP       "Build studiomodelpp library"          ON)
+option(SOURCEPP_USE_VMFPP               "Build vmfpp library"                  ON)
+option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                  ON)
+option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"   OFF)
+option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
 
 
 # Options (Library)
 option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD) made by TeamSpen's HammerAddons. Fully backwards compatible with Valve's FGD standard." OFF)
+
+
+# Set defaults
+if(PROJECT_IS_TOP_LEVEL)
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
+
+if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
+    set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+endif()
 
 
 # BufferStream
@@ -124,6 +135,21 @@ if(SOURCEPP_USE_VTFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
     target_link_libraries(vtfpp PRIVATE stb_image)
+
+    # I hate Compressonator
+    if(MSVC)
+        if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
+            target_link_libraries(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/win64/Compressonator_MT$<$<CONFIG:Debug>:d>.lib")
+        else()
+            target_link_libraries(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/win64/Compressonator_MD$<$<CONFIG:Debug>:d>.lib")
+        endif()
+    elseif(UNIX)
+        target_link_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64")
+        target_link_libraries(vtfpp PRIVATE CMP_Compressonator)
+    else()
+        message(FATAL_ERROR "Unable to link to Compressonator library!")
+    endif()
+    target_include_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/include")
 endif()
 
 

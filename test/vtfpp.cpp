@@ -36,11 +36,6 @@ TEST(vtfpp, read_fmt_rgb888) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
-
-#if 0
-	// Write PNG
-	auto data = vtf.convertImageDataToFile();
-#endif
 }
 
 TEST(vtfpp, read_v70) {
