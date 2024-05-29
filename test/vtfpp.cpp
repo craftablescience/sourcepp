@@ -226,7 +226,6 @@ TEST(vtfpp, read_fmt_argb8888) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_argb8888.png", vtf.convertImageDataToFile());
 }

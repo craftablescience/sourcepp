@@ -63,7 +63,6 @@ namespace {
 			}
 			break;
 		case RGB888:
-		case RGB888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 3) {
 				newData.push_back(imageData[i]);
 				newData.push_back(imageData[i + 1]);
@@ -71,13 +70,36 @@ namespace {
 				newData.push_back(std::byte{0xff});
 			}
 			break;
+		case RGB888_BLUESCREEN:
+			for (int i = 0; i < imageData.size(); i += 3) {
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i + 2]);
+				if (static_cast<uint8_t>(imageData[i]) == 0 && static_cast<uint8_t>(imageData[i + 1]) == 0 && static_cast<uint8_t>(imageData[i + 2]) == 0xff) {
+					newData.push_back(std::byte{0});
+				} else {
+					newData.push_back(std::byte{0xff});
+				}
+			}
+			break;
 		case BGR888:
+			for (int i = 0; i < imageData.size(); i += 3) {
+				newData.push_back(imageData[i + 2]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i]);
+				newData.push_back(std::byte{0xff});
+			}
+			break;
 		case BGR888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 3) {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
-				newData.push_back(imageData[i + 0]);
-				newData.push_back(std::byte{0xff});
+				newData.push_back(imageData[i]);
+				if (static_cast<uint8_t>(imageData[i + 2]) == 0 && static_cast<uint8_t>(imageData[i + 1]) == 0 && static_cast<uint8_t>(imageData[i]) == 0xff) {
+					newData.push_back(std::byte{0});
+				} else {
+					newData.push_back(std::byte{0xff});
+				}
 			}
 			break;
 		case RGB565:
@@ -116,10 +138,10 @@ namespace {
 			break;
 		case ARGB8888:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				newData.push_back(imageData[i + 1]);
-				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 3]);
 				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i + 2]);
 			}
 			break;
 		case BGRA8888:
