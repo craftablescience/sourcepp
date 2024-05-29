@@ -216,19 +216,43 @@ namespace {
 			}
 			break;
 		case RGB888:
-		case RGB888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				newData.push_back(imageData[i]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i + 2]);
 			}
 			break;
+		case RGB888_BLUESCREEN:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				if (static_cast<uint8_t>(imageData[i + 3]) == 0) {
+					newData.push_back(std::byte{0});
+					newData.push_back(std::byte{0});
+					newData.push_back(std::byte{0xff});
+				} else {
+					newData.push_back(imageData[i]);
+					newData.push_back(imageData[i + 1]);
+					newData.push_back(imageData[i + 2]);
+				}
+			}
+			break;
 		case BGR888:
-		case BGR888_BLUESCREEN:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i + 0]);
+			}
+			break;
+		case BGR888_BLUESCREEN:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				if (static_cast<uint8_t>(imageData[i + 3]) == 0) {
+					newData.push_back(std::byte{0xff});
+					newData.push_back(std::byte{0});
+					newData.push_back(std::byte{0});
+				} else {
+					newData.push_back(imageData[i + 2]);
+					newData.push_back(imageData[i + 1]);
+					newData.push_back(imageData[i + 0]);
+				}
 			}
 			break;
 		case RGB565:
