@@ -248,7 +248,7 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, this->width, this->height);
+	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
@@ -260,7 +260,7 @@ std::vector<std::byte> VTF::convertImageDataToFile(uint8_t mip, uint16_t frame, 
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFile(rawImageData, this->format, this->width, this->height);
+	return ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::span<const std::byte> VTF::getThumbnailData() const {
