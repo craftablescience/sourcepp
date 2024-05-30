@@ -34,7 +34,7 @@ Resource::ConvertedData Resource::convertData() const {
 	return {};
 }
 
-VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& options) {
+VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
 	BufferStreamReadOnly stream{vtfData, vtfSize};
 
 	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
@@ -76,7 +76,7 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 		stream.read(this->sliceCount);
 	}
 
-	if (options.parseHeaderOnly) {
+	if (parseHeaderOnly) {
 		this->opened = true;
 		return;
 	}
@@ -142,14 +142,14 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& option
 	}
 }
 
-VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, const VTFOptions& options)
-		: VTF(reinterpret_cast<const std::byte*>(vtfData), vtfSize, options) {}
+VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
+		: VTF(reinterpret_cast<const std::byte*>(vtfData), vtfSize, parseHeaderOnly) {}
 
-VTF::VTF(const std::vector<std::byte>& vtfData, const VTFOptions& options)
-		: VTF(vtfData.data(), vtfData.size(), options) {}
+VTF::VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly)
+		: VTF(vtfData.data(), vtfData.size(), parseHeaderOnly) {}
 
-VTF::VTF(const std::vector<unsigned char>& vtfData, const VTFOptions& options)
-		: VTF(vtfData.data(), vtfData.size(), options) {}
+VTF::VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly)
+		: VTF(vtfData.data(), vtfData.size(), parseHeaderOnly) {}
 
 VTF::operator bool() const {
 	return this->opened;
@@ -255,7 +255,7 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
 }
 
-std::vector<std::byte> VTF::convertImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
 	auto rawImageData = this->getImageData(mip, frame, face, slice);
 	if (rawImageData.empty()) {
 		return {};
@@ -282,7 +282,7 @@ std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
 	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
 }
 
-std::vector<std::byte> VTF::convertThumbnailDataToFile() const {
+std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
 	auto rawThumbnailData = this->getThumbnailData();
 	if (rawThumbnailData.empty()) {
 		return {};
