@@ -8,7 +8,7 @@ using namespace studiomodelpp::VVD;
 constexpr int32_t VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);
 
 bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
-	BufferStream stream{data, size};
+	BufferStreamReadOnly stream{data, size};
 
 	if (stream.read<int32_t>() != VVD_ID) {
 		return false;

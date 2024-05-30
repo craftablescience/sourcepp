@@ -35,7 +35,7 @@ Resource::ConvertedData Resource::convertData() const {
 }
 
 VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& options) {
-	BufferStream stream{vtfData, vtfSize};
+	BufferStreamReadOnly stream{vtfData, vtfSize};
 
 	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
 		return;

@@ -10,7 +10,7 @@ using namespace studiomodelpp::MDL;
 constexpr int32_t MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
 
 bool MDL::open(const std::byte* data, std::size_t size) {
-	BufferStream stream{data, size};
+	BufferStreamReadOnly stream{data, size};
 
 	if (stream.read<int32_t>() != MDL_ID) {
 		return false;
