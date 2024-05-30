@@ -163,12 +163,12 @@ uint32_t VTF::getMinorVersion() const {
 	return this->minorVersion;
 }
 
-uint16_t VTF::getWidth() const {
-	return this->width;
+uint16_t VTF::getWidth(uint8_t mip) const {
+	return mip > 0 ? ImageDimensions::getMipDim(mip, this->width) : this->width;
 }
 
-uint16_t VTF::getHeight() const {
-	return this->height;
+uint16_t VTF::getHeight(uint8_t mip) const {
+	return mip > 0 ? ImageDimensions::getMipDim(mip, this->height) : this->height;
 }
 
 VTF::Flags VTF::getFlags() const {

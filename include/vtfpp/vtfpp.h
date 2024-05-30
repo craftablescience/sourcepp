@@ -116,9 +116,9 @@ public:
 
 	[[nodiscard]] uint32_t getMinorVersion() const;
 
-	[[nodiscard]] uint16_t getWidth() const;
+	[[nodiscard]] uint16_t getWidth(uint8_t mip = 0) const;
 
-	[[nodiscard]] uint16_t getHeight() const;
+	[[nodiscard]] uint16_t getHeight(uint8_t mip = 0) const;
 
 	[[nodiscard]] Flags getFlags() const;
 
