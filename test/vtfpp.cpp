@@ -21,7 +21,7 @@ void createFile(std::string_view name, const std::vector<std::byte>& data) {
 } // namespace
 
 TEST(vtfpp, read_fmt_rgba8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgba8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgba8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -36,11 +36,11 @@ TEST(vtfpp, read_fmt_rgba8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgba8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_rgba8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_abgr8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_abgr8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_abgr8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -55,11 +55,11 @@ TEST(vtfpp, read_fmt_abgr8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_abgr8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_abgr8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -74,11 +74,11 @@ TEST(vtfpp, read_fmt_rgb888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_rgb888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -93,11 +93,11 @@ TEST(vtfpp, read_fmt_bgr888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgr888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb565) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb565.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb565.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -112,11 +112,11 @@ TEST(vtfpp, read_fmt_rgb565) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb565.png", vtf.convertImageDataToFile());
+	::createFile("fmt_rgb565.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_i8) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_i8.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_i8.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -131,11 +131,11 @@ TEST(vtfpp, read_fmt_i8) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_i8.png", vtf.convertImageDataToFile());
+	::createFile("fmt_i8.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_ia88) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_ia88.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_ia88.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -150,11 +150,11 @@ TEST(vtfpp, read_fmt_ia88) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_ia88.png", vtf.convertImageDataToFile());
+	::createFile("fmt_ia88.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_a8) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_a8.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_a8.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -169,11 +169,11 @@ TEST(vtfpp, read_fmt_a8) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_a8.png", vtf.convertImageDataToFile());
+	::createFile("fmt_a8.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb888_bluescreen) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb888_bluescreen.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_rgb888_bluescreen.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -188,11 +188,11 @@ TEST(vtfpp, read_fmt_rgb888_bluescreen) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb888_bluescreen.png", vtf.convertImageDataToFile());
+	::createFile("fmt_rgb888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr888_bluescreen) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr888_bluescreen.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr888_bluescreen.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -207,11 +207,11 @@ TEST(vtfpp, read_fmt_bgr888_bluescreen) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr888_bluescreen.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgr888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_argb8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_argb8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_argb8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -226,11 +226,11 @@ TEST(vtfpp, read_fmt_argb8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_argb8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_argb8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -245,11 +245,11 @@ TEST(vtfpp, read_fmt_bgra8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgra8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt1) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt1.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt1.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -264,11 +264,11 @@ TEST(vtfpp, read_fmt_dxt1) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt1.png", vtf.convertImageDataToFile());
+	::createFile("fmt_dxt1.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt3) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt3.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt3.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -283,11 +283,11 @@ TEST(vtfpp, read_fmt_dxt3) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt3.png", vtf.convertImageDataToFile());
+	::createFile("fmt_dxt3.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt5) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt5.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt5.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -302,11 +302,11 @@ TEST(vtfpp, read_fmt_dxt5) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt5.png", vtf.convertImageDataToFile());
+	::createFile("fmt_dxt5.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgrx8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgrx8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgrx8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -321,11 +321,11 @@ TEST(vtfpp, read_fmt_bgrx8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgrx8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgrx8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr565) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr565.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgr565.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -340,11 +340,11 @@ TEST(vtfpp, read_fmt_bgr565) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr565.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgr565.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgrx5551) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgrx5551.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgrx5551.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -359,11 +359,11 @@ TEST(vtfpp, read_fmt_bgrx5551) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgrx5551.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgrx5551.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra4444) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra4444.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra4444.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -378,11 +378,11 @@ TEST(vtfpp, read_fmt_bgra4444) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra4444.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgra4444.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt1_one_bit_alpha.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_dxt1_one_bit_alpha.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -397,11 +397,11 @@ TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt1_one_bit_alpha.png", vtf.convertImageDataToFile());
+	::createFile("fmt_dxt1_one_bit_alpha.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra5551) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra5551.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_bgra5551.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -416,11 +416,11 @@ TEST(vtfpp, read_fmt_bgra5551) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra5551.png", vtf.convertImageDataToFile());
+	::createFile("fmt_bgra5551.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uv88) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uv88.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uv88.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -435,11 +435,11 @@ TEST(vtfpp, read_fmt_uv88) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uv88.png", vtf.convertImageDataToFile());
+	::createFile("fmt_uv88.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uvwq8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uvwq8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uvwq8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -454,11 +454,11 @@ TEST(vtfpp, read_fmt_uvwq8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uvwq8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_uvwq8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uvlx8888) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uvlx8888.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/fmt_uvlx8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -473,13 +473,13 @@ TEST(vtfpp, read_fmt_uvlx8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uvlx8888.png", vtf.convertImageDataToFile());
+	::createFile("fmt_uvlx8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 #endif
 
 TEST(vtfpp, read_v70) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -517,7 +517,7 @@ TEST(vtfpp, read_v70) {
 }
 
 TEST(vtfpp, read_v70_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -555,7 +555,7 @@ TEST(vtfpp, read_v70_nomip) {
 }
 
 TEST(vtfpp, read_v70_nothumb) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nothumb.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -591,7 +591,7 @@ TEST(vtfpp, read_v70_nothumb) {
 }
 
 TEST(vtfpp, read_v70_nothumb_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nothumb_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v70_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -627,7 +627,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v71) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -665,7 +665,7 @@ TEST(vtfpp, read_v71) {
 }
 
 TEST(vtfpp, read_v71_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -703,7 +703,7 @@ TEST(vtfpp, read_v71_nomip) {
 }
 
 TEST(vtfpp, read_v71_nothumb) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nothumb.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -739,7 +739,7 @@ TEST(vtfpp, read_v71_nothumb) {
 }
 
 TEST(vtfpp, read_v71_nothumb_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nothumb_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v71_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -775,7 +775,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v72) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -813,7 +813,7 @@ TEST(vtfpp, read_v72) {
 }
 
 TEST(vtfpp, read_v72_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -851,7 +851,7 @@ TEST(vtfpp, read_v72_nomip) {
 }
 
 TEST(vtfpp, read_v72_nothumb) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nothumb.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -887,7 +887,7 @@ TEST(vtfpp, read_v72_nothumb) {
 }
 
 TEST(vtfpp, read_v72_nothumb_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nothumb_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v72_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -923,7 +923,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v75) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -974,7 +974,7 @@ TEST(vtfpp, read_v75) {
 }
 
 TEST(vtfpp, read_v75_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1012,7 +1012,7 @@ TEST(vtfpp, read_v75_nomip) {
 }
 
 TEST(vtfpp, read_v75_nothumb) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nothumb.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1048,7 +1048,7 @@ TEST(vtfpp, read_v75_nothumb) {
 }
 
 TEST(vtfpp, read_v75_nothumb_nomip) {
-	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nothumb_nomip.vtf"), {}};
+	VTF vtf{::readFileToBuffer(ASSET_ROOT "vtfpp/v75_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header

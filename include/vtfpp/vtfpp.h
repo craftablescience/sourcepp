@@ -63,11 +63,6 @@ struct Resource {
 	}
 };
 
-struct VTFOptions {
-	/// Only parse file metadata. Resources will also not be parsed
-	bool parseHeaderOnly;
-};
-
 class VTF {
 public:
 	enum Flags : int32_t {
@@ -107,13 +102,13 @@ public:
 		FLAG_SPECVAR_ALPHA                           = 1 << 31, // Removed
 	};
 
-	VTF(const std::byte* vtfData, std::size_t vtfSize, const VTFOptions& options);
+	VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
 
-	VTF(const unsigned char* vtfData, std::size_t vtfSize, const VTFOptions& options);
+	VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
 
-	VTF(const std::vector<std::byte>& vtfData, const VTFOptions& options);
+	explicit VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly = false);
 
-	VTF(const std::vector<unsigned char>& vtfData, const VTFOptions& options);
+	explicit VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly = false);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -159,7 +154,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
 
-	[[nodiscard]] std::vector<std::byte> convertImageDataToFile(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::vector<std::byte> convertAndSaveImageDataToFile(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::span<const std::byte> getThumbnailData() const;
 
@@ -167,7 +162,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAsRGBA8888() const;
 
-	[[nodiscard]] std::vector<std::byte> convertThumbnailDataToFile() const;
+	[[nodiscard]] std::vector<std::byte> convertAndSaveThumbnailDataToFile() const;
 
 private:
 	bool opened = false;
