@@ -12,7 +12,7 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 		return;
 	}
 
-	BufferStream stream{dmxData, dmxSize};
+	BufferStreamReadOnly stream{dmxData, dmxSize};
 
 	auto header = stream.read_string();
 	if (header.length() < 37) {

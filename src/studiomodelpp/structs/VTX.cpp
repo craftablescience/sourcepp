@@ -5,7 +5,7 @@
 using namespace studiomodelpp::VTX;
 
 bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
-	BufferStream stream{data, size};
+	BufferStreamReadOnly stream{data, size};
 
 	if (stream.read(this->version); this->version != 7) {
 		return false;
