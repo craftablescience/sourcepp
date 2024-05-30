@@ -45,8 +45,43 @@ namespace {
 	return CMP_FORMAT_Unknown;
 }
 
+[[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+	CMP_Texture srcTexture{};
+	srcTexture.dwSize     = sizeof(srcTexture);
+	srcTexture.dwWidth    = width;
+	srcTexture.dwHeight   = height;
+	srcTexture.dwPitch    = ImageFormatDetails::compressed(newFormat) ? 0 : width * (ImageFormatDetails::bpp(newFormat) / 8);
+	srcTexture.format     = ::imageFormatToCompressonatorFormat(oldFormat);
+	srcTexture.dwDataSize = imageData.size();
+
+	srcTexture.pData = const_cast<CMP_BYTE*>(reinterpret_cast<const CMP_BYTE*>(imageData.data()));
+
+	CMP_Texture destTexture{};
+	destTexture.dwSize     = sizeof(destTexture);
+	destTexture.dwWidth    = width;
+	destTexture.dwHeight   = height;
+	destTexture.dwPitch    = ImageFormatDetails::compressed(newFormat) ? 0 : width * (ImageFormatDetails::bpp(newFormat) / 8);
+	destTexture.format     = ::imageFormatToCompressonatorFormat(newFormat);
+	destTexture.dwDataSize = CMP_CalculateBufferSize(&destTexture);
+
+	std::vector<std::byte> destData;
+	destData.resize(destTexture.dwDataSize);
+	destTexture.pData = reinterpret_cast<CMP_BYTE*>(destData.data());
+
+	CMP_CompressOptions options{};
+	options.dwSize        = sizeof(options);
+	options.bDXT1UseAlpha = oldFormat == ImageFormat::DXT1_ONE_BIT_ALPHA || newFormat == ImageFormat::DXT1_ONE_BIT_ALPHA;
+	options.dwnumThreads  = 0;
+
+	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
+		return {};
+	}
+	return destData;
+}
+
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
 	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
@@ -145,6 +180,13 @@ namespace {
 			}
 			break;
 		case BGRA8888:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				newData.push_back(imageData[i + 2]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i]);
+				newData.push_back(imageData[i + 3]);
+			}
+			break;
 		case BGRX8888:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				newData.push_back(imageData[i + 2]);
@@ -163,25 +205,29 @@ namespace {
 			}
 			break;
 		case BGRA5551:
+			for (int i = 0; i < imageData.size(); i += 2) {
+				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
+				newData.push_back(static_cast<std::byte>((((pixel & 0x7c00) >> 10) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel & 0x03e0) >>  5) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((( pixel & 0x001f       ) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel & 0x8000) >> 15) * 255)));
+			}
+			break;
 		case BGRX5551:
 			for (int i = 0; i < imageData.size(); i += 2) {
 				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
-				newData.push_back(static_cast<std::byte>((((pixel >> 11) & 0x1f) * 255 + 15) / 31));
-				newData.push_back(static_cast<std::byte>((((pixel >>  6) & 0x1f) * 255 + 15) / 31));
-				newData.push_back(static_cast<std::byte>((((pixel >>  1) & 0x1f) * 255 + 15) / 31));
-				newData.push_back(static_cast<std::byte>((  pixel        & 0x01) * 255));
+				newData.push_back(static_cast<std::byte>((((pixel & 0x7c00) >> 10) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel & 0x03e0) >>  6) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((( pixel & 0x001f       ) * 255 + 15) / 31));
+				newData.push_back(std::byte{255});
 			}
+			break;
 		case BGRA4444:
 			for (int i = 0; i < imageData.size(); i += 2) {
-				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
-				uint8_t b = (pixel & 0xf000) >> 12;
-				uint8_t g = (pixel & 0x0f00) >> 8;
-				uint8_t r = (pixel & 0x00f0) >> 4;
-				uint8_t a = (pixel & 0x000f);
-				newData.push_back(static_cast<std::byte>((r << 4) | r));
-				newData.push_back(static_cast<std::byte>((g << 4) | g));
-				newData.push_back(static_cast<std::byte>((b << 4) | b));
-				newData.push_back(static_cast<std::byte>((a << 4) | a));
+				newData.push_back(static_cast<std::byte>(((static_cast<uint16_t>(imageData[i + 1]) & 0x0f) * 255 + 7) / 15));
+				newData.push_back(static_cast<std::byte>(((static_cast<uint16_t>(imageData[i])       >> 4) * 255 + 7) / 15));
+				newData.push_back(static_cast<std::byte>(((static_cast<uint16_t>(imageData[i])     & 0x0f) * 255 + 7) / 15));
+				newData.push_back(static_cast<std::byte>(((static_cast<uint16_t>(imageData[i + 1])   >> 4) * 255 + 7) / 15));
 			}
 			break;
 		case UV88:
@@ -200,6 +246,7 @@ namespace {
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
 	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(format) / 8));
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
@@ -292,12 +339,19 @@ namespace {
 			}
 			break;
 		case BGRA8888:
-		case BGRX8888:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i]);
 				newData.push_back(imageData[i + 3]);
+			}
+			break;
+		case BGRX8888:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				newData.push_back(imageData[i + 2]);
+				newData.push_back(imageData[i + 1]);
+				newData.push_back(imageData[i]);
+				newData.push_back(std::byte{0});
 			}
 			break;
 		case BGR565:
@@ -312,13 +366,24 @@ namespace {
 			}
 			break;
 		case BGRA5551:
-		case BGRX5551:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				uint32_t bgra5551 =
 						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i])     * 31 / 255) << 11) |
 						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 1]) * 31 / 255) <<  6) |
 						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 2]) * 31 / 255) <<  1) |
 						((static_cast<uint8_t>(imageData[i + 3]) > 0) ? 1 : 0);
+				newData.push_back({});
+				newData.push_back({});
+				newData.push_back({});
+				newData.push_back({});
+				*reinterpret_cast<uint32_t*>(&newData[newData.size() - 4]) = bgra5551;
+			}
+		case BGRX5551:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				uint32_t bgra5551 =
+						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i])     * 31 / 255) << 11) |
+						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 1]) * 31 / 255) <<  6) |
+						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 2]) * 31 / 255) <<  1);
 				newData.push_back({});
 				newData.push_back({});
 				newData.push_back({});
@@ -352,71 +417,11 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> decodeImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	CMP_Texture srcTexture{};
-	srcTexture.dwSize     = sizeof(srcTexture);
-	srcTexture.dwWidth    = width;
-	srcTexture.dwHeight   = height;
-	srcTexture.dwPitch    = 0;
-	srcTexture.format     = ::imageFormatToCompressonatorFormat(format);
-	srcTexture.dwDataSize = imageData.size();
-
-	srcTexture.pData = const_cast<CMP_BYTE*>(reinterpret_cast<const CMP_BYTE*>(imageData.data()));
-
-	CMP_Texture destTexture{};
-	destTexture.dwSize     = sizeof(destTexture);
-	destTexture.dwWidth    = width;
-	destTexture.dwHeight   = height;
-	destTexture.dwPitch    = width * 4;
-	destTexture.format     = ::imageFormatToCompressonatorFormat(ImageFormat::RGBA8888);
-	destTexture.dwDataSize = CMP_CalculateBufferSize(&destTexture);
-
-	std::vector<std::byte> destData;
-	destData.resize(destTexture.dwDataSize);
-	destTexture.pData = reinterpret_cast<CMP_BYTE*>(destData.data());
-
-	CMP_CompressOptions options{};
-	options.dwSize        = sizeof(options);
-	options.bDXT1UseAlpha = format == ImageFormat::DXT1_ONE_BIT_ALPHA;
-	options.dwnumThreads  = 0;
-
-	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
-		return {};
-	}
-	return destData;
+	return ::convertImageDataUsingCompressonator(imageData, format, ImageFormat::RGBA8888, width, height);
 }
 
 [[nodiscard]] std::vector<std::byte> encodeImageDataFromRGBA8888(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	CMP_Texture srcTexture{};
-	srcTexture.dwSize     = sizeof(srcTexture);
-	srcTexture.dwWidth    = width;
-	srcTexture.dwHeight   = height;
-	srcTexture.dwPitch    = width * 4;
-	srcTexture.format     = ::imageFormatToCompressonatorFormat(ImageFormat::RGBA8888);
-	srcTexture.dwDataSize = imageData.size();
-
-	srcTexture.pData = const_cast<CMP_BYTE*>(reinterpret_cast<const CMP_BYTE*>(imageData.data()));
-
-	CMP_Texture destTexture{};
-	destTexture.dwSize     = sizeof(destTexture);
-	destTexture.dwWidth    = width;
-	destTexture.dwHeight   = height;
-	destTexture.dwPitch    = 0;
-	destTexture.format     = ::imageFormatToCompressonatorFormat(format);
-	destTexture.dwDataSize = CMP_CalculateBufferSize(&destTexture);
-
-	std::vector<std::byte> destData;
-	destData.resize(destTexture.dwDataSize);
-	destTexture.pData = reinterpret_cast<CMP_BYTE*>(destData.data());
-
-	CMP_CompressOptions options{};
-	options.dwSize        = sizeof(options);
-	options.bDXT1UseAlpha = format == ImageFormat::DXT1_ONE_BIT_ALPHA;
-	options.dwnumThreads  = 0;
-
-	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
-		return {};
-	}
-	return destData;
+	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA8888, format, width, height);
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {

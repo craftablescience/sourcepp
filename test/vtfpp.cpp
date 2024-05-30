@@ -358,7 +358,6 @@ TEST(vtfpp, read_fmt_bgrx5551) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_bgrx5551.png", vtf.convertImageDataToFile());
 }
@@ -378,7 +377,6 @@ TEST(vtfpp, read_fmt_bgra4444) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_bgra4444.png", vtf.convertImageDataToFile());
 }
@@ -417,7 +415,6 @@ TEST(vtfpp, read_fmt_bgra5551) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
-	// todo: fix
 	// Convert
 	::createFile("fmt_bgra5551.png", vtf.convertImageDataToFile());
 }
