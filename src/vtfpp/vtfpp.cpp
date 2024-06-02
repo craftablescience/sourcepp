@@ -25,17 +25,18 @@ Resource::ConvertedData Resource::convertData() const {
 			);
 		case TYPE_KEYVALUES_DATA:
 			if (this->data.size() <= 4) {
-				return std::string_view{""};
+				return "";
 			}
-			return std::string_view{reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()) + 1};
+			return std::string(reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()));
 		default:
 			break;
 	}
 	return {};
 }
 
-VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
-	BufferStreamReadOnly stream{vtfData, vtfSize};
+VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
+		: data(std::move(vtfData)) {
+	BufferStreamReadOnly stream{this->data};
 
 	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
 		return;
@@ -94,7 +95,7 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
 				.read(resource->type)
 				.skip(2)
 				.read(resource->flags);
-			resource->data = stream.read_bytes(4);
+			resource->data = stream.read_span<std::byte>(4);
 
 			if (!(resource->flags & Resource::FLAG_NO_DATA)) {
 				if (lastResourceIndex >= 0) {
@@ -103,7 +104,7 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
-					this->resources[lastResourceIndex]->data = stream.read_bytes(currentOffset - lastOffset);
+					this->resources[lastResourceIndex]->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(curPos);
 				}
 				lastResourceIndex = static_cast<int>(this->resources.size() - 1);
@@ -113,15 +114,8 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
 			auto offset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex]->data.data());
 			auto curPos = stream.tell();
 			stream.seek(offset);
-			this->resources[lastResourceIndex]->data = stream.read_bytes(stream.size() - offset);
+			this->resources[lastResourceIndex]->data = stream.read_span<std::byte>(stream.size() - offset);
 			stream.seek(curPos);
-		}
-
-		// Null-terminate KeyValues data so std::string_view works
-		for (auto& resource : this->resources) {
-			if (resource->type == Resource::TYPE_KEYVALUES_DATA) {
-				resource->data.push_back(std::byte{'\0'});
-			}
 		}
 
 		this->opened = stream.tell() == headerLength;
@@ -133,23 +127,26 @@ VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly) {
 
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
 			auto thumbnailLength = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-			this->resources.emplace_back(new Resource{Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_bytes(thumbnailLength)});
+			this->resources.emplace_back(new Resource{Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength)});
 		}
 		if (this->width > 0 && this->height > 0) {
 			auto imageLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-			this->resources.emplace_back(new Resource{Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_bytes(imageLength)});
+			this->resources.emplace_back(new Resource{Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength)});
 		}
 	}
 }
 
-VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
-		: VTF(reinterpret_cast<const std::byte*>(vtfData), vtfSize, parseHeaderOnly) {}
-
 VTF::VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly)
-		: VTF(vtfData.data(), vtfData.size(), parseHeaderOnly) {}
+		: VTF(std::vector<std::byte>{vtfData.begin(), vtfData.end()}, parseHeaderOnly) {}
 
 VTF::VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly)
-		: VTF(vtfData.data(), vtfData.size(), parseHeaderOnly) {}
+		: VTF(std::vector<std::byte>{reinterpret_cast<const std::byte*>(vtfData.data()), reinterpret_cast<const std::byte*>(vtfData.data() + vtfData.size())}, parseHeaderOnly) {}
+
+VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
+		: VTF(std::vector<std::byte>{vtfData, vtfData + vtfSize}, parseHeaderOnly) {}
+
+VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
+		: VTF(std::vector<std::byte>{reinterpret_cast<const std::byte*>(vtfData), reinterpret_cast<const std::byte*>(vtfData + vtfSize)}, parseHeaderOnly) {}
 
 VTF::operator bool() const {
 	return this->opened;
@@ -238,7 +235,7 @@ std::span<const std::byte> VTF::getImageData(uint8_t mip, uint16_t frame, uint16
 		if (!ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
 			return {};
 		}
-		return std::span<const std::byte>{imageResource->data}.subspan(offset, length);
+		return imageResource->data.subspan(offset, length);
 	}
 	return {};
 }
@@ -248,11 +245,11 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+	return std::move(ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height)));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
-	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
+	return std::move(this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice));
 }
 
 std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
@@ -260,12 +257,12 @@ std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t 
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+	return std::move(ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height)));
 }
 
 std::span<const std::byte> VTF::getThumbnailData() const {
 	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
-		return {thumbnailResource->data};
+		return thumbnailResource->data;
 	}
 	return {};
 }
@@ -275,11 +272,11 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
+	return std::move(ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight));
 }
 
 std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
-	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
+	return std::move(this->getThumbnailDataAs(ImageFormat::RGBA8888));
 }
 
 std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
@@ -287,5 +284,5 @@ std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFile(rawThumbnailData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+	return std::move(ImageConversion::convertImageDataToFile(rawThumbnailData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
 }

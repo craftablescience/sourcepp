@@ -970,7 +970,7 @@ TEST(vtfpp, read_v75) {
 	ASSERT_TRUE(keyValues);
 	EXPECT_EQ(keyValues->flags, Resource::FLAG_NONE);
 	auto keyValuesData = keyValues->getDataAsKeyValuesData();
-	EXPECT_STREQ(keyValuesData.data(), "\"Information\"\r\n{\r\n\t\"Author\" \"craftablescience\"\r\n\t\"Contact\" \"contact\"\r\n\t\"Version\" \"version\"\r\n\t\"Modification\" \"modification\"\r\n\t\"Description\" \"description\"\r\n\t\"Comments\" \"comments\"\r\n}\r\n");
+	EXPECT_STREQ(keyValuesData.c_str(), "\"Information\"\r\n{\r\n\t\"Author\" \"craftablescience\"\r\n\t\"Contact\" \"contact\"\r\n\t\"Version\" \"version\"\r\n\t\"Modification\" \"modification\"\r\n\t\"Description\" \"description\"\r\n\t\"Comments\" \"comments\"\r\n}\r\n");
 }
 
 TEST(vtfpp, read_v75_nomip) {
