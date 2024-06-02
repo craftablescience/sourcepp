@@ -6,4 +6,6 @@
 
 #define ASSET_ROOT "${sourcepp_ASSET_ROOT}"
 
-std::vector<std::byte> readFileToBuffer(const std::string& path);
+std::vector<std::byte> readFile(const std::string& path);
+
+void createFile(const std::string& name, const std::vector<std::byte>& data);
