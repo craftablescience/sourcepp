@@ -19,6 +19,7 @@ constexpr uint32_t VTF_SIGNATURE = 'V' + ('T' << 8) + ('F' << 16);
 
 struct Resource {
 	enum Type : uint8_t {
+		TYPE_UNKNOWN             = '\0',   // Unknown
 		TYPE_THUMBNAIL_DATA      = '\x01', // \x01\0\0
 		TYPE_IMAGE_DATA          = '\x30', // \x30\0\0
 		TYPE_PARTICLE_SHEET_DATA = '\x10', // \x10\0\0
@@ -34,15 +35,15 @@ struct Resource {
 		FLAG_NO_DATA = 1 << 1,
 	};
 
-	Type type;
-	Flags flags;
-	std::vector<std::byte> data;
+	Type type = TYPE_UNKNOWN;
+	Flags flags = FLAG_NONE;
+	std::span<std::byte> data;
 
 	using ConvertedData = std::variant<
 			std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 			uint32_t, // CRC, TSO
 			std::pair<uint8_t, uint8_t>, // LOD
-			std::string_view // KVD
+			std::string // KVD
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
@@ -58,8 +59,8 @@ struct Resource {
 		return std::get<std::pair<uint8_t, uint8_t>>(this->convertData());
 	}
 
-	[[nodiscard]] std::string_view getDataAsKeyValuesData() const {
-		return std::get<std::string_view>(this->convertData());
+	[[nodiscard]] std::string getDataAsKeyValuesData() const {
+		return std::get<std::string>(this->convertData());
 	}
 };
 
@@ -102,13 +103,15 @@ public:
 		FLAG_SPECVAR_ALPHA                           = 1 << 31, // Removed
 	};
 
-	VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
-
-	VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
+	explicit VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly = false);
 
 	explicit VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly = false);
 
 	explicit VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly = false);
+
+	VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
+
+	VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -166,6 +169,8 @@ public:
 
 private:
 	bool opened = false;
+
+	std::vector<std::byte> data;
 
 	//uint32_t signature;
 	uint32_t majorVersion{};
