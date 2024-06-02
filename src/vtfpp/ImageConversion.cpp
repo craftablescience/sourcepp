@@ -461,27 +461,32 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		intermediaryData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
 		if (!ImageFormatDetails::large(newFormat)) {
 			intermediaryFormat = ImageFormat::RGBA8888;
-			intermediaryData = ::convertImageDataFromRGBA32323232FToRGBA8888(imageData);
+			intermediaryData = ::convertImageDataFromRGBA32323232FToRGBA8888(intermediaryData);
 		}
 	} else {
 		intermediaryFormat = ImageFormat::RGBA8888;
 		intermediaryData = ::convertImageDataToRGBA8888(imageData, oldFormat);
 		if (ImageFormatDetails::large(newFormat)) {
 			intermediaryFormat = ImageFormat::RGBA32323232F;
-			intermediaryData = ::convertImageDataFromRGBA8888ToRGBA32323232F(imageData);
+			intermediaryData = ::convertImageDataFromRGBA8888ToRGBA32323232F(intermediaryData);
 		}
 	}
 
 	if (intermediaryFormat == newFormat) {
 		return intermediaryData;
 	}
+
+	std::vector<std::byte> finalData;
 	if (intermediaryFormat == ImageFormat::RGBA8888) {
 		if (ImageFormatDetails::compressed(newFormat)) {
-			return ::encodeImageDataFromRGBA8888(intermediaryData, newFormat, width, height);
+			finalData = ::encodeImageDataFromRGBA8888(intermediaryData, newFormat, width, height);
+		} else {
+			finalData = ::convertImageDataFromRGBA8888(intermediaryData, newFormat);
 		}
-		return ::convertImageDataFromRGBA8888(intermediaryData, newFormat);
+	} else {
+		finalData = ::convertImageDataFromRGBA32323232F(intermediaryData, newFormat);
 	}
-	return ::convertImageDataFromRGBA32323232F(intermediaryData, newFormat);
+	return finalData;
 }
 
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
