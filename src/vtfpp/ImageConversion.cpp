@@ -76,7 +76,7 @@ namespace {
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
 		return {};
 	}
-	return std::move(destData);
+	return destData;
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
@@ -241,7 +241,7 @@ namespace {
 		default:
 			break;
 	}
-	return std::move(newData);
+	return newData;
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
@@ -413,15 +413,15 @@ namespace {
 		default:
 			break;
 	}
-	return std::move(newData);
+	return newData;
 }
 
 [[nodiscard]] std::vector<std::byte> decodeImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	return std::move(::convertImageDataUsingCompressonator(imageData, format, ImageFormat::RGBA8888, width, height));
+	return ::convertImageDataUsingCompressonator(imageData, format, ImageFormat::RGBA8888, width, height);
 }
 
 [[nodiscard]] std::vector<std::byte> encodeImageDataFromRGBA8888(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	return std::move(::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA8888, format, width, height));
+	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA8888, format, width, height);
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
@@ -473,15 +473,15 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	}
 
 	if (intermediaryFormat == newFormat) {
-		return std::move(intermediaryData);
+		return intermediaryData;
 	}
 	if (intermediaryFormat == ImageFormat::RGBA8888) {
 		if (ImageFormatDetails::compressed(newFormat)) {
-			return std::move(::encodeImageDataFromRGBA8888(intermediaryData, newFormat, width, height));
+			return ::encodeImageDataFromRGBA8888(intermediaryData, newFormat, width, height);
 		}
-		return std::move(::convertImageDataFromRGBA8888(intermediaryData, newFormat));
+		return ::convertImageDataFromRGBA8888(intermediaryData, newFormat);
 	}
-	return std::move(::convertImageDataFromRGBA32323232F(intermediaryData, newFormat));
+	return ::convertImageDataFromRGBA32323232F(intermediaryData, newFormat);
 }
 
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
@@ -498,5 +498,5 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 		stbi_write_png_to_func(stbWriteFunc, &out, width, height, 4, rgba.data(), 0);
 	}
-	return std::move(out);
+	return out;
 }
