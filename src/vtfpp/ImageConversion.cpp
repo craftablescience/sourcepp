@@ -217,7 +217,7 @@ namespace {
 			for (int i = 0; i < imageData.size(); i += 2) {
 				auto pixel = *reinterpret_cast<const uint16_t*>(&imageData[i]);
 				newData.push_back(static_cast<std::byte>((((pixel & 0x7c00) >> 10) * 255 + 15) / 31));
-				newData.push_back(static_cast<std::byte>((((pixel & 0x03e0) >>  6) * 255 + 15) / 31));
+				newData.push_back(static_cast<std::byte>((((pixel & 0x03e0) >>  5) * 255 + 15) / 31));
 				newData.push_back(static_cast<std::byte>((( pixel & 0x001f       ) * 255 + 15) / 31));
 				newData.push_back(std::byte{255});
 			}
@@ -286,7 +286,7 @@ namespace {
 			for (int i = 0; i < imageData.size(); i += 4) {
 				newData.push_back(imageData[i + 2]);
 				newData.push_back(imageData[i + 1]);
-				newData.push_back(imageData[i + 0]);
+				newData.push_back(imageData[i]);
 			}
 			break;
 		case BGR888_BLUESCREEN:
@@ -298,16 +298,13 @@ namespace {
 				} else {
 					newData.push_back(imageData[i + 2]);
 					newData.push_back(imageData[i + 1]);
-					newData.push_back(imageData[i + 0]);
+					newData.push_back(imageData[i]);
 				}
 			}
 			break;
 		case RGB565:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				uint16_t rgb565 =
-						(((static_cast<uint8_t>(imageData[i])     & 0xf8) << 8) +
-						 ((static_cast<uint8_t>(imageData[i + 1]) & 0xfc) << 3) +
-						  (static_cast<uint8_t>(imageData[i + 2])         >> 3));
+				uint16_t rgb565 = ((static_cast<uint8_t>(imageData[i + 2]) >> 3) << 11) | ((static_cast<uint8_t>(imageData[i + 1]) >> 2) << 5) | (static_cast<uint8_t>(imageData[i]) >> 3);
 				newData.push_back({});
 				newData.push_back({});
 				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = rgb565;
@@ -332,10 +329,10 @@ namespace {
 			break;
 		case ARGB8888:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				newData.push_back(imageData[i + 3]);
-				newData.push_back(imageData[i]);
 				newData.push_back(imageData[i + 1]);
 				newData.push_back(imageData[i + 2]);
+				newData.push_back(imageData[i + 3]);
+				newData.push_back(imageData[i]);
 			}
 			break;
 		case BGRA8888:
@@ -356,10 +353,7 @@ namespace {
 			break;
 		case BGR565:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				uint16_t bgr565 =
-						(((static_cast<uint8_t>(imageData[i + 2]) & 0xf8) << 8) +
-						 ((static_cast<uint8_t>(imageData[i + 1]) & 0xfc) << 3) +
-						  (static_cast<uint8_t>(imageData[i])             >> 3));
+				uint16_t bgr565 = ((static_cast<uint8_t>(imageData[i]) >> 3) << 11) | ((static_cast<uint8_t>(imageData[i + 1]) >> 2) << 5) | (static_cast<uint8_t>(imageData[i + 2]) >> 3);
 				newData.push_back({});
 				newData.push_back({});
 				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = bgr565;
@@ -367,41 +361,30 @@ namespace {
 			break;
 		case BGRA5551:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				uint32_t bgra5551 =
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i])     * 31 / 255) << 11) |
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 1]) * 31 / 255) <<  6) |
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 2]) * 31 / 255) <<  1) |
-						((static_cast<uint8_t>(imageData[i + 3]) > 0) ? 1 : 0);
+				uint16_t bgra5551 = ((static_cast<uint8_t>(imageData[i + 3]) > 0 ? uint16_t{1} : uint16_t{0}) << 15) | ((static_cast<uint16_t>(imageData[i]) >> 3) << 10) | ((static_cast<uint16_t>(imageData[i + 1]) >> 3) << 5) | ((static_cast<uint16_t>(imageData[i + 2]) >> 3));
 				newData.push_back({});
 				newData.push_back({});
-				newData.push_back({});
-				newData.push_back({});
-				*reinterpret_cast<uint32_t*>(&newData[newData.size() - 4]) = bgra5551;
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = bgra5551;
 			}
+			break;
 		case BGRX5551:
 			for (int i = 0; i < imageData.size(); i += 4) {
-				uint32_t bgra5551 =
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i])     * 31 / 255) << 11) |
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 1]) * 31 / 255) <<  6) |
-						(static_cast<uint16_t>(static_cast<uint8_t>(imageData[i + 2]) * 31 / 255) <<  1);
+				uint16_t bgra5551 = ((static_cast<uint16_t>(imageData[i]) >> 3) << 10) | ((static_cast<uint16_t>(imageData[i + 1]) >> 3) << 5) | ((static_cast<uint16_t>(imageData[i + 2]) >> 3));
 				newData.push_back({});
 				newData.push_back({});
-				newData.push_back({});
-				newData.push_back({});
-				*reinterpret_cast<uint32_t*>(&newData[newData.size() - 4]) = bgra5551;
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = bgra5551;
 			}
+			break;
 		case BGRA4444:
 			for (int i = 0; i < imageData.size(); i += 4) {
 				auto r = static_cast<uint8_t>(imageData[i] >> 4);
 				auto g = static_cast<uint8_t>(imageData[i + 1] >> 4);
 				auto b = static_cast<uint8_t>(imageData[i + 2] >> 4);
 				auto a = static_cast<uint8_t>(imageData[i + 3] >> 4);
-				uint32_t bgra4444 = (b << 12) | (g << 8) | (r << 4) | a;
+				uint16_t bgra4444 = (a << 12) | (r << 8) | (g << 4) | b;
 				newData.push_back({});
 				newData.push_back({});
-				newData.push_back({});
-				newData.push_back({});
-				*reinterpret_cast<uint32_t*>(&newData[newData.size() - 4]) = bgra4444;
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = bgra4444;
 			}
 			break;
 		case UV88:
