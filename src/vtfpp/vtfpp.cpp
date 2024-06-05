@@ -245,11 +245,11 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return std::move(ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height)));
+	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
-	return std::move(this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice));
+	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
 }
 
 std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
@@ -257,7 +257,7 @@ std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t 
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return std::move(ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height)));
+	return ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::span<const std::byte> VTF::getThumbnailData() const {
@@ -272,11 +272,11 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
-	return std::move(ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight));
+	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
 
 std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
-	return std::move(this->getThumbnailDataAs(ImageFormat::RGBA8888));
+	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
 }
 
 std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
@@ -284,5 +284,5 @@ std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
-	return std::move(ImageConversion::convertImageDataToFile(rawThumbnailData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
+	return ImageConversion::convertImageDataToFile(rawThumbnailData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
