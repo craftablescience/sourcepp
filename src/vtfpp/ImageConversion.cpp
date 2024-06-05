@@ -13,6 +13,7 @@ namespace {
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
+		case UVWQ8888:
 			return CMP_FORMAT_RGBA_8888;
 		case ABGR8888:
 			return CMP_FORMAT_ABGR_8888;
@@ -20,6 +21,9 @@ namespace {
 			return CMP_FORMAT_RGB_888;
 		case BGR888:
 			return CMP_FORMAT_BGR_888;
+		case I8:
+		case P8:
+			return CMP_FORMAT_R_8;
 		case ARGB8888:
 			return CMP_FORMAT_ARGB_8888;
 		case BGRA8888:
@@ -31,6 +35,18 @@ namespace {
 			return CMP_FORMAT_DXT3;
 		case DXT5:
 			return CMP_FORMAT_DXT5;
+		case UV88:
+			return CMP_FORMAT_RG_8;
+		case RGBA16161616F:
+			return CMP_FORMAT_RGBA_16F;
+		case RGBA16161616:
+			return CMP_FORMAT_RGBA_16;
+		case R32F:
+			return CMP_FORMAT_R_32F;
+		case RGB323232F:
+			return CMP_FORMAT_RGB_32F;
+		case RGBA32323232F:
+			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
 			return CMP_FORMAT_ATI2N;
 		case ATI1N:
@@ -39,8 +55,19 @@ namespace {
 			return CMP_FORMAT_BC7;
 		case BC6H:
 			return CMP_FORMAT_BC6H;
-		default:
-			break;
+		case RGB565:
+		case IA88:
+		case A8:
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+		case BGRX8888:
+		case BGR565:
+		case BGRX5551:
+		case BGRA4444:
+		case BGRA5551:
+		case UVLX8888:
+		case EMPTY:
+			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
 }
