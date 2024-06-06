@@ -12,7 +12,7 @@
 
 #include "Generic.h"
 
-namespace studiomodelpp::MDL {
+namespace mdlpp::MDL {
 
 struct Bone {
 	enum Flags : int32_t {
@@ -411,4 +411,4 @@ struct MDL {
 	//int32_t _unused3;
 };
 
-} // namespace studiomodelpp::MDL
+} // namespace mdlpp::MDL

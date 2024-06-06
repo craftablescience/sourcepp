@@ -6,7 +6,7 @@
 #include "structs/VTX.h"
 #include "structs/VVD.h"
 
-namespace studiomodelpp {
+namespace mdlpp {
 
 struct StudioModel {
 	[[nodiscard]] bool open(const std::byte* mdlData, std::size_t mdlSize,
@@ -35,4 +35,4 @@ private:
 	bool opened = false;
 };
 
-} // namespace studiomodelpp
+} // namespace mdlpp

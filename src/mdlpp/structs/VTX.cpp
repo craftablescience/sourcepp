@@ -1,8 +1,8 @@
-#include <studiomodelpp/structs/VTX.h>
+#include <mdlpp/structs/VTX.h>
 
 #include <BufferStream.h>
 
-using namespace studiomodelpp::VTX;
+using namespace mdlpp::VTX;
 
 bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStreamReadOnly stream{data, size};

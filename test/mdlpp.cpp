@@ -1,12 +1,12 @@
 #include <gtest/gtest.h>
 
-#include <studiomodelpp/studiomodelpp.h>
+#include <mdlpp/mdlpp.h>
 
 #include "Helpers.h"
 
-using namespace studiomodelpp;
+using namespace mdlpp;
 
-TEST(studiomodelpp, v44_read) {
+TEST(mdlpp, v44_read) {
 	StudioModel model;
 	bool opened = model.open(::readFile(ASSET_ROOT "studiomodelpp/v44.mdl"),
 	                         ::readFile(ASSET_ROOT "studiomodelpp/v44.vtx"),
@@ -14,7 +14,7 @@ TEST(studiomodelpp, v44_read) {
 	ASSERT_TRUE(opened);
 }
 
-TEST(studiomodelpp, v47_read) {
+TEST(mdlpp, v47_read) {
 	StudioModel model;
 	bool opened = model.open(::readFile(ASSET_ROOT "studiomodelpp/v47.mdl"),
 	                         ::readFile(ASSET_ROOT "studiomodelpp/v47.vtx"),
@@ -22,7 +22,7 @@ TEST(studiomodelpp, v47_read) {
 	ASSERT_TRUE(opened);
 }
 
-TEST(studiomodelpp, v49_read) {
+TEST(mdlpp, v49_read) {
 	StudioModel model;
 	bool opened = model.open(::readFile(ASSET_ROOT "studiomodelpp/v49.mdl"),
 	                         ::readFile(ASSET_ROOT "studiomodelpp/v49.vtx"),

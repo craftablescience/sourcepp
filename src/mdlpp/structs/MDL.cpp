@@ -1,10 +1,10 @@
-#include <studiomodelpp/structs/MDL.h>
+#include <mdlpp/structs/MDL.h>
 
 #include <BufferStream.h>
 #include <sourcepp/buffer/Buffer.h>
 
+using namespace mdlpp::MDL;
 using namespace sourcepp;
-using namespace studiomodelpp::MDL;
 
 constexpr int32_t MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
 

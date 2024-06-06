@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options (General)
 option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                  ON)
 option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                  ON)
-option(SOURCEPP_USE_STUDIOMODELPP       "Build studiomodelpp library"          ON)
+option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                  ON)
 option(SOURCEPP_USE_VMFPP               "Build vmfpp library"                  ON)
 option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                  ON)
 option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"   OFF)
@@ -111,17 +111,18 @@ if(SOURCEPP_USE_FGDPP)
 endif()
 
 
-# studiomodelpp
-if(SOURCEPP_USE_STUDIOMODELPP)
-    add_pretty_parser(studiomodelpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/MDL.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VTX.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/structs/VVD.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/studiomodelpp/studiomodelpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/MDL.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VTX.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/structs/VVD.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/studiomodelpp/studiomodelpp.cpp")
+# mdlpp
+if(SOURCEPP_USE_MDLPP)
+    add_pretty_parser(mdlpp SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/Generic.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/MDL.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/VTX.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/VVD.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/mdlpp.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/MDL.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/VTX.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/VVD.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/mdlpp.cpp")
 endif()
 
 

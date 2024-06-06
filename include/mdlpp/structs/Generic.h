@@ -4,7 +4,7 @@
 
 #include <sourcepp/math/Vector.h>
 
-namespace studiomodelpp {
+namespace mdlpp {
 
 constexpr int ROOT_LOD = 0;
 constexpr int MAX_LOD_COUNT = 8;
@@ -37,4 +37,4 @@ struct Movement {
 	sourcepp::math::Vec3f relativePosition;
 };
 
-} // namespace studiomodelpp
+} // namespace mdlpp

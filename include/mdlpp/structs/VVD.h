@@ -7,7 +7,7 @@
 
 #include "MDL.h"
 
-namespace studiomodelpp::VVD {
+namespace mdlpp::VVD {
 
 struct Fixup {
 	int32_t LOD;
@@ -54,4 +54,4 @@ struct VVD {
 	//int32_t tangentsOffset;
 };
 
-} // namespace studiomodelpp::VVD
+} // namespace mdlpp::VVD

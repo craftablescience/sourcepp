@@ -1,6 +1,6 @@
-#include <studiomodelpp/studiomodelpp.h>
+#include <mdlpp/mdlpp.h>
 
-using namespace studiomodelpp;
+using namespace mdlpp;
 
 bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 					   const std::byte* vtxData, std::size_t vtxSize,

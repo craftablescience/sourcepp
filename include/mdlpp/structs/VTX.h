@@ -7,7 +7,7 @@
 
 #include "MDL.h"
 
-namespace studiomodelpp::VTX {
+namespace mdlpp::VTX {
 
 struct Vertex {
 	//uint8_t boneWeightIndex[3];
@@ -122,4 +122,4 @@ struct VTX {
 	std::vector<BodyPart> bodyParts;
 };
 
-} // namespace studiomodelpp::VTX
+} // namespace mdlpp::VTX
