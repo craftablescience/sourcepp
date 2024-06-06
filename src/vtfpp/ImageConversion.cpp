@@ -1,10 +1,13 @@
 #include <vtfpp/ImageConversion.h>
 
+#include <algorithm>
 #include <iterator>
 
 #include <Compressonator.h>
+#include <sourcepp/math/Float.h>
 #include <stb_image_write.h>
 
+using namespace sourcepp;
 using namespace vtfpp;
 
 namespace {
@@ -434,20 +437,143 @@ namespace {
 	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA8888, format, width, height);
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	return ::convertImageDataUsingCompressonator(imageData, format, ImageFormat::RGBA32323232F, width, height);
+[[nodiscard]] std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
+	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
+	switch (format) {
+		using enum ImageFormat;
+		case RGBA32323232F:
+			newData = {imageData.begin(), imageData.end()};
+			break;
+		case RGB323232F:
+			for (int i = 0; i < imageData.size(); i += 12) {
+				for (int j = 0; j < 16; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 16]) = *reinterpret_cast<const float*>(&imageData[i]);
+				*reinterpret_cast<float*>(&newData[newData.size() - 12]) = *reinterpret_cast<const float*>(&imageData[i + 4]);
+				*reinterpret_cast<float*>(&newData[newData.size() -  8]) = *reinterpret_cast<const float*>(&imageData[i + 8]);
+				*reinterpret_cast<float*>(&newData[newData.size() -  4]) = 1.f;
+			}
+			break;
+		case R32F:
+			for (int i = 0; i < imageData.size(); i += 4) {
+				for (int j = 0; j < 16; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 16]) = *reinterpret_cast<const float*>(&imageData[i]);
+				*reinterpret_cast<float*>(&newData[newData.size() - 12]) = 0.f;
+				*reinterpret_cast<float*>(&newData[newData.size() -  8]) = 0.f;
+				*reinterpret_cast<float*>(&newData[newData.size() -  4]) = 1.f;
+			}
+			break;
+		case RGBA16161616F:
+			for (int i = 0; i < imageData.size(); i += 8) {
+				for (int j = 0; j < 16; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 16]) = *math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i])};
+				*reinterpret_cast<float*>(&newData[newData.size() - 12]) = *math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 2])};
+				*reinterpret_cast<float*>(&newData[newData.size() -  8]) = *math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 4])};
+				*reinterpret_cast<float*>(&newData[newData.size() -  4]) = *math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 6])};
+			}
+			break;
+		case RGBA16161616:
+			for (int i = 0; i < imageData.size(); i += 8) {
+				for (int j = 0; j < 16; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 16]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i])) / 65535.f;
+				*reinterpret_cast<float*>(&newData[newData.size() - 12]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 2])) / 65535.f;
+				*reinterpret_cast<float*>(&newData[newData.size() -  8]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 4])) / 65535.f;
+				*reinterpret_cast<float*>(&newData[newData.size() -  4]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 6])) / 65535.f;
+			}
+			break;
+		default:
+			break;
+	}
+	return newData;
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA32323232F, format, width, height);
+[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
+	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(format) / 8));
+	switch (format) {
+		using enum ImageFormat;
+		case RGBA32323232F:
+			newData = {imageData.begin(), imageData.end()};
+			break;
+		case RGB323232F:
+			for (int i = 0; i < imageData.size(); i += 16) {
+				for (int j = 0; j < 12; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 12]) = *reinterpret_cast<const float*>(&imageData[i]);
+				*reinterpret_cast<float*>(&newData[newData.size() -  8]) = *reinterpret_cast<const float*>(&imageData[i + 4]);
+				*reinterpret_cast<float*>(&newData[newData.size() -  4]) = *reinterpret_cast<const float*>(&imageData[i + 8]);
+			}
+			break;
+		case R32F:
+			for (int i = 0; i < imageData.size(); i += 16) {
+				for (int j = 0; j < 4; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<float*>(&newData[newData.size() - 4]) = *reinterpret_cast<const float*>(&imageData[i]);
+			}
+			break;
+		case RGBA16161616F:
+			for (int i = 0; i < imageData.size(); i += 16) {
+				for (int j = 0; j < 8; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 8]) = math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i])}.toFloat16();
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 6]) = math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 4])}.toFloat16();
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 4]) = math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 8])}.toFloat16();
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = math::FloatCompressed16{*reinterpret_cast<const uint16_t*>(&imageData[i + 12])}.toFloat16();
+			}
+			break;
+		case RGBA16161616:
+			for (int i = 0; i < imageData.size(); i += 16) {
+				for (int j = 0; j < 8; j++) {
+					newData.push_back({});
+				}
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 8]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i]) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 6]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 4]) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 4]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 8]) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 12]) * 65535.f);
+			}
+			break;
+		default:
+			break;
+	}
+	return newData;
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888ToRGBA32323232F(std::span<const std::byte> imageData, uint16_t width, uint16_t height) {
-	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA8888, ImageFormat::RGBA32323232F, width, height);
+[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888ToRGBA32323232F(std::span<const std::byte> imageData) {
+	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
+	for (int i = 0; i < imageData.size(); i += 4) {
+		for (int j = 0; j < 16; j++) {
+			newData.push_back({});
+		}
+		*reinterpret_cast<float*>(&newData[newData.size() - 16]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i])) / 255.f;
+		*reinterpret_cast<float*>(&newData[newData.size() - 12]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 1])) / 255.f;
+		*reinterpret_cast<float*>(&newData[newData.size() -  8]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 2])) / 255.f;
+		*reinterpret_cast<float*>(&newData[newData.size() -  4]) = static_cast<float>(*reinterpret_cast<const uint16_t*>(&imageData[i + 3])) / 255.f;
+	}
+	return newData;
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232FToRGBA8888(std::span<const std::byte> imageData, uint16_t width, uint16_t height) {
-	return ::convertImageDataUsingCompressonator(imageData, ImageFormat::RGBA32323232F, ImageFormat::RGBA8888, width, height);
+[[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232FToRGBA8888(std::span<const std::byte> imageData) {
+	std::vector<std::byte> newData;
+	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
+	for (int i = 0; i < imageData.size(); i += 16) {
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i]) * 255, 0.f, 255.f)));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 4]) * 255, 0.f, 255.f)));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 8]) * 255, 0.f, 255.f)));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 12]) * 255, 0.f, 255.f)));
+	}
+	return newData;
 }
 
 } // namespace
@@ -464,17 +590,17 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		intermediaryData = ::decodeImageDataToRGBA8888(imageData, oldFormat, width, height);
 	} else if (ImageFormatDetails::large(oldFormat)) {
 		intermediaryFormat = ImageFormat::RGBA32323232F;
-		intermediaryData = ::convertImageDataToRGBA32323232F(imageData, oldFormat, width, height);
+		intermediaryData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
 		if (!ImageFormatDetails::large(newFormat)) {
 			intermediaryFormat = ImageFormat::RGBA8888;
-			intermediaryData = ::convertImageDataFromRGBA32323232FToRGBA8888(intermediaryData, width, height);
+			intermediaryData = ::convertImageDataFromRGBA32323232FToRGBA8888(intermediaryData);
 		}
 	} else {
 		intermediaryFormat = ImageFormat::RGBA8888;
 		intermediaryData = ::convertImageDataToRGBA8888(imageData, oldFormat);
 		if (ImageFormatDetails::large(newFormat)) {
 			intermediaryFormat = ImageFormat::RGBA32323232F;
-			intermediaryData = ::convertImageDataFromRGBA8888ToRGBA32323232F(intermediaryData, width, height);
+			intermediaryData = ::convertImageDataFromRGBA8888ToRGBA32323232F(intermediaryData);
 		}
 	}
 
@@ -490,7 +616,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			finalData = ::convertImageDataFromRGBA8888(intermediaryData, newFormat);
 		}
 	} else {
-		finalData = ::convertImageDataFromRGBA32323232F(intermediaryData, newFormat, width, height);
+		finalData = ::convertImageDataFromRGBA32323232F(intermediaryData, newFormat);
 	}
 	return finalData;
 }

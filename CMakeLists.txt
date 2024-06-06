@@ -50,6 +50,7 @@ endif()
 list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/buffer/Buffer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Float.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Matrix.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
