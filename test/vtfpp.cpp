@@ -1111,8 +1111,6 @@ TEST(vtfpp, read_v76_c9) {
 	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
 	ASSERT_TRUE(auxResource);
 	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
-
-	::createFile("v76_c9.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_v76_nomip_c9) {
@@ -1155,6 +1153,4 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
 	ASSERT_TRUE(auxResource);
 	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
-
-	::createFile("v76_nomip_c9.png", vtf.convertAndSaveImageDataToFile());
 }
