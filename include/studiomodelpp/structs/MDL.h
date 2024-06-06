@@ -25,13 +25,13 @@ struct Bone {
 
 	int32_t parent;
 	int32_t boneController[6];
-	sourcepp::Vec3f position;
-	sourcepp::Quat rotationQuat;
-	sourcepp::Vec3f rotationEuler;
-	sourcepp::Vec3f positionScale;
-	sourcepp::Vec3f rotationScale;
-	sourcepp::Matrix<3,4> poseToBose;
-	sourcepp::Quat alignment;
+	sourcepp::math::Vec3f position;
+	sourcepp::math::Quat rotationQuat;
+	sourcepp::math::Vec3f rotationEuler;
+	sourcepp::math::Vec3f positionScale;
+	sourcepp::math::Vec3f rotationScale;
+	sourcepp::math::Matrix<3,4> poseToBose;
+	sourcepp::math::Quat alignment;
 	Flags flags;
 	int32_t procType;
 	int32_t procIndex;
@@ -215,7 +215,7 @@ struct Mesh {
 
 	int32_t meshID;
 
-	sourcepp::Vec3f center;
+	sourcepp::math::Vec3f center;
 
 	//int32_t modelVertexData;
 	//int32_t numLODVertexes[MAX_LOD_COUNT];
@@ -290,12 +290,12 @@ struct MDL {
 	std::string name;
 	//int32_t dataLength;
 
-	sourcepp::Vec3f eyePosition;
-	sourcepp::Vec3f illuminationPosition;
-	sourcepp::Vec3f hullMin;
-	sourcepp::Vec3f hullMax;
-	sourcepp::Vec3f viewBBoxMin;
-	sourcepp::Vec3f viewBBoxMax;
+	sourcepp::math::Vec3f eyePosition;
+	sourcepp::math::Vec3f illuminationPosition;
+	sourcepp::math::Vec3f hullMin;
+	sourcepp::math::Vec3f hullMax;
+	sourcepp::math::Vec3f viewBBoxMin;
+	sourcepp::math::Vec3f viewBBoxMax;
 
 	Flags flags;
 

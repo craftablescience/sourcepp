@@ -4,9 +4,9 @@
 #include <sstream>
 #include <fstream>
 
-#include <sourcepp/detail/StringUtils.h>
+#include <sourcepp/string/String.h>
 
-using namespace sourcepp::detail;
+using namespace sourcepp;
 using namespace vmfpp;
 
 constexpr char CHAR_ENTER_SCOPE = '{';
@@ -24,7 +24,7 @@ bool readNode(std::istream& stream, Node* scope, std::string_view key = NODE_ROO
 			continue;
 		}
 		// New scope
-		else if (contains(line, CHAR_ENTER_SCOPE)) {
+		else if (string::contains(line, CHAR_ENTER_SCOPE)) {
 			// Scope is opened after the key is read
 			// There may be situations where there is no key, so we must account for that
 			if ((key.empty() && (scope->getChildren().size() + scope->getValues().size()) > 0) || key == NODE_ROOT_KEY) {
@@ -36,18 +36,18 @@ bool readNode(std::istream& stream, Node* scope, std::string_view key = NODE_ROO
 			}
 		}
 		// Exit scope
-		else if (contains(line, CHAR_EXIT_SCOPE)) {
+		else if (string::contains(line, CHAR_EXIT_SCOPE)) {
 			break;
 		}
 		// Value
-		else if (contains(line, CHAR_QUOTE)) {
-			auto p = split(line, CHAR_QUOTE);
+		else if (string::contains(line, CHAR_QUOTE)) {
+			auto p = string::split(line, CHAR_QUOTE);
 			if (std::count(line.begin(), line.end(), CHAR_QUOTE) == 3) {
 				// Multi-line property value, because value quotes aren't closed
 				// Read lines until we encounter a closing quote
 				while (std::getline(stream, line)) {
-					if (contains(line, CHAR_QUOTE)) {
-						p[3] += '\n' + split(line, CHAR_QUOTE)[0];
+					if (string::contains(line, CHAR_QUOTE)) {
+						p[3] += '\n' + string::split(line, CHAR_QUOTE)[0];
 						break;
 					}
 					p[3] += '\n' + line;
@@ -59,8 +59,8 @@ bool readNode(std::istream& stream, Node* scope, std::string_view key = NODE_ROO
 		else {
 			Node newScope;
 			std::string newKey = line;
-			trim(newKey, CHAR_DISCARD_CUTSET);
-			trim(newKey);
+			string::trim(newKey, CHAR_DISCARD_CUTSET);
+			string::trim(newKey);
 			if (!readNode(stream, &newScope, newKey)) {
 				return false;
 			}

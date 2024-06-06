@@ -39,17 +39,17 @@ struct Color {
 	uint8_t a;
 };
 
-using Vector2 = sourcepp::Vec2f;
+using Vector2 = sourcepp::math::Vec2f;
 
-using Vector3 = sourcepp::Vec3f;
+using Vector3 = sourcepp::math::Vec3f;
 
-using Vector4 = sourcepp::Vec4f;
+using Vector4 = sourcepp::math::Vec4f;
 
-using EulerAngles = sourcepp::EulerAngles;
+using EulerAngles = sourcepp::math::EulerAngles;
 
-using Quaternion = sourcepp::Quat;
+using Quaternion = sourcepp::math::Quat;
 
-using Matrix4x4 = sourcepp::Matrix<4,4>;
+using Matrix4x4 = sourcepp::math::Matrix<4,4>;
 
 using Generic = std::variant<
 	Invalid,

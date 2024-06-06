@@ -146,7 +146,7 @@ public:
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
-	[[nodiscard]] sourcepp::Vec3f getReflectivity() const;
+	[[nodiscard]] sourcepp::math::Vec3f getReflectivity() const;
 
 	[[nodiscard]] float getBumpMapScale() const;
 
@@ -195,7 +195,7 @@ private:
 	uint16_t startFrame{};
 
 	//uint8_t _padding0[4];
-	sourcepp::Vec3f reflectivity{};
+	sourcepp::math::Vec3f reflectivity{};
 	//uint8_t _padding1[4];
 
 	float bumpMapScale{};

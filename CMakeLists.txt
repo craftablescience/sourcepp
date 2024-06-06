@@ -48,14 +48,14 @@ endif()
 
 # Shared code
 list(APPEND ${PROJECT_NAME}_SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/BufferUtils.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/detail/StringUtils.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/buffer/Buffer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Matrix.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/BufferUtils.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/detail/StringUtils.cpp")
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/string/String.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/buffer/Buffer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/string/String.cpp")
 add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

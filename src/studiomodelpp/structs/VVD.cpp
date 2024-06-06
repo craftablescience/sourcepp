@@ -53,7 +53,7 @@ bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 	stream.seek(tangentsOffset);
 	for (std::size_t i = 0; i < this->numVerticesInLOD[0]; i++) {
-		this->vertices.at(i).tangent = stream.read<Vec4f>();
+		this->vertices.at(i).tangent = stream.read<math::Vec4f>();
 	}
 
 	stream.seek(fixupsOffset);

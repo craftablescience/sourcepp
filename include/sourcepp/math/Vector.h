@@ -2,7 +2,7 @@
 
 #include <concepts>
 
-namespace sourcepp {
+namespace sourcepp::math {
 
 template<std::floating_point P>
 struct Vec2 {
@@ -31,4 +31,4 @@ struct Vec4 {
 using Vec4f = Vec4<float>;
 using Vec4d = Vec4<double>;
 
-} // namespace sourcepp
+} // namespace sourcepp::math

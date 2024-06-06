@@ -13,8 +13,8 @@ constexpr int MAX_BONES_PER_VERTEX = 3;
 struct BBox {
 	int32_t bone;
 	int32_t group;
-	sourcepp::Vec3f bboxMin;
-	sourcepp::Vec3f bboxMax;
+	sourcepp::math::Vec3f bboxMin;
+	sourcepp::math::Vec3f bboxMax;
 
 	//int32_t hitboxNameOffset;
 	std::string name;
@@ -33,8 +33,8 @@ struct Movement {
 	float velocityStart;
 	float velocityEnd;
 	float yawEnd;
-	sourcepp::Vec3f movement;
-	sourcepp::Vec3f relativePosition;
+	sourcepp::math::Vec3f movement;
+	sourcepp::math::Vec3f relativePosition;
 };
 
 } // namespace studiomodelpp

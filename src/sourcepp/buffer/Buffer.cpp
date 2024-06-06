@@ -1,10 +1,12 @@
-#include <sourcepp/detail/BufferUtils.h>
+#include <sourcepp/buffer/Buffer.h>
 
 #include <BufferStream.h>
 
 #include <sourcepp/math/Integer.h>
 
-void sourcepp::detail::readStringAtOffset(BufferStream& stream, std::string& str, std::ios::seekdir offsetFrom, std::size_t subtractFromOffset) {
+using namespace sourcepp;
+
+void buffer::readStringAtOffset(BufferStream& stream, std::string& str, std::ios::seekdir offsetFrom, std::size_t subtractFromOffset) {
 	int offset = stream.read<int32_t>();
 	if (offset == 0) {
 		str = "";

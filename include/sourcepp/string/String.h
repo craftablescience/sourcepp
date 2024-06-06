@@ -4,7 +4,7 @@
 #include <string_view>
 #include <vector>
 
-namespace sourcepp::detail {
+namespace sourcepp::string {
 
 bool contains(std::string_view s, char c);
 
@@ -22,4 +22,4 @@ void trim(std::string& s, std::string_view c);
 
 std::vector<std::string> split(std::string_view s, char delim);
 
-} // namespace sourcepp::detail
+} // namespace sourcepp::string

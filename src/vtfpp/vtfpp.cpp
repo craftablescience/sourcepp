@@ -206,7 +206,7 @@ uint16_t VTF::getStartFrame() const {
 	return this->startFrame;
 }
 
-Vec3f VTF::getReflectivity() const {
+math::Vec3f VTF::getReflectivity() const {
 	return this->reflectivity;
 }
 

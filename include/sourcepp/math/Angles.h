@@ -4,7 +4,7 @@
 
 #include "Vector.h"
 
-namespace sourcepp {
+namespace sourcepp::math {
 
 using EulerAngles = Vec3f;
 
@@ -60,4 +60,4 @@ struct QuatCompressed64 {
 	}
 };
 
-} // namespace sourcepp
+} // namespace sourcepp::math

@@ -4,7 +4,7 @@
 
 #include "Integer.h"
 
-namespace sourcepp {
+namespace sourcepp::math {
 
 template<uint8_t M, uint8_t N, std::floating_point P = float>
 class Matrix {
@@ -20,4 +20,4 @@ private:
 	P data[M][N];
 };
 
-} // namespace sourcepp
+} // namespace sourcepp::math

@@ -1,10 +1,9 @@
 #include <studiomodelpp/structs/MDL.h>
 
 #include <BufferStream.h>
-#include <sourcepp/detail/BufferUtils.h>
+#include <sourcepp/buffer/Buffer.h>
 
 using namespace sourcepp;
-using namespace sourcepp::detail;
 using namespace studiomodelpp::MDL;
 
 constexpr int32_t MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
@@ -73,7 +72,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < boneCount; i++) {
 		auto& bone = this->bones.emplace_back();
 
-		readStringAtOffset(stream, bone.name);
+		buffer::readStringAtOffset(stream, bone.name);
 		stream
 			.read(bone.parent)
 			.read(bone.boneController)
@@ -88,7 +87,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(bone.procType)
 			.read(bone.procIndex)
 			.read(bone.physicsBone);
-		readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(Vec3f) * 4 + sizeof(Quat) * 2 + sizeof(Matrix<3,4>) + sizeof(Bone::Flags));
+		buffer::readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Matrix<3,4>) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
 		// _unused0
@@ -109,12 +108,12 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 		auto& hitboxSet = this->hitboxSets.emplace_back();
 
-		readStringAtOffset(stream, hitboxSet.name);
+		buffer::readStringAtOffset(stream, hitboxSet.name);
 		auto hitboxCount = stream.read<int32_t>();
 		auto hitboxOffset = stream.read<int32_t>();
 
 		for (int j = 0; j < hitboxCount; j++) {
-			auto hitboxPos = hitboxOffset + j * (sizeof(int32_t) * 11 + sizeof(Vec3f) * 2);
+			auto hitboxPos = hitboxOffset + j * (sizeof(int32_t) * 11 + sizeof(math::Vec3f) * 2);
 			stream.seek(hitboxSetPos + hitboxPos);
 
 			auto& hitbox = hitboxSet.hitboxes.emplace_back();
@@ -152,9 +151,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < materialCount; i++) {
 		auto& material = this->materials.emplace_back();
 
-		// Needs to be read from the base of the data structure
-		readStringAtOffset(stream, material.name);
-
+		buffer::readStringAtOffset(stream, material.name);
 		stream.read(material.flags);
 
 		// used
@@ -166,7 +163,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	stream.seek(materialDirOffset);
 	for (int i = 0; i < materialDirCount; i++) {
 		auto& materialDir = this->materialDirectories.emplace_back();
-		readStringAtOffset(stream, materialDir, std::ios::beg, 0);
+
+		buffer::readStringAtOffset(stream, materialDir, std::ios::beg, 0);
 	}
 
     stream.seek(skinReferenceOffset);
@@ -184,7 +182,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 		auto& bodyPart = this->bodyParts.emplace_back();
 
-		readStringAtOffset(stream, bodyPart.name);
+		buffer::readStringAtOffset(stream, bodyPart.name);
 
 		auto modelsCount = stream.read<int32_t>();
 		// base
@@ -210,7 +208,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				.read(model.verticesOffset);
 
 			for (int k = 0; k < meshesCount; k++) {
-				auto meshPos = meshesOffset + k * (sizeof(int32_t) * (18 + MAX_LOD_COUNT) + sizeof(Vec3f));
+				auto meshPos = meshesOffset + k * (sizeof(int32_t) * (18 + MAX_LOD_COUNT) + sizeof(math::Vec3f));
 				stream.seek(bodyPartPos + modelPos + meshPos);
 
 				auto& mesh = model.meshes.emplace_back();
