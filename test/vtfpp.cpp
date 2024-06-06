@@ -1070,3 +1070,91 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
+
+TEST(vtfpp, read_v76_c9) {
+	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v76_c9.vtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getMajorVersion(), 7);
+	EXPECT_EQ(vtf.getMinorVersion(), 6);
+	EXPECT_EQ(vtf.getWidth(), 256);
+	EXPECT_EQ(vtf.getHeight(), 256);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getMipCount(), 10);
+	EXPECT_EQ(vtf.getFrameCount(), 1);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 3);
+
+	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_NE(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+
+	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
+	ASSERT_TRUE(auxResource);
+	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
+
+	::createFile("v76_c9.png", vtf.convertAndSaveImageDataToFile());
+}
+
+TEST(vtfpp, read_v76_nomip_c9) {
+	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v76_nomip_c9.vtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getMajorVersion(), 7);
+	EXPECT_EQ(vtf.getMinorVersion(), 6);
+	EXPECT_EQ(vtf.getWidth(), 256);
+	EXPECT_EQ(vtf.getHeight(), 256);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getMipCount(), 1);
+	EXPECT_EQ(vtf.getFrameCount(), 1);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 3);
+
+	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_NE(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+
+	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
+	ASSERT_TRUE(auxResource);
+	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
+
+	::createFile("v76_nomip_c9.png", vtf.convertAndSaveImageDataToFile());
+}
