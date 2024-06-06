@@ -537,10 +537,10 @@ namespace {
 				for (int j = 0; j < 8; j++) {
 					newData.push_back({});
 				}
-				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 8]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i]) * 65535.f);
-				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 6]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 4]) * 65535.f);
-				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 4]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 8]) * 65535.f);
-				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = static_cast<uint16_t>(*reinterpret_cast<const float*>(&imageData[i + 12]) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 8]) = static_cast<uint16_t>(std::clamp(*reinterpret_cast<const float*>(&imageData[i]), 0.f, 1.f) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 6]) = static_cast<uint16_t>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 4]), 0.f, 1.f) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 4]) = static_cast<uint16_t>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 8]), 0.f, 1.f) * 65535.f);
+				*reinterpret_cast<uint16_t*>(&newData[newData.size() - 2]) = static_cast<uint16_t>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 12]), 0.f, 1.f) * 65535.f);
 			}
 			break;
 		default:
@@ -568,10 +568,10 @@ namespace {
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
 	for (int i = 0; i < imageData.size(); i += 16) {
-		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i]) * 255, 0.f, 255.f)));
-		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 4]) * 255, 0.f, 255.f)));
-		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 8]) * 255, 0.f, 255.f)));
-		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 12]) * 255, 0.f, 255.f)));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i]), 0.f, 1.f) * 255));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 4]), 0.f, 1.f) * 255));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 8]), 0.f, 1.f) * 255));
+		newData.push_back(static_cast<std::byte>(std::clamp(*reinterpret_cast<const float*>(&imageData[i + 12]), 0.f, 1.f) * 255));
 	}
 	return newData;
 }
