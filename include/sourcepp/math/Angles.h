@@ -15,7 +15,7 @@ struct QuatCompressed48 {
 	uint16_t x : 16;
 	uint16_t y : 16;
 	uint16_t z : 15;
-	uint16_t w : 1;
+	uint16_t wn : 1;
 
 	[[nodiscard]] Quat decompress() const {
 		// Convert from 16-bit (or 15-bit) integers to floating point values in the range [-1, 1]
@@ -27,7 +27,7 @@ struct QuatCompressed48 {
 		float fw = std::sqrt(1.f - fx * fx - fy * fy - fz * fz);
 
 		// Adjust w based on the stored sign bit
-		if (this->w == 0) {
+		if (this->wn) {
 			fw = -fw;
 		}
 
@@ -35,12 +35,12 @@ struct QuatCompressed48 {
 	}
 };
 
-/// Lower precision Quat compressed to 12 bytes
+/// Lower precision Quat compressed to 8 bytes
 struct QuatCompressed64 {
 	uint32_t x : 21;
 	uint32_t y : 21;
 	uint32_t z : 21;
-	uint32_t w : 1;
+	uint32_t wn : 1;
 
 	[[nodiscard]] Quat decompress() const {
 		// Convert from 21-bit integers to floating point values in the range [-1, 1]
@@ -52,7 +52,7 @@ struct QuatCompressed64 {
 		double fw = std::sqrt(1.0 - fx * fx - fy * fy - fz * fz);
 
 		// Adjust w based on the stored sign bit
-		if (this->w == 0) {
+		if (this->wn) {
 			fw = -fw;
 		}
 
