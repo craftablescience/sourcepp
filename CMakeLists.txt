@@ -28,8 +28,16 @@ if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
 endif()
 
 
-# BufferStream
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
+# bufferstream
+if(NOT TARGET bufferstream)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
+endif()
+
+
+# miniz
+if(SOURCEPP_USE_VTFPP AND NOT TARGET miniz)
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/miniz")
+endif()
 
 
 # stb_image
@@ -134,9 +142,9 @@ if(SOURCEPP_USE_VTFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
-    target_link_libraries(vtfpp PRIVATE stb_image)
+    target_link_libraries(vtfpp PRIVATE miniz stb_image)
 
-    # I hate Compressonator
+    # Compressonator
     if(MSVC)
         if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
             target_link_libraries(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/win64/Compressonator_MT$<$<CONFIG:Debug>:d>.lib")

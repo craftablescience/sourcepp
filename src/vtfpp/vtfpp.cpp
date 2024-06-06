@@ -1,6 +1,7 @@
 #include <vtfpp/vtfpp.h>
 
 #include <BufferStream.h>
+#include <miniz.h>
 
 #include <vtfpp/ImageConversion.h>
 
@@ -11,12 +12,12 @@ Resource::ConvertedData Resource::convertData() const {
 	switch (this->type) {
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
-			if (this->data.size() != 4) {
+			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
 			return *reinterpret_cast<const uint32_t*>(this->data.data());
 		case TYPE_LOD_CONTROL_INFO:
-			if (this->data.size() != 4) {
+			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
 			return std::make_pair(
@@ -24,10 +25,15 @@ Resource::ConvertedData Resource::convertData() const {
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1)
 			);
 		case TYPE_KEYVALUES_DATA:
-			if (this->data.size() <= 4) {
+			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
 			}
 			return std::string(reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()));
+		case TYPE_AUX_COMPRESSION:
+			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
+				return {};
+			}
+			return std::span<uint32_t>{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
 		default:
 			break;
 	}
@@ -87,7 +93,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		auto resourceCount = stream.read<uint32_t>();
 		stream.skip(8);
 
-		int lastResourceIndex = -1;
+		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
 			auto& resource = this->resources.emplace_back(new Resource{});
 
@@ -98,24 +104,28 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			resource->data = stream.read_span<std::byte>(4);
 
 			if (!(resource->flags & Resource::FLAG_NO_DATA)) {
-				if (lastResourceIndex >= 0) {
-					auto lastOffset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex]->data.data());
+				if (lastResource) {
+					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
 					auto currentOffset = *reinterpret_cast<uint32_t*>(resource->data.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
-					this->resources[lastResourceIndex]->data = stream.read_span<std::byte>(currentOffset - lastOffset);
+					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(curPos);
 				}
-				lastResourceIndex = static_cast<int>(this->resources.size() - 1);
+				lastResource = this->resources.back().get();
 			}
 		}
-		if (lastResourceIndex >= 0) {
-			auto offset = *reinterpret_cast<uint32_t*>(this->resources[lastResourceIndex]->data.data());
+		if (lastResource) {
+			auto offset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
 			auto curPos = stream.tell();
 			stream.seek(offset);
-			this->resources[lastResourceIndex]->data = stream.read_span<std::byte>(stream.size() - offset);
+			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
 			stream.seek(curPos);
+		}
+
+		if (auto auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
+			this->hasAuxCompression = auxResource->getDataAsAuxCompressionLevel() != 0;
 		}
 
 		this->opened = stream.tell() == headerLength;
@@ -229,23 +239,73 @@ const Resource* VTF::getResource(Resource::Type type) const {
 	return nullptr;
 }
 
-std::span<const std::byte> VTF::getImageData(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
-	if (auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-		uint32_t offset, length;
-		if (!ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
+std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
+	auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
+	if (!imageResource) {
+		return {};
+	}
+
+	uint32_t offset, length;
+	if (this->hasAuxCompression) {
+		auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
+		if (!auxResource) {
 			return {};
 		}
+
+		offset = 0;
+		length = 0;
+		for (int i = this->mipCount - 1; i >= 0; i--) {
+			for (int j = 0; j < this->frameCount; j++) {
+				for (int k = 0; k < this->getFaceCount(); k++) {
+					// This is done out of hope that it works, but it probably doesn't...
+					// Don't compress a volumetric texture if you want it to load properly...
+					for (int l = 0; l < this->sliceCount; l++) {
+						length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
+						if (i == mip && j == frame && k == face && l == slice) {
+							return imageResource->data.subspan(offset, length);
+						} else {
+							offset += length;
+						}
+					}
+				}
+			}
+		}
+	} else if (ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
 		return imageResource->data.subspan(offset, length);
 	}
 	return {};
 }
 
 std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
-	auto rawImageData = this->getImageData(mip, frame, face, slice);
+	auto rawImageData = this->getImageDataRaw(mip, frame, face, slice);
 	if (rawImageData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+
+	if (!this->hasAuxCompression) {
+		return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+	}
+
+	auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
+	if (!auxResource) {
+		return {};
+	}
+
+	// This section can be changed to limit realloc's but I don't know how and I don't care
+	mz_ulong decompressedImageDataSize = rawImageData.size();
+	std::vector<std::byte> decompressedImageData;
+	int mzStatus;
+	do {
+		decompressedImageDataSize *= 2;
+		decompressedImageData.resize(decompressedImageDataSize);
+		mzStatus = mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data()), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(rawImageData.data()), rawImageData.size());
+	} while (mzStatus == MZ_BUF_ERROR);
+
+	if (mzStatus != MZ_OK) {
+		return {};
+	}
+	decompressedImageData.resize(decompressedImageDataSize);
+	return decompressedImageData;
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
@@ -253,14 +313,22 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 }
 
 std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
-	auto rawImageData = this->getImageData(mip, frame, face, slice);
+	std::span<const std::byte> rawImageData;
+	std::vector<std::byte> decompressedImageData;
+	if (this->hasAuxCompression) {
+		decompressedImageData = this->getImageDataAs(this->format, mip, frame, face, slice);
+		rawImageData = {decompressedImageData.begin(), decompressedImageData.end()};
+	} else {
+		rawImageData = this->getImageDataRaw(mip, frame, face, slice);
+	}
+
 	if (rawImageData.empty()) {
 		return {};
 	}
 	return ImageConversion::convertImageDataToFile(rawImageData, this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
-std::span<const std::byte> VTF::getThumbnailData() const {
+std::span<const std::byte> VTF::getThumbnailDataRaw() const {
 	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
 		return thumbnailResource->data;
 	}
@@ -268,7 +336,7 @@ std::span<const std::byte> VTF::getThumbnailData() const {
 }
 
 std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
-	auto rawThumbnailData = this->getThumbnailData();
+	auto rawThumbnailData = this->getThumbnailDataRaw();
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
@@ -280,7 +348,7 @@ std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
 }
 
 std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
-	auto rawThumbnailData = this->getThumbnailData();
+	auto rawThumbnailData = this->getThumbnailDataRaw();
 	if (rawThumbnailData.empty()) {
 		return {};
 	}

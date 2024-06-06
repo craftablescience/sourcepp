@@ -43,7 +43,8 @@ struct Resource {
 			std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 			uint32_t, // CRC, TSO
 			std::pair<uint8_t, uint8_t>, // LOD
-			std::string // KVD
+			std::string, // KVD
+			std::span<uint32_t> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
@@ -61,6 +62,14 @@ struct Resource {
 
 	[[nodiscard]] std::string getDataAsKeyValuesData() const {
 		return std::get<std::string>(this->convertData());
+	}
+
+	[[nodiscard]] uint32_t getDataAsAuxCompressionLevel() const {
+		return std::get<std::span<uint32_t>>(this->convertData())[1];
+	}
+
+	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
+		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
 };
 
@@ -151,7 +160,7 @@ public:
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
-	[[nodiscard]] std::span<const std::byte> getImageData(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::span<const std::byte> getImageDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
 
@@ -159,7 +168,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> convertAndSaveImageDataToFile(uint8_t mip = 0, uint16_t frame = 0, uint16_t face = 0, uint16_t slice = 0) const;
 
-	[[nodiscard]] std::span<const std::byte> getThumbnailData() const;
+	[[nodiscard]] std::span<const std::byte> getThumbnailDataRaw() const;
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAs(ImageFormat newFormat) const;
 
@@ -197,14 +206,17 @@ private:
 	uint8_t thumbnailWidth{};
 	uint8_t thumbnailHeight{};
 
-	// 1 for v7.1 or less
+	// 1 for v7.1 and lower
 	uint16_t sliceCount{};
 	//uint8_t _padding2[3];
 
-	// Technically added in v7.3, but we can use it to store image and thumbnail data in v7.2 and lower anyway
+	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
 	//uint32_t resourceCount;
 	std::vector<std::unique_ptr<Resource>> resources;
 	//uint8_t _padding3[4];
+
+	// False for v7.5 and lower (not actually a field in the header, just simplifies the check)
+	bool hasAuxCompression = false;
 };
 
 } // namespace vtfpp

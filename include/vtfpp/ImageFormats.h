@@ -16,7 +16,7 @@ namespace ImageDimensions {
 	return ceil(static_cast<float>(dim) / static_cast<float>(1 << mip));
 }
 
-} // namespace Image
+} // namespace ImageDimensions
 
 enum class ImageFormat : int32_t {
 	RGBA8888 = 0,
