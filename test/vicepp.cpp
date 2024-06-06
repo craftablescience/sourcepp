@@ -7,8 +7,8 @@
 using namespace vicepp;
 
 TEST(vicepp, decrypt) {
-	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.ctx");
-	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.txt");
+	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.enc");
+	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
 	auto test = decrypt(encrypted, KnownCodes::HL2DM);
 	ASSERT_EQ(test.size(), decrypted.size());
@@ -19,8 +19,8 @@ TEST(vicepp, decrypt) {
 }
 
 TEST(vicepp, encrypt) {
-	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.ctx");
-	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.txt");
+	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.enc");
+	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
 	auto test = encrypt(decrypted, KnownCodes::HL2DM);
 	ASSERT_EQ(test.size(), encrypted.size());

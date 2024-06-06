@@ -5,7 +5,7 @@
 
 std::vector<std::byte> readFile(const std::string& path) {
 	std::ifstream file(path, std::ios::binary);
-	file >> std::skipws;
+	file.unsetf(std::ios::skipws);
 	auto size = std::filesystem::file_size(path);
 	std::vector<std::byte> out(size);
 	file.read(reinterpret_cast<char*>(out.data()), static_cast<std::streamsize>(size));
