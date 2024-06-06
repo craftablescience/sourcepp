@@ -64,8 +64,8 @@ struct Resource {
 		return std::get<std::string>(this->convertData());
 	}
 
-	[[nodiscard]] uint32_t getDataAsAuxCompressionLevel() const {
-		return std::get<std::span<uint32_t>>(this->convertData())[1];
+	[[nodiscard]] int32_t getDataAsAuxCompressionLevel() const {
+		return static_cast<int32_t>(std::get<std::span<uint32_t>>(this->convertData())[1]);
 	}
 
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
