@@ -1,12 +1,10 @@
 #pragma once
 
-#include <concepts>
-
 #include "Integer.h"
 
 namespace sourcepp::math {
 
-template<uint8_t M, uint8_t N, std::floating_point P = float>
+template<uint8_t M, uint8_t N, Arithmetic P = float>
 class Matrix {
 public:
 	[[nodiscard]] P* operator[](uint8_t i) { return this->data[i]; }
