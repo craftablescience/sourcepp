@@ -17,6 +17,10 @@ struct Vec2 {
 		return {this->x - other.x, this->y - other.y};
 	}
 
+	[[nodiscard]] bool operator==(const Vec2& other) const {
+		return this->x == other.x && this->y == other.y;
+	}
+
 	[[nodiscard]] static constexpr Vec2 zero() {
 		return {{}, {}};
 	}
@@ -50,6 +54,10 @@ struct Vec3 {
 
 	[[nodiscard]] Vec3 operator-(const Vec3& other) const {
 		return {this->x - other.x, this->y - other.y, this->z - other.z};
+	}
+
+	[[nodiscard]] bool operator==(const Vec3& other) const {
+		return this->x == other.x && this->y == other.y && this->z == other.z;
 	}
 
 	[[nodiscard]] static constexpr Vec3 zero() {
@@ -86,6 +94,10 @@ struct Vec4 {
 
 	[[nodiscard]] Vec4 operator-(const Vec4& other) const {
 		return {this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w};
+	}
+
+	[[nodiscard]] bool operator==(const Vec4& other) const {
+		return this->x == other.x && this->y == other.y && this->z == other.z && this->w == other.w;
 	}
 
 	[[nodiscard]] static constexpr Vec4 zero() {
