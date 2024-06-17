@@ -11,9 +11,6 @@ public:
 
 	[[nodiscard]] const P* operator[](uint8_t i) const { return this->data[i]; }
 
-	// todo(c++23): convert to operator[]
-	[[nodiscard]] P operator()(uint8_t i, uint8_t j) const { return this->data[i][j]; }
-
 private:
 	P data[M][N];
 };

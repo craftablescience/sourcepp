@@ -115,7 +115,7 @@ std::string Attribute::getValue() const {
 			for (int i = 0; i < 4; i++) {
 				out += (i == 0 ? '[' : ' ');
 				for (int j = 0; j < 4; j++) {
-					out += std::to_string(mat4(i,j));
+					out += std::to_string(mat4[i][j]);
 					if (j < 3) {
 						out += ", ";
 					} else if (i < 3) {
@@ -236,7 +236,7 @@ std::string Attribute::getValue() const {
 				for (int i = 0; i < 4; i++) {
 					out += (i == 0 ? "" : "  ");
 					for (int j = 0; j < 4; j++) {
-						out += std::to_string(matrices[m](i,j));
+						out += std::to_string(matrices[m][i][j]);
 						if (j < 3) {
 							out += ", ";
 						} else if (i < 3) {

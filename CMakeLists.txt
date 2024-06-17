@@ -48,9 +48,9 @@ if(SOURCEPP_USE_VTFPP AND NOT TARGET miniz)
 endif()
 
 
-# stb_image
+# stb
 if(SOURCEPP_USE_VTFPP)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/stb_image")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/stb")
 endif()
 
 
@@ -147,7 +147,7 @@ if(SOURCEPP_USE_VICEPP)
     add_pretty_parser(vicepp SOURCES
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vicepp/vicepp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vicepp/vicepp.cpp")
-    target_link_libraries(vicepp PRIVATE ice)
+    target_link_libraries(vicepp PRIVATE sourcepp_ice)
 endif()
 
 
@@ -169,7 +169,7 @@ if(SOURCEPP_USE_VTFPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
-    target_link_libraries(vtfpp PRIVATE miniz stb_image)
+    target_link_libraries(vtfpp PRIVATE miniz sourcepp_stb)
 
     # Compressonator
     if(MSVC)

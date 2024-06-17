@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(ice)
+project(sourcepp_ice)
 set(CMAKE_CXX_STANDARD 20)
 
 # Create library
