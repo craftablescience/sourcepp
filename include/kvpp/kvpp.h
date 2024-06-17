@@ -31,8 +31,6 @@ public:
 			return std::stoi(this->value);
 		} else if constexpr (std::same_as<T, float>) {
 			return std::stof(this->value);
-		} else {
-			static_assert(false, "Invalid type!");
 		}
 		return T{};
 	}
