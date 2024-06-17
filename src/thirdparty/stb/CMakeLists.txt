@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(stb_image)
+project(sourcepp_stb)
 set(CMAKE_CXX_STANDARD 20)
 
 # Create library
