@@ -38,6 +38,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
+    <td rowspan="1"><code>fspp</code><sup>*</sup></td>
+    <td>(WIP) Source 1 filesystem accessor</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="1" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
     <td rowspan="3"><code>gamepp</code></td>
     <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>
