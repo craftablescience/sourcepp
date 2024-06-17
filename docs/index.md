@@ -36,6 +36,13 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td rowspan="1" align="center"></td>
   </tr>
   <tr>
+    <td rowspan="1"><code>fspp</code><sup>*</sup></td>
+    <td>(WIP) Source 1 filesystem accessor</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="1" align="center"></td>
+  </tr>
+  <tr>
     <td rowspan="2"><code>gamepp</code></td>
     <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>

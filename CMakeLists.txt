@@ -18,6 +18,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 option(SOURCEPP_LIBS_START_ENABLED "Libraries will all build by default"                             ON)
 option(SOURCEPP_USE_BSPPP          "Build bsppp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_DMXPP          "Build dmxpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_FSPP           "Build fspp library"                  ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_GAMEPP         "Build gamepp library"                ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_KVPP           "Build kvpp library"                  ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_MDLPP          "Build mdlpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
@@ -46,6 +47,12 @@ option(SOURCEPP_VPKPP_SUPPORT_VPK_V54 "Support compressed v54 VPKs" ON)
 
 # Option overrides
 if(SOURCEPP_USE_BSPPP)
+    set(SOURCEPP_USE_VPKPP ON CACHE INTERNAL "" FORCE)
+endif()
+if(SOURCEPP_USE_FSPP)
+    set(SOURCEPP_USE_BSPPP ON CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_USE_STEAMPP ON CACHE INTERNAL "" FORCE)
     set(SOURCEPP_USE_VPKPP ON CACHE INTERNAL "" FORCE)
 endif()
 if(SOURCEPP_USE_STEAMPP)
@@ -188,6 +195,7 @@ endif()
 # Add libraries
 add_sourcepp_library(bsppp                    NO_TEST      ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                                 ) # sourcepp::dmxpp
+add_sourcepp_library(fspp                                  ) # sourcepp::fspp
 add_sourcepp_library(gamepp   C        PYTHON              ) # sourcepp::gamepp
 add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
@@ -257,7 +265,7 @@ endif()
 
 # Print options
 print_options(OPTIONS
-        USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
+        USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
         BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
