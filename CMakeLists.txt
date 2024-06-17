@@ -10,7 +10,6 @@ option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                  O
 option(SOURCEPP_USE_KVPP                "Build kvpp library"                   ON)
 option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                  ON)
 option(SOURCEPP_USE_VICEPP              "Build vicepp library"                 ON)
-option(SOURCEPP_USE_VMFPP               "Build vmfpp library"                  ON)
 option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                  ON)
 option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"   OFF)
 option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
@@ -148,16 +147,6 @@ if(SOURCEPP_USE_VICEPP)
             "${CMAKE_CURRENT_SOURCE_DIR}/include/vicepp/vicepp.h"
             "${CMAKE_CURRENT_SOURCE_DIR}/src/vicepp/vicepp.cpp")
     target_link_libraries(vicepp PRIVATE sourcepp_ice)
-endif()
-
-
-# vmfpp
-if(SOURCEPP_USE_VMFPP)
-    add_pretty_parser(vmfpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vmfpp/structs/Node.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vmfpp/vmfpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/structs/Node.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vmfpp/vmfpp.cpp")
 endif()
 
 
