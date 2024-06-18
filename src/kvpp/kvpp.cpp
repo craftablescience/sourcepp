@@ -23,7 +23,7 @@ void eatWhitespace(BufferStream& stream) {
 	while (::isWhitespace(stream.read<char>())) {}
 	stream.seek(-1, std::ios::cur);
 
-	if (stream.peek<char>(0) == '/' && (stream.peek<char>(1) == '/' || stream.peek<char>(1) == '*')) {
+	if (stream.peek<char>(0) == '/' && stream.peek<char>(1) == '/') {
 		stream.skip(2);
 		::eatComment(stream);
 		::eatWhitespace(stream);
@@ -31,15 +31,15 @@ void eatWhitespace(BufferStream& stream) {
 	}
 }
 
-std::string readString(BufferStream& stream, bool useEscapeSequences, char start = '\"', char end = '\"') {
-	std::string out;
+std::string_view readString(BufferStreamReadOnly& stream, BufferStream& backing, bool useEscapeSequences, char start = '\"', char end = '\"') {
+	auto startSpan = backing.tell();
 
 	bool stopAtWhitespace = true;
 	char c = stream.read<char>();
 	if (c == start) {
 		stopAtWhitespace = false;
 	} else {
-		out += c;
+		backing << c;
 	}
 
 	for (c = stream.read<char>(); c != end; c = stream.read<char>()) {
@@ -52,21 +52,21 @@ std::string readString(BufferStream& stream, bool useEscapeSequences, char start
 				break;
 			}
 			if (n == 'n') {
-				out += '\n';
+				backing << '\n';
 			} else if (n == 't') {
-				out += '\t';
+				backing << '\t';
 			} else if (n == '\\' || n == '\"') {
-				out += n;
+				backing << n;
 			} else {
-				out += c;
-				out += n;
+				backing << c << n;
 			}
 		} else {
-			out += c;
+			backing << c;
 		}
 	}
 
-	return out;
+	backing << '\0';
+	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
 }
 
 } // namespace
@@ -142,33 +142,37 @@ const Element& Element::getInvalid() {
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-void Element::readElementsFrom(BufferStream& stream, std::vector<Element>& elements, bool useEscapeSequences) {
+void Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<Element>& elements, bool useEscapeSequences) {
 	while (true) {
+		// Check if the block is over
 		::eatWhitespace(stream);
 		if (static_cast<char>(stream.peek(0)) == '}') {
 			stream.skip();
 			break;
 		}
-
-		auto childKey = ::readString(stream, useEscapeSequences);
-		elements.push_back({});
-		auto& element = elements.back();
-		element.key = childKey;
-		::eatWhitespace(stream);
-
+		// Read key
+		{
+			auto childKey = ::readString(stream, backing, useEscapeSequences);
+			elements.push_back({});
+			elements.back().key = childKey;
+			::eatWhitespace(stream);
+		}
+		// Read value
 		if (stream.peek<char>(0) != '{') {
-			element.value = ::readString(stream, useEscapeSequences);
+			elements.back().value = ::readString(stream, backing, useEscapeSequences);
 			::eatWhitespace(stream);
 		}
+		// Read conditional
 		if (stream.peek<char>(0) == '[') {
-			element.conditional = ::readString(stream, useEscapeSequences, '[', ']');
+			elements.back().conditional = ::readString(stream, backing, useEscapeSequences, '[', ']');
 			::eatWhitespace(stream);
 		}
+		// Read block
 		if (stream.peek<char>(0) == '{') {
 			stream.skip();
 			::eatWhitespace(stream);
 			if (stream.peek<char>(0) != '}') {
-				readElementsFrom(stream, element.children, useEscapeSequences);
+				readElements(stream, backing, elements.back().children, useEscapeSequences);
 			} else {
 				stream.skip();
 			}
@@ -180,7 +184,9 @@ KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
 		: Element()
 		, useEscapeSequences(useEscapeSequences_) {
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
+	this->backingData.resize(kv1Data.size());
+	BufferStream backing{this->backingData};
 	try {
-		readElementsFrom(stream, this->children, this->useEscapeSequences);
+		readElements(stream, backing, this->children, this->useEscapeSequences);
 	} catch (const std::overflow_error&) {}
 }

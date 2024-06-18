@@ -83,10 +83,8 @@ TEST(kvpp, read_escaped) {
 
 TEST(kvpp, read_comments) {
 	KV1 kv1{R"(
-/* keys */
 "keys"
 {   // cool
-	/* test */ "i'm not parsed" "because keyvalues is a bad format"
     "test"   "1" // so nice
     "test 2"  0  // here's another one
 }

@@ -8,6 +8,7 @@
 #include <sourcepp/math/Integer.h>
 
 class BufferStream;
+class BufferStreamReadOnly;
 
 namespace kvpp {
 
@@ -28,9 +29,9 @@ public:
 		} else if constexpr (std::same_as<T, bool>) {
 			return static_cast<bool>(this->getValue<int>());
 		} else if constexpr (std::same_as<T, int>) {
-			return std::stoi(this->value);
+			return std::stoi(std::string{this->value});
 		} else if constexpr (std::same_as<T, float>) {
-			return std::stof(this->value);
+			return std::stof(std::string{this->value});
 		}
 		return T{};
 	}
@@ -63,16 +64,16 @@ public:
 	[[nodiscard]] bool isInvalid() const;
 
 protected:
-	std::string key;
-	std::string value;
-	std::string conditional;
+	std::string_view key;
+	std::string_view value = ""; // NOLINT(*-redundant-string-init)
+	std::string_view conditional = ""; // NOLINT(*-redundant-string-init)
 	std::vector<Element> children;
 
 	Element() = default;
 
 	static const Element& getInvalid();
 
-	static void readElementsFrom(BufferStream& stream, std::vector<Element>& element, bool useEscapeSequences);
+	static void readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<Element>& element, bool useEscapeSequences);
 };
 
 class KV1 : public Element {
@@ -84,6 +85,7 @@ protected:
 	using Element::getValue;
 	using Element::getConditional;
 
+	std::string backingData;
 	bool useEscapeSequences;
 };
 
