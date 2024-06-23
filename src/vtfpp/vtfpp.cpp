@@ -13,31 +13,30 @@ Resource::ConvertedData Resource::convertData() const {
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
 			if (this->data.size() != sizeof(uint32_t)) {
-				return {};
+				return Resource::ConvertedData{std::monostate{}};
 			}
-			return *reinterpret_cast<const uint32_t*>(this->data.data());
+			return Resource::ConvertedData{*reinterpret_cast<const uint32_t*>(this->data.data())};
 		case TYPE_LOD_CONTROL_INFO:
 			if (this->data.size() != sizeof(uint32_t)) {
-				return {};
+				return Resource::ConvertedData{std::monostate{}};
 			}
-			return std::make_pair(
+			return Resource::ConvertedData{std::make_pair(
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 0),
-					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1)
-			);
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1))};
 		case TYPE_KEYVALUES_DATA:
 			if (this->data.size() <= sizeof(uint32_t)) {
-				return "";
+				return Resource::ConvertedData{""};
 			}
-			return std::string(reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()));
+			return Resource::ConvertedData{std::string(reinterpret_cast<const char*>(this->data.data() + 4), *reinterpret_cast<const uint32_t*>(this->data.data()))};
 		case TYPE_AUX_COMPRESSION:
 			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
-				return {};
+				return Resource::ConvertedData{std::monostate{}};
 			}
-			return std::span<uint32_t>{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
+			return Resource::ConvertedData{std::span<uint32_t>{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4}};
 		default:
 			break;
 	}
-	return {};
+	return Resource::ConvertedData{std::monostate{}};
 }
 
 VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
@@ -111,7 +110,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
-					stream.seek(curPos);
+					stream.seek(static_cast<int64_t>(curPos));
 				}
 				lastResource = this->resources.back().get();
 			}
@@ -121,7 +120,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			auto curPos = stream.tell();
 			stream.seek(offset);
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
-			stream.seek(curPos);
+			stream.seek(static_cast<int64_t>(curPos));
 		}
 
 		if (auto auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
