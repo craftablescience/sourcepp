@@ -1,15 +1,15 @@
 #include <gtest/gtest.h>
 
+#include <sourcepp/fs/FS.h>
 #include <vtfpp/vtfpp.h>
 
-#include "Helpers.h"
-
+using namespace sourcepp;
 using namespace vtfpp;
 
 #if 0
 
 TEST(vtfpp, read_fmt_rgba8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_rgba8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_rgba8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -28,7 +28,7 @@ TEST(vtfpp, read_fmt_rgba8888) {
 }
 
 TEST(vtfpp, read_fmt_abgr8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_abgr8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_abgr8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -47,7 +47,7 @@ TEST(vtfpp, read_fmt_abgr8888) {
 }
 
 TEST(vtfpp, read_fmt_rgb888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_rgb888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_rgb888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -66,7 +66,7 @@ TEST(vtfpp, read_fmt_rgb888) {
 }
 
 TEST(vtfpp, read_fmt_bgr888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgr888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgr888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -85,7 +85,7 @@ TEST(vtfpp, read_fmt_bgr888) {
 }
 
 TEST(vtfpp, read_fmt_rgb565) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_rgb565.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_rgb565.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -104,7 +104,7 @@ TEST(vtfpp, read_fmt_rgb565) {
 }
 
 TEST(vtfpp, read_fmt_i8) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_i8.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_i8.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -123,7 +123,7 @@ TEST(vtfpp, read_fmt_i8) {
 }
 
 TEST(vtfpp, read_fmt_ia88) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_ia88.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_ia88.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -142,7 +142,7 @@ TEST(vtfpp, read_fmt_ia88) {
 }
 
 TEST(vtfpp, read_fmt_a8) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_a8.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_a8.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -161,7 +161,7 @@ TEST(vtfpp, read_fmt_a8) {
 }
 
 TEST(vtfpp, read_fmt_rgb888_bluescreen) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_rgb888_bluescreen.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_rgb888_bluescreen.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -180,7 +180,7 @@ TEST(vtfpp, read_fmt_rgb888_bluescreen) {
 }
 
 TEST(vtfpp, read_fmt_bgr888_bluescreen) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgr888_bluescreen.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgr888_bluescreen.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -199,7 +199,7 @@ TEST(vtfpp, read_fmt_bgr888_bluescreen) {
 }
 
 TEST(vtfpp, read_fmt_argb8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_argb8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_argb8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -218,7 +218,7 @@ TEST(vtfpp, read_fmt_argb8888) {
 }
 
 TEST(vtfpp, read_fmt_bgra8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgra8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgra8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -237,7 +237,7 @@ TEST(vtfpp, read_fmt_bgra8888) {
 }
 
 TEST(vtfpp, read_fmt_dxt1) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_dxt1.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_dxt1.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -256,7 +256,7 @@ TEST(vtfpp, read_fmt_dxt1) {
 }
 
 TEST(vtfpp, read_fmt_dxt3) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_dxt3.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_dxt3.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -275,7 +275,7 @@ TEST(vtfpp, read_fmt_dxt3) {
 }
 
 TEST(vtfpp, read_fmt_dxt5) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_dxt5.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_dxt5.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -294,7 +294,7 @@ TEST(vtfpp, read_fmt_dxt5) {
 }
 
 TEST(vtfpp, read_fmt_bgrx8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgrx8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgrx8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -313,7 +313,7 @@ TEST(vtfpp, read_fmt_bgrx8888) {
 }
 
 TEST(vtfpp, read_fmt_bgr565) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgr565.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgr565.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -332,7 +332,7 @@ TEST(vtfpp, read_fmt_bgr565) {
 }
 
 TEST(vtfpp, read_fmt_bgrx5551) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgrx5551.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgrx5551.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -351,7 +351,7 @@ TEST(vtfpp, read_fmt_bgrx5551) {
 }
 
 TEST(vtfpp, read_fmt_bgra4444) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgra4444.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgra4444.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -370,7 +370,7 @@ TEST(vtfpp, read_fmt_bgra4444) {
 }
 
 TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_dxt1_one_bit_alpha.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_dxt1_one_bit_alpha.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -389,7 +389,7 @@ TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
 }
 
 TEST(vtfpp, read_fmt_bgra5551) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_bgra5551.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_bgra5551.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -408,7 +408,7 @@ TEST(vtfpp, read_fmt_bgra5551) {
 }
 
 TEST(vtfpp, read_fmt_uv88) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_uv88.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_uv88.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -427,7 +427,7 @@ TEST(vtfpp, read_fmt_uv88) {
 }
 
 TEST(vtfpp, read_fmt_uvwq8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_uvwq8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_uvwq8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -446,7 +446,7 @@ TEST(vtfpp, read_fmt_uvwq8888) {
 }
 
 TEST(vtfpp, read_fmt_uvlx8888) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/fmt_uvlx8888.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt_uvlx8888.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -467,7 +467,7 @@ TEST(vtfpp, read_fmt_uvlx8888) {
 #endif
 
 TEST(vtfpp, read_v70) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v70.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v70.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -505,7 +505,7 @@ TEST(vtfpp, read_v70) {
 }
 
 TEST(vtfpp, read_v70_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v70_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v70_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -543,7 +543,7 @@ TEST(vtfpp, read_v70_nomip) {
 }
 
 TEST(vtfpp, read_v70_nothumb) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v70_nothumb.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v70_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -579,7 +579,7 @@ TEST(vtfpp, read_v70_nothumb) {
 }
 
 TEST(vtfpp, read_v70_nothumb_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v70_nothumb_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v70_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -615,7 +615,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v71) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v71.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v71.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -653,7 +653,7 @@ TEST(vtfpp, read_v71) {
 }
 
 TEST(vtfpp, read_v71_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v71_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v71_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -691,7 +691,7 @@ TEST(vtfpp, read_v71_nomip) {
 }
 
 TEST(vtfpp, read_v71_nothumb) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v71_nothumb.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v71_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -727,7 +727,7 @@ TEST(vtfpp, read_v71_nothumb) {
 }
 
 TEST(vtfpp, read_v71_nothumb_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v71_nothumb_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v71_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -763,7 +763,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v72) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v72.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v72.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -801,7 +801,7 @@ TEST(vtfpp, read_v72) {
 }
 
 TEST(vtfpp, read_v72_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v72_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v72_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -839,7 +839,7 @@ TEST(vtfpp, read_v72_nomip) {
 }
 
 TEST(vtfpp, read_v72_nothumb) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v72_nothumb.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v72_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -875,7 +875,7 @@ TEST(vtfpp, read_v72_nothumb) {
 }
 
 TEST(vtfpp, read_v72_nothumb_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v72_nothumb_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v72_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -911,7 +911,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v75) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v75.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v75.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -962,7 +962,7 @@ TEST(vtfpp, read_v75) {
 }
 
 TEST(vtfpp, read_v75_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v75_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v75_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1000,7 +1000,7 @@ TEST(vtfpp, read_v75_nomip) {
 }
 
 TEST(vtfpp, read_v75_nothumb) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v75_nothumb.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v75_nothumb.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1036,7 +1036,7 @@ TEST(vtfpp, read_v75_nothumb) {
 }
 
 TEST(vtfpp, read_v75_nothumb_nomip) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v75_nothumb_nomip.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v75_nothumb_nomip.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1072,7 +1072,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 }
 
 TEST(vtfpp, read_v76_c9) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v76_c9.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v76_c9.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header
@@ -1114,7 +1114,7 @@ TEST(vtfpp, read_v76_c9) {
 }
 
 TEST(vtfpp, read_v76_nomip_c9) {
-	VTF vtf{::readFile(ASSET_ROOT "vtfpp/v76_nomip_c9.vtf")};
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/v76_nomip_c9.vtf")};
 	ASSERT_TRUE(vtf);
 
 	// Header

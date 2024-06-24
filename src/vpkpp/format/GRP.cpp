@@ -4,12 +4,11 @@
 
 #include <FileStream.h>
 
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 GRP::GRP(const std::string& fullFilePath_, PackFileOptions options_)
 		: PackFile(fullFilePath_, options_) {
@@ -82,7 +81,7 @@ std::optional<std::vector<std::byte>> GRP::readEntry(const Entry& entry) const {
 					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					} else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
 					}
 					return unbakedData;
 				}

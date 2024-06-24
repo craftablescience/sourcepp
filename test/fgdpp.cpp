@@ -2,8 +2,6 @@
 
 #include <fgdpp/fgdpp.h>
 
-#include "Helpers.h"
-
 using namespace fgdpp;
 
 TEST(fgdpp, parseBasePortal2) {

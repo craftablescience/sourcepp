@@ -7,10 +7,11 @@
 #include <sstream>
 #include <utility>
 
+#include <FileStream.h>
+
 #include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
-#include <vpkpp/detail/Misc.h>
 #include <vpkpp/format/BSP.h>
 #include <vpkpp/format/FPX.h>
 #include <vpkpp/format/GCF.h>
@@ -23,7 +24,6 @@
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 namespace {
 
@@ -177,11 +177,11 @@ bool PackFile::verifyFileSignature() const {
 
 std::optional<Entry> PackFile::findEntry(const std::string& filename_, bool includeUnbaked) const {
 	auto filename = filename_;
-	::normalizeSlashes(filename);
+	string::normalizeSlashes(filename);
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	if (this->entries.contains(dir)) {
 		for (const Entry& entry : this->entries.at(dir)) {
@@ -219,7 +219,7 @@ void PackFile::addEntry(const std::string& filename_, const std::string& pathToF
 		return;
 	}
 
-	auto buffer = ::readFileData(pathToFile, 0);
+	auto buffer = fs::readFileBuffer(pathToFile);
 
 	Entry entry{};
 	entry.unbaked = true;
@@ -261,7 +261,7 @@ bool PackFile::removeEntry(const std::string& filename_) {
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	// Check unbaked entries first
 	if (this->unbakedEntries.contains(dir)) {
@@ -302,12 +302,12 @@ bool PackFile::extractEntry(const Entry& entry, const std::string& filePath) con
 		return false;
 	}
 
-	FileStream stream{filePath, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
+	FileStream stream{filePath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	if (!stream) {
 		return false;
 	}
 
-	stream.writeBytes(*data);
+	stream.write(*data);
 	return true;
 }
 
@@ -488,7 +488,7 @@ std::optional<std::vector<std::byte>> PackFile::readVirtualEntry(const VirtualEn
 }
 
 bool PackFile::overwriteVirtualEntry(const VirtualEntry& entry, const std::string& pathToFile) {
-	return this->overwriteVirtualEntry(entry, ::readFileData(pathToFile));
+	return this->overwriteVirtualEntry(entry, fs::readFileBuffer(pathToFile));
 }
 
 bool PackFile::overwriteVirtualEntry(const VirtualEntry& entry, const std::vector<std::byte>& data) {
@@ -579,7 +579,7 @@ std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() const {
 std::string PackFile::getBakeOutputDir(const std::string& outputDir) const {
 	std::string out = outputDir;
 	if (!out.empty()) {
-		::normalizeSlashes(out, false);
+		string::normalizeSlashes(out, false);
 	} else {
 		out = this->fullFilePath;
 		auto lastSlash = out.rfind('/');
@@ -614,6 +614,17 @@ void PackFile::mergeUnbakedEntries() {
 void PackFile::setFullFilePath(const std::string& outputDir) {
 	// Assumes PackFile::getBakeOutputDir is the input for outputDir
 	this->fullFilePath = outputDir + '/' + this->getFilename();
+}
+
+std::pair<std::string, std::string> PackFile::splitFilenameAndParentDir(const std::string& filename) {
+	auto name = filename;
+	string::normalizeSlashes(name);
+
+	auto lastSeparator = name.rfind('/');
+	auto dir = lastSeparator != std::string::npos ? name.substr(0, lastSeparator) : "";
+	name = filename.substr(lastSeparator + 1);
+
+	return {dir, name};
 }
 
 Entry PackFile::createNewEntry() {

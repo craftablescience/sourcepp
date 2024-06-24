@@ -2,8 +2,6 @@
 
 #include <kvpp/kvpp.h>
 
-#include "Helpers.h"
-
 using namespace kvpp;
 
 TEST(kvpp, read_empty) {

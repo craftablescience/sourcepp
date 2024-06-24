@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 
+#include <sourcepp/fs/FS.h>
 #include <vicepp/vicepp.h>
 
-#include "Helpers.h"
-
+using namespace sourcepp;
 using namespace vicepp;
 
 TEST(vicepp, decrypt) {
-	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.enc");
-	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.dec");
+	auto encrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.enc");
+	auto decrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
 	auto test = decrypt(encrypted, KnownCodes::HL2DM);
 	ASSERT_EQ(test.size(), decrypted.size());
@@ -19,8 +19,8 @@ TEST(vicepp, decrypt) {
 }
 
 TEST(vicepp, encrypt) {
-	auto encrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.enc");
-	auto decrypted = ::readFile(ASSET_ROOT "vicepp/weapon_pistol.dec");
+	auto encrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.enc");
+	auto decrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
 	auto test = encrypt(decrypted, KnownCodes::HL2DM);
 	ASSERT_EQ(test.size(), encrypted.size());

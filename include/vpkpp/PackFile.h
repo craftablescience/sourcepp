@@ -5,6 +5,7 @@
 #include <optional>
 #include <string>
 #include <string_view>
+#include <tuple>
 #include <unordered_map>
 #include <vector>
 
@@ -176,6 +177,8 @@ protected:
 	void mergeUnbakedEntries();
 
 	void setFullFilePath(const std::string& outputDir);
+
+	[[nodiscard]] static std::pair<std::string, std::string> splitFilenameAndParentDir(const std::string& filename);
 
 	[[nodiscard]] static Entry createNewEntry();
 
