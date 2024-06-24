@@ -3,10 +3,11 @@
 #include <algorithm>
 #include <filesystem>
 
+#include <FileStream.h>
+
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -32,7 +33,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 
 	// open file
 	FileStream reader(gcf->fullFilePath);
-	reader.seekInput(0);
+	reader.seek_in(0);
 
 	// we read the main header here (not the block header)
 	reader.read(gcf->header);
@@ -107,10 +108,10 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	// Directory stuff starts here
 
 	//Reading the header
-	uint64_t temp = reader.tellInput();
+	uint64_t temp = reader.tell_in();
 	reader.read(gcf->dirheader);
 
-	uint64_t diroffset = reader.tellInput() + (gcf->dirheader.itemcount * 28);
+	uint64_t diroffset = reader.tell_in() + (gcf->dirheader.itemcount * 28);
 	uint64_t currentoffset;
 
 	std::vector<DirectoryEntry2> direntries{};
@@ -118,8 +119,8 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	for (int i = 0; i < gcf->dirheader.itemcount; i++) {
 		DirectoryEntry2& entry = direntries.emplace_back();
 		reader.read(entry.entry_real);
-		currentoffset = reader.tellInput();
-		reader.seekInput(diroffset + entry.entry_real.nameoffset);
+		currentoffset = reader.tell_in();
+		reader.seek_in_u(diroffset + entry.entry_real.nameoffset);
 		reader.read(entry.filename);
 		if (entry.entry_real.dirtype != 0) { // if not directory
 			std::string dirname;
@@ -130,7 +131,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 				dirname.insert(0, current_filename_entry.filename);
 			}
 			Entry gcfEntry = createNewEntry();
-			::normalizeSlashes(dirname);
+			string::normalizeSlashes(dirname);
 			if (!gcf->isCaseSensitive()) {
 				string::toLower(dirname);
 				string::toLower(entry.filename);
@@ -153,16 +154,16 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 				callback(dirname, gcfEntry);
 			}
 		}
-		reader.seekInput(currentoffset);
+		reader.seek_in_u(currentoffset);
 	}
 
 	// Directory Map
 
 	// Directory Map header
-	reader.seekInput(temp + gcf->dirheader.dirsize);
+	reader.seek_in_u(temp + gcf->dirheader.dirsize);
 
 	//auto dmap = reader.read<DirectoryMapHeader>();
-	reader.skipInput<DirectoryMapHeader>();
+	reader.skip_in<DirectoryMapHeader>();
 
 	// Directory Map entries
 	for (int i = 0; i < gcf->dirheader.itemcount; i++) {
@@ -172,15 +173,15 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 
 	// Checksum header
 	//auto dummy0 = reader.read<uint32_t>();
-	reader.skipInput<uint32_t>();
+	reader.skip_in<uint32_t>();
 	auto checksumsize = reader.read<uint32_t>();
-	std::size_t checksums_start = reader.tellInput();
+	std::size_t checksums_start = reader.tell_in();
 
 	//printf("checksums start: %llu\n", checksums_start);
 	//printf("%lu %lu %lu %lu\n", gcf->header.blockcount, gcf->blockheader.used, gcf->header.appid, gcf->header.appversion);
 	// map header
 
-	ChecksumMapHeader chksummapheader = reader.read<ChecksumMapHeader>();
+	auto chksummapheader = reader.read<ChecksumMapHeader>();
 	if (chksummapheader.dummy1 != 0x14893721 || chksummapheader.dummy2 != 0x1) {
 		return nullptr;
 	}
@@ -199,7 +200,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	//printf("current pos: %llu, block header: %llu should be: %llu", reader.tellInput(), reader.tellInput() + 0x80, checksums_start + checksumsize);
 	// TODO: check the checksum RSA signature... later.. if ever...
 
-	reader.seekInput(checksums_start + checksumsize);
+	reader.seek_in_u(checksums_start + checksumsize);
 
 	reader.read(gcf->datablockheader);
 	return packFile;
@@ -290,10 +291,10 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 		uint32_t currindex = block.first_data_block_index;
 		while (currindex <= this->blockheader.count) {
 			uint64_t curfilepos = static_cast<uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
-			stream.seekInput(curfilepos);
+			stream.seek_in_u(curfilepos);
 			//printf("off %lli block %lu toread %lli should be %llu\n", stream.tellInput(), currindex, remaining, curfilepos);
 			uint32_t toreadAmt = std::min(remaining, static_cast<uint64_t>(0x2000));
-			auto streamvec = stream.readBytes(toreadAmt);
+			auto streamvec = stream.read_bytes(toreadAmt);
 			filedata.insert(filedata.end(), streamvec.begin(), streamvec.end());
 			remaining -= toreadAmt;
 			currindex = this->fragmap[currindex];

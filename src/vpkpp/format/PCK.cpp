@@ -2,9 +2,10 @@
 
 #include <filesystem>
 
+#include <FileStream.h>
+
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -46,24 +47,24 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	auto packFile = std::unique_ptr<PackFile>(pck);
 
 	FileStream reader{pck->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 
 	if (auto signature = reader.read<int32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
-		reader.seekInput(-sizeof(int32_t), std::ios::end);
+		reader.seek_in(-static_cast<int64_t>(sizeof(int32_t)), std::ios::end);
 		if (auto endSignature = reader.read<int32_t>(); endSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		reader.seekInput(-(sizeof(int32_t) + sizeof(uint64_t)), std::ios::cur);
+		reader.seek_in(-static_cast<int64_t>(sizeof(int32_t) + sizeof(uint64_t)), std::ios::cur);
 		auto distanceIntoFile = reader.read<uint64_t>();
 
-		reader.seekInput(-(distanceIntoFile + sizeof(uint64_t)), std::ios::cur);
+		reader.seek_in(-static_cast<int64_t>(distanceIntoFile + sizeof(uint64_t)), std::ios::cur);
 		if (auto startSignature = reader.read<int32_t>(); startSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		pck->startOffset = reader.tellInput() - sizeof(int32_t);
+		pck->startOffset = reader.tell_in() - sizeof(int32_t);
 	}
 
 	reader.read(pck->header.packVersion);
@@ -88,32 +89,32 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	}
 
 	// Reserved
-	reader.skipInput<int32_t>(16);
+	reader.skip_in<int32_t>(16);
 
 	// Directory
 	auto fileCount = reader.read<uint32_t>();
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		entry.path = reader.readString(reader.read<uint32_t>());
+		entry.path = reader.read_string(reader.read<uint32_t>());
 		if (entry.path.starts_with(PCK_PATH_PREFIX)) {
 			entry.path = entry.path.substr(PCK_PATH_PREFIX.length());
 		}
-		::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path);
 		if (!pck->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
 
 		entry.offset = reader.read<uint64_t>() + extraEntryContentsOffset;
 		entry.length = reader.read<uint64_t>();
-		entry.pck_md5 = reader.readBytes<16>();
+		entry.pck_md5 = reader.read_bytes<16>();
 
 		if (pck->header.packVersion > 1) {
 			entry.flags = reader.read<uint32_t>();
 		}
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir);
 		if (!pck->entries.contains(parentDir)) {
 			pck->entries[parentDir] = {};
 		}
@@ -125,7 +126,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	}
 
 	// File data
-	pck->dataOffset = reader.tellInput();
+	pck->dataOffset = reader.tell_in();
 
 	return packFile;
 }
@@ -159,8 +160,8 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seekInput(entry.offset);
-	return stream.readBytes(entry.length);
+	stream.seek_in_u(entry.offset);
+	return stream.read_bytes(entry.length);
 }
 
 Entry& PCK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
@@ -226,17 +227,17 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 		if (!stream) {
 			return false;
 		}
-		stream.seekInput(0);
-		exeData = stream.readBytes(this->startOffset);
+		stream.seek_in(0);
+		exeData = stream.read_bytes(this->startOffset);
 	}
 
 	// Write data
 	{
-		FileStream stream{outputPath, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
-		stream.seekOutput(0);
+		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream.seek_out(0);
 
 		if (!exeData.empty()) {
-			stream.writeBytes(exeData);
+			stream.write(exeData);
 		}
 
 		// Signature
@@ -260,7 +261,7 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(static_cast<uint32_t>(entriesToBake.size()));
 
 		// Dry-run to get the length of the directory section
-		this->dataOffset = stream.tellOutput();
+		this->dataOffset = stream.tell_out();
 		for (auto* entry : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
@@ -280,12 +281,12 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
-			stream.write(entryPath, entryPath.length() + padding, false);
+			stream.write(entryPath, false, entryPath.length() + padding);
 
 			entry->offset += this->dataOffset;
 			stream.write(entry->offset);
 			stream.write(entry->length);
-			stream.writeBytes(entry->pck_md5);
+			stream.write(entry->pck_md5);
 
 			if (this->header.packVersion > 1) {
 				stream.write(entry->flags);
@@ -297,11 +298,11 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 
 		// File data
-		stream.writeBytes(fileData);
+		stream.write(fileData);
 
 		// Write offset to start
 		if (this->startOffset > 0) {
-			stream.write(stream.tellOutput() - startOffset);
+			stream.write(stream.tell_out() - startOffset);
 			stream.write(PCK_SIGNATURE);
 		}
 	}

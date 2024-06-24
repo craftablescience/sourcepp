@@ -2,8 +2,9 @@
 
 #include <filesystem>
 
+#include <FileStream.h>
+
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -25,7 +26,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	auto packFile = std::unique_ptr<PackFile>(pak);
 
 	FileStream reader{pak->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 
 	if (auto signature = reader.read<int32_t>(); signature != PAK_SIGNATURE) {
 		// File is not a PAK
@@ -36,12 +37,12 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	// Directory size / file entry size
 	auto fileCount = reader.read<uint32_t>() / 64;
 
-	reader.seekInput(directoryOffset);
+	reader.seek_in(directoryOffset);
 	for (int i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path, PAK_FILENAME_MAX_SIZE);
-		::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path);
 		if (!pak->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -50,7 +51,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 		entry.length = reader.read<uint32_t>();
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir);
 		if (!pak->isCaseSensitive()) {
 			string::toLower(parentDir);
 		}
@@ -91,8 +92,8 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seekInput(entry.offset);
-	return stream.readBytes(entry.length);
+	stream.seek_in_u(entry.offset);
+	return stream.read_bytes(entry.length);
 }
 
 Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
@@ -146,8 +147,8 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	{
-		FileStream stream{outputPath, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
-		stream.seekOutput(0);
+		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream.seek_out(0);
 
 		// Signature
 		stream.write(PAK_SIGNATURE);
@@ -160,7 +161,7 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 
 		// Directory
 		for (auto entry : entriesToBake) {
-			stream.write(entry->path, PAK_FILENAME_MAX_SIZE, false);
+			stream.write(entry->path, false, PAK_FILENAME_MAX_SIZE);
 			stream.write(static_cast<uint32_t>(entry->offset + directoryIndex + directorySize));
 			stream.write(static_cast<uint32_t>(entry->length));
 
@@ -170,7 +171,7 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 
 		// File data
-		stream.writeBytes(fileData);
+		stream.write(fileData);
 	}
 
 	// Clean up
