@@ -1,0 +1,36 @@
+using System.Runtime.InteropServices;
+
+namespace vpkpp.Format
+{
+    internal static unsafe partial class Extern
+    {
+        [DllImport("vpkppc")]
+        public static extern void* vpkpp_gcf_open([MarshalAs(UnmanagedType.LPStr)] string path);
+
+        [DllImport("vpkppc")]
+        public static extern void* vpkpp_gcf_open_with_options([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options);
+    }
+
+    public class GCF : PackFile
+    {
+        private protected unsafe GCF(void* handle) : base(handle) {}
+
+        public new static GCF? Open(string path)
+        {
+            unsafe
+            {
+                var handle = Extern.vpkpp_gcf_open(path);
+                return handle == null ? null : new GCF(handle);
+            }
+        }
+
+        public new static GCF? Open(string path, PackFileOptions options)
+        {
+            unsafe
+            {
+                var handle = Extern.vpkpp_gcf_open_with_options(path, options);
+                return handle == null ? null : new GCF(handle);
+            }
+        }
+    }
+}

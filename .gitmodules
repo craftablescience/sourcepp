@@ -1,6 +1,12 @@
 [submodule "src/thirdparty/bufferstream"]
 	path = src/thirdparty/bufferstream
 	url = https://github.com/craftablescience/BufferStream
+[submodule "src/thirdparty/cryptopp"]
+	path = src/thirdparty/cryptopp
+	url = https://github.com/abdes/cryptopp-cmake
 [submodule "src/thirdparty/miniz"]
-	path = src/thirdparty/miniz
-	url = https://github.com/richgel999/miniz
+   	path = src/thirdparty/miniz
+   	url = https://github.com/richgel999/miniz
+[submodule "src/thirdparty/minizip-ng"]
+	path = src/thirdparty/minizip-ng
+	url = https://github.com/zlib-ng/minizip-ng

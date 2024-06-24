@@ -5,14 +5,16 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options (General)
-option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                  ON)
-option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                  ON)
-option(SOURCEPP_USE_KVPP                "Build kvpp library"                   ON)
-option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                  ON)
-option(SOURCEPP_USE_VICEPP              "Build vicepp library"                 ON)
-option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                  ON)
-option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"   OFF)
-option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
+option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                       ON)
+option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                       ON)
+option(SOURCEPP_USE_KVPP                "Build kvpp library"                        ON)
+option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                       ON)
+option(SOURCEPP_USE_VICEPP              "Build vicepp library"                      ON)
+option(SOURCEPP_USE_VPKPP               "Build vpkpp library"                       ON)
+option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                       ON)
+option(SOURCEPP_BUILD_C_WRAPPERS        "Build C wrappers for supported libraries"  ON)
+option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"        OFF)
+option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
 
 
 # Options (Library)
@@ -35,6 +37,14 @@ if(NOT TARGET bufferstream)
 endif()
 
 
+# cryptopp
+if (SOURCEPP_USE_VPKPP AND NOT TARGET cryptopp::cryptopp)
+    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
+    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/cryptopp")
+endif()
+
+
 # ice
 if(SOURCEPP_USE_VICEPP)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/ice")
@@ -47,6 +57,24 @@ if(SOURCEPP_USE_VTFPP AND NOT TARGET miniz)
 endif()
 
 
+# minizip-ng
+if (SOURCEPP_USE_VPKPP AND NOT TARGET MINIZIP::minizip)
+    set(MZ_COMPAT           OFF CACHE INTERNAL "")
+    set(MZ_ZLIB             OFF CACHE INTERNAL "")
+    set(MZ_BZIP2            OFF CACHE INTERNAL "")
+    set(MZ_LZMA             OFF CACHE INTERNAL "")
+    set(MZ_ZSTD             OFF CACHE INTERNAL "")
+    set(MZ_LIBCOMP          OFF CACHE INTERNAL "")
+    set(MZ_PKCRYPT          OFF CACHE INTERNAL "")
+    set(MZ_WZAES            OFF CACHE INTERNAL "")
+    set(MZ_OPENSSL          OFF CACHE INTERNAL "")
+    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
+    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "")
+    set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "")
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/thirdparty/minizip-ng")
+endif()
+
+
 # stb
 if(SOURCEPP_USE_VTFPP)
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/stb")
@@ -54,7 +82,7 @@ endif()
 
 
 # Shared code
-list(APPEND ${PROJECT_NAME}_SOURCES
+add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/buffer/Buffer.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Float.h"
@@ -64,9 +92,22 @@ list(APPEND ${PROJECT_NAME}_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/string/String.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/buffer/Buffer.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/string/String.cpp")
-add_library(${PROJECT_NAME} STATIC ${${PROJECT_NAME}_SOURCES})
 target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+
+
+# Shared C code
+if(SOURCEPP_BUILD_C_WRAPPERS)
+    list(APPEND ${PROJECT_NAME}c_SOURCES
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/API.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Buffer.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Convert.hpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Helpers.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/String.h"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/Buffer.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/Convert.cpp"
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/String.cpp")
+endif()
 
 
 # Tests, part 1
@@ -92,93 +133,20 @@ endif()
 
 
 # Add scripts
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_scripts")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
+include(AddSourcePPLibrary)
+include(TargetLinkCompressonator)
 
 
-# dmxpp
-if(SOURCEPP_USE_DMXPP)
-    add_pretty_parser(dmxpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/structs/Value.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/dmxpp/dmxpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/structs/Value.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/dmxpp/dmxpp.cpp")
-endif()
-
-
-# fgdpp
-if(SOURCEPP_USE_FGDPP)
-    add_pretty_parser(fgdpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/structs/EntityProperties.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/fgdpp/fgdpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/fgdpp/fgdpp.cpp")
-    if(FGDPP_ENABLE_SPEN_FGD_SUPPORT)
-        target_compile_definitions(fgdpp PUBLIC FGDPP_UNIFIED_FGD)
-    endif()
-endif()
-
-
-# kvpp
-if(SOURCEPP_USE_KVPP)
-    add_pretty_parser(kvpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/kvpp/kvpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/kvpp/kvpp.cpp")
-endif()
-
-
-# mdlpp
-if(SOURCEPP_USE_MDLPP)
-    add_pretty_parser(mdlpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/Generic.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/MDL.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/VTX.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/VVD.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/mdlpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/MDL.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/VTX.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/structs/VVD.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/mdlpp/mdlpp.cpp")
-endif()
-
-
-# vicepp
-if(SOURCEPP_USE_VICEPP)
-    add_pretty_parser(vicepp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vicepp/vicepp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vicepp/vicepp.cpp")
-    target_link_libraries(vicepp PRIVATE sourcepp_ice)
-endif()
-
-
-# vtfpp
-if(SOURCEPP_USE_VTFPP)
-    add_pretty_parser(vtfpp SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/ImageConversion.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/src/vtfpp/vtfpp.cpp")
-    target_link_libraries(vtfpp PRIVATE miniz sourcepp_stb)
-
-    # Compressonator
-    if(MSVC)
-        if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
-            target_link_libraries(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/win64/Compressonator_MT$<$<CONFIG:Debug>:d>.lib")
-        else()
-            target_link_libraries(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/win64/Compressonator_MD$<$<CONFIG:Debug>:d>.lib")
-        endif()
-    elseif(UNIX)
-        target_link_libraries(vtfpp PRIVATE
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64/libCMP_Compressonator.a"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64/libCMP_Core.a"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64/libCMP_Core_AVX.a"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64/libCMP_Core_AVX512.a"
-                "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/lib/linux64/libCMP_Core_SSE.a")
-    else()
-        message(FATAL_ERROR "Unable to link to Compressonator library!")
-    endif()
-    target_include_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/compressonator/include")
-endif()
+# Add libraries
+add_sourcepp_library(dmxpp)
+add_sourcepp_library(fgdpp)
+add_sourcepp_library(kvpp)
+add_sourcepp_library(mdlpp)
+add_sourcepp_library(vicepp)
+add_sourcepp_library(vpkpp C CSHARP)
+add_sourcepp_library(vtfpp)
 
 
 # Tests, part 2
