@@ -13,67 +13,67 @@ class GCF : public PackFileReadOnly {
 protected:
 #pragma pack(push, 1)
 	struct Header {
-		std::uint32_t dummy1;
-		std::uint32_t dummy2;
-		std::uint32_t gcfversion;
-		std::uint32_t appid;
-		std::uint32_t appversion;
-		std::uint32_t dummy3;
-		std::uint32_t dummy4;
-		std::uint32_t filesize;
-		std::uint32_t blocksize;
-		std::uint32_t blockcount;
-		std::uint32_t dummy5;
+		uint32_t dummy1;
+		uint32_t dummy2;
+		uint32_t gcfversion;
+		uint32_t appid;
+		uint32_t appversion;
+		uint32_t dummy3;
+		uint32_t dummy4;
+		uint32_t filesize;
+		uint32_t blocksize;
+		uint32_t blockcount;
+		uint32_t dummy5;
 	};
 
 	// second header with info about blocks inside the file
 	// appears only ONCE not before every block!
 	struct BlockHeader {
-		std::uint32_t count;
-		std::uint32_t used;
-		std::uint32_t dummy1;
-		std::uint32_t dummy2;
-		std::uint32_t dummy3;
-		std::uint32_t dummy4;
-		std::uint32_t dummy5;
-		std::uint32_t checksum;
+		uint32_t count;
+		uint32_t used;
+		uint32_t dummy1;
+		uint32_t dummy2;
+		uint32_t dummy3;
+		uint32_t dummy4;
+		uint32_t dummy5;
+		uint32_t checksum;
 	};
 
 	struct Block {
-		std::uint32_t entry_type;
-		std::uint32_t file_data_offset;
-		std::uint32_t file_data_size;
-		std::uint32_t first_data_block_index;
-		std::uint32_t next_block_entry_index;
-		std::uint32_t prev_block_entry_index;
-		std::uint32_t dir_index;
+		uint32_t entry_type;
+		uint32_t file_data_offset;
+		uint32_t file_data_size;
+		uint32_t first_data_block_index;
+		uint32_t next_block_entry_index;
+		uint32_t prev_block_entry_index;
+		uint32_t dir_index;
 	};
 
 	struct DirectoryHeader {
-		std::uint32_t dummy1;
-		std::uint32_t cacheid;
-		std::uint32_t gcfversion;
-		std::uint32_t itemcount;
-		std::uint32_t filecount;
-		std::uint32_t dummy2;
-		std::uint32_t dirsize;
-		std::uint32_t namesize;
-		std::uint32_t info1count;
-		std::uint32_t copycount;
-		std::uint32_t localcount;
-		std::uint32_t dummy3;
-		std::uint32_t dummy4;
-		std::uint32_t checksum;
+		uint32_t dummy1;
+		uint32_t cacheid;
+		uint32_t gcfversion;
+		uint32_t itemcount;
+		uint32_t filecount;
+		uint32_t dummy2;
+		uint32_t dirsize;
+		uint32_t namesize;
+		uint32_t info1count;
+		uint32_t copycount;
+		uint32_t localcount;
+		uint32_t dummy3;
+		uint32_t dummy4;
+		uint32_t checksum;
 	};
 
 	struct DirectoryEntry {
-		std::uint32_t nameoffset;
-		std::uint32_t itemsize;
-		std::uint32_t fileid;
-		std::uint32_t dirtype;
-		std::uint32_t parentindex;
-		std::uint32_t nextindex;
-		std::uint32_t firstindex;
+		uint32_t nameoffset;
+		uint32_t itemsize;
+		uint32_t fileid;
+		uint32_t dirtype;
+		uint32_t parentindex;
+		uint32_t nextindex;
+		uint32_t firstindex;
 	};
 
 	struct DirectoryEntry2 {
@@ -82,33 +82,33 @@ protected:
 	};
 
 	struct DirectoryMapHeader {
-		std::uint32_t dummy1;
-		std::uint32_t dummy2;
+		uint32_t dummy1;
+		uint32_t dummy2;
 	};
 
 	struct DirectoryMapEntry {
-		std::uint32_t firstblockindex;
+		uint32_t firstblockindex;
 	};
 
 	struct DataBlockHeader {
-		std::uint32_t appversion;
-		std::uint32_t blockcount;
-		std::uint32_t blocksize;
-		std::uint32_t firstblockoffset;
-		std::uint32_t used;
-		std::uint32_t checksum;
+		uint32_t appversion;
+		uint32_t blockcount;
+		uint32_t blocksize;
+		uint32_t firstblockoffset;
+		uint32_t used;
+		uint32_t checksum;
 	};
 
 	struct ChecksumMapHeader {
-		std::uint32_t dummy1;
-		std::uint32_t dummy2;
-		std::uint32_t item_count;
-		std::uint32_t checksum_count;
+		uint32_t dummy1;
+		uint32_t dummy2;
+		uint32_t item_count;
+		uint32_t checksum_count;
 	};
 
 	struct ChecksumMapEntry {
-		std::uint32_t count;
-		std::uint32_t firstindex;
+		uint32_t count;
+		uint32_t firstindex;
 	};
 #pragma pack(pop)
 
@@ -133,13 +133,13 @@ protected:
 	Header header{};
 	BlockHeader blockheader{};
 	std::vector<Block> blockdata{};
-	std::vector<std::uint32_t> fragmap{};
+	std::vector<uint32_t> fragmap{};
 	DirectoryHeader dirheader{};
 	//std::vector<DirectoryEntry2> direntries{};
 	std::vector<DirectoryMapEntry> dirmap_entries{};
 	DataBlockHeader datablockheader{};
 	std::vector<ChecksumMapEntry> chksum_map{};
-	std::vector<std::uint32_t> checksums{};
+	std::vector<uint32_t> checksums{};
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(GCF_EXTENSION, &GCF::open);

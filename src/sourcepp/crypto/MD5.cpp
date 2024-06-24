@@ -1,15 +1,15 @@
-#include <vpkpp/detail/MD5.h>
+#include <sourcepp/crypto/MD5.h>
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptopp/md5.h>
 
-using namespace vpkpp;
+using namespace sourcepp;
 
-std::array<std::byte, 16> detail::computeMD5(const std::vector<std::byte>& buffer) {
+std::array<std::byte, 16> crypto::computeMD5(const std::vector<std::byte>& buffer) {
 	return computeMD5(buffer.data(), buffer.size());
 }
 
-std::array<std::byte, 16> detail::computeMD5(const std::byte* buffer, std::size_t len) {
+std::array<std::byte, 16> crypto::computeMD5(const std::byte* buffer, std::size_t len) {
 	// Make sure this is right
 	static_assert(CryptoPP::Weak::MD5::DIGESTSIZE == sizeof(std::array<std::byte, 16>));
 

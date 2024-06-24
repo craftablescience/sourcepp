@@ -16,7 +16,7 @@
 
 namespace vtfpp {
 
-constexpr uint32_t VTF_SIGNATURE = 'V' + ('T' << 8) + ('F' << 16);
+constexpr int32_t VTF_SIGNATURE = 'V' + ('T' << 8) + ('F' << 16);
 
 struct Resource {
 	enum Type : uint8_t {
@@ -182,7 +182,7 @@ private:
 
 	std::vector<std::byte> data;
 
-	//uint32_t signature;
+	//int32_t signature;
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
 

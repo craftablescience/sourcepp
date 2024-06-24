@@ -6,7 +6,7 @@
 
 namespace vpkpp {
 
-constexpr std::int8_t GRP_FILENAME_MAX_SIZE = 12;
+constexpr int8_t GRP_FILENAME_MAX_SIZE = 12;
 constexpr std::string_view GRP_SIGNATURE = "KenSilverman";
 constexpr std::string_view GRP_EXTENSION = ".grp";
 

@@ -88,12 +88,12 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 				}
 
 				reader.read(entry.crc32);
-				auto preloadedDataSize = reader.read<std::uint16_t>();
+				auto preloadedDataSize = reader.read<uint16_t>();
 				reader.read(entry.vpk_archiveIndex);
-				entry.offset = reader.read<std::uint32_t>();
-				entry.length = reader.read<std::uint32_t>();
+				entry.offset = reader.read<uint32_t>();
+				entry.length = reader.read<uint32_t>();
 
-				if (reader.read<std::uint16_t>() != VPK_ENTRY_TERM) {
+				if (reader.read<uint16_t>() != VPK_ENTRY_TERM) {
 					// Invalid terminator!
 					return nullptr;
 				}

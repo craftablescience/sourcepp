@@ -33,9 +33,9 @@ public:
 	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
 
 #ifdef VPKPP_ZIP_COMPRESSION
-	[[nodiscard]] std::uint16_t getCompressionMethod() const;
+	[[nodiscard]] uint16_t getCompressionMethod() const;
 
-	void setCompressionMethod(std::uint16_t compressionMethod);
+	void setCompressionMethod(uint16_t compressionMethod);
 #endif
 
 protected:

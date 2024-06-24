@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include <sourcepp/math/Integer.h>
+
 #include "Attribute.h"
 #include "Entry.h"
 #include "Options.h"
@@ -91,7 +93,7 @@ public:
 	void addEntry(const std::string& filename_, std::vector<std::byte>&& buffer, EntryOptions options_);
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& filename_, const std::byte* buffer, std::uint64_t bufferLen, EntryOptions options_);
+	void addEntry(const std::string& filename_, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_);
 
 	/// Remove an entry
 	virtual bool removeEntry(const std::string& filename_);

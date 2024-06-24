@@ -12,9 +12,11 @@
 #include <mz_zip.h>
 #include <mz_zip_rw.h>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -55,7 +57,7 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, PackFileOptions opt
 		entry.path = fileInfo->filename;
 		::normalizeSlashes(entry.path);
 		if (!zip->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
 		entry.flags = fileInfo->compression_method;
@@ -66,7 +68,7 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, PackFileOptions opt
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
 		::normalizeSlashes(parentDir);
 		if (!zip->isCaseSensitive()) {
-			::toLowerCase(parentDir);
+			string::toLower(parentDir);
 		}
 		if (!zip->entries.contains(parentDir)) {
 			zip->entries[parentDir] = {};
@@ -123,14 +125,14 @@ std::optional<std::vector<std::byte>> ZIP::readEntry(const Entry& entry) const {
 Entry& ZIP::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 	auto [dir, name] = ::splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();
 	entry.compressedLength = 0;
-	entry.crc32 = ::computeCRC32(buffer);
+	entry.crc32 = crypto::computeCRC32(buffer);
 
 	if (!this->unbakedEntries.contains(dir)) {
 		this->unbakedEntries[dir] = {};
@@ -166,11 +168,11 @@ std::vector<Attribute> ZIP::getSupportedEntryAttributes() const {
 }
 
 #ifdef VPKPP_ZIP_COMPRESSION
-std::uint16_t ZIP::getCompressionMethod() const {
+uint16_t ZIP::getCompressionMethod() const {
 	return this->options.zip_compressionMethod;
 }
 
-void ZIP::setCompressionMethod(std::uint16_t compressionMethod) {
+void ZIP::setCompressionMethod(uint16_t compressionMethod) {
 	this->options.zip_compressionMethod = compressionMethod;
 }
 #endif
@@ -214,8 +216,8 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, const Callback& callback)
 			fileInfo.flag = MZ_ZIP_FLAG_DATA_DESCRIPTOR;
 			fileInfo.filename = entry.path.c_str();
 			fileInfo.filename_size = entry.path.length();
-			fileInfo.uncompressed_size = static_cast<std::int64_t>(entry.length);
-			fileInfo.compressed_size = static_cast<std::int64_t>(entry.compressedLength);
+			fileInfo.uncompressed_size = static_cast<int64_t>(entry.length);
+			fileInfo.compressed_size = static_cast<int64_t>(entry.compressedLength);
 			fileInfo.crc = entry.crc32;
 			fileInfo.compression_method = this->options.zip_compressionMethod;
 			if (mz_zip_writer_add_buffer(writeZipHandle, binData->data(), static_cast<int>(binData->size()), &fileInfo)) {
@@ -238,8 +240,8 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, const Callback& callback)
 			std::memset(&fileInfo, 0, sizeof(mz_zip_entry));
 			fileInfo.filename = entry.path.c_str();
 			fileInfo.filename_size = entry.path.length();
-			fileInfo.uncompressed_size = static_cast<std::int64_t>(entry.length);
-			fileInfo.compressed_size = static_cast<std::int64_t>(entry.compressedLength);
+			fileInfo.uncompressed_size = static_cast<int64_t>(entry.length);
+			fileInfo.compressed_size = static_cast<int64_t>(entry.compressedLength);
 			fileInfo.crc = entry.crc32;
 			fileInfo.compression_method = this->options.zip_compressionMethod;
 			if (mz_zip_writer_add_buffer(writeZipHandle, binData->data(), static_cast<int>(binData->size()), &fileInfo)) {

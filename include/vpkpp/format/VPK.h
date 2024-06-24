@@ -8,9 +8,9 @@
 
 namespace vpkpp {
 
-constexpr std::uint32_t VPK_SIGNATURE = 0x55aa1234;
-constexpr std::uint16_t VPK_DIR_INDEX = 0x7fff;
-constexpr std::uint16_t VPK_ENTRY_TERM = 0xffff;
+constexpr int32_t VPK_SIGNATURE = 0x55aa1234;
+constexpr uint16_t VPK_DIR_INDEX = 0x7fff;
+constexpr uint16_t VPK_ENTRY_TERM = 0xffff;
 constexpr std::string_view VPK_DIR_SUFFIX = "_dir";
 constexpr std::string_view VPK_EXTENSION = ".vpk";
 
@@ -21,16 +21,16 @@ class VPK : public PackFile {
 protected:
 #pragma pack(push, 1)
 	struct Header1 {
-		std::uint32_t signature;
-		std::uint32_t version;
-		std::uint32_t treeSize;
+		int32_t signature;
+		uint32_t version;
+		uint32_t treeSize;
 	};
 
 	struct Header2 {
-		std::uint32_t fileDataSectionSize;
-		std::uint32_t archiveMD5SectionSize;
-		std::uint32_t otherMD5SectionSize;
-		std::uint32_t signatureSectionSize;
+		uint32_t fileDataSectionSize;
+		uint32_t archiveMD5SectionSize;
+		uint32_t otherMD5SectionSize;
+		uint32_t signatureSectionSize;
 	};
 
 	struct Footer2 {
@@ -43,25 +43,25 @@ protected:
 
 	struct MD5Entry {
 		/// The archive index of the file
-		std::uint32_t archiveIndex;
+		uint32_t archiveIndex;
 		/// The offset in the archive
-		std::uint32_t offset;
+		uint32_t offset;
 		/// The length in bytes
-		std::uint32_t length;
+		uint32_t length;
 		/// The CRC32 checksum of this entry
 		std::array<std::byte, 16> checksum;
 	};
 #pragma pack(pop)
 
 	struct FreedChunk {
-		std::uint64_t offset;
-		std::uint64_t length;
-		std::uint16_t archiveIndex;
+		uint64_t offset;
+		uint64_t length;
+		uint16_t archiveIndex;
 	};
 
 public:
 	// Accepts the full entry path (parent directory + filename), returns saveToDir and preloadBytes
-	using EntryCreationCallback = std::function<std::tuple<bool, std::uint32_t>(const std::string& fullEntryPath)>;
+	using EntryCreationCallback = std::function<std::tuple<bool, uint32_t>(const std::string& fullEntryPath)>;
 
 	/// Create a new directory VPK file - must end in "_dir.vpk"! This is not enforced but STRONGLY recommended
 	[[nodiscard]] static std::unique_ptr<PackFile> createEmpty(const std::string& path, PackFileOptions options = {});
@@ -113,10 +113,10 @@ public:
 	bool sign(const std::vector<std::byte>& privateKey, const std::vector<std::byte>& publicKey);
 
 	/// Returns 1 for v1, 2 for v2
-	[[nodiscard]] std::uint32_t getVersion() const;
+	[[nodiscard]] uint32_t getVersion() const;
 
 	/// Change the version of the VPK. Valid values are 1 and 2
-	void setVersion(std::uint32_t version);
+	void setVersion(uint32_t version);
 
 protected:
 	VPK(const std::string& fullFilePath_, PackFileOptions options_);
@@ -125,10 +125,10 @@ protected:
 
 	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) override;
 
-	[[nodiscard]] std::uint32_t getHeaderLength() const;
+	[[nodiscard]] uint32_t getHeaderLength() const;
 
 	int numArchives = -1;
-	std::uint32_t currentlyFilledChunkSize = 0;
+	uint32_t currentlyFilledChunkSize = 0;
 
 	std::vector<FreedChunk> freedChunks;
 

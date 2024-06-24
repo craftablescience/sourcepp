@@ -3,11 +3,13 @@
 #include <algorithm>
 #include <filesystem>
 
-#include <vpkpp/detail/Adler32.h>
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/crypto/Adler32.h>
+#include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -79,18 +81,18 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	// not worth keeping around after verifying stuff so no struct def
 	// if you want one this is how one should look like
 	/// struct FragMapHeader {
-	///		std::uint32_t blockcount;
-	///		std::uint32_t dummy0;
-	///		std::uint32_t dummy1;
-	///		std::uint32_t checksum;
+	///		uint32_t blockcount;
+	///		uint32_t dummy0;
+	///		uint32_t dummy1;
+	///		uint32_t checksum;
 	/// };
 	// actually if we want to implement writing later this might be a better idea
 	// if anyone wants to touch this piece of shit format again anyways
 
-	auto blkcount = reader.read<std::uint32_t>();
-	auto d1 = reader.read<std::uint32_t>();
-	auto d2 = reader.read<std::uint32_t>();
-	auto checksum = reader.read<std::uint32_t>();
+	auto blkcount = reader.read<uint32_t>();
+	auto d1 = reader.read<uint32_t>();
+	auto d2 = reader.read<uint32_t>();
+	auto checksum = reader.read<uint32_t>();
 
 	if (blkcount + d1 + d2 != checksum || blkcount != gcf->blockheader.count) {
 		return nullptr;
@@ -99,17 +101,17 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	// Fragmentation Map (list of dwords)
 
 	for (int i = 0; i < blkcount; i++) {
-		gcf->fragmap.push_back(reader.read<std::uint32_t>());
+		gcf->fragmap.push_back(reader.read<uint32_t>());
 	}
 
 	// Directory stuff starts here
 
 	//Reading the header
-	std::uint64_t temp = reader.tellInput();
+	uint64_t temp = reader.tellInput();
 	reader.read(gcf->dirheader);
 
-	std::uint64_t diroffset = reader.tellInput() + (gcf->dirheader.itemcount * 28);
-	std::uint64_t currentoffset;
+	uint64_t diroffset = reader.tellInput() + (gcf->dirheader.itemcount * 28);
+	uint64_t currentoffset;
 
 	std::vector<DirectoryEntry2> direntries{};
 
@@ -130,8 +132,8 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 			Entry gcfEntry = createNewEntry();
 			::normalizeSlashes(dirname);
 			if (!gcf->isCaseSensitive()) {
-				::toLowerCase(dirname);
-				::toLowerCase(entry.filename);
+				string::toLower(dirname);
+				string::toLower(entry.filename);
 			}
 			if (!gcf->entries.contains(dirname)) {
 				//printf("dirname creation: %s\n", dirname.c_str());
@@ -169,9 +171,9 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	}
 
 	// Checksum header
-	//auto dummy0 = reader.read<std::uint32_t>();
-	reader.skipInput<std::uint32_t>();
-	auto checksumsize = reader.read<std::uint32_t>();
+	//auto dummy0 = reader.read<uint32_t>();
+	reader.skipInput<uint32_t>();
+	auto checksumsize = reader.read<uint32_t>();
 	std::size_t checksums_start = reader.tellInput();
 
 	//printf("checksums start: %llu\n", checksums_start);
@@ -212,14 +214,14 @@ std::vector<std::string> GCF::verifyEntryChecksums() const {
 				continue;
 			}
 			std::size_t tocheck = bytes->size();
-			std::uint32_t idx = entry.crc32;
-			std::uint32_t count = this->chksum_map[idx].count;
-			std::uint32_t checksumstart = this->chksum_map[idx].firstindex;
+			uint32_t idx = entry.crc32;
+			uint32_t count = this->chksum_map[idx].count;
+			uint32_t checksumstart = this->chksum_map[idx].firstindex;
 			for (int i = 0; i < count; i++) {
-				std::uint32_t csum = this->checksums[checksumstart + i];
+				uint32_t csum = this->checksums[checksumstart + i];
 				std::size_t toread = std::min(static_cast<std::size_t>(0x8000), tocheck);
 				const auto* data = bytes->data() + (i * 0x8000);
-				std::uint32_t checksum = ::computeCRC32(data, toread) ^ ::computeAdler32(data, toread);
+				uint32_t checksum = crypto::computeCRC32(data, toread) ^ crypto::computeAdler32(data, toread);
 				if (checksum != csum) {
 					bad.push_back(entry.path);
 				}
@@ -256,7 +258,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 		return filedata;
 	}
 
-	std::uint32_t dir_index = entry.offset;
+	uint32_t dir_index = entry.offset;
 	//printf(" extracting file: %s\n", entry.path.c_str());
 
 	std::vector<Block> toread;
@@ -282,15 +284,15 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 		return std::nullopt;
 	}
 
-	std::uint64_t remaining = entry.length;
+	uint64_t remaining = entry.length;
 
 	for (const auto& block : toread) {
-		std::uint32_t currindex = block.first_data_block_index;
+		uint32_t currindex = block.first_data_block_index;
 		while (currindex <= this->blockheader.count) {
-			std::uint64_t curfilepos = static_cast<std::uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
+			uint64_t curfilepos = static_cast<uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
 			stream.seekInput(curfilepos);
 			//printf("off %lli block %lu toread %lli should be %llu\n", stream.tellInput(), currindex, remaining, curfilepos);
-			std::uint32_t toreadAmt = std::min(remaining, static_cast<std::uint64_t>(0x2000));
+			uint32_t toreadAmt = std::min(remaining, static_cast<uint64_t>(0x2000));
 			auto streamvec = stream.readBytes(toreadAmt);
 			filedata.insert(filedata.end(), streamvec.begin(), streamvec.end());
 			remaining -= toreadAmt;

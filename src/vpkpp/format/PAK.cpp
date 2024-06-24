@@ -2,10 +2,11 @@
 
 #include <filesystem>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -26,14 +27,14 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	FileStream reader{pak->fullFilePath};
 	reader.seekInput(0);
 
-	if (auto signature = reader.read<std::int32_t>(); signature != PAK_SIGNATURE) {
+	if (auto signature = reader.read<int32_t>(); signature != PAK_SIGNATURE) {
 		// File is not a PAK
 		return nullptr;
 	}
 
-	auto directoryOffset = reader.read<std::uint32_t>();
+	auto directoryOffset = reader.read<uint32_t>();
 	// Directory size / file entry size
-	auto fileCount = reader.read<std::uint32_t>() / 64;
+	auto fileCount = reader.read<uint32_t>() / 64;
 
 	reader.seekInput(directoryOffset);
 	for (int i = 0; i < fileCount; i++) {
@@ -42,16 +43,16 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 		reader.read(entry.path, PAK_FILENAME_MAX_SIZE);
 		::normalizeSlashes(entry.path);
 		if (!pak->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
-		entry.offset = reader.read<std::uint32_t>();
-		entry.length = reader.read<std::uint32_t>();
+		entry.offset = reader.read<uint32_t>();
+		entry.length = reader.read<uint32_t>();
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
 		::normalizeSlashes(parentDir);
 		if (!pak->isCaseSensitive()) {
-			::toLowerCase(parentDir);
+			string::toLower(parentDir);
 		}
 
 		if (!pak->entries.contains(parentDir)) {
@@ -97,7 +98,7 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
 Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 
 	entry.path = filename;
@@ -152,16 +153,16 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(PAK_SIGNATURE);
 
 		// Index and size of directory
-		const std::uint32_t directoryIndex = sizeof(PAK_SIGNATURE) + sizeof(std::uint32_t) * 2;
+		const uint32_t directoryIndex = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
 		stream.write(directoryIndex);
-		const std::uint32_t directorySize = entriesToBake.size() * 64;
+		const uint32_t directorySize = entriesToBake.size() * 64;
 		stream.write(directorySize);
 
 		// Directory
 		for (auto entry : entriesToBake) {
 			stream.write(entry->path, PAK_FILENAME_MAX_SIZE, false);
-			stream.write(static_cast<std::uint32_t>(entry->offset + directoryIndex + directorySize));
-			stream.write(static_cast<std::uint32_t>(entry->length));
+			stream.write(static_cast<uint32_t>(entry->offset + directoryIndex + directorySize));
+			stream.write(static_cast<uint32_t>(entry->length));
 
 			if (callback) {
 				callback(entry->getParentPath(), *entry);

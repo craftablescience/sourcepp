@@ -7,34 +7,34 @@
 
 namespace vpkpp {
 
-constexpr std::int32_t BSP_SIGNATURE = 'V' + ('B' << 8) + ('S' << 16) + ('P' << 24);
-constexpr std::int32_t BSP_LUMP_COUNT = 64;
-constexpr std::int32_t BSP_LUMP_ENTITY_INDEX = 0;
-constexpr std::int32_t BSP_LUMP_PAKFILE_INDEX = 40;
+constexpr int32_t BSP_SIGNATURE = 'V' + ('B' << 8) + ('S' << 16) + ('P' << 24);
+constexpr int32_t BSP_LUMP_COUNT = 64;
+constexpr int32_t BSP_LUMP_ENTITY_INDEX = 0;
+constexpr int32_t BSP_LUMP_PAKFILE_INDEX = 40;
 constexpr std::string_view BSP_EXTENSION = ".bsp";
 
 class BSP : public ZIP {
 #pragma pack(push, 1)
 	struct Lump {
 		/// Byte offset into file
-		std::int32_t offset;
+		int32_t offset;
 		/// Length of lump data
-		std::int32_t length;
+		int32_t length;
 		/// Lump format version
-		std::int32_t version;
+		int32_t version;
 		/// Uncompressed size, or 0
-		std::int32_t fourCC;
+		int32_t fourCC;
 	};
 
 	struct Header {
 		/// BSP_ID
-		std::int32_t signature;
+		int32_t signature;
 		/// Version of the BSP file
-		std::int32_t version;
+		int32_t version;
 		/// Lump metadata
 		std::array<Lump, BSP_LUMP_COUNT> lumps;
 		/// Map version number
-		std::int32_t mapRevision;
+		int32_t mapRevision;
 	};
 #pragma pack(pop)
 
