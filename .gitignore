@@ -7,4 +7,11 @@
 cmake-build-*/
 
 # Generated
+lang/csharp/vpkpp/vpkpp.csproj
 test/Helpers.h
+
+# CSharp
+lang/csharp/**/bin
+lang/csharp/**/obj
+lang/csharp/**/TestResults
+lang/csharp/**/*.DotSettings.user
