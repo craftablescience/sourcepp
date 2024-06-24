@@ -6,23 +6,23 @@
 
 namespace vpkpp {
 
-constexpr std::int32_t PCK_SIGNATURE = 0x43504447;
+constexpr int32_t PCK_SIGNATURE = 0x43504447;
 constexpr std::string_view PCK_PATH_PREFIX = "res://";
 constexpr std::string_view PCK_EXTENSION = ".pck";
 
 class PCK : public PackFile {
 protected:
-	enum FlagsV2 : std::uint32_t {
+	enum FlagsV2 : uint32_t {
 		FLAG_NONE                    = 0,
 		FLAG_ENCRYPTED          = 1 << 0,
 		FLAG_RELATIVE_FILE_DATA = 1 << 1,
 	};
 
 	struct Header {
-		std::uint32_t packVersion;
-		std::uint32_t godotVersionMajor;
-		std::uint32_t godotVersionMinor;
-		std::uint32_t godotVersionPatch;
+		uint32_t packVersion;
+		uint32_t godotVersionMajor;
+		uint32_t godotVersionMinor;
+		uint32_t godotVersionPatch;
 		FlagsV2 flags; // packVersion >= 2
 	};
 

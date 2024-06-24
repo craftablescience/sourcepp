@@ -7,7 +7,8 @@
 #include <sstream>
 #include <utility>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 #include <vpkpp/format/BSP.h>
@@ -20,6 +21,7 @@
 #include <vpkpp/format/VPK.h>
 #include <vpkpp/format/ZIP.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -133,7 +135,7 @@ PackFile::PackFile(std::string fullFilePath_, PackFileOptions options_)
 
 std::unique_ptr<PackFile> PackFile::open(const std::string& path, PackFileOptions options, const Callback& callback) {
 	auto extension = std::filesystem::path{path}.extension().string();
-	::toLowerCase(extension);
+	string::toLower(extension);
 	const auto& registry = PackFile::getOpenExtensionRegistry();
 	if (registry.contains(extension)) {
 		for (const auto& func : registry.at(extension)) {
@@ -177,7 +179,7 @@ std::optional<Entry> PackFile::findEntry(const std::string& filename_, bool incl
 	auto filename = filename_;
 	::normalizeSlashes(filename);
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 	auto [dir, name] = ::splitFilenameAndParentDir(filename);
 
@@ -241,7 +243,7 @@ void PackFile::addEntry(const std::string& filename_, std::vector<std::byte>&& b
 	finalEntry.unbakedData = std::move(buffer);
 }
 
-void PackFile::addEntry(const std::string& filename_, const std::byte* buffer, std::uint64_t bufferLen, EntryOptions options_) {
+void PackFile::addEntry(const std::string& filename_, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_) {
 	std::vector<std::byte> data;
 	if (buffer && bufferLen > 0) {
 		data.resize(bufferLen);
@@ -257,7 +259,7 @@ bool PackFile::removeEntry(const std::string& filename_) {
 
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 	auto [dir, name] = ::splitFilenameAndParentDir(filename);
 
@@ -556,7 +558,7 @@ std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() const {
 			if (!entry.crc32) {
 				continue;
 			}
-			if (auto data = this->readEntry(entry); !data || ::computeCRC32(*data) != entry.crc32) {
+			if (auto data = this->readEntry(entry); !data || crypto::computeCRC32(*data) != entry.crc32) {
 				out.push_back(entry.path);
 			}
 		}
@@ -566,7 +568,7 @@ std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() const {
 			if (!entry.crc32) {
 				continue;
 			}
-			if (auto data = this->readEntry(entry); !data || ::computeCRC32(*data) != entry.crc32) {
+			if (auto data = this->readEntry(entry); !data || crypto::computeCRC32(*data) != entry.crc32) {
 				out.push_back(entry.path);
 			}
 		}

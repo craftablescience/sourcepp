@@ -2,10 +2,11 @@
 
 #include <filesystem>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -34,7 +35,7 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 		}
 	}
 
-	auto fileCount = reader.read<std::uint32_t>();
+	auto fileCount = reader.read<uint32_t>();
 
 	std::vector<Entry> entries;
 	for (int i = 0; i < fileCount; i++) {
@@ -43,10 +44,10 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 		reader.read(entry.path, GRP_FILENAME_MAX_SIZE);
 		::normalizeSlashes(entry.path);
 		if (!grp->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
-		entry.length = reader.read<std::uint32_t>();
+		entry.length = reader.read<uint32_t>();
 
 		entries.push_back(entry);
 	}
@@ -100,7 +101,7 @@ std::optional<std::vector<std::byte>> GRP::readEntry(const Entry& entry) const {
 Entry& GRP::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 
 	entry.path = filename;
@@ -152,12 +153,12 @@ bool GRP::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(std::string{GRP_SIGNATURE}, false);
 
 		// Number of files
-		stream.write(static_cast<std::uint32_t>(entriesToBake.size()));
+		stream.write(static_cast<uint32_t>(entriesToBake.size()));
 
 		// File tree
 		for (auto entry : entriesToBake) {
 			stream.write(entry->path, GRP_FILENAME_MAX_SIZE, false);
-			stream.write(static_cast<std::uint32_t>(entry->length));
+			stream.write(static_cast<uint32_t>(entry->length));
 
 			if (callback) {
 				callback(entry->getParentPath(), *entry);

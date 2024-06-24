@@ -6,21 +6,21 @@
 
 namespace vpkpp {
 
-constexpr std::int32_t GMA_SIGNATURE = 'G' + ('M' << 8) + ('A' << 16) + ('D' << 24);
+constexpr int32_t GMA_SIGNATURE = 'G' + ('M' << 8) + ('A' << 16) + ('D' << 24);
 constexpr std::string_view GMA_EXTENSION = ".gma";
 
 class GMA : public PackFile {
 protected:
 	struct Header {
-		std::uint32_t signature;
-		std::uint8_t version;
-		std::uint64_t steamID;
-		std::uint64_t timestamp;
+		int32_t signature;
+		uint8_t version;
+		uint64_t steamID;
+		uint64_t timestamp;
 		std::string requiredContent;
 		std::string addonName;
 		std::string addonDescription;
 		std::string addonAuthor;
-		std::int32_t addonVersion;
+		int32_t addonVersion;
 	};
 
 public:

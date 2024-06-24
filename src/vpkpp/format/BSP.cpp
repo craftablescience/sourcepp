@@ -9,10 +9,11 @@
 #include <mz_zip.h>
 #include <mz_zip_rw.h>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -112,7 +113,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		entry.path = fileInfo->filename;
 		::normalizeSlashes(entry.path);
 		if (!bsp->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
 		entry.flags = fileInfo->compression_method;
@@ -123,7 +124,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
 		::normalizeSlashes(parentDir);
 		if (!bsp->isCaseSensitive()) {
-			::toLowerCase(parentDir);
+			string::toLower(parentDir);
 		}
 
 		if (!bsp->entries.contains(parentDir)) {

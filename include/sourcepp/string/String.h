@@ -22,4 +22,10 @@ void trim(std::string& s, std::string_view c);
 
 std::vector<std::string> split(std::string_view s, char delim);
 
+void toLower(std::string& input);
+
+void toUpper(std::string& input);
+
+void normalizeSlashes(std::string& path, bool stripTerminalSlashes = true);
+
 } // namespace sourcepp::string

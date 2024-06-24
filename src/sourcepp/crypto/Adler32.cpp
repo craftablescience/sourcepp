@@ -23,11 +23,11 @@
  * jloup@gzip.org          madler@alumni.caltech.edu
  */
 
-#include <vpkpp/detail/Adler32.h>
+#include <sourcepp/crypto/Adler32.h>
 
-using namespace vpkpp;
+using namespace sourcepp;
 
-constexpr std::uint32_t BASE = 65521u;    /* largest prime smaller than 65536 */
+constexpr uint32_t BASE = 65521u;    /* largest prime smaller than 65536 */
 constexpr std::size_t NMAX = 5552u;
 
 #define DO1(buffer,i)  {adler += static_cast<unsigned char>((buffer)[i]); sum2 += adler;}
@@ -36,17 +36,15 @@ constexpr std::size_t NMAX = 5552u;
 #define DO8(buffer,i)  DO4(buffer,i) DO4(buffer,i+4)
 #define DO16(buffer)   DO8(buffer,0) DO8(buffer,8)
 
-std::uint32_t detail::computeAdler32(const std::vector<std::byte>& buffer) {
+uint32_t crypto::computeAdler32(const std::vector<std::byte>& buffer) {
 	return computeAdler32(buffer.data(), buffer.size());
 }
 
-std::uint32_t detail::computeAdler32(const std::byte* buffer, std::size_t len) {
-	std::uint32_t adler = 0;
-	std::uint32_t sum2;
-	std::uint32_t n;
+uint32_t crypto::computeAdler32(const std::byte* buffer, std::size_t len) {
+	uint32_t adler = 0;
 
 	/* split Adler-32 into component sums */
-	sum2 = (adler >> 16) & 0xffff;
+	uint32_t sum2 = (adler >> 16) & 0xffff;
 	adler &= 0xffff;
 
 	/* in case user likes doing a byte at a time, keep it fast */
@@ -79,7 +77,7 @@ std::uint32_t detail::computeAdler32(const std::byte* buffer, std::size_t len) {
 	/* do length NMAX blocks -- requires just one modulo operation */
 	while (len >= NMAX) {
 		len -= NMAX;
-		n = NMAX / 16;          /* NMAX is divisible by 16 */
+		uint32_t n = NMAX / 16;    /* NMAX is divisible by 16 */
 		do {
 			DO16(buffer)           /* 16 sums unrolled */
 			buffer += 16;

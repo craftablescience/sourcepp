@@ -53,3 +53,23 @@ std::vector<std::string> string::split(std::string_view s, char delim) {
     }
     return result;
 }
+
+void string::toLower(std::string& input) {
+	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::tolower(c); });
+}
+
+void string::toUpper(std::string& input) {
+	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::toupper(c); });
+}
+
+void string::normalizeSlashes(std::string& path, bool stripTerminalSlashes) {
+	std::replace(path.begin(), path.end(), '\\', '/');
+	if (stripTerminalSlashes) {
+		if (path.starts_with('/')) {
+			path = path.substr(1);
+		}
+		if (path.ends_with('/')) {
+			path.pop_back();
+		}
+	}
+}

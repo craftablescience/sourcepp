@@ -2,10 +2,12 @@
 
 #include <filesystem>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -41,16 +43,16 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 	reader.read(gma->header.addonVersion);
 
 	std::vector<Entry> entries;
-	while (reader.read<std::uint32_t>() > 0) {
+	while (reader.read<uint32_t>() > 0) {
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path);
 		::normalizeSlashes(entry.path);
 		if (!gma->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
-		entry.length = reader.read<std::uint64_t>();
+		entry.length = reader.read<uint64_t>();
 		reader.read(entry.crc32);
 
 		entries.push_back(entry);
@@ -66,7 +68,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
 		::normalizeSlashes(parentDir);
 		if (!gma->isCaseSensitive()) {
-			::toLowerCase(parentDir);
+			string::toLower(parentDir);
 		}
 
 		if (!gma->entries.contains(parentDir)) {
@@ -96,12 +98,12 @@ bool GMA::verifyFileChecksum() const {
 		return true;
 	}
 
-	auto checksum = *(reinterpret_cast<std::uint32_t*>(data.data() + data.size()) - 1);
+	auto checksum = *(reinterpret_cast<uint32_t*>(data.data() + data.size()) - 1);
 	data.pop_back();
 	data.pop_back();
 	data.pop_back();
 	data.pop_back();
-	return checksum == ::computeCRC32(data);
+	return checksum == crypto::computeCRC32(data);
 }
 
 std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
@@ -134,14 +136,14 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
 Entry& GMA::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 	auto [dir, name] = ::splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();
 	if (this->options.gma_writeCRCs) {
-		entry.crc32 = ::computeCRC32(buffer);
+		entry.crc32 = crypto::computeCRC32(buffer);
 	}
 
 	// Offset will be reset when it's baked
@@ -198,18 +200,18 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(this->header.addonVersion);
 
 		// File tree
-		for (std::uint32_t i = 1; i <= entriesToBake.size(); i++) {
+		for (uint32_t i = 1; i <= entriesToBake.size(); i++) {
 			stream.write(i);
 			auto* entry = entriesToBake[i - 1];
 			stream.write(entry->path);
 			stream.write(entry->length);
-			stream.write<std::uint32_t>(this->options.gma_writeCRCs ? entry->crc32 : 0);
+			stream.write<uint32_t>(this->options.gma_writeCRCs ? entry->crc32 : 0);
 
 			if (callback) {
 				callback(entry->getParentPath(), *entry);
 			}
 		}
-		stream.write(static_cast<std::uint32_t>(0));
+		stream.write(static_cast<uint32_t>(0));
 
 		// Fix offsets
 		std::size_t offset = stream.tellOutput();
@@ -223,12 +225,12 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	// CRC of everything that's been written
-	std::uint32_t crc = 0;
+	uint32_t crc = 0;
 	if (this->options.gma_writeCRCs) {
 		auto fileSize = std::filesystem::file_size(outputPath);
 		FileStream stream{outputPath};
 		stream.seekInput(0);
-		crc = ::computeCRC32(stream.readBytes(fileSize));
+		crc = crypto::computeCRC32(stream.readBytes(fileSize));
 	}
 	{
 		FileStream stream{outputPath, FILESTREAM_OPT_APPEND};

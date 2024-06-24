@@ -42,7 +42,7 @@ endif()
 
 
 # cryptopp
-if (SOURCEPP_USE_VPKPP AND NOT TARGET cryptopp::cryptopp)
+if (NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/cryptopp")
@@ -88,6 +88,11 @@ endif()
 # Shared code
 add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/buffer/Buffer.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/Adler32.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/CRC32.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/MD5.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/RSA.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/String.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Float.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
@@ -95,8 +100,13 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/string/String.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/buffer/Buffer.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/Adler32.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/CRC32.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/MD5.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/RSA.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/String.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/string/String.cpp")
-target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream)
+target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 

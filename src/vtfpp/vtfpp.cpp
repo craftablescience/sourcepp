@@ -43,7 +43,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
 
-	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
+	if (stream.read<int32_t>() != VTF_SIGNATURE) {
 		return;
 	}
 

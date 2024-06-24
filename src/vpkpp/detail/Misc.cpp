@@ -1,32 +1,16 @@
 #include <vpkpp/detail/Misc.h>
 
-#include <algorithm>
 #include <filesystem>
-#include <cctype>
 
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
-
-void detail::toLowerCase(std::string& input) {
-	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::tolower(c); });
-}
-
-void detail::normalizeSlashes(std::string& path, bool stripSlashes) {
-	std::replace(path.begin(), path.end(), '\\', '/');
-	if (stripSlashes) {
-		if (path.starts_with('/')) {
-			path = path.substr(1);
-		}
-		if (path.ends_with('/')) {
-			path.pop_back();
-		}
-	}
-}
 
 std::pair<std::string, std::string> detail::splitFilenameAndParentDir(const std::string& filename) {
 	auto name = filename;
-	normalizeSlashes(name);
+	string::normalizeSlashes(name);
 
 	auto lastSeparator = name.rfind('/');
 	auto dir = lastSeparator != std::string::npos ? name.substr(0, lastSeparator) : "";

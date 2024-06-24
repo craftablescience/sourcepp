@@ -2,11 +2,12 @@
 
 #include <filesystem>
 
-#include <vpkpp/detail/CRC32.h>
+#include <sourcepp/crypto/MD5.h>
+#include <sourcepp/string/String.h>
 #include <vpkpp/detail/FileStream.h>
-#include <vpkpp/detail/MD5.h>
 #include <vpkpp/detail/Misc.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 using namespace vpkpp::detail;
 
@@ -47,22 +48,22 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	FileStream reader{pck->fullFilePath};
 	reader.seekInput(0);
 
-	if (auto signature = reader.read<std::uint32_t>(); signature != PCK_SIGNATURE) {
+	if (auto signature = reader.read<int32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
-		reader.seekInput(-sizeof(std::uint32_t), std::ios::end);
-		if (auto endSignature = reader.read<std::uint32_t>(); endSignature != PCK_SIGNATURE) {
+		reader.seekInput(-sizeof(int32_t), std::ios::end);
+		if (auto endSignature = reader.read<int32_t>(); endSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		reader.seekInput(-(sizeof(std::uint32_t) + sizeof(std::uint64_t)), std::ios::cur);
-		auto distanceIntoFile = reader.read<std::uint64_t>();
+		reader.seekInput(-(sizeof(int32_t) + sizeof(uint64_t)), std::ios::cur);
+		auto distanceIntoFile = reader.read<uint64_t>();
 
-		reader.seekInput(-(distanceIntoFile + sizeof(std::uint64_t)), std::ios::cur);
-		if (auto startSignature = reader.read<std::uint32_t>(); startSignature != PCK_SIGNATURE) {
+		reader.seekInput(-(distanceIntoFile + sizeof(uint64_t)), std::ios::cur);
+		if (auto startSignature = reader.read<int32_t>(); startSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		pck->startOffset = reader.tellInput() - sizeof(std::uint32_t);
+		pck->startOffset = reader.tellInput() - sizeof(int32_t);
 	}
 
 	reader.read(pck->header.packVersion);
@@ -74,7 +75,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	std::size_t extraEntryContentsOffset = 0;
 	if (pck->header.packVersion > 1) {
 		pck->header.flags = reader.read<FlagsV2>();
-		extraEntryContentsOffset = reader.read<std::uint64_t>();
+		extraEntryContentsOffset = reader.read<uint64_t>();
 	}
 
 	if (pck->header.flags & FLAG_ENCRYPTED) {
@@ -87,28 +88,28 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	}
 
 	// Reserved
-	reader.skipInput<std::int32_t>(16);
+	reader.skipInput<int32_t>(16);
 
 	// Directory
-	auto fileCount = reader.read<std::uint32_t>();
-	for (std::uint32_t i = 0; i < fileCount; i++) {
+	auto fileCount = reader.read<uint32_t>();
+	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		entry.path = reader.readString(reader.read<std::uint32_t>());
+		entry.path = reader.readString(reader.read<uint32_t>());
 		if (entry.path.starts_with(PCK_PATH_PREFIX)) {
 			entry.path = entry.path.substr(PCK_PATH_PREFIX.length());
 		}
 		::normalizeSlashes(entry.path);
 		if (!pck->isCaseSensitive()) {
-			::toLowerCase(entry.path);
+			string::toLower(entry.path);
 		}
 
-		entry.offset = reader.read<std::uint64_t>() + extraEntryContentsOffset;
-		entry.length = reader.read<std::uint64_t>();
+		entry.offset = reader.read<uint64_t>() + extraEntryContentsOffset;
+		entry.length = reader.read<uint64_t>();
 		entry.pck_md5 = reader.readBytes<16>();
 
 		if (pck->header.packVersion > 1) {
-			entry.flags = reader.read<std::uint32_t>();
+			entry.flags = reader.read<uint32_t>();
 		}
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
@@ -165,13 +166,13 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const Entry& entry) const {
 Entry& PCK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
 	auto [dir, name] = ::splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();
-	entry.pck_md5 = ::computeMD5(buffer);
+	entry.pck_md5 = crypto::computeMD5(buffer);
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
@@ -249,14 +250,14 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 
 		if (this->header.packVersion > 1) {
 			stream.write(this->header.flags);
-			stream.write<std::uint64_t>(0);
+			stream.write<uint64_t>(0);
 		}
 
 		// Reserved
-		stream.write(std::array<std::int32_t, 16>{});
+		stream.write(std::array<int32_t, 16>{});
 
 		// Directory start
-		stream.write(static_cast<std::uint32_t>(entriesToBake.size()));
+		stream.write(static_cast<uint32_t>(entriesToBake.size()));
 
 		// Dry-run to get the length of the directory section
 		this->dataOffset = stream.tellOutput();
@@ -264,13 +265,13 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=
-					sizeof(std::uint32_t) +        // Path length
+					sizeof(uint32_t) +        // Path length
 					entryPath.length() + padding + // Path
 					(sizeof(std::size_t) * 2) +    // Offset, Length
 					(sizeof(std::byte) * 16);      // MD5
 
 			if (this->header.packVersion > 1) {
-				this->dataOffset += sizeof(std::uint32_t); // Flags
+				this->dataOffset += sizeof(uint32_t); // Flags
 			}
 		}
 
@@ -278,7 +279,7 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 		for (auto* entry : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
-			stream.write(static_cast<std::uint32_t>(entryPath.length() + padding));
+			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, entryPath.length() + padding, false);
 
 			entry->offset += this->dataOffset;
