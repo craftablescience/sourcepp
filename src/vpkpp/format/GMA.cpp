@@ -2,9 +2,10 @@
 
 #include <filesystem>
 
+#include <FileStream.h>
+
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -26,7 +27,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 	auto packFile = std::unique_ptr<PackFile>(gma);
 
 	FileStream reader{gma->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 
 	reader.read(gma->header.signature);
 	if (gma->header.signature != GMA_SIGNATURE) {
@@ -47,7 +48,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path);
-		::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path);
 		if (!gma->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -59,14 +60,14 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 	}
 
 	// At this point we've reached the file data section, calculate the offsets and then add the entries
-	std::size_t offset = reader.tellInput();
+	std::size_t offset = reader.tell_in();
 	for (auto& entry : entries) {
 		entry.offset = offset;
 		offset += entry.length;
 	}
 	for (const auto& entry : entries) {
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir);
 		if (!gma->isCaseSensitive()) {
 			string::toLower(parentDir);
 		}
@@ -129,8 +130,8 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seekInput(entry.offset);
-	return stream.readBytes(entry.length);
+	stream.seek_in_u(entry.offset);
+	return stream.read_bytes(entry.length);
 }
 
 Entry& GMA::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
@@ -185,8 +186,8 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	{
-		FileStream stream{outputPath, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
-		stream.seekOutput(0);
+		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream.seek_out(0);
 
 		// Header
 		stream.write(this->header.signature);
@@ -214,14 +215,14 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(static_cast<uint32_t>(0));
 
 		// Fix offsets
-		std::size_t offset = stream.tellOutput();
+		std::size_t offset = stream.tell_out();
 		for (auto* entry : entriesToBake) {
 			entry->offset = offset;
 			offset += entry->length;
 		}
 
 		// File data
-		stream.writeBytes(fileData);
+		stream.write(fileData);
 	}
 
 	// CRC of everything that's been written
@@ -229,11 +230,11 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 	if (this->options.gma_writeCRCs) {
 		auto fileSize = std::filesystem::file_size(outputPath);
 		FileStream stream{outputPath};
-		stream.seekInput(0);
-		crc = crypto::computeCRC32(stream.readBytes(fileSize));
+		stream.seek_in(0);
+		crc = crypto::computeCRC32(stream.read_bytes(fileSize));
 	}
 	{
-		FileStream stream{outputPath, FILESTREAM_OPT_APPEND};
+		FileStream stream{outputPath, FileStream::OPT_APPEND};
 		stream.write(crc);
 	}
 

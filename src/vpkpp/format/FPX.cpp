@@ -2,10 +2,9 @@
 
 #include <filesystem>
 
-#include <vpkpp/detail/FileStream.h>
+#include <FileStream.h>
 
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 FPX::FPX(const std::string& fullFilePath_, PackFileOptions options_)
 		: VPK(fullFilePath_, options_) {
@@ -33,7 +32,7 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 	auto packFile = std::unique_ptr<PackFile>(fpx);
 
 	FileStream reader{fpx->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 	reader.read(fpx->header1);
 	if (fpx->header1.signature != FPX_SIGNATURE) {
 		// File is not an FPX
@@ -99,7 +98,7 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 				}
 
 				if (preloadedDataSize > 0) {
-					entry.vpk_preloadedData = reader.readBytes(preloadedDataSize);
+					entry.vpk_preloadedData = reader.read_bytes(preloadedDataSize);
 					entry.length += preloadedDataSize;
 				}
 

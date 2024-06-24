@@ -2,8 +2,9 @@
 
 #include <filesystem>
 
+#include <FileStream.h>
+
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -25,9 +26,9 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 	auto packFile = std::unique_ptr<PackFile>(grp);
 
 	FileStream reader{grp->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 
-	auto signature = reader.readBytes<GRP_SIGNATURE.length()>();
+	auto signature = reader.read_bytes<GRP_SIGNATURE.length()>();
 	for (int i = 0; i < signature.size(); i++) {
 		if (static_cast<unsigned char>(signature[i]) != GRP_SIGNATURE[i]) {
 			// File is not a GRP
@@ -42,7 +43,7 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path, GRP_FILENAME_MAX_SIZE);
-		::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path);
 		if (!grp->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -53,7 +54,7 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 	}
 
 	// At this point we've reached the file data section, calculate the offsets and then add the entries
-	std::size_t offset = reader.tellInput();
+	std::size_t offset = reader.tell_in();
 	if (!grp->entries.contains("")) {
 		grp->entries[""] = {};
 	}
@@ -94,8 +95,8 @@ std::optional<std::vector<std::byte>> GRP::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seekInput(entry.offset);
-	return stream.readBytes(entry.length);
+	stream.seek_in_u(entry.offset);
+	return stream.read_bytes(entry.length);
 }
 
 Entry& GRP::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
@@ -146,8 +147,8 @@ bool GRP::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	{
-		FileStream stream{outputPath, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
-		stream.seekOutput(0);
+		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream.seek_out(0);
 
 		// Signature
 		stream.write(std::string{GRP_SIGNATURE}, false);
@@ -157,7 +158,7 @@ bool GRP::bake(const std::string& outputDir_, const Callback& callback) {
 
 		// File tree
 		for (auto entry : entriesToBake) {
-			stream.write(entry->path, GRP_FILENAME_MAX_SIZE, false);
+			stream.write(entry->path, false, GRP_FILENAME_MAX_SIZE);
 			stream.write(static_cast<uint32_t>(entry->length));
 
 			if (callback) {
@@ -166,14 +167,14 @@ bool GRP::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 
 		// Fix offsets
-		std::size_t offset = stream.tellOutput();
+		std::size_t offset = stream.tell_out();
 		for (auto* entry : entriesToBake) {
 			entry->offset = offset;
 			offset += entry->length;
 		}
 
 		// File data
-		stream.writeBytes(fileData);
+		stream.write(fileData);
 	}
 
 	// Clean up

@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <filesystem>
 
+#include <FileStream.h>
 #include <mz.h>
 #include <mz_strm.h>
 #include <mz_strm_os.h>
@@ -10,7 +11,6 @@
 #include <mz_zip_rw.h>
 
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 #include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
@@ -58,7 +58,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 	auto packFile = std::unique_ptr<PackFile>(bsp);
 
 	FileStream reader{bsp->fullFilePath};
-	reader.seekInput(0);
+	reader.seek_in(0);
 
 	reader.read(bsp->header.signature);
 	if (bsp->header.signature != BSP_SIGNATURE) {
@@ -89,11 +89,11 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		mz_stream_os_delete(&writeStreamHandle);
 	} else {
 		// Extract the paklump to a temp dir
-		reader.seekInput(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].offset);
-		auto binData = reader.readBytes(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].length);
+		reader.seek_in(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].offset);
+		auto binData = reader.read_bytes(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].length);
 
-		FileStream writer{BSP::TEMP_ZIP_PATH, FILESTREAM_OPT_WRITE | FILESTREAM_OPT_TRUNCATE | FILESTREAM_OPT_CREATE_IF_NONEXISTENT};
-		writer.writeBytes(binData);
+		FileStream writer{BSP::TEMP_ZIP_PATH, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		writer.write(binData);
 	}
 
 	if (!bsp->openZIP(BSP::TEMP_ZIP_PATH)) {
@@ -111,7 +111,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 
 		Entry entry = createNewEntry();
 		entry.path = fileInfo->filename;
-		::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path);
 		if (!bsp->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -122,7 +122,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		entry.crc32 = fileInfo->crc;
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir);
 		if (!bsp->isCaseSensitive()) {
 			string::toLower(parentDir);
 		}
@@ -215,22 +215,22 @@ std::vector<std::byte> BSP::readLump(int lumpToRead) const {
 		return {};
 	}
 	FileStream reader{this->fullFilePath};
-	reader.seekInput(this->header.lumps[lumpToRead].offset);
-	return reader.readBytes(this->header.lumps[lumpToRead].length);
+	reader.seek_in(this->header.lumps[lumpToRead].offset);
+	return reader.read_bytes(this->header.lumps[lumpToRead].length);
 }
 
 void BSP::writeLump(int lumpToMove, const std::vector<std::byte>& data) {
 	this->moveLumpToWritableSpace(lumpToMove, static_cast<int>(data.size()));
 
-	FileStream writer{this->fullFilePath, FILESTREAM_OPT_READ | FILESTREAM_OPT_WRITE};
-	writer.seekOutput(0);
+	FileStream writer{this->fullFilePath, FileStream::OPT_READ | FileStream::OPT_WRITE};
+	writer.seek_out(0);
 
 	writer.write(this->header.signature);
 	writer.write(this->header.version);
 	writer.write(this->header.lumps);
 	writer.write(this->header.mapRevision);
-	writer.seekOutput(this->header.lumps[lumpToMove].offset);
-	writer.writeBytes(data);
+	writer.seek_out(this->header.lumps[lumpToMove].offset);
+	writer.write(data);
 }
 
 void BSP::moveLumpToWritableSpace(int lumpToMove, int newSize) {
@@ -268,11 +268,11 @@ void BSP::moveLumpToWritableSpace(int lumpToMove, int newSize) {
 	}
 
 	// Move all the lumps after paklump back
-	FileStream bsp{this->fullFilePath, FILESTREAM_OPT_READ | FILESTREAM_OPT_WRITE};
-	bsp.seekInput(moveOffsetStart);
-	auto lumpsData = bsp.readBytes(moveOffsetEnd - moveOffsetStart);
-	bsp.seekOutput(lastLumpBeforePaklumpOffset + lastLumpBeforePaklumpLength);
-	bsp.writeBytes(lumpsData);
+	FileStream bsp{this->fullFilePath, FileStream::OPT_READ | FileStream::OPT_WRITE};
+	bsp.seek_in(moveOffsetStart);
+	auto lumpsData = bsp.read_bytes(moveOffsetEnd - moveOffsetStart);
+	bsp.seek_out(lastLumpBeforePaklumpOffset + lastLumpBeforePaklumpLength);
+	bsp.write(lumpsData);
 
 	// Fix the offsets
 	for (int lumpIndex : lumpsAfterPaklumpIndices) {

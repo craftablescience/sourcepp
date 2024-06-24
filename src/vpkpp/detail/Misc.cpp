@@ -2,8 +2,10 @@
 
 #include <filesystem>
 
+#include <FileStream.h>
+
+#include <sourcepp/math/Integer.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/FileStream.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -24,8 +26,8 @@ std::vector<std::byte> detail::readFileData(const std::string& filepath, std::si
 	if (!stream) {
 		return {};
 	}
-	stream.seekInput(preloadBytesOffset);
-	return stream.readBytes(std::filesystem::file_size(filepath) - preloadBytesOffset);
+	stream.seek_in_u(preloadBytesOffset);
+	return stream.read_bytes(std::filesystem::file_size(filepath) - preloadBytesOffset);
 }
 
 std::string detail::readFileText(const std::string& filepath, std::size_t preloadBytesOffset) {

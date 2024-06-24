@@ -1,5 +1,4 @@
 add_pretty_parser(vpkpp DEPS cryptopp::cryptopp MINIZIP::minizip SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/detail/FileStream.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/detail/Misc.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
@@ -15,7 +14,7 @@ add_pretty_parser(vpkpp DEPS cryptopp::cryptopp MINIZIP::minizip SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/Options.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/PackFile.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/PackFileType.h"
-        "${CMAKE_CURRENT_LIST_DIR}/detail/FileStream.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/vpkpp.h"
         "${CMAKE_CURRENT_LIST_DIR}/detail/Misc.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/BSP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
