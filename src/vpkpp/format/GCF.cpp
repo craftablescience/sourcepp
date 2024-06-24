@@ -7,12 +7,11 @@
 
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 GCF::GCF(const std::string& fullFilePath_, PackFileOptions options_)
 		: PackFileReadOnly(fullFilePath_, options_) {
@@ -244,7 +243,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					}
 					else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
 					}
 					return unbakedData;
 				}

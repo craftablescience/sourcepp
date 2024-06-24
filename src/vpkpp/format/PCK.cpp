@@ -5,12 +5,11 @@
 #include <FileStream.h>
 
 #include <sourcepp/crypto/MD5.h>
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 constexpr int PCK_DIRECTORY_STRING_PADDING = 4;
 constexpr int PCK_FILE_DATA_PADDING = 16;
@@ -141,7 +140,7 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const Entry& entry) const {
 					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					} else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
 					}
 					return unbakedData;
 				}
@@ -169,7 +168,7 @@ Entry& PCK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();

@@ -1,8 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <vpkpp/PackFile.h>
-
-#include "Helpers.h"
+#include <vpkpp/vpkpp.h>
 
 using namespace vpkpp;
 

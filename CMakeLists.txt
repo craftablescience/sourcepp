@@ -93,6 +93,7 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/MD5.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/RSA.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/String.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/fs/FS.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Float.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
@@ -105,6 +106,7 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/MD5.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/RSA.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/String.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/fs/FS.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/string/String.cpp")
 target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp)
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
@@ -136,12 +138,7 @@ if(SOURCEPP_BUILD_TESTS)
     FetchContent_MakeAvailable(googletest)
     enable_testing()
 
-    set(${PROJECT_NAME}_ASSET_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h")
-
-    list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/test/Helpers.cpp")
+    set(${SOURCEPP_TEST_NAME}_SOURCES "")
     list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
 endif()
 
@@ -167,6 +164,8 @@ add_sourcepp_library(vtfpp)
 if(SOURCEPP_BUILD_TESTS)
     add_executable(${SOURCEPP_TEST_NAME} ${${SOURCEPP_TEST_NAME}_SOURCES})
     target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC ${${SOURCEPP_TEST_NAME}_DEPS})
+    target_compile_definitions(${SOURCEPP_TEST_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
+
     include(GoogleTest)
     gtest_discover_tests(${SOURCEPP_TEST_NAME})
 endif()

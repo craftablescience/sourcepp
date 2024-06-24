@@ -10,12 +10,11 @@
 #include <mz_zip.h>
 #include <mz_zip_rw.h>
 
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 constexpr std::string_view BSP_ENTITY_LUMP_NAME = "entities.kv";
 constexpr std::string_view BSP_LUMP_NAME_FORMAT = "lmp_%d.bin";
@@ -155,7 +154,7 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	this->closeZIP();
 
 	// Write the pakfile lump
-	this->writeLump(BSP_LUMP_PAKFILE_INDEX, ::readFileData(ZIP::TEMP_ZIP_PATH));
+	this->writeLump(BSP_LUMP_PAKFILE_INDEX, fs::readFileBuffer(ZIP::TEMP_ZIP_PATH));
 
 	// If the output path is different, copy the entire BSP there
 	if (outputPath != this->fullFilePath) {

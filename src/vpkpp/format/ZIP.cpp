@@ -13,12 +13,11 @@
 #include <mz_zip_rw.h>
 
 #include <sourcepp/crypto/CRC32.h>
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 const std::string ZIP::TEMP_ZIP_PATH = (std::filesystem::temp_directory_path() / "tmp.zip").string();
 
@@ -97,7 +96,7 @@ std::optional<std::vector<std::byte>> ZIP::readEntry(const Entry& entry) const {
 					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					} else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
 					}
 					return unbakedData;
 				}
@@ -127,7 +126,7 @@ Entry& ZIP::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();

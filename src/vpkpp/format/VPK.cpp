@@ -12,13 +12,12 @@
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/crypto/RSA.h>
 #include <sourcepp/crypto/String.h>
+#include <sourcepp/fs/FS.h>
 #include <sourcepp/string/String.h>
-#include <vpkpp/detail/Misc.h>
 #include <vpkpp/format/FPX.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
-using namespace vpkpp::detail;
 
 /// Runtime-only flag that indicates a file is going to be written to an existing archive file
 constexpr uint32_t VPK_FLAG_REUSING_CHUNK = 0x1;
@@ -346,7 +345,7 @@ bool VPK::verifyFileSignature() const {
 	if (this->footer2.publicKey.empty() || this->footer2.signature.empty()) {
 		return true;
 	}
-	auto dirFileBuffer = ::readFileData(this->getFilepath().data());
+	auto dirFileBuffer = fs::readFileBuffer(this->getFilepath().data());
 	const auto signatureSectionSize = this->footer2.publicKey.size() + this->footer2.signature.size() + sizeof(uint32_t) * 2;
 	if (dirFileBuffer.size() <= signatureSectionSize) {
 		return false;
@@ -377,7 +376,7 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const Entry& entry) const {
 					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					} else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)), unbakedEntry.vpk_preloadedData.size());
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)), unbakedEntry.vpk_preloadedData.size());
 					}
 					std::copy(unbakedData.begin(), unbakedData.end(), output.begin() + static_cast<long long>(entry.vpk_preloadedData.size()));
 					return output;
@@ -413,7 +412,7 @@ Entry& VPK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.crc32 = crypto::computeCRC32(buffer);
@@ -584,7 +583,7 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 					if (isEntryUnbakedUsingByteBuffer(*entry)) {
 						entryData = std::get<std::vector<std::byte>>(getEntryUnbakedData(*entry));
 					} else {
-						entryData = ::readFileData(std::get<std::string>(getEntryUnbakedData(*entry)), entry->vpk_preloadedData.size());
+						entryData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(*entry)), entry->vpk_preloadedData.size());
 					}
 
 					if (entry->length == entry->vpk_preloadedData.size()) {
@@ -786,7 +785,7 @@ bool VPK::sign(const std::string& filename_) {
 		return false;
 	}
 
-	auto fileData = ::readFileText(filename_);
+	auto fileData = fs::readFileText(filename_);
 
 	auto privateKeyHex = ::readValueForKeyInKV("rsa_private_key", fileData);
 	if (privateKeyHex.empty()) {
@@ -812,7 +811,7 @@ bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::
 		stream.write(this->header2);
 	}
 
-	auto dirFileBuffer = ::readFileData(this->getFilepath().data());
+	auto dirFileBuffer = fs::readFileBuffer(this->getFilepath().data());
 	if (dirFileBuffer.size() <= this->header2.signatureSectionSize) {
 		return false;
 	}
