@@ -13,11 +13,8 @@ jobs:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
-        os:
-          - { id: windows-latest, name: Windows }
-          - { id: ubuntu-latest, name: Linux }
-          - { id: macos-latest, name: macOS }
-    runs-on: ${{matrix.os.id}}
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{matrix.os}}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -25,18 +22,18 @@ jobs:
           submodules: recursive
 
       - name: Set up MSVC [Windows]
-        if: matrix.os.id == 'windows-latest'
+        if: matrix.os == 'windows-latest'
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
           spectre: true
 
       - name: Install Dependencies [macOS]
-        if: matrix.os.id == 'macos-latest'
+        if: matrix.os == 'macos-latest'
         run: brew install ninja
 
       - name: Install Dependencies [Linux]
-        if: matrix.os.id == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest'
         run: sudo apt update && sudo apt install -y ninja-build
 
       - name: Configure CMake
