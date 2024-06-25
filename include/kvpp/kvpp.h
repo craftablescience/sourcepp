@@ -42,8 +42,11 @@ public:
 	/// Check if the element has one or more children with the given name
 	[[nodiscard]] bool hasChild(std::string_view childKey) const;
 
+	/// Get the number of child elements
+	[[nodiscard]] uint64_t getChildCount() const;
+
 	/// Get the number of child elements with the given key
-	[[nodiscard]] unsigned int getChildCount(std::string_view childKey) const;
+	[[nodiscard]] uint64_t getChildCount(std::string_view childKey) const;
 
 	/// Get the child elements of the element
 	[[nodiscard]] const std::vector<Element>& getChildren() const;

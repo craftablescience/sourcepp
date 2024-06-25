@@ -87,8 +87,12 @@ bool Element::hasChild(std::string_view childKey) const {
 	return !this->operator[](childKey).isInvalid();
 }
 
-unsigned int Element::getChildCount(std::string_view childKey) const {
-	unsigned int count = 0;
+uint64_t Element::getChildCount() const {
+	return this->children.size();
+}
+
+uint64_t Element::getChildCount(std::string_view childKey) const {
+	uint64_t count = 0;
 	for (const Element& element : this->children) {
 		if (element.key == childKey) {
 			++count;
