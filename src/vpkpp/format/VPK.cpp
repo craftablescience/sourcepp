@@ -8,6 +8,7 @@
 
 #include <FileStream.h>
 
+#include <kvpp/kvpp.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/crypto/RSA.h>
@@ -16,6 +17,7 @@
 #include <sourcepp/string/String.h>
 #include <vpkpp/format/FPX.h>
 
+using namespace kvpp;
 using namespace sourcepp;
 using namespace vpkpp;
 
@@ -47,34 +49,6 @@ std::string padArchiveIndex(int num) {
 
 bool isFPX(const VPK* vpk) {
 	return vpk->getType() == PackFileType::FPX;
-}
-
-/// Very rudimentary, doesn't handle escapes, but works fine for reading private/public key files
-std::string_view readValueForKeyInKV(std::string_view key, std::string_view kv) {
-	auto index = kv.find(key);
-	if (index == std::string_view::npos) {
-		return "";
-	}
-	while (kv.size() > index && kv[index] != '\"') {
-		index++;
-	}
-	if (index >= kv.size()) {
-		return "";
-	}
-	while (kv.size() > index && kv[index] != '\"') {
-		index++;
-	}
-	if (++index >= kv.size()) {
-		return "";
-	}
-	auto beginIndex = index;
-	while (kv.size() > index && kv[index] != '\"') {
-		index++;
-	}
-	if (index >= kv.size()) {
-		return "";
-	}
-	return std::string_view{kv.data() + beginIndex, index - beginIndex};
 }
 
 } // namespace
@@ -785,13 +759,13 @@ bool VPK::sign(const std::string& filename_) {
 		return false;
 	}
 
-	auto fileData = fs::readFileText(filename_);
+	KV1 fileKV{fs::readFileText(filename_)};
 
-	auto privateKeyHex = ::readValueForKeyInKV("rsa_private_key", fileData);
+	auto privateKeyHex = fileKV["private_key"]["rsa_private_key"].getValue();
 	if (privateKeyHex.empty()) {
 		return false;
 	}
-	auto publicKeyHex = ::readValueForKeyInKV("rsa_public_key", fileData);
+	auto publicKeyHex = fileKV["private_key"]["public_key"]["rsa_public_key"].getValue();
 	if (publicKeyHex.empty()) {
 		return false;
 	}
