@@ -46,7 +46,7 @@ void string::trim(std::string& s, std::string_view c) {
 
 std::vector<std::string> string::split(std::string_view s, char delim) {
     std::vector<std::string> result;
-    std::stringstream ss(s.data());
+    std::stringstream ss(std::string{s});
     std::string item;
     while (std::getline(ss, item, delim)) {
         result.push_back(item);

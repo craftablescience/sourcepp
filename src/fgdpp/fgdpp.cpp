@@ -252,7 +252,7 @@ bool FGD::TokenizeFile() {
 }
 
 FGD::FGD(std::string_view path, bool parseIncludes) {
-	std::ifstream file{path.data()};
+	std::ifstream file{std::string{path}};
 	if (!file.is_open()) {
 		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
 		return;
@@ -265,7 +265,7 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 
 	if (parseIncludes) {
 		std::vector<std::string> exclusionList;
-		exclusionList.emplace_back(path.data());
+		exclusionList.emplace_back(path);
 
 		std::string_view dirPath = path.substr(0, path.find_last_of('/'));
 		std::smatch match;
@@ -274,7 +274,7 @@ FGD::FGD(std::string_view path, bool parseIncludes) {
 		while (std::regex_search(this->rawFGDFile, match, exr)) {
 			std::regex thisInclude("@include+ \"" + match[1].str() + "\"");
 
-			std::string currentPath = dirPath.data() + match[1].str();
+			std::string currentPath = std::string{dirPath} + match[1].str();
 
 			if (std::find_if(exclusionList.begin(), exclusionList.end(), [currentPath](const std::string& v) {
 				return v == currentPath;
@@ -400,7 +400,7 @@ bool FGD::ParseFile() {
                 ErrorHandle(iter);
             }
 
-            this->FGDFileContents.mapSize.start = std::stoi(iter->string.data());
+            this->FGDFileContents.mapSize.start = std::stoi(std::string{iter->string});
 
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != COMMA) {
@@ -412,7 +412,7 @@ bool FGD::ParseFile() {
                 ErrorHandle(iter);
             }
 
-            this->FGDFileContents.mapSize.end = std::stoi(iter->string.data());
+            this->FGDFileContents.mapSize.end = std::stoi(std::string{iter->string});
 
             Forward(iter, { ErrorHandle(iter); });
             if (iter->type != CLOSE_PARENTHESIS) {
@@ -875,7 +875,7 @@ bool FGD::ParseFile() {
 
                             if (isFlags) {
                                 Flag flags;
-                                flags.value = std::stoi(iter->string.data());
+                                flags.value = std::stoi(std::string{iter->string});
 
                                 Forward(iter, { ErrorHandle(iter); });
                                 if (iter->type != COLUMN) {
