@@ -115,7 +115,7 @@ const Element& Element::operator()(std::string_view childKey) const {
 			return element;
 		}
 	}
-	return *this;
+	return getInvalid();
 }
 
 const Element& Element::operator()(std::string_view childKey, unsigned int n) const {
@@ -129,7 +129,7 @@ const Element& Element::operator()(std::string_view childKey, unsigned int n) co
 			}
 		}
 	}
-	return *this;
+	return getInvalid();
 }
 
 bool Element::isInvalid() const {
