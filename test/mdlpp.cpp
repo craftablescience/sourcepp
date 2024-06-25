@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <sourcepp/fs/FS.h>
 #include <mdlpp/mdlpp.h>
+#include <sourcepp/fs/FS.h>
 
-using namespace sourcepp;
 using namespace mdlpp;
+using namespace sourcepp;
 
 TEST(mdlpp, v44_read) {
 	StudioModel model;

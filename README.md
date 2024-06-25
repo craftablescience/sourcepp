@@ -64,6 +64,19 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td></td>
   </tr>
   <tr>
+    <td>steampp</td>
+    <td>
+      <ul>
+        <li>Finding Steam install folder</li>
+        <li>Finding installed Steam games</li>
+      </ul>
+    </td>
+    <td style="text-align: center">n/a</td>
+    <td style="text-align: center">✅</td>
+    <td style="text-align: center">n/a</td>
+    <td>Based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a> and <a href="https://momentum-mod.org">Momentum Mod</a> contributors.</td>
+  </tr>
+  <tr>
     <td>vicepp</td>
     <td>
       <ul>

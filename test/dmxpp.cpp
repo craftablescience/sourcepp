@@ -1,10 +1,10 @@
 #include <gtest/gtest.h>
 
-#include <sourcepp/fs/FS.h>
 #include <dmxpp/dmxpp.h>
+#include <sourcepp/fs/FS.h>
 
-using namespace sourcepp;
 using namespace dmxpp;
+using namespace sourcepp;
 
 // v1 and v2 are identical afaik...
 TEST(dmxpp, v2_read) {
