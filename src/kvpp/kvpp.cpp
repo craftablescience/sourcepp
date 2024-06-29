@@ -2,74 +2,10 @@
 
 #include <BufferStream.h>
 
+#include <sourcepp/parser/Text.h>
+
 using namespace kvpp;
-
-namespace {
-
-[[nodiscard]] bool isNewLine(char c) {
-	return c == '\n' || c == '\r';
-}
-
-[[nodiscard]] bool isWhitespace(char c) {
-	return c == ' ' || c == '\a' || c == '\f' || c == '\t' || c == '\v' || ::isNewLine(c);
-}
-
-void eatComment(BufferStream& stream) {
-	while (!::isNewLine(stream.read<char>())) {}
-}
-
-// NOLINTNEXTLINE(*-no-recursion)
-void eatWhitespace(BufferStream& stream) {
-	while (::isWhitespace(stream.read<char>())) {}
-	stream.seek(-1, std::ios::cur);
-
-	if (stream.peek<char>(0) == '/' && stream.peek<char>(1) == '/') {
-		stream.skip(2);
-		::eatComment(stream);
-		::eatWhitespace(stream);
-		return;
-	}
-}
-
-std::string_view readString(BufferStreamReadOnly& stream, BufferStream& backing, bool useEscapeSequences, char start = '\"', char end = '\"') {
-	auto startSpan = backing.tell();
-
-	bool stopAtWhitespace = true;
-	char c = stream.read<char>();
-	if (c == start) {
-		stopAtWhitespace = false;
-	} else {
-		backing << c;
-	}
-
-	for (c = stream.read<char>(); c != end; c = stream.read<char>()) {
-		if (stopAtWhitespace && ::isWhitespace(c)) {
-			break;
-		}
-		if (useEscapeSequences && c == '\\') {
-			auto n = stream.read<char>();
-			if (stopAtWhitespace && ::isWhitespace(n)) {
-				break;
-			}
-			if (n == 'n') {
-				backing << '\n';
-			} else if (n == 't') {
-				backing << '\t';
-			} else if (n == '\\' || n == '\"') {
-				backing << n;
-			} else {
-				backing << c << n;
-			}
-		} else {
-			backing << c;
-		}
-	}
-
-	backing << '\0';
-	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
-}
-
-} // namespace
+using namespace sourcepp;
 
 std::string_view Element::getKey() const {
 	return this->key;
@@ -149,32 +85,32 @@ const Element& Element::getInvalid() {
 void Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<Element>& elements, bool useEscapeSequences) {
 	while (true) {
 		// Check if the block is over
-		::eatWhitespace(stream);
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
 		if (static_cast<char>(stream.peek(0)) == '}') {
 			stream.skip();
 			break;
 		}
 		// Read key
 		{
-			auto childKey = ::readString(stream, backing, useEscapeSequences);
+			auto childKey = parser::text::readStringToBuffer(stream, backing, useEscapeSequences);
 			elements.push_back({});
 			elements.back().key = childKey;
-			::eatWhitespace(stream);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read value
 		if (stream.peek<char>(0) != '{') {
-			elements.back().value = ::readString(stream, backing, useEscapeSequences);
-			::eatWhitespace(stream);
+			elements.back().value = parser::text::readStringToBuffer(stream, backing, useEscapeSequences);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read conditional
 		if (stream.peek<char>(0) == '[') {
-			elements.back().conditional = ::readString(stream, backing, useEscapeSequences, '[', ']');
-			::eatWhitespace(stream);
+			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, useEscapeSequences, '[', ']');
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read block
 		if (stream.peek<char>(0) == '{') {
 			stream.skip();
-			::eatWhitespace(stream);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
 			if (stream.peek<char>(0) != '}') {
 				readElements(stream, backing, elements.back().children, useEscapeSequences);
 			} else {

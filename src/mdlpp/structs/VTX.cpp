@@ -31,7 +31,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 	for (int i = 0; i < bodyPartCount; i++) {
 		auto bodyPartPos = bodyPartOffset + i * ((sizeof(int32_t) * 2));
-		stream.seek(bodyPartPos);
+		stream.seek_u(bodyPartPos);
 
 		auto& bodyPart = this->bodyParts.emplace_back();
 
@@ -40,7 +40,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 		for (int j = 0; j < modelCount; j++) {
 			auto modelPos = modelOffset + j * (sizeof(int32_t) * 2);
-			stream.seek(bodyPartPos + modelPos);
+			stream.seek_u(bodyPartPos + modelPos);
 
 			auto& model = bodyPart.models.emplace_back();
 
@@ -49,7 +49,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 			for (int k = 0; k < modelLODCount; k++) {
 				auto modelLODPos = modelLODOffset + k * (sizeof(int32_t) * 2 + sizeof(float));
-				stream.seek(bodyPartPos + modelPos + modelLODPos);
+				stream.seek_u(bodyPartPos + modelPos + modelLODPos);
 
 				auto& modelLOD = model.modelLODs.emplace_back();
 
@@ -60,7 +60,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 				for (int l = 0; l < meshCount; l++) {
 					auto meshPos = meshOffset + l * (sizeof(int32_t) * 2 + sizeof(Mesh::Flags));
-					stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos);
+					stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos);
 
 					auto& mesh = modelLOD.meshes.emplace_back();
 
@@ -75,7 +75,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							stripGroupNumInts += 2;
 						}
 						auto stripGroupPos = stripGroupOffset + m * (sizeof(int32_t) * stripGroupNumInts + sizeof(StripGroup::Flags));
-						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos);
+						stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos);
 
 						auto& stripGroup = mesh.stripGroups.emplace_back();
 
@@ -83,7 +83,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 						auto vertexOffset = stream.read<int32_t>();
 
 						auto stripGroupCurrentPos = stream.tell();
-						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + vertexOffset);
+						stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + vertexOffset);
 						for (int n = 0; n < vertexCount; n++) {
 							auto& vertex = stripGroup.vertices.emplace_back();
 
@@ -95,18 +95,18 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							// ditto
 							stream.skip<int8_t>(3);
 						}
-						stream.seek(stripGroupCurrentPos);
+						stream.seek_u(stripGroupCurrentPos);
 
 						auto indexCount = stream.read<int32_t>();
 						auto indexOffset = stream.read<int32_t>();
 
 						stripGroupCurrentPos = stream.tell();
-						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + indexOffset);
+						stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + indexOffset);
 						for (int n = 0; n < indexCount; n++) {
 							auto& index = stripGroup.indices.emplace_back();
 							stream.read(index);
 						}
-						stream.seek(stripGroupCurrentPos);
+						stream.seek_u(stripGroupCurrentPos);
 
 						auto stripCount = stream.read<int32_t>();
 						auto stripOffset = stream.read<int32_t>();
@@ -118,7 +118,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 							stream.skip<int32_t>(2);
 						}
 
-						stream.seek(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset);
+						stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset);
 						for (int n = 0; n < stripCount; n++) {
 							auto& strip = stripGroup.strips.emplace_back();
 

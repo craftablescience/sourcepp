@@ -16,7 +16,7 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 
 	auto header = stream.read_string();
 	if (header.length() < 37) {
-		// Minimum possible header length - early "binary_v2" version unsupported
+		// Minimum possible header length - early "binary_v2" version, "keyvalues2_v1" unsupported
 		return;
 	}
 	char encodingTypeData[64];
