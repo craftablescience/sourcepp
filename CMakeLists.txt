@@ -4,24 +4,26 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-# Options (General)
+# Options
 option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                       ON)
 option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                       ON)
 option(SOURCEPP_USE_KVPP                "Build kvpp library"                        ON)
 option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                       ON)
 option(SOURCEPP_USE_VICEPP              "Build vicepp library"                      ON)
 option(SOURCEPP_USE_VPKPP               "Build vpkpp library"                       ON)
-if(NOT APPLE)
-    option(SOURCEPP_USE_VTFPP           "Build vtfpp library"                       ON)
-else()
-    set(SOURCEPP_USE_VTFPP OFF CACHE INTERNAL "")
-endif()
+option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                       ON)
 option(SOURCEPP_BUILD_C_WRAPPERS        "Build C wrappers for supported libraries"  ON)
 option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"        OFF)
 option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
 
 
-# Options (Library)
+# Option overrides
+if(SOURCEPP_USE_VPKPP)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
+endif()
+
+
+# Options per-library
 option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD) made by TeamSpen's HammerAddons. Fully backwards compatible with Valve's FGD standard." OFF)
 
 
@@ -41,6 +43,10 @@ if(NOT TARGET bufferstream)
 endif()
 
 
+# compressonator
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/compressonator")
+
+
 # cryptopp
 if (NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
@@ -51,7 +57,7 @@ endif()
 
 # ice
 if(SOURCEPP_USE_VICEPP)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/ice")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/ice")
 endif()
 
 
@@ -81,7 +87,7 @@ endif()
 
 # stb
 if(SOURCEPP_USE_VTFPP)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/stb")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/stb")
 endif()
 
 
@@ -147,7 +153,6 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
 include(AddSourcePPLibrary)
-include(TargetLinkCompressonator)
 
 
 # Add libraries
