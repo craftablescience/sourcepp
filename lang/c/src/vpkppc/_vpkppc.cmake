@@ -14,6 +14,7 @@ add_pretty_parser(vpkpp C SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/Options.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/PackFile.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/PackFileType.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/vpkpp.h"
         "${CMAKE_CURRENT_LIST_DIR}/format/BSP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"

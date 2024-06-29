@@ -13,8 +13,4 @@
     </ContentWithTargetPath>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="vpkpp.csproj.in" />
-  </ItemGroup>
-
 </Project>

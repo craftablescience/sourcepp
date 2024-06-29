@@ -1,0 +1,24 @@
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vicepp", "vicepp\vicepp.csproj", "{1A936830-5F97-4722-9012-67A324764879}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1A936830-5F97-4722-9012-67A324764879}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A936830-5F97-4722-9012-67A324764879}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A936830-5F97-4722-9012-67A324764879}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A936830-5F97-4722-9012-67A324764879}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3F144514-3209-46B0-821C-2E5B44023D86}
+	EndGlobalSection
+EndGlobal

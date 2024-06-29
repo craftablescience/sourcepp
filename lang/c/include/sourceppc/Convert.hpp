@@ -17,9 +17,9 @@
 
 namespace Convert {
 
-sourcepp_string_t toString(std::string_view str);
-
 sourcepp_buffer_t toBuffer(const std::vector<std::byte>& vec);
+
+sourcepp_string_t toString(std::string_view str);
 
 sourcepp_string_array_t toStringArray(const std::vector<std::string>& stringVec);
 

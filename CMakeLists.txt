@@ -80,7 +80,7 @@ add_sourcepp_library(fgdpp)
 add_sourcepp_library(kvpp)
 add_sourcepp_library(mdlpp)
 add_sourcepp_library(steampp)
-add_sourcepp_library(vicepp)
+add_sourcepp_library(vicepp C CSHARP)
 add_sourcepp_library(vpkpp C CSHARP)
 add_sourcepp_library(vtfpp)
 

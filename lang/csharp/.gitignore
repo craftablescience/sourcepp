@@ -1,0 +1,10 @@
+# Build Files
+**/bin
+**/obj
+**/TestResults
+**/*.DotSettings.user
+
+# This is all copied/configured from the sourcepp template folder
+src/*/Buffer.cs
+src/*/String.cs
+src/*/*.csproj

@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\vpkpp\vpkpp.csproj" />
+    <ProjectReference Include="..\..\src\vpkpp\vpkpp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

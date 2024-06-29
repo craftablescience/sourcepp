@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace vpkpp
+namespace ${TARGET}
 {
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern Buffer sourcepp_buffer_new(ulong size);
 
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern void sourcepp_buffer_free(Buffer* str);
     }
 

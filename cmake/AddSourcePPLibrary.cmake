@@ -7,9 +7,9 @@ function(add_sourcepp_library TARGET)
             include("${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/${TARGET}c/_${TARGET}c.cmake")
         endif()
         if(OPTIONS_CSHARP)
-            configure_file(
-                    "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/${TARGET}/${TARGET}.csproj.in"
-                    "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/${TARGET}/${TARGET}.csproj")
+            configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/sourcepp/Buffer.cs.in"     "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/${TARGET}/Buffer.cs")
+            configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/sourcepp/String.cs.in"     "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/${TARGET}/String.cs")
+            configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/sourcepp/TARGET.csproj.in" "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/${TARGET}/${TARGET}.csproj")
         endif()
 
         # Gross hack

@@ -1,20 +1,20 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace vpkpp
+namespace ${TARGET}
 {
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern String sourcepp_string_new(ulong size);
 
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern void sourcepp_string_free(String* str);
 
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern StringArray sourcepp_string_array_new(ulong size);
 
-        [DllImport("vpkppc")]
+        [DllImport("${TARGET}c")]
         public static extern void sourcepp_string_array_free(StringArray* array);
     }
 
