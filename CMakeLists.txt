@@ -38,105 +38,30 @@ if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
 endif()
 
 
-# bufferstream
-if(NOT TARGET bufferstream)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/bufferstream")
-endif()
+# Add scripts
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+include(AddPrettyParser)
+include(AddSourcePPLibrary)
+include(IncludeSubdirectory)
 
 
-# compressonator
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/compressonator")
-
-
-# cryptopp
-if (NOT TARGET cryptopp::cryptopp)
-    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
-    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/cryptopp")
-endif()
-
-
-# ice
-if(SOURCEPP_USE_VICEPP)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/ice")
-endif()
-
-
-# miniz
-if(SOURCEPP_USE_VTFPP AND NOT TARGET miniz)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/src/thirdparty/miniz")
-endif()
-
-
-# minizip-ng
-if (SOURCEPP_USE_VPKPP AND NOT TARGET MINIZIP::minizip)
-    set(MZ_COMPAT           OFF CACHE INTERNAL "")
-    set(MZ_ZLIB             OFF CACHE INTERNAL "")
-    set(MZ_BZIP2            OFF CACHE INTERNAL "")
-    set(MZ_LZMA             OFF CACHE INTERNAL "")
-    set(MZ_ZSTD             OFF CACHE INTERNAL "")
-    set(MZ_LIBCOMP          OFF CACHE INTERNAL "")
-    set(MZ_PKCRYPT          OFF CACHE INTERNAL "")
-    set(MZ_WZAES            OFF CACHE INTERNAL "")
-    set(MZ_OPENSSL          OFF CACHE INTERNAL "")
-    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
-    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "")
-    set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "")
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/src/thirdparty/minizip-ng")
-endif()
-
-
-# stb
-if(SOURCEPP_USE_VTFPP)
-    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/ext/stb")
-endif()
+# Include thirdparty libraries
+include_subdirectory(ext)
 
 
 # Shared code
-add_library(${PROJECT_NAME} STATIC
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/buffer/Buffer.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/Adler32.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/CRC32.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/MD5.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/RSA.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/String.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/fs/FS.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Angles.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Float.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Integer.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Matrix.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/string/String.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/buffer/Buffer.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/Adler32.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/CRC32.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/MD5.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/RSA.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/crypto/String.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/fs/FS.cpp"
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/sourcepp/string/String.cpp")
-target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp)
-target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
+include_subdirectory(src/sourcepp)
 
 
 # Shared C code
 if(SOURCEPP_BUILD_C_WRAPPERS)
-    list(APPEND ${PROJECT_NAME}c_SOURCES
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/API.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Buffer.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Convert.hpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/Helpers.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/sourceppc/String.h"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/Buffer.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/Convert.cpp"
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/sourceppc/String.cpp")
+    include_subdirectory(lang/c/src/sourceppc PROPAGATE ${PROJECT_NAME}c_SOURCES)
 endif()
 
 
 # Tests, part 1
 if(SOURCEPP_BUILD_TESTS)
     set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
-
     include(FetchContent)
     FetchContent_Declare(
             googletest
@@ -144,16 +69,9 @@ if(SOURCEPP_BUILD_TESTS)
             GIT_TAG v1.14.0)
     FetchContent_MakeAvailable(googletest)
     enable_testing()
-
     set(${SOURCEPP_TEST_NAME}_SOURCES "")
     list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
 endif()
-
-
-# Add scripts
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(AddPrettyParser)
-include(AddSourcePPLibrary)
 
 
 # Add libraries
@@ -172,7 +90,6 @@ if(SOURCEPP_BUILD_TESTS)
     add_executable(${SOURCEPP_TEST_NAME} ${${SOURCEPP_TEST_NAME}_SOURCES})
     target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC ${${SOURCEPP_TEST_NAME}_DEPS})
     target_compile_definitions(${SOURCEPP_TEST_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
-
     include(GoogleTest)
     gtest_discover_tests(${SOURCEPP_TEST_NAME})
 endif()
