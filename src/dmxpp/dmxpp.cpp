@@ -23,8 +23,11 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 	int32_t encodingVersionData;
 	char formatTypeData[64];
 	int32_t formatVersionData;
-	// NOLINTNEXTLINE(*-err34-c)
+#ifdef _WIN32
+	sscanf_s(header.c_str(), "<!-- dmx encoding %63s %i format %63s %i -->\n", encodingTypeData, 64, &encodingVersionData, formatTypeData, 64, &formatVersionData);
+#else
 	std::sscanf(header.c_str(), "<!-- dmx encoding %s %i format %s %i -->\n", encodingTypeData, &encodingVersionData, formatTypeData, &formatVersionData);
+#endif
 
 	this->encodingType = encodingTypeData;
 	this->encodingVersion = encodingVersionData;
@@ -74,7 +77,7 @@ int DMX::getEncodingVersion() const {
 	return this->encodingVersion;
 }
 
-const std::vector<Element>& DMX::getElements() const {
+const std::vector<DMXElement>& DMX::getElements() const {
 	return this->elements;
 }
 

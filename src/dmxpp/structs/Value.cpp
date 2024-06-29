@@ -55,11 +55,11 @@ std::string Value::IDToString(ID id) {
 	return "invalid";
 }
 
-bool Attribute::isArray() const {
+bool DMXAttribute::isArray() const {
 	return this->type >= Value::ID::ARRAY_START;
 }
 
-std::string Attribute::getValue() const {
+std::string DMXAttribute::getValue() const {
 	switch (this->type) {
 		using enum Value::ID;
 		case INVALID:

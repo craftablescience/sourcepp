@@ -33,7 +33,7 @@ public:
 
 	[[nodiscard]] int getEncodingVersion() const;
 
-	[[nodiscard]] const std::vector<Element>& getElements() const;
+	[[nodiscard]] const std::vector<DMXElement>& getElements() const;
 
 protected:
 	[[nodiscard]] bool openText(const std::byte* dmxData, std::size_t dmxSize);
@@ -50,7 +50,7 @@ private:
 	int encodingVersion = -1;
 
 	// Elements
-	std::vector<Element> elements;
+	std::vector<DMXElement> elements;
 };
 
 } // namespace dmxpp

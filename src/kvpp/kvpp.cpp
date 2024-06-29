@@ -7,29 +7,29 @@
 using namespace kvpp;
 using namespace sourcepp;
 
-std::string_view Element::getKey() const {
+std::string_view KV1Element::getKey() const {
 	return this->key;
 }
 
-std::string_view Element::getValue() const {
+std::string_view KV1Element::getValue() const {
 	return this->value;
 }
 
-std::string_view Element::getConditional() const {
+std::string_view KV1Element::getConditional() const {
 	return this->conditional;
 }
 
-bool Element::hasChild(std::string_view childKey) const {
+bool KV1Element::hasChild(std::string_view childKey) const {
 	return !this->operator[](childKey).isInvalid();
 }
 
-uint64_t Element::getChildCount() const {
+uint64_t KV1Element::getChildCount() const {
 	return this->children.size();
 }
 
-uint64_t Element::getChildCount(std::string_view childKey) const {
+uint64_t KV1Element::getChildCount(std::string_view childKey) const {
 	uint64_t count = 0;
-	for (const Element& element : this->children) {
+	for (const KV1Element& element : this->children) {
 		if (element.key == childKey) {
 			++count;
 		}
@@ -37,20 +37,20 @@ uint64_t Element::getChildCount(std::string_view childKey) const {
 	return count;
 }
 
-const std::vector<Element>& Element::getChildren() const {
+const std::vector<KV1Element>& KV1Element::getChildren() const {
 	return this->children;
 }
 
-const Element& Element::operator[](std::size_t index) const {
+const KV1Element& KV1Element::operator[](std::size_t index) const {
 	return this->children.at(index);
 }
 
-const Element& Element::operator[](std::string_view childKey) const {
+const KV1Element& KV1Element::operator[](std::string_view childKey) const {
 	return this->operator()(childKey);
 }
 
-const Element& Element::operator()(std::string_view childKey) const {
-	for (const Element& element : this->children) {
+const KV1Element& KV1Element::operator()(std::string_view childKey) const {
+	for (const auto& element : this->children) {
 		if (element.key == childKey) {
 			return element;
 		}
@@ -58,9 +58,9 @@ const Element& Element::operator()(std::string_view childKey) const {
 	return getInvalid();
 }
 
-const Element& Element::operator()(std::string_view childKey, unsigned int n) const {
+const KV1Element& KV1Element::operator()(std::string_view childKey, unsigned int n) const {
 	unsigned int count = 0;
-	for (const Element& element : this->children) {
+	for (const auto& element : this->children) {
 		if (element.key == childKey) {
 			if (count == n) {
 				return element;
@@ -72,17 +72,17 @@ const Element& Element::operator()(std::string_view childKey, unsigned int n) co
 	return getInvalid();
 }
 
-bool Element::isInvalid() const {
+bool KV1Element::isInvalid() const {
 	return this == &getInvalid();
 }
 
-const Element& Element::getInvalid() {
-	static Element element;
+const KV1Element& KV1Element::getInvalid() {
+	static KV1Element element;
 	return element;
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-void Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<Element>& elements, bool useEscapeSequences) {
+void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& elements, bool useEscapeSequences) {
 	while (true) {
 		// Check if the block is over
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -121,7 +121,7 @@ void Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, 
 }
 
 KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
-		: Element()
+		: KV1Element()
 		, useEscapeSequences(useEscapeSequences_) {
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
 	this->backingData.resize(kv1Data.size());

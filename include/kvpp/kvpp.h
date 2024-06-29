@@ -12,7 +12,7 @@ class BufferStreamReadOnly;
 
 namespace kvpp {
 
-class Element {
+class KV1Element {
 public:
 	/// Get the key associated with the element
 	[[nodiscard]] std::string_view getKey() const;
@@ -49,19 +49,19 @@ public:
 	[[nodiscard]] uint64_t getChildCount(std::string_view childKey) const;
 
 	/// Get the child elements of the element
-	[[nodiscard]] const std::vector<Element>& getChildren() const;
+	[[nodiscard]] const std::vector<KV1Element>& getChildren() const;
 
 	/// Get the child element of the element at the given index
-	[[nodiscard]] const Element& operator[](std::size_t index) const;
+	[[nodiscard]] const KV1Element& operator[](std::size_t index) const;
 
 	/// Get the first child element of the element with the given key
-	[[nodiscard]] const Element& operator[](std::string_view childKey) const;
+	[[nodiscard]] const KV1Element& operator[](std::string_view childKey) const;
 
 	/// Get the first child element of the element with the given key
-	[[nodiscard]] const Element& operator()(std::string_view childKey) const;
+	[[nodiscard]] const KV1Element& operator()(std::string_view childKey) const;
 
 	/// Get the nth child element of the element with the given key
-	[[nodiscard]] const Element& operator()(std::string_view childKey, unsigned int n) const;
+	[[nodiscard]] const KV1Element& operator()(std::string_view childKey, unsigned int n) const;
 
 	/// Check if the given element is invalid
 	[[nodiscard]] bool isInvalid() const;
@@ -70,23 +70,23 @@ protected:
 	std::string_view key;
 	std::string_view value = ""; // NOLINT(*-redundant-string-init)
 	std::string_view conditional = ""; // NOLINT(*-redundant-string-init)
-	std::vector<Element> children;
+	std::vector<KV1Element> children;
 
-	Element() = default;
+	KV1Element() = default;
 
-	static const Element& getInvalid();
+	static const KV1Element& getInvalid();
 
-	static void readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<Element>& element, bool useEscapeSequences);
+	static void readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& element, bool useEscapeSequences);
 };
 
-class KV1 : public Element {
+class KV1 : public KV1Element {
 public:
 	explicit KV1(std::string_view kv1Data, bool useEscapeSequences_ = false);
 
 protected:
-	using Element::getKey;
-	using Element::getValue;
-	using Element::getConditional;
+	using KV1Element::getKey;
+	using KV1Element::getValue;
+	using KV1Element::getConditional;
 
 	std::string backingData;
 	bool useEscapeSequences;

@@ -182,7 +182,7 @@ constexpr ID stringToID(std::string_view id) {
 
 } // namespace Value
 
-struct Attribute {
+struct DMXAttribute {
 	std::string name;
 	Value::ID type;
 	Value::Generic value;
@@ -197,11 +197,11 @@ struct Attribute {
 	}
 };
 
-struct Element {
+struct DMXElement {
 	std::string type;
 	std::string name;
 	std::array<std::byte, 16> guid;
-	std::vector<Attribute> attributes;
+	std::vector<DMXAttribute> attributes;
 };
 
 } // namespace dmxpp
