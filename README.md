@@ -10,6 +10,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Create</th>
     <th>Read</th>
     <th>Write</th>
+    <th>Wrappers</th>
     <th>Special Thanks</th>
   </tr>
   <tr>
@@ -23,6 +24,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">✅</td>
     <td style="text-align: center">❌</td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>fgdpp</td>
@@ -35,6 +37,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">❌</td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">❌</td>
+    <td></td>
     <td>FGD parser contributed by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a></td>
   </tr>
   <tr>
@@ -47,6 +50,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">❌</td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">❌</td>
+    <td></td>
     <td></td>
   </tr>
   <tr>
@@ -62,6 +66,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">✅</td>
     <td style="text-align: center">❌</td>
     <td></td>
+    <td></td>
   </tr>
   <tr>
     <td>steampp</td>
@@ -74,6 +79,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">n/a</td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">n/a</td>
+    <td></td>
     <td>Based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a> and <a href="https://momentum-mod.org">Momentum Mod</a> contributors.</td>
   </tr>
   <tr>
@@ -86,6 +92,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">✅</td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">✅</td>
+    <td>C<br>C#</td>
     <td></td>
   </tr>
   <tr>
@@ -107,6 +114,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">✅<sup>&Dagger;</sup></td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">✅</td>
+    <td>C<br>C#</td>
     <td>GCF parser contributed by <a href="https://github.com/caatge">@bt</a> and <a href="https://github.com/ymgve">@ymgve</a></td>
   </tr>
   <tr>
@@ -119,6 +127,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td style="text-align: center">❌</td>
     <td style="text-align: center">✅</td>
     <td style="text-align: center">❌</td>
+    <td></td>
     <td></td>
   </tr>
 </table>
