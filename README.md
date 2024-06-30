@@ -1,4 +1,12 @@
-# Source Pretty Parsers
+<div>
+  <img align="left" width="98px" src="https://github.com/craftablescience/sourcepp/blob/main/branding/logo.png?raw=true" alt="The Source Pretty Parsers logo. A printer-esque device is scanning a page with hex codes and printing a picture of Cordon Freeman." />
+  <h1>Source Pretty Parsers</h1>
+</div>
+
+![Build Status](https://img.shields.io/github/actions/workflow/status/craftablescience/sourcepp/build.yml?logo=github&label=Build)
+![License](https://img.shields.io/github/license/craftablescience/sourcepp?label=License)
+![Discord](https://img.shields.io/discord/678074864346857482?label=Discord&logo=Discord&logoColor=%23FFFFFF)
+
 Several modern C++20 libraries for sanely parsing Valve formats, rolled into one big repository.
 
 ### Included Libraries
@@ -20,10 +28,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</li>
       </ul>
     </td>
-    <td style="text-align: center">❌</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">❌</td>
-    <td></td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
     <td></td>
   </tr>
   <tr>
@@ -34,10 +42,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD">TeamSpen's Unified FGD</a></li>
       </ul>
     </td>
-    <td style="text-align: center">❌</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">❌</td>
-    <td></td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
     <td>FGD parser contributed by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a></td>
   </tr>
   <tr>
@@ -47,10 +55,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></li>
       </ul>
     </td>
-    <td style="text-align: center">❌</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">❌</td>
-    <td></td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
     <td></td>
   </tr>
   <tr>
@@ -62,10 +70,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</li>
       </ul>
     </td>
-    <td style="text-align: center">❌</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">❌</td>
-    <td></td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
     <td></td>
   </tr>
   <tr>
@@ -76,10 +84,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li>Finding installed Steam games</li>
       </ul>
     </td>
-    <td style="text-align: center">n/a</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">n/a</td>
-    <td></td>
+    <td align="center">n/a</td>
+    <td align="center">✅</td>
+    <td align="center">n/a</td>
+    <td align="center"></td>
     <td>Based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a> and <a href="https://momentum-mod.org">Momentum Mod</a> contributors.</td>
   </tr>
   <tr>
@@ -89,10 +97,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</li>
       </ul>
     </td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">✅</td>
-    <td>C<br>C#</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td align="center">C<br>C#</td>
     <td></td>
   </tr>
   <tr>
@@ -111,10 +119,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li>ZIP</li>
       </ul>
     </td>
-    <td style="text-align: center">✅<sup>&Dagger;</sup></td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">✅</td>
-    <td>C<br>C#</td>
+    <td align="center">✅<sup>&Dagger;</sup></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td align="center">C<br>C#</td>
     <td>GCF parser contributed by <a href="https://github.com/caatge">@bt</a> and <a href="https://github.com/ymgve">@ymgve</a></td>
   </tr>
   <tr>
@@ -124,10 +132,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</li>
       </ul>
     </td>
-    <td style="text-align: center">❌</td>
-    <td style="text-align: center">✅</td>
-    <td style="text-align: center">❌</td>
-    <td></td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
     <td></td>
   </tr>
 </table>
