@@ -3,13 +3,14 @@
   <h1>Source Pretty Parsers</h1>
 </div>
 
-![Build Status](https://img.shields.io/github/actions/workflow/status/craftablescience/sourcepp/build.yml?logo=github&label=Build)
-![License](https://img.shields.io/github/license/craftablescience/sourcepp?label=License)
+![Build Status](https://img.shields.io/github/actions/workflow/status/craftablescience/sourcepp/build.yml?label=Build&logo=github&logoColor=%23FFFFFF)
+![License](https://img.shields.io/github/license/craftablescience/sourcepp?label=License&logo=libreofficewriter&logoColor=%23FFFFFF)
 ![Discord](https://img.shields.io/discord/678074864346857482?label=Discord&logo=Discord&logoColor=%23FFFFFF)
+![Ko-fi](https://img.shields.io/badge/donate-006dae?label=Ko-fi&logo=ko-fi)
 
 Several modern C++20 libraries for sanely parsing Valve formats, rolled into one big repository.
 
-### Included Libraries
+## Included Libraries
 
 <table>
   <tr>
@@ -145,3 +146,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 (&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
 
 (&Dagger;) Currently only VPK creation is supported.
+
+## Gallery
+
+A list of projects using the `sourcepp` parser set. If you'd like to see your project here, make a PR!
+
+- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed tool that can create, extract from, preview the contents of and write to several pack file formats. A CLI application is bundled with the program which replicates the functionality of Valve's `vpk.exe`.
+- [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp` libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from a user project or from installed Source games.
