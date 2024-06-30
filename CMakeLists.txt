@@ -1,4 +1,13 @@
 cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+
+
+# Set defaults before project call
+if(PROJECT_IS_TOP_LEVEL)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+
+
+# Create project
 project(sourcepp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -28,7 +37,7 @@ endif()
 option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD) made by TeamSpen's HammerAddons. Fully backwards compatible with Valve's FGD standard." OFF)
 
 
-# Set defaults
+# Set defaults after project call
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 endif()
