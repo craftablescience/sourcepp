@@ -1,12 +1,13 @@
-#include "SamplePackFileImpl.h"
+#include "ExamplePackFileImpl.h"
 
 #include <filesystem>
 #include <tuple>
 
-#include <vpkedit/detail/Misc.h>
+#include <sourcepp/fs/FS.h>
+#include <sourcepp/string/String.h>
 
-using namespace vpkedit;
-using namespace vpkedit::detail;
+using namespace sourcepp;
+using namespace vpkpp;
 
 EXAMPLE::EXAMPLE(const std::string& fullFilePath_, PackFileOptions options_)
 		: PackFile(fullFilePath_, options_) {
@@ -35,10 +36,10 @@ std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, PackFileOptions
 	};
 	for (auto& [dir, name] : samplePaths) {
 		// The path needs to be normalized, and respect case sensitivity
-		::normalizeSlashes(dir);
+		string::normalizeSlashes(dir);
 		if (!example->isCaseSensitive()) {
-			::toLowerCase(dir);
-			::toLowerCase(name);
+			string::toLower(dir);
+			string::toLower(name);
 		}
 
 		// Create the list if it doesn't exist
@@ -67,7 +68,7 @@ std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, PackFileOptions
 		// This can be omitted if unused, 0 is the default
 		entry.compressedLength = 0;
 
-		// This is the CRC32 of the file - a helper function to compute it is in <vpkedit/detail/CRC.h>
+		// This is the CRC32 of the file - a helper function to compute it is in <sourcepp/crypto/CRC32.h>
 		// This can also be omitted if unused, 0 is the default
 		entry.crc32 = 0;
 
@@ -94,7 +95,7 @@ std::optional<std::vector<std::byte>> EXAMPLE::readEntry(const Entry& entry) con
 					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
 						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
 					} else {
-						unbakedData = ::readFileData(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
 					}
 					return unbakedData;
 				}
@@ -112,9 +113,9 @@ Entry& EXAMPLE::addEntryInternal(Entry& entry, const std::string& filename_, std
 	// Include this verbatim
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
-		::toLowerCase(filename);
+		string::toLower(filename);
 	}
-	auto [dir, name] = ::splitFilenameAndParentDir(filename);
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	// Initialize the entry - set the entry properties just like in EXAMPLE::open
 	entry.path = filename;

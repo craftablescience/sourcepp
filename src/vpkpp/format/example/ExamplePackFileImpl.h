@@ -1,22 +1,20 @@
 #pragma once
 
-#include <vpkedit/PackFile.h>
+#include <vpkpp/PackFile.h>
 
 /*
  * --- Example Pack File Implementation ---
  *
- * This code is a template for adding a new file format to libvpkedit. Copy these two files and follow the comments!
+ * This code is a template for adding a new file format to vpkpp. Copy these two files and follow the comments!
  *
  * Any methods marked as "[OPTIONAL]" can be deleted if the file format does not support them.
  *
  * Note that if you are writing a read-only parser, you will need to make the following deviations:
  * - Inherit from PackFileReadOnly instead of PackFile
  * - Don't implement the bake and addEntryInternal methods (marked with "[WRITE]")
- *
- * If these instructions are followed, you should see your format appear in the VPKEdit GUI automatically.
  */
 
-namespace vpkedit {
+namespace vpkpp {
 
 // Define the accepted extension(s) as constant(s)
 constexpr std::string_view EXAMPLE_EXTENSION = ".example";
@@ -59,7 +57,7 @@ protected:
 private:
 	// Finally, register the open method with the extension
 	// Remember since C++ is STUPID you need to add this header to PackFile.cpp as well, or this will get optimized away
-	VPKEDIT_REGISTER_PACKFILE_OPEN(EXAMPLE_EXTENSION, &EXAMPLE::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(EXAMPLE_EXTENSION, &EXAMPLE::open);
 };
 
-} // namespace vpkedit
+} // namespace vpkpp
