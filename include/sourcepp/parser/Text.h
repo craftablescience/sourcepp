@@ -27,6 +27,13 @@ constexpr char DEFAULT_STRING_END   = '\"';
 [[nodiscard]] bool isWhitespace(char c);
 
 /**
+ * If a char is a numerical character (0-9)
+ * @param c The char
+ * @return The char is a numerical character
+ */
+[[nodiscard]] bool isNumber(char c);
+
+/**
  * If a single line comment is detected, eat its contents
  * @param stream The BufferStream to modify
  */

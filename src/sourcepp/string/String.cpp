@@ -62,6 +62,11 @@ void string::toUpper(std::string& input) {
 	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::toupper(c); });
 }
 
+std::string string::padNumber(int number, int width, char pad) {
+	auto numStr = std::to_string(number);
+	return std::string(width - std::min<std::string::size_type>(width, numStr.length()), pad) + numStr;
+}
+
 void string::normalizeSlashes(std::string& path, bool stripTerminalSlashes) {
 	std::replace(path.begin(), path.end(), '\\', '/');
 	if (stripTerminalSlashes) {
@@ -69,6 +74,18 @@ void string::normalizeSlashes(std::string& path, bool stripTerminalSlashes) {
 			path = path.substr(1);
 		}
 		if (path.ends_with('/')) {
+			path.pop_back();
+		}
+	}
+}
+
+void string::denormalizeSlashes(std::string& path, bool stripTerminalSlashes) {
+	std::replace(path.begin(), path.end(), '/', '\\');
+	if (stripTerminalSlashes) {
+		if (path.starts_with('\\')) {
+			path = path.substr(1);
+		}
+		if (path.ends_with('\\')) {
 			path.pop_back();
 		}
 	}

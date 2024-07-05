@@ -529,7 +529,7 @@ std::vector<Attribute> PackFile::getSupportedEntryAttributes() const {
 }
 
 PackFile::operator std::string() const {
-	return this->getFilename();
+	return this->getTruncatedFilename();
 }
 
 std::string PackFile::escapeEntryPath(const std::string& path) {

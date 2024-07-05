@@ -1,6 +1,7 @@
 #include <sourcepp/parser/Text.h>
 
 #include <algorithm>
+#include <cctype>
 
 #include <BufferStream.h>
 
@@ -12,6 +13,10 @@ bool parser::text::isNewLine(char c) {
 
 bool parser::text::isWhitespace(char c) {
 	return c == ' ' || c == '\a' || c == '\f' || c == '\t' || c == '\v' || isNewLine(c);
+}
+
+bool parser::text::isNumber(char c) {
+	return std::isdigit(c);
 }
 
 void parser::text::eatSingleLineComment(BufferStream& stream) {

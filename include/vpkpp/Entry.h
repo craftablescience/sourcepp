@@ -27,6 +27,9 @@ public:
 	/// If the format supports compression, this is the compressed length
 	/// If compression is not supported or unused, this will remain 0
 	uint64_t compressedLength = 0;
+	/// Which external archive this entry is in
+	/// If this file format does not support external archives, this will always be 0
+	uint16_t archiveIndex = 0;
 	/// CRC32 checksum - 0 if unused.
 	/// Note that for GCF, this is actually an index into a checksum array and NOT a checksum
 	uint32_t crc32 = 0;
@@ -36,8 +39,6 @@ public:
 	/// PCK - Each file has a 16-byte MD5 hash
 	std::array<std::byte, 16> pck_md5{};
 
-	/// VPK - Which VPK this entry is in
-	uint16_t vpk_archiveIndex = 0;
 	/// VPK - Preloaded data
 	std::vector<std::byte> vpk_preloadedData;
 

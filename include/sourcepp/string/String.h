@@ -26,6 +26,10 @@ void toLower(std::string& input);
 
 void toUpper(std::string& input);
 
+std::string padNumber(int number, int width, char pad = '0');
+
 void normalizeSlashes(std::string& path, bool stripTerminalSlashes = true);
+
+void denormalizeSlashes(std::string& path, bool stripTerminalSlashes = true);
 
 } // namespace sourcepp::string

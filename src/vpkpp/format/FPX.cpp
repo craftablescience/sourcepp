@@ -88,7 +88,7 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 
 				reader.read(entry.crc32);
 				auto preloadedDataSize = reader.read<uint16_t>();
-				reader.read(entry.vpk_archiveIndex);
+				reader.read(entry.archiveIndex);
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 
@@ -104,8 +104,8 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 
 				fpx->entries[fullDir].push_back(entry);
 
-				if (entry.vpk_archiveIndex != VPK_DIR_INDEX && entry.vpk_archiveIndex > fpx->numArchives) {
-					fpx->numArchives = entry.vpk_archiveIndex;
+				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > fpx->numArchives) {
+					fpx->numArchives = entry.archiveIndex;
 				}
 
 				if (callback) {

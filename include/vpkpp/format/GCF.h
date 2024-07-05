@@ -1,8 +1,5 @@
 #pragma once
 
-#include <cstdint>
-#include <vector>
-
 #include "../PackFile.h"
 
 namespace vpkpp {
