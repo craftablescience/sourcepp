@@ -39,7 +39,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, const EntryCallback
 	while (reader.read<uint32_t>() > 0) {
 		Entry entry = createNewEntry();
 
-		auto entryPath = reader.read_string();
+		auto entryPath = gma->cleanEntryPath(reader.read_string());
 
 		entry.length = reader.read<uint64_t>();
 		reader.read(entry.crc32);

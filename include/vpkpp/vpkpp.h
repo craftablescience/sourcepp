@@ -16,6 +16,7 @@
 #include "format/ORE.h"
 #include "format/PAK.h"
 #include "format/PCK.h"
+#include "format/PKG.h"
 #include "format/VPK.h"
 #include "format/VPK_VTMB.h"
 #include "format/VPP.h"
