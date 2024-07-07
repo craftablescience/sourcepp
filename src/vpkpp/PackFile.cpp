@@ -19,6 +19,7 @@
 #include <vpkpp/format/GRP.h>
 #include <vpkpp/format/PAK.h>
 #include <vpkpp/format/PCK.h>
+#include <vpkpp/format/PKG.h>
 #include <vpkpp/format/VPK.h>
 #include <vpkpp/format/ZIP.h>
 

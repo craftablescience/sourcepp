@@ -11,6 +11,7 @@ enum class PackFileType {
 	GRP,
 	PAK,
 	PCK,
+	PKG,
 	VPK,
 	ZIP,
 };

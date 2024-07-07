@@ -2,9 +2,12 @@
 .idea/
 .vs/
 .vscode/
+CMakeSettings.json
 
 # Project exclude paths
+build/
 cmake-build-*/
+out/
 
 # Generated
 test/Helpers.h
