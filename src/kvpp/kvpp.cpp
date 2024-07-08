@@ -92,19 +92,19 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 		}
 		// Read key
 		{
-			auto childKey = parser::text::readStringToBuffer(stream, backing, escapeSequences);
+			auto childKey = parser::text::readStringToBuffer(stream, backing, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, escapeSequences);
 			elements.push_back({});
 			elements.back().key = childKey;
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read value
 		if (stream.peek<char>(0) != '{') {
-			elements.back().value = parser::text::readStringToBuffer(stream, backing, escapeSequences);
+			elements.back().value = parser::text::readStringToBuffer(stream, backing, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read conditional
 		if (stream.peek<char>(0) == '[') {
-			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, '[', ']', escapeSequences);
+			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, "[", "]", escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read block

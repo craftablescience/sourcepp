@@ -81,21 +81,18 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 	}
 }
 
-std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, char start, char end, const std::unordered_map<char, char>& escapeSequences) {
+std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start, std::string_view end, const std::unordered_map<char, char>& escapeSequences) {
 	auto startSpan = backing.tell();
 
 	bool stopAtWhitespace = true;
 	char c = stream.read<char>();
-	if (c == start) {
+	if (start.find(c) != std::string_view::npos) {
 		stopAtWhitespace = false;
 	} else {
 		backing << c;
 	}
 
-	for (c = stream.read<char>(); c != end; c = stream.read<char>()) {
-		if (stopAtWhitespace && parser::text::isWhitespace(c)) {
-			break;
-		}
+	for (c = stream.read<char>(); (stopAtWhitespace && !parser::text::isWhitespace(c)) || (!stopAtWhitespace && end.find(c) == std::string_view::npos); c = stream.read<char>()) {
 		if (!escapeSequences.empty() && c == '\\') {
 			auto n = stream.read<char>();
 			if (stopAtWhitespace && parser::text::isWhitespace(n)) {
@@ -103,6 +100,8 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 			}
 			if (escapeSequences.contains(n)) {
 				backing << escapeSequences.at(n);
+			} else if (!stopAtWhitespace && end.find(n) != std::string_view::npos) {
+				break;
 			} else {
 				backing << c << n;
 			}
@@ -113,8 +112,4 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 
 	backing << '\0';
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
-}
-
-std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, const std::unordered_map<char, char>& escapeSequences) {
-	return readStringToBuffer(stream, backing, DEFAULT_STRING_START, DEFAULT_STRING_END, escapeSequences);
 }
