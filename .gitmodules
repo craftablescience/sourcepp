@@ -4,6 +4,9 @@
 [submodule "ext/cryptopp"]
 	path = ext/cryptopp
 	url = https://github.com/abdes/cryptopp-cmake
+[submodule "ext/gdeflate"]
+	path = ext/gdeflate
+	url = https://github.com/craftablescience/gdeflate
 [submodule "ext/miniz"]
 	path = ext/miniz
 	url = https://github.com/richgel999/miniz

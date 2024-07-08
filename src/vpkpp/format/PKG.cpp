@@ -4,6 +4,7 @@
 #include <filesystem>
 
 #include <FileStream.h>
+#include <GDeflate.h>
 
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/fs/FS.h>
@@ -199,11 +200,17 @@ std::optional<std::vector<std::byte>> PKG::readEntry(const Entry& entry) const {
 	for (auto i = blobStart; i <= blobEnd; i++) {
 		const auto& blob = file.blobs[i];
 		if (blob.compression != 0) {
-			// todo: GDeflate
-			return std::nullopt;
+			auto blobCompressed = stream.seek_in_u(blob.offset).read_bytes(blob.size);
+			auto blobDecompressed = GDeflate::Decompress(reinterpret_cast<const uint8_t*>(blobCompressed.data()), blobCompressed.size(), 1);
+			if (!blobDecompressed) {
+				return std::nullopt;
+			}
+			for (auto byte : *blobDecompressed) {
+				out.push_back(static_cast<std::byte>(byte));
+			}
+		} else {
+			stream.seek_in_u(blob.offset).read(out, blob.size);
 		}
-		stream.seek_in_u(blob.offset);
-		stream.read(out, blob.size);
 	}
 
 	return out;

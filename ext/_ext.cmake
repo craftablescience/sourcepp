@@ -9,10 +9,16 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/compressonator")
 
 
 # cryptopp
-if (NOT TARGET cryptopp::cryptopp)
+if(NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/cryptopp")
+endif()
+
+
+# gdeflate
+if(NOT TARGET gdeflate)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/gdeflate")
 endif()
 
 
@@ -27,7 +33,7 @@ endif()
 
 
 # minizip-ng
-if (NOT TARGET MINIZIP::minizip)
+if(NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
     set(MZ_ZLIB             OFF CACHE INTERNAL "")
     set(MZ_BZIP2            OFF CACHE INTERNAL "")
