@@ -7,6 +7,24 @@
 
 using namespace sourcepp;
 
+namespace sourcepp::parser::text {
+
+const std::unordered_map<char, char> DEFAULT_ESCAPE_SEQUENCES = {
+		{'\'', '\''},
+		{'\"', '\"'},
+		{'?',   '?'},
+		{'\\', '\\'},
+		{'a',  '\a'},
+		{'b',  '\b'},
+		{'f',  '\f'},
+		{'n',  '\n'},
+		{'r',  '\r'},
+		{'t',  '\t'},
+		{'v',  '\v'},
+};
+
+} // namespace parser::text
+
 bool parser::text::isNewLine(char c) {
 	return c == '\n' || c == '\r';
 }
@@ -63,7 +81,7 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 	}
 }
 
-std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, bool useEscapeSequences, char start, char end) {
+std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, char start, char end, const std::unordered_map<char, char>& escapeSequences) {
 	auto startSpan = backing.tell();
 
 	bool stopAtWhitespace = true;
@@ -78,17 +96,13 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 		if (stopAtWhitespace && parser::text::isWhitespace(c)) {
 			break;
 		}
-		if (useEscapeSequences && c == '\\') {
+		if (!escapeSequences.empty() && c == '\\') {
 			auto n = stream.read<char>();
 			if (stopAtWhitespace && parser::text::isWhitespace(n)) {
 				break;
 			}
-			if (n == 'n') {
-				backing << '\n';
-			} else if (n == 't') {
-				backing << '\t';
-			} else if (n == '\\' || n == '\"') {
-				backing << n;
+			if (escapeSequences.contains(n)) {
+				backing << escapeSequences.at(n);
 			} else {
 				backing << c << n;
 			}
@@ -99,4 +113,8 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 
 	backing << '\0';
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
+}
+
+std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, const std::unordered_map<char, char>& escapeSequences) {
+	return readStringToBuffer(stream, backing, DEFAULT_STRING_START, DEFAULT_STRING_END, escapeSequences);
 }

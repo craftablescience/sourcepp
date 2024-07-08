@@ -3,6 +3,7 @@
 #include <concepts>
 #include <string>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 #include <sourcepp/math/Integer.h>
@@ -76,7 +77,7 @@ protected:
 
 	static const KV1Element& getInvalid();
 
-	static void readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& element, bool useEscapeSequences);
+	static void readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& element, const std::unordered_map<char, char>& escapeSequences);
 };
 
 class KV1 : public KV1Element {

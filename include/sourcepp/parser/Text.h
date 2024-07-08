@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string_view>
+#include <unordered_map>
 
 class BufferStream;
 
@@ -11,6 +12,7 @@ constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_START  = "/*";
 constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_END    = "*/";
 constexpr char DEFAULT_STRING_START = '\"';
 constexpr char DEFAULT_STRING_END   = '\"';
+extern const std::unordered_map<char, char> DEFAULT_ESCAPE_SEQUENCES;
 
 /**
  * If a char is a newline character
@@ -72,11 +74,20 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * Read a string starting at the current stream position
  * @param stream The BufferStream to modify
  * @param backing The BufferStream to store the string data in
- * @param useEscapeSequences Allow escape sequences such as \\n
  * @param start The starting string char
  * @param end The ending string char
+ * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map
  * @return A view over the string written to the backing stream
  */
-[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, bool useEscapeSequences, char start = DEFAULT_STRING_START, char end = DEFAULT_STRING_END);
+[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, char start = DEFAULT_STRING_START, char end = DEFAULT_STRING_END, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+
+/**
+ * Read a string starting at the current stream position. Uses the default string start/end characters
+ * @param stream The BufferStream to modify
+ * @param backing The BufferStream to store the string data in
+ * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map
+ * @return A view over the string written to the backing stream
+ */
+[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 } // namespace sourcepp::parser::text

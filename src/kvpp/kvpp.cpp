@@ -82,7 +82,7 @@ const KV1Element& KV1Element::getInvalid() {
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& elements, bool useEscapeSequences) {
+void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<KV1Element>& elements, const std::unordered_map<char, char>& escapeSequences) {
 	while (true) {
 		// Check if the block is over
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -92,19 +92,19 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 		}
 		// Read key
 		{
-			auto childKey = parser::text::readStringToBuffer(stream, backing, useEscapeSequences);
+			auto childKey = parser::text::readStringToBuffer(stream, backing, escapeSequences);
 			elements.push_back({});
 			elements.back().key = childKey;
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read value
 		if (stream.peek<char>(0) != '{') {
-			elements.back().value = parser::text::readStringToBuffer(stream, backing, useEscapeSequences);
+			elements.back().value = parser::text::readStringToBuffer(stream, backing, escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read conditional
 		if (stream.peek<char>(0) == '[') {
-			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, useEscapeSequences, '[', ']');
+			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, '[', ']', escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read block
@@ -112,7 +112,7 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 			stream.skip();
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 			if (stream.peek<char>(0) != '}') {
-				readElements(stream, backing, elements.back().children, useEscapeSequences);
+				readElements(stream, backing, elements.back().children, escapeSequences);
 			} else {
 				stream.skip();
 			}
@@ -127,6 +127,6 @@ KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
 	this->backingData.resize(kv1Data.size());
 	BufferStream backing{this->backingData};
 	try {
-		readElements(stream, backing, this->children, this->useEscapeSequences);
+		readElements(stream, backing, this->children, this->useEscapeSequences ? parser::text::DEFAULT_ESCAPE_SEQUENCES : std::unordered_map<char, char>{});
 	} catch (const std::overflow_error&) {}
 }
