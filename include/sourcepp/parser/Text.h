@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <string_view>
 #include <unordered_map>
 
@@ -116,5 +117,12 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @return A view over the string written to the backing stream.
  */
 [[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+
+class syntax_error : public std::runtime_error {
+public:
+	explicit syntax_error(const char* message) noexcept : std::runtime_error(message) {}
+	syntax_error(const syntax_error& other) noexcept = default;
+	syntax_error& operator=(const syntax_error& other) noexcept = default;
+};
 
 } // namespace sourcepp::parser::text

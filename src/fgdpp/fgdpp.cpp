@@ -1,954 +1,509 @@
 #include <fgdpp/fgdpp.h>
 
-#include <algorithm>
-#include <cctype>
-#include <cstring>
 #include <filesystem>
-#include <fstream>
-#include <regex>
+
+#include <BufferStream.h>
+
+#include <sourcepp/fs/FS.h>
+#include <sourcepp/parser/Text.h>
+#include <sourcepp/string/String.h>
 
 using namespace fgdpp;
-
-constexpr int FGDPP_MAX_STR_CHUNK_LENGTH = 1024;
-
-constexpr char singleTokens[] = "{}[](),:=+";
-constexpr FGD::TokenType valueTokens[] = {FGD::OPEN_BRACE, FGD::CLOSE_BRACE, FGD::OPEN_BRACKET, FGD::CLOSE_BRACKET, FGD::OPEN_PARENTHESIS, FGD::CLOSE_PARENTHESIS, FGD::COMMA, FGD::COLUMN, FGD::EQUALS, FGD::PLUS};
-constexpr enum ParseError tokenErrors[] = {ParseError::INVALID_OPEN_BRACE, ParseError::INVALID_CLOSE_BRACE, ParseError::INVALID_OPEN_BRACKET, ParseError::INVALID_CLOSE_BRACKET, ParseError::INVALID_OPEN_PARENTHESIS, ParseError::INVALID_CLOSE_PARENTHESIS, ParseError::INVALID_COMMA, ParseError::INVALID_COLUMN, ParseError::INVALID_EQUALS, ParseError::INVALID_PLUS};
-
-std::string_view typeStrings[9] = {"string", "integer", "float", "bool", "void", "script", "vector", "target_destination", "color255"};
-EntityIOPropertyType typeList[9] = {EntityIOPropertyType::t_string, EntityIOPropertyType::t_integer, EntityIOPropertyType::t_float, EntityIOPropertyType::t_bool, EntityIOPropertyType::t_void, EntityIOPropertyType::t_script, EntityIOPropertyType::t_vector, EntityIOPropertyType::t_target_destination, EntityIOPropertyType::t_color255};
+using namespace sourcepp;
 
 namespace {
 
-bool ichar_equals(char a, char b) {
-	return std::tolower(static_cast<unsigned char>(a)) == std::tolower(static_cast<unsigned char>(b));
+constexpr const char* INVALID_SYNTAX_MSG = "Invalid syntax found in FGD!";
+constexpr const char* INVALID_CLASS_MSG = "Invalid class found in FGD!";
+
+[[nodiscard]] bool tryToEatSeparator(BufferStream& stream, char sep) {
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+	return parser::text::tryToEatChar(stream, sep);
 }
 
-bool iequals(std::string_view lhs, std::string_view rhs) {
-	return std::ranges::equal(lhs, rhs, ichar_equals);
+// FGD strings are weird - they can be split across several lines, only accept \n escapes,
+// and don't need to be terminated by a double quote. Really gross...
+[[nodiscard]] std::string_view readFGDString(BufferStreamReadOnly& stream, BufferStream& backing) {
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+
+	static constexpr std::string_view END = "\"\n";
+
+	auto startSpan = backing.tell();
+	while (true) {
+		char c = stream.read<char>();
+		if (c != '\"') {
+			stream.seek(-1, std::ios::cur);
+			auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::NO_ESCAPE_SEQUENCES);
+			if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
+				stream.skip();
+				parser::text::eatWhitespaceAndSingleLineComments(stream);
+			}
+			return out;
+		}
+
+		for (c = stream.read<char>(); END.find(c) == std::string_view::npos; c = stream.read<char>()) {
+			if (c == '\\') {
+				auto n = stream.read<char>();
+				if (n == 'n') {
+					backing << '\n';
+				} else if (END.find(n) != std::string_view::npos) {
+					break;
+				} else {
+					backing << c << n;
+				}
+			} else {
+				backing << c;
+			}
+		}
+
+		if (!::tryToEatSeparator(stream, '+')) {
+			break;
+		}
+		// We need to make sure the next line is actually a string, because sometimes + will lead to nothing. Lovely
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+		if (stream.peek<char>() != '\"') {
+			break;
+		}
+	}
+
+	if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
+		stream.skip();
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+	}
+
+	backing << '\0';
+	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
+}
+
+void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& version) {
+	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+		parser::text::eatWhitespace(stream);
+		if (stream.peek<char>() != '(') {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+	}
+	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES)};
+	string::trim(versionString);
+	version = std::stoi(versionString);
+}
+
+void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2i& mapSize) {
+	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+		parser::text::eatWhitespace(stream);
+		if (stream.peek<char>() != '(') {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+	}
+	auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
+	auto mapSizes = string::split(mapSizeString, ',');
+	if (mapSizes.size() != 2) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+
+	string::trim(mapSizes[0]);
+	string::trim(mapSizes[1]);
+	mapSize.x = std::stoi(mapSizes[0]);
+	mapSize.y = std::stoi(mapSizes[1]);
+}
+
+void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<std::string_view>& materialExclusionDirs) {
+	if (!::tryToEatSeparator(stream, '[')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	while (!::tryToEatSeparator(stream, ']')) {
+		materialExclusionDirs.push_back(::readFGDString(stream, backing));
+	}
+	stream.skip();
+}
+
+void readAutoVisGroups(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<FGD::AutoVisGroup>& autoVisGroups) {
+	if (!::tryToEatSeparator(stream, '=')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	auto parentName = ::readFGDString(stream, backing);
+	if (!::tryToEatSeparator(stream, '[')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	while (!::tryToEatSeparator(stream, ']')) {
+		auto& autoVisGroup = autoVisGroups.emplace_back();
+		autoVisGroup.parentName = parentName;
+		autoVisGroup.name = ::readFGDString(stream, backing);
+		if (!::tryToEatSeparator(stream, '[')) {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+		while (!::tryToEatSeparator(stream, ']')) {
+			autoVisGroup.entities.push_back(::readFGDString(stream, backing));
+		}
+		stream.skip();
+	}
+	stream.skip();
+}
+
+void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity) {
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+
+	while (stream.peek<char>() != '=') {
+		FGD::Entity::ClassProperty classProperty;
+		classProperty.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+		classProperty.arguments = "";
+
+		if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+			parser::text::eatWhitespace(stream);
+			if (stream.peek<char>() != '(') {
+				entity.classProperties.push_back(classProperty);
+				continue;
+			}
+		}
+		classProperty.arguments = parser::text::readStringToBuffer(stream, backing, "(", ")", {{'n', '\n'}});
+		entity.classProperties.push_back(classProperty);
+
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+	}
+
+	stream.skip();
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+}
+
+void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity, bool input) {
+	auto& io = input ? entity.inputs.emplace_back() : entity.outputs.emplace_back();
+	io.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+		parser::text::eatWhitespace(stream);
+		if (stream.peek<char>() != '(') {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+	}
+	io.valueType = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
+
+	if (!::tryToEatSeparator(stream, ':')) {
+		io.description = "";
+		return;
+	}
+	io.description = ::readFGDString(stream, backing);
+
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+}
+
+void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity) {
+	// Key and value type (looks like "key(valueType)", or "input key(valueType)" for i/o)
+	auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+	parser::text::eatWhitespace(stream);
+	if (string::iequals(name, "input")) {
+		::readEntityIO(stream, backing, entity, true);
+		return;
+	} else if (string::iequals(name, "output")) {
+		::readEntityIO(stream, backing, entity, false);
+		return;
+	}
+	auto valueType = parser::text::readUnquotedStringToBuffer(stream, backing, ")", parser::text::NO_ESCAPE_SEQUENCES);
+	// If there is a space after the value type, we need to get rid of the parenthesis here
+	parser::text::eatWhitespace(stream);
+	if (stream.peek<char>() == ')') {
+		stream.skip();
+	}
+
+	if (string::iequals(valueType, "choices")) {
+		auto& field = entity.fieldsWithChoices.emplace_back();
+		field.name = name;
+
+		if (::tryToEatSeparator(stream, ':')) {
+			field.displayName = ::readFGDString(stream, backing);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+		}
+
+		if (::tryToEatSeparator(stream, ':')) {
+			field.valueDefault = ::readFGDString(stream, backing);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+		}
+
+		if (::tryToEatSeparator(stream, ':')) {
+			field.description = ::readFGDString(stream, backing);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+		}
+
+		if (!::tryToEatSeparator(stream, '=') || !::tryToEatSeparator(stream, '[')) {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+		while (stream.peek<char>() != ']') {
+			auto& choice = field.choices.emplace_back();
+			choice.value = ::readFGDString(stream, backing);
+
+			if (::tryToEatSeparator(stream, ':')) {
+				choice.displayName = ::readFGDString(stream, backing);
+			} else {
+				choice.displayName = "";
+			}
+		}
+		stream.skip();
+	} else if (string::iequals(valueType, "flags")) {
+		auto& field = entity.fieldsWithFlags.emplace_back();
+		field.name = name;
+
+		if (!::tryToEatSeparator(stream, '=') || !::tryToEatSeparator(stream, '[')) {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+
+		while (stream.peek<char>() != ']') {
+			auto& flag = field.flags.emplace_back();
+			flag.value = parser::text::readUnquotedStringToBuffer(stream, backing, parser::text::NO_ESCAPE_SEQUENCES);
+
+			if (!::tryToEatSeparator(stream, ':')) {
+				continue;
+			}
+			flag.displayName = ::readFGDString(stream, backing);
+
+			if (!::tryToEatSeparator(stream, ':')) {
+				continue;
+			}
+			flag.enabledByDefault = parser::text::readUnquotedStringToBuffer(stream, backing, parser::text::NO_ESCAPE_SEQUENCES);
+
+			if (!::tryToEatSeparator(stream, ':')) {
+				continue;
+			}
+			flag.description = ::readFGDString(stream, backing);
+		}
+		stream.skip();
+	} else {
+		auto& field = entity.fields.emplace_back();
+		field.name = name;
+		field.valueType = valueType;
+		field.displayName = "";
+		field.valueDefault = "";
+		field.description = "";
+
+		if (!::tryToEatSeparator(stream, ':')) {
+			return;
+		}
+		field.displayName = ::readFGDString(stream, backing);
+
+		if (!::tryToEatSeparator(stream, ':')) {
+			return;
+		}
+		field.valueDefault = ::readFGDString(stream, backing);
+
+		if (!::tryToEatSeparator(stream, ':')) {
+			return;
+		}
+		field.description = ::readFGDString(stream, backing);
+
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+	}
+}
+
+void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
+	oldEntity.classProperties = newEntity.classProperties;
+	if (!newEntity.description.empty()) {
+		oldEntity.description = newEntity.description;
+	}
+	for (const auto& field : newEntity.fields) {
+		if (auto it = std::find_if(oldEntity.fields.begin(), oldEntity.fields.end(), [&field](const auto& oldField) {
+				return oldField.name == field.name;
+			}); it != oldEntity.fields.end()) {
+			it->valueType = field.valueType;
+			if (!field.displayName.empty()) {
+				it->displayName = field.displayName;
+			}
+			if (!field.valueDefault.empty()) {
+				it->valueDefault = field.valueDefault;
+			}
+			if (!field.description.empty()) {
+				it->description = field.description;
+			}
+		} else {
+			oldEntity.fields.push_back(field);
+		}
+	}
+	for (const auto& field : newEntity.fieldsWithChoices) {
+		if (auto it = std::find_if(oldEntity.fieldsWithChoices.begin(), oldEntity.fieldsWithChoices.end(), [&field](const auto& oldField) {
+				return oldField.name == field.name;
+			}); it != oldEntity.fieldsWithChoices.end()) {
+			if (!field.displayName.empty()) {
+				it->displayName = field.displayName;
+			}
+			if (!field.valueDefault.empty()) {
+				it->valueDefault = field.valueDefault;
+			}
+			if (!field.description.empty()) {
+				it->description = field.description;
+			}
+			it->choices = field.choices;
+		} else {
+			oldEntity.fieldsWithChoices.push_back(field);
+		}
+	}
+	for (const auto& field : newEntity.fieldsWithFlags) {
+		if (auto it = std::find_if(oldEntity.fieldsWithFlags.begin(), oldEntity.fieldsWithFlags.end(), [&field](const auto& oldField) {
+				return oldField.name == field.name;
+			}); it != oldEntity.fieldsWithFlags.end()) {
+			it->flags = field.flags;
+		} else {
+			oldEntity.fieldsWithFlags.push_back(field);
+		}
+	}
+	for (const auto& input : newEntity.inputs) {
+		if (auto it = std::find_if(oldEntity.inputs.begin(), oldEntity.inputs.end(), [&input](const auto& oldInput) {
+				return oldInput.name == input.name;
+		}); it != oldEntity.inputs.end()) {
+			it->valueType = input.valueType;
+			if (!input.description.empty()) {
+				it->description = input.description;
+			}
+		} else {
+			oldEntity.inputs.push_back(input);
+		}
+	}
+	for (const auto& output : newEntity.outputs) {
+		if (auto it = std::find_if(oldEntity.outputs.begin(), oldEntity.outputs.end(), [&output](const auto& oldOutput) {
+				return oldOutput.name == output.name;
+		}); it != oldEntity.outputs.end()) {
+			it->valueType = output.valueType;
+			if (!output.description.empty()) {
+				it->description = output.description;
+			}
+		} else {
+			oldEntity.outputs.push_back(output);
+		}
+	}
+}
+
+void readEntity(BufferStreamReadOnly& stream, BufferStream& backing, std::string_view classType, std::unordered_map<std::string_view, FGD::Entity>& entities, bool extension) {
+	FGD::Entity entity{};
+	entity.classType = classType;
+
+	// There are optionally a list of class properties after the class
+	if (!::tryToEatSeparator(stream, '=')) {
+		::readClassProperties(stream, backing, entity);
+	}
+
+	// Entity name
+	parser::text::eatWhitespaceAndSingleLineComments(stream);
+	auto name = ::readFGDString(stream, backing);
+
+	// If a colon is here, the entity has a description
+	if (::tryToEatSeparator(stream, ':')) {
+		entity.description = ::readFGDString(stream, backing);
+	} else {
+		entity.description = "";
+	}
+
+	// Parse entity keyvalues
+	if (!::tryToEatSeparator(stream, '[')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	while (!::tryToEatSeparator(stream, ']')) {
+		::readEntityKeyValue(stream, backing, entity);
+	}
+	stream.skip();
+
+	if (extension && entities.contains(name)) {
+		// Overwrite/add parts of the entity description
+		::overwriteEntity(entities[name], entity);
+	} else {
+		// Replace entity description entirely
+		entities[name] = entity;
+	}
 }
 
 } // namespace
 
-bool FGD::TokenizeFile() {
-    if (this->rawFGDFile.empty())
-        return false;
-
-    int pos = 1, ln = 1, i = 0;
-
-    for (auto iterator = this->rawFGDFile.cbegin(); iterator != this->rawFGDFile.cend(); iterator++, i++, pos++) {
-        char c = *iterator;
-
-        if (c == '\t')
-            continue;
-
-        if (c == '\r')
-            continue;
-
-        if (c == '\n') {
-            ln++;
-            pos = 1;
-            continue;
-        }
-
-        if (c == '\"') {
-            int currentLine = ln;
-            int currentLength = i;
-            int currentPos = pos;
-            auto currentIteration = iterator;
-
-            c = '\t'; // We can get away with this to trick the while loop :)
-            while (c != '\"') {
-                iterator++;
-                pos++;
-                c = *iterator;
-                i++;
-                if (c == '\n')
-                    ln++;
-            }
-
-            iterator++;
-            i++;
-            pos++;
-            Token token{};
-            token.line = currentLine;
-            token.type = STRING;
-            token.associatedError = ParseError::INVALID_STRING;
-
-            token.string = {currentIteration, iterator};
-
-            int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
-            token.range = {currentPos, pos - (currentPos - subtractFromRange)};
-
-            this->tokenList.push_back(token);
-            iterator--;
-            i--;
-            pos--;
-            continue;
-        }
-
-        if (c == '/' && *std::next(iterator) == '/') {
-            int currentLength = i;
-            int currentPos = pos;
-            auto currentIteration = iterator;
-
-            while (c != '\n') {
-                c = *iterator;
-                pos++;
-                i++;
-                iterator++;
-            }
-            iterator--;
-            i--;
-            pos--;
-
-            Token token{};
-            token.line = ln;
-            token.type = COMMENT;
-
-            token.string = {currentIteration, iterator};
-
-            int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
-            token.range = {currentPos, pos - (currentPos - subtractFromRange)};
-
-            this->tokenList.push_back(token);
-
-            iterator--;
-            i--;
-            pos--;
-            continue;
-        }
-
-        if (c == '@') {
-            int currentLength = i;
-            auto currentIteration = iterator;
-            int currentPos = pos;
-
-            while (c != '\n' && c != '\t' && c != '\r' && c != ' ' && c != '(') {
-                c = *iterator;
-                pos++;
-                i++;
-                iterator++;
-            }
-            iterator--;
-            i--;
-            pos--;
-
-            if (c == '\n')
-                ln++;
-            Token token;
-            token.line = ln;
-            token.type = DEFINITION;
-            token.associatedError = ParseError::INVALID_DEFINITION;
-
-            int newStrLength = 0;
-            token.string = {currentIteration, iterator};
-
-            int subtractFromRange = (i - currentLength - newStrLength);
-            token.range = {currentPos, pos - (currentPos - subtractFromRange)};
-
-            this->tokenList.push_back(token);
-
-            iterator--;
-            i--;
-            pos--;
-            continue;
-        }
-
-        if (std::isdigit(c) || (c == '-' && std::isdigit(*std::next(iterator)))) {
-            auto currentIteration = iterator;
-            int currentPos = pos;
-
-            if (c == '-') {
-                iterator++;
-                pos++;
-                i++;
-                c = *iterator;
-            }
-
-#ifdef FGDPP_UNIFIED_FGD
-            while (std::isdigit(c) || c == '.')
-#else
-            while (std::isdigit(c))
-#endif
-            {
-                c = *iterator;
-                i++;
-                pos++;
-                iterator++;
-            }
-
-            iterator--;
-            i--;
-            pos--;
-
-            Token token;
-            token.line = ln;
-            token.type = NUMBER;
-            token.associatedError = ParseError::INVALID_NUMBER;
-
-            token.string = {currentIteration, iterator};
-
-            token.range = {currentPos, pos};
-
-            this->tokenList.push_back(token);
-
-            iterator--;
-            i--;
-            pos--;
-            continue;
-        }
-
-        if (const char* valueKey = std::strchr(singleTokens, c)) {
-            int spaces = (int)((int)((char*) valueKey - (char*) singleTokens) / sizeof(char)); // char should be 1, but I am sanity checking it anyway.
-            TokenType tType = valueTokens[spaces];
-            enum ParseError tParseError = tokenErrors[spaces];
-            Token token;
-            token.line = ln;
-            token.type = tType;
-            token.associatedError = tParseError;
-
-            token.string = {iterator, std::next(iterator)};
-
-			token.range = {pos, pos + 1};
-
-            this->tokenList.push_back(token);
-
-            continue;
-        }
-
-        if (c != ' ') {
-            int currentLength = i;
-            auto currentIteration = iterator;
-            int currentPos = pos;
-
-            while (c != '\n' && c != ' ' && c != '\t' && c != '\r' && !std::strchr(singleTokens, c)) {
-                iterator++;
-                pos++;
-                c = *iterator;
-                i++;
-            }
-
-            Token token;
-            token.line = ln;
-            token.type = LITERAL;
-            token.associatedError = ParseError::INVALID_LITERAL;
-
-            token.string = {currentIteration, iterator};
-
-            int subtractFromRange = static_cast<int>(i - currentLength - token.string.length());
-            token.range = {currentPos, pos - (currentPos - subtractFromRange)};
-
-            this->tokenList.push_back(token);
-
-            iterator--;
-            i--;
-            pos--;
-            continue;
-        }
-    }
-
-    return true;
+FGD::FGD(const std::string& fgdPath) {
+	this->load(fgdPath);
 }
 
-FGD::FGD(std::string_view path, bool parseIncludes) {
-	std::ifstream file{std::string{path}};
-	if (!file.is_open()) {
-		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
+void FGD::load(const std::string& fgdPath) {
+	auto fgdData = fs::readFileText(fgdPath);
+	if (fgdData.empty()) {
 		return;
 	}
+	BufferStreamReadOnly stream{fgdData};
 
-	auto fileSize = static_cast<std::streamsize>(std::filesystem::file_size(path));
-	this->rawFGDFile = std::string(fileSize, ' ');
-	file.read(this->rawFGDFile.data(), fileSize);
-	file.close();
+	try {
+		std::vector<std::string> seenPaths{fgdPath};
+		string::normalizeSlashes(seenPaths.front());
+		this->readEntities(stream, fgdPath, seenPaths);
+	} catch (const std::overflow_error&) {}
+}
 
-	if (parseIncludes) {
-		std::vector<std::string> exclusionList;
-		exclusionList.emplace_back(path);
+int FGD::getVersion() const {
+	return this->version;
+}
 
-		std::string_view dirPath = path.substr(0, path.find_last_of('/'));
-		std::smatch match;
-		std::regex exr{"@include+ \"(.*)\""};
+math::Vec2i FGD::getMapSize() const {
+	return this->mapSize;
+}
 
-		while (std::regex_search(this->rawFGDFile, match, exr)) {
-			std::regex thisInclude("@include+ \"" + match[1].str() + "\"");
+const std::unordered_map<std::string_view, FGD::Entity>& FGD::getEntities() const {
+	return this->entities;
+}
 
-			std::string currentPath = std::string{dirPath} + match[1].str();
+const std::vector<std::string_view>& FGD::getMaterialExclusionDirs() const {
+	return this->materialExclusionDirs;
+}
 
-			if (std::find_if(exclusionList.begin(), exclusionList.end(), [currentPath](const std::string& v) {
-				return v == currentPath;
-			}) != exclusionList.end()) {
-				this->rawFGDFile = std::regex_replace(this->rawFGDFile, thisInclude, "");
+const std::vector<FGD::AutoVisGroup>& FGD::getAutoVisGroups() const {
+	return this->autoVisGroups;
+}
+
+FGD::operator bool() const {
+	return !this->entities.empty();
+}
+
+// NOLINTNEXTLINE(*-no-recursion)
+void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, std::vector<std::string>& seenPaths) {
+	auto& backingString = this->backingData.emplace_back();
+	// Multiply by 2 to ensure buffer will have enough space (very generous)
+	backingString.resize(stream.size() * 2);
+	BufferStream backing{backingString, false};
+
+	while (true) {
+		parser::text::eatWhitespaceAndSingleLineComments(stream);
+
+		// All entity definitions start with an '@' followed by the class type
+		if (stream.read<char>() != '@') {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+
+		auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+		if (string::iequals(classType, "include")) {
+			parser::text::eatWhitespace(stream);
+			// Assume the include path is relative to the current file being processed
+			auto fgdPath = (std::filesystem::path{path}.parent_path() / parser::text::readStringToBuffer(stream, backing)).string();
+			string::normalizeSlashes(fgdPath);
+			if (std::find(seenPaths.begin(), seenPaths.end(), fgdPath) != seenPaths.end()) {
+				continue;
+			}
+			seenPaths.push_back(fgdPath);
+
+			auto fgdData = fs::readFileText(fgdPath);
+			if (fgdData.empty()) {
 				continue;
 			}
 
-			exclusionList.push_back(currentPath);
-
-			auto includeFilePath = std::string{dirPath} + '/' + match[1].str();
-			file.open(includeFilePath);
-			if (!file.is_open()) continue;
-
-			auto includeSize = static_cast<std::streamsize>(std::filesystem::file_size(includeFilePath));
-			std::string includeFileContents(includeSize, ' ');
-			file.read(includeFileContents.data(), includeSize);
-			file.close();
-
-			this->rawFGDFile = std::regex_replace(this->rawFGDFile, thisInclude, includeFileContents, std::regex_constants::format_first_only);
+			BufferStreamReadOnly newStream{fgdData};
+			try {
+				this->readEntities(newStream, fgdPath, seenPaths);
+			} catch (const std::overflow_error&) {}
+		} else if (string::iequals(classType, "version")) {
+			::readVersion(stream, backing, this->version);
+		} else if (string::iequals(classType, "mapsize")) {
+			::readMapSize(stream, backing, this->mapSize);
+		} else if (string::iequals(classType, "MaterialExclusion")) {
+			::readMaterialExclusionDirs(stream, backing, this->materialExclusionDirs);
+		} else if (string::iequals(classType, "AutoVisGroup")) {
+			::readAutoVisGroups(stream, backing, this->autoVisGroups);
+		} else if (string::iequals(classType, "BaseClass") ||
+				   string::iequals(classType, "PointClass") ||
+				   string::iequals(classType, "NPCClass") ||
+				   string::iequals(classType, "SolidClass") ||
+				   string::iequals(classType, "KeyFrameClass") ||
+				   string::iequals(classType, "MoveClass") ||
+				   string::iequals(classType, "FilterClass")) {
+			::readEntity(stream, backing, classType, this->entities, false);
+		} else if (string::iequals(classType, "ExtendClass")) {
+			::readEntity(stream, backing, classType, this->entities, true);
+		} else {
+			throw parser::text::syntax_error{INVALID_CLASS_MSG};
 		}
 	}
-
-	std::erase(this->rawFGDFile, '\r');
-
-	if (!this->TokenizeFile()) {
-		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
-		return;
-	}
-
-	if (!this->ParseFile()) {
-		this->parseError = {ParseError::FAILED_TO_OPEN, 0, {0, 0}};
-		return;
-	}
-}
-
-#define ErrorHandle(iter) this->parseError = (iter == this->tokenList.cend()) ? (ParsingError{ParseError::PREMATURE_EOF, lastLine, {0, 0}}) : (ParsingError{iter->associatedError, iter->line, {iter->range.start, iter->range.end}}); return false
-
-#define Forward(iterator, failureResult)            \
-	do {                                            \
-		iterator++;                                 \
-		if (iterator == this->tokenList.end())      \
-		    failureResult;                          \
-		while (iterator->type == COMMENT) {         \
-		    iterator++;                             \
-		    if (iterator == this->tokenList.cend()) \
-				failureResult;                      \
-		}                                           \
-	} while (0)
-
-
-#ifdef FGDPP_UNIFIED_FGD
-bool FGD::TagListDelimiter(std::vector<Token>::const_iterator& iter, TagList& tagList) {
-    std::vector<std::string_view> fields;
-
-    int i = 0;
-    bool hasPlus = false;
-    while (iter->type == LITERAL || iter->type == PLUS || iter->type == COMMA || iter->type == STRING || iter->type == NUMBER) {
-        if (iter->type == PLUS) {
-            hasPlus = true;
-            Forward(iter, return false);
-            continue;
-        }
-
-        if (iter->type == COMMA) {
-            for (int j = 0; j < i; j++) {
-                tagList.tags.resize(j+1);
-                tagList.tags[j] = fields[j];
-            }
-
-            i = 0;
-            Forward(iter, return false);
-            continue;
-        }
-
-        if (!hasPlus) {
-            fields.resize(i+1);
-            fields[i] = iter->string;
-            i++;
-        } else {
-            //std::string t{"+"};
-            //t.append(( iter )->string);
-            //TODO: We ned to identify +, trust me, we do.
-            fields.resize(i+1);
-            fields[i] = iter->string;
-            i++;
-        }
-
-        Forward(iter, return false);
-    }
-
-    if (i > 0) {
-        for (int j = 0; j < i; j++) {
-            tagList.tags.resize(j+1);
-            tagList.tags[j] = fields[j];
-        }
-    }
-
-    if (iter->type != CLOSE_BRACKET)
-        return false;
-
-    return true;
-}
-#endif
-
-bool FGD::ParseFile() {
-    if (this->tokenList.empty())
-        return false;
-
-    int lastLine = this->tokenList[this->tokenList.size() - 1].line;
-    for (auto iter = this->tokenList.cbegin(); iter != this->tokenList.cend(); iter++) {
-        if (iter->type != DEFINITION)
-            continue;
-
-        if (iequals(iter->string, "@mapsize")) {
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != OPEN_PARENTHESIS) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != NUMBER) {
-                ErrorHandle(iter);
-            }
-
-            this->FGDFileContents.mapSize.start = std::stoi(std::string{iter->string});
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != COMMA) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != NUMBER) {
-                ErrorHandle(iter);
-            }
-
-            this->FGDFileContents.mapSize.end = std::stoi(std::string{iter->string});
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != CLOSE_PARENTHESIS) {
-                ErrorHandle(iter);
-            }
-
-            continue;
-        }
-
-        if (iequals(iter->string, "@AutoVisgroup")) {
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != EQUALS) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != STRING) {
-                ErrorHandle(iter);
-            }
-
-            AutoVisGroup visGroup;
-            visGroup.name = iter->string;
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != OPEN_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != STRING && iter->type != CLOSE_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            while (iter->type == STRING) {
-                AutoVisGroupChild visGroupChild;
-                visGroupChild.name = iter->string;
-
-                Forward(iter, { ErrorHandle(iter); });
-                if (iter->type != OPEN_BRACKET) {
-                    ErrorHandle(iter);
-                }
-
-                Forward(iter, { ErrorHandle(iter); });
-                if (iter->type != STRING && iter->type != CLOSE_BRACKET) {
-                    ErrorHandle(iter);
-                }
-
-                while (iter->type == STRING) {
-                    if (iter->type != STRING) {
-                        ErrorHandle(iter);
-                    }
-
-                    visGroupChild.children.push_back(iter->string);
-
-                    visGroup.children.push_back(visGroupChild);
-                    Forward(iter, { ErrorHandle(iter); });
-                }
-
-                if (iter->type != CLOSE_BRACKET) {
-                    ErrorHandle(iter);
-                }
-
-                Forward(iter, { ErrorHandle(iter); });
-            }
-
-            if (iter->type != CLOSE_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            this->FGDFileContents.autoVisGroups.push_back(visGroup);
-            continue;
-        }
-
-        if (iequals(iter->string, "@include")) {
-            Forward(iter, { ErrorHandle(iter); });
-
-            if (iter->type != STRING) {
-                ErrorHandle(iter);
-            }
-
-            this->FGDFileContents.includes.push_back(iter->string);
-            continue;
-        }
-
-        if (iequals(iter->string, "@MaterialExclusion")) {
-            Forward(iter, { ErrorHandle(iter); });
-
-            if (iter->type != OPEN_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-
-            while (iter->type == STRING) {
-                this->FGDFileContents.materialExclusions.push_back( iter->string );
-
-                Forward(iter, { ErrorHandle(iter); });
-            }
-
-            if (iter->type != CLOSE_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            continue;
-        }
-
-        if (iter->string.ends_with("Class")) {
-            Entity entity;
-            entity.type = iter->string;
-
-            Forward(iter, { ErrorHandle(iter); });
-
-            while (iter->type == LITERAL) {
-                ClassProperties classProperties;
-                classProperties.name = iter->string;
-
-                Forward(iter, { ErrorHandle(iter); });
-                if (iter->type == OPEN_PARENTHESIS) {
-                    // if there are more than 64 non comma separated parameters, you're doing something wrong.
-                    // The value is already so high in case anyone adds new fgd class parameters in the future that require them.
-					static constexpr int MAX_FIELDS = 64;
-
-                    std::string_view fields[MAX_FIELDS];
-                    int i = 0;
-
-                    Forward(iter, { ErrorHandle(iter); });
-                    while (iter->type == LITERAL || iter->type == COMMA || iter->type == STRING || iter->type == NUMBER) {
-                        if (i > MAX_FIELDS) {
-							// wtf happened?
-                            ErrorHandle(iter);
-                        }
-
-                        if (iter->type == COMMA) {
-                            ClassProperty property;
-                            for (int j = 0; j < i; j++) {
-                                property.properties.push_back(fields[j]);
-                            }
-
-                            i = 0;
-                            Forward(iter, { ErrorHandle(iter); });
-                            classProperties.classProperties.push_back(property);
-                            continue;
-                        }
-
-                        fields[i] = iter->string;
-                        i++;
-
-                        Forward(iter, { ErrorHandle(iter); });
-                    }
-
-                    if (i > 0) {
-                        ClassProperty property;
-                        for (int j = 0; j < i; j++) {
-                            property.properties.push_back(fields[j]);
-                        }
-
-                        i = 0;
-                        Forward(iter, { ErrorHandle(iter); });
-                        classProperties.classProperties.push_back(property);
-                        entity.classProperties.push_back(classProperties);
-                        continue;
-                    }
-
-                    if (iter->type != CLOSE_PARENTHESIS) {
-                        ErrorHandle(iter);
-                    }
-
-                    Forward(iter, { ErrorHandle(iter); });
-                }
-
-                entity.classProperties.push_back(classProperties);
-            }
-
-            if (iter->type != EQUALS) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            if (iter->type != LITERAL) {
-                ErrorHandle(iter);
-            }
-
-            entity.entityName = iter->string;
-
-            Forward(iter, { ErrorHandle(iter); });
-
-            if (iter->type == COLUMN) {
-                Forward(iter, { ErrorHandle(iter); });
-
-                if (iter->type != STRING) {
-                    ErrorHandle(iter);
-                }
-
-                while (iter->type == STRING) {
-#ifndef FGDPP_UNIFIED_FGD
-                    if (iter->string.length() > FGDPP_MAX_STR_CHUNK_LENGTH) {
-						ErrorHandle(iter);
-					}
-#endif
-                    entity.entityDescription.push_back(iter->string);
-                    Forward(iter, { ErrorHandle(iter); });
-                    if (iter->type == PLUS) {
-                        Forward(iter, { ErrorHandle(iter); });
-                    }
-                }
-            }
-
-            if (iter->type != OPEN_BRACKET) {
-                ErrorHandle(iter);
-            }
-
-            Forward(iter, { ErrorHandle(iter); });
-            while (iter->type != CLOSE_BRACKET) {
-#ifdef FGDPP_UNIFIED_FGD
-				if (iequals(iter->string, "@resources")) {
-					Forward(iter, { ErrorHandle(iter); });
-
-					if (iter->type != OPEN_BRACKET) {
-						ErrorHandle(iter);
-					}
-
-					Forward(iter, { ErrorHandle(iter); });
-
-					while (iter->type != CLOSE_BRACKET) {
-						if (iter->type != LITERAL) {
-							ErrorHandle(iter);
-						}
-
-						EntityResource resource;
-						resource.key = ( iter->string );
-
-						Forward(iter, { ErrorHandle(iter); });
-						resource.value = ( iter->string );
-
-						Forward(iter, { ErrorHandle(iter); });
-						if (iter->type == OPEN_BRACKET) {
-							Forward(iter, { ErrorHandle(iter); });
-							if (!TagListDelimiter(iter, resource.tagList)) {
-								ErrorHandle(iter);
-							}
-							Forward(iter, { ErrorHandle(iter); });
-						}
-					}
-
-					if (iter->type != CLOSE_BRACKET) {
-						ErrorHandle(iter);
-					}
-
-					Forward(iter, { ErrorHandle(iter); });
-					continue;
-				}
-#endif
-
-                if (iter->type != LITERAL) {
-                    ErrorHandle(iter);
-                }
-
-                if (iequals(iter->string, "input") || iequals(iter->string, "output")) {
-                    InputOutput inputOutput;
-                    inputOutput.putType = iequals(iter->string, "input") == 0 ? IO::INPUT : IO::OUTPUT;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    inputOutput.name = iter->string;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-#ifdef FGDPP_UNIFIED_FGD
-                    if (iter->type == OPEN_BRACKET) {
-						Forward(iter, { ErrorHandle(iter); });
-						if (!TagListDelimiter(iter, inputOutput.tagList)) {
-							ErrorHandle(iter);
-						}
-						Forward(iter, { ErrorHandle(iter); });
-					}
-#endif
-
-                    if (iter->type != OPEN_PARENTHESIS) {
-                        ErrorHandle(iter);
-                    }
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type != LITERAL) {
-                        ErrorHandle(iter);
-                    }
-
-                    int index = 0;
-                    while (index < 9) {
-                        if (iequals(typeStrings[index], iter->string))
-                            break;
-                        index++;
-                    }
-                    if (index == 9)
-                        inputOutput.type = EntityIOPropertyType::t_custom;
-                    else
-                        inputOutput.type = typeList[index];
-
-                    inputOutput.stringType = iter->string;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type != CLOSE_PARENTHESIS) {
-                        ErrorHandle(iter);
-                    }
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type == COLUMN) {
-                        Forward(iter, { ErrorHandle(iter); });
-
-                        if (iter->type != STRING) {
-                            ErrorHandle(iter);
-                        }
-
-                        while (iter->type == STRING) {
-#ifndef FGDPP_UNIFIED_FGD
-                            if (iter->string.length() > FGDPP_MAX_STR_CHUNK_LENGTH) {
-								ErrorHandle(iter);
-							}
-#endif
-                            inputOutput.description.push_back(iter->string);
-                            Forward(iter, { ErrorHandle(iter); });
-                            if (iter->type == PLUS) {
-                                Forward(iter, { ErrorHandle(iter); });
-                            }
-                        }
-                    }
-                    entity.inputOutput.push_back(inputOutput);
-                    continue;
-                } else {
-                    EntityProperties entityProperties;
-                    entityProperties.flagCount = 0;
-                    entityProperties.choiceCount = 0;
-                    entityProperties.readOnly = false;
-                    entityProperties.reportable = false;
-                    entityProperties.propertyName = iter->string;
-                    Forward(iter, { ErrorHandle(iter); });
-
-#ifdef FGDPP_UNIFIED_FGD
-                    if (iter->type == OPEN_BRACKET) {
-						Forward(iter, { ErrorHandle(iter); });
-						if (!TagListDelimiter(iter, entityProperties.tagList)) {
-							ErrorHandle(iter);
-						}
-						Forward(iter, { ErrorHandle(iter); });
-					}
-#endif
-
-                    if (iter->type != OPEN_PARENTHESIS) {
-                        ErrorHandle(iter);
-                    }
-
-                    Forward(iter, { ErrorHandle(iter); });
-                    if (iter->type != LITERAL) {
-                        ErrorHandle(iter);
-                    }
-
-                    entityProperties.type = iter->string;
-
-                    Forward(iter, { ErrorHandle(iter); });
-                    if (iter->type != CLOSE_PARENTHESIS) {
-                        ErrorHandle(iter);
-                    }
-
-                    Forward(iter, { ErrorHandle(iter); });
-                    if (iequals(iter->string, "readonly")) {
-                        entityProperties.readOnly = true;
-                        Forward(iter, { ErrorHandle(iter); });
-                    }
-
-                    if (iequals(iter->string, "*") || iequals(iter->string, "report")) {
-                        entityProperties.reportable = true;
-                        Forward(iter, { ErrorHandle(iter); });
-                    }
-
-                    if (iter->type == EQUALS) {
-                        goto isFOC;
-                    }
-
-                    if (iter->type != COLUMN)
-                        continue;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type != STRING) {
-                        ErrorHandle(iter);
-                    }
-
-                    entityProperties.displayName = iter->string;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type == EQUALS) {
-                        goto isFOC;
-                    }
-
-                    if (iter->type != COLUMN)
-                        continue;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type != COLUMN) {
-                        entityProperties.defaultValue = iter->string;
-                        Forward(iter, { ErrorHandle(iter); });
-                    }
-
-                    if (iter->type == EQUALS) {
-                        goto isFOC;
-                    }
-
-                    if (iter->type != COLUMN)
-                        continue;
-
-                    Forward(iter, { ErrorHandle(iter); });
-
-                    if (iter->type != STRING) {
-                        ErrorHandle(iter);
-                    }
-
-                    while (iter->type == STRING) {
-#ifndef FGDPP_UNIFIED_FGD
-                        if (iter->string.length() > FGDPP_MAX_STR_CHUNK_LENGTH) {
-							ErrorHandle(iter);
-						}
-#endif
-                        entityProperties.propertyDescription.push_back(iter->string);
-                        Forward(iter, { ErrorHandle(iter); });
-                        if (iter->type == PLUS) {
-                            Forward(iter, { ErrorHandle(iter); });
-                        }
-                    }
-
-					/*
-					if (!ProcessFGDStrings(iter, &entityProperties->propertyDescription)) {
-						ErrorHandle(iter);
-					}
-					*/
-
-                    if (iter->type == EQUALS) {
-                        goto isFOC;
-                    }
-
-                    continue;
-
-                    isFOC:
-                    {
-                        bool isFlags = iequals(entityProperties.type, "flags");
-
-                        Forward(iter, { ErrorHandle(iter); });
-                        if (iter->type != OPEN_BRACKET) {
-                            ErrorHandle(iter);
-                        }
-
-                        Forward(iter, { ErrorHandle(iter); });
-                        while (iter->type != CLOSE_BRACKET) {
-                            if (isFlags && iter->type != NUMBER) {
-                                ErrorHandle(iter);
-                            }
-
-                            if (isFlags) {
-                                Flag flags;
-                                flags.value = std::stoi(std::string{iter->string});
-
-                                Forward(iter, { ErrorHandle(iter); });
-                                if (iter->type != COLUMN) {
-                                    ErrorHandle(iter);
-                                }
-
-                                Forward(iter, { ErrorHandle(iter); });
-                                if (iter->type != STRING) {
-                                    ErrorHandle(iter);
-                                }
-
-                                flags.displayName = iter->string;
-
-                                if (std::next(iter)->type == COLUMN) {
-                                    Forward(iter, { ErrorHandle(iter); });
-
-                                    Forward(iter, { ErrorHandle(iter); });
-                                    if ( iter->type != NUMBER ) {
-                                        ErrorHandle(iter);
-                                    }
-                                    flags.checked = iter->string == "1";
-
-#ifdef FGDPP_UNIFIED_FGD
-                                    if (std::next(iter)->type == OPEN_BRACKET) {
-										Forward(iter, { ErrorHandle(iter); });
-										Forward(iter, { ErrorHandle(iter); });
-										if (!TagListDelimiter(iter, flags.tagList)) {
-											ErrorHandle(iter);
-										}
-									}
-#endif
-                                }
-
-                                Forward(iter, { ErrorHandle(iter); });
-                            } else {
-                                Choice choice;
-                                choice.value = iter->string;
-
-                                Forward(iter, { ErrorHandle(iter); });
-                                if ( iter->type != COLUMN ) {
-                                    ErrorHandle(iter);
-                                }
-
-                                Forward(iter, { ErrorHandle(iter); });
-                                if ( iter->type != STRING ) {
-                                    ErrorHandle(iter);
-                                }
-
-                                choice.displayName = iter->string;
-
-#ifdef FGDPP_UNIFIED_FGD
-                                if (std::next(iter)->type == OPEN_BRACKET) {
-									Forward(iter, { ErrorHandle(iter); });
-									Forward(iter, { ErrorHandle(iter); });
-
-									if (!TagListDelimiter(iter, choice.tagList)) {
-										ErrorHandle(iter);
-									}
-								}
-#endif
-
-                                Forward(iter, { ErrorHandle(iter); });
-                            }
-                        }
-                    }
-                }
-
-                Forward(iter, { ErrorHandle(iter); });
-            }
-
-            this->FGDFileContents.entities.push_back(entity);
-        }
-    }
-
-    return true;
 }

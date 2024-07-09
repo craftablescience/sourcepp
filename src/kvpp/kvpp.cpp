@@ -124,9 +124,11 @@ KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
 		: KV1Element()
 		, useEscapeSequences(useEscapeSequences_) {
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
-	this->backingData.resize(kv1Data.size());
-	BufferStream backing{this->backingData};
+
+	// Multiply by 2 to ensure buffer will have enough space (very generous)
+	this->backingData.resize(kv1Data.size() * 2);
+	BufferStream backing{this->backingData, false};
 	try {
-		readElements(stream, backing, this->children, this->useEscapeSequences ? parser::text::DEFAULT_ESCAPE_SEQUENCES : std::unordered_map<char, char>{});
+		readElements(stream, backing, this->children, this->useEscapeSequences ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
 	} catch (const std::overflow_error&) {}
 }
