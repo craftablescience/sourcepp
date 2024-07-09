@@ -86,7 +86,7 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 	while (true) {
 		// Check if the block is over
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
-		if (static_cast<char>(stream.peek(0)) == '}') {
+		if (stream.peek<char>() == '}') {
 			stream.skip();
 			break;
 		}
@@ -98,20 +98,20 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read value
-		if (stream.peek<char>(0) != '{') {
+		if (stream.peek<char>() != '{') {
 			elements.back().value = parser::text::readStringToBuffer(stream, backing, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read conditional
-		if (stream.peek<char>(0) == '[') {
+		if (stream.peek<char>() == '[') {
 			elements.back().conditional = parser::text::readStringToBuffer(stream, backing, "[", "]", escapeSequences);
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 		}
 		// Read block
-		if (stream.peek<char>(0) == '{') {
+		if (stream.peek<char>() == '{') {
 			stream.skip();
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
-			if (stream.peek<char>(0) != '}') {
+			if (stream.peek<char>() != '}') {
 				readElements(stream, backing, elements.back().children, escapeSequences);
 			} else {
 				stream.skip();

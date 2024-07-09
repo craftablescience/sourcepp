@@ -10,6 +10,10 @@ bool string::contains(std::string_view s, char c) {
 	return std::find(s.begin(), s.end(), c) != s.end();
 }
 
+bool string::iequals(std::string_view s1, std::string_view s2) {
+	return std::ranges::equal(s1, s2, [](char a, char b) { return std::tolower(a) == std::tolower(b); });
+}
+
 // https://stackoverflow.com/a/217605
 
 void string::ltrim(std::string& s) {
