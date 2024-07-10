@@ -71,26 +71,22 @@ std::string string::padNumber(int number, int width, char pad) {
 	return std::string(width - std::min<std::string::size_type>(width, numStr.length()), pad) + numStr;
 }
 
-void string::normalizeSlashes(std::string& path, bool stripTerminalSlashes) {
+void string::normalizeSlashes(std::string& path, bool stripSlashPrefix, bool stripSlashSuffix) {
 	std::replace(path.begin(), path.end(), '\\', '/');
-	if (stripTerminalSlashes) {
-		if (path.starts_with('/')) {
-			path = path.substr(1);
-		}
-		if (path.ends_with('/')) {
-			path.pop_back();
-		}
+	if (stripSlashPrefix && path.starts_with('/')) {
+		path = path.substr(1);
+	}
+	if (stripSlashSuffix && path.ends_with('/')) {
+		path.pop_back();
 	}
 }
 
-void string::denormalizeSlashes(std::string& path, bool stripTerminalSlashes) {
+void string::denormalizeSlashes(std::string& path, bool stripSlashPrefix, bool stripSlashSuffix) {
 	std::replace(path.begin(), path.end(), '/', '\\');
-	if (stripTerminalSlashes) {
-		if (path.starts_with('\\')) {
-			path = path.substr(1);
-		}
-		if (path.ends_with('\\')) {
-			path.pop_back();
-		}
+	if (stripSlashPrefix && path.starts_with('\\')) {
+		path = path.substr(1);
+	}
+	if (stripSlashSuffix && path.ends_with('\\')) {
+		path.pop_back();
 	}
 }

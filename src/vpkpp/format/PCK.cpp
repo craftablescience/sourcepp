@@ -99,7 +99,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 		if (entry.path.starts_with(PCK_PATH_PREFIX)) {
 			entry.path = entry.path.substr(PCK_PATH_PREFIX.length());
 		}
-		string::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path, true);
 		if (!pck->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -113,7 +113,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 		}
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir, true);
 		if (!pck->entries.contains(parentDir)) {
 			pck->entries[parentDir] = {};
 		}
