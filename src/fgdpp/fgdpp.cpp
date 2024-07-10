@@ -184,6 +184,33 @@ void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Enti
 	parser::text::eatWhitespaceAndSingleLineComments(stream);
 }
 
+void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backing, bool& readonly, bool& reportable) {
+	readonly = false;
+	reportable = false;
+
+	parser::text::eatWhitespace(stream);
+	if (stream.peek<char>() == 'r') {
+		if (auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "readonly") {
+			readonly = true;
+		} else if (modifier == "report") {
+			reportable = true;
+			return;
+		} else {
+			stream.seek(-static_cast<int64_t>(modifier.length()), std::ios::cur);
+			return;
+		}
+	}
+	parser::text::eatWhitespace(stream);
+	if (stream.peek<char>() == 'r') {
+		if (auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "report") {
+			reportable = true;
+		}  else {
+			stream.seek(-static_cast<int64_t>(modifier.length()), std::ios::cur);
+			return;
+		}
+	}
+}
+
 void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity) {
 	// Key and value type (looks like "key(valueType)", or "input key(valueType)" for i/o)
 	auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
@@ -205,6 +232,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 	if (string::iequals(valueType, "choices")) {
 		auto& field = entity.fieldsWithChoices.emplace_back();
 		field.name = name;
+		::readEntityFieldModifiers(stream, backing, field.readonly, field.reportable);
 
 		if (::tryToEatSeparator(stream, ':')) {
 			field.displayName = ::readFGDString(stream, backing);
@@ -238,6 +266,17 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 	} else if (string::iequals(valueType, "flags")) {
 		auto& field = entity.fieldsWithFlags.emplace_back();
 		field.name = name;
+		::readEntityFieldModifiers(stream, backing, field.readonly, field.reportable);
+
+		if (::tryToEatSeparator(stream, ':')) {
+			field.displayName = ::readFGDString(stream, backing);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+		}
+
+		if (::tryToEatSeparator(stream, ':')) {
+			field.description = ::readFGDString(stream, backing);
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+		}
 
 		if (!::tryToEatSeparator(stream, '=') || !::tryToEatSeparator(stream, '[')) {
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -246,7 +285,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 
 		while (stream.peek<char>() != ']') {
 			auto& flag = field.flags.emplace_back();
-			flag.value = parser::text::readUnquotedStringToBuffer(stream, backing, parser::text::NO_ESCAPE_SEQUENCES);
+			flag.value = ::readFGDString(stream, backing);
 
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
@@ -256,7 +295,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
 			}
-			flag.enabledByDefault = parser::text::readUnquotedStringToBuffer(stream, backing, parser::text::NO_ESCAPE_SEQUENCES);
+			flag.enabledByDefault = ::readFGDString(stream, backing);
 
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
@@ -268,6 +307,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		auto& field = entity.fields.emplace_back();
 		field.name = name;
 		field.valueType = valueType;
+		::readEntityFieldModifiers(stream, backing, field.readonly, field.reportable);
 		field.displayName = "";
 		field.valueDefault = "";
 		field.description = "";
@@ -299,8 +339,10 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	for (const auto& field : newEntity.fields) {
 		if (auto it = std::find_if(oldEntity.fields.begin(), oldEntity.fields.end(), [&field](const auto& oldField) {
 				return oldField.name == field.name;
-			}); it != oldEntity.fields.end()) {
+		}); it != oldEntity.fields.end()) {
 			it->valueType = field.valueType;
+			it->readonly = field.readonly;
+			it->reportable = field.reportable;
 			if (!field.displayName.empty()) {
 				it->displayName = field.displayName;
 			}
@@ -317,7 +359,9 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	for (const auto& field : newEntity.fieldsWithChoices) {
 		if (auto it = std::find_if(oldEntity.fieldsWithChoices.begin(), oldEntity.fieldsWithChoices.end(), [&field](const auto& oldField) {
 				return oldField.name == field.name;
-			}); it != oldEntity.fieldsWithChoices.end()) {
+		}); it != oldEntity.fieldsWithChoices.end()) {
+			it->readonly = field.readonly;
+			it->reportable = field.reportable;
 			if (!field.displayName.empty()) {
 				it->displayName = field.displayName;
 			}
@@ -335,7 +379,9 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	for (const auto& field : newEntity.fieldsWithFlags) {
 		if (auto it = std::find_if(oldEntity.fieldsWithFlags.begin(), oldEntity.fieldsWithFlags.end(), [&field](const auto& oldField) {
 				return oldField.name == field.name;
-			}); it != oldEntity.fieldsWithFlags.end()) {
+		}); it != oldEntity.fieldsWithFlags.end()) {
+			it->readonly = field.readonly;
+			it->reportable = field.reportable;
 			it->flags = field.flags;
 		} else {
 			oldEntity.fieldsWithFlags.push_back(field);

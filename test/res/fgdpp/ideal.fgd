@@ -10,11 +10,11 @@
         "An entity that can be linked to another door and create a passage between them dynamically.\n" +
         "This is a separate line!"
 [
-        portal1(int)
+        portal1(int) readonly
         portal2(int) : "Portal 2"
         portal3(int) : "Portal 3" : "0"
-        portal4(int) : "Portal 4" : "0" : "This is the wonderful world of Portal " +
-                                          "4"
+        portal4(int) report : "Portal 4" : "0" : "This is the wonderful world of Portal " +
+                                                 "4"
 
         input portalInput1(string)
         input portalInput2(string) : "Portal Input 2"
@@ -31,7 +31,7 @@
             8 : "nothing"            : 1
         ]
 
-        model(choices) : "Model used" : "models/something02.mdl" =
+        model(choices) readonly report : "Model used" : "models/something02.mdl" =
         [
             "models/something01.mdl" : "something"
             "models/something02.mdl" : "something else (default)"
@@ -51,6 +51,14 @@
         ]
 
         output portalOutput3(string) : "Portal Output 3"
+
+        effects(flags) : "Effects" : "These sure are effects" =
+        [
+                0: "None" : 0
+                1: "Always, very expensive!" : 0
+                2: "Bright, dynamic light at entity origin" : 0
+                4: "Dim, dynamic light at entity origin" : 0
+        ]
 ]
 
 @MaterialExclusion
