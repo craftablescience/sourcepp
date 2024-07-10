@@ -8,6 +8,7 @@
 #error "This header can only be used in C++!"
 #endif
 
+#include <cstring>
 #include <string>
 #include <string_view>
 #include <type_traits>

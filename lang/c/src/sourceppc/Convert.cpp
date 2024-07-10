@@ -1,7 +1,5 @@
 #include <sourceppc/Convert.hpp>
 
-#include <cstring>
-
 sourcepp_buffer_t Convert::toBuffer(const std::vector<std::byte>& vec) {
 	auto buf = sourcepp_buffer_new(vec.size());
 	std::memcpy(buf.data, vec.data(), vec.size());
