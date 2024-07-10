@@ -47,7 +47,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path);
-		string::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path, true);
 		if (!gma->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -66,7 +66,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 	}
 	for (const auto& entry : entries) {
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir, true);
 		if (!gma->isCaseSensitive()) {
 			string::toLower(parentDir);
 		}

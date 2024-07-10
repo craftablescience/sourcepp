@@ -130,7 +130,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 				dirname.insert(0, current_filename_entry.filename);
 			}
 			Entry gcfEntry = createNewEntry();
-			string::normalizeSlashes(dirname);
+			string::normalizeSlashes(dirname, true);
 			if (!gcf->isCaseSensitive()) {
 				string::toLower(dirname);
 				string::toLower(entry.filename);

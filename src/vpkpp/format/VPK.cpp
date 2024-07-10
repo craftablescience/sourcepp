@@ -94,7 +94,7 @@ std::unique_ptr<PackFile> VPK::createFromDirectoryProcedural(const std::string& 
 		std::string entryPath;
 		try {
 			entryPath = std::filesystem::absolute(file.path()).string().substr(std::filesystem::absolute(contentPath).string().length());
-			string::normalizeSlashes(entryPath);
+			string::normalizeSlashes(entryPath, true);
 		} catch (const std::exception&) {
 			continue; // Likely a Unicode error, unsupported filename
 		}
@@ -508,7 +508,7 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 	// Helper
 	const auto getArchiveFilename = [this](const std::string& filename_, int archiveIndex) {
 		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
-		string::normalizeSlashes(out, false);
+		string::normalizeSlashes(out);
 		return out;
 	};
 

@@ -54,7 +54,7 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, PackFileOptions opt
 
 		Entry entry = createNewEntry();
 		entry.path = fileInfo->filename;
-		string::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path, true);
 		if (!zip->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
@@ -65,7 +65,7 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, PackFileOptions opt
 		entry.crc32 = fileInfo->crc;
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir);
+		string::normalizeSlashes(parentDir, true);
 		if (!zip->isCaseSensitive()) {
 			string::toLower(parentDir);
 		}

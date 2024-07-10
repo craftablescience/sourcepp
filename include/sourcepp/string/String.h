@@ -30,8 +30,8 @@ void toUpper(std::string& input);
 
 [[nodiscard]] std::string padNumber(int number, int width, char pad = '0');
 
-void normalizeSlashes(std::string& path, bool stripTerminalSlashes = true);
+void normalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool stripSlashSuffix = true);
 
-void denormalizeSlashes(std::string& path, bool stripTerminalSlashes = true);
+void denormalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool stripSlashSuffix = true);
 
 } // namespace sourcepp::string

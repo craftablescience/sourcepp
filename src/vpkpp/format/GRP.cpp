@@ -42,7 +42,7 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 		Entry entry = createNewEntry();
 
 		reader.read(entry.path, GRP_FILENAME_MAX_SIZE);
-		string::normalizeSlashes(entry.path);
+		string::normalizeSlashes(entry.path, true);
 		if (!grp->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
