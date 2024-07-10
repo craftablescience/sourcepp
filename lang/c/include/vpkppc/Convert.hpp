@@ -9,8 +9,9 @@
 #endif
 
 #include <vpkpp/Options.h>
-#include <vpkppc/Entry.h>
-#include <vpkppc/PackFile.h>
+
+#include "Entry.h"
+#include "PackFile.h"
 
 namespace vpkpp {
 

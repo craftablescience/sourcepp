@@ -18,8 +18,10 @@ typedef void* vpkpp_pack_file_handle_t;
 } // extern "C"
 #endif
 
+// REQUIRES MANUAL FREE: vpkpp_close
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path);
 
+// REQUIRES MANUAL FREE: vpkpp_close
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_options(const char* path, vpkpp_pack_file_options_t options);
 
 SOURCEPP_API vpkpp_pack_file_type_e vpkpp_get_type(vpkpp_pack_file_handle_t handle);

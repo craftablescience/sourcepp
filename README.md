@@ -89,7 +89,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">n/a</td>
     <td align="center">✅</td>
     <td align="center">n/a</td>
-    <td align="center"></td>
+    <td align="center">C</td>
     <td>Based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a> and <a href="https://momentum-mod.org">Momentum Mod</a> contributors.</td>
   </tr>
   <tr>
