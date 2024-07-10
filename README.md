@@ -39,8 +39,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>fgdpp</td>
     <td>
       <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/FGD">FGD</a></li>
-        <li><a href="https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD">TeamSpen's Unified FGD</a></li>
+        <li><a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a></li>
+        <li><a href="https://ficool2.github.io/HammerPlusPlus-Website">Hammer++</a> FGD modifications</li>
+        <li><a href="https://stratasource.org">Strata Source</a> FGD modifications</li>
       </ul>
     </td>
     <td align="center">❌</td>
