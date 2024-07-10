@@ -24,6 +24,8 @@ public:
 		struct Field {
 			std::string_view name;
 			std::string_view valueType;
+			bool readonly;
+			bool reportable;
 			std::string_view displayName;
 			std::string_view valueDefault;
 			std::string_view description;
@@ -36,6 +38,8 @@ public:
 			};
 
 			std::string_view name;
+			bool readonly;
+			bool reportable;
 			std::string_view displayName;
 			std::string_view valueDefault;
 			std::string_view description;
@@ -51,6 +55,10 @@ public:
 			};
 
 			std::string_view name;
+			bool readonly;
+			bool reportable;
+			std::string_view displayName;
+			std::string_view description;
 			std::vector<Flag> flags;
 		};
 
