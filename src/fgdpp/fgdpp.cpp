@@ -1,5 +1,6 @@
 #include <fgdpp/fgdpp.h>
 
+#include <charconv>
 #include <filesystem>
 
 #include <BufferStream.h>
@@ -285,7 +286,10 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 
 		while (stream.peek<char>() != ']') {
 			auto& flag = field.flags.emplace_back();
-			flag.value = ::readFGDString(stream, backing);
+			auto valueString = ::readFGDString(stream, backing);
+			if (std::from_chars(valueString.data(), valueString.data() + valueString.size(), flag.value).ec != std::errc{}) {
+				flag.value = 0;
+			}
 
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
@@ -295,7 +299,13 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
 			}
-			flag.enabledByDefault = ::readFGDString(stream, backing);
+			auto enabledByDefaultString = ::readFGDString(stream, backing);
+			int enabledByDefault = 0;
+			if (std::from_chars(enabledByDefaultString.data(), enabledByDefaultString.data() + enabledByDefaultString.size(), enabledByDefault).ec != std::errc{}) {
+				flag.enabledByDefault = false;
+			} else {
+				flag.enabledByDefault = static_cast<bool>(enabledByDefault);
+			}
 
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;

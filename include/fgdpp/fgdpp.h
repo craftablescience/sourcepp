@@ -48,9 +48,9 @@ public:
 
 		struct FieldFlags {
 			struct Flag {
-				std::string_view value;
+				uint64_t value;
 				std::string_view displayName;
-				std::string_view enabledByDefault;
+				bool enabledByDefault;
 				std::string_view description;
 			};
 
