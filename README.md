@@ -47,7 +47,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
-    <td>FGD parser contributed by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a></td>
+    <td></td>
   </tr>
   <tr>
     <td>kvpp</td>
