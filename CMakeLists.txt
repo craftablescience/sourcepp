@@ -33,10 +33,6 @@ if(SOURCEPP_USE_STEAMPP OR SOURCEPP_USE_VPKPP)
 endif()
 
 
-# Options per-library
-option(FGDPP_ENABLE_SPEN_FGD_SUPPORT "Enable support for FGD alterations (https://github.com/TeamSpen210/HammerAddons/wiki/Unified-FGD) made by TeamSpen's HammerAddons. Fully backwards compatible with Valve's FGD standard." OFF)
-
-
 # Set defaults after project call
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
