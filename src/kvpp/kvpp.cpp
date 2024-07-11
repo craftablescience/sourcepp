@@ -123,6 +123,9 @@ void KV1Element::readElements(BufferStreamReadOnly& stream, BufferStream& backin
 KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
 		: KV1Element()
 		, useEscapeSequences(useEscapeSequences_) {
+	if (kv1Data.empty()) {
+		return;
+	}
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
 
 	// Multiply by 2 to ensure buffer will have enough space (very generous)
