@@ -501,10 +501,6 @@ const std::vector<FGD::AutoVisGroup>& FGD::getAutoVisGroups() const {
 	return this->autoVisGroups;
 }
 
-FGD::operator bool() const {
-	return !this->entities.empty();
-}
-
 // NOLINTNEXTLINE(*-no-recursion)
 void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, std::vector<std::string>& seenPaths) {
 	auto& backingString = this->backingData.emplace_back();

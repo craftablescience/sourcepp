@@ -107,8 +107,6 @@ public:
 
 	[[nodiscard]] const std::vector<AutoVisGroup>& getAutoVisGroups() const;
 
-	explicit operator bool() const;
-
 private:
 	void readEntities(BufferStreamReadOnly& stream, const std::string& path, std::vector<std::string>& seenPaths);
 
