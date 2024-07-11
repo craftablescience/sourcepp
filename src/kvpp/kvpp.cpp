@@ -41,8 +41,8 @@ const std::vector<KV1Element>& KV1Element::getChildren() const {
 	return this->children;
 }
 
-const KV1Element& KV1Element::operator[](std::size_t index) const {
-	return this->children.at(index);
+const KV1Element& KV1Element::operator[](unsigned int n) const {
+	return this->children.at(n);
 }
 
 const KV1Element& KV1Element::operator[](std::string_view childKey) const {

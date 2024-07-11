@@ -53,7 +53,7 @@ public:
 	[[nodiscard]] const std::vector<KV1Element>& getChildren() const;
 
 	/// Get the child element of the element at the given index
-	[[nodiscard]] const KV1Element& operator[](std::size_t index) const;
+	[[nodiscard]] const KV1Element& operator[](unsigned int n) const;
 
 	/// Get the first child element of the element with the given key
 	[[nodiscard]] const KV1Element& operator[](std::string_view childKey) const;
