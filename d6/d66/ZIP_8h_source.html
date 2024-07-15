@@ -1,0 +1,222 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/vpkpp/format/ZIP.h Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d6/d66/ZIP_8h_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">ZIP.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d6/d66/ZIP_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;../PackFile.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d5/d29/namespacevpkpp.html">vpkpp</a> {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">    7</a></span>&#160;constexpr std::string_view <a class="code" href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">BMZ_EXTENSION</a> = <span class="stringliteral">&quot;.bmz&quot;</span>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">    8</a></span>&#160;constexpr std::string_view <a class="code" href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">ZIP_EXTENSION</a> = <span class="stringliteral">&quot;.zip&quot;</span>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html">ZIP</a> : <span class="keyword">public</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#ab689f4ff54fbbdde441e3a44679b729b">~ZIP</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    [[nodiscard]] <span class="keyword">static</span> std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#aae36ed38b83051edd75d1c23cc5453eb">open</a>(<span class="keyword">const</span> std::string&amp; path, <a class="code" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6f451dac4b164d7f8f9fc667f546fcaa">options</a> = {}, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">Callback</a>&amp; callback = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a0bbbda752f42df0c0dc9a34db6a10e62">   17</a></span>&#160;    [[nodiscard]] constexpr <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a0bbbda752f42df0c0dc9a34db6a10e62">hasEntryChecksums</a>()<span class="keyword"> const override </span>{</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    [[nodiscard]] std::vector&lt;std::string&gt; <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a47a0128e14788f01ebef3d6518925659">verifyEntryChecksums</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a3665354b752c2e0bbec860620befe9c5">   23</a></span>&#160;    [[nodiscard]] constexpr <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a3665354b752c2e0bbec860620befe9c5">isCaseSensitive</a>() const noexcept<span class="keyword"> override </span>{</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    [[nodiscard]] std::optional&lt;std::vector&lt;std::byte&gt;&gt; <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a3b174c2384a6b7a1e75691fe9ec6b3d7">readEntry</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a314d9e195ec1dffb892a56214ab1d3ce">bake</a>(<span class="keyword">const</span> std::string&amp; outputDir_ <span class="comment">/*= &quot;&quot;*/</span>, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">Callback</a>&amp; callback <span class="comment">/*= nullptr*/</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    [[nodiscard]] std::vector&lt;Attribute&gt; <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a56133780d2ba23685e3f45dbb4a22363">getSupportedEntryAttributes</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#ifdef VPKPP_ZIP_COMPRESSION</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    [[nodiscard]] uint16_t getCompressionMethod() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> setCompressionMethod(uint16_t compressionMethod);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a66d30142e9bc49be90c2620b826fd2e7">ZIP</a>(<span class="keyword">const</span> std::string&amp; fullFilePath_, <a class="code" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a> options_);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#ad62fba1e914849cd40d3e493d1eea96a">addEntryInternal</a>(<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry, <span class="keyword">const</span> std::string&amp; filename_, std::vector&lt;std::byte&gt;&amp; buffer, <a class="code" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options_) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a4cf35689b8d32866a2f707c4de42b29f">bakeTempZip</a>(<span class="keyword">const</span> std::string&amp; writeZipPath, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">Callback</a>&amp; callback);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a73e7e5c33c377eef7df27083b5834527">openZIP</a>(std::string_view path);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a3b4f45df8aa4c0677549c3b50d933f10">closeZIP</a>();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a1be77a39294ac678d666f34c5162ac8e">   50</a></span>&#160;    <span class="keyword">const</span> std::string <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a1be77a39294ac678d666f34c5162ac8e">tempZIPPath</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a3d6bf2cd919a565ac29ac6308610c614">   52</a></span>&#160;    <span class="keywordtype">void</span>* <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a3d6bf2cd919a565ac29ac6308610c614">streamHandle</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a691192faeb585b269aaaa32f33aaeb29">   53</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a691192faeb585b269aaaa32f33aaeb29">streamOpen</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#aaf2e2d7b02453b445807c9b5112d0ffe">   55</a></span>&#160;    <span class="keywordtype">void</span>* <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#aaf2e2d7b02453b445807c9b5112d0ffe">zipHandle</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../da/de7/classvpkpp_1_1ZIP.html#a82d7f3bf2c41e484ed805ffc4039bffd">   56</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a82d7f3bf2c41e484ed805ffc4039bffd">zipOpen</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    VPKPP_REGISTER_PACKFILE_OPEN(<a class="code" href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">BMZ_EXTENSION</a>, &amp;<a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#aae36ed38b83051edd75d1c23cc5453eb">ZIP::open</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    VPKPP_REGISTER_PACKFILE_OPEN(<a class="code" href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">ZIP_EXTENSION</a>, &amp;<a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#aae36ed38b83051edd75d1c23cc5453eb">ZIP::open</a>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;} <span class="comment">// namespace vpkpp</span></div>
+<div class="ttc" id="aclassvpkpp_1_1Entry_html"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html">vpkpp::Entry</a></div><div class="ttdoc">This class represents the metadata that a file has inside a PackFile.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00015">Entry.h:15</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00028">PackFile.h:28</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a36ccdf7948861abaaf10ad75f44aed77"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">vpkpp::PackFile::Callback</a></div><div class="ttdeci">std::function&lt; void(const std::string &amp;directory, const Entry &amp;entry)&gt; Callback</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00038">PackFile.h:38</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a6f451dac4b164d7f8f9fc667f546fcaa"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6f451dac4b164d7f8f9fc667f546fcaa">vpkpp::PackFile::options</a></div><div class="ttdeci">PackFileOptions options</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00180">PackFile.h:180</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html">vpkpp::ZIP</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00010">ZIP.h:10</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a0bbbda752f42df0c0dc9a34db6a10e62"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a0bbbda752f42df0c0dc9a34db6a10e62">vpkpp::ZIP::hasEntryChecksums</a></div><div class="ttdeci">constexpr bool hasEntryChecksums() const override</div><div class="ttdoc">Returns true if the format has a checksum for each entry.</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00017">ZIP.h:17</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a1be77a39294ac678d666f34c5162ac8e"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a1be77a39294ac678d666f34c5162ac8e">vpkpp::ZIP::tempZIPPath</a></div><div class="ttdeci">const std::string tempZIPPath</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00050">ZIP.h:50</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a314d9e195ec1dffb892a56214ab1d3ce"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a314d9e195ec1dffb892a56214ab1d3ce">vpkpp::ZIP::bake</a></div><div class="ttdeci">bool bake(const std::string &amp;outputDir_, const Callback &amp;callback) override</div><div class="ttdoc">If output folder is unspecified, it will overwrite the original.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00142">ZIP.cpp:142</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a3665354b752c2e0bbec860620befe9c5"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a3665354b752c2e0bbec860620befe9c5">vpkpp::ZIP::isCaseSensitive</a></div><div class="ttdeci">constexpr bool isCaseSensitive() const noexcept override</div><div class="ttdoc">Does the format support case-sensitive file names?</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00023">ZIP.h:23</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a3b174c2384a6b7a1e75691fe9ec6b3d7"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a3b174c2384a6b7a1e75691fe9ec6b3d7">vpkpp::ZIP::readEntry</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; readEntry(const Entry &amp;entry) const override</div><div class="ttdoc">Try to read the entry's data to a bytebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00088">ZIP.cpp:88</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a3b4f45df8aa4c0677549c3b50d933f10"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a3b4f45df8aa4c0677549c3b50d933f10">vpkpp::ZIP::closeZIP</a></div><div class="ttdeci">void closeZIP()</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00284">ZIP.cpp:284</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a3d6bf2cd919a565ac29ac6308610c614"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a3d6bf2cd919a565ac29ac6308610c614">vpkpp::ZIP::streamHandle</a></div><div class="ttdeci">void * streamHandle</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00052">ZIP.h:52</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a47a0128e14788f01ebef3d6518925659"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a47a0128e14788f01ebef3d6518925659">vpkpp::ZIP::verifyEntryChecksums</a></div><div class="ttdeci">std::vector&lt; std::string &gt; verifyEntryChecksums() const override</div><div class="ttdoc">Verify the checksums of each file, if a file fails the check its filename will be added to the vector...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00084">ZIP.cpp:84</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a4cf35689b8d32866a2f707c4de42b29f"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a4cf35689b8d32866a2f707c4de42b29f">vpkpp::ZIP::bakeTempZip</a></div><div class="ttdeci">bool bakeTempZip(const std::string &amp;writeZipPath, const Callback &amp;callback)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00178">ZIP.cpp:178</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a56133780d2ba23685e3f45dbb4a22363"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a56133780d2ba23685e3f45dbb4a22363">vpkpp::ZIP::getSupportedEntryAttributes</a></div><div class="ttdeci">std::vector&lt; Attribute &gt; getSupportedEntryAttributes() const override</div><div class="ttdoc">Returns a list of supported entry attributes Mostly for GUI programs that show entries and their meta...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00163">ZIP.cpp:163</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a66d30142e9bc49be90c2620b826fd2e7"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a66d30142e9bc49be90c2620b826fd2e7">vpkpp::ZIP::ZIP</a></div><div class="ttdeci">ZIP(const std::string &amp;fullFilePath_, PackFileOptions options_)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00022">ZIP.cpp:22</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a691192faeb585b269aaaa32f33aaeb29"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a691192faeb585b269aaaa32f33aaeb29">vpkpp::ZIP::streamOpen</a></div><div class="ttdeci">bool streamOpen</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00053">ZIP.h:53</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a73e7e5c33c377eef7df27083b5834527"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a73e7e5c33c377eef7df27083b5834527">vpkpp::ZIP::openZIP</a></div><div class="ttdeci">bool openZIP(std::string_view path)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00268">ZIP.cpp:268</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_a82d7f3bf2c41e484ed805ffc4039bffd"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#a82d7f3bf2c41e484ed805ffc4039bffd">vpkpp::ZIP::zipOpen</a></div><div class="ttdeci">bool zipOpen</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00056">ZIP.h:56</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_aae36ed38b83051edd75d1c23cc5453eb"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#aae36ed38b83051edd75d1c23cc5453eb">vpkpp::ZIP::open</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; open(const std::string &amp;path, PackFileOptions options={}, const Callback &amp;callback=nullptr)</div><div class="ttdoc">Open a ZIP file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00032">ZIP.cpp:32</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_aaf2e2d7b02453b445807c9b5112d0ffe"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#aaf2e2d7b02453b445807c9b5112d0ffe">vpkpp::ZIP::zipHandle</a></div><div class="ttdeci">void * zipHandle</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00055">ZIP.h:55</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_ab689f4ff54fbbdde441e3a44679b729b"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#ab689f4ff54fbbdde441e3a44679b729b">vpkpp::ZIP::~ZIP</a></div><div class="ttdeci">~ZIP() override</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00028">ZIP.cpp:28</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1ZIP_html_ad62fba1e914849cd40d3e493d1eea96a"><div class="ttname"><a href="../../da/de7/classvpkpp_1_1ZIP.html#ad62fba1e914849cd40d3e493d1eea96a">vpkpp::ZIP::addEntryInternal</a></div><div class="ttdeci">Entry &amp; addEntryInternal(Entry &amp;entry, const std::string &amp;filename_, std::vector&lt; std::byte &gt; &amp;buffer, EntryOptions options_) override</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d2a/ZIP_8cpp_source.html#l00123">ZIP.cpp:123</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html">vpkpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/Attribute_8h_source.html#l00003">Attribute.h:3</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_a50c90d61c3ce05d48a2e0e5fb3cbab21"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">vpkpp::ZIP_EXTENSION</a></div><div class="ttdeci">constexpr std::string_view ZIP_EXTENSION</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00008">ZIP.h:8</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_af80785db5464d702cb39ae2712fa02fd"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">vpkpp::BMZ_EXTENSION</a></div><div class="ttdeci">constexpr std::string_view BMZ_EXTENSION</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d66/ZIP_8h_source.html#l00007">ZIP.h:7</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1EntryOptions_html"><div class="ttname"><a href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">vpkpp::EntryOptions</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d76/Options_8h_source.html#l00032">Options.h:32</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PackFileOptions_html"><div class="ttname"><a href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">vpkpp::PackFileOptions</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d76/Options_8h_source.html#l00013">Options.h:13</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_f237bf7741f5f61f38bf876ae1776f7c.html">vpkpp</a></li><li class="navelem"><a class="el" href="../../dir_a11c167777fc2777111b8c7a4713c2b7.html">format</a></li><li class="navelem"><a class="el" href="../../d6/d66/ZIP_8h.html">ZIP.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

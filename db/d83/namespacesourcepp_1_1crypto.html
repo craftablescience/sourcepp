@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: sourcepp::crypto Namespace Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('db/d83/namespacesourcepp_1_1crypto.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle">
+<div class="title">sourcepp::crypto Namespace Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a44a81bc09c814c0501ecff4bd3816564"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">computeAdler32</a> (const std::vector&lt; std::byte &gt; &amp;buffer)</td></tr>
+<tr class="separator:a44a81bc09c814c0501ecff4bd3816564"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28cdf50997cbb94d3bda79efc6b2260"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260">computeAdler32</a> (const std::byte *buffer, std::size_t len)</td></tr>
+<tr class="separator:ae28cdf50997cbb94d3bda79efc6b2260"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3d4dfec5a13c777b9243a1acbfd3b43"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43">computeCRC32</a> (const std::vector&lt; std::byte &gt; &amp;buffer)</td></tr>
+<tr class="separator:ab3d4dfec5a13c777b9243a1acbfd3b43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6818bbd0d47838fd9e94e2d9a942f06a"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a6818bbd0d47838fd9e94e2d9a942f06a">computeCRC32</a> (const std::byte *buffer, std::size_t len)</td></tr>
+<tr class="separator:a6818bbd0d47838fd9e94e2d9a942f06a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7edd6b551463bd5f8a4cbe143598bd00"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::byte, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00">computeMD5</a> (const std::vector&lt; std::byte &gt; &amp;buffer)</td></tr>
+<tr class="separator:a7edd6b551463bd5f8a4cbe143598bd00"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a788b3d4c0030bf2311e4da600371c89b"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::byte, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a788b3d4c0030bf2311e4da600371c89b">computeMD5</a> (const std::byte *buffer, std::size_t len)</td></tr>
+<tr class="separator:a788b3d4c0030bf2311e4da600371c89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adca36bfd682b13d5f9345ae11cf088b5"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5">computeSHA256KeyPair</a> (uint16_t size=2048)</td></tr>
+<tr class="separator:adca36bfd682b13d5f9345ae11cf088b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6e183f3d207cc9c44ca0247ededd583"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583">verifySHA256PublicKey</a> (const std::vector&lt; std::byte &gt; &amp;buffer, const std::vector&lt; std::byte &gt; &amp;publicKey, const std::vector&lt; std::byte &gt; &amp;signature)</td></tr>
+<tr class="separator:ab6e183f3d207cc9c44ca0247ededd583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab47c07cf7ad1e5ea163d791f61279fe1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1">signDataWithSHA256PrivateKey</a> (const std::vector&lt; std::byte &gt; &amp;buffer, const std::vector&lt; std::byte &gt; &amp;privateKey)</td></tr>
+<tr class="separator:ab47c07cf7ad1e5ea163d791f61279fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0f8f739fd07fe6acd369b64dd32136f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#af0f8f739fd07fe6acd369b64dd32136f">decodeHexString</a> (std::string_view hex)</td></tr>
+<tr class="separator:af0f8f739fd07fe6acd369b64dd32136f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="ae28cdf50997cbb94d3bda79efc6b2260"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae28cdf50997cbb94d3bda79efc6b2260">&#9670;&nbsp;</a></span>computeAdler32() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sourcepp::crypto::computeAdler32 </td>
+          <td>(</td>
+          <td class="paramtype">const std::byte *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d29/Adler32_8cpp_source.html#l00043">43</a> of file <a class="el" href="../../d5/d29/Adler32_8cpp_source.html">Adler32.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a44a81bc09c814c0501ecff4bd3816564"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44a81bc09c814c0501ecff4bd3816564">&#9670;&nbsp;</a></span>computeAdler32() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sourcepp::crypto::computeAdler32 </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d29/Adler32_8cpp_source.html#l00039">39</a> of file <a class="el" href="../../d5/d29/Adler32_8cpp_source.html">Adler32.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6818bbd0d47838fd9e94e2d9a942f06a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6818bbd0d47838fd9e94e2d9a942f06a">&#9670;&nbsp;</a></span>computeCRC32() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sourcepp::crypto::computeCRC32 </td>
+          <td>(</td>
+          <td class="paramtype">const std::byte *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/d6c/CRC32_8cpp_source.html#l00011">11</a> of file <a class="el" href="../../d8/d6c/CRC32_8cpp_source.html">CRC32.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab3d4dfec5a13c777b9243a1acbfd3b43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3d4dfec5a13c777b9243a1acbfd3b43">&#9670;&nbsp;</a></span>computeCRC32() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t sourcepp::crypto::computeCRC32 </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/d6c/CRC32_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../d8/d6c/CRC32_8cpp_source.html">CRC32.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a788b3d4c0030bf2311e4da600371c89b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a788b3d4c0030bf2311e4da600371c89b">&#9670;&nbsp;</a></span>computeMD5() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; std::byte, 16 &gt; sourcepp::crypto::computeMD5 </td>
+          <td>(</td>
+          <td class="paramtype">const std::byte *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::size_t&#160;</td>
+          <td class="paramname"><em>len</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/ddd/MD5_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../d0/ddd/MD5_8cpp_source.html">MD5.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7edd6b551463bd5f8a4cbe143598bd00"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7edd6b551463bd5f8a4cbe143598bd00">&#9670;&nbsp;</a></span>computeMD5() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::array&lt; std::byte, 16 &gt; sourcepp::crypto::computeMD5 </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/ddd/MD5_8cpp_source.html#l00008">8</a> of file <a class="el" href="../../d0/ddd/MD5_8cpp_source.html">MD5.cpp</a>.</p>
+
+</div>
+</div>
+<a id="adca36bfd682b13d5f9345ae11cf088b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adca36bfd682b13d5f9345ae11cf088b5">&#9670;&nbsp;</a></span>computeSHA256KeyPair()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::pair&lt; std::string, std::string &gt; sourcepp::crypto::computeSHA256KeyPair </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>size</em> = <code>2048</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/de9/RSA_8cpp_source.html#l00009">9</a> of file <a class="el" href="../../d8/de9/RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af0f8f739fd07fe6acd369b64dd32136f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0f8f739fd07fe6acd369b64dd32136f">&#9670;&nbsp;</a></span>decodeHexString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; sourcepp::crypto::decodeHexString </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>hex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d20/crypto_2String_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../d1/d20/crypto_2String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab47c07cf7ad1e5ea163d791f61279fe1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab47c07cf7ad1e5ea163d791f61279fe1">&#9670;&nbsp;</a></span>signDataWithSHA256PrivateKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; sourcepp::crypto::signDataWithSHA256PrivateKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>privateKey</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/de9/RSA_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../d8/de9/RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab6e183f3d207cc9c44ca0247ededd583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab6e183f3d207cc9c44ca0247ededd583">&#9670;&nbsp;</a></span>verifySHA256PublicKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sourcepp::crypto::verifySHA256PublicKey </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>publicKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramname"><em>signature</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d8/de9/RSA_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../d8/de9/RSA_8cpp_source.html">RSA.cpp</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d2/deb/namespacesourcepp.html">sourcepp</a></li><li class="navelem"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html">crypto</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

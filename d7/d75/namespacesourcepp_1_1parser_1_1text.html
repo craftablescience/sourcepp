@@ -1,0 +1,876 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: sourcepp::parser::text Namespace Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d7/d75/namespacesourcepp_1_1parser_1_1text.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">sourcepp::parser::text Namespace Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html">syntax_error</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a5d20db5cae86dd3fefdfa76586f111d1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5d20db5cae86dd3fefdfa76586f111d1">isNewLine</a> (char c)</td></tr>
+<tr class="memdesc:a5d20db5cae86dd3fefdfa76586f111d1"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a char is a newline character.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5d20db5cae86dd3fefdfa76586f111d1">More...</a><br /></td></tr>
+<tr class="separator:a5d20db5cae86dd3fefdfa76586f111d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af09792417ee9447f6693c822411669c6"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af09792417ee9447f6693c822411669c6">isWhitespace</a> (char c)</td></tr>
+<tr class="memdesc:af09792417ee9447f6693c822411669c6"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a char is a whitespace character.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af09792417ee9447f6693c822411669c6">More...</a><br /></td></tr>
+<tr class="separator:af09792417ee9447f6693c822411669c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4c0e91a50cee76046c000373b51089e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ae4c0e91a50cee76046c000373b51089e">isNumber</a> (char c)</td></tr>
+<tr class="memdesc:ae4c0e91a50cee76046c000373b51089e"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a char is a numerical character (0-9).  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ae4c0e91a50cee76046c000373b51089e">More...</a><br /></td></tr>
+<tr class="separator:ae4c0e91a50cee76046c000373b51089e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">eatWhitespace</a> (BufferStream &amp;stream)</td></tr>
+<tr class="memdesc:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eat all whitespace after the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">More...</a><br /></td></tr>
+<tr class="separator:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d79d0d1a16505989bc22c89b50ca00c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a7d79d0d1a16505989bc22c89b50ca00c">eatSingleLineComment</a> (BufferStream &amp;stream)</td></tr>
+<tr class="memdesc:a7d79d0d1a16505989bc22c89b50ca00c"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a single line comment is detected, eat its contents.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a7d79d0d1a16505989bc22c89b50ca00c">More...</a><br /></td></tr>
+<tr class="separator:a7d79d0d1a16505989bc22c89b50ca00c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5119820befec25e12c9a46550a6cdf57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5119820befec25e12c9a46550a6cdf57">eatMultiLineComment</a> (BufferStream &amp;stream, std::string_view multiLineCommentEnd=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3934a59f43b76776f5341f91979d4b13">DEFAULT_MULTI_LINE_COMMENT_END</a>)</td></tr>
+<tr class="memdesc:a5119820befec25e12c9a46550a6cdf57"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a multi line comment is detected, eat its contents.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5119820befec25e12c9a46550a6cdf57">More...</a><br /></td></tr>
+<tr class="separator:a5119820befec25e12c9a46550a6cdf57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8791ac6a5228a3b7aae57017186cae9a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a8791ac6a5228a3b7aae57017186cae9a">eatWhitespaceAndSingleLineComments</a> (BufferStream &amp;stream, std::string_view singleLineCommentStart=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa5486e2027a6d866734ecb66204df261">DEFAULT_SINGLE_LINE_COMMENT_START</a>)</td></tr>
+<tr class="memdesc:a8791ac6a5228a3b7aae57017186cae9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eat all whitespace and single line comments after the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a8791ac6a5228a3b7aae57017186cae9a">More...</a><br /></td></tr>
+<tr class="separator:a8791ac6a5228a3b7aae57017186cae9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef148232e6424ba905d8ba135a0dce59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aef148232e6424ba905d8ba135a0dce59">eatWhitespaceAndMultiLineComments</a> (BufferStream &amp;stream, std::string_view multiLineCommentStart=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab1835ac8b82faa67f9545d8802e7f705">DEFAULT_MULTI_LINE_COMMENT_START</a>)</td></tr>
+<tr class="memdesc:aef148232e6424ba905d8ba135a0dce59"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eat all whitespace and multi line comments after the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aef148232e6424ba905d8ba135a0dce59">More...</a><br /></td></tr>
+<tr class="separator:aef148232e6424ba905d8ba135a0dce59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e2883e19b4f8256307901a1d68a67b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ad8e2883e19b4f8256307901a1d68a67b">eatWhitespaceAndComments</a> (BufferStream &amp;stream, std::string_view singleLineCommentStart=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa5486e2027a6d866734ecb66204df261">DEFAULT_SINGLE_LINE_COMMENT_START</a>, std::string_view multiLineCommentStart=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab1835ac8b82faa67f9545d8802e7f705">DEFAULT_MULTI_LINE_COMMENT_START</a>)</td></tr>
+<tr class="memdesc:ad8e2883e19b4f8256307901a1d68a67b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eat all whitespace and comments after the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ad8e2883e19b4f8256307901a1d68a67b">More...</a><br /></td></tr>
+<tr class="separator:ad8e2883e19b4f8256307901a1d68a67b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa940a6db105e64e5948bb6d7d692a346"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa940a6db105e64e5948bb6d7d692a346">tryToEatChar</a> (BufferStream &amp;stream, char c)</td></tr>
+<tr class="memdesc:aa940a6db105e64e5948bb6d7d692a346"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the given char exists at the current position, skip over it.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa940a6db105e64e5948bb6d7d692a346">More...</a><br /></td></tr>
+<tr class="separator:aa940a6db105e64e5948bb6d7d692a346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9a6178ab91fd1a200ac700fd5358d77"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af9a6178ab91fd1a200ac700fd5358d77">readStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view start=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aca41f866caa4cd3cc44b5fb0c1aa86e5">DEFAULT_STRING_START</a>, std::string_view end=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a>, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:af9a6178ab91fd1a200ac700fd5358d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af9a6178ab91fd1a200ac700fd5358d77">More...</a><br /></td></tr>
+<tr class="separator:af9a6178ab91fd1a200ac700fd5358d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a111cac6627c14c60412ca273a7907a77"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a111cac6627c14c60412ca273a7907a77">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:a111cac6627c14c60412ca273a7907a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a111cac6627c14c60412ca273a7907a77">More...</a><br /></td></tr>
+<tr class="separator:a111cac6627c14c60412ca273a7907a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16cc35003d631a62738e72d79417e93d"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a16cc35003d631a62738e72d79417e93d">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view end, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:a16cc35003d631a62738e72d79417e93d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a16cc35003d631a62738e72d79417e93d">More...</a><br /></td></tr>
+<tr class="separator:a16cc35003d631a62738e72d79417e93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:aa5486e2027a6d866734ecb66204df261"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa5486e2027a6d866734ecb66204df261">DEFAULT_SINGLE_LINE_COMMENT_START</a> = &quot;//&quot;</td></tr>
+<tr class="separator:aa5486e2027a6d866734ecb66204df261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab1835ac8b82faa67f9545d8802e7f705"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab1835ac8b82faa67f9545d8802e7f705">DEFAULT_MULTI_LINE_COMMENT_START</a> = &quot;/*&quot;</td></tr>
+<tr class="separator:ab1835ac8b82faa67f9545d8802e7f705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3934a59f43b76776f5341f91979d4b13"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3934a59f43b76776f5341f91979d4b13">DEFAULT_MULTI_LINE_COMMENT_END</a> = &quot;*/&quot;</td></tr>
+<tr class="separator:a3934a59f43b76776f5341f91979d4b13"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca41f866caa4cd3cc44b5fb0c1aa86e5"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aca41f866caa4cd3cc44b5fb0c1aa86e5">DEFAULT_STRING_START</a> = &quot;\&quot;&quot;</td></tr>
+<tr class="separator:aca41f866caa4cd3cc44b5fb0c1aa86e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf82447a7560ac88654607d1902302f4"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a> = &quot;\&quot;&quot;</td></tr>
+<tr class="separator:aaf82447a7560ac88654607d1902302f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9f1a7d71168836876b1fe13afee7443"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; char, char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></td></tr>
+<tr class="separator:ab9f1a7d71168836876b1fe13afee7443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37c8caf4ba98ba71a191da88605ead5b"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; char, char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a37c8caf4ba98ba71a191da88605ead5b">NO_ESCAPE_SEQUENCES</a> = {}</td></tr>
+<tr class="separator:a37c8caf4ba98ba71a191da88605ead5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a5119820befec25e12c9a46550a6cdf57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5119820befec25e12c9a46550a6cdf57">&#9670;&nbsp;</a></span>eatMultiLineComment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatMultiLineComment </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>multiLineCommentEnd</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3934a59f43b76776f5341f91979d4b13">DEFAULT_MULTI_LINE_COMMENT_END</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a multi line comment is detected, eat its contents. </p>
+<p>This function does not handle the detection of multi line comments! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">multiLineCommentEnd</td><td>The multi line comment ending to search for. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00051">51</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7d79d0d1a16505989bc22c89b50ca00c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d79d0d1a16505989bc22c89b50ca00c">&#9670;&nbsp;</a></span>eatSingleLineComment()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatSingleLineComment </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a single line comment is detected, eat its contents. </p>
+<p>This function does not handle the detection of single line comments! </p><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00047">47</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a97a7ed5d9fef57ec5780c1fc15fa2cff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a7ed5d9fef57ec5780c1fc15fa2cff">&#9670;&nbsp;</a></span>eatWhitespace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatWhitespace </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Eat all whitespace after the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00042">42</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad8e2883e19b4f8256307901a1d68a67b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8e2883e19b4f8256307901a1d68a67b">&#9670;&nbsp;</a></span>eatWhitespaceAndComments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatWhitespaceAndComments </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>singleLineCommentStart</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa5486e2027a6d866734ecb66204df261">DEFAULT_SINGLE_LINE_COMMENT_START</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>multiLineCommentStart</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab1835ac8b82faa67f9545d8802e7f705">DEFAULT_MULTI_LINE_COMMENT_START</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Eat all whitespace and comments after the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">singleLineCommentStart</td><td>The single line comment start sequence. Leave empty to skip checking for single line comments. </td></tr>
+    <tr><td class="paramname">multiLineCommentStart</td><td>The multi line comment start sequence. Leave empty to skip checking for multi line comments. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aef148232e6424ba905d8ba135a0dce59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef148232e6424ba905d8ba135a0dce59">&#9670;&nbsp;</a></span>eatWhitespaceAndMultiLineComments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatWhitespaceAndMultiLineComments </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>multiLineCommentStart</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab1835ac8b82faa67f9545d8802e7f705">DEFAULT_MULTI_LINE_COMMENT_START</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Eat all whitespace and multi line comments after the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">multiLineCommentStart</td><td>The multi line comment start sequence. Leave empty to skip checking for multi line comments. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00061">61</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a8791ac6a5228a3b7aae57017186cae9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8791ac6a5228a3b7aae57017186cae9a">&#9670;&nbsp;</a></span>eatWhitespaceAndSingleLineComments()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::parser::text::eatWhitespaceAndSingleLineComments </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>singleLineCommentStart</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa5486e2027a6d866734ecb66204df261">DEFAULT_SINGLE_LINE_COMMENT_START</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Eat all whitespace and single line comments after the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">singleLineCommentStart</td><td>The single line comment start sequence. Leave empty to skip checking for single line comments. </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a5d20db5cae86dd3fefdfa76586f111d1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d20db5cae86dd3fefdfa76586f111d1">&#9670;&nbsp;</a></span>isNewLine()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sourcepp::parser::text::isNewLine </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a char is a newline character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The char. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The char is a newline character. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00030">30</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ae4c0e91a50cee76046c000373b51089e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae4c0e91a50cee76046c000373b51089e">&#9670;&nbsp;</a></span>isNumber()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sourcepp::parser::text::isNumber </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a char is a numerical character (0-9). </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The char. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The char is a numerical character. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00038">38</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af09792417ee9447f6693c822411669c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af09792417ee9447f6693c822411669c6">&#9670;&nbsp;</a></span>isWhitespace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sourcepp::parser::text::isWhitespace </td>
+          <td>(</td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If a char is a whitespace character. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">c</td><td>The char. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The char is a whitespace character. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00034">34</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af9a6178ab91fd1a200ac700fd5358d77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9a6178ab91fd1a200ac700fd5358d77">&#9670;&nbsp;</a></span>readStringToBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view sourcepp::parser::text::readStringToBuffer </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>backing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>start</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aca41f866caa4cd3cc44b5fb0c1aa86e5">DEFAULT_STRING_START</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>end</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a></code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read a string starting at the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">backing</td><td>The BufferStream to store the string data in. </td></tr>
+    <tr><td class="paramname">start</td><td>The starting string chars. If any processed char is in this string, the string will be treated as "quoted" and will include spaces. </td></tr>
+    <tr><td class="paramname">end</td><td>The ending string chars. If any processed char is in this string, and a starting char is detected, the string will terminate. </td></tr>
+    <tr><td class="paramname">escapeSequences</td><td>Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a111cac6627c14c60412ca273a7907a77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a111cac6627c14c60412ca273a7907a77">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view sourcepp::parser::text::readUnquotedStringToBuffer </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>backing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read a string starting at the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">backing</td><td>The BufferStream to store the string data in. </td></tr>
+    <tr><td class="paramname">escapeSequences</td><td>Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00131">131</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a16cc35003d631a62738e72d79417e93d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16cc35003d631a62738e72d79417e93d">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view sourcepp::parser::text::readUnquotedStringToBuffer </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>backing</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>end</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Read a string starting at the current stream position. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify. </td></tr>
+    <tr><td class="paramname">backing</td><td>The BufferStream to store the string data in. </td></tr>
+    <tr><td class="paramname">end</td><td>The ending string chars. If any processed char is in this string, the string will terminate. </td></tr>
+    <tr><td class="paramname">escapeSequences</td><td>Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00135">135</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa940a6db105e64e5948bb6d7d692a346"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa940a6db105e64e5948bb6d7d692a346">&#9670;&nbsp;</a></span>tryToEatChar()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool sourcepp::parser::text::tryToEatChar </td>
+          <td>(</td>
+          <td class="paramtype">BufferStream &amp;&#160;</td>
+          <td class="paramname"><em>stream</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">char&#160;</td>
+          <td class="paramname"><em>c</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>If the given char exists at the current position, skip over it. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stream</td><td>The BufferStream to modify </td></tr>
+    <tr><td class="paramname">c</td><td>The char to compare </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>If the char exists at the current position </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00090">90</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="ab9f1a7d71168836876b1fe13afee7443"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9f1a7d71168836876b1fe13afee7443">&#9670;&nbsp;</a></span>DEFAULT_ESCAPE_SEQUENCES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; char, char &gt; sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= {</div>
+<div class="line">        {<span class="charliteral">&#39;\&#39;&#39;</span>, <span class="charliteral">&#39;\&#39;&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;\&quot;&#39;</span>, <span class="charliteral">&#39;\&quot;&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;?&#39;</span>,   <span class="charliteral">&#39;?&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;\\&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;a&#39;</span>,  <span class="charliteral">&#39;\a&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;b&#39;</span>,  <span class="charliteral">&#39;\b&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;f&#39;</span>,  <span class="charliteral">&#39;\f&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;n&#39;</span>,  <span class="charliteral">&#39;\n&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;r&#39;</span>,  <span class="charliteral">&#39;\r&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;t&#39;</span>,  <span class="charliteral">&#39;\t&#39;</span>},</div>
+<div class="line">        {<span class="charliteral">&#39;v&#39;</span>,  <span class="charliteral">&#39;\v&#39;</span>},</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00012">12</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a3934a59f43b76776f5341f91979d4b13"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3934a59f43b76776f5341f91979d4b13">&#9670;&nbsp;</a></span>DEFAULT_MULTI_LINE_COMMENT_END</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view sourcepp::parser::text::DEFAULT_MULTI_LINE_COMMENT_END = &quot;*/&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00013">13</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
+<a id="ab1835ac8b82faa67f9545d8802e7f705"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab1835ac8b82faa67f9545d8802e7f705">&#9670;&nbsp;</a></span>DEFAULT_MULTI_LINE_COMMENT_START</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view sourcepp::parser::text::DEFAULT_MULTI_LINE_COMMENT_START = &quot;/*&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00012">12</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
+<a id="aa5486e2027a6d866734ecb66204df261"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa5486e2027a6d866734ecb66204df261">&#9670;&nbsp;</a></span>DEFAULT_SINGLE_LINE_COMMENT_START</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view sourcepp::parser::text::DEFAULT_SINGLE_LINE_COMMENT_START = &quot;//&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00011">11</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
+<a id="aaf82447a7560ac88654607d1902302f4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaf82447a7560ac88654607d1902302f4">&#9670;&nbsp;</a></span>DEFAULT_STRING_END</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view sourcepp::parser::text::DEFAULT_STRING_END = &quot;\&quot;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00015">15</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
+<a id="aca41f866caa4cd3cc44b5fb0c1aa86e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca41f866caa4cd3cc44b5fb0c1aa86e5">&#9670;&nbsp;</a></span>DEFAULT_STRING_START</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view sourcepp::parser::text::DEFAULT_STRING_START = &quot;\&quot;&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00014">14</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
+<a id="a37c8caf4ba98ba71a191da88605ead5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a37c8caf4ba98ba71a191da88605ead5b">&#9670;&nbsp;</a></span>NO_ESCAPE_SEQUENCES</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::unordered_map&lt; char, char &gt; sourcepp::parser::text::NO_ESCAPE_SEQUENCES = {}</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d2/deb/namespacesourcepp.html">sourcepp</a></li><li class="navelem"><a class="el" href="../../d5/d3c/namespacesourcepp_1_1parser.html">parser</a></li><li class="navelem"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html">text</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

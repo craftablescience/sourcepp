@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: vpkpp::PCK::Header Struct Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d5/da3/structvpkpp_1_1PCK_1_1Header.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../dc/d84/structvpkpp_1_1PCK_1_1Header-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">vpkpp::PCK::Header Struct Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for vpkpp::PCK::Header:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../df/df3/structvpkpp_1_1PCK_1_1Header__coll__graph.png" border="0" usemap="#avpkpp_1_1PCK_1_1Header_coll__map" alt="Collaboration graph"/></div>
+<map name="avpkpp_1_1PCK_1_1Header_coll__map" id="avpkpp_1_1PCK_1_1Header_coll__map">
+<area shape="rect" title=" " alt="" coords="5,139,156,165"/>
+<area shape="rect" title=" " alt="" coords="43,5,118,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a7a142289fb97b1e8060ffee65fa98732"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a7a142289fb97b1e8060ffee65fa98732">packVersion</a></td></tr>
+<tr class="separator:a7a142289fb97b1e8060ffee65fa98732"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a899d5e855777a3107b146c9ea85bb4"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a4a899d5e855777a3107b146c9ea85bb4">godotVersionMajor</a></td></tr>
+<tr class="separator:a4a899d5e855777a3107b146c9ea85bb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16caf0f90d541fc1b98afa752ee1ecd"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#af16caf0f90d541fc1b98afa752ee1ecd">godotVersionMinor</a></td></tr>
+<tr class="separator:af16caf0f90d541fc1b98afa752ee1ecd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae17869aeff1733c5f6e63af763e8fea"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aae17869aeff1733c5f6e63af763e8fea">godotVersionPatch</a></td></tr>
+<tr class="separator:aae17869aeff1733c5f6e63af763e8fea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa667a3b5413bb7f7eef6b15b82c6612"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">FlagsV2</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aaa667a3b5413bb7f7eef6b15b82c6612">flags</a></td></tr>
+<tr class="separator:aaa667a3b5413bb7f7eef6b15b82c6612"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00021">21</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="aaa667a3b5413bb7f7eef6b15b82c6612"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa667a3b5413bb7f7eef6b15b82c6612">&#9670;&nbsp;</a></span>flags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">FlagsV2</a> vpkpp::PCK::Header::flags</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00026">26</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="a4a899d5e855777a3107b146c9ea85bb4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a899d5e855777a3107b146c9ea85bb4">&#9670;&nbsp;</a></span>godotVersionMajor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::PCK::Header::godotVersionMajor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00023">23</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="af16caf0f90d541fc1b98afa752ee1ecd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af16caf0f90d541fc1b98afa752ee1ecd">&#9670;&nbsp;</a></span>godotVersionMinor</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::PCK::Header::godotVersionMinor</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00024">24</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="aae17869aeff1733c5f6e63af763e8fea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aae17869aeff1733c5f6e63af763e8fea">&#9670;&nbsp;</a></span>godotVersionPatch</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::PCK::Header::godotVersionPatch</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00025">25</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="a7a142289fb97b1e8060ffee65fa98732"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7a142289fb97b1e8060ffee65fa98732">&#9670;&nbsp;</a></span>packVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::PCK::Header::packVersion</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00022">22</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>include/vpkpp/format/<a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d5/d29/namespacevpkpp.html">vpkpp</a></li><li class="navelem"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html">PCK</a></li><li class="navelem"><a class="el" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html">Header</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

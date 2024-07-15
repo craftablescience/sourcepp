@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/vpkpp/format/PCK.h Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('dd/dae/PCK_8h_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">PCK.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../dd/dae/PCK_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d9/db1/Binary_8h.html">sourcepp/parser/Binary.h</a>&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;../PackFile.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d5/d29/namespacevpkpp.html">vpkpp</a> {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d5/d29/namespacevpkpp.html#a9403d19e08235c1f62f9e0fe8f3d4eb8">    9</a></span>&#160;constexpr <span class="keyword">auto</span> <a class="code" href="../../d5/d29/namespacevpkpp.html#a9403d19e08235c1f62f9e0fe8f3d4eb8">PCK_SIGNATURE</a> = <a class="code" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#ac9b9bdfe5c1e0dd6d9854c1f260bdb5b">sourcepp::parser::binary::makeFourCC</a>(<span class="stringliteral">&quot;GDPC&quot;</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1">   10</a></span>&#160;constexpr std::string_view <a class="code" href="../../d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1">PCK_PATH_PREFIX</a> = <span class="stringliteral">&quot;res://&quot;</span>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7">   11</a></span>&#160;constexpr std::string_view <a class="code" href="../../d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7">PCK_EXTENSION</a> = <span class="stringliteral">&quot;.pck&quot;</span>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html">PCK</a> : <span class="keyword">public</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">   15</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">FlagsV2</a> : uint32_t {</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584">   16</a></span>&#160;        <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584">FLAG_NONE</a>                    = 0,</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746">   17</a></span>&#160;        <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746">FLAG_ENCRYPTED</a>          = 1 &lt;&lt; 0,</div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11">   18</a></span>&#160;        <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11">FLAG_RELATIVE_FILE_DATA</a> = 1 &lt;&lt; 1,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    };</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html">   21</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html">Header</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a7a142289fb97b1e8060ffee65fa98732">   22</a></span>&#160;        uint32_t <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a7a142289fb97b1e8060ffee65fa98732">packVersion</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a4a899d5e855777a3107b146c9ea85bb4">   23</a></span>&#160;        uint32_t <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a4a899d5e855777a3107b146c9ea85bb4">godotVersionMajor</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#af16caf0f90d541fc1b98afa752ee1ecd">   24</a></span>&#160;        uint32_t <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#af16caf0f90d541fc1b98afa752ee1ecd">godotVersionMinor</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aae17869aeff1733c5f6e63af763e8fea">   25</a></span>&#160;        uint32_t <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aae17869aeff1733c5f6e63af763e8fea">godotVersionPatch</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aaa667a3b5413bb7f7eef6b15b82c6612">   26</a></span>&#160;        <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">FlagsV2</a> <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aaa667a3b5413bb7f7eef6b15b82c6612">flags</a>; <span class="comment">// packVersion &gt;= 2</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    };</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    [[nodiscard]] <span class="keyword">static</span> std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a20adb11b90818203a45bf790f5977ee3">open</a>(<span class="keyword">const</span> std::string&amp; path, <a class="code" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6f451dac4b164d7f8f9fc667f546fcaa">options</a> = {}, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">Callback</a>&amp; callback = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#ad839861c2155285420a90312aa869dea">   33</a></span>&#160;    [[nodiscard]] constexpr <span class="keywordtype">bool</span> <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#ad839861c2155285420a90312aa869dea">isCaseSensitive</a>() const noexcept<span class="keyword"> override </span>{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    [[nodiscard]] std::optional&lt;std::vector&lt;std::byte&gt;&gt; <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a046d3f9eae276d52254209b9e8406a04">readEntry</a>(<span class="keyword">const</span> <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry) <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#ae326908a6716a8555c3de4450acbec1b">bake</a>(<span class="keyword">const</span> std::string&amp; outputDir_ <span class="comment">/*= &quot;&quot;*/</span>, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">Callback</a>&amp; callback <span class="comment">/*= nullptr*/</span>) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    [[nodiscard]] std::vector&lt;Attribute&gt; <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#ae0b363b1a0f7d6c9f30d4a8bad2e7f2e">getSupportedEntryAttributes</a>() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    [[nodiscard]] <span class="keyword">explicit</span> <span class="keyword">operator</span> std::string() <span class="keyword">const override</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a825721e87ef30c0e668b18537551ae9d">PCK</a>(<span class="keyword">const</span> std::string&amp; fullFilePath_, <a class="code" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a> options_);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#aeb12c6525c17f4773077135af8925806">addEntryInternal</a>(<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry, <span class="keyword">const</span> std::string&amp; filename_, std::vector&lt;std::byte&gt;&amp; buffer, <a class="code" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options_) <span class="keyword">override</span>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a5a6a52c5e26ded01dd07997728ddec36">   50</a></span>&#160;    <a class="code" href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html">Header</a> <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a5a6a52c5e26ded01dd07997728ddec36">header</a>{};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a3db1db3ed03caca9718995e95fd03e70">   52</a></span>&#160;    std::size_t <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a3db1db3ed03caca9718995e95fd03e70">startOffset</a> = 0;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#ad8abf22a2019129a798679037adb767c">   53</a></span>&#160;    std::size_t <a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#ad8abf22a2019129a798679037adb767c">dataOffset</a> = 0;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    VPKPP_REGISTER_PACKFILE_OPEN(<a class="code" href="../../d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7">PCK_EXTENSION</a>, &amp;<a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a20adb11b90818203a45bf790f5977ee3">PCK::open</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d5/db5/classvpkpp_1_1PCK.html#a20adb11b90818203a45bf790f5977ee3">   57</a></span>&#160;    <a class="code" href="../../d3/df4/PackFile_8h.html#a5fe24fb8e6c2fff820c6bafb3efdbe3b">VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE</a>(&amp;<a class="code" href="../../d5/db5/classvpkpp_1_1PCK.html#a20adb11b90818203a45bf790f5977ee3">PCK::open</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;};</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;} <span class="comment">// namespace vpkpp</span></div>
+<div class="ttc" id="aBinary_8h_html"><div class="ttname"><a href="../../d9/db1/Binary_8h.html">Binary.h</a></div></div>
+<div class="ttc" id="aPackFile_8h_html_a5fe24fb8e6c2fff820c6bafb3efdbe3b"><div class="ttname"><a href="../../d3/df4/PackFile_8h.html#a5fe24fb8e6c2fff820c6bafb3efdbe3b">VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE</a></div><div class="ttdeci">#define VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE(function)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00217">PackFile.h:217</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1Entry_html"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html">vpkpp::Entry</a></div><div class="ttdoc">This class represents the metadata that a file has inside a PackFile.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00015">Entry.h:15</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html">vpkpp::PCK</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00013">PCK.h:13</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a046d3f9eae276d52254209b9e8406a04"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a046d3f9eae276d52254209b9e8406a04">vpkpp::PCK::readEntry</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; readEntry(const Entry &amp;entry) const override</div><div class="ttdoc">Try to read the entry's data to a bytebuffer.</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7e/PCK_8cpp_source.html#l00133">PCK.cpp:133</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a20adb11b90818203a45bf790f5977ee3"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a20adb11b90818203a45bf790f5977ee3">vpkpp::PCK::open</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; open(const std::string &amp;path, PackFileOptions options={}, const Callback &amp;callback=nullptr)</div><div class="ttdoc">Open a PCK file (potentially embedded in an executable)</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00057">PCK.h:57</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a3db1db3ed03caca9718995e95fd03e70"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a3db1db3ed03caca9718995e95fd03e70">vpkpp::PCK::startOffset</a></div><div class="ttdeci">std::size_t startOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00052">PCK.h:52</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a465bf158d0c364a8f0268fa1f0b2e557"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">vpkpp::PCK::FlagsV2</a></div><div class="ttdeci">FlagsV2</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00015">PCK.h:15</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746">vpkpp::PCK::FLAG_ENCRYPTED</a></div><div class="ttdeci">@ FLAG_ENCRYPTED</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00017">PCK.h:17</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584">vpkpp::PCK::FLAG_NONE</a></div><div class="ttdeci">@ FLAG_NONE</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00016">PCK.h:16</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11">vpkpp::PCK::FLAG_RELATIVE_FILE_DATA</a></div><div class="ttdeci">@ FLAG_RELATIVE_FILE_DATA</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00018">PCK.h:18</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a5a6a52c5e26ded01dd07997728ddec36"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a5a6a52c5e26ded01dd07997728ddec36">vpkpp::PCK::header</a></div><div class="ttdeci">Header header</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00050">PCK.h:50</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_a825721e87ef30c0e668b18537551ae9d"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#a825721e87ef30c0e668b18537551ae9d">vpkpp::PCK::PCK</a></div><div class="ttdeci">PCK(const std::string &amp;fullFilePath_, PackFileOptions options_)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7e/PCK_8cpp_source.html#l00034">PCK.cpp:34</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_ad839861c2155285420a90312aa869dea"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#ad839861c2155285420a90312aa869dea">vpkpp::PCK::isCaseSensitive</a></div><div class="ttdeci">constexpr bool isCaseSensitive() const noexcept override</div><div class="ttdoc">Does the format support case-sensitive file names?</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00033">PCK.h:33</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_ad8abf22a2019129a798679037adb767c"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#ad8abf22a2019129a798679037adb767c">vpkpp::PCK::dataOffset</a></div><div class="ttdeci">std::size_t dataOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00053">PCK.h:53</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_ae0b363b1a0f7d6c9f30d4a8bad2e7f2e"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#ae0b363b1a0f7d6c9f30d4a8bad2e7f2e">vpkpp::PCK::getSupportedEntryAttributes</a></div><div class="ttdeci">std::vector&lt; Attribute &gt; getSupportedEntryAttributes() const override</div><div class="ttdoc">Returns a list of supported entry attributes Mostly for GUI programs that show entries and their meta...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7e/PCK_8cpp_source.html#l00315">PCK.cpp:315</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_ae326908a6716a8555c3de4450acbec1b"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#ae326908a6716a8555c3de4450acbec1b">vpkpp::PCK::bake</a></div><div class="ttdeci">bool bake(const std::string &amp;outputDir_, const Callback &amp;callback) override</div><div class="ttdoc">If output folder is unspecified, it will overwrite the original.</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7e/PCK_8cpp_source.html#l00187">PCK.cpp:187</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PCK_html_aeb12c6525c17f4773077135af8925806"><div class="ttname"><a href="../../d5/db5/classvpkpp_1_1PCK.html#aeb12c6525c17f4773077135af8925806">vpkpp::PCK::addEntryInternal</a></div><div class="ttdeci">Entry &amp; addEntryInternal(Entry &amp;entry, const std::string &amp;filename_, std::vector&lt; std::byte &gt; &amp;buffer, EntryOptions options_) override</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7e/PCK_8cpp_source.html#l00166">PCK.cpp:166</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00028">PackFile.h:28</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a36ccdf7948861abaaf10ad75f44aed77"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a36ccdf7948861abaaf10ad75f44aed77">vpkpp::PackFile::Callback</a></div><div class="ttdeci">std::function&lt; void(const std::string &amp;directory, const Entry &amp;entry)&gt; Callback</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00038">PackFile.h:38</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a6f451dac4b164d7f8f9fc667f546fcaa"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6f451dac4b164d7f8f9fc667f546fcaa">vpkpp::PackFile::options</a></div><div class="ttdeci">PackFileOptions options</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00180">PackFile.h:180</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1parser_1_1binary_html_ac9b9bdfe5c1e0dd6d9854c1f260bdb5b"><div class="ttname"><a href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#ac9b9bdfe5c1e0dd6d9854c1f260bdb5b">sourcepp::parser::binary::makeFourCC</a></div><div class="ttdeci">consteval uint32_t makeFourCC(std::string_view fourCC)</div><div class="ttdoc">Creates a FourCC identifier from a string of 4 characters.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db1/Binary_8h_source.html#l00019">Binary.h:19</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html">vpkpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/Attribute_8h_source.html#l00003">Attribute.h:3</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_a9403d19e08235c1f62f9e0fe8f3d4eb8"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a9403d19e08235c1f62f9e0fe8f3d4eb8">vpkpp::PCK_SIGNATURE</a></div><div class="ttdeci">constexpr auto PCK_SIGNATURE</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00009">PCK.h:9</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_aacd7a6258cf5468b307efd0e46e13df7"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7">vpkpp::PCK_EXTENSION</a></div><div class="ttdeci">constexpr std::string_view PCK_EXTENSION</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00011">PCK.h:11</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_ab80f53d81b90c5c1f933ca6d1b787ab1"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1">vpkpp::PCK_PATH_PREFIX</a></div><div class="ttdeci">constexpr std::string_view PCK_PATH_PREFIX</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00010">PCK.h:10</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1EntryOptions_html"><div class="ttname"><a href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">vpkpp::EntryOptions</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d76/Options_8h_source.html#l00032">Options.h:32</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html">vpkpp::PCK::Header</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00021">PCK.h:21</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html_a4a899d5e855777a3107b146c9ea85bb4"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a4a899d5e855777a3107b146c9ea85bb4">vpkpp::PCK::Header::godotVersionMajor</a></div><div class="ttdeci">uint32_t godotVersionMajor</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00023">PCK.h:23</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html_a7a142289fb97b1e8060ffee65fa98732"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#a7a142289fb97b1e8060ffee65fa98732">vpkpp::PCK::Header::packVersion</a></div><div class="ttdeci">uint32_t packVersion</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00022">PCK.h:22</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html_aaa667a3b5413bb7f7eef6b15b82c6612"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aaa667a3b5413bb7f7eef6b15b82c6612">vpkpp::PCK::Header::flags</a></div><div class="ttdeci">FlagsV2 flags</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00026">PCK.h:26</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html_aae17869aeff1733c5f6e63af763e8fea"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#aae17869aeff1733c5f6e63af763e8fea">vpkpp::PCK::Header::godotVersionPatch</a></div><div class="ttdeci">uint32_t godotVersionPatch</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00025">PCK.h:25</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PCK_1_1Header_html_af16caf0f90d541fc1b98afa752ee1ecd"><div class="ttname"><a href="../../d5/da3/structvpkpp_1_1PCK_1_1Header.html#af16caf0f90d541fc1b98afa752ee1ecd">vpkpp::PCK::Header::godotVersionMinor</a></div><div class="ttdeci">uint32_t godotVersionMinor</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dae/PCK_8h_source.html#l00024">PCK.h:24</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1PackFileOptions_html"><div class="ttname"><a href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">vpkpp::PackFileOptions</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d76/Options_8h_source.html#l00013">Options.h:13</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_f237bf7741f5f61f38bf876ae1776f7c.html">vpkpp</a></li><li class="navelem"><a class="el" href="../../dir_a11c167777fc2777111b8c7a4713c2b7.html">format</a></li><li class="navelem"><a class="el" href="../../dd/dae/PCK_8h.html">PCK.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

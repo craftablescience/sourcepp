@@ -1,0 +1,581 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: dmxpp::Value Namespace Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d7/d45/namespacedmxpp_1_1Value.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#func-members">Functions</a>  </div>
+  <div class="headertitle">
+<div class="title">dmxpp::Value Namespace Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dee/structdmxpp_1_1Value_1_1Invalid.html">Invalid</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d06/structdmxpp_1_1Value_1_1Element.html">Element</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d19/structdmxpp_1_1Value_1_1Time.html">Time</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/db5/structdmxpp_1_1Value_1_1Color.html">Color</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4f9e972659f43f0014b036254035bf71"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71">ByteArray</a> = std::vector&lt; std::byte &gt;</td></tr>
+<tr class="separator:a4f9e972659f43f0014b036254035bf71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dd9b9d48823a78948183ff4a37949af"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">Vector2</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a06f7e150b307eddfba94b18ac5ef8430">sourcepp::math::Vec2f</a></td></tr>
+<tr class="separator:a6dd9b9d48823a78948183ff4a37949af"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab78651db2e28d84b8c5d11d3c9a6009e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">Vector3</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">sourcepp::math::Vec3f</a></td></tr>
+<tr class="separator:ab78651db2e28d84b8c5d11d3c9a6009e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6364ffca0f28d0c5fcc79cb9fba59d19"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">Vector4</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">sourcepp::math::Vec4f</a></td></tr>
+<tr class="separator:a6364ffca0f28d0c5fcc79cb9fba59d19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a917fc4b2888b561a2ed19f662146f819"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a917fc4b2888b561a2ed19f662146f819">EulerAngles</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8">sourcepp::math::EulerAngles</a></td></tr>
+<tr class="separator:a917fc4b2888b561a2ed19f662146f819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49ae5bbbb80e170d8da45e97618225d6"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a49ae5bbbb80e170d8da45e97618225d6">Quaternion</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922">sourcepp::math::Quat</a></td></tr>
+<tr class="separator:a49ae5bbbb80e170d8da45e97618225d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d0b3083507727eae96322fe944283a"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">Matrix4x4</a> = <a class="el" href="../../d4/d4b/classsourcepp_1_1math_1_1Matrix.html">sourcepp::math::Matrix</a>&lt; 4, 4 &gt;</td></tr>
+<tr class="separator:ad9d0b3083507727eae96322fe944283a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a58d79617379600643b396723962db657"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a58d79617379600643b396723962db657">Generic</a> = std::variant&lt; <a class="el" href="../../da/dee/structdmxpp_1_1Value_1_1Invalid.html">Invalid</a>, <a class="el" href="../../dc/d06/structdmxpp_1_1Value_1_1Element.html">Element</a>, int32_t, float, bool, std::string, std::vector&lt; std::byte &gt;, <a class="el" href="../../d5/d19/structdmxpp_1_1Value_1_1Time.html">Time</a>, <a class="el" href="../../da/db5/structdmxpp_1_1Value_1_1Color.html">Color</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">Vector2</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">Vector3</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">Vector4</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">Matrix4x4</a>, std::vector&lt; <a class="el" href="../../dc/d06/structdmxpp_1_1Value_1_1Element.html">Element</a> &gt;, std::vector&lt; int32_t &gt;, std::vector&lt; float &gt;, std::vector&lt; bool &gt;, std::vector&lt; std::string &gt;, std::vector&lt; std::vector&lt; std::byte &gt; &gt;, std::vector&lt; <a class="el" href="../../d5/d19/structdmxpp_1_1Value_1_1Time.html">Time</a> &gt;, std::vector&lt; <a class="el" href="../../da/db5/structdmxpp_1_1Value_1_1Color.html">Color</a> &gt;, std::vector&lt; <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">Vector2</a> &gt;, std::vector&lt; <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">Vector3</a> &gt;, std::vector&lt; <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">Vector4</a> &gt;, std::vector&lt; <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">Matrix4x4</a> &gt; &gt;</td></tr>
+<tr class="separator:a58d79617379600643b396723962db657"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:af5d3dcc8a6e393d5fd5384c83692ab1e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eaccc0377a8afbf50e7094f5c23a8af223">INVALID</a> = 0
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea12e92caf5a29322009f3516313bddb36">VALUE_START</a> = 1
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea88be69b0577a14f4fa3bbfa0ff17a41d">ELEMENT</a> = 1
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea53f93baa3057821107c750323892fa92">INT</a> = 2
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eae738c26bf4ce1037fa81b039a915cbf6">FLOAT</a> = 3
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eaa97b2c144243b2b9d2c593ec268b62f5">BOOL</a> = 4
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949">STRING</a> = 5
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d">BYTEARRAY</a> = 6
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea346ff32eaa3c09983fb2ec057816d352">TIME</a> = 7
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea04bd834032febb3fda8c6936ee140949">COLOR</a> = 8
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea93fce65afe80bae85fe43eabf0e7a735">VECTOR2</a> = 9
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea742fddb28fdd19c821c68476fca4e85e">VECTOR3</a> = 10
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea5dea13cf7ba399de1ae68a7194c73cff">VECTOR4</a> = 11
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea96f418389e6544cd3a371068dc855a56">EULER_ANGLE</a> = 12
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea44d211265e86d6d510e6e3d94557e821">QUATERNION</a> = 13
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eac3fb71bb6988d9f50a04e5ec3ea6e907">MATRIX_4X4</a> = 14
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eac360974115fd3669742d3ce8e66cde5d">VALUE_END</a> = 14
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea99287aff99134dc7047dee3ffdbe3600">ARRAY_START</a> = 15
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea7baf723b2a575ce54a6013d4264c080f">ARRAY_ELEMENT</a> = 15
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea1f8152902d59bcbf7fc7f35fdfa9548e">ARRAY_INT</a> = 16
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea715fe50478c0d3a4764ab963d3b54a51">ARRAY_FLOAT</a> = 17
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea82df430f38d49696137739bfce3255f8">ARRAY_BOOL</a> = 18
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea81a86551f854e526976db5b2d04a705d">ARRAY_STRING</a> = 19
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea2bee5451b604ff9f491d53eb005e6e20">ARRAY_BYTEARRAY</a> = 20
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eabe0750aac269cd46a09ee4f6b8287144">ARRAY_TIME</a> = 21
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eae343dc447456a73e3e7867878ed43b59">ARRAY_COLOR</a> = 22
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea4a042c103ad7f0bf301936f6793e303f">ARRAY_VECTOR2</a> = 23
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eab199f1766b34808318d3a6c0152fa7a9">ARRAY_VECTOR3</a> = 24
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ead4a2cf97970e99a7ff48815421bae58a">ARRAY_VECTOR4</a> = 25
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea04442395c6b73c968b77ce08f905728c">ARRAY_EULER_ANGLE</a> = 26
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eab811dd7a6fcca8e3121eab02249a014c">ARRAY_QUATERNION</a> = 27
+, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea72540cb8c9f90fff63ea53b0c945ad50">ARRAY_MATRIX_4X4</a> = 28
+, <br />
+&#160;&#160;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea263758eeec1ef1b1e6e5672ca6833188">ARRAY_END</a> = 28
+<br />
+ }</td></tr>
+<tr class="separator:af5d3dcc8a6e393d5fd5384c83692ab1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:af91dec68fc8fd1767375859f34b3f68d"><td class="memItemLeft" align="right" valign="top">constexpr std::byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af91dec68fc8fd1767375859f34b3f68d">IDToByte</a> (<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> id)</td></tr>
+<tr class="separator:af91dec68fc8fd1767375859f34b3f68d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb585b0f18ae362bf2e81e2d9d3afe19"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19">byteToID</a> (std::byte id)</td></tr>
+<tr class="separator:afb585b0f18ae362bf2e81e2d9d3afe19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e9ff40d9038da61e3fe60390503787"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a15e9ff40d9038da61e3fe60390503787">arrayIDToInnerID</a> (<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> id)</td></tr>
+<tr class="separator:a15e9ff40d9038da61e3fe60390503787"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeff4c37ca65c81d4ebc6b2e15720dc27"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#aeff4c37ca65c81d4ebc6b2e15720dc27">innerIDToArrayID</a> (<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> id)</td></tr>
+<tr class="separator:aeff4c37ca65c81d4ebc6b2e15720dc27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0defc79dc3f29673ae5a81259db3ea1d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a0defc79dc3f29673ae5a81259db3ea1d">IDToString</a> (<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> id)</td></tr>
+<tr class="separator:a0defc79dc3f29673ae5a81259db3ea1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f122af218a1671499f2be187058dde2"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a0f122af218a1671499f2be187058dde2">stringToID</a> (std::string_view id)</td></tr>
+<tr class="separator:a0f122af218a1671499f2be187058dde2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a4f9e972659f43f0014b036254035bf71"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f9e972659f43f0014b036254035bf71">&#9670;&nbsp;</a></span>ByteArray</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71">dmxpp::Value::ByteArray</a> = typedef std::vector&lt;std::byte&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00029">29</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a917fc4b2888b561a2ed19f662146f819"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a917fc4b2888b561a2ed19f662146f819">&#9670;&nbsp;</a></span>EulerAngles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a917fc4b2888b561a2ed19f662146f819">dmxpp::Value::EulerAngles</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8">sourcepp::math::EulerAngles</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00048">48</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a58d79617379600643b396723962db657"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a58d79617379600643b396723962db657">&#9670;&nbsp;</a></span>Generic</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a58d79617379600643b396723962db657">dmxpp::Value::Generic</a> = typedef std::variant&lt; <a class="el" href="../../da/dee/structdmxpp_1_1Value_1_1Invalid.html">Invalid</a>, <a class="el" href="../../dc/d06/structdmxpp_1_1Value_1_1Element.html">Element</a>, int32_t, float, bool, std::string, std::vector&lt;std::byte&gt;, <a class="el" href="../../d5/d19/structdmxpp_1_1Value_1_1Time.html">Time</a>, <a class="el" href="../../da/db5/structdmxpp_1_1Value_1_1Color.html">Color</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">Vector2</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">Vector3</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">Vector4</a>, <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">Matrix4x4</a>, std::vector&lt;<a class="el" href="../../dc/d06/structdmxpp_1_1Value_1_1Element.html">Element</a>&gt;, std::vector&lt;int32_t&gt;, std::vector&lt;float&gt;, std::vector&lt;bool&gt;, std::vector&lt;std::string&gt;, std::vector&lt;std::vector&lt;std::byte&gt; &gt;, std::vector&lt;<a class="el" href="../../d5/d19/structdmxpp_1_1Value_1_1Time.html">Time</a>&gt;, std::vector&lt;<a class="el" href="../../da/db5/structdmxpp_1_1Value_1_1Color.html">Color</a>&gt;, std::vector&lt;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">Vector2</a>&gt;, std::vector&lt;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">Vector3</a>&gt;, std::vector&lt;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">Vector4</a>&gt;, std::vector&lt;<a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">Matrix4x4</a>&gt; &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00054">54</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="ad9d0b3083507727eae96322fe944283a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9d0b3083507727eae96322fe944283a">&#9670;&nbsp;</a></span>Matrix4x4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a">dmxpp::Value::Matrix4x4</a> = typedef <a class="el" href="../../d4/d4b/classsourcepp_1_1math_1_1Matrix.html">sourcepp::math::Matrix</a>&lt;4,4&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00052">52</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a49ae5bbbb80e170d8da45e97618225d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49ae5bbbb80e170d8da45e97618225d6">&#9670;&nbsp;</a></span>Quaternion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a49ae5bbbb80e170d8da45e97618225d6">dmxpp::Value::Quaternion</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922">sourcepp::math::Quat</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00050">50</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a6dd9b9d48823a78948183ff4a37949af"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dd9b9d48823a78948183ff4a37949af">&#9670;&nbsp;</a></span>Vector2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af">dmxpp::Value::Vector2</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a06f7e150b307eddfba94b18ac5ef8430">sourcepp::math::Vec2f</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00042">42</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="ab78651db2e28d84b8c5d11d3c9a6009e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab78651db2e28d84b8c5d11d3c9a6009e">&#9670;&nbsp;</a></span>Vector3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e">dmxpp::Value::Vector3</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">sourcepp::math::Vec3f</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00044">44</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a6364ffca0f28d0c5fcc79cb9fba59d19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6364ffca0f28d0c5fcc79cb9fba59d19">&#9670;&nbsp;</a></span>Vector4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19">dmxpp::Value::Vector4</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">sourcepp::math::Vec4f</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00046">46</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="af5d3dcc8a6e393d5fd5384c83692ab1e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af5d3dcc8a6e393d5fd5384c83692ab1e">&#9670;&nbsp;</a></span>ID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">dmxpp::Value::ID</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eaccc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea12e92caf5a29322009f3516313bddb36"></a>VALUE_START&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea88be69b0577a14f4fa3bbfa0ff17a41d"></a>ELEMENT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea53f93baa3057821107c750323892fa92"></a>INT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eae738c26bf4ce1037fa81b039a915cbf6"></a>FLOAT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eaa97b2c144243b2b9d2c593ec268b62f5"></a>BOOL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d"></a>BYTEARRAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea346ff32eaa3c09983fb2ec057816d352"></a>TIME&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea04bd834032febb3fda8c6936ee140949"></a>COLOR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea93fce65afe80bae85fe43eabf0e7a735"></a>VECTOR2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea742fddb28fdd19c821c68476fca4e85e"></a>VECTOR3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea5dea13cf7ba399de1ae68a7194c73cff"></a>VECTOR4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea96f418389e6544cd3a371068dc855a56"></a>EULER_ANGLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea44d211265e86d6d510e6e3d94557e821"></a>QUATERNION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eac3fb71bb6988d9f50a04e5ec3ea6e907"></a>MATRIX_4X4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eac360974115fd3669742d3ce8e66cde5d"></a>VALUE_END&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea99287aff99134dc7047dee3ffdbe3600"></a>ARRAY_START&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea7baf723b2a575ce54a6013d4264c080f"></a>ARRAY_ELEMENT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea1f8152902d59bcbf7fc7f35fdfa9548e"></a>ARRAY_INT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea715fe50478c0d3a4764ab963d3b54a51"></a>ARRAY_FLOAT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea82df430f38d49696137739bfce3255f8"></a>ARRAY_BOOL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea81a86551f854e526976db5b2d04a705d"></a>ARRAY_STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea2bee5451b604ff9f491d53eb005e6e20"></a>ARRAY_BYTEARRAY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eabe0750aac269cd46a09ee4f6b8287144"></a>ARRAY_TIME&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eae343dc447456a73e3e7867878ed43b59"></a>ARRAY_COLOR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea4a042c103ad7f0bf301936f6793e303f"></a>ARRAY_VECTOR2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eab199f1766b34808318d3a6c0152fa7a9"></a>ARRAY_VECTOR3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ead4a2cf97970e99a7ff48815421bae58a"></a>ARRAY_VECTOR4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea04442395c6b73c968b77ce08f905728c"></a>ARRAY_EULER_ANGLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1eab811dd7a6fcca8e3121eab02249a014c"></a>ARRAY_QUATERNION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea72540cb8c9f90fff63ea53b0c945ad50"></a>ARRAY_MATRIX_4X4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af5d3dcc8a6e393d5fd5384c83692ab1ea263758eeec1ef1b1e6e5672ca6833188"></a>ARRAY_END&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00087">87</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Function Documentation</h2>
+<a id="a15e9ff40d9038da61e3fe60390503787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15e9ff40d9038da61e3fe60390503787">&#9670;&nbsp;</a></span>arrayIDToInnerID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> dmxpp::Value::arrayIDToInnerID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00133">133</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="afb585b0f18ae362bf2e81e2d9d3afe19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb585b0f18ae362bf2e81e2d9d3afe19">&#9670;&nbsp;</a></span>byteToID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> dmxpp::Value::byteToID </td>
+          <td>(</td>
+          <td class="paramtype">std::byte&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00129">129</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="af91dec68fc8fd1767375859f34b3f68d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af91dec68fc8fd1767375859f34b3f68d">&#9670;&nbsp;</a></span>IDToByte()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::byte dmxpp::Value::IDToByte </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00125">125</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a0defc79dc3f29673ae5a81259db3ea1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0defc79dc3f29673ae5a81259db3ea1d">&#9670;&nbsp;</a></span>IDToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string dmxpp::Value::IDToString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d74/Value_8cpp_source.html#l00008">8</a> of file <a class="el" href="../../d1/d74/Value_8cpp_source.html">Value.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aeff4c37ca65c81d4ebc6b2e15720dc27"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeff4c37ca65c81d4ebc6b2e15720dc27">&#9670;&nbsp;</a></span>innerIDToArrayID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> dmxpp::Value::innerIDToArrayID </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a>&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00140">140</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+<a id="a0f122af218a1671499f2be187058dde2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f122af218a1671499f2be187058dde2">&#9670;&nbsp;</a></span>stringToID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e">ID</a> dmxpp::Value::stringToID </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>id</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d8e/Value_8h_source.html#l00150">150</a> of file <a class="el" href="../../d5/d8e/Value_8h_source.html">Value.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d9/db0/namespacedmxpp.html">dmxpp</a></li><li class="navelem"><a class="el" href="../../d7/d45/namespacedmxpp_1_1Value.html">Value</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

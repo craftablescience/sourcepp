@@ -1,0 +1,409 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: vpkpp::GCF::DirectoryHeader Struct Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../de/dff/structvpkpp_1_1GCF_1_1DirectoryHeader-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">vpkpp::GCF::DirectoryHeader Struct Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for vpkpp::GCF::DirectoryHeader:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../dc/dc2/structvpkpp_1_1GCF_1_1DirectoryHeader__coll__graph.png" border="0" usemap="#avpkpp_1_1GCF_1_1DirectoryHeader_coll__map" alt="Collaboration graph"/></div>
+<map name="avpkpp_1_1GCF_1_1DirectoryHeader_coll__map" id="avpkpp_1_1GCF_1_1DirectoryHeader_coll__map">
+<area shape="rect" title=" " alt="" coords="5,241,216,268"/>
+<area shape="rect" title=" " alt="" coords="73,5,148,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a1a6b766e2bd61cd4539cbc776b017edb"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a1a6b766e2bd61cd4539cbc776b017edb">dummy1</a></td></tr>
+<tr class="separator:a1a6b766e2bd61cd4539cbc776b017edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee95576472703f3d2de49838cd12b6ed"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#aee95576472703f3d2de49838cd12b6ed">cacheid</a></td></tr>
+<tr class="separator:aee95576472703f3d2de49838cd12b6ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a700762293d05c160a78713b83049e877"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a700762293d05c160a78713b83049e877">gcfversion</a></td></tr>
+<tr class="separator:a700762293d05c160a78713b83049e877"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a253376ee80545479e5fa32efa1b898e8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8">itemcount</a></td></tr>
+<tr class="separator:a253376ee80545479e5fa32efa1b898e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7068f8484448d1e6a8e95102c9c89d28"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a7068f8484448d1e6a8e95102c9c89d28">filecount</a></td></tr>
+<tr class="separator:a7068f8484448d1e6a8e95102c9c89d28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31f30c0cd8fc69c4a6564ce7378bfd1d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a31f30c0cd8fc69c4a6564ce7378bfd1d">dummy2</a></td></tr>
+<tr class="separator:a31f30c0cd8fc69c4a6564ce7378bfd1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15fefa27522f88412e9d39c6c456fa6f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a15fefa27522f88412e9d39c6c456fa6f">dirsize</a></td></tr>
+<tr class="separator:a15fefa27522f88412e9d39c6c456fa6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf0580eda01ee7362749505866db7876"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#adf0580eda01ee7362749505866db7876">namesize</a></td></tr>
+<tr class="separator:adf0580eda01ee7362749505866db7876"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c09fe4d9feb0d6048b815b8334c3231"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a6c09fe4d9feb0d6048b815b8334c3231">info1count</a></td></tr>
+<tr class="separator:a6c09fe4d9feb0d6048b815b8334c3231"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a781d13651cba347bb6cb49c7d926127f"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a781d13651cba347bb6cb49c7d926127f">copycount</a></td></tr>
+<tr class="separator:a781d13651cba347bb6cb49c7d926127f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0067cb75ada81714f4e30780553a2232"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a0067cb75ada81714f4e30780553a2232">localcount</a></td></tr>
+<tr class="separator:a0067cb75ada81714f4e30780553a2232"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb887c2783041bb87e059cb7dcf54d22"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#abb887c2783041bb87e059cb7dcf54d22">dummy3</a></td></tr>
+<tr class="separator:abb887c2783041bb87e059cb7dcf54d22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53ae46b6ca33a7e99566cb24f92edba8"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a53ae46b6ca33a7e99566cb24f92edba8">dummy4</a></td></tr>
+<tr class="separator:a53ae46b6ca33a7e99566cb24f92edba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a221b299dbe62848da896ff54df47f46b"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a221b299dbe62848da896ff54df47f46b">checksum</a></td></tr>
+<tr class="separator:a221b299dbe62848da896ff54df47f46b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00049">49</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="aee95576472703f3d2de49838cd12b6ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee95576472703f3d2de49838cd12b6ed">&#9670;&nbsp;</a></span>cacheid</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::cacheid</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00051">51</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a221b299dbe62848da896ff54df47f46b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a221b299dbe62848da896ff54df47f46b">&#9670;&nbsp;</a></span>checksum</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::checksum</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00063">63</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a781d13651cba347bb6cb49c7d926127f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a781d13651cba347bb6cb49c7d926127f">&#9670;&nbsp;</a></span>copycount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::copycount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00059">59</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a15fefa27522f88412e9d39c6c456fa6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15fefa27522f88412e9d39c6c456fa6f">&#9670;&nbsp;</a></span>dirsize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::dirsize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00056">56</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a1a6b766e2bd61cd4539cbc776b017edb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a6b766e2bd61cd4539cbc776b017edb">&#9670;&nbsp;</a></span>dummy1</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::dummy1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00050">50</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a31f30c0cd8fc69c4a6564ce7378bfd1d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31f30c0cd8fc69c4a6564ce7378bfd1d">&#9670;&nbsp;</a></span>dummy2</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::dummy2</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00055">55</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="abb887c2783041bb87e059cb7dcf54d22"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb887c2783041bb87e059cb7dcf54d22">&#9670;&nbsp;</a></span>dummy3</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::dummy3</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00061">61</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a53ae46b6ca33a7e99566cb24f92edba8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53ae46b6ca33a7e99566cb24f92edba8">&#9670;&nbsp;</a></span>dummy4</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::dummy4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00062">62</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a7068f8484448d1e6a8e95102c9c89d28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7068f8484448d1e6a8e95102c9c89d28">&#9670;&nbsp;</a></span>filecount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::filecount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00054">54</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a700762293d05c160a78713b83049e877"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a700762293d05c160a78713b83049e877">&#9670;&nbsp;</a></span>gcfversion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::gcfversion</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00052">52</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a6c09fe4d9feb0d6048b815b8334c3231"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6c09fe4d9feb0d6048b815b8334c3231">&#9670;&nbsp;</a></span>info1count</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::info1count</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00058">58</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a253376ee80545479e5fa32efa1b898e8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a253376ee80545479e5fa32efa1b898e8">&#9670;&nbsp;</a></span>itemcount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::itemcount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00053">53</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a0067cb75ada81714f4e30780553a2232"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0067cb75ada81714f4e30780553a2232">&#9670;&nbsp;</a></span>localcount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::localcount</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00060">60</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="adf0580eda01ee7362749505866db7876"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf0580eda01ee7362749505866db7876">&#9670;&nbsp;</a></span>namesize</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vpkpp::GCF::DirectoryHeader::namesize</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00057">57</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>include/vpkpp/format/<a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d5/d29/namespacevpkpp.html">vpkpp</a></li><li class="navelem"><a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html">GCF</a></li><li class="navelem"><a class="el" href="../../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html">DirectoryHeader</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

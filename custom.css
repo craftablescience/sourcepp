@@ -1,0 +1,34 @@
+/* Fix the search bar getting cut off */
+
+html {
+    --top-nav-height: 135px
+}
+
+@media screen and (min-width: 768px) {
+    #top {
+        height: var(--top-nav-height);
+    }
+
+    #nav-tree, #side-nav {
+        height: calc(100vh - var(--top-nav-height)) !important;
+    }
+
+    #side-nav {
+        top: var(--top-nav-height);
+    }
+}
+
+
+/* Change the color to pink */
+
+body.dark-mode, body.light-mode {
+    --primary-color: #e15fcf;
+    --primary-dark-color: #e15fcf;
+    --primary-light-color: #e15fcf;
+}
+
+span.mlabel {
+    color: black;
+}
+
+/* #2aa61f */

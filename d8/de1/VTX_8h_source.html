@@ -1,0 +1,307 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/mdlpp/structs/VTX.h Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d8/de1/VTX_8h_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">VTX.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d8/de1/VTX_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cstdint&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;span&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/d9c/MDL_8h.html">MDL.h</a>&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d8/d94/namespacemdlpp_1_1VTX.html">   10</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="../../d8/d94/namespacemdlpp_1_1VTX.html">mdlpp::VTX</a> {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html">   12</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html">Vertex</a> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="comment">//uint8_t boneWeightIndex[3];</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">//uint8_t boneCount;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html#a3e31337035e0d13c0f75f30562b332de">   15</a></span>&#160;    uint16_t <a class="code" href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html#a3e31337035e0d13c0f75f30562b332de">meshVertexID</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//int8_t boneID[3];</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;};</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html">   19</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html">Strip</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1b">   20</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1b">Flags</a> : uint8_t {</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba8083e5cf93c5fe2123e5dae37af3ffc6">   21</a></span>&#160;        <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba8083e5cf93c5fe2123e5dae37af3ffc6">FLAG_NONE</a> = 0,</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba6112d41cd3d85df192645daf6941b4a1">   22</a></span>&#160;        <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba6112d41cd3d85df192645daf6941b4a1">FLAG_IS_TRILIST</a> = 1 &lt;&lt; 0,</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1baabc2567536330828c9b6c7a99449ab81">   23</a></span>&#160;        <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1baabc2567536330828c9b6c7a99449ab81">FLAG_IS_TRISTRIP</a> = 1 &lt;&lt; 1,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    };</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//int32_t indicesCount;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a2dbfa2ed6b17b60ae837fd691d1893a7">   27</a></span>&#160;    int32_t <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a2dbfa2ed6b17b60ae837fd691d1893a7">indicesOffset</a> = 0; <span class="comment">// Offset from the start of the strip group indices</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a5c34ebd532999f86697b6dc8c07d51d2">   28</a></span>&#160;    std::span&lt;uint16_t&gt; <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a5c34ebd532999f86697b6dc8c07d51d2">indices</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">//int32_t verticesCount;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a4b65d00558c0abbb2bc8377d24dc0cf3">   31</a></span>&#160;    int32_t <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a4b65d00558c0abbb2bc8377d24dc0cf3">verticesOffset</a> = 0; <span class="comment">// Offset from the start of the strip group vertices</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#afd165a6420d27fdefd83d754d3fd9580">   32</a></span>&#160;    std::span&lt;Vertex&gt; <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#afd165a6420d27fdefd83d754d3fd9580">vertices</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ab08713ff5399fee12b1f632f585fe3c9">   34</a></span>&#160;    int16_t <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ab08713ff5399fee12b1f632f585fe3c9">boneCount</a> = 0;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ac3016745d78f2fdaf9fcc5a8dc41231d">   35</a></span>&#160;    <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1b">Flags</a> <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ac3016745d78f2fdaf9fcc5a8dc41231d">flags</a> = <a class="code" href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba8083e5cf93c5fe2123e5dae37af3ffc6">FLAG_NONE</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment">//int32_t boneStateChangeCount;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">//int32_t boneStateChangeOffset;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// On MDL version &gt;= 49:</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">//int32_t numTopologyIndices;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//int32_t topologyOffset;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;};</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html">   45</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html">StripGroup</a> {</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4">   46</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4">Flags</a> : uint8_t {</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4af24b3b9381487a5eacd38d5629630c3d">   47</a></span>&#160;        <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4af24b3b9381487a5eacd38d5629630c3d">FLAG_NONE</a> = 0,</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a0e43f4560ba2552288bf0e9759498f3f">   48</a></span>&#160;        <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a0e43f4560ba2552288bf0e9759498f3f">FLAG_IS_FLEXED</a> = 1 &lt;&lt; 0,</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4ab3954726575ccf0014868398ea8a2184">   49</a></span>&#160;        <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4ab3954726575ccf0014868398ea8a2184">FLAG_IS_HW_SKINNED</a> = 1 &lt;&lt; 1,</div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a466e9643d4f406d386f8769ed32226dc">   50</a></span>&#160;        <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a466e9643d4f406d386f8769ed32226dc">FLAG_IS_DELTA_FLEXED</a> = 1 &lt;&lt; 2,</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a4005aef4118541b8c45cda29d660d84a">   51</a></span>&#160;        <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a4005aef4118541b8c45cda29d660d84a">FLAG_SUPPRESS_HW_MORPH</a> = 1 &lt;&lt; 3,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    };</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//int32_t vertexCount;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//int32_t vertexOffset;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#afacb09652d8fabe26469cf01fc1c0b9e">   56</a></span>&#160;    std::vector&lt;Vertex&gt; <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#afacb09652d8fabe26469cf01fc1c0b9e">vertices</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="comment">//int32_t indexCount;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">//int32_t indexOffset;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a9a9ad411825f48506383469de61d8fe3">   60</a></span>&#160;    std::vector&lt;uint16_t&gt; <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a9a9ad411825f48506383469de61d8fe3">indices</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment">//int32_t stripCount;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//int32_t stripOffset;</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505">   64</a></span>&#160;    std::vector&lt;Strip&gt; <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505">strips</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a0d6b04ebfe0c9c26251e027c4f0a0ea8">   66</a></span>&#160;    <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4">Flags</a> <a class="code" href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a0d6b04ebfe0c9c26251e027c4f0a0ea8">flags</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// on MDL version &gt;= 49:</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//int32_t numTopologyIndices;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">//int32_t topologyOffset;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html">   73</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html">Mesh</a> {</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77">   74</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77">Flags</a> : uint8_t {</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77afd9b1e85f542c6d556e01c0e3020c90c">   75</a></span>&#160;        <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77afd9b1e85f542c6d556e01c0e3020c90c">FLAG_NONE</a> = 0,</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77a9d534d760a9cc6b1010bf9087fe2cec6">   76</a></span>&#160;        <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77a9d534d760a9cc6b1010bf9087fe2cec6">FLAG_IS_TEETH</a> = 1 &lt;&lt; 0,</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77abae0eeefdb98f5583687093f835c208d">   77</a></span>&#160;        <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77abae0eeefdb98f5583687093f835c208d">FLAG_IS_EYES</a> = 1 &lt;&lt; 1,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    };</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//int32_t stripGroupCount;</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">//int32_t stripGroupHeaderOffset;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a4f1c331adfb27060d61a92312002de32">   82</a></span>&#160;    std::vector&lt;StripGroup&gt; <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a4f1c331adfb27060d61a92312002de32">stripGroups</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a5ea2ad933701d041e0ca6c31402ef2f2">   84</a></span>&#160;    <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77">Flags</a> <a class="code" href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a5ea2ad933701d041e0ca6c31402ef2f2">flags</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;};</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html">   87</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html">ModelLOD</a> {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">//int32_t meshCount;</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">//int32_t meshOffset;</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#a079d21df04f751654d61ebb6f64bfc09">   90</a></span>&#160;    std::vector&lt;Mesh&gt; <a class="code" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#a079d21df04f751654d61ebb6f64bfc09">meshes</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#aaab833e4adcbfdace83b473bbe5d6ab2">   92</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#aaab833e4adcbfdace83b473bbe5d6ab2">switchDistance</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;};</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html">   95</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html">Model</a> {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">//int32_t LODCount;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">//int32_t LODOffset;</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html#a2796bc9017d7d80ec5e5ca0a6895e031">   98</a></span>&#160;    std::vector&lt;ModelLOD&gt; <a class="code" href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html#a2796bc9017d7d80ec5e5ca0a6895e031">modelLODs</a>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html">  101</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html">BodyPart</a> {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//int32_t modelCount;</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//int32_t modelOffset;</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa">  104</a></span>&#160;    std::vector&lt;Model&gt; <a class="code" href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa">models</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html">  107</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html">VTX</a> {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    [[nodiscard]] <span class="keywordtype">bool</span> <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad906bc0368b0d245b9de497b8d4d9e5a">open</a>(<span class="keyword">const</span> std::byte* data, std::size_t size, <span class="keyword">const</span> <a class="code" href="../../d5/daa/structmdlpp_1_1MDL_1_1MDL.html">MDL::MDL</a>&amp; mdl);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a42bfa71e1d5b0ab66ee1310f87a0f560">  110</a></span>&#160;    int32_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a42bfa71e1d5b0ab66ee1310f87a0f560">version</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a2fd01a79f83dd3cc41bc793098d29ffc">  111</a></span>&#160;    int32_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a2fd01a79f83dd3cc41bc793098d29ffc">vertexCacheSize</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#af5dd6c0a837f69fa6561430ae0f29c7b">  112</a></span>&#160;    uint16_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#af5dd6c0a837f69fa6561430ae0f29c7b">maxBonesPerStrip</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a9bcd0a38e476938ebf494b5ac62aeb7d">  113</a></span>&#160;    uint16_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a9bcd0a38e476938ebf494b5ac62aeb7d">maxBonesPerTriangle</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad647f2431535be4ee078cc6a5e016e99">  114</a></span>&#160;    int32_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad647f2431535be4ee078cc6a5e016e99">maxBonesPerVertex</a>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">//int32_t checksum;</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5">  116</a></span>&#160;    int32_t <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5">numLODs</a>;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">//int32_t materialReplacementListOffset;</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160; </div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">//int32_t bodyPartCount;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">//int32_t bodyPartOffset;</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a828363379c84fa6c96346762094d1862">  122</a></span>&#160;    std::vector&lt;BodyPart&gt; <a class="code" href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a828363379c84fa6c96346762094d1862">bodyParts</a>;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;} <span class="comment">// namespace mdlpp::VTX</span></div>
+<div class="ttc" id="aMDL_8h_html"><div class="ttname"><a href="../../da/d9c/MDL_8h.html">MDL.h</a></div></div>
+<div class="ttc" id="anamespacemdlpp_1_1VTX_html"><div class="ttname"><a href="../../d8/d94/namespacemdlpp_1_1VTX.html">mdlpp::VTX</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00010">VTX.h:10</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1MDL_1_1MDL_html"><div class="ttname"><a href="../../d5/daa/structmdlpp_1_1MDL_1_1MDL.html">mdlpp::MDL::MDL</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d9c/MDL_8h_source.html#l00261">MDL.h:261</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1BodyPart_html"><div class="ttname"><a href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html">mdlpp::VTX::BodyPart</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00101">VTX.h:101</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1BodyPart_html_a272607fb7bd97553147bb34c82571ffa"><div class="ttname"><a href="../../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa">mdlpp::VTX::BodyPart::models</a></div><div class="ttdeci">std::vector&lt; Model &gt; models</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00104">VTX.h:104</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html">mdlpp::VTX::Mesh</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00073">VTX.h:73</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_a4f1c331adfb27060d61a92312002de32"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a4f1c331adfb27060d61a92312002de32">mdlpp::VTX::Mesh::stripGroups</a></div><div class="ttdeci">std::vector&lt; StripGroup &gt; stripGroups</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00082">VTX.h:82</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_a5ea2ad933701d041e0ca6c31402ef2f2"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a5ea2ad933701d041e0ca6c31402ef2f2">mdlpp::VTX::Mesh::flags</a></div><div class="ttdeci">Flags flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00084">VTX.h:84</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_ac21879650a5226b05a17ae27aa0beb77"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77">mdlpp::VTX::Mesh::Flags</a></div><div class="ttdeci">Flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00074">VTX.h:74</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_ac21879650a5226b05a17ae27aa0beb77a9d534d760a9cc6b1010bf9087fe2cec6"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77a9d534d760a9cc6b1010bf9087fe2cec6">mdlpp::VTX::Mesh::FLAG_IS_TEETH</a></div><div class="ttdeci">@ FLAG_IS_TEETH</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00076">VTX.h:76</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_ac21879650a5226b05a17ae27aa0beb77abae0eeefdb98f5583687093f835c208d"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77abae0eeefdb98f5583687093f835c208d">mdlpp::VTX::Mesh::FLAG_IS_EYES</a></div><div class="ttdeci">@ FLAG_IS_EYES</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00077">VTX.h:77</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Mesh_html_ac21879650a5226b05a17ae27aa0beb77afd9b1e85f542c6d556e01c0e3020c90c"><div class="ttname"><a href="../../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77afd9b1e85f542c6d556e01c0e3020c90c">mdlpp::VTX::Mesh::FLAG_NONE</a></div><div class="ttdeci">@ FLAG_NONE</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00075">VTX.h:75</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1ModelLOD_html"><div class="ttname"><a href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html">mdlpp::VTX::ModelLOD</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00087">VTX.h:87</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1ModelLOD_html_a079d21df04f751654d61ebb6f64bfc09"><div class="ttname"><a href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#a079d21df04f751654d61ebb6f64bfc09">mdlpp::VTX::ModelLOD::meshes</a></div><div class="ttdeci">std::vector&lt; Mesh &gt; meshes</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00090">VTX.h:90</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1ModelLOD_html_aaab833e4adcbfdace83b473bbe5d6ab2"><div class="ttname"><a href="../../d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html#aaab833e4adcbfdace83b473bbe5d6ab2">mdlpp::VTX::ModelLOD::switchDistance</a></div><div class="ttdeci">float switchDistance</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00092">VTX.h:92</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Model_html"><div class="ttname"><a href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html">mdlpp::VTX::Model</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00095">VTX.h:95</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Model_html_a2796bc9017d7d80ec5e5ca0a6895e031"><div class="ttname"><a href="../../d2/d68/structmdlpp_1_1VTX_1_1Model.html#a2796bc9017d7d80ec5e5ca0a6895e031">mdlpp::VTX::Model::modelLODs</a></div><div class="ttdeci">std::vector&lt; ModelLOD &gt; modelLODs</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00098">VTX.h:98</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html">mdlpp::VTX::StripGroup</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00045">VTX.h:45</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a0d6b04ebfe0c9c26251e027c4f0a0ea8"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a0d6b04ebfe0c9c26251e027c4f0a0ea8">mdlpp::VTX::StripGroup::flags</a></div><div class="ttdeci">Flags flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00066">VTX.h:66</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4">mdlpp::VTX::StripGroup::Flags</a></div><div class="ttdeci">Flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00046">VTX.h:46</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4a0e43f4560ba2552288bf0e9759498f3f"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a0e43f4560ba2552288bf0e9759498f3f">mdlpp::VTX::StripGroup::FLAG_IS_FLEXED</a></div><div class="ttdeci">@ FLAG_IS_FLEXED</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00048">VTX.h:48</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4a4005aef4118541b8c45cda29d660d84a"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a4005aef4118541b8c45cda29d660d84a">mdlpp::VTX::StripGroup::FLAG_SUPPRESS_HW_MORPH</a></div><div class="ttdeci">@ FLAG_SUPPRESS_HW_MORPH</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00051">VTX.h:51</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4a466e9643d4f406d386f8769ed32226dc"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4a466e9643d4f406d386f8769ed32226dc">mdlpp::VTX::StripGroup::FLAG_IS_DELTA_FLEXED</a></div><div class="ttdeci">@ FLAG_IS_DELTA_FLEXED</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00050">VTX.h:50</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4ab3954726575ccf0014868398ea8a2184"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4ab3954726575ccf0014868398ea8a2184">mdlpp::VTX::StripGroup::FLAG_IS_HW_SKINNED</a></div><div class="ttdeci">@ FLAG_IS_HW_SKINNED</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00049">VTX.h:49</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a48884d53ad4a6557618a8f7edd53e8b4af24b3b9381487a5eacd38d5629630c3d"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a48884d53ad4a6557618a8f7edd53e8b4af24b3b9381487a5eacd38d5629630c3d">mdlpp::VTX::StripGroup::FLAG_NONE</a></div><div class="ttdeci">@ FLAG_NONE</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00047">VTX.h:47</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_a9a9ad411825f48506383469de61d8fe3"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a9a9ad411825f48506383469de61d8fe3">mdlpp::VTX::StripGroup::indices</a></div><div class="ttdeci">std::vector&lt; uint16_t &gt; indices</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00060">VTX.h:60</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_ad622100c28500a35cbf3be3bb1cd3505"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505">mdlpp::VTX::StripGroup::strips</a></div><div class="ttdeci">std::vector&lt; Strip &gt; strips</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00064">VTX.h:64</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1StripGroup_html_afacb09652d8fabe26469cf01fc1c0b9e"><div class="ttname"><a href="../../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#afacb09652d8fabe26469cf01fc1c0b9e">mdlpp::VTX::StripGroup::vertices</a></div><div class="ttdeci">std::vector&lt; Vertex &gt; vertices</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00056">VTX.h:56</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html">mdlpp::VTX::Strip</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00019">VTX.h:19</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_a2dbfa2ed6b17b60ae837fd691d1893a7"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a2dbfa2ed6b17b60ae837fd691d1893a7">mdlpp::VTX::Strip::indicesOffset</a></div><div class="ttdeci">int32_t indicesOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00027">VTX.h:27</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_a4b65d00558c0abbb2bc8377d24dc0cf3"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a4b65d00558c0abbb2bc8377d24dc0cf3">mdlpp::VTX::Strip::verticesOffset</a></div><div class="ttdeci">int32_t verticesOffset</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00031">VTX.h:31</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_a5c34ebd532999f86697b6dc8c07d51d2"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a5c34ebd532999f86697b6dc8c07d51d2">mdlpp::VTX::Strip::indices</a></div><div class="ttdeci">std::span&lt; uint16_t &gt; indices</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00028">VTX.h:28</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_ab08713ff5399fee12b1f632f585fe3c9"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ab08713ff5399fee12b1f632f585fe3c9">mdlpp::VTX::Strip::boneCount</a></div><div class="ttdeci">int16_t boneCount</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00034">VTX.h:34</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_ac3016745d78f2fdaf9fcc5a8dc41231d"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#ac3016745d78f2fdaf9fcc5a8dc41231d">mdlpp::VTX::Strip::flags</a></div><div class="ttdeci">Flags flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00035">VTX.h:35</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_af5e4753bf8a54a9f275008fcec4e9a1b"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1b">mdlpp::VTX::Strip::Flags</a></div><div class="ttdeci">Flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00020">VTX.h:20</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_af5e4753bf8a54a9f275008fcec4e9a1ba6112d41cd3d85df192645daf6941b4a1"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba6112d41cd3d85df192645daf6941b4a1">mdlpp::VTX::Strip::FLAG_IS_TRILIST</a></div><div class="ttdeci">@ FLAG_IS_TRILIST</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00022">VTX.h:22</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_af5e4753bf8a54a9f275008fcec4e9a1ba8083e5cf93c5fe2123e5dae37af3ffc6"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1ba8083e5cf93c5fe2123e5dae37af3ffc6">mdlpp::VTX::Strip::FLAG_NONE</a></div><div class="ttdeci">@ FLAG_NONE</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00021">VTX.h:21</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_af5e4753bf8a54a9f275008fcec4e9a1baabc2567536330828c9b6c7a99449ab81"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#af5e4753bf8a54a9f275008fcec4e9a1baabc2567536330828c9b6c7a99449ab81">mdlpp::VTX::Strip::FLAG_IS_TRISTRIP</a></div><div class="ttdeci">@ FLAG_IS_TRISTRIP</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00023">VTX.h:23</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Strip_html_afd165a6420d27fdefd83d754d3fd9580"><div class="ttname"><a href="../../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#afd165a6420d27fdefd83d754d3fd9580">mdlpp::VTX::Strip::vertices</a></div><div class="ttdeci">std::span&lt; Vertex &gt; vertices</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00032">VTX.h:32</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html">mdlpp::VTX::VTX</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00107">VTX.h:107</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_a260397683682e76f16fa4eac44920da5"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5">mdlpp::VTX::VTX::numLODs</a></div><div class="ttdeci">int32_t numLODs</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00116">VTX.h:116</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_a2fd01a79f83dd3cc41bc793098d29ffc"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a2fd01a79f83dd3cc41bc793098d29ffc">mdlpp::VTX::VTX::vertexCacheSize</a></div><div class="ttdeci">int32_t vertexCacheSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00111">VTX.h:111</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_a42bfa71e1d5b0ab66ee1310f87a0f560"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a42bfa71e1d5b0ab66ee1310f87a0f560">mdlpp::VTX::VTX::version</a></div><div class="ttdeci">int32_t version</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00110">VTX.h:110</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_a828363379c84fa6c96346762094d1862"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a828363379c84fa6c96346762094d1862">mdlpp::VTX::VTX::bodyParts</a></div><div class="ttdeci">std::vector&lt; BodyPart &gt; bodyParts</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00122">VTX.h:122</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_a9bcd0a38e476938ebf494b5ac62aeb7d"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a9bcd0a38e476938ebf494b5ac62aeb7d">mdlpp::VTX::VTX::maxBonesPerTriangle</a></div><div class="ttdeci">uint16_t maxBonesPerTriangle</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00113">VTX.h:113</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_ad647f2431535be4ee078cc6a5e016e99"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad647f2431535be4ee078cc6a5e016e99">mdlpp::VTX::VTX::maxBonesPerVertex</a></div><div class="ttdeci">int32_t maxBonesPerVertex</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00114">VTX.h:114</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_ad906bc0368b0d245b9de497b8d4d9e5a"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad906bc0368b0d245b9de497b8d4d9e5a">mdlpp::VTX::VTX::open</a></div><div class="ttdeci">bool open(const std::byte *data, std::size_t size, const MDL::MDL &amp;mdl)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d1f/VTX_8cpp_source.html#l00007">VTX.cpp:7</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1VTX_html_af5dd6c0a837f69fa6561430ae0f29c7b"><div class="ttname"><a href="../../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#af5dd6c0a837f69fa6561430ae0f29c7b">mdlpp::VTX::VTX::maxBonesPerStrip</a></div><div class="ttdeci">uint16_t maxBonesPerStrip</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00112">VTX.h:112</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Vertex_html"><div class="ttname"><a href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html">mdlpp::VTX::Vertex</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00012">VTX.h:12</a></div></div>
+<div class="ttc" id="astructmdlpp_1_1VTX_1_1Vertex_html_a3e31337035e0d13c0f75f30562b332de"><div class="ttname"><a href="../../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html#a3e31337035e0d13c0f75f30562b332de">mdlpp::VTX::Vertex::meshVertexID</a></div><div class="ttdeci">uint16_t meshVertexID</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/de1/VTX_8h_source.html#l00015">VTX.h:15</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_539c70858d2f02a5793d29fe0a554ed0.html">mdlpp</a></li><li class="navelem"><a class="el" href="../../dir_caa5f42b8ea9c0679f669a739a2e38d3.html">structs</a></li><li class="navelem"><a class="el" href="../../d8/de1/VTX_8h.html">VTX.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

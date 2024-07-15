@@ -1,0 +1,39 @@
+var namespacesourcepp =
+[
+    [ "crypto", "db/d83/namespacesourcepp_1_1crypto.html", [
+      [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260", null ],
+      [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564", null ],
+      [ "computeCRC32", "db/d83/namespacesourcepp_1_1crypto.html#a6818bbd0d47838fd9e94e2d9a942f06a", null ],
+      [ "computeCRC32", "db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43", null ],
+      [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a788b3d4c0030bf2311e4da600371c89b", null ],
+      [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00", null ],
+      [ "computeSHA256KeyPair", "db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5", null ],
+      [ "decodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#af0f8f739fd07fe6acd369b64dd32136f", null ],
+      [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
+      [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583", null ]
+    ] ],
+    [ "fs", "d9/dd6/namespacesourcepp_1_1fs.html", [
+      [ "readFileBuffer", "d9/dd6/namespacesourcepp_1_1fs.html#a0758fa851da9a8730cc927691999b5c6", null ],
+      [ "readFileText", "d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f", null ]
+    ] ],
+    [ "math", "d0/d54/namespacesourcepp_1_1math.html", "d0/d54/namespacesourcepp_1_1math" ],
+    [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", "d5/d3c/namespacesourcepp_1_1parser" ],
+    [ "string", "d0/d5a/namespacesourcepp_1_1string.html", [
+      [ "contains", "d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167", null ],
+      [ "createRandom", "d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d", null ],
+      [ "denormalizeSlashes", "d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648", null ],
+      [ "generateUUIDv4", "d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1", null ],
+      [ "iequals", "d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637", null ],
+      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a", null ],
+      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a20985657fad63e39902dd418bc200b2a", null ],
+      [ "normalizeSlashes", "d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8", null ],
+      [ "padNumber", "d0/d5a/namespacesourcepp_1_1string.html#aed4342e48d640f37f8d00c7b5d04a09b", null ],
+      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b", null ],
+      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a549562b2a5031cf30461c3bb6693fcad", null ],
+      [ "split", "d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca", null ],
+      [ "toLower", "d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614", null ],
+      [ "toUpper", "d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e", null ],
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6", null ],
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#ab6e59886204ab33f71e1e1407f3d7241", null ]
+    ] ]
+];

@@ -1,0 +1,923 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: sourcepp::math Namespace Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d0/d54/namespacesourcepp_1_1math.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle">
+<div class="title">sourcepp::math Namespace Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html">QuatCompressed48</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lower precision Quat compressed to 6 bytes.  <a href="../../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html">QuatCompressed64</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Lower precision Quat compressed to 8 bytes.  <a href="../../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html">FloatCompressed16</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d4b/classsourcepp_1_1math_1_1Matrix.html">Matrix</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4567339d60c6b18585b7b92f33d761f8"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8">EulerAngles</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">Vec3f</a></td></tr>
+<tr class="separator:a4567339d60c6b18585b7b92f33d761f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1646b9032a280749abf282f9dcf922"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922">Quat</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">Vec4f</a></td></tr>
+<tr class="separator:a3c1646b9032a280749abf282f9dcf922"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09e4cd55da025a9ddbf6adf6a6774c8b"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a09e4cd55da025a9ddbf6adf6a6774c8b">Vec2i8</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; int8_t &gt;</td></tr>
+<tr class="separator:a09e4cd55da025a9ddbf6adf6a6774c8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d8cd6f583c7e69ae4d8f795fa08ba51"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3d8cd6f583c7e69ae4d8f795fa08ba51">Vec2i16</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; int16_t &gt;</td></tr>
+<tr class="separator:a3d8cd6f583c7e69ae4d8f795fa08ba51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02a5f40498f949c3fad7569f91accb40"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a02a5f40498f949c3fad7569f91accb40">Vec2i32</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; int32_t &gt;</td></tr>
+<tr class="separator:a02a5f40498f949c3fad7569f91accb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ace1da9d92bfe20ea40dde22d740a93d5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ace1da9d92bfe20ea40dde22d740a93d5">Vec2i64</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; int64_t &gt;</td></tr>
+<tr class="separator:ace1da9d92bfe20ea40dde22d740a93d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf828fb745b3dd8983d0fb259d985662"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#abf828fb745b3dd8983d0fb259d985662">Vec2i</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a02a5f40498f949c3fad7569f91accb40">Vec2i32</a></td></tr>
+<tr class="separator:abf828fb745b3dd8983d0fb259d985662"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70c03d61a7f775dd0b6b129ccc516507"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a70c03d61a7f775dd0b6b129ccc516507">Vec2ui8</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; uint8_t &gt;</td></tr>
+<tr class="separator:a70c03d61a7f775dd0b6b129ccc516507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a680b0ef95bdddf049a033a9bd9c62edd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a680b0ef95bdddf049a033a9bd9c62edd">Vec2ui16</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; uint16_t &gt;</td></tr>
+<tr class="separator:a680b0ef95bdddf049a033a9bd9c62edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1b7d1d80e6b15cef9b5ad4c6014a128"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa1b7d1d80e6b15cef9b5ad4c6014a128">Vec2ui32</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; uint32_t &gt;</td></tr>
+<tr class="separator:aa1b7d1d80e6b15cef9b5ad4c6014a128"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88ec30817b17aa4892854d8ac6fbba50"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a88ec30817b17aa4892854d8ac6fbba50">Vec2ui64</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; uint64_t &gt;</td></tr>
+<tr class="separator:a88ec30817b17aa4892854d8ac6fbba50"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d34b5b87e15c528d2e872739b04e025"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3d34b5b87e15c528d2e872739b04e025">Vec2ui</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa1b7d1d80e6b15cef9b5ad4c6014a128">Vec2ui32</a></td></tr>
+<tr class="separator:a3d34b5b87e15c528d2e872739b04e025"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b42a9b5e9572b0c558400d8fe747516"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a8b42a9b5e9572b0c558400d8fe747516">Vec2f32</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; float &gt;</td></tr>
+<tr class="separator:a8b42a9b5e9572b0c558400d8fe747516"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab278810c8d44763c87a21dea236e8c25"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ab278810c8d44763c87a21dea236e8c25">Vec2f64</a> = <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt; double &gt;</td></tr>
+<tr class="separator:ab278810c8d44763c87a21dea236e8c25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a06f7e150b307eddfba94b18ac5ef8430"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a06f7e150b307eddfba94b18ac5ef8430">Vec2f</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a8b42a9b5e9572b0c558400d8fe747516">Vec2f32</a></td></tr>
+<tr class="separator:a06f7e150b307eddfba94b18ac5ef8430"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6387c18b66dd49ab6c2a01a56b624933"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a6387c18b66dd49ab6c2a01a56b624933">Vec3i8</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; int8_t &gt;</td></tr>
+<tr class="separator:a6387c18b66dd49ab6c2a01a56b624933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a91eed126028a4fbbad1ff8efa18c446c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a91eed126028a4fbbad1ff8efa18c446c">Vec3i16</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; int16_t &gt;</td></tr>
+<tr class="separator:a91eed126028a4fbbad1ff8efa18c446c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaac31b88452132190f1d7b0c79bd03a1"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aaac31b88452132190f1d7b0c79bd03a1">Vec3i32</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; int32_t &gt;</td></tr>
+<tr class="separator:aaac31b88452132190f1d7b0c79bd03a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9be9d9388e7540a509d34d5521ff4d7"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#af9be9d9388e7540a509d34d5521ff4d7">Vec3i64</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; int64_t &gt;</td></tr>
+<tr class="separator:af9be9d9388e7540a509d34d5521ff4d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95e6d4fc77fef968a64ad5965f077edd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a95e6d4fc77fef968a64ad5965f077edd">Vec3i</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aaac31b88452132190f1d7b0c79bd03a1">Vec3i32</a></td></tr>
+<tr class="separator:a95e6d4fc77fef968a64ad5965f077edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb6a50d83dde8498b77a158c90e1cb70"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aeb6a50d83dde8498b77a158c90e1cb70">Vec3ui8</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; uint8_t &gt;</td></tr>
+<tr class="separator:aeb6a50d83dde8498b77a158c90e1cb70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6222352dcc9aad7dd2231a10ff72a114"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a6222352dcc9aad7dd2231a10ff72a114">Vec3ui16</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; uint16_t &gt;</td></tr>
+<tr class="separator:a6222352dcc9aad7dd2231a10ff72a114"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72933b7740ea71ac56af53975c70e596"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a72933b7740ea71ac56af53975c70e596">Vec3ui32</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; uint32_t &gt;</td></tr>
+<tr class="separator:a72933b7740ea71ac56af53975c70e596"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0534d494ef593773b1e08f492ad1fd3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa0534d494ef593773b1e08f492ad1fd3">Vec3ui64</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; uint64_t &gt;</td></tr>
+<tr class="separator:aa0534d494ef593773b1e08f492ad1fd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afc4154d2ce442267e98393089794151f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#afc4154d2ce442267e98393089794151f">Vec3ui</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a72933b7740ea71ac56af53975c70e596">Vec3ui32</a></td></tr>
+<tr class="separator:afc4154d2ce442267e98393089794151f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ecc4733c232751d5d5ecf290ae0698e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a2ecc4733c232751d5d5ecf290ae0698e">Vec3f32</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; float &gt;</td></tr>
+<tr class="separator:a2ecc4733c232751d5d5ecf290ae0698e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac017ddbb787aeb4ebbb3d002f9dfed40"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac017ddbb787aeb4ebbb3d002f9dfed40">Vec3f64</a> = <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt; double &gt;</td></tr>
+<tr class="separator:ac017ddbb787aeb4ebbb3d002f9dfed40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae691c07e4433c5a083247c5e240ca9f3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">Vec3f</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a2ecc4733c232751d5d5ecf290ae0698e">Vec3f32</a></td></tr>
+<tr class="separator:ae691c07e4433c5a083247c5e240ca9f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a834eb67d10a85547782bf63b9fd14385"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a834eb67d10a85547782bf63b9fd14385">Vec4i8</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; int8_t &gt;</td></tr>
+<tr class="separator:a834eb67d10a85547782bf63b9fd14385"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38b5e74d8f4202bf4187a11508b232ca"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a38b5e74d8f4202bf4187a11508b232ca">Vec4i16</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; int16_t &gt;</td></tr>
+<tr class="separator:a38b5e74d8f4202bf4187a11508b232ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac70f4801a883c2cac51b3fc267491f26"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac70f4801a883c2cac51b3fc267491f26">Vec4i32</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; int32_t &gt;</td></tr>
+<tr class="separator:ac70f4801a883c2cac51b3fc267491f26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec1e3d46238c3a21c22303f4ca9b57a5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aec1e3d46238c3a21c22303f4ca9b57a5">Vec4i64</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; int64_t &gt;</td></tr>
+<tr class="separator:aec1e3d46238c3a21c22303f4ca9b57a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f0f3e06ee32e9394826f867defee9df"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a9f0f3e06ee32e9394826f867defee9df">Vec4i</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac70f4801a883c2cac51b3fc267491f26">Vec4i32</a></td></tr>
+<tr class="separator:a9f0f3e06ee32e9394826f867defee9df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba5e0c824fd08d466c86c87849b898b2"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aba5e0c824fd08d466c86c87849b898b2">Vec4ui8</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; uint8_t &gt;</td></tr>
+<tr class="separator:aba5e0c824fd08d466c86c87849b898b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdc274bbaabf76ce7e899bd8510a12fc"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#afdc274bbaabf76ce7e899bd8510a12fc">Vec4ui16</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; uint16_t &gt;</td></tr>
+<tr class="separator:afdc274bbaabf76ce7e899bd8510a12fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6ef5d47556a7a364114c793ea56a0ab"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab">Vec4ui32</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; uint32_t &gt;</td></tr>
+<tr class="separator:aa6ef5d47556a7a364114c793ea56a0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68a1cc43e9dcd54def87c4f9c9d9a1a5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a68a1cc43e9dcd54def87c4f9c9d9a1a5">Vec4ui64</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; uint64_t &gt;</td></tr>
+<tr class="separator:a68a1cc43e9dcd54def87c4f9c9d9a1a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e7a20fe0b15519da42ea6f430d2477"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ab5e7a20fe0b15519da42ea6f430d2477">Vec4ui</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab">Vec4ui32</a></td></tr>
+<tr class="separator:ab5e7a20fe0b15519da42ea6f430d2477"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac59f32c235d14c10df1487ef9238bc16"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac59f32c235d14c10df1487ef9238bc16">Vec4f32</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; float &gt;</td></tr>
+<tr class="separator:ac59f32c235d14c10df1487ef9238bc16"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a094b0bc91485e32f3e9539be12d50323"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a094b0bc91485e32f3e9539be12d50323">Vec4f64</a> = <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt; double &gt;</td></tr>
+<tr class="separator:a094b0bc91485e32f3e9539be12d50323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a322f6c31a1c6ad1adbbcfa3b984902"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">Vec4f</a> = <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac59f32c235d14c10df1487ef9238bc16">Vec4f32</a></td></tr>
+<tr class="separator:a0a322f6c31a1c6ad1adbbcfa3b984902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482">Arithmetic</a> = std::is_arithmetic_v&lt;T&gt;</td></tr>
+<tr class="separator:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a4567339d60c6b18585b7b92f33d761f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4567339d60c6b18585b7b92f33d761f8">&#9670;&nbsp;</a></span>EulerAngles</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8">sourcepp::math::EulerAngles</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">Vec3f</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d79/Angles_8h_source.html#l00009">9</a> of file <a class="el" href="../../dd/d79/Angles_8h_source.html">Angles.h</a>.</p>
+
+</div>
+</div>
+<a id="a3c1646b9032a280749abf282f9dcf922"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c1646b9032a280749abf282f9dcf922">&#9670;&nbsp;</a></span>Quat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922">sourcepp::math::Quat</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">Vec4f</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d79/Angles_8h_source.html#l00011">11</a> of file <a class="el" href="../../dd/d79/Angles_8h_source.html">Angles.h</a>.</p>
+
+</div>
+</div>
+<a id="a06f7e150b307eddfba94b18ac5ef8430"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06f7e150b307eddfba94b18ac5ef8430">&#9670;&nbsp;</a></span>Vec2f</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a06f7e150b307eddfba94b18ac5ef8430">sourcepp::math::Vec2f</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a8b42a9b5e9572b0c558400d8fe747516">Vec2f32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00043">43</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a8b42a9b5e9572b0c558400d8fe747516"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b42a9b5e9572b0c558400d8fe747516">&#9670;&nbsp;</a></span>Vec2f32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a8b42a9b5e9572b0c558400d8fe747516">sourcepp::math::Vec2f32</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00041">41</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ab278810c8d44763c87a21dea236e8c25"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab278810c8d44763c87a21dea236e8c25">&#9670;&nbsp;</a></span>Vec2f64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ab278810c8d44763c87a21dea236e8c25">sourcepp::math::Vec2f64</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;double&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00042">42</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="abf828fb745b3dd8983d0fb259d985662"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf828fb745b3dd8983d0fb259d985662">&#9670;&nbsp;</a></span>Vec2i</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#abf828fb745b3dd8983d0fb259d985662">sourcepp::math::Vec2i</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a02a5f40498f949c3fad7569f91accb40">Vec2i32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00033">33</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a3d8cd6f583c7e69ae4d8f795fa08ba51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d8cd6f583c7e69ae4d8f795fa08ba51">&#9670;&nbsp;</a></span>Vec2i16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3d8cd6f583c7e69ae4d8f795fa08ba51">sourcepp::math::Vec2i16</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;int16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00030">30</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a02a5f40498f949c3fad7569f91accb40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02a5f40498f949c3fad7569f91accb40">&#9670;&nbsp;</a></span>Vec2i32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a02a5f40498f949c3fad7569f91accb40">sourcepp::math::Vec2i32</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;int32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00031">31</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ace1da9d92bfe20ea40dde22d740a93d5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ace1da9d92bfe20ea40dde22d740a93d5">&#9670;&nbsp;</a></span>Vec2i64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ace1da9d92bfe20ea40dde22d740a93d5">sourcepp::math::Vec2i64</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;int64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00032">32</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a09e4cd55da025a9ddbf6adf6a6774c8b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09e4cd55da025a9ddbf6adf6a6774c8b">&#9670;&nbsp;</a></span>Vec2i8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a09e4cd55da025a9ddbf6adf6a6774c8b">sourcepp::math::Vec2i8</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;int8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00029">29</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a3d34b5b87e15c528d2e872739b04e025"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d34b5b87e15c528d2e872739b04e025">&#9670;&nbsp;</a></span>Vec2ui</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3d34b5b87e15c528d2e872739b04e025">sourcepp::math::Vec2ui</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa1b7d1d80e6b15cef9b5ad4c6014a128">Vec2ui32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00039">39</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a680b0ef95bdddf049a033a9bd9c62edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a680b0ef95bdddf049a033a9bd9c62edd">&#9670;&nbsp;</a></span>Vec2ui16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a680b0ef95bdddf049a033a9bd9c62edd">sourcepp::math::Vec2ui16</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;uint16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00036">36</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aa1b7d1d80e6b15cef9b5ad4c6014a128"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa1b7d1d80e6b15cef9b5ad4c6014a128">&#9670;&nbsp;</a></span>Vec2ui32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa1b7d1d80e6b15cef9b5ad4c6014a128">sourcepp::math::Vec2ui32</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;uint32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00037">37</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a88ec30817b17aa4892854d8ac6fbba50"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88ec30817b17aa4892854d8ac6fbba50">&#9670;&nbsp;</a></span>Vec2ui64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a88ec30817b17aa4892854d8ac6fbba50">sourcepp::math::Vec2ui64</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;uint64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00038">38</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a70c03d61a7f775dd0b6b129ccc516507"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70c03d61a7f775dd0b6b129ccc516507">&#9670;&nbsp;</a></span>Vec2ui8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a70c03d61a7f775dd0b6b129ccc516507">sourcepp::math::Vec2ui8</a> = typedef <a class="el" href="../../d0/d8e/structsourcepp_1_1math_1_1Vec2.html">Vec2</a>&lt;uint8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00035">35</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ae691c07e4433c5a083247c5e240ca9f3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae691c07e4433c5a083247c5e240ca9f3">&#9670;&nbsp;</a></span>Vec3f</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ae691c07e4433c5a083247c5e240ca9f3">sourcepp::math::Vec3f</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a2ecc4733c232751d5d5ecf290ae0698e">Vec3f32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00082">82</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a2ecc4733c232751d5d5ecf290ae0698e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2ecc4733c232751d5d5ecf290ae0698e">&#9670;&nbsp;</a></span>Vec3f32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a2ecc4733c232751d5d5ecf290ae0698e">sourcepp::math::Vec3f32</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00080">80</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ac017ddbb787aeb4ebbb3d002f9dfed40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac017ddbb787aeb4ebbb3d002f9dfed40">&#9670;&nbsp;</a></span>Vec3f64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac017ddbb787aeb4ebbb3d002f9dfed40">sourcepp::math::Vec3f64</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;double&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00081">81</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a95e6d4fc77fef968a64ad5965f077edd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a95e6d4fc77fef968a64ad5965f077edd">&#9670;&nbsp;</a></span>Vec3i</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a95e6d4fc77fef968a64ad5965f077edd">sourcepp::math::Vec3i</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aaac31b88452132190f1d7b0c79bd03a1">Vec3i32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00072">72</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a91eed126028a4fbbad1ff8efa18c446c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a91eed126028a4fbbad1ff8efa18c446c">&#9670;&nbsp;</a></span>Vec3i16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a91eed126028a4fbbad1ff8efa18c446c">sourcepp::math::Vec3i16</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;int16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00069">69</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aaac31b88452132190f1d7b0c79bd03a1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaac31b88452132190f1d7b0c79bd03a1">&#9670;&nbsp;</a></span>Vec3i32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aaac31b88452132190f1d7b0c79bd03a1">sourcepp::math::Vec3i32</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;int32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00070">70</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="af9be9d9388e7540a509d34d5521ff4d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af9be9d9388e7540a509d34d5521ff4d7">&#9670;&nbsp;</a></span>Vec3i64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#af9be9d9388e7540a509d34d5521ff4d7">sourcepp::math::Vec3i64</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;int64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00071">71</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a6387c18b66dd49ab6c2a01a56b624933"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6387c18b66dd49ab6c2a01a56b624933">&#9670;&nbsp;</a></span>Vec3i8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a6387c18b66dd49ab6c2a01a56b624933">sourcepp::math::Vec3i8</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;int8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00068">68</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="afc4154d2ce442267e98393089794151f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afc4154d2ce442267e98393089794151f">&#9670;&nbsp;</a></span>Vec3ui</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#afc4154d2ce442267e98393089794151f">sourcepp::math::Vec3ui</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a72933b7740ea71ac56af53975c70e596">Vec3ui32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00078">78</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a6222352dcc9aad7dd2231a10ff72a114"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6222352dcc9aad7dd2231a10ff72a114">&#9670;&nbsp;</a></span>Vec3ui16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a6222352dcc9aad7dd2231a10ff72a114">sourcepp::math::Vec3ui16</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;uint16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00075">75</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a72933b7740ea71ac56af53975c70e596"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a72933b7740ea71ac56af53975c70e596">&#9670;&nbsp;</a></span>Vec3ui32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a72933b7740ea71ac56af53975c70e596">sourcepp::math::Vec3ui32</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;uint32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00076">76</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aa0534d494ef593773b1e08f492ad1fd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0534d494ef593773b1e08f492ad1fd3">&#9670;&nbsp;</a></span>Vec3ui64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa0534d494ef593773b1e08f492ad1fd3">sourcepp::math::Vec3ui64</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;uint64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00077">77</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aeb6a50d83dde8498b77a158c90e1cb70"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aeb6a50d83dde8498b77a158c90e1cb70">&#9670;&nbsp;</a></span>Vec3ui8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aeb6a50d83dde8498b77a158c90e1cb70">sourcepp::math::Vec3ui8</a> = typedef <a class="el" href="../../d1/dff/structsourcepp_1_1math_1_1Vec3.html">Vec3</a>&lt;uint8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00074">74</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a0a322f6c31a1c6ad1adbbcfa3b984902"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a322f6c31a1c6ad1adbbcfa3b984902">&#9670;&nbsp;</a></span>Vec4f</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a0a322f6c31a1c6ad1adbbcfa3b984902">sourcepp::math::Vec4f</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac59f32c235d14c10df1487ef9238bc16">Vec4f32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00122">122</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ac59f32c235d14c10df1487ef9238bc16"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac59f32c235d14c10df1487ef9238bc16">&#9670;&nbsp;</a></span>Vec4f32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac59f32c235d14c10df1487ef9238bc16">sourcepp::math::Vec4f32</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;float&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00120">120</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a094b0bc91485e32f3e9539be12d50323"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a094b0bc91485e32f3e9539be12d50323">&#9670;&nbsp;</a></span>Vec4f64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a094b0bc91485e32f3e9539be12d50323">sourcepp::math::Vec4f64</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;double&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00121">121</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a9f0f3e06ee32e9394826f867defee9df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9f0f3e06ee32e9394826f867defee9df">&#9670;&nbsp;</a></span>Vec4i</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a9f0f3e06ee32e9394826f867defee9df">sourcepp::math::Vec4i</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac70f4801a883c2cac51b3fc267491f26">Vec4i32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00112">112</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a38b5e74d8f4202bf4187a11508b232ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38b5e74d8f4202bf4187a11508b232ca">&#9670;&nbsp;</a></span>Vec4i16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a38b5e74d8f4202bf4187a11508b232ca">sourcepp::math::Vec4i16</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;int16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00109">109</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ac70f4801a883c2cac51b3fc267491f26"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac70f4801a883c2cac51b3fc267491f26">&#9670;&nbsp;</a></span>Vec4i32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ac70f4801a883c2cac51b3fc267491f26">sourcepp::math::Vec4i32</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;int32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00110">110</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aec1e3d46238c3a21c22303f4ca9b57a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec1e3d46238c3a21c22303f4ca9b57a5">&#9670;&nbsp;</a></span>Vec4i64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aec1e3d46238c3a21c22303f4ca9b57a5">sourcepp::math::Vec4i64</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;int64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00111">111</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a834eb67d10a85547782bf63b9fd14385"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a834eb67d10a85547782bf63b9fd14385">&#9670;&nbsp;</a></span>Vec4i8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a834eb67d10a85547782bf63b9fd14385">sourcepp::math::Vec4i8</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;int8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00108">108</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="ab5e7a20fe0b15519da42ea6f430d2477"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5e7a20fe0b15519da42ea6f430d2477">&#9670;&nbsp;</a></span>Vec4ui</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ab5e7a20fe0b15519da42ea6f430d2477">sourcepp::math::Vec4ui</a> = typedef <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab">Vec4ui32</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00118">118</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="afdc274bbaabf76ce7e899bd8510a12fc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afdc274bbaabf76ce7e899bd8510a12fc">&#9670;&nbsp;</a></span>Vec4ui16</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#afdc274bbaabf76ce7e899bd8510a12fc">sourcepp::math::Vec4ui16</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;uint16_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00115">115</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aa6ef5d47556a7a364114c793ea56a0ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6ef5d47556a7a364114c793ea56a0ab">&#9670;&nbsp;</a></span>Vec4ui32</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab">sourcepp::math::Vec4ui32</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;uint32_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00116">116</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a68a1cc43e9dcd54def87c4f9c9d9a1a5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a68a1cc43e9dcd54def87c4f9c9d9a1a5">&#9670;&nbsp;</a></span>Vec4ui64</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a68a1cc43e9dcd54def87c4f9c9d9a1a5">sourcepp::math::Vec4ui64</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;uint64_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00117">117</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="aba5e0c824fd08d466c86c87849b898b2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba5e0c824fd08d466c86c87849b898b2">&#9670;&nbsp;</a></span>Vec4ui8</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#aba5e0c824fd08d466c86c87849b898b2">sourcepp::math::Vec4ui8</a> = typedef <a class="el" href="../../de/de5/structsourcepp_1_1math_1_1Vec4.html">Vec4</a>&lt;uint8_t&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00114">114</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a3a81f3ba65bab66d6d6521b0358dc482"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3a81f3ba65bab66d6d6521b0358dc482">&#9670;&nbsp;</a></span>Arithmetic</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept sourcepp::math::Arithmetic = std::is_arithmetic_v&lt;T&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dac/Integer_8h_source.html#l00019">19</a> of file <a class="el" href="../../d6/dac/Integer_8h_source.html">Integer.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d2/deb/namespacesourcepp.html">sourcepp</a></li><li class="navelem"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html">math</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

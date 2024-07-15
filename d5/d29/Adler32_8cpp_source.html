@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: src/sourcepp/crypto/Adler32.cpp Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/jothepro/doxygen-awesome-css" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d5/d29/Adler32_8cpp_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">Adler32.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d5/d29/Adler32_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * Copyright notice:</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * (C) 1995-2024 Jean-loup Gailly and Mark Adler</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"> * This software is provided &#39;as-is&#39;, without any express or implied</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"> * warranty.  In no event will the authors be held liable for any damages</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"> * arising from the use of this software.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"> * Permission is granted to anyone to use this software for any purpose,</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"> * including commercial applications, and to alter it and redistribute it</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"> * freely, subject to the following restrictions:</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * 1. The origin of this software must not be misrepresented; you must not</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> *    claim that you wrote the original software. If you use this software</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> *    in a product, an acknowledgment in the product documentation would be</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> *    appreciated but is not required.</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * 2. Altered source versions must be plainly marked as such, and must not be</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *    misrepresented as being the original software.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> * 3. This notice may not be removed or altered from any source distribution.</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * Jean-loup Gailly        Mark Adler</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * jloup@gzip.org          madler@alumni.caltech.edu</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dc/d15/Adler32_8h.html">sourcepp/crypto/Adler32.h</a>&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d2/deb/namespacesourcepp.html">sourcepp</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">   30</a></span>&#160;constexpr uint32_t <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a> = 65521u;    <span class="comment">/* largest prime smaller than 65536 */</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">   31</a></span>&#160;constexpr std::size_t <a class="code" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a> = 5552u;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a0827ad38dd8ba0016f8490d4d835ee4c">   33</a></span>&#160;<span class="preprocessor">#define DO1(buffer,i)  {adler += static_cast&lt;unsigned char&gt;((buffer)[i]); sum2 += adler;}</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a92545aefc770f57bafab7e0834885f9d">   34</a></span>&#160;<span class="preprocessor">#define DO2(buffer,i)  DO1(buffer,i) DO1(buffer,i+1)</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a4a66e7bd23c2cc995839183a07724e67">   35</a></span>&#160;<span class="preprocessor">#define DO4(buffer,i)  DO2(buffer,i) DO2(buffer,i+2)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a095de11a8bdd0f9e1d48cda9728cd931">   36</a></span>&#160;<span class="preprocessor">#define DO8(buffer,i)  DO4(buffer,i) DO4(buffer,i+4)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">   37</a></span>&#160;<span class="preprocessor">#define DO16(buffer)   DO8(buffer,0) DO8(buffer,8)</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">   39</a></span>&#160;uint32_t <a class="code" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">crypto::computeAdler32</a>(<span class="keyword">const</span> std::vector&lt;std::byte&gt;&amp; buffer) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">computeAdler32</a>(buffer.data(), buffer.size());</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260">   43</a></span>&#160;uint32_t <a class="code" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">crypto::computeAdler32</a>(<span class="keyword">const</span> std::byte* buffer, std::size_t len) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    uint32_t adler = 0;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">/* split Adler-32 into component sums */</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    uint32_t sum2 = (adler &gt;&gt; 16) &amp; 0xffff;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    adler &amp;= 0xffff;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">/* in case user likes doing a byte at a time, keep it fast */</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (len == 1) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(buffer[0]);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span> (adler &gt;= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            adler -= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        sum2 += adler;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> (sum2 &gt;= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            sum2 -= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">/* initial Adler-32 value (deferred check for len == 1 speed) */</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span> (!buffer)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> 1L;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">/* in case short lengths are provided, keep it somewhat fast */</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (len &lt; 16) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">while</span> (len--) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*buffer++);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            sum2 += adler;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (adler &gt;= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            adler -= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        sum2 %= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;            <span class="comment">/* only added so many BASE&#39;s */</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">/* do length NMAX blocks -- requires just one modulo operation */</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">while</span> (len &gt;= <a class="code" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        len -= <a class="code" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        uint32_t n = <a class="code" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a> / 16;    <span class="comment">/* NMAX is divisible by 16 */</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">do</span> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <a class="code" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)           <span class="comment">/* 16 sums unrolled */</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            buffer += 16;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        } <span class="keywordflow">while</span> (--n);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        adler %= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        sum2 %= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">/* do remaining bytes (less than NMAX, still just one modulo) */</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (len) {                  <span class="comment">/* avoid modulos if none remaining */</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">while</span> (len &gt;= 16) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            len -= 16;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <a class="code" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            buffer += 16;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">while</span> (len--) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*buffer++);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            sum2 += adler;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        adler %= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        sum2 %= <a class="code" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">/* return recombined sums */</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
+<div class="ttc" id="aAdler32_8cpp_html_a9549fb44dc51fb8710d5d6dee5d99d10"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a></div><div class="ttdeci">constexpr uint32_t BASE</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00030">Adler32.cpp:30</a></div></div>
+<div class="ttc" id="aAdler32_8cpp_html_ac720f76bf5bff280b6733b00b2e331e5"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a></div><div class="ttdeci">#define DO16(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00037">Adler32.cpp:37</a></div></div>
+<div class="ttc" id="aAdler32_8cpp_html_ad5a91fdaa1c4a0f44c6c533db1bd99b3"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a></div><div class="ttdeci">constexpr std::size_t NMAX</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00031">Adler32.cpp:31</a></div></div>
+<div class="ttc" id="aAdler32_8h_html"><div class="ttname"><a href="../../dc/d15/Adler32_8h.html">Adler32.h</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1crypto_html_a44a81bc09c814c0501ecff4bd3816564"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">sourcepp::crypto::computeAdler32</a></div><div class="ttdeci">uint32_t computeAdler32(const std::vector&lt; std::byte &gt; &amp;buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00039">Adler32.cpp:39</a></div></div>
+<div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/Adler32_8h_source.html#l00008">Adler32.h:8</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_9f5bf34566586b21a18e06975bae6a28.html">sourcepp</a></li><li class="navelem"><a class="el" href="../../dir_fd94808f06d8f800c55f47ae464ed095.html">crypto</a></li><li class="navelem"><a class="el" href="../../d5/d29/Adler32_8cpp.html">Adler32.cpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>
