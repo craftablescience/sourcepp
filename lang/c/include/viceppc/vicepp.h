@@ -21,6 +21,7 @@
 #define VICEPP_KNOWN_CODES_LEFT_4_DEAD_2                   "SDhfi878"
 #define VICEPP_KNOWN_CODES_NO_MORE_ROOM_IN_HELL            "lREeeapA"
 #define VICEPP_KNOWN_CODES_NUCLEAR_DAWN                    "TA+*veh9"
+#define VICEPP_KNOWN_CODES_TACTICAL_INTERVENTION           "71B4Dt1Z"
 #define VICEPP_KNOWN_CODES_TEAM_FORTRESS_2                 "E2NcUkG2"
 #define VICEPP_KNOWN_CODES_TEAM_FORTRESS_2_ITEMS           "A5fSXbf7"
 #define VICEPP_KNOWN_CODES_THE_SHIP                        "eb3A4m79"

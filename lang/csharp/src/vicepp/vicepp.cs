@@ -33,6 +33,7 @@ namespace vicepp
         public const string LEFT_4_DEAD_2 = "SDhfi878";
         public const string NO_MORE_ROOM_IN_HELL = "lREeeapA";
         public const string NUCLEAR_DAWN = "TA+*veh9";
+        public const string TACTICAL_INTERVENTION = "71B4Dt1Z";
         public const string TEAM_FORTRESS_2 = "E2NcUkG2";
         public const string TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
         public const string THE_SHIP = "eb3A4m79";

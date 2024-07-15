@@ -29,6 +29,7 @@ constexpr std::string_view INSURGENCY = "DrA5e3EB";
 constexpr std::string_view LEFT_4_DEAD_2 = "SDhfi878";
 constexpr std::string_view NO_MORE_ROOM_IN_HELL = "lREeeapA";
 constexpr std::string_view NUCLEAR_DAWN = "TA+*veh9";
+constexpr std::string_view TACTICAL_INTERVENTION = "71B4Dt1Z";
 constexpr std::string_view TEAM_FORTRESS_2 = "E2NcUkG2";
 constexpr std::string_view TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
 constexpr std::string_view THE_SHIP = "eb3A4m79";
