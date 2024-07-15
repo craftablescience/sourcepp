@@ -47,7 +47,7 @@ protected:
 
 	void closeZIP();
 
-	static const std::string TEMP_ZIP_PATH;
+	const std::string tempZIPPath;
 
 	void* streamHandle = nullptr;
 	bool streamOpen = false;

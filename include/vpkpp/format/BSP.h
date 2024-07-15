@@ -144,7 +144,7 @@ protected:
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
 	void moveLumpToWritableSpace(BSPLump lumpIndex, int newSize);
 
-	static const std::string TEMP_ZIP_PATH;
+	const std::string tempBSPPakLumpPath;
 
 	Header header{};
 

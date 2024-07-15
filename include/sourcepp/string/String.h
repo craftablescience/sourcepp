@@ -4,6 +4,8 @@
 #include <string_view>
 #include <vector>
 
+#include <sourcepp/math/Integer.h>
+
 namespace sourcepp::string {
 
 [[nodiscard]] bool contains(std::string_view s, char c);
@@ -27,6 +29,10 @@ void trim(std::string& s, std::string_view c);
 void toLower(std::string& input);
 
 void toUpper(std::string& input);
+
+[[nodiscard]] std::string createRandom(uint16_t length = 32, std::string_view chars = "0123456789_abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+[[nodiscard]] std::string generateUUIDv4();
 
 [[nodiscard]] std::string padNumber(int number, int width, char pad = '0');
 

@@ -15,10 +15,9 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-const std::string BSP::TEMP_ZIP_PATH = (std::filesystem::temp_directory_path() / "tmp_bsp_paklump.zip").string();
-
 BSP::BSP(const std::string& fullFilePath_, PackFileOptions options_)
-		: ZIP(fullFilePath_, options_) {
+		: ZIP(fullFilePath_, options_)
+		, tempBSPPakLumpPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::BSP;
 }
 
@@ -46,7 +45,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 	if (bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].offset == 0 || bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].length == 0) {
 		// No paklump, create an empty zip
 		void* writeStreamHandle = mz_stream_os_create();
-		if (mz_stream_os_open(writeStreamHandle, BSP::TEMP_ZIP_PATH.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
+		if (mz_stream_os_open(writeStreamHandle, bsp->tempBSPPakLumpPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
 			return nullptr;
 		}
 		void* writeZipHandle = mz_zip_writer_create();
@@ -62,15 +61,15 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		}
 		mz_stream_os_delete(&writeStreamHandle);
 	} else {
-		// Extract the paklump to a temp dir
+		// Extract the paklump to a temp file
 		reader.seek_in(bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].offset);
 		auto binData = reader.read_bytes(bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].length);
 
-		FileStream writer{BSP::TEMP_ZIP_PATH, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		FileStream writer{bsp->tempBSPPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		writer.write(binData);
 	}
 
-	if (!bsp->openZIP(BSP::TEMP_ZIP_PATH)) {
+	if (!bsp->openZIP(bsp->tempBSPPakLumpPath)) {
 		return nullptr;
 	}
 
@@ -120,7 +119,7 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Use temp folder so we can read from the current ZIP
-	if (!this->bakeTempZip(ZIP::TEMP_ZIP_PATH, callback)) {
+	if (!this->bakeTempZip(this->tempZIPPath, callback)) {
 		return false;
 	}
 	this->mergeUnbakedEntries();
@@ -129,7 +128,7 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	this->closeZIP();
 
 	// Write the pakfile lump
-	this->writeLump(BSPLump::PAKFILE, fs::readFileBuffer(ZIP::TEMP_ZIP_PATH));
+	this->writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath));
 
 	// If the output path is different, copy the entire BSP there
 	if (outputPath != this->fullFilePath) {
@@ -137,8 +136,8 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	// Rename and reopen the ZIP
-	std::filesystem::rename(ZIP::TEMP_ZIP_PATH, BSP::TEMP_ZIP_PATH);
-	if (!this->openZIP(BSP::TEMP_ZIP_PATH)) {
+	std::filesystem::rename(this->tempZIPPath, this->tempBSPPakLumpPath);
+	if (!this->openZIP(this->tempBSPPakLumpPath)) {
 		return false;
 	}
 	PackFile::setFullFilePath(outputDir);

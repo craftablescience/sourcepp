@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <random>
 #include <sstream>
 
 using namespace sourcepp;
@@ -64,6 +65,44 @@ void string::toLower(std::string& input) {
 
 void string::toUpper(std::string& input) {
 	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::toupper(c); });
+}
+
+std::string string::createRandom(uint16_t length, std::string_view chars) {
+	std::random_device random_device{};
+	std::mt19937 generator{random_device()};
+	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
+
+	std::string out;
+	for (uint16_t i = 0; i < length; i++) {
+		out += chars[distribution(generator)];
+	}
+
+	return out;
+}
+
+std::string string::generateUUIDv4() {
+	static constexpr std::string_view chars = "0123456789abcdef";
+
+	std::random_device random_device{};
+	std::mt19937 generator{random_device()};
+	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
+
+	std::string out;
+	for (uint16_t i = 0; i < 8; i++) {
+		out += chars[distribution(generator)];
+	}
+	out += '-';
+	for (uint16_t i = 0; i < 3; i++) {
+		for (uint16_t j = 0; j < 4; j++) {
+			out += chars[distribution(generator)];
+		}
+		out += '-';
+	}
+	for (uint16_t i = 0; i < 12; i++) {
+		out += chars[distribution(generator)];
+	}
+
+	return out;
 }
 
 std::string string::padNumber(int number, int width, char pad) {

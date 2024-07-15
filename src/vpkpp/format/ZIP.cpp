@@ -19,10 +19,9 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-const std::string ZIP::TEMP_ZIP_PATH = (std::filesystem::temp_directory_path() / "tmp.zip").string();
-
 ZIP::ZIP(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+		: PackFile(fullFilePath_, options_)
+		, tempZIPPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::ZIP;
 }
 
@@ -146,14 +145,14 @@ bool ZIP::bake(const std::string& outputDir_, const Callback& callback) {
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Use temp folder so we can read from the current ZIP
-	if (!this->bakeTempZip(ZIP::TEMP_ZIP_PATH, callback)) {
+	if (!this->bakeTempZip(this->tempZIPPath, callback)) {
 		return false;
 	}
 	this->mergeUnbakedEntries();
 
 	// Close our ZIP and reopen it
 	this->closeZIP();
-	std::filesystem::rename(ZIP::TEMP_ZIP_PATH, outputPath);
+	std::filesystem::rename(this->tempZIPPath, outputPath);
 	if (!this->openZIP(outputPath)) {
 		return false;
 	}
