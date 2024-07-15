@@ -27,8 +27,16 @@ body.dark-mode, body.light-mode {
     --primary-light-color: #e15fcf;
 }
 
+
+/* Set tag labels to black instead of white, much more readable */
+
 span.mlabel {
     color: black;
 }
 
-/* #2aa61f */
+
+/* Hide the nav-sync button, seems useless */
+
+div#nav-sync {
+    display: none;
+}
