@@ -16,22 +16,32 @@ namespace vicepp
 
     public static class KnownCodes {
         public const string DEFAULT = "x9Ke0BY7";
-        public const string HL2DM = DEFAULT;
-        public const string CSS = "d7NSuLq2";
-        public const string CSGO = CSS;
-        public const string DODS = "Wl0u5B3F";
-        public const string TF2 = "E2NcUkG2";
-        public const string TF2_ITEMS = "A5fSXbf7";
-        public const string L4D2 = "SDhfi878";
-        public const string THE_SHIP = "eb3A4m79";
+
         public const string CONTAGION_WEAPONS = "fUk0fF69";
         public const string CONTAGION_SCRIPTS = "5!rrFz6p";
-        public const string ZPS = "5R0ni0pZ";
+        public const string COUNTER_STRIKE_SOURCE = "d7NSuLq2";
+        public const string COUNTER_STRIKE_GLOBAL_OFFENSIVE = COUNTER_STRIKE_SOURCE;
+        public const string COUNTER_STRIKE_2 = COUNTER_STRIKE_GLOBAL_OFFENSIVE;
+        public const string COUNTER_STRIKE_PROMOD = "H1aRQ0n1";
+        public const string DAY_OF_DEFEAT_SOURCE = "Wl0u5B3F";
+        public const string DYSTOPIA_1_2 = "pH3apO8w";
+        public const string DYSTOPIA_1_3 = "G8stUh3F";
+        public const string GOLDEN_EYE_SOURCE = "Gr3naDes";
+        public const string HALF_LIFE_2_CTF = "R1dj3axP";
+        public const string HALF_LIFE_2_DM = DEFAULT;
+        public const string INSURGENCY = "DrA5e3EB";
+        public const string LEFT_4_DEAD_2 = "SDhfi878";
+        public const string NO_MORE_ROOM_IN_HELL = "lREeeapA";
+        public const string NUCLEAR_DAWN = "TA+*veh9";
+        public const string TEAM_FORTRESS_2 = "E2NcUkG2";
+        public const string TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
+        public const string THE_SHIP = "eb3A4m79";
+        public const string ZOMBIE_PANIC_SOURCE = "5R0ni0pZ";
     }
 
     public static class VICE
     {
-        public static byte[] Decrypt(byte[] buffer, string code)
+        public static byte[] Decrypt(byte[] buffer, string code = KnownCodes.DEFAULT)
         {
             unsafe
             {
@@ -43,7 +53,7 @@ namespace vicepp
             }
         }
 
-        public static byte[] Decrypt(IEnumerable<byte> buffer, string code)
+        public static byte[] Decrypt(IEnumerable<byte> buffer, string code = KnownCodes.DEFAULT)
         {
             unsafe
             {
