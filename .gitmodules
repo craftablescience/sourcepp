@@ -1,3 +1,6 @@
+[submodule "docs/layout/doxygen-awesome-css"]
+	path = docs/layout/doxygen-awesome-css
+	url = https://github.com/jothepro/doxygen-awesome-css
 [submodule "ext/bufferstream"]
 	path = ext/bufferstream
 	url = https://github.com/craftablescience/BufferStream

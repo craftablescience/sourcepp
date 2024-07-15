@@ -10,4 +10,5 @@ cmake-build-*/
 out/
 
 # Generated
+docs/html/
 test/Helpers.h
