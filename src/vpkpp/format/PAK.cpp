@@ -117,7 +117,7 @@ Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
-	std::string outputPath = outputDir + '/' + this->getFilename() + "_test.pak";
+	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data for ease of access
 	std::vector<Entry*> entriesToBake;
