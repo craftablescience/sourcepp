@@ -78,16 +78,6 @@ SOURCEPP_API vpkpp_entry_handle_array_t vpkpp_get_unbaked_entries(vpkpp_pack_fil
 
 SOURCEPP_API size_t vpkpp_get_entry_count(vpkpp_pack_file_handle_t handle, bool includeUnbaked);
 
-// REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vpkpp_read_virtual_entry(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry);
-
-SOURCEPP_API bool vpkpp_overwrite_virtual_entry_from_file(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry, const char* pathToFile);
-
-SOURCEPP_API bool vpkpp_overwrite_virtual_entry_from_mem(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry, const unsigned char* buffer, size_t bufferLen);
-
-// REQUIRES MANUAL FREE: vpkpp_virtual_entry_handle_array_free
-SOURCEPP_API vpkpp_virtual_entry_handle_array_t vpkpp_get_virtual_entries(vpkpp_pack_file_handle_t handle);
-
 SOURCEPP_API size_t vpkpp_get_filepath(vpkpp_pack_file_handle_t handle, char* buffer, size_t bufferLen);
 
 SOURCEPP_API size_t vpkpp_get_truncated_filepath(vpkpp_pack_file_handle_t handle, char* buffer, size_t bufferLen);

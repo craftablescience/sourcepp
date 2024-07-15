@@ -15,15 +15,6 @@ typedef struct {
 
 #define VPKPP_ENTRY_HANDLE_ARRAY_INVALID (vpkpp_entry_handle_array_t{.size = -1, .data = NULL})
 
-typedef void* vpkpp_virtual_entry_handle_t;
-
-typedef struct {
-	int64_t size;
-	vpkpp_virtual_entry_handle_t* data;
-} vpkpp_virtual_entry_handle_array_t;
-
-#define VPKPP_VIRTUAL_ENTRY_HANDLE_ARRAY_INVALID (vpkpp_virtual_entry_handle_array_t{.size = -1, .data = NULL})
-
 #ifdef __cplusplus
 } // extern "C"
 #endif
@@ -41,11 +32,3 @@ SOURCEPP_API size_t vpkpp_entry_get_extension(vpkpp_entry_handle_t handle, char*
 SOURCEPP_API void vpkpp_entry_free(vpkpp_entry_handle_t* handle);
 
 SOURCEPP_API void vpkpp_entry_array_free(vpkpp_entry_handle_array_t* array);
-
-SOURCEPP_API size_t vpkpp_virtual_entry_get_name(vpkpp_virtual_entry_handle_t* handle, char* buffer, size_t bufferLen);
-
-SOURCEPP_API bool vpkpp_virtual_entry_is_writable(vpkpp_virtual_entry_handle_t* handle);
-
-SOURCEPP_API void vpkpp_virtual_entry_free(vpkpp_virtual_entry_handle_t* handle);
-
-SOURCEPP_API void vpkpp_virtual_entry_array_free(vpkpp_virtual_entry_handle_array_t* array);

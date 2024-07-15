@@ -12,10 +12,6 @@ Entry* Convert::entry(vpkpp_entry_handle_t handle) {
 	return static_cast<Entry*>(handle);
 }
 
-VirtualEntry* Convert::virtualEntry(vpkpp_virtual_entry_handle_t handle) {
-	return static_cast<VirtualEntry*>(handle);
-}
-
 PackFileOptions Convert::optionsFromC(vpkpp_pack_file_options_t options) {
 	return {
 		.gma_writeCRCs = options.gma_writeCRCs,

@@ -86,18 +86,6 @@ namespace vpkpp
         public static extern ulong vpkpp_get_entry_count(void* handle, byte includeUnbaked);
 
         [DllImport("vpkppc")]
-        public static extern Buffer vpkpp_read_virtual_entry(void* handle, void* entry);
-
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_overwrite_virtual_entry_from_file(void* handle, void* entry, [MarshalAs(UnmanagedType.LPStr)] string pathToFile);
-
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_overwrite_virtual_entry_from_mem(void* handle, void* entry, byte* buffer, ulong bufferLen);
-
-        [DllImport("vpkppc")]
-        public static extern VirtualEntryHandleArray vpkpp_get_virtual_entries(void* handle);
-        
-        [DllImport("vpkppc")]
         public static extern ulong vpkpp_get_filepath(void* handle, sbyte* buffer, ulong bufferLen);
 
         [DllImport("vpkppc")]
@@ -362,54 +350,6 @@ namespace vpkpp
             unsafe
             {
                 return Extern.vpkpp_get_entry_count(Handle, Convert.ToByte(includeUnbaked));
-            }
-        }
-
-        public byte[]? ReadVirtualEntry(VirtualEntry entry)
-        {
-            unsafe
-            {
-                var buffer = Extern.vpkpp_read_virtual_entry(Handle, entry.Handle);
-                return buffer.size < 0 ? null : BufferUtils.ConvertToArrayAndDelete(ref buffer);
-            }
-        }
-
-        public void OverwriteVirtualEntry(VirtualEntry entry, string pathToFile)
-        {
-            unsafe
-            {
-                Extern.vpkpp_overwrite_virtual_entry_from_file(Handle, entry.Handle, pathToFile);
-            }
-        }
-
-        public bool OverwriteVirtualEntry(VirtualEntry entry, byte[] buffer)
-        {
-            unsafe
-            {
-                fixed (byte* bufferPtr = buffer)
-                {
-                    return Convert.ToBoolean(Extern.vpkpp_overwrite_virtual_entry_from_mem(Handle, entry.Handle, bufferPtr, (ulong) buffer.LongLength));
-                }
-            }
-        }
-
-        public bool OverwriteVirtualEntry(VirtualEntry entry, IEnumerable<byte> buffer)
-        {
-            unsafe
-            {
-                var data = buffer.ToArray();
-                fixed (byte* dataPtr = data)
-                {
-                    return Convert.ToBoolean(Extern.vpkpp_overwrite_virtual_entry_from_mem(Handle, entry.Handle, dataPtr, (ulong) data.LongLength));
-                }
-            }
-        }
-
-        public VirtualEntryEnumerable GetVirtualEntries()
-        {
-            unsafe
-            {
-                return new VirtualEntryEnumerable(Extern.vpkpp_get_virtual_entries(Handle));
             }
         }
 

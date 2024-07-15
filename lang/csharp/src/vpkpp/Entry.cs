@@ -27,29 +27,10 @@ namespace vpkpp
 
         [DllImport("vpkppc")]
         public static extern void vpkpp_entry_array_free(EntryHandleArray* array);
-
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_virtual_entry_get_name(void* handle, sbyte* buffer, ulong bufferLen);
-
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_virtual_entry_is_writable(void* handle);
-
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_virtual_entry_free(void** handle);
-
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_virtual_entry_array_free(VirtualEntryHandleArray* array);
     }
 
     [StructLayout(LayoutKind.Sequential)]
     internal unsafe struct EntryHandleArray
-    {
-        internal long size;
-        internal void** data;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct VirtualEntryHandleArray
     {
         internal long size;
         internal void** data;
@@ -207,106 +188,5 @@ namespace vpkpp
         }
 
         private EntryHandleArray _array;
-    }
-
-    public class VirtualEntry
-    {
-        internal unsafe VirtualEntry(void* handle, bool inArray)
-        {
-            Handle = handle;
-            _inArray = inArray;
-        }
-
-        ~VirtualEntry()
-        {
-            if (!_inArray)
-            {
-                unsafe
-                {
-                    fixed (void** handlePtr = &Handle)
-                    {
-                        Extern.vpkpp_virtual_entry_free(handlePtr);
-                    }
-                }
-            }
-        }
-
-        public string Name
-        {
-            get
-            {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxFilename];
-                unsafe
-                {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_virtual_entry_get_name(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
-                }
-            }
-        }
-        
-        public bool Writable
-        {
-            get
-            {
-                unsafe
-                {
-                    return Convert.ToBoolean(Extern.vpkpp_virtual_entry_is_writable(Handle));
-                }
-            }
-        }
-
-        internal unsafe void* Handle;
-
-        private readonly bool _inArray;
-    }
-
-    public class VirtualEntryEnumerable : IEnumerable<VirtualEntry>
-    {
-        internal VirtualEntryEnumerable(VirtualEntryHandleArray array)
-        {
-            _array = array;
-        }
-
-        ~VirtualEntryEnumerable()
-        {
-            unsafe
-            {
-                fixed (VirtualEntryHandleArray* arrayPtr = &_array)
-                {
-                    Extern.vpkpp_virtual_entry_array_free(arrayPtr);
-                }
-            }
-        }
-
-        private VirtualEntry GetVirtualEntryAtPosition(ulong pos)
-        {
-            unsafe
-            {
-                return new VirtualEntry(_array.data[pos], true);
-            }
-        }
-
-        private IEnumerator<VirtualEntry> GetEnumerator()
-        {
-            for (long i = 0; i < _array.size; i++)
-            {
-                yield return GetVirtualEntryAtPosition((ulong) i);
-            }
-        }
-
-        IEnumerator<VirtualEntry> IEnumerable<VirtualEntry>.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        private VirtualEntryHandleArray _array;
     }
 }

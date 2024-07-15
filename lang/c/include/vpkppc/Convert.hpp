@@ -17,7 +17,6 @@ namespace vpkpp {
 
 class Entry;
 class PackFile;
-class VirtualEntry;
 
 } // namespace vpkpp
 
@@ -26,8 +25,6 @@ namespace Convert {
 vpkpp::PackFile* packFile(vpkpp_pack_file_handle_t handle);
 
 vpkpp::Entry* entry(vpkpp_entry_handle_t handle);
-
-vpkpp::VirtualEntry* virtualEntry(vpkpp_virtual_entry_handle_t handle);
 
 vpkpp::PackFileOptions optionsFromC(vpkpp_pack_file_options_t options);
 

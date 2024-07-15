@@ -1,6 +1,5 @@
 #include <vpkpp/format/BSP.h>
 
-#include <cstdio>
 #include <filesystem>
 
 #include <FileStream.h>
@@ -15,30 +14,6 @@
 
 using namespace sourcepp;
 using namespace vpkpp;
-
-constexpr std::string_view BSP_ENTITY_LUMP_NAME = "entities.kv";
-constexpr std::string_view BSP_LUMP_NAME_FORMAT = "lmp_%d.bin";
-
-namespace {
-
-// Convert virtual filename to lump ID
-int virtualLumpNameToID(std::string_view lumpName) {
-	if (lumpName == BSP_ENTITY_LUMP_NAME) {
-		return 0;
-	}
-	int lumpID = -1;
-#ifdef _WIN32
-	sscanf_s(lumpName.data(), BSP_LUMP_NAME_FORMAT.data(), &lumpID);
-#else
-	sscanf(lumpName.data(), BSP_LUMP_NAME_FORMAT.data(), &lumpID);
-#endif
-	if (lumpID < 0 || lumpID >= BSP_LUMP_COUNT) {
-		return -1;
-	}
-	return lumpID;
-}
-
-} // namespace
 
 const std::string BSP::TEMP_ZIP_PATH = (std::filesystem::temp_directory_path() / "tmp_bsp_paklump.zip").string();
 
@@ -68,7 +43,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 	reader.read(bsp->header.lumps);
 	reader.read(bsp->header.mapRevision);
 
-	if (bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].offset == 0 || bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].length == 0) {
+	if (bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].offset == 0 || bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].length == 0) {
 		// No paklump, create an empty zip
 		void* writeStreamHandle = mz_stream_os_create();
 		if (mz_stream_os_open(writeStreamHandle, BSP::TEMP_ZIP_PATH.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
@@ -88,8 +63,8 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 		mz_stream_os_delete(&writeStreamHandle);
 	} else {
 		// Extract the paklump to a temp dir
-		reader.seek_in(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].offset);
-		auto binData = reader.read_bytes(bsp->header.lumps[BSP_LUMP_PAKFILE_INDEX].length);
+		reader.seek_in(bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].offset);
+		auto binData = reader.read_bytes(bsp->header.lumps[static_cast<int32_t>(BSPLump::PAKFILE)].length);
 
 		FileStream writer{BSP::TEMP_ZIP_PATH, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		writer.write(binData);
@@ -154,7 +129,7 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	this->closeZIP();
 
 	// Write the pakfile lump
-	this->writeLump(BSP_LUMP_PAKFILE_INDEX, fs::readFileBuffer(ZIP::TEMP_ZIP_PATH));
+	this->writeLump(BSPLump::PAKFILE, fs::readFileBuffer(ZIP::TEMP_ZIP_PATH));
 
 	// If the output path is different, copy the entire BSP there
 	if (outputPath != this->fullFilePath) {
@@ -170,56 +145,24 @@ bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
 	return true;
 }
 
-std::optional<std::vector<std::byte>> BSP::readVirtualEntry(const VirtualEntry& entry) const {
-	int lumpID = ::virtualLumpNameToID(entry.name);
-	if (lumpID < 0) {
-		return std::nullopt;
-	}
-	return this->readLump(lumpID);
-}
-
-bool BSP::overwriteVirtualEntry(const VirtualEntry& entry, const std::vector<std::byte>& data) {
-	if (!entry.writable) {
-		return false;
-	}
-
-	int lumpID = ::virtualLumpNameToID(entry.name);
-	if (lumpID < 0) {
-		return false;
-	}
-
-	this->writeLump(lumpID, data);
-	return true;
-}
-
-std::vector<VirtualEntry> BSP::getVirtualEntries() const {
-	std::vector<VirtualEntry> out;
-	out.push_back({BSP_ENTITY_LUMP_NAME.data(), true});
-	for (int i = 1; i < BSP_LUMP_COUNT; i++) {
-		char temp[BSP_LUMP_NAME_FORMAT.length() + 1] = {0};
-		snprintf(temp, sizeof(temp), BSP_LUMP_NAME_FORMAT.data(), i);
-		out.push_back({temp, true});
-	}
-	return out;
-}
-
 BSP::operator std::string() const {
 	return PackFile::operator std::string() +
 	       " | Version v" + std::to_string(this->header.version) +
 	       " | Map Revision " + std::to_string(this->header.mapRevision);
 }
 
-std::vector<std::byte> BSP::readLump(int lumpToRead) const {
+std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
+	auto lumpToRead = static_cast<uint32_t>(lump);
 	if (this->header.lumps[lumpToRead].length == 0 || this->header.lumps[lumpToRead].offset == 0) {
-		return {};
+		return std::nullopt;
 	}
 	FileStream reader{this->fullFilePath};
 	reader.seek_in(this->header.lumps[lumpToRead].offset);
 	return reader.read_bytes(this->header.lumps[lumpToRead].length);
 }
 
-void BSP::writeLump(int lumpToMove, const std::vector<std::byte>& data) {
-	this->moveLumpToWritableSpace(lumpToMove, static_cast<int>(data.size()));
+void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
+	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(data.size()));
 
 	FileStream writer{this->fullFilePath, FileStream::OPT_READ | FileStream::OPT_WRITE};
 	writer.seek_out(0);
@@ -228,11 +171,12 @@ void BSP::writeLump(int lumpToMove, const std::vector<std::byte>& data) {
 	writer.write(this->header.version);
 	writer.write(this->header.lumps);
 	writer.write(this->header.mapRevision);
-	writer.seek_out(this->header.lumps[lumpToMove].offset);
+	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset);
 	writer.write(data);
 }
 
-void BSP::moveLumpToWritableSpace(int lumpToMove, int newSize) {
+void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int newSize) {
+	auto lumpToMove = static_cast<uint32_t>(lumpIndex);
 	this->header.lumps[lumpToMove].length = newSize;
 
 	// If the zip is at the end of the file we just overwrite it, otherwise we have to shift some lumps over
@@ -248,11 +192,11 @@ void BSP::moveLumpToWritableSpace(int lumpToMove, int newSize) {
 
 	// Get the exact area to move
 	int moveOffsetStart = INT_MAX, moveOffsetEnd = 0;
-	for (int lumpIndex : lumpsAfterPaklumpIndices) {
-		if (this->header.lumps[lumpIndex].offset < moveOffsetStart) {
-			moveOffsetStart = this->header.lumps[lumpIndex].offset;
+	for (int lumpsAfterPaklumpIndex : lumpsAfterPaklumpIndices) {
+		if (this->header.lumps[lumpsAfterPaklumpIndex].offset < moveOffsetStart) {
+			moveOffsetStart = this->header.lumps[lumpsAfterPaklumpIndex].offset;
 		}
-		if (auto offsetAndLength = this->header.lumps[lumpIndex].offset + this->header.lumps[lumpIndex].length; offsetAndLength > moveOffsetEnd) {
+		if (auto offsetAndLength = this->header.lumps[lumpsAfterPaklumpIndex].offset + this->header.lumps[lumpsAfterPaklumpIndex].length; offsetAndLength > moveOffsetEnd) {
 			moveOffsetEnd = offsetAndLength;
 		}
 	}
@@ -274,8 +218,8 @@ void BSP::moveLumpToWritableSpace(int lumpToMove, int newSize) {
 	bsp.write(lumpsData);
 
 	// Fix the offsets
-	for (int lumpIndex : lumpsAfterPaklumpIndices) {
-		this->header.lumps[lumpIndex].offset -= newSize;
+	for (int lumpsAfterPaklumpIndex : lumpsAfterPaklumpIndices) {
+		this->header.lumps[lumpsAfterPaklumpIndex].offset -= newSize;
 	}
 	this->header.lumps[lumpToMove].offset = lastLumpBeforePaklumpOffset + lastLumpBeforePaklumpLength + static_cast<int>(lumpsData.size());
 }

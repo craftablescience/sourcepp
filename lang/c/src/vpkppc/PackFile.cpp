@@ -228,49 +228,6 @@ SOURCEPP_API size_t vpkpp_get_entry_count(vpkpp_pack_file_handle_t handle, bool 
 	return Convert::packFile(handle)->getEntryCount(includeUnbaked);
 }
 
-SOURCEPP_API sourcepp_buffer_t vpkpp_read_virtual_entry(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(entry, SOURCEPP_BUFFER_INVALID);
-
-	if (auto data = Convert::packFile(handle)->readVirtualEntry(*Convert::virtualEntry(entry))) {
-		return Convert::toBuffer(*data);
-	}
-	return SOURCEPP_BUFFER_INVALID;
-}
-
-SOURCEPP_API bool vpkpp_overwrite_virtual_entry_from_file(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry, const char* pathToFile) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, false);
-	SOURCEPP_EARLY_RETURN_VAL(entry, false);
-	SOURCEPP_EARLY_RETURN_VAL(pathToFile, false);
-
-	return Convert::packFile(handle)->overwriteVirtualEntry(*Convert::virtualEntry(entry), pathToFile);
-}
-
-SOURCEPP_API bool vpkpp_overwrite_virtual_entry_from_mem(vpkpp_pack_file_handle_t handle, vpkpp_virtual_entry_handle_t entry, const unsigned char* buffer, size_t bufferLen) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, false);
-	SOURCEPP_EARLY_RETURN_VAL(entry, false);
-
-	return Convert::packFile(handle)->overwriteVirtualEntry(*Convert::virtualEntry(entry), buffer && bufferLen > 0 ? std::vector<std::byte>{reinterpret_cast<const std::byte*>(buffer), reinterpret_cast<const std::byte*>(buffer + bufferLen)} : std::vector<std::byte>{});
-}
-
-SOURCEPP_API vpkpp_virtual_entry_handle_array_t vpkpp_get_virtual_entries(vpkpp_pack_file_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_VIRTUAL_ENTRY_HANDLE_ARRAY_INVALID);
-
-	std::vector<VirtualEntry*> heapEntries;
-	for (const auto& entry : Convert::packFile(handle)->getVirtualEntries()) {
-		heapEntries.push_back(new VirtualEntry{entry});
-	}
-
-	vpkpp_virtual_entry_handle_array_t array;
-	array.size = static_cast<int64_t>(heapEntries.size());
-	array.data = static_cast<vpkpp_virtual_entry_handle_t*>(std::malloc(sizeof(vpkpp_virtual_entry_handle_t) * array.size));
-
-	for (size_t i = 0; i < array.size; i++) {
-		array.data[i] = heapEntries[i];
-	}
-	return array;
-}
-
 SOURCEPP_API size_t vpkpp_get_filepath(vpkpp_pack_file_handle_t handle, char* buffer, size_t bufferLen) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
