@@ -1,10 +1,12 @@
 #pragma once
 
+#include <sourcepp/parser/Binary.h>
+
 #include "../PackFile.h"
 
 namespace vpkpp {
 
-constexpr int32_t PCK_SIGNATURE = 0x43504447;
+constexpr auto PCK_SIGNATURE = sourcepp::parser::binary::makeFourCC("GDPC");
 constexpr std::string_view PCK_PATH_PREFIX = "res://";
 constexpr std::string_view PCK_EXTENSION = ".pck";
 

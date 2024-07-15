@@ -27,7 +27,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	FileStream reader{pak->fullFilePath};
 	reader.seek_in(0);
 
-	if (auto signature = reader.read<int32_t>(); signature != PAK_SIGNATURE) {
+	if (auto signature = reader.read<uint32_t>(); signature != PAK_SIGNATURE) {
 		// File is not a PAK
 		return nullptr;
 	}

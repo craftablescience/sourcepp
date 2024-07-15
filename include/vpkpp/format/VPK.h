@@ -7,7 +7,7 @@
 
 namespace vpkpp {
 
-constexpr int32_t VPK_SIGNATURE = 0x55aa1234;
+constexpr uint32_t VPK_SIGNATURE = 0x55aa1234;
 constexpr uint16_t VPK_DIR_INDEX = 0x7fff;
 constexpr uint16_t VPK_ENTRY_TERM = 0xffff;
 constexpr std::string_view VPK_DIR_SUFFIX = "_dir";
@@ -20,7 +20,7 @@ class VPK : public PackFile {
 protected:
 #pragma pack(push, 1)
 	struct Header1 {
-		int32_t signature;
+		uint32_t signature;
 		uint32_t version;
 		uint32_t treeSize;
 	};

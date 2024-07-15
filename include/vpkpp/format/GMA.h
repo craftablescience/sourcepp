@@ -1,10 +1,12 @@
 #pragma once
 
+#include <sourcepp/parser/Binary.h>
+
 #include "../PackFile.h"
 
 namespace vpkpp {
 
-constexpr int32_t GMA_SIGNATURE = 'G' + ('M' << 8) + ('A' << 16) + ('D' << 24);
+constexpr auto GMA_SIGNATURE = sourcepp::parser::binary::makeFourCC("GMAD");
 constexpr std::string_view GMA_EXTENSION = ".gma";
 
 class GMA : public PackFile {

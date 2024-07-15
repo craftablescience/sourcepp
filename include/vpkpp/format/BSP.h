@@ -2,15 +2,14 @@
 
 #include <array>
 
+#include <sourcepp/parser/Binary.h>
+
 #include "ZIP.h"
 
 namespace vpkpp {
 
-constexpr int32_t BSP_SIGNATURE = 'V' + ('B' << 8) + ('S' << 16) + ('P' << 24);
+constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
 constexpr std::string_view BSP_EXTENSION = ".bsp";
-
-constexpr std::string_view BSP_ENTITY_LUMP_NAME = "entities.kv";
-constexpr std::string_view BSP_LUMP_NAME_FORMAT = "lmp_%d.bin";
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,

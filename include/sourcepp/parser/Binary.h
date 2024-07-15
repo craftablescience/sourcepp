@@ -3,12 +3,25 @@
 #include <cstddef>
 #include <fstream>
 #include <string>
+#include <string_view>
 
 #include <sourcepp/math/Integer.h>
 
 class BufferStream;
 
 namespace sourcepp::parser::binary {
+
+/**
+ * Creates a FourCC identifier from a string of 4 characters.
+ * @param fourCC The human-readable FourCC.
+ * @return The FourCC identifier.
+ */
+consteval uint32_t makeFourCC(std::string_view fourCC) {
+	if (fourCC.length() != 4) {
+		return 0;
+	}
+	return fourCC[0] | (fourCC[1] << 8) | (fourCC[2] << 16) | (fourCC[3] << 24);
+}
 
 /**
  * Reads an integer from the stream, seeks there, reads a string, and seeks back.

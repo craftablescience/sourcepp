@@ -1,11 +1,13 @@
 #pragma once
 
+#include <sourcepp/parser/Binary.h>
+
 #include "../PackFile.h"
 
 namespace vpkpp {
 
 constexpr int8_t PAK_FILENAME_MAX_SIZE = 56;
-constexpr int32_t PAK_SIGNATURE = 'P' + ('A' << 8) + ('C' << 16) + ('K' << 24);
+constexpr auto PAK_SIGNATURE = sourcepp::parser::binary::makeFourCC("PACK");
 constexpr std::string_view PAK_EXTENSION = ".pak";
 
 class PAK : public PackFile {

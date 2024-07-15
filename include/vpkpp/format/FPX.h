@@ -4,7 +4,7 @@
 
 namespace vpkpp {
 
-constexpr int32_t FPX_SIGNATURE = 0x3241ff33;
+constexpr uint32_t FPX_SIGNATURE = 0x3241ff33;
 constexpr std::string_view FPX_DIR_SUFFIX = "_fdr";
 constexpr std::string_view FPX_EXTENSION = ".fpx";
 

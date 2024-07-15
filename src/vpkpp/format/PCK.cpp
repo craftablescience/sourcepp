@@ -48,22 +48,22 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	FileStream reader{pck->fullFilePath};
 	reader.seek_in(0);
 
-	if (auto signature = reader.read<int32_t>(); signature != PCK_SIGNATURE) {
+	if (auto signature = reader.read<uint32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
-		reader.seek_in(-static_cast<int64_t>(sizeof(int32_t)), std::ios::end);
-		if (auto endSignature = reader.read<int32_t>(); endSignature != PCK_SIGNATURE) {
+		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t)), std::ios::end);
+		if (auto endSignature = reader.read<uint32_t>(); endSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		reader.seek_in(-static_cast<int64_t>(sizeof(int32_t) + sizeof(uint64_t)), std::ios::cur);
+		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) + sizeof(uint64_t)), std::ios::cur);
 		auto distanceIntoFile = reader.read<uint64_t>();
 
 		reader.seek_in(-static_cast<int64_t>(distanceIntoFile + sizeof(uint64_t)), std::ios::cur);
-		if (auto startSignature = reader.read<int32_t>(); startSignature != PCK_SIGNATURE) {
+		if (auto startSignature = reader.read<uint32_t>(); startSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
-		pck->startOffset = reader.tell_in() - sizeof(int32_t);
+		pck->startOffset = reader.tell_in() - sizeof(uint32_t);
 	}
 
 	reader.read(pck->header.packVersion);
