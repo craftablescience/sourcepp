@@ -1,5 +1,8 @@
 var annotated_dup =
 [
+    [ "bsppp", "dd/d11/namespacebsppp.html", [
+      [ "BSP", "d5/dba/classbsppp_1_1BSP.html", "d5/dba/classbsppp_1_1BSP" ]
+    ] ],
     [ "dmxpp", "d9/db0/namespacedmxpp.html", [
       [ "Value", "d7/d45/namespacedmxpp_1_1Value.html", [
         [ "Invalid", "da/dee/structdmxpp_1_1Value_1_1Invalid.html", null ],

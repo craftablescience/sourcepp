@@ -1,5 +1,8 @@
 var hierarchy =
 [
+    [ "bsppp::BSP", "d5/dba/classbsppp_1_1BSP.html", [
+      [ "vpkpp::BSP", "d2/da8/classvpkpp_1_1BSP.html", null ]
+    ] ],
     [ "dmxpp::DMX", "d1/d5f/classdmxpp_1_1DMX.html", null ],
     [ "dmxpp::DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", null ],
     [ "dmxpp::DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", null ],

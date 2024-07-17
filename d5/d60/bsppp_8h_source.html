@@ -1,0 +1,361 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/bsppp/bsppp.h Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d5/d60/bsppp_8h_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">bsppp.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d5/d60/bsppp_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d9/db1/Binary_8h.html">sourcepp/parser/Binary.h</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../dd/d11/namespacebsppp.html">   11</a></span>&#160;<span class="keyword">namespace </span><a class="code" href="../../dd/d11/namespacebsppp.html">bsppp</a> {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630">   13</a></span>&#160;constexpr <span class="keyword">auto</span> <a class="code" href="../../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630">BSP_SIGNATURE</a> = <a class="code" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#ac9b9bdfe5c1e0dd6d9854c1f260bdb5b">sourcepp::parser::binary::makeFourCC</a>(<span class="stringliteral">&quot;VBSP&quot;</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">   15</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> : int32_t {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a> = -1,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a36bdca1ec030e93c10f9a70c79468e99">ENTITIES</a> = 0,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a30cfe32790c0d4e0130e3869466dd0a1">PLANES</a>,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab59e93e2fa8f8c61636c76c24fdc2326">TEXDATA</a>,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5f728d6851deadb33f871b88f99a48d5">VERTEXES</a>,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e">VISIBILITY</a>,</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a91333d9dc1ff3a19e07d7d7bd34e18ed">NODES</a>,</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315">TEXINFO</a>,</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528">FACES</a>,</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8b1aa4726295b67f4ca299670037daeb">LIGHTING</a>,</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8307d318a3a8fd7a3acd8eb50fc95701">OCCLUSION</a>,</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af66d35c5f2a797d8cf35758854b59f78">LEAFS</a>,</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d">FACEIDS</a>,</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a42861b39fff0a83ef415a81d1bafa380">EDGES</a>,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4">SURFEDGES</a>,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6fcf99a66c09959e90e17228e290e186">MODELS</a>,</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0">WORLDLIGHTS</a>,</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7582d12688b983da0181873b8be6ba90">LEAFFACES</a>,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a458812aeb5bb5ff1cfd5e01ce9184467">LEAFBRUSHES</a>,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00">BRUSHES</a>,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6">BRUSHSIDES</a>,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f">AREAS</a>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a542185eeed6ee956854439852e31486b">AREAPORTALS</a>,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247">S2004_PORTALS</a>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a">UNUSED0</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247">S2004_PORTALS</a>,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15">SL4D2_PROPCOLLISION</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247">S2004_PORTALS</a>,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39">S2004_CLUSTERS</a>,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4">UNUSED1</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39">S2004_CLUSTERS</a>,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e">SL4D2_PROPHULLS</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39">S2004_CLUSTERS</a>,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27">S2004_PORTALVERTS</a>,</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde">UNUSED2</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27">S2004_PORTALVERTS</a>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda">SL4D2_PROPHULLVERTS</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27">S2004_PORTALVERTS</a>,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8">S2004_CLUSTERPORTALS</a>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7">UNUSED3</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8">S2004_CLUSTERPORTALS</a>,</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b">SL4D2_PROPTRIS</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8">S2004_CLUSTERPORTALS</a>,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac01d97e0a8b280b0df597abdf00092e6">DISPINFO</a>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a00904ddf6c4bbd3373ccaa6c5e60c0c5">ORIGINALFACES</a>,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a788d8f638e60561afa5c3a11b4d5cbb0">PHYSDISP</a>,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a246e84d36905de295b76bd7cc2277d8e">PHYSCOLLIDE</a>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad8e8dcbd9fee07bc6e24016099b31914">VERTNORMALS</a>,</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a394e5ca2822893bd8858d4ffe0427e97">VERTNORMALINDICES</a>,</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34">S2004_DISP_LIGHTMAP_ALPHAS</a>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72">UNUSED4</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34">S2004_DISP_LIGHTMAP_ALPHAS</a>,</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaa3ea5eacf0caaf1ea52935c626440a8">DISP_VERTS</a>,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad5657a3ada8fce3f920d38e45207495f">DISP_LIGHTMAP_SAMPLE_POSITIONS</a>,</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255">GAME_LUMP</a>,</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab682d84f3654447a17fdb6ccbdfdd9da">LEAFWATERDATA</a>,</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80">PRIMITIVES</a>,</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520">PRIMVERTS</a>,</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e">PRIMINDICES</a>,</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aadf7a75abda3b4835e296fea4da84d46">PAKFILE</a>,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7eb831d353901b7c4c40f1d2dd086eca">CLIPPORTALVERTS</a>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54">CUBEMAPS</a>,</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2fb3930053508f33b70d1efbe301166d">TEXDATA_STRING_DATA</a>,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b">TEXDATA_STRING_TABLE</a>,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2be68fa3c0db36fcb6320c4b04b1be0f">OVERLAYS</a>,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6a7ccedfc8a176cc57fbc82fad438200">LEAFMINDISTTOWATER</a>,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058">FACE_MACRO_TEXTURE_INFO</a>,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aafc09baf493410df48c752da561289f3">DISP_TRIS</a>,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f">S2004_PHYSCOLLIDESURFACE</a>,</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71">UNUSED5</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f">S2004_PHYSCOLLIDESURFACE</a>,</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8">SL4D2_PROP_BLOB</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f">S2004_PHYSCOLLIDESURFACE</a>,</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a62e303e962da4eacd469497bef2b522f">WATEROVERLAYS</a>,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb">S2006_XBOX_LIGHTMAPPAGES</a>,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a97ae8d4c4c7943c1e537e3bf9834d11c">LEAF_AMBIENT_INDEX_HDR</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb">S2006_XBOX_LIGHTMAPPAGES</a>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd">S2006_XBOX_LIGHTMAPPAGEINFOS</a>,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4539fc06d4ea12a41a52548539e8712a">LEAF_AMBIENT_INDEX</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd">S2006_XBOX_LIGHTMAPPAGEINFOS</a>,</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a38f9a6e1e43650abbb9e9e30f1890681">LIGHTING_HDR</a>,</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a">WORLDLIGHTS_HDR</a>,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0ae8b0f2ac3a3f4b887dbdd9f7a312ee">LEAF_AMBIENT_LIGHTING_HDR</a>,</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2666a9dff51c36a0fb93adce1528cf9f">LEAF_AMBIENT_LIGHTING</a>,</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f4e64d97cf1c5a022ef25fc8f9d22a1">XBOX_XZIPPAKFILE</a>,</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0">FACES_HDR</a>,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1b81ee8c7e0cf5c518e53b217eff1b81">MAP_FLAGS</a>,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f0712a8491b5a88e94259de1f944994">OVERLAY_FADES</a>,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29d9219eabad217f3df3f5a588297ffa">L4D_OVERLAY_SYSTEM_LEVELS</a>,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b">UNUSED6</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29d9219eabad217f3df3f5a588297ffa">L4D_OVERLAY_SYSTEM_LEVELS</a>,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a328233f6bb183f588ca2de5063f15b83">L4D2_PHYSLEVEL</a>,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292">UNUSED7</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a328233f6bb183f588ca2de5063f15b83">L4D2_PHYSLEVEL</a>,</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4f755e27ed464f26858b790983f13571">ASW_DISP_MULTIBLEND</a>,</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2">UNUSED8</a> = <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4f755e27ed464f26858b790983f13571">ASW_DISP_MULTIBLEND</a>,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">COUNT</a>,</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;static_assert(<span class="keyword">static_cast&lt;</span>int32_t<span class="keyword">&gt;</span>(<a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">BSPLump::COUNT</a>) == 64, <span class="stringliteral">&quot;Incorrect lump count!&quot;</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../d5/dba/classbsppp_1_1BSP.html">  102</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/dba/classbsppp_1_1BSP.html">BSP</a> {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">struct </span>Lump {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        int32_t offset;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        int32_t length;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        int32_t version;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        int32_t fourCC;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    };</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">struct </span>Header {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        int32_t version;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        std::array&lt;Lump, static_cast&lt;uint32_t&gt;(<a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">BSPLump::COUNT</a>)&gt; lumps;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        int32_t mapRevision;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    };</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a8778ef34f23c187e5ab332bf81223c6a">BSP</a>(std::string path_);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160; </div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">explicit</span> <span class="keyword">operator</span> bool() <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    [[nodiscard]] <span class="keyword">static</span> <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html">BSP</a> <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a03d2977eab502511316ee9517b2783c4">create</a>(std::string <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440">path</a>, int32_t version = 21, int32_t mapRevision = 0);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    [[nodiscard]] std::optional&lt;std::vector&lt;std::byte&gt;&gt; <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a12925a26e59828c572bdaa1df394d172">readLump</a>(<a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex) <span class="keyword">const</span>;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345">writeLump</a>(<a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, <span class="keyword">const</span> std::vector&lt;std::byte&gt;&amp; data);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a2b769a7befffd49bac16dd555c43d794">moveLumpToWritableSpace</a>(<a class="code" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, <span class="keywordtype">int</span> newSize);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="../../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440">  138</a></span>&#160;    std::string <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440">path</a>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="../../d5/dba/classbsppp_1_1BSP.html#a066055df2ca9e0d28fd65146b6b59511">  139</a></span>&#160;    Header <a class="code" href="../../d5/dba/classbsppp_1_1BSP.html#a066055df2ca9e0d28fd65146b6b59511">header</a>{};</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;};</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; </div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;} <span class="comment">// namespace bsppp</span></div>
+<div class="ttc" id="aBinary_8h_html"><div class="ttname"><a href="../../d9/db1/Binary_8h.html">Binary.h</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html">bsppp::BSP</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00102">bsppp.h:102</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a03d2977eab502511316ee9517b2783c4"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a03d2977eab502511316ee9517b2783c4">bsppp::BSP::create</a></div><div class="ttdeci">static BSP create(std::string path, int32_t version=21, int32_t mapRevision=0)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d79/bsppp_8cpp_source.html#l00033">bsppp.cpp:33</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a066055df2ca9e0d28fd65146b6b59511"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a066055df2ca9e0d28fd65146b6b59511">bsppp::BSP::header</a></div><div class="ttdeci">Header header</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00139">bsppp.h:139</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a12925a26e59828c572bdaa1df394d172"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a12925a26e59828c572bdaa1df394d172">bsppp::BSP::readLump</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; readLump(BSPLump lumpIndex) const</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d79/bsppp_8cpp_source.html#l00043">bsppp.cpp:43</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a2518d5d9da2d920bf0f3bad49677b345"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345">bsppp::BSP::writeLump</a></div><div class="ttdeci">void writeLump(BSPLump lumpIndex, const std::vector&lt; std::byte &gt; &amp;data)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d79/bsppp_8cpp_source.html#l00058">bsppp.cpp:58</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a2b769a7befffd49bac16dd555c43d794"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a2b769a7befffd49bac16dd555c43d794">bsppp::BSP::moveLumpToWritableSpace</a></div><div class="ttdeci">void moveLumpToWritableSpace(BSPLump lumpIndex, int newSize)</div><div class="ttdoc">If the lump is too big where it is, shift it to the end of the file, otherwise its fine.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d79/bsppp_8cpp_source.html#l00076">bsppp.cpp:76</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_a8778ef34f23c187e5ab332bf81223c6a"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#a8778ef34f23c187e5ab332bf81223c6a">bsppp::BSP::BSP</a></div><div class="ttdeci">BSP(std::string path_)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d79/bsppp_8cpp_source.html#l00010">bsppp.cpp:10</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSP_html_ae3ad139a57f8565ec75e962745324440"><div class="ttname"><a href="../../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440">bsppp::BSP::path</a></div><div class="ttdeci">std::string path</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00138">bsppp.h:138</a></div></div>
+<div class="ttc" id="anamespacebsppp_html"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html">bsppp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00011">bsppp.h:11</a></div></div>
+<div class="ttc" id="anamespacebsppp_html_a855bc3f5e5b7416f9010213e0ffa0630"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630">bsppp::BSP_SIGNATURE</a></div><div class="ttdeci">constexpr auto BSP_SIGNATURE</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00013">bsppp.h:13</a></div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">bsppp::BSPLump</a></div><div class="ttdeci">BSPLump</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d60/bsppp_8h_source.html#l00015">bsppp.h:15</a></div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a00904ddf6c4bbd3373ccaa6c5e60c0c5"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a00904ddf6c4bbd3373ccaa6c5e60c0c5">bsppp::BSPLump::ORIGINALFACES</a></div><div class="ttdeci">@ ORIGINALFACES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda">bsppp::BSPLump::SL4D2_PROPHULLVERTS</a></div><div class="ttdeci">@ SL4D2_PROPHULLVERTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a0ae8b0f2ac3a3f4b887dbdd9f7a312ee"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0ae8b0f2ac3a3f4b887dbdd9f7a312ee">bsppp::BSPLump::LEAF_AMBIENT_LIGHTING_HDR</a></div><div class="ttdeci">@ LEAF_AMBIENT_LIGHTING_HDR</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a0f0712a8491b5a88e94259de1f944994"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f0712a8491b5a88e94259de1f944994">bsppp::BSPLump::OVERLAY_FADES</a></div><div class="ttdeci">@ OVERLAY_FADES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a0f4e64d97cf1c5a022ef25fc8f9d22a1"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f4e64d97cf1c5a022ef25fc8f9d22a1">bsppp::BSPLump::XBOX_XZIPPAKFILE</a></div><div class="ttdeci">@ XBOX_XZIPPAKFILE</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54">bsppp::BSPLump::CUBEMAPS</a></div><div class="ttdeci">@ CUBEMAPS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a1b81ee8c7e0cf5c518e53b217eff1b81"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1b81ee8c7e0cf5c518e53b217eff1b81">bsppp::BSPLump::MAP_FLAGS</a></div><div class="ttdeci">@ MAP_FLAGS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528">bsppp::BSPLump::FACES</a></div><div class="ttdeci">@ FACES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a246e84d36905de295b76bd7cc2277d8e"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a246e84d36905de295b76bd7cc2277d8e">bsppp::BSPLump::PHYSCOLLIDE</a></div><div class="ttdeci">@ PHYSCOLLIDE</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a2666a9dff51c36a0fb93adce1528cf9f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2666a9dff51c36a0fb93adce1528cf9f">bsppp::BSPLump::LEAF_AMBIENT_LIGHTING</a></div><div class="ttdeci">@ LEAF_AMBIENT_LIGHTING</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80">bsppp::BSPLump::PRIMITIVES</a></div><div class="ttdeci">@ PRIMITIVES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb">bsppp::BSPLump::S2006_XBOX_LIGHTMAPPAGES</a></div><div class="ttdeci">@ S2006_XBOX_LIGHTMAPPAGES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a29d9219eabad217f3df3f5a588297ffa"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29d9219eabad217f3df3f5a588297ffa">bsppp::BSPLump::L4D_OVERLAY_SYSTEM_LEVELS</a></div><div class="ttdeci">@ L4D_OVERLAY_SYSTEM_LEVELS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a2be68fa3c0db36fcb6320c4b04b1be0f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2be68fa3c0db36fcb6320c4b04b1be0f">bsppp::BSPLump::OVERLAYS</a></div><div class="ttdeci">@ OVERLAYS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a2fb3930053508f33b70d1efbe301166d"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2fb3930053508f33b70d1efbe301166d">bsppp::BSPLump::TEXDATA_STRING_DATA</a></div><div class="ttdeci">@ TEXDATA_STRING_DATA</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a30cfe32790c0d4e0130e3869466dd0a1"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a30cfe32790c0d4e0130e3869466dd0a1">bsppp::BSPLump::PLANES</a></div><div class="ttdeci">@ PLANES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a328233f6bb183f588ca2de5063f15b83"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a328233f6bb183f588ca2de5063f15b83">bsppp::BSPLump::L4D2_PHYSLEVEL</a></div><div class="ttdeci">@ L4D2_PHYSLEVEL</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a36bdca1ec030e93c10f9a70c79468e99"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a36bdca1ec030e93c10f9a70c79468e99">bsppp::BSPLump::ENTITIES</a></div><div class="ttdeci">@ ENTITIES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a38f9a6e1e43650abbb9e9e30f1890681"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a38f9a6e1e43650abbb9e9e30f1890681">bsppp::BSPLump::LIGHTING_HDR</a></div><div class="ttdeci">@ LIGHTING_HDR</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a394e5ca2822893bd8858d4ffe0427e97"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a394e5ca2822893bd8858d4ffe0427e97">bsppp::BSPLump::VERTNORMALINDICES</a></div><div class="ttdeci">@ VERTNORMALINDICES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8">bsppp::BSPLump::S2004_CLUSTERPORTALS</a></div><div class="ttdeci">@ S2004_CLUSTERPORTALS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a42861b39fff0a83ef415a81d1bafa380"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a42861b39fff0a83ef415a81d1bafa380">bsppp::BSPLump::EDGES</a></div><div class="ttdeci">@ EDGES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a4539fc06d4ea12a41a52548539e8712a"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4539fc06d4ea12a41a52548539e8712a">bsppp::BSPLump::LEAF_AMBIENT_INDEX</a></div><div class="ttdeci">@ LEAF_AMBIENT_INDEX</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a458812aeb5bb5ff1cfd5e01ce9184467"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a458812aeb5bb5ff1cfd5e01ce9184467">bsppp::BSPLump::LEAFBRUSHES</a></div><div class="ttdeci">@ LEAFBRUSHES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">bsppp::BSPLump::COUNT</a></div><div class="ttdeci">@ COUNT</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0">bsppp::BSPLump::FACES_HDR</a></div><div class="ttdeci">@ FACES_HDR</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7">bsppp::BSPLump::UNUSED3</a></div><div class="ttdeci">@ UNUSED3</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a4f755e27ed464f26858b790983f13571"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4f755e27ed464f26858b790983f13571">bsppp::BSPLump::ASW_DISP_MULTIBLEND</a></div><div class="ttdeci">@ ASW_DISP_MULTIBLEND</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd">bsppp::BSPLump::S2006_XBOX_LIGHTMAPPAGEINFOS</a></div><div class="ttdeci">@ S2006_XBOX_LIGHTMAPPAGEINFOS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a542185eeed6ee956854439852e31486b"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a542185eeed6ee956854439852e31486b">bsppp::BSPLump::AREAPORTALS</a></div><div class="ttdeci">@ AREAPORTALS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a5f728d6851deadb33f871b88f99a48d5"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5f728d6851deadb33f871b88f99a48d5">bsppp::BSPLump::VERTEXES</a></div><div class="ttdeci">@ VERTEXES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde">bsppp::BSPLump::UNUSED2</a></div><div class="ttdeci">@ UNUSED2</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a62e303e962da4eacd469497bef2b522f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a62e303e962da4eacd469497bef2b522f">bsppp::BSPLump::WATEROVERLAYS</a></div><div class="ttdeci">@ WATEROVERLAYS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b">bsppp::BSPLump::SL4D2_PROPTRIS</a></div><div class="ttdeci">@ SL4D2_PROPTRIS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27">bsppp::BSPLump::S2004_PORTALVERTS</a></div><div class="ttdeci">@ S2004_PORTALVERTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3">bsppp::BSPLump::UNKNOWN</a></div><div class="ttdeci">@ UNKNOWN</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a6a7ccedfc8a176cc57fbc82fad438200"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6a7ccedfc8a176cc57fbc82fad438200">bsppp::BSPLump::LEAFMINDISTTOWATER</a></div><div class="ttdeci">@ LEAFMINDISTTOWATER</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a">bsppp::BSPLump::UNUSED0</a></div><div class="ttdeci">@ UNUSED0</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a6fcf99a66c09959e90e17228e290e186"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6fcf99a66c09959e90e17228e290e186">bsppp::BSPLump::MODELS</a></div><div class="ttdeci">@ MODELS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247">bsppp::BSPLump::S2004_PORTALS</a></div><div class="ttdeci">@ S2004_PORTALS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a7582d12688b983da0181873b8be6ba90"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7582d12688b983da0181873b8be6ba90">bsppp::BSPLump::LEAFFACES</a></div><div class="ttdeci">@ LEAFFACES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a788d8f638e60561afa5c3a11b4d5cbb0"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a788d8f638e60561afa5c3a11b4d5cbb0">bsppp::BSPLump::PHYSDISP</a></div><div class="ttdeci">@ PHYSDISP</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f">bsppp::BSPLump::AREAS</a></div><div class="ttdeci">@ AREAS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a7eb831d353901b7c4c40f1d2dd086eca"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7eb831d353901b7c4c40f1d2dd086eca">bsppp::BSPLump::CLIPPORTALVERTS</a></div><div class="ttdeci">@ CLIPPORTALVERTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a8307d318a3a8fd7a3acd8eb50fc95701"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8307d318a3a8fd7a3acd8eb50fc95701">bsppp::BSPLump::OCCLUSION</a></div><div class="ttdeci">@ OCCLUSION</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a8b1aa4726295b67f4ca299670037daeb"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8b1aa4726295b67f4ca299670037daeb">bsppp::BSPLump::LIGHTING</a></div><div class="ttdeci">@ LIGHTING</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b">bsppp::BSPLump::TEXDATA_STRING_TABLE</a></div><div class="ttdeci">@ TEXDATA_STRING_TABLE</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a91333d9dc1ff3a19e07d7d7bd34e18ed"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a91333d9dc1ff3a19e07d7d7bd34e18ed">bsppp::BSPLump::NODES</a></div><div class="ttdeci">@ NODES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d">bsppp::BSPLump::FACEIDS</a></div><div class="ttdeci">@ FACEIDS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0">bsppp::BSPLump::WORLDLIGHTS</a></div><div class="ttdeci">@ WORLDLIGHTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a97ae8d4c4c7943c1e537e3bf9834d11c"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a97ae8d4c4c7943c1e537e3bf9834d11c">bsppp::BSPLump::LEAF_AMBIENT_INDEX_HDR</a></div><div class="ttdeci">@ LEAF_AMBIENT_INDEX_HDR</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39">bsppp::BSPLump::S2004_CLUSTERS</a></div><div class="ttdeci">@ S2004_CLUSTERS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e">bsppp::BSPLump::SL4D2_PROPHULLS</a></div><div class="ttdeci">@ SL4D2_PROPHULLS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0aaa3ea5eacf0caaf1ea52935c626440a8"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaa3ea5eacf0caaf1ea52935c626440a8">bsppp::BSPLump::DISP_VERTS</a></div><div class="ttdeci">@ DISP_VERTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0aadf7a75abda3b4835e296fea4da84d46"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aadf7a75abda3b4835e296fea4da84d46">bsppp::BSPLump::PAKFILE</a></div><div class="ttdeci">@ PAKFILE</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34">bsppp::BSPLump::S2004_DISP_LIGHTMAP_ALPHAS</a></div><div class="ttdeci">@ S2004_DISP_LIGHTMAP_ALPHAS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0aafc09baf493410df48c752da561289f3"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aafc09baf493410df48c752da561289f3">bsppp::BSPLump::DISP_TRIS</a></div><div class="ttdeci">@ DISP_TRIS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ab59e93e2fa8f8c61636c76c24fdc2326"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab59e93e2fa8f8c61636c76c24fdc2326">bsppp::BSPLump::TEXDATA</a></div><div class="ttdeci">@ TEXDATA</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ab682d84f3654447a17fdb6ccbdfdd9da"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab682d84f3654447a17fdb6ccbdfdd9da">bsppp::BSPLump::LEAFWATERDATA</a></div><div class="ttdeci">@ LEAFWATERDATA</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e">bsppp::BSPLump::PRIMINDICES</a></div><div class="ttdeci">@ PRIMINDICES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ac01d97e0a8b280b0df597abdf00092e6"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac01d97e0a8b280b0df597abdf00092e6">bsppp::BSPLump::DISPINFO</a></div><div class="ttdeci">@ DISPINFO</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2">bsppp::BSPLump::UNUSED8</a></div><div class="ttdeci">@ UNUSED8</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e">bsppp::BSPLump::VISIBILITY</a></div><div class="ttdeci">@ VISIBILITY</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72">bsppp::BSPLump::UNUSED4</a></div><div class="ttdeci">@ UNUSED4</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520">bsppp::BSPLump::PRIMVERTS</a></div><div class="ttdeci">@ PRIMVERTS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4">bsppp::BSPLump::UNUSED1</a></div><div class="ttdeci">@ UNUSED1</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6">bsppp::BSPLump::BRUSHSIDES</a></div><div class="ttdeci">@ BRUSHSIDES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8">bsppp::BSPLump::SL4D2_PROP_BLOB</a></div><div class="ttdeci">@ SL4D2_PROP_BLOB</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ad5657a3ada8fce3f920d38e45207495f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad5657a3ada8fce3f920d38e45207495f">bsppp::BSPLump::DISP_LIGHTMAP_SAMPLE_POSITIONS</a></div><div class="ttdeci">@ DISP_LIGHTMAP_SAMPLE_POSITIONS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ad8e8dcbd9fee07bc6e24016099b31914"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad8e8dcbd9fee07bc6e24016099b31914">bsppp::BSPLump::VERTNORMALS</a></div><div class="ttdeci">@ VERTNORMALS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00">bsppp::BSPLump::BRUSHES</a></div><div class="ttdeci">@ BRUSHES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f">bsppp::BSPLump::S2004_PHYSCOLLIDESURFACE</a></div><div class="ttdeci">@ S2004_PHYSCOLLIDESURFACE</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b">bsppp::BSPLump::UNUSED6</a></div><div class="ttdeci">@ UNUSED6</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15">bsppp::BSPLump::SL4D2_PROPCOLLISION</a></div><div class="ttdeci">@ SL4D2_PROPCOLLISION</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71">bsppp::BSPLump::UNUSED5</a></div><div class="ttdeci">@ UNUSED5</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292">bsppp::BSPLump::UNUSED7</a></div><div class="ttdeci">@ UNUSED7</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058">bsppp::BSPLump::FACE_MACRO_TEXTURE_INFO</a></div><div class="ttdeci">@ FACE_MACRO_TEXTURE_INFO</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0af66d35c5f2a797d8cf35758854b59f78"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af66d35c5f2a797d8cf35758854b59f78">bsppp::BSPLump::LEAFS</a></div><div class="ttdeci">@ LEAFS</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255">bsppp::BSPLump::GAME_LUMP</a></div><div class="ttdeci">@ GAME_LUMP</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315">bsppp::BSPLump::TEXINFO</a></div><div class="ttdeci">@ TEXINFO</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4">bsppp::BSPLump::SURFEDGES</a></div><div class="ttdeci">@ SURFEDGES</div></div>
+<div class="ttc" id="anamespacebsppp_html_a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a">bsppp::BSPLump::WORLDLIGHTS_HDR</a></div><div class="ttdeci">@ WORLDLIGHTS_HDR</div></div>
+<div class="ttc" id="anamespacesourcepp_1_1parser_1_1binary_html_ac9b9bdfe5c1e0dd6d9854c1f260bdb5b"><div class="ttname"><a href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#ac9b9bdfe5c1e0dd6d9854c1f260bdb5b">sourcepp::parser::binary::makeFourCC</a></div><div class="ttdeci">consteval uint32_t makeFourCC(std::string_view fourCC)</div><div class="ttdoc">Creates a FourCC identifier from a string of 4 characters.</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/db1/Binary_8h_source.html#l00019">Binary.h:19</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_3c662dd1c626d8c0973edefd160a736b.html">bsppp</a></li><li class="navelem"><a class="el" href="../../d5/d60/bsppp_8h.html">bsppp.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>
