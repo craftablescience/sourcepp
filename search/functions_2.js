@@ -16,6 +16,7 @@ var searchData=
   ['createempty_1214',['createEmpty',['../d5/d8b/classvpkpp_1_1VPK.html#a4ce560087e658ace7b6286df2c44aab1',1,'vpkpp::VPK']]],
   ['createfromdirectory_1215',['createFromDirectory',['../d5/d8b/classvpkpp_1_1VPK.html#a8314176b26650876e57ce9619e271919',1,'vpkpp::VPK']]],
   ['createfromdirectoryprocedural_1216',['createFromDirectoryProcedural',['../d5/d8b/classvpkpp_1_1VPK.html#a14fd33f4c2c444e3487f67d3a7f050d5',1,'vpkpp::VPK']]],
-  ['createnewentry_1217',['createNewEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504',1,'vpkpp::PackFile']]],
-  ['createrandom_1218',['createRandom',['../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d',1,'sourcepp::string']]]
+  ['createlumppatchfile_1217',['createLumpPatchFile',['../d5/dba/classbsppp_1_1BSP.html#aa2bd3d2880f264fa2317fed4e0f43dce',1,'bsppp::BSP']]],
+  ['createnewentry_1218',['createNewEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504',1,'vpkpp::PackFile']]],
+  ['createrandom_1219',['createRandom',['../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d',1,'sourcepp::string']]]
 ];
