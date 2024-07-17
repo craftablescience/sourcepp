@@ -14,6 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options
+option(SOURCEPP_USE_BSPPP               "Build bsppp library"                       ON)
 option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                       ON)
 option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                       ON)
 option(SOURCEPP_USE_KVPP                "Build kvpp library"                        ON)
@@ -28,7 +29,11 @@ option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"   
 
 
 # Option overrides
-if(SOURCEPP_USE_STEAMPP OR SOURCEPP_USE_VPKPP)
+if(SOURCEPP_USE_STEAMPP)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
+endif()
+if(SOURCEPP_USE_VPKPP)
+    set(SOURCEPP_USE_BSPPP ON CACHE INTERNAL "")
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
 endif()
 
@@ -80,6 +85,7 @@ endif()
 
 
 # Add libraries
+add_sourcepp_library(bsppp NO_TEST)
 add_sourcepp_library(dmxpp)
 add_sourcepp_library(fgdpp)
 add_sourcepp_library(kvpp)

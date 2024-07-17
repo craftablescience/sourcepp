@@ -23,6 +23,19 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Special Thanks</th>
   </tr>
   <tr>
+    <td>bsppp</td>
+    <td>
+      <ul>
+        <li><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</li>
+      </ul>
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td align="center"></td>
+    <td></td>
+  </tr>
+  <tr>
     <td>dmxpp</td>
     <td>
       <ul>

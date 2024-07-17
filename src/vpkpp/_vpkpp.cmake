@@ -1,4 +1,4 @@
-add_pretty_parser(vpkpp DEPS cryptopp::cryptopp kvpp MINIZIP::minizip SOURCES
+add_pretty_parser(vpkpp DEPS bsppp cryptopp::cryptopp kvpp MINIZIP::minizip SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GCF.h"
