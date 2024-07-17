@@ -1,5 +1,6 @@
 #include <bsppp/bsppp.h>
 
+#include <filesystem>
 #include <limits>
 #include <utility>
 
@@ -71,6 +72,33 @@ void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
 		.write(this->header.mapRevision)
 		.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset)
 		.write(data);
+}
+
+void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
+	auto lumpData = this->readLump(lumpIndex);
+	if (!lumpData) {
+		return;
+	}
+
+	auto& lump = this->header.lumps.at(static_cast<int32_t>(lumpIndex));
+
+	const auto fsPath = std::filesystem::path{this->path};
+	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
+	int nonexistentNumber;
+	for (nonexistentNumber = 0; true; nonexistentNumber++) {
+		if (!std::filesystem::exists(fsStem + std::to_string(nonexistentNumber) + ".lmp")) {
+			break;
+		}
+	}
+
+	FileStream writer{fsStem + std::to_string(nonexistentNumber) + ".lmp", FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+	writer
+		.write<int32_t>(sizeof(int32_t) * 5)
+		.write(lumpIndex)
+		.write(lump.version)
+		.write(lump.length)
+		.write(this->header.mapRevision)
+		.write(*lumpData);
 }
 
 void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int newSize) {

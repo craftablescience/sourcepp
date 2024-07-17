@@ -131,6 +131,8 @@ public:
 
 	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);
 
+	void createLumpPatchFile(BSPLump lumpIndex) const;
+
 protected:
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
 	void moveLumpToWritableSpace(BSPLump lumpIndex, int newSize);
