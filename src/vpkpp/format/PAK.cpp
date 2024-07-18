@@ -100,6 +100,7 @@ Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
 	}
+	auto [dir, name] = splitFilenameAndParentDir(filename);
 
 	entry.path = filename;
 	entry.length = buffer.size();
@@ -107,11 +108,11 @@ Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	// Offset will be reset when it's baked
 	entry.offset = 0;
 
-	if (!this->unbakedEntries.contains("")) {
-		this->unbakedEntries[""] = {};
+	if (!this->unbakedEntries.contains(dir)) {
+		this->unbakedEntries[dir] = {};
 	}
-	this->unbakedEntries.at("").push_back(entry);
-	return this->unbakedEntries.at("").back();
+	this->unbakedEntries.at(dir).push_back(entry);
+	return this->unbakedEntries.at(dir).back();
 }
 
 bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
