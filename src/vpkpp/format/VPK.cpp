@@ -264,11 +264,11 @@ std::vector<std::string> VPK::verifyEntryChecksums() const {
 	return this->verifyEntryChecksumsUsingCRC32();
 }
 
-bool VPK::hasFileChecksum() const {
+bool VPK::hasPackFileChecksum() const {
 	return this->header1.version == 2;
 }
 
-bool VPK::verifyFileChecksum() const {
+bool VPK::verifyPackFileChecksum() const {
 	// File checksums are only in v2
 	if (this->header1.version != 2) {
 		return true;
@@ -294,7 +294,7 @@ bool VPK::verifyFileChecksum() const {
 	return true;
 }
 
-bool VPK::hasFileSignature() const {
+bool VPK::hasPackFileSignature() const {
 	if (this->header1.version != 2) {
 		return false;
 	}
@@ -304,7 +304,7 @@ bool VPK::hasFileSignature() const {
 	return true;
 }
 
-bool VPK::verifyFileSignature() const {
+bool VPK::verifyPackFileSignature() const {
 	// Signatures are only in v2
 	if (this->header1.version != 2) {
 		return true;
@@ -336,22 +336,7 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const Entry& entry) const {
 	}
 
 	if (entry.unbaked) {
-		// Get the stored data
-		for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
-			for (const Entry& unbakedEntry : unbakedEntryList) {
-				if (unbakedEntry.path == entry.path) {
-					std::vector<std::byte> unbakedData;
-					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
-						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
-					} else {
-						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)), unbakedEntry.vpk_preloadedData.size());
-					}
-					std::copy(unbakedData.begin(), unbakedData.end(), output.begin() + static_cast<long long>(entry.vpk_preloadedData.size()));
-					return output;
-				}
-			}
-		}
-		return std::nullopt;
+		return this->readUnbakedEntry(entry);
 	} else if (entry.archiveIndex != VPK_DIR_INDEX) {
 		// Stored in a numbered archive
 		FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry.archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};

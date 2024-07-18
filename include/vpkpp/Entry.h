@@ -63,12 +63,4 @@ private:
 	Entry() = default;
 };
 
-struct VirtualEntry {
-	/// Filename of this entry (e.g. "cable.vmt")
-	std::string name;
-
-	/// Read-only, or writable?
-	bool writable;
-};
-
 } // namespace vpkpp

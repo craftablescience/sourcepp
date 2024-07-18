@@ -56,24 +56,25 @@ public:
 	[[nodiscard]] virtual std::vector<std::string> verifyEntryChecksums() const;
 
 	/// Returns true if the entire file has a checksum
-	[[nodiscard]] virtual bool hasFileChecksum() const;
+	[[nodiscard]] virtual bool hasPackFileChecksum() const;
 
 	/// Verify the checksum of the entire file, returns true on success
 	/// Will return true if there is no checksum ability in the format
-	[[nodiscard]] virtual bool verifyFileChecksum() const;
+	[[nodiscard]] virtual bool verifyPackFileChecksum() const;
 
 	/// Returns true if the file is signed
-	[[nodiscard]] virtual bool hasFileSignature() const;
+	[[nodiscard]] virtual bool hasPackFileSignature() const;
 
 	/// Verify the file signature, returns true on success
 	/// Will return true if there is no signature ability in the format
-	[[nodiscard]] virtual bool verifyFileSignature() const;
+	[[nodiscard]] virtual bool verifyPackFileSignature() const;
 
 	/// Does the format support case-sensitive file names?
 	[[nodiscard]] virtual constexpr bool isCaseSensitive() const noexcept {
 		return false;
 	}
 
+	/// Check if an entry exists given the file path
 	[[nodiscard]] bool hasEntry(const std::string& filename_, bool includeUnbaked = true) const;
 
 	/// Try to find an entry given the file path
@@ -111,7 +112,7 @@ public:
 	bool extractEntry(const Entry& entry, const std::string& filePath) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the given directory to disk under the given output directory
-	bool extractDir(const std::string& dir, const std::string& outputDir) const; // NOLINT(*-use-nodiscard)
+	bool extractDirectory(const std::string& dir, const std::string& outputDir) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory
 	bool extractAll(const std::string& outputDir, bool createUnderPackFileDir = true) const; // NOLINT(*-use-nodiscard)
@@ -178,6 +179,8 @@ protected:
 	[[nodiscard]] static const std::variant<std::string, std::vector<std::byte>>& getEntryUnbakedData(const Entry& entry);
 
 	[[nodiscard]] static bool isEntryUnbakedUsingByteBuffer(const Entry& entry);
+
+	[[nodiscard]] std::optional<std::vector<std::byte>> readUnbakedEntry(const Entry& entry) const;
 
 	std::string fullFilePath;
 

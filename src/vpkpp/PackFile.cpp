@@ -73,12 +73,6 @@ void replace(std::string& line, const std::string& oldString, const std::string&
 	}
 }
 
-void toUpper(std::string& line) {
-	for (char& c : line) {
-		c = static_cast<char>(std::toupper(c));
-	}
-}
-
 void fixFilePathForWindows(std::string& filePath) {
 	// Remove invalid characters
 	::replace(filePath, "<", "_LT_");
@@ -94,7 +88,7 @@ void fixFilePathForWindows(std::string& filePath) {
 	auto filename = path.filename().string();
 	auto extension = path.extension().string();
 	auto stem = path.stem().string();
-	::toUpper(stem);
+	string::toUpper(stem);
 
 	// Replace bad filenames
 	if (stem == "CON") {
@@ -159,19 +153,19 @@ std::vector<std::string> PackFile::verifyEntryChecksums() const {
 	return {};
 }
 
-bool PackFile::hasFileChecksum() const {
+bool PackFile::hasPackFileChecksum() const {
 	return false;
 }
 
-bool PackFile::verifyFileChecksum() const {
+bool PackFile::verifyPackFileChecksum() const {
 	return true;
 }
 
-bool PackFile::hasFileSignature() const {
+bool PackFile::hasPackFileSignature() const {
 	return false;
 }
 
-bool PackFile::verifyFileSignature() const {
+bool PackFile::verifyPackFileSignature() const {
 	return true;
 }
 
@@ -338,7 +332,7 @@ bool PackFile::extractEntry(const Entry& entry, const std::string& filePath) con
 	return true;
 }
 
-bool PackFile::extractDir(const std::string& dir, const std::string& outputDir) const {
+bool PackFile::extractDirectory(const std::string& dir, const std::string& outputDir) const {
 	if (dir.empty() || dir == "/") {
 		return this->extractAll(outputDir, false);
 	}
@@ -648,6 +642,28 @@ const std::variant<std::string, std::vector<std::byte>>& PackFile::getEntryUnbak
 
 bool PackFile::isEntryUnbakedUsingByteBuffer(const Entry& entry) {
 	return entry.unbakedUsingByteBuffer;
+}
+
+std::optional<std::vector<std::byte>> PackFile::readUnbakedEntry(const Entry& entry) const {
+	if (!entry.unbaked) {
+		return std::nullopt;
+	}
+
+	// Get the stored data
+	for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
+		for (const auto& unbakedEntry : unbakedEntryList) {
+			if (unbakedEntry.path == entry.path) {
+				std::vector<std::byte> unbakedData;
+				if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
+					unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
+				} else {
+					unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
+				}
+				return unbakedData;
+			}
+		}
+	}
+	return std::nullopt;
 }
 
 std::unordered_map<std::string, std::vector<PackFile::FactoryFunction>>& PackFile::getOpenExtensionRegistry() {

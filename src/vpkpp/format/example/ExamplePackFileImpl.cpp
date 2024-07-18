@@ -85,23 +85,9 @@ std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, PackFileOptions
 }
 
 std::optional<std::vector<std::byte>> EXAMPLE::readEntry(const Entry& entry) const {
-	// Include this code verbatim - will likely be moved to a utility method soon
+	// Include this code verbatim
 	if (entry.unbaked) {
-		// Get the stored data
-		for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
-			for (const Entry& unbakedEntry : unbakedEntryList) {
-				if (unbakedEntry.path == entry.path) {
-					std::vector<std::byte> unbakedData;
-					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
-						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
-					} else {
-						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
-					}
-					return unbakedData;
-				}
-			}
-		}
-		return std::nullopt;
+		return this->readUnbakedEntry(entry);
 	}
 
 	// Use the contents of the entry to access the file data and return it

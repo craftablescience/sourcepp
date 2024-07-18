@@ -33,9 +33,9 @@ public:
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
 
-	[[nodiscard]] bool hasFileChecksum() const override;
+	[[nodiscard]] bool hasPackFileChecksum() const override;
 
-	[[nodiscard]] bool verifyFileChecksum() const override;
+	[[nodiscard]] bool verifyPackFileChecksum() const override;
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const override;
 

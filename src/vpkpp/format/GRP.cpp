@@ -73,22 +73,9 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, PackFileOptions opt
 
 std::optional<std::vector<std::byte>> GRP::readEntry(const Entry& entry) const {
 	if (entry.unbaked) {
-		// Get the stored data
-		for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
-			for (const Entry& unbakedEntry : unbakedEntryList) {
-				if (unbakedEntry.path == entry.path) {
-					std::vector<std::byte> unbakedData;
-					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
-						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
-					} else {
-						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
-					}
-					return unbakedData;
-				}
-			}
-		}
-		return std::nullopt;
+		return this->readUnbakedEntry(entry);
 	}
+
 	// It's baked into the file on disk
 	FileStream stream{this->fullFilePath};
 	if (!stream) {

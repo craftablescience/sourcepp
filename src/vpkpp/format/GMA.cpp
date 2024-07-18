@@ -88,11 +88,11 @@ std::vector<std::string> GMA::verifyEntryChecksums() const {
 	return this->verifyEntryChecksumsUsingCRC32();
 }
 
-bool GMA::hasFileChecksum() const {
+bool GMA::hasPackFileChecksum() const {
 	return true;
 }
 
-bool GMA::verifyFileChecksum() const {
+bool GMA::verifyPackFileChecksum() const {
 	auto data = fs::readFileBuffer(this->fullFilePath);
 	if (data.size() <= 4) {
 		return true;
@@ -108,22 +108,9 @@ bool GMA::verifyFileChecksum() const {
 
 std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
 	if (entry.unbaked) {
-		// Get the stored data
-		for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
-			for (const Entry& unbakedEntry : unbakedEntryList) {
-				if (unbakedEntry.path == entry.path) {
-					std::vector<std::byte> unbakedData;
-					if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
-						unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
-					} else {
-						unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
-					}
-					return unbakedData;
-				}
-			}
-		}
-		return std::nullopt;
+		return this->readUnbakedEntry(entry);
 	}
+
 	// It's baked into the file on disk
 	FileStream stream{this->fullFilePath};
 	if (!stream) {
