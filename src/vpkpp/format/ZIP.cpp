@@ -268,12 +268,14 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, const Callback& callback)
 bool ZIP::openZIP(std::string_view path) {
 	this->streamHandle = mz_stream_os_create();
 	if (mz_stream_open(this->streamHandle, path.data(), MZ_OPEN_MODE_READ) != MZ_OK) {
+		mz_stream_delete(&this->streamHandle);
 		return false;
 	}
 	this->streamOpen = true;
 
 	this->zipHandle = mz_zip_create();
 	if (mz_zip_open(this->zipHandle, this->streamHandle, MZ_OPEN_MODE_READ) != MZ_OK) {
+		mz_zip_delete(&this->zipHandle);
 		return false; // No need to delete the stream, it's done when we destruct
 	}
 	this->zipOpen = true;
