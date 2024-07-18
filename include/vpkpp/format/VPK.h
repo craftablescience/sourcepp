@@ -92,8 +92,6 @@ public:
 
 	bool removeEntry(const std::string& filename_) override;
 
-	bool removeDirectory(const std::string& dirPath_) override;
-
 	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] std::string getTruncatedFilestem() const override;

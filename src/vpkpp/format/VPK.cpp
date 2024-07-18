@@ -432,34 +432,6 @@ bool VPK::removeEntry(const std::string& filename_) {
 	return PackFile::removeEntry(filename_);
 }
 
-bool VPK::removeDirectory(const std::string& dirPath_) {
-	if (this->isReadOnly()) {
-		return false;
-	}
-
-	auto dirPath = dirPath_;
-	string::normalizeSlashes(dirPath);
-	if (!this->isCaseSensitive()) {
-		string::toLower(dirPath);
-	}
-
-	bool removedAnything = false;
-	if (this->unbakedEntries.contains(dirPath)) {
-		removedAnything = true;
-		this->unbakedEntries.erase(dirPath);
-	}
-	if (this->entries.contains(dirPath)) {
-		removedAnything = true;
-		for (const auto& entry : this->entries.at(dirPath)) {
-			if (entry.flags & VPK_FLAG_REUSING_CHUNK) {
-				this->freedChunks.push_back({entry.offset, entry.length, entry.archiveIndex});
-			}
-		}
-		this->entries.erase(dirPath);
-	}
-	return removedAnything;
-}
-
 bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);

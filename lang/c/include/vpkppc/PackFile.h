@@ -62,8 +62,6 @@ SOURCEPP_API void vpkpp_add_entry_from_mem(vpkpp_pack_file_handle_t handle, cons
 
 SOURCEPP_API bool vpkpp_remove_entry(vpkpp_pack_file_handle_t handle, const char* filename);
 
-SOURCEPP_API bool vpkpp_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirPath);
-
 SOURCEPP_API bool vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir);
 
 SOURCEPP_API bool vpkpp_extract_entry(vpkpp_pack_file_handle_t handle, vpkpp_entry_handle_t entry, const char* filePath);

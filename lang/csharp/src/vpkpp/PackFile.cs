@@ -65,9 +65,6 @@ namespace vpkpp
         public static extern byte vpkpp_remove_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filename);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_remove_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dirPath);
-
-        [DllImport("vpkppc")]
         public static extern byte vpkpp_bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
 
         [DllImport("vpkppc")]
@@ -293,14 +290,6 @@ namespace vpkpp
             unsafe
             {
                 return Convert.ToBoolean(Extern.vpkpp_remove_entry(Handle, filename));
-            }
-        }
-
-        public bool RemoveDirectory(string dirPath)
-        {
-            unsafe
-            {
-                return Convert.ToBoolean(Extern.vpkpp_remove_directory(Handle, dirPath));
             }
         }
 
