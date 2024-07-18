@@ -21,10 +21,35 @@ BSP::BSP(std::string path_)
 		this->path.clear();
 		return;
 	}
-	reader
-		.read(this->header.version)
-		.read(this->header.lumps)
-		.read(this->header.mapRevision);
+	this->header.version = reader.read<int32_t>();
+
+	// Contagion funny
+	if (this->header.version == 27) {
+		reader.skip_in<int32_t>();
+	}
+
+	reader >> this->header.lumps;
+
+	// If no offsets are larger than 1024 (less than the size of the BSP header, but greater than any lump version),
+	// it's probably a L4D2 BSP and those are lump versions!
+	if (this->header.version == 21) {
+		int i;
+		for (i = 0; i < BSP_LUMP_COUNT; i++) {
+			if (this->header.lumps[i].offset > 1024) {
+				break;
+			}
+		}
+		this->isL4D2 = i == BSP_LUMP_COUNT;
+		if (this->isL4D2) {
+			// Swap offset and version
+			for (i = 0; i < BSP_LUMP_COUNT; i++) {
+				std::swap(this->header.lumps[i].offset, this->header.lumps[i].version);
+				std::swap(this->header.lumps[i].offset, this->header.lumps[i].length);
+			}
+		}
+	}
+
+	reader >> this->header.mapRevision;
 }
 
 BSP::operator bool() const {
@@ -32,12 +57,14 @@ BSP::operator bool() const {
 }
 
 BSP BSP::create(std::string path, int32_t version, int32_t mapRevision) {
-	FileStream writer{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
-	writer << BSP_SIGNATURE << BSP::Header{
-		.version = version,
-		.lumps = {},
-		.mapRevision = mapRevision,
-	};
+	{
+		FileStream writer{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		writer << BSP_SIGNATURE << BSP::Header{
+			.version = version,
+			.lumps = {},
+			.mapRevision = mapRevision,
+		};
+	}
 	return BSP{std::move(path)};
 }
 
@@ -85,14 +112,7 @@ void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
 	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(data.size()));
 
 	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	writer
-		.seek_out(0)
-		.write(BSP_SIGNATURE)
-		.write(this->header.version)
-		.write(this->header.lumps)
-		.write(this->header.mapRevision)
-		.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset)
-		.write(data);
+	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
 }
 
 void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
@@ -125,21 +145,52 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 
 void BSP::writeHeader() const {
 	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	writer
-		.seek_out(0)
-		.write(BSP_SIGNATURE)
-		.write(this->header.version)
-		.write(this->header.lumps)
-		.write(this->header.mapRevision);
+	writer.seek_out(0) << BSP_SIGNATURE << this->header.version;
+
+	// Contagion funny
+	if (this->header.version == 27) {
+		writer.write<int32_t>(0);
+	}
+
+	if (!this->isL4D2) {
+		writer << this->header.lumps;
+	} else {
+		for (int i = 0; i < static_cast<int32_t>(BSPLump::COUNT); i++) {
+			writer << this->header.lumps[i].version << this->header.lumps[i].offset << this->header.lumps[i].length << this->header.lumps[i].fourCC;
+		}
+	}
+
+	writer << this->header.mapRevision;
 }
 
-void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int newSize) {
+void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize) {
 	auto lumpToMove = static_cast<uint32_t>(lumpIndex);
 	this->header.lumps[lumpToMove].length = newSize;
 
+	// If the lump doesn't exist, put it at the end of the file
+	if (!this->hasLump(lumpIndex)) {
+		int lastLumpOffset = 0, lastLumpLength = 0;
+		for (const Lump& lump : this->header.lumps) {
+			if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
+				lastLumpOffset = lump.offset;
+				lastLumpLength = lump.length;
+			}
+		}
+		if (lastLumpOffset == 0) {
+			// Whole file is full of empty lumps
+			this->header.lumps[lumpToMove].offset = sizeof(Header);
+		} else {
+			this->header.lumps[lumpToMove].offset = lastLumpOffset + lastLumpLength;
+		}
+		this->header.lumps[lumpToMove].length = newSize;
+
+		this->writeHeader();
+		return;
+	}
+
 	// If the moving lump is at the end of the file we just overwrite it, otherwise we have to shift some lumps over
 	std::vector<int> lumpsAfterMovingLumpIndices;
-	for (int i = 0; i < this->header.lumps.size(); i++) {
+	for (int i = 0; i < BSP_LUMP_COUNT; i++) {
 		if (this->header.lumps[i].offset > this->header.lumps[lumpToMove].offset) {
 			lumpsAfterMovingLumpIndices.push_back(i);
 		}

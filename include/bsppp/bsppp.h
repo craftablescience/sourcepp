@@ -99,6 +99,8 @@ enum class BSPLump : int32_t {
 };
 static_assert(static_cast<int32_t>(BSPLump::COUNT) == 64, "Incorrect lump count!");
 
+constexpr auto BSP_LUMP_COUNT = static_cast<int32_t>(BSPLump::COUNT);
+
 class BSP {
 	struct Lump {
 		/// Byte offset into file
@@ -115,7 +117,7 @@ class BSP {
 		/// Version of the BSP file
 		int32_t version;
 		/// Lump metadata
-		std::array<Lump, static_cast<uint32_t>(BSPLump::COUNT)> lumps;
+		std::array<Lump, BSP_LUMP_COUNT> lumps;
 		/// Map version number
 		int32_t mapRevision;
 	};
@@ -147,10 +149,13 @@ protected:
 	void writeHeader() const;
 
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
-	void moveLumpToWritableSpace(BSPLump lumpIndex, int newSize);
+	void moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize);
 
 	std::string path;
 	Header header{};
+
+	// Slightly different header just to be quirky and special
+	bool isL4D2 = false;
 };
 
 } // namespace bsppp
