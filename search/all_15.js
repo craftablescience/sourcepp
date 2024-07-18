@@ -8,5 +8,6 @@ var searchData=
   ['worldlights_984',['WORLDLIGHTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0',1,'bsppp']]],
   ['worldlights_5fhdr_985',['WORLDLIGHTS_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a',1,'bsppp']]],
   ['writable_986',['writable',['../d3/da9/structvpkpp_1_1VirtualEntry.html#a0877460c7fde8027dce5070782d2652a',1,'vpkpp::VirtualEntry']]],
-  ['writelump_987',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345',1,'bsppp::BSP']]]
+  ['writeheader_987',['writeHeader',['../d5/dba/classbsppp_1_1BSP.html#a2e7dd5910f41b7cb213c82624b67e802',1,'bsppp::BSP']]],
+  ['writelump_988',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345',1,'bsppp::BSP']]]
 ];
