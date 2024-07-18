@@ -316,6 +316,30 @@ namespace ImageFormatDetails {
 	return red(format) > 8 || bpp(format) > 32;
 }
 
+[[nodiscard]] constexpr bool transparent(ImageFormat format) {
+	const auto a = alpha(format);
+	if (a < 0) {
+		switch (format) {
+			using enum ImageFormat;
+			case DXT1_ONE_BIT_ALPHA:
+			case ATI2N:
+			case ATI1N:
+			case BC7:
+			case BC6H:
+				return true;
+			default:
+				break;
+		}
+		return false;
+	} else {
+		return a != 0;
+	}
+}
+
+[[nodiscard]] constexpr bool opaque(ImageFormat format) {
+	return !transparent(format);
+}
+
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
 	switch(format) {
 		using enum ImageFormat;
