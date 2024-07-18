@@ -2,6 +2,7 @@
 
 #include <charconv>
 #include <filesystem>
+#include <algorithm>
 
 #include <BufferStream.h>
 
