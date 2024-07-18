@@ -101,6 +101,9 @@ public:
 	/// Remove an entry
 	virtual bool removeEntry(const std::string& filename_);
 
+	/// Remove a directory
+	virtual bool removeDirectory(const std::string& dirPath_);
+
 	/// If output folder is unspecified, it will overwrite the original
 	virtual bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) = 0;
 

@@ -296,6 +296,29 @@ bool PackFile::removeEntry(const std::string& filename_) {
 	return false;
 }
 
+bool PackFile::removeDirectory(const std::string& dirPath_) {
+	if (this->isReadOnly()) {
+		return false;
+	}
+
+	auto dirPath = dirPath_;
+	string::normalizeSlashes(dirPath);
+	if (!this->isCaseSensitive()) {
+		string::toLower(dirPath);
+	}
+
+	bool foundAnything = false;
+	if (this->unbakedEntries.contains(dirPath)) {
+		foundAnything = true;
+		this->unbakedEntries.erase(dirPath);
+	}
+	if (this->entries.contains(dirPath)) {
+		foundAnything = true;
+		this->entries.erase(dirPath);
+	}
+	return foundAnything;
+}
+
 bool PackFile::extractEntry(const Entry& entry, const std::string& filePath) const {
 	if (filePath.empty()) {
 		return false;
