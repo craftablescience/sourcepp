@@ -143,6 +143,8 @@ public:
 
 	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);
 
+	bool applyLumpPatchFile(const std::string& lumpFilePath);
+
 	void createLumpPatchFile(BSPLump lumpIndex) const;
 
 protected:

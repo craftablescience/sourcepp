@@ -115,6 +115,29 @@ void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
 	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
 }
 
+bool BSP::applyLumpPatchFile(const std::string& lumpFilePath) {
+	if (this->path.empty()) {
+		return false;
+	}
+
+	FileStream reader{lumpFilePath};
+	if (!reader) {
+		return false;
+	}
+
+	auto offset = reader.read<int32_t>();
+	auto index = reader.read<int32_t>();
+	auto version = reader.read<int32_t>();
+	auto length = reader.read<int32_t>();
+	if (index < 0 || index > BSP_LUMP_COUNT || offset <= 0 || length <= 0) {
+		return false;
+	}
+
+	this->header.lumps[index].version = version;
+	this->writeLump(static_cast<BSPLump>(index), reader.seek_in(offset).read_bytes(length));
+	return true;
+}
+
 void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 	auto lumpData = this->readLump(lumpIndex);
 	if (!lumpData) {
