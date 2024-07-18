@@ -56,7 +56,7 @@ var searchData=
   ['bsppp_105',['bsppp',['../dd/d11/namespacebsppp.html',1,'']]],
   ['bsppp_2ecpp_106',['bsppp.cpp',['../d3/d79/bsppp_8cpp.html',1,'']]],
   ['bsppp_2eh_107',['bsppp.h',['../d5/d60/bsppp_8h.html',1,'']]],
-  ['bytearray_108',['ByteArray',['../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71',1,'dmxpp::Value']]],
-  ['bytearray_109',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
+  ['bytearray_108',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
+  ['bytearray_109',['ByteArray',['../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71',1,'dmxpp::Value']]],
   ['bytetoid_110',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]]
 ];

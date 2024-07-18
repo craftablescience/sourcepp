@@ -17,7 +17,9 @@ var namespacevtfpp =
       [ "getDataPosition", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#abcc7109f048489bee620227ca5da2ce4", null ],
       [ "green", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b", null ],
       [ "large", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2abec7b9aa23378e8d4f975269697270", null ],
-      [ "red", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a", null ]
+      [ "opaque", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#af165209ed03701f0a935efcd5f3cd9fd", null ],
+      [ "red", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a", null ],
+      [ "transparent", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a78ae08639944704fc3005980477e7e56", null ]
     ] ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],

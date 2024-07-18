@@ -47,5 +47,7 @@ var ImageFormats_8h =
     [ "getMipDim", "d1/d2d/ImageFormats_8h.html#a7e32bf316fe267f7c83158cddd55c66b", null ],
     [ "green", "d1/d2d/ImageFormats_8h.html#a2dee38efbf446a2847bfef142dcded1b", null ],
     [ "large", "d1/d2d/ImageFormats_8h.html#a2abec7b9aa23378e8d4f975269697270", null ],
-    [ "red", "d1/d2d/ImageFormats_8h.html#aae8552792bf4ad0d4bc182cc34eba04a", null ]
+    [ "opaque", "d1/d2d/ImageFormats_8h.html#af165209ed03701f0a935efcd5f3cd9fd", null ],
+    [ "red", "d1/d2d/ImageFormats_8h.html#aae8552792bf4ad0d4bc182cc34eba04a", null ],
+    [ "transparent", "d1/d2d/ImageFormats_8h.html#a78ae08639944704fc3005980477e7e56", null ]
 ];
