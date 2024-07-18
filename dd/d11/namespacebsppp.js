@@ -85,5 +85,6 @@ var namespacebsppp =
       [ "UNUSED8", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2", null ],
       [ "COUNT", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d", null ]
     ] ],
+    [ "BSP_LUMP_COUNT", "dd/d11/namespacebsppp.html#a43b64a45a04c3808d0c3c938988cf2e0", null ],
     [ "BSP_SIGNATURE", "dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630", null ]
 ];
