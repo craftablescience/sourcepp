@@ -1,7 +1,6 @@
 var namespacevpkpp =
 [
     [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ],
-    [ "VirtualEntry", "d3/da9/structvpkpp_1_1VirtualEntry.html", "d3/da9/structvpkpp_1_1VirtualEntry" ],
     [ "BSP", "d2/da8/classvpkpp_1_1BSP.html", "d2/da8/classvpkpp_1_1BSP" ],
     [ "FPX", "da/d42/classvpkpp_1_1FPX.html", "da/d42/classvpkpp_1_1FPX" ],
     [ "GCF", "d1/d01/classvpkpp_1_1GCF.html", "d1/d01/classvpkpp_1_1GCF" ],

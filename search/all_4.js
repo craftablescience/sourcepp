@@ -41,7 +41,7 @@ var searchData=
   ['executable_5fextension3_262',['EXECUTABLE_EXTENSION3',['../d5/d29/namespacevpkpp.html#a953f160bad0e6c8921b333b54ca5b6a2',1,'vpkpp']]],
   ['executable_5fextension4_263',['EXECUTABLE_EXTENSION4',['../d5/d29/namespacevpkpp.html#aecfe627bcdbaff7dd2a12f36bacc70b8',1,'vpkpp']]],
   ['extractall_264',['extractAll',['../d2/dd2/classvpkpp_1_1PackFile.html#aa79bcbbb8ceab673a88ff09a68fee18e',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, const std::function&lt; bool(const Entry &amp;)&gt; &amp;predicate) const'],['../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, bool createUnderPackFileDir=true) const']]],
-  ['extractdir_265',['extractDir',['../d2/dd2/classvpkpp_1_1PackFile.html#a563192ee69d0b010c33cd219b7f1f4cd',1,'vpkpp::PackFile']]],
+  ['extractdirectory_265',['extractDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a17e84ec04f9af5b524c509fa042f4795',1,'vpkpp::PackFile']]],
   ['extractentry_266',['extractEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#ab5fdaefa4a6ade4dac9eedd8b5108c3e',1,'vpkpp::PackFile']]],
   ['eyeposition_267',['eyePosition',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a4d3f33b7872467719acfcd862337341f',1,'mdlpp::MDL::MDL']]]
 ];

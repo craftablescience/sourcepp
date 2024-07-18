@@ -92,7 +92,6 @@ var hierarchy =
     ] ],
     [ "vpkpp::PackFileOptions", "d5/db7/structvpkpp_1_1PackFileOptions.html", null ],
     [ "vpkpp::PCK::Header", "d5/da3/structvpkpp_1_1PCK_1_1Header.html", null ],
-    [ "vpkpp::VirtualEntry", "d3/da9/structvpkpp_1_1VirtualEntry.html", null ],
     [ "vpkpp::VPK::Footer2", "d5/dde/structvpkpp_1_1VPK_1_1Footer2.html", null ],
     [ "vpkpp::VPK::FreedChunk", "d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html", null ],
     [ "vpkpp::VPK::Header1", "d2/d67/structvpkpp_1_1VPK_1_1Header1.html", null ],

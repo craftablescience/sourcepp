@@ -174,12 +174,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a862027b34066fdfdbd995eb89c9a6739"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a862027b34066fdfdbd995eb89c9a6739">verifyEntryChecksums</a> () const override</td></tr>
 <tr class="memdesc:a862027b34066fdfdbd995eb89c9a6739"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the checksums of each file, if a file fails the check its filename will be added to the vector If there is no checksum ability in the format, it will return an empty vector.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#a862027b34066fdfdbd995eb89c9a6739">More...</a><br /></td></tr>
 <tr class="separator:a862027b34066fdfdbd995eb89c9a6739"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab95e062a89e85ed4a9e142e467dbb201"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#ab95e062a89e85ed4a9e142e467dbb201">hasFileChecksum</a> () const override</td></tr>
-<tr class="memdesc:ab95e062a89e85ed4a9e142e467dbb201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the entire file has a checksum.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#ab95e062a89e85ed4a9e142e467dbb201">More...</a><br /></td></tr>
-<tr class="separator:ab95e062a89e85ed4a9e142e467dbb201"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fe146082180c1f5c24b2086ca2e5c27"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a4fe146082180c1f5c24b2086ca2e5c27">verifyFileChecksum</a> () const override</td></tr>
-<tr class="memdesc:a4fe146082180c1f5c24b2086ca2e5c27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the checksum of the entire file, returns true on success Will return true if there is no checksum ability in the format.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#a4fe146082180c1f5c24b2086ca2e5c27">More...</a><br /></td></tr>
-<tr class="separator:a4fe146082180c1f5c24b2086ca2e5c27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e1b42953add9309894e1aa75567318e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a8e1b42953add9309894e1aa75567318e">hasPackFileChecksum</a> () const override</td></tr>
+<tr class="memdesc:a8e1b42953add9309894e1aa75567318e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the entire file has a checksum.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#a8e1b42953add9309894e1aa75567318e">More...</a><br /></td></tr>
+<tr class="separator:a8e1b42953add9309894e1aa75567318e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d3b1dc610cbcdfe99c909ead844d415"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a3d3b1dc610cbcdfe99c909ead844d415">verifyPackFileChecksum</a> () const override</td></tr>
+<tr class="memdesc:a3d3b1dc610cbcdfe99c909ead844d415"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the checksum of the entire file, returns true on success Will return true if there is no checksum ability in the format.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#a3d3b1dc610cbcdfe99c909ead844d415">More...</a><br /></td></tr>
+<tr class="separator:a3d3b1dc610cbcdfe99c909ead844d415"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af02647c25abfc6e6187f465abdab08f3"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#af02647c25abfc6e6187f465abdab08f3">readEntry</a> (const <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry) const override</td></tr>
 <tr class="memdesc:af02647c25abfc6e6187f465abdab08f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to read the entry's data to a bytebuffer.  <a href="../../d6/d2c/classvpkpp_1_1GMA.html#af02647c25abfc6e6187f465abdab08f3">More...</a><br /></td></tr>
 <tr class="separator:af02647c25abfc6e6187f465abdab08f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -208,16 +208,17 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5883051c60c72153edbc9d7363f6f36f inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5883051c60c72153edbc9d7363f6f36f">getOptions</a> () const</td></tr>
 <tr class="memdesc:a5883051c60c72153edbc9d7363f6f36f inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current options of the pack file.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5883051c60c72153edbc9d7363f6f36f">More...</a><br /></td></tr>
 <tr class="separator:a5883051c60c72153edbc9d7363f6f36f inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c641d8576085f80bb19bc1011c0e11c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5c641d8576085f80bb19bc1011c0e11c">hasFileSignature</a> () const</td></tr>
-<tr class="memdesc:a5c641d8576085f80bb19bc1011c0e11c inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is signed.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5c641d8576085f80bb19bc1011c0e11c">More...</a><br /></td></tr>
-<tr class="separator:a5c641d8576085f80bb19bc1011c0e11c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b3e8bd3fd43004c20817f662cc168b1 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a8b3e8bd3fd43004c20817f662cc168b1">verifyFileSignature</a> () const</td></tr>
-<tr class="memdesc:a8b3e8bd3fd43004c20817f662cc168b1 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the file signature, returns true on success Will return true if there is no signature ability in the format.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a8b3e8bd3fd43004c20817f662cc168b1">More...</a><br /></td></tr>
-<tr class="separator:a8b3e8bd3fd43004c20817f662cc168b1 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25621c2a03fbf947b4a46176dc63eb23 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25621c2a03fbf947b4a46176dc63eb23">hasPackFileSignature</a> () const</td></tr>
+<tr class="memdesc:a25621c2a03fbf947b4a46176dc63eb23 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the file is signed.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25621c2a03fbf947b4a46176dc63eb23">More...</a><br /></td></tr>
+<tr class="separator:a25621c2a03fbf947b4a46176dc63eb23 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a4ee6075bf81d76bb4c23377c5c33b36e">verifyPackFileSignature</a> () const</td></tr>
+<tr class="memdesc:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the file signature, returns true on success Will return true if there is no signature ability in the format.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a4ee6075bf81d76bb4c23377c5c33b36e">More...</a><br /></td></tr>
+<tr class="separator:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">isCaseSensitive</a> () const noexcept</td></tr>
 <tr class="memdesc:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">More...</a><br /></td></tr>
 <tr class="separator:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af2e4002ad5c686445b9a744d8fde6adb inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#af2e4002ad5c686445b9a744d8fde6adb">hasEntry</a> (const std::string &amp;filename_, bool includeUnbaked=true) const</td></tr>
+<tr class="memdesc:af2e4002ad5c686445b9a744d8fde6adb inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if an entry exists given the file path.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#af2e4002ad5c686445b9a744d8fde6adb">More...</a><br /></td></tr>
 <tr class="separator:af2e4002ad5c686445b9a744d8fde6adb inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8afb5f4fa87723f3a0971d60ecb65c1 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac8afb5f4fa87723f3a0971d60ecb65c1">findEntry</a> (const std::string &amp;filename_, bool includeUnbaked=true) const</td></tr>
 <tr class="memdesc:ac8afb5f4fa87723f3a0971d60ecb65c1 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to find an entry given the file path.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac8afb5f4fa87723f3a0971d60ecb65c1">More...</a><br /></td></tr>
@@ -239,12 +240,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:abce0c662287d4cbff53bd8f65a207182 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#abce0c662287d4cbff53bd8f65a207182">removeEntry</a> (const std::string &amp;filename_)</td></tr>
 <tr class="memdesc:abce0c662287d4cbff53bd8f65a207182 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#abce0c662287d4cbff53bd8f65a207182">More...</a><br /></td></tr>
 <tr class="separator:abce0c662287d4cbff53bd8f65a207182 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6994be0bd6c75e3d406b0625366e5ed inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac6994be0bd6c75e3d406b0625366e5ed">removeDirectory</a> (const std::string &amp;dirPath_)</td></tr>
+<tr class="memdesc:ac6994be0bd6c75e3d406b0625366e5ed inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac6994be0bd6c75e3d406b0625366e5ed">More...</a><br /></td></tr>
+<tr class="separator:ac6994be0bd6c75e3d406b0625366e5ed inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5fdaefa4a6ade4dac9eedd8b5108c3e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ab5fdaefa4a6ade4dac9eedd8b5108c3e">extractEntry</a> (const <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;filePath) const</td></tr>
 <tr class="memdesc:ab5fdaefa4a6ade4dac9eedd8b5108c3e inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the given entry to disk at the given file path.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ab5fdaefa4a6ade4dac9eedd8b5108c3e">More...</a><br /></td></tr>
 <tr class="separator:ab5fdaefa4a6ade4dac9eedd8b5108c3e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a563192ee69d0b010c33cd219b7f1f4cd inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a563192ee69d0b010c33cd219b7f1f4cd">extractDir</a> (const std::string &amp;dir, const std::string &amp;outputDir) const</td></tr>
-<tr class="memdesc:a563192ee69d0b010c33cd219b7f1f4cd inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the given directory to disk under the given output directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a563192ee69d0b010c33cd219b7f1f4cd">More...</a><br /></td></tr>
-<tr class="separator:a563192ee69d0b010c33cd219b7f1f4cd inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a17e84ec04f9af5b524c509fa042f4795 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a17e84ec04f9af5b524c509fa042f4795">extractDirectory</a> (const std::string &amp;dir, const std::string &amp;outputDir) const</td></tr>
+<tr class="memdesc:a17e84ec04f9af5b524c509fa042f4795 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the given directory to disk under the given output directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a17e84ec04f9af5b524c509fa042f4795">More...</a><br /></td></tr>
+<tr class="separator:a17e84ec04f9af5b524c509fa042f4795 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1fca84f086c2b7af79eac3daca4fd1f0 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0">extractAll</a> (const std::string &amp;outputDir, bool createUnderPackFileDir=true) const</td></tr>
 <tr class="memdesc:a1fca84f086c2b7af79eac3daca4fd1f0 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the contents of the pack file to disk at the given directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0">More...</a><br /></td></tr>
 <tr class="separator:a1fca84f086c2b7af79eac3daca4fd1f0 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -312,6 +316,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a3a3acac5e0471849709ae432d6a99687 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac115137c97c3ba1f2705a227aafeb482 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac115137c97c3ba1f2705a227aafeb482">setFullFilePath</a> (const std::string &amp;outputDir)</td></tr>
 <tr class="separator:ac115137c97c3ba1f2705a227aafeb482 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca6b80e5c2120ad06f5ab27527521fa8 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aca6b80e5c2120ad06f5ab27527521fa8">readUnbakedEntry</a> (const <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry) const</td></tr>
+<tr class="separator:aca6b80e5c2120ad06f5ab27527521fa8 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -442,7 +448,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac89ea046d66ab5c332deaa981932a6ee">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00123">123</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
 </div>
 </div>
@@ -484,7 +490,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3140d022ab008957865c94cd89073313">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00159">159</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00146">146</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
 </div>
 </div>
@@ -515,7 +521,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a9d7de44900dfcb5afd9e78798027a561">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00246">246</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00233">233</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
 </div>
 </div>
@@ -550,8 +556,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="ab95e062a89e85ed4a9e142e467dbb201"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab95e062a89e85ed4a9e142e467dbb201">&#9670;&nbsp;</a></span>hasFileChecksum()</h2>
+<a id="a8e1b42953add9309894e1aa75567318e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8e1b42953add9309894e1aa75567318e">&#9670;&nbsp;</a></span>hasPackFileChecksum()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -560,7 +566,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool GMA::hasFileChecksum </td>
+          <td class="memname">bool GMA::hasPackFileChecksum </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -575,7 +581,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns true if the entire file has a checksum. </p>
 
-<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aa5c2d197f10cc2c4b0103f2d4d5eddab">vpkpp::PackFile</a>.</p>
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6a34e06dd55959ef95b88d2763cc5d1a">vpkpp::PackFile</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
@@ -652,7 +658,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00251">251</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00238">238</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
 </div>
 </div>
@@ -719,8 +725,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a4fe146082180c1f5c24b2086ca2e5c27"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fe146082180c1f5c24b2086ca2e5c27">&#9670;&nbsp;</a></span>verifyFileChecksum()</h2>
+<a id="a3d3b1dc610cbcdfe99c909ead844d415"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d3b1dc610cbcdfe99c909ead844d415">&#9670;&nbsp;</a></span>verifyPackFileChecksum()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -729,7 +735,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool GMA::verifyFileChecksum </td>
+          <td class="memname">bool GMA::verifyPackFileChecksum </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -744,7 +750,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Verify the checksum of the entire file, returns true on success Will return true if there is no checksum ability in the format. </p>
 
-<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ac11d3894b079d6b574a37c4ac8512002">vpkpp::PackFile</a>.</p>
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a46893bdc6813e9d6a1f71ef0a1df4901">vpkpp::PackFile</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../da/dc2/GMA_8cpp_source.html#l00095">95</a> of file <a class="el" href="../../da/dc2/GMA_8cpp_source.html">GMA.cpp</a>.</p>
 
