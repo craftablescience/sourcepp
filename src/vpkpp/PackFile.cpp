@@ -175,6 +175,10 @@ bool PackFile::verifyFileSignature() const {
 	return true;
 }
 
+bool PackFile::hasEntry(const std::string& filename_, bool includeUnbaked) const {
+	return static_cast<bool>(this->findEntry(filename_, includeUnbaked));
+}
+
 std::optional<Entry> PackFile::findEntry(const std::string& filename_, bool includeUnbaked) const {
 	auto filename = filename_;
 	string::normalizeSlashes(filename);

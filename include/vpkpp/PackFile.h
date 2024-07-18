@@ -74,6 +74,8 @@ public:
 		return false;
 	}
 
+	[[nodiscard]] bool hasEntry(const std::string& filename_, bool includeUnbaked = true) const;
+
 	/// Try to find an entry given the file path
 	[[nodiscard]] std::optional<Entry> findEntry(const std::string& filename_, bool includeUnbaked = true) const;
 
