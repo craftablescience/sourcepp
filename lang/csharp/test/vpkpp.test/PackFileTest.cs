@@ -48,7 +48,7 @@ namespace vpkpp.test
             var vpk = PackFile.Open(BasePortalPath + "portal_pak_dir.vpk");
             Assert.IsNotNull(vpk);
             Assert.AreEqual(vpk.VerifyEntryChecksums().Count(), 0);
-            Assert.IsTrue(vpk.VerifyFileChecksum());
+            Assert.IsTrue(vpk.VerifyPackFileChecksum());
         }
 
         [TestMethod]

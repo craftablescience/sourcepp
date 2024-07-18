@@ -55,34 +55,41 @@ SOURCEPP_API sourcepp_string_array_t vpkpp_verify_entry_checksums(vpkpp_pack_fil
 	return Convert::toStringArray(Convert::packFile(handle)->verifyEntryChecksums());
 }
 
-SOURCEPP_API bool vpkpp_has_file_checksum(vpkpp_pack_file_handle_t handle) {
+SOURCEPP_API bool vpkpp_has_pack_file_checksum(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::packFile(handle)->hasFileChecksum();
+	return Convert::packFile(handle)->hasPackFileChecksum();
 }
 
-SOURCEPP_API bool vpkpp_verify_file_checksum(vpkpp_pack_file_handle_t handle) {
+SOURCEPP_API bool vpkpp_verify_pack_file_checksum(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::packFile(handle)->verifyFileChecksum();
+	return Convert::packFile(handle)->verifyPackFileChecksum();
 }
 
-SOURCEPP_API bool vpkpp_has_file_signature(vpkpp_pack_file_handle_t handle) {
+SOURCEPP_API bool vpkpp_has_pack_file_signature(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::packFile(handle)->hasFileSignature();
+	return Convert::packFile(handle)->hasPackFileSignature();
 }
 
-SOURCEPP_API bool vpkpp_verify_file_signature(vpkpp_pack_file_handle_t handle) {
+SOURCEPP_API bool vpkpp_verify_pack_file_signature(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::packFile(handle)->verifyFileSignature();
+	return Convert::packFile(handle)->verifyPackFileSignature();
 }
 
 SOURCEPP_API bool vpkpp_is_case_sensitive(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
 	return Convert::packFile(handle)->isCaseSensitive();
+}
+
+SOURCEPP_API bool vpkpp_has_entry(vpkpp_pack_file_handle_t handle, const char* filename, bool includeUnbaked) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+	SOURCEPP_EARLY_RETURN_VAL(filename, false);
+
+	return Convert::packFile(handle)->hasEntry(filename, includeUnbaked);
 }
 
 SOURCEPP_API vpkpp_entry_handle_t vpkpp_find_entry(vpkpp_pack_file_handle_t handle, const char* filename, bool includeUnbaked) {
@@ -159,12 +166,12 @@ SOURCEPP_API bool vpkpp_extract_entry(vpkpp_pack_file_handle_t handle, vpkpp_ent
 	return Convert::packFile(handle)->extractEntry(*Convert::entry(entry), filePath);
 }
 
-SOURCEPP_API bool vpkpp_extract_dir(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir) {
+SOURCEPP_API bool vpkpp_extract_directory(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(dir, false);
 	SOURCEPP_EARLY_RETURN_VAL(outputDir, false);
 
-	return Convert::packFile(handle)->extractDir(dir, outputDir);
+	return Convert::packFile(handle)->extractDirectory(dir, outputDir);
 }
 
 SOURCEPP_API bool vpkpp_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, bool createUnderPackFileDir) {

@@ -33,15 +33,17 @@ SOURCEPP_API bool vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle);
 // REQUIRES MANUAL FREE: sourcepp_string_array_free
 SOURCEPP_API sourcepp_string_array_t vpkpp_verify_entry_checksums(vpkpp_pack_file_handle_t handle);
 
-SOURCEPP_API bool vpkpp_has_file_checksum(vpkpp_pack_file_handle_t handle);
+SOURCEPP_API bool vpkpp_has_pack_file_checksum(vpkpp_pack_file_handle_t handle);
 
-SOURCEPP_API bool vpkpp_verify_file_checksum(vpkpp_pack_file_handle_t handle);
+SOURCEPP_API bool vpkpp_verify_pack_file_checksum(vpkpp_pack_file_handle_t handle);
 
-SOURCEPP_API bool vpkpp_has_file_signature(vpkpp_pack_file_handle_t handle);
+SOURCEPP_API bool vpkpp_has_pack_file_signature(vpkpp_pack_file_handle_t handle);
 
-SOURCEPP_API bool vpkpp_verify_file_signature(vpkpp_pack_file_handle_t handle);
+SOURCEPP_API bool vpkpp_verify_pack_file_signature(vpkpp_pack_file_handle_t handle);
 
 SOURCEPP_API bool vpkpp_is_case_sensitive(vpkpp_pack_file_handle_t handle);
+
+SOURCEPP_API bool vpkpp_has_entry(vpkpp_pack_file_handle_t handle, const char* filename, bool includeUnbaked);
 
 // REQUIRES MANUAL FREE: vpkpp_entry_free
 SOURCEPP_API vpkpp_entry_handle_t vpkpp_find_entry(vpkpp_pack_file_handle_t handle, const char* filename, bool includeUnbaked);
@@ -64,7 +66,7 @@ SOURCEPP_API bool vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* output
 
 SOURCEPP_API bool vpkpp_extract_entry(vpkpp_pack_file_handle_t handle, vpkpp_entry_handle_t entry, const char* filePath);
 
-SOURCEPP_API bool vpkpp_extract_dir(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir);
+SOURCEPP_API bool vpkpp_extract_directory(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir);
 
 SOURCEPP_API bool vpkpp_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, bool createUnderPackFileDir);
 

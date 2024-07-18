@@ -26,19 +26,22 @@ namespace vpkpp
         public static extern StringArray vpkpp_verify_entry_checksums(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_has_file_checksum(void* handle);
+        public static extern byte vpkpp_has_pack_file_checksum(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_verify_file_checksum(void* handle);
+        public static extern byte vpkpp_verify_pack_file_checksum(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_has_file_signature(void* handle);
+        public static extern byte vpkpp_has_pack_file_signature(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_verify_file_signature(void* handle);
+        public static extern byte vpkpp_verify_pack_file_signature(void* handle);
 
         [DllImport("vpkppc")]
         public static extern byte vpkpp_is_case_sensitive(void* handle);
+
+        [DllImport("vpkppc")]
+        public static extern byte vpkpp_has_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filename, byte includeUnbaked);
 
         [DllImport("vpkppc")]
         public static extern void* vpkpp_find_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filename, byte includeUnbaked);
@@ -68,7 +71,7 @@ namespace vpkpp
         public static extern byte vpkpp_extract_entry(void* handle, void* entry, [MarshalAs(UnmanagedType.LPStr)] string filePath);
 
         [DllImport("vpkppc")]
-        public static extern byte vpkpp_extract_dir(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dir, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
+        public static extern byte vpkpp_extract_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dir, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
 
         [DllImport("vpkppc")]
         public static extern byte vpkpp_extract_all(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, byte createUnderPackFileDir);
@@ -184,35 +187,43 @@ namespace vpkpp
             }
         }
 
-        public bool HasFileChecksum()
+        public bool HasPackFileChecksum()
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_file_checksum(Handle));
+                return Convert.ToBoolean(Extern.vpkpp_has_pack_file_checksum(Handle));
             }
         }
 
-        public bool VerifyFileChecksum()
+        public bool VerifyPackFileChecksum()
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_verify_file_checksum(Handle));
+                return Convert.ToBoolean(Extern.vpkpp_verify_pack_file_checksum(Handle));
             }
         }
 
-        public bool HasFileSignature()
+        public bool HasPackFileSignature()
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_file_signature(Handle));
+                return Convert.ToBoolean(Extern.vpkpp_has_pack_file_signature(Handle));
             }
         }
 
-        public bool VerifyFileSignature()
+        public bool VerifyPackFileSignature()
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_verify_file_signature(Handle));
+                return Convert.ToBoolean(Extern.vpkpp_verify_pack_file_signature(Handle));
+            }
+        }
+
+        public bool HasEntry(string filename, bool includeUnbaked = true)
+        {
+            unsafe
+            {
+                return Convert.ToBoolean(Extern.vpkpp_has_entry(Handle, filename, Convert.ToByte(includeUnbaked)));
             }
         }
 
@@ -298,11 +309,11 @@ namespace vpkpp
             }
         }
 
-        public bool ExtractDir(string dir, string outputDir)
+        public bool ExtractDirectory(string dir, string outputDir)
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_extract_dir(Handle, dir, outputDir));
+                return Convert.ToBoolean(Extern.vpkpp_extract_directory(Handle, dir, outputDir));
             }
         }
 
