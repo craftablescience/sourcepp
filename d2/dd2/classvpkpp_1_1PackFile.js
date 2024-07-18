@@ -34,6 +34,7 @@ var classvpkpp_1_1PackFile =
     [ "getTruncatedFilestem", "d2/dd2/classvpkpp_1_1PackFile.html#a62a48240177f0c3b422b5a7bd768e9ae", null ],
     [ "getType", "d2/dd2/classvpkpp_1_1PackFile.html#a1b441d33f287e522af51446219111c31", null ],
     [ "getUnbakedEntries", "d2/dd2/classvpkpp_1_1PackFile.html#acd4487477c0055e8f592f0c5ffc18ec9", null ],
+    [ "hasEntry", "d2/dd2/classvpkpp_1_1PackFile.html#af2e4002ad5c686445b9a744d8fde6adb", null ],
     [ "hasEntryChecksums", "d2/dd2/classvpkpp_1_1PackFile.html#a01489dadc91ac52b3c4665b58a40a6ff", null ],
     [ "hasFileChecksum", "d2/dd2/classvpkpp_1_1PackFile.html#aa5c2d197f10cc2c4b0103f2d4d5eddab", null ],
     [ "hasFileSignature", "d2/dd2/classvpkpp_1_1PackFile.html#a5c641d8576085f80bb19bc1011c0e11c", null ],
