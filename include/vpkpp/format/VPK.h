@@ -63,13 +63,13 @@ public:
 	using EntryCreationCallback = std::function<std::tuple<bool, uint32_t>(const std::string& fullEntryPath)>;
 
 	/// Create a new directory VPK file - must end in "_dir.vpk"! This is not enforced but STRONGLY recommended
-	[[nodiscard]] static std::unique_ptr<PackFile> createEmpty(const std::string& path, PackFileOptions options = {});
+	static std::unique_ptr<PackFile> createEmpty(const std::string& path, PackFileOptions options = {});
 
 	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. (See above comment)
-	[[nodiscard]] static std::unique_ptr<PackFile> createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir = false, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
+	static std::unique_ptr<PackFile> createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir = false, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
 
 	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. Each entry's properties is determined by a callback. (See above comment)
-	[[nodiscard]] static std::unique_ptr<PackFile> createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
+	static std::unique_ptr<PackFile> createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
 
 	/// Open a directory VPK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
