@@ -41,6 +41,24 @@ BSP BSP::create(std::string path, int32_t version, int32_t mapRevision) {
 	return BSP{std::move(path)};
 }
 
+int32_t BSP::getVersion() const {
+	return this->header.version;
+}
+
+void BSP::setVersion(int32_t version) {
+	this->header.version = version;
+	this->writeHeader();
+}
+
+int32_t BSP::getMapRevision() const {
+	return this->header.mapRevision;
+}
+
+void BSP::setMapRevision(int32_t mapRevision) {
+	this->header.mapRevision = mapRevision;
+	this->writeHeader();
+}
+
 bool BSP::hasLump(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return false;
@@ -96,12 +114,23 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 
 	FileStream writer{fsStem + std::to_string(nonexistentNumber) + ".lmp", FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	writer
+		.seek_out(0)
 		.write<int32_t>(sizeof(int32_t) * 5)
 		.write(lumpIndex)
 		.write(lump.version)
 		.write(lump.length)
 		.write(this->header.mapRevision)
 		.write(*lumpData);
+}
+
+void BSP::writeHeader() const {
+	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
+	writer
+		.seek_out(0)
+		.write(BSP_SIGNATURE)
+		.write(this->header.version)
+		.write(this->header.lumps)
+		.write(this->header.mapRevision);
 }
 
 void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int newSize) {
@@ -140,13 +169,18 @@ void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int newSize) {
 	}
 
 	// Move all the lumps after paklump back
-	FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	auto lumpsData = bsp.seek_in(moveOffsetStart).read_bytes(moveOffsetEnd - moveOffsetStart);
-	bsp.seek_out(lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength).write(lumpsData);
+	{
+		FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
+		auto lumpsData = bsp.seek_in(moveOffsetStart).read_bytes(moveOffsetEnd - moveOffsetStart);
+		bsp.seek_out(lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength).write(lumpsData);
 
-	// Fix the offsets
-	for (int lumpsAfterMovingLumpIndex : lumpsAfterMovingLumpIndices) {
-		this->header.lumps[lumpsAfterMovingLumpIndex].offset -= newSize;
+		// Fix the offsets
+		for (int lumpsAfterMovingLumpIndex : lumpsAfterMovingLumpIndices) {
+			this->header.lumps[lumpsAfterMovingLumpIndex].offset -= newSize;
+		}
+		this->header.lumps[lumpToMove].offset = lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength + static_cast<int>(lumpsData.size());
 	}
-	this->header.lumps[lumpToMove].offset = lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength + static_cast<int>(lumpsData.size());
+
+	// Write modified header
+	this->writeHeader();
 }

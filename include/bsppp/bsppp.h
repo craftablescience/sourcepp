@@ -127,6 +127,14 @@ public:
 
 	static BSP create(std::string path, int32_t version = 21, int32_t mapRevision = 0);
 
+	[[nodiscard]] int32_t getVersion() const;
+
+	void setVersion(int32_t version);
+
+	[[nodiscard]] int32_t getMapRevision() const;
+
+	void setMapRevision(int32_t mapRevision);
+
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
@@ -136,6 +144,8 @@ public:
 	void createLumpPatchFile(BSPLump lumpIndex) const;
 
 protected:
+	void writeHeader() const;
+
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
 	void moveLumpToWritableSpace(BSPLump lumpIndex, int newSize);
 
