@@ -125,7 +125,7 @@ public:
 
 	explicit operator bool() const;
 
-	[[nodiscard]] static BSP create(std::string path, int32_t version = 21, int32_t mapRevision = 0);
+	static BSP create(std::string path, int32_t version = 21, int32_t mapRevision = 0);
 
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
