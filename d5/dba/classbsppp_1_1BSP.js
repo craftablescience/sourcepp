@@ -1,6 +1,7 @@
 var classbsppp_1_1BSP =
 [
     [ "BSP", "d5/dba/classbsppp_1_1BSP.html#a8778ef34f23c187e5ab332bf81223c6a", null ],
+    [ "applyLumpPatchFile", "d5/dba/classbsppp_1_1BSP.html#ab092e93ffdebb2cc1226f13791d7771b", null ],
     [ "create", "d5/dba/classbsppp_1_1BSP.html#a03d2977eab502511316ee9517b2783c4", null ],
     [ "createLumpPatchFile", "d5/dba/classbsppp_1_1BSP.html#aa2bd3d2880f264fa2317fed4e0f43dce", null ],
     [ "getMapRevision", "d5/dba/classbsppp_1_1BSP.html#a6906913ce9a15dd3ff2cf2103501e42b", null ],
