@@ -50,7 +50,6 @@ var classvpkpp_1_1PackFile =
     [ "readEntryText", "d2/dd2/classvpkpp_1_1PackFile.html#a4cb15db05b4c435ea4872451772ee948", null ],
     [ "readUnbakedEntry", "d2/dd2/classvpkpp_1_1PackFile.html#aca6b80e5c2120ad06f5ab27527521fa8", null ],
     [ "registerOpenExtensionForTypeFactory", "d2/dd2/classvpkpp_1_1PackFile.html#a48d5a7b79c3c10d64745048eb5b18b21", null ],
-    [ "removeDirectory", "d2/dd2/classvpkpp_1_1PackFile.html#ac6994be0bd6c75e3d406b0625366e5ed", null ],
     [ "removeEntry", "d2/dd2/classvpkpp_1_1PackFile.html#abce0c662287d4cbff53bd8f65a207182", null ],
     [ "setFullFilePath", "d2/dd2/classvpkpp_1_1PackFile.html#ac115137c97c3ba1f2705a227aafeb482", null ],
     [ "splitFilenameAndParentDir", "d2/dd2/classvpkpp_1_1PackFile.html#ab1f28aa163ff738a5feefef3b6910f6e", null ],

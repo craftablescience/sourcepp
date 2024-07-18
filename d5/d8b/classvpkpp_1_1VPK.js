@@ -24,7 +24,6 @@ var classvpkpp_1_1VPK =
     [ "openInternal", "d5/d8b/classvpkpp_1_1VPK.html#aec6e0fa5791051f1f0d6868aa4bb9eb8", null ],
     [ "operator std::string", "d5/d8b/classvpkpp_1_1VPK.html#a7c426770ce5c05057440449a3adb06a8", null ],
     [ "readEntry", "d5/d8b/classvpkpp_1_1VPK.html#ab4e7952d468ebe3fdb3a640ce1606e74", null ],
-    [ "removeDirectory", "d5/d8b/classvpkpp_1_1VPK.html#a297df2c63dbf325e996fe9ee15649bb1", null ],
     [ "removeEntry", "d5/d8b/classvpkpp_1_1VPK.html#aa1e0ac4d125dd6e1129bee61a3653750", null ],
     [ "setVersion", "d5/d8b/classvpkpp_1_1VPK.html#a8635c4554e2ef3120eb20d030755a42f", null ],
     [ "sign", "d5/d8b/classvpkpp_1_1VPK.html#a9b63f9ffac005b88c99fe5e92220be39", null ],
