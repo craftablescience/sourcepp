@@ -151,6 +151,13 @@ SOURCEPP_API bool vpkpp_remove_entry(vpkpp_pack_file_handle_t handle, const char
 	return Convert::packFile(handle)->removeEntry(filename);
 }
 
+SOURCEPP_API bool vpkpp_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirPath) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+	SOURCEPP_EARLY_RETURN_VAL(dirPath, false);
+
+	return Convert::packFile(handle)->removeDirectory(dirPath);
+}
+
 SOURCEPP_API bool vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(outputDir, false);
