@@ -127,6 +127,8 @@ public:
 
 	[[nodiscard]] static BSP create(std::string path, int32_t version = 21, int32_t mapRevision = 0);
 
+	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
+
 	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
 
 	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);

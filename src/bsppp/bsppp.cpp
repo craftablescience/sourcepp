@@ -41,19 +41,22 @@ BSP BSP::create(std::string path, int32_t version, int32_t mapRevision) {
 	return BSP{std::move(path)};
 }
 
-std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
+bool BSP::hasLump(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
-		return std::nullopt;
+		return false;
 	}
+	auto lump = static_cast<int32_t>(lumpIndex);
+	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
+}
 
-	auto lumpToRead = static_cast<uint32_t>(lump);
-	if (this->header.lumps[lumpToRead].length == 0 || this->header.lumps[lumpToRead].offset == 0) {
+std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
+	if (this->path.empty() || !this->hasLump(lump)) {
 		return std::nullopt;
 	}
 	FileStream reader{this->path};
 	return reader
-		.seek_in(this->header.lumps[lumpToRead].offset)
-		.read_bytes(this->header.lumps[lumpToRead].length);
+		.seek_in(this->header.lumps[static_cast<int32_t>(lump)].offset)
+		.read_bytes(this->header.lumps[static_cast<int32_t>(lump)].length);
 }
 
 void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
