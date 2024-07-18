@@ -139,6 +139,10 @@ public:
 
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
+	[[nodiscard]] int32_t getLumpVersion(BSPLump lumpIndex) const;
+
+	void setLumpVersion(BSPLump lumpIndex, int32_t version);
+
 	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
 
 	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);

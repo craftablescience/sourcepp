@@ -94,6 +94,18 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
 }
 
+int32_t BSP::getLumpVersion(BSPLump lumpIndex) const {
+	if (this->path.empty()) {
+		return 0;
+	}
+	return this->header.lumps[static_cast<int32_t>(lumpIndex)].version;
+}
+
+void BSP::setLumpVersion(BSPLump lumpIndex, int32_t version) {
+	this->header.lumps[static_cast<int32_t>(lumpIndex)].version = version;
+	this->writeHeader();
+}
+
 std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
 	if (this->path.empty() || !this->hasLump(lump)) {
 		return std::nullopt;
