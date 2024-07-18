@@ -321,6 +321,8 @@ namespace ImageFormatDetails {
 	if (a < 0) {
 		switch (format) {
 			using enum ImageFormat;
+			case DXT3:
+			case DXT5:
 			case DXT1_ONE_BIT_ALPHA:
 			case ATI2N:
 			case ATI1N:
