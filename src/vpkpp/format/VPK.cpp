@@ -526,7 +526,7 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 	};
 
 	// Copy external binary blobs to the new dir
-	if (!outputDir.empty()) {
+	if (!outputDir_.empty()) {
 		for (int archiveIndex = 0; archiveIndex < this->numArchives; archiveIndex++) {
 			std::string from = getArchiveFilename(this->getTruncatedFilepath(), archiveIndex);
 			if (!std::filesystem::exists(from)) {
