@@ -3,6 +3,7 @@
 #include <BufferStream.h>
 
 #include <sourcepp/parser/Text.h>
+#include <sourcepp/string/String.h>
 
 using namespace kvpp;
 using namespace sourcepp;
@@ -30,7 +31,7 @@ uint64_t KV1Element::getChildCount() const {
 uint64_t KV1Element::getChildCount(std::string_view childKey) const {
 	uint64_t count = 0;
 	for (const KV1Element& element : this->children) {
-		if (element.key == childKey) {
+		if (string::iequals(element.key, childKey)) {
 			++count;
 		}
 	}
@@ -51,7 +52,7 @@ const KV1Element& KV1Element::operator[](std::string_view childKey) const {
 
 const KV1Element& KV1Element::operator()(std::string_view childKey) const {
 	for (const auto& element : this->children) {
-		if (element.key == childKey) {
+		if (string::iequals(element.key, childKey)) {
 			return element;
 		}
 	}
@@ -61,7 +62,7 @@ const KV1Element& KV1Element::operator()(std::string_view childKey) const {
 const KV1Element& KV1Element::operator()(std::string_view childKey, unsigned int n) const {
 	unsigned int count = 0;
 	for (const auto& element : this->children) {
-		if (element.key == childKey) {
+		if (string::iequals(element.key, childKey)) {
 			if (count == n) {
 				return element;
 			} else {
