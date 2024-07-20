@@ -346,7 +346,7 @@ $(document).ready(function(){initNavTree('d1/da7/VPK_8cpp_source.html','../../')
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">return</span> packFile;</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="comment">// Skip over file data, if any</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    reader.seek_in(vpk-&gt;header2.fileDataSectionSize, std::ios_base::cur);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    reader.seek_in(vpk-&gt;header2.fileDataSectionSize, std::ios::cur);</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">if</span> (vpk-&gt;header2.archiveMD5SectionSize % <span class="keyword">sizeof</span>(<a class="code" href="../../dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html">MD5Entry</a>) != 0)</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
