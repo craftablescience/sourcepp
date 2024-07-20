@@ -226,7 +226,7 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOpt
 		return packFile;
 
 	// Skip over file data, if any
-	reader.seek_in(vpk->header2.fileDataSectionSize, std::ios_base::cur);
+	reader.seek_in(vpk->header2.fileDataSectionSize, std::ios::cur);
 
 	if (vpk->header2.archiveMD5SectionSize % sizeof(MD5Entry) != 0)
 		return nullptr;
