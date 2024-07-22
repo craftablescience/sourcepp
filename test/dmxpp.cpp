@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <dmxpp/dmxpp.h>
-#include <sourcepp/fs/FS.h>
+import dmxpp;
+import sourcepp;
 
 using namespace dmxpp;
 using namespace sourcepp;

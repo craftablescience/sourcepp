@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <kvpp/kvpp.h>
+import kvpp;
 
 using namespace kvpp;
 

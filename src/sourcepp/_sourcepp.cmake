@@ -23,6 +23,8 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_LIST_DIR}/parser/Text.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/string/String.cpp")
 
+target_sources(${PROJECT_NAME} PUBLIC FILE_SET CXX_MODULES FILES "${CMAKE_CURRENT_LIST_DIR}/sourcepp.cppm")
+
 target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

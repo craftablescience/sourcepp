@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <sourcepp/fs/FS.h>
-#include <vicepp/vicepp.h>
+import sourcepp;
+import vicepp;
 
 using namespace sourcepp;
 using namespace vicepp;
@@ -10,7 +10,7 @@ TEST(vicepp, decrypt) {
 	auto encrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.enc");
 	auto decrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
-	auto test = decrypt(encrypted);
+	auto test = decrypt(encrypted, KnownCodes::VICEPP_HALF_LIFE_2_DM);
 	ASSERT_EQ(test.size(), decrypted.size());
 
 	for (int i = 0; i < test.size(); i++) {
@@ -22,7 +22,7 @@ TEST(vicepp, encrypt) {
 	auto encrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.enc");
 	auto decrypted = fs::readFileBuffer(ASSET_ROOT "vicepp/weapon_pistol.dec");
 
-	auto test = encrypt(decrypted);
+	auto test = encrypt(decrypted, KnownCodes::VICEPP_HALF_LIFE_2_DM);
 	ASSERT_EQ(test.size(), encrypted.size());
 
 	for (int i = 0; i < test.size(); i++) {

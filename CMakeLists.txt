@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.28 FATAL_ERROR)
 
 
 # Set defaults before project call
@@ -11,6 +11,7 @@ endif()
 project(sourcepp)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 # Options
@@ -92,7 +93,7 @@ add_sourcepp_library(kvpp)
 add_sourcepp_library(mdlpp)
 add_sourcepp_library(steampp C)
 add_sourcepp_library(vicepp C CSHARP)
-add_sourcepp_library(vpkpp C CSHARP)
+add_sourcepp_library(vpkpp C CSHARP NO_TEST)
 add_sourcepp_library(vtfpp)
 
 

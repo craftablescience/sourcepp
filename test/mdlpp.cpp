@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <mdlpp/mdlpp.h>
-#include <sourcepp/fs/FS.h>
+import mdlpp;
+import sourcepp;
 
 using namespace mdlpp;
 using namespace sourcepp;

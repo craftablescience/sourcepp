@@ -1,8 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <steampp/steampp.h>
+import steampp;
 
-using namespace sourcepp;
 using namespace steampp;
 
 #if 0

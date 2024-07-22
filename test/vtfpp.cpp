@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include <sourcepp/fs/FS.h>
-#include <vtfpp/vtfpp.h>
+import sourcepp;
+import vtfpp;
 
 using namespace sourcepp;
 using namespace vtfpp;

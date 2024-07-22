@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <fgdpp/fgdpp.h>
+import fgdpp;
 
 using namespace fgdpp;
 
