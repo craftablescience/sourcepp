@@ -37,8 +37,8 @@ constexpr std::string_view ZOMBIE_PANIC_SOURCE = "5R0ni0pZ";
 
 } // namespace KnownCodes
 
-[[nodiscard]] std::vector<std::byte> encrypt(std::span<const std::byte> data, std::string_view code = KnownCodes::DEFAULT);
+[[nodiscard]] std::vector<std::byte> encrypt(std::span<const std::byte> data, std::string_view code);
 
-[[nodiscard]] std::vector<std::byte> decrypt(std::span<const std::byte> data, std::string_view code = KnownCodes::DEFAULT);
+[[nodiscard]] std::vector<std::byte> decrypt(std::span<const std::byte> data, std::string_view code);
 
 } // namespace vicepp
