@@ -1,6 +1,6 @@
 # Add a new parser library
 function(add_pretty_parser TARGET)
-    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C" "" "DEPS;PRECOMPILED_HEADERS;SOURCES;MODULES")
+    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C" "" "DEPS;PRECOMPILED_HEADERS;SOURCES")
 
     if(OPTIONS_C)
         add_library(${TARGET}c SHARED ${${PROJECT_NAME}c_SOURCES} ${OPTIONS_PRECOMPILED_HEADERS} ${OPTIONS_SOURCES})
@@ -10,9 +10,6 @@ function(add_pretty_parser TARGET)
         set(TARGET "${TARGET}c")
     else()
         add_library(${TARGET} STATIC ${OPTIONS_PRECOMPILED_HEADERS} ${OPTIONS_SOURCES})
-        if(NOT ("MODULES" IN_LIST OPTIONS_UNPARSED_ARGUMENTS))
-            target_sources(${TARGET} PUBLIC FILE_SET CXX_MODULES FILES ${OPTIONS_MODULES})
-        endif()
     endif()
     if(NOT ("PRECOMPILED_HEADERS" IN_LIST OPTIONS_UNPARSED_ARGUMENTS))
         target_precompile_headers(${TARGET} PUBLIC ${OPTIONS_HEADERS})
