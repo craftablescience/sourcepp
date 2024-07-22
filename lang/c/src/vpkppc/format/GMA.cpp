@@ -1,9 +1,9 @@
 #include <vpkppc/format/GMA.h>
 
-#include <vpkpp/format/GMA.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

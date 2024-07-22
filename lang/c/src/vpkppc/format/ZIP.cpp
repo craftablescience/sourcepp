@@ -1,9 +1,9 @@
 #include <vpkppc/format/ZIP.h>
 
-#include <vpkpp/format/ZIP.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

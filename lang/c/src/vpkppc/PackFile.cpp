@@ -5,11 +5,11 @@
 #include <memory>
 #include <utility>
 
-#include <vpkpp/PackFile.h>
-
 #include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

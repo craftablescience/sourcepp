@@ -1,9 +1,9 @@
 #include <vpkppc/format/BSP.h>
 
-#include <vpkpp/format/BSP.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

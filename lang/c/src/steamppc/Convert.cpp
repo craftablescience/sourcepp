@@ -1,6 +1,6 @@
 #include <steamppc/Convert.hpp>
 
-#include <steampp/steampp.h>
+import steampp;
 
 using namespace steampp;
 

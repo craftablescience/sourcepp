@@ -1,9 +1,9 @@
 #include <vpkppc/format/GCF.h>
 
-#include <vpkpp/format/GCF.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

@@ -1,10 +1,10 @@
 #include <vpkppc/Entry.h>
 
-#include <vpkpp/Entry.h>
-
 #include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

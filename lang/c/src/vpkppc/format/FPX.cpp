@@ -1,9 +1,9 @@
 #include <vpkppc/format/FPX.h>
 
-#include <vpkpp/format/FPX.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 

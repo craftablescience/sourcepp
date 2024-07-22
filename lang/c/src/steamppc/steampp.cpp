@@ -1,10 +1,10 @@
 #include <steamppc/steampp.h>
 
-#include <steampp/steampp.h>
-
 #include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <steamppc/Convert.hpp>
+
+import steampp;
 
 using namespace steampp;
 

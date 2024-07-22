@@ -1,6 +1,6 @@
 #include <vpkppc/Convert.hpp>
 
-#include <vpkpp/PackFile.h>
+import vpkpp;
 
 using namespace vpkpp;
 

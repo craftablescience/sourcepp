@@ -1,8 +1,12 @@
 #include <viceppc/vicepp.h>
 
+#include <cstddef>
+#include <span>
+
 #include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
-#include <vicepp/vicepp.h>
+
+import vicepp;
 
 SOURCEPP_API sourcepp_buffer_t vicepp_encrypt(const unsigned char* buffer, size_t bufferLen, const char* code) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);

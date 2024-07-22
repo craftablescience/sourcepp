@@ -1,9 +1,9 @@
 #include <vpkppc/format/GRP.h>
 
-#include <vpkpp/format/GRP.h>
-
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
+
+import vpkpp;
 
 using namespace vpkpp;
 
