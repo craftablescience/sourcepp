@@ -14,7 +14,9 @@ var namespacesourcepp =
     ] ],
     [ "fs", "d9/dd6/namespacesourcepp_1_1fs.html", [
       [ "readFileBuffer", "d9/dd6/namespacesourcepp_1_1fs.html#a0758fa851da9a8730cc927691999b5c6", null ],
-      [ "readFileText", "d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f", null ]
+      [ "readFileText", "d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f", null ],
+      [ "writeFileBuffer", "d9/dd6/namespacesourcepp_1_1fs.html#af6f2e90c7cd611e94188c48faf76d977", null ],
+      [ "writeFileText", "d9/dd6/namespacesourcepp_1_1fs.html#ab41ce0a38aed111d34806b0e77640e33", null ]
     ] ],
     [ "math", "d0/d54/namespacesourcepp_1_1math.html", "d0/d54/namespacesourcepp_1_1math" ],
     [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", "d5/d3c/namespacesourcepp_1_1parser" ],

@@ -15,7 +15,8 @@ var annotated_dup =
       [ "DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", "d4/d6d/structdmxpp_1_1DMXElement" ]
     ] ],
     [ "fgdpp", "d3/dce/namespacefgdpp.html", [
-      [ "FGD", "d7/d45/classfgdpp_1_1FGD.html", "d7/d45/classfgdpp_1_1FGD" ]
+      [ "FGD", "d7/d45/classfgdpp_1_1FGD.html", "d7/d45/classfgdpp_1_1FGD" ],
+      [ "FGDWriter", "d5/db1/classfgdpp_1_1FGDWriter.html", "d5/db1/classfgdpp_1_1FGDWriter" ]
     ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
       [ "KV1Element", "da/daf/classkvpp_1_1KV1Element.html", "da/daf/classkvpp_1_1KV1Element" ],

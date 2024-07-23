@@ -20,7 +20,7 @@ var searchData=
   ['applylumppatchfile_17',['applyLumpPatchFile',['../d5/dba/classbsppp_1_1BSP.html#ab092e93ffdebb2cc1226f13791d7771b',1,'bsppp::BSP']]],
   ['appversion_18',['appversion',['../d3/d08/structvpkpp_1_1GCF_1_1Header.html#a6b18ee06282bd7b2d20fb6b388a00471',1,'vpkpp::GCF::Header::appversion()'],['../db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#ada27fe04287288b7ed0b5f4c34ca9c6b',1,'vpkpp::GCF::DataBlockHeader::appversion()']]],
   ['archive_5findex_19',['ARCHIVE_INDEX',['../d5/d29/namespacevpkpp.html#a06eb22162f2a2be87d77dd7eb3d2647fa78170662dc77a1deeb3e0d42fa31c484',1,'vpkpp']]],
-  ['archiveindex_20',['archiveIndex',['../d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html#ac587453d02e8417dc9b250c86c460011',1,'vpkpp::VPK::FreedChunk::archiveIndex()'],['../dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html#ae3c17271c733b21691743e5e9fe7c0c1',1,'vpkpp::VPK::MD5Entry::archiveIndex()'],['../d9/d6b/classvpkpp_1_1Entry.html#a9f18021c3f275eb1a02e1579c9a6efd0',1,'vpkpp::Entry::archiveIndex()']]],
+  ['archiveindex_20',['archiveIndex',['../d9/d6b/classvpkpp_1_1Entry.html#a9f18021c3f275eb1a02e1579c9a6efd0',1,'vpkpp::Entry::archiveIndex()'],['../dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html#ae3c17271c733b21691743e5e9fe7c0c1',1,'vpkpp::VPK::MD5Entry::archiveIndex()'],['../d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html#ac587453d02e8417dc9b250c86c460011',1,'vpkpp::VPK::FreedChunk::archiveIndex()']]],
   ['archivemd5sectionsize_21',['archiveMD5SectionSize',['../d2/d8d/structvpkpp_1_1VPK_1_1Header2.html#ac5400a83b6a28bce8385abcbb613b171',1,'vpkpp::VPK::Header2']]],
   ['areaportals_22',['AREAPORTALS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a542185eeed6ee956854439852e31486b',1,'bsppp']]],
   ['areas_23',['AREAS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f',1,'bsppp']]],
@@ -51,5 +51,7 @@ var searchData=
   ['attribute_2eh_48',['Attribute.h',['../d4/d08/Attribute_8h.html',1,'']]],
   ['attribute_5fcount_49',['ATTRIBUTE_COUNT',['../d5/d29/namespacevpkpp.html#a06eb22162f2a2be87d77dd7eb3d2647faa09ee8ab1843b7cfc40d9c1b72608d7b',1,'vpkpp']]],
   ['attributes_50',['attributes',['../d4/d6d/structdmxpp_1_1DMXElement.html#a51209d6be3a3936744b882bafe7b63db',1,'dmxpp::DMXElement']]],
-  ['autovisgroup_51',['AutoVisGroup',['../d5/d38/structfgdpp_1_1FGD_1_1AutoVisGroup.html',1,'fgdpp::FGD']]]
+  ['autovisgroup_51',['AutoVisGroup',['../d5/d38/structfgdpp_1_1FGD_1_1AutoVisGroup.html',1,'fgdpp::FGD']]],
+  ['autovisgroups_52',['autoVisGroups',['../d7/d45/classfgdpp_1_1FGD.html#a74988bf7edbdb256572adcc4b78bbc0d',1,'fgdpp::FGD']]],
+  ['autovisgroupwriter_53',['AutoVisGroupWriter',['../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html#a45a3f7df5bd71319f62558fb0003d3d7',1,'fgdpp::FGDWriter::AutoVisGroupWriter::AutoVisGroupWriter()'],['../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html',1,'fgdpp::FGDWriter::AutoVisGroupWriter']]]
 ];

@@ -20,6 +20,11 @@ var hierarchy =
     [ "fgdpp::FGD::Entity::FieldFlags", "d3/d1c/structfgdpp_1_1FGD_1_1Entity_1_1FieldFlags.html", null ],
     [ "fgdpp::FGD::Entity::FieldFlags::Flag", "d0/d27/structfgdpp_1_1FGD_1_1Entity_1_1FieldFlags_1_1Flag.html", null ],
     [ "fgdpp::FGD::Entity::IO", "db/de2/structfgdpp_1_1FGD_1_1Entity_1_1IO.html", null ],
+    [ "fgdpp::FGDWriter", "d5/db1/classfgdpp_1_1FGDWriter.html", null ],
+    [ "fgdpp::FGDWriter::AutoVisGroupWriter", "d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html", null ],
+    [ "fgdpp::FGDWriter::EntityWriter", "d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html", null ],
+    [ "fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter", "d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html", null ],
+    [ "fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter", "d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html", null ],
     [ "kvpp::KV1Element", "da/daf/classkvpp_1_1KV1Element.html", [
       [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
     ] ],
