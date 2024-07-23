@@ -57,9 +57,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://stratasource.org">Strata Source</a> FGD modifications</li>
       </ul>
     </td>
-    <td align="center">❌</td>
     <td align="center">✅</td>
-    <td align="center">❌</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
     <td align="center"></td>
     <td></td>
   </tr>
