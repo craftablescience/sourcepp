@@ -24,6 +24,7 @@ option(SOURCEPP_USE_MDLPP          "Build mdlpp library"                 ${SOURC
 option(SOURCEPP_USE_STEAMPP        "Build steampp library"               ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_TOOLPP         "Build toolpp library"                ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_VMTPP          "Build vmtpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 
@@ -52,6 +53,9 @@ if(SOURCEPP_USE_STEAMPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
 endif()
 if(SOURCEPP_USE_TOOLPP)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
+endif()
+if(SOURCEPP_USE_VMTPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
 endif()
 if(SOURCEPP_USE_VPKPP)
@@ -194,6 +198,7 @@ add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON              ) # sourcepp::toolpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
+add_sourcepp_library(vmtpp                                 ) # sourcepp::vmtpp
 add_sourcepp_library(vpkpp    C CSHARP        NO_TEST      ) # sourcepp::vpkpp
 add_sourcepp_library(vtfpp             PYTHON         BENCH) # sourcepp::vtfpp
 
@@ -257,7 +262,7 @@ endif()
 
 # Print options
 print_options(OPTIONS
-        USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
+        USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VMTPP USE_VPKPP USE_VTFPP
         BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
