@@ -103,6 +103,17 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">C<br>C#</td>
   </tr>
   <tr>
+    <td><code>vmtpp</code></td>
+    <td>
+      <ul>
+        <li><a href="https://developer.valvesoftware.com/wiki/VMT">VMT</a></li>
+      </ul>
+    </td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
     <td><code>vpkpp</code></td>
     <td>
       <ul>
@@ -135,7 +146,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
 </table>
 
-(\*) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VDF](https://developer.valvesoftware.com/wiki/VDF), [VMT](https://developer.valvesoftware.com/wiki/VMT), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+(\*) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [RES](https://developer.valvesoftware.com/wiki/Resource_list_(Source)), [VDF](https://developer.valvesoftware.com/wiki/VDF), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
 
 (&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
 
