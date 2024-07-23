@@ -16,7 +16,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr>
     <th>Name</th>
     <th>Supports</th>
-    <th>Create</th>
     <th>Read</th>
     <th>Write</th>
     <th>Wrappers</th>
@@ -30,7 +29,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td align="center">✅</td>
     <td align="center"></td>
   </tr>
   <tr>
@@ -40,7 +38,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</li>
       </ul>
     </td>
-    <td align="center">❌</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
@@ -56,7 +53,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td align="center">✅</td>
     <td align="center"></td>
   </tr>
   <tr>
@@ -66,7 +62,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></li>
       </ul>
     </td>
-    <td align="center">❌</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
@@ -80,7 +75,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</li>
       </ul>
     </td>
-    <td align="center">❌</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td></td>
@@ -93,7 +87,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li>Finding installed Steam games</li>
       </ul>
     </td>
-    <td align="center">n/a</td>
     <td align="center">✅</td>
     <td align="center">n/a</td>
     <td align="center">C</td>
@@ -105,7 +98,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</li>
       </ul>
     </td>
-    <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center">C<br>C#</td>
@@ -126,7 +118,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li>ZIP</li>
       </ul>
     </td>
-    <td align="center">✅<sup>&Dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center">C<br>C#</td>
@@ -138,7 +129,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</li>
       </ul>
     </td>
-    <td align="center">❌</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
@@ -148,8 +138,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 (\*) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VDF](https://developer.valvesoftware.com/wiki/VDF), [VMT](https://developer.valvesoftware.com/wiki/VMT), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
 
 (&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
-
-(&Dagger;) Currently only VPK creation is supported.
 
 ## Special Thanks
 
