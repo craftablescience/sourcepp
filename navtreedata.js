@@ -27,7 +27,8 @@ var NAVTREE =
   [ "SourcePP", "index.html", [
     [ "Namespaces", "namespaces.html", [
       [ "Included Libraries", "index.html#autotoc_md0", null ],
-      [ "Gallery", "index.html#autotoc_md1", null ],
+      [ "Special Thanks", "index.html#autotoc_md1", null ],
+      [ "Gallery", "index.html#autotoc_md2", null ],
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", null ],
