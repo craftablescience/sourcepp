@@ -20,10 +20,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Read</th>
     <th>Write</th>
     <th>Wrappers</th>
-    <th>Special Thanks</th>
   </tr>
   <tr>
-    <td>bsppp</td>
+    <td><code>bsppp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</li>
@@ -33,10 +32,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center"></td>
-    <td></td>
   </tr>
   <tr>
-    <td>dmxpp</td>
+    <td><code>dmxpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</li>
@@ -46,10 +44,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
-    <td></td>
   </tr>
   <tr>
-    <td>fgdpp</td>
+    <td><code>fgdpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a></li>
@@ -61,10 +58,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center"></td>
-    <td></td>
   </tr>
   <tr>
-    <td>kvpp</td>
+    <td><code>kvpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></li>
@@ -74,10 +70,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
-    <td></td>
   </tr>
   <tr>
-    <td>mdlpp</td>
+    <td><code>mdlpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></li>
@@ -88,11 +83,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td align="center"></td>
     <td></td>
   </tr>
   <tr>
-    <td>steampp</td>
+    <td><code>steampp</code></td>
     <td>
       <ul>
         <li>Finding Steam install folder</li>
@@ -103,10 +97,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">n/a</td>
     <td align="center">C</td>
-    <td>Based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire">@Trice Everfire</a> and <a href="https://momentum-mod.org">Momentum Mod</a> contributors.</td>
   </tr>
   <tr>
-    <td>vicepp</td>
+    <td><code>vicepp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</li>
@@ -116,10 +109,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center">C<br>C#</td>
-    <td></td>
   </tr>
   <tr>
-    <td>vpkpp</td>
+    <td><code>vpkpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></li>
@@ -138,10 +130,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td align="center">C<br>C#</td>
-    <td>GCF parser contributed by <a href="https://github.com/caatge">@bt</a> and <a href="https://github.com/ymgve">@ymgve</a></td>
   </tr>
   <tr>
-    <td>vtfpp</td>
+    <td><code>vtfpp</code></td>
     <td>
       <ul>
         <li><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</li>
@@ -151,7 +142,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td align="center"></td>
-    <td></td>
   </tr>
 </table>
 
@@ -160,6 +150,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 (&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
 
 (&Dagger;) Currently only VPK creation is supported.
+
+## Special Thanks
+
+- `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
+- `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
 
 ## Gallery
 
