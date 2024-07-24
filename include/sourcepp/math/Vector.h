@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include "Integer.h"
 
 namespace sourcepp::math {
@@ -13,12 +15,60 @@ struct Vec2 {
 		return {this->x + other.x, this->y + other.y};
 	}
 
+	void operator+=(const Vec2& other) {
+		this->x += other.x;
+		this->y += other.y;
+	}
+
 	[[nodiscard]] Vec2 operator-(const Vec2& other) const {
 		return {this->x - other.x, this->y - other.y};
 	}
 
+	void operator-=(const Vec2& other) {
+		this->x -= other.x;
+		this->y -= other.y;
+	}
+
+	[[nodiscard]] Vec2 operator*(Arithmetic auto scalar) const {
+		return {this->x * scalar, this->y * scalar};
+	}
+
+	void operator*=(Arithmetic auto scalar) {
+		this->x *= scalar;
+		this->y *= scalar;
+	}
+
+	[[nodiscard]] Vec2 operator/(Arithmetic auto scalar) const {
+		return {this->x / scalar, this->y / scalar};
+	}
+
+	void operator/=(Arithmetic auto scalar) {
+		this->x /= scalar;
+		this->y /= scalar;
+	}
+
 	[[nodiscard]] bool operator==(const Vec2& other) const {
 		return this->x == other.x && this->y == other.y;
+	}
+
+	[[nodiscard]] Vec2 mul(const Vec2& other) const {
+		return {this->x * other.x, this->y * other.y};
+	}
+
+	[[nodiscard]] Vec2 div(const Vec2& other) const {
+		return {this->x / other.x, this->y / other.y};
+	}
+
+	[[nodiscard]] Vec2 mod(const Vec2& other) const {
+		if constexpr (std::floating_point<P>) {
+			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y)};
+		} else {
+			return {this->x % other.x, this->y % other.y};
+		}
+	}
+
+	[[nodiscard]] Vec2 abs() const {
+		return {std::abs(this->x), std::abs(this->y)};
 	}
 
 	[[nodiscard]] static constexpr Vec2 zero() {
@@ -52,12 +102,64 @@ struct Vec3 {
 		return {this->x + other.x, this->y + other.y, this->z + other.z};
 	}
 
+	void operator+=(const Vec3& other) {
+		this->x += other.x;
+		this->y += other.y;
+		this->z += other.z;
+	}
+
 	[[nodiscard]] Vec3 operator-(const Vec3& other) const {
 		return {this->x - other.x, this->y - other.y, this->z - other.z};
 	}
 
+	void operator-=(const Vec3& other) {
+		this->x -= other.x;
+		this->y -= other.y;
+		this->z -= other.z;
+	}
+
+	[[nodiscard]] Vec3 operator*(Arithmetic auto scalar) const {
+		return {this->x * scalar, this->y * scalar, this->z * scalar};
+	}
+
+	void operator*=(Arithmetic auto scalar) {
+		this->x *= scalar;
+		this->y *= scalar;
+		this->z *= scalar;
+	}
+
+	[[nodiscard]] Vec3 operator/(Arithmetic auto scalar) const {
+		return {this->x / scalar, this->y / scalar, this->z / scalar};
+	}
+
+	void operator/=(Arithmetic auto scalar) {
+		this->x /= scalar;
+		this->y /= scalar;
+		this->z /= scalar;
+	}
+
 	[[nodiscard]] bool operator==(const Vec3& other) const {
 		return this->x == other.x && this->y == other.y && this->z == other.z;
+	}
+
+	[[nodiscard]] Vec3 mul(const Vec3& other) const {
+		return {this->x * other.x, this->y * other.y, this->z * other.z};
+	}
+
+	[[nodiscard]] Vec3 div(const Vec3& other) const {
+		return {this->x / other.x, this->y / other.y, this->z / other.z};
+	}
+
+	[[nodiscard]] Vec3 mod(const Vec3& other) const {
+		if constexpr (std::floating_point<P>) {
+			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y), std::fmod(this->z, other.z)};
+		} else {
+			return {this->x % other.x, this->y % other.y, this->z % other.z};
+		}
+	}
+
+	[[nodiscard]] Vec3 abs() const {
+		return {std::abs(this->x), std::abs(this->y), std::abs(this->z)};
 	}
 
 	[[nodiscard]] static constexpr Vec3 zero() {
@@ -92,12 +194,68 @@ struct Vec4 {
 		return {this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w};
 	}
 
+	void operator+=(const Vec4& other) {
+		this->x += other.x;
+		this->y += other.y;
+		this->z += other.z;
+		this->w += other.w;
+	}
+
 	[[nodiscard]] Vec4 operator-(const Vec4& other) const {
 		return {this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w};
 	}
 
+	void operator-=(const Vec4& other) {
+		this->x -= other.x;
+		this->y -= other.y;
+		this->z -= other.z;
+		this->w -= other.w;
+	}
+
+	[[nodiscard]] Vec4 operator*(Arithmetic auto scalar) const {
+		return {this->x * scalar, this->y * scalar, this->z * scalar, this->w * scalar};
+	}
+
+	void operator*=(Arithmetic auto scalar) {
+		this->x *= scalar;
+		this->y *= scalar;
+		this->z *= scalar;
+		this->w *= scalar;
+	}
+
+	[[nodiscard]] Vec4 operator/(Arithmetic auto scalar) const {
+		return {this->x / scalar, this->y / scalar, this->z / scalar, this->w / scalar};
+	}
+
+	void operator/=(Arithmetic auto scalar) {
+		this->x /= scalar;
+		this->y /= scalar;
+		this->z /= scalar;
+		this->w /= scalar;
+	}
+
 	[[nodiscard]] bool operator==(const Vec4& other) const {
 		return this->x == other.x && this->y == other.y && this->z == other.z && this->w == other.w;
+	}
+
+	[[nodiscard]] Vec4 mul(const Vec4& other) const {
+		return {this->x * other.x, this->y * other.y, this->z * other.z, this->z * other.z};
+	}
+
+	[[nodiscard]] Vec4 div(const Vec4& other) const {
+		return {this->x / other.x, this->y / other.y, this->z / other.z, this->w / other.w};
+	}
+
+	[[nodiscard]] Vec4 mod(const Vec4& other) const {
+		if constexpr (std::floating_point<P>) {
+			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y), std::fmod(this->z, other.z), std::fmod(this->w, other.w)};
+		} else {
+			return {this->x % other.x, this->y % other.y, this->z % other.z, this->w % other.w};
+		}
+	}
+
+	[[nodiscard]] Vec4 abs() const {
+		return {std::abs(this->x), std::abs(this->y), std::abs(this->z), std::abs(this->w)};
 	}
 
 	[[nodiscard]] static constexpr Vec4 zero() {
