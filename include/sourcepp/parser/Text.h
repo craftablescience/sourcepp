@@ -24,6 +24,13 @@ extern const std::unordered_map<char, char> NO_ESCAPE_SEQUENCES;
 [[nodiscard]] bool isNewLine(char c);
 
 /**
+ * If a string is entirely composed of newline characters.
+ * @param str The string.
+ * @return The string is entirely composed of newline characters.
+ */
+[[nodiscard]] bool isNewLine(std::string_view str);
+
+/**
  * If a char is a whitespace character.
  * @param c The char.
  * @return The char is a whitespace character.
@@ -31,11 +38,25 @@ extern const std::unordered_map<char, char> NO_ESCAPE_SEQUENCES;
 [[nodiscard]] bool isWhitespace(char c);
 
 /**
+ * If a string is entirely composed of whitespace characters.
+ * @param str The string.
+ * @return The string is entirely composed of whitespace characters.
+ */
+[[nodiscard]] bool isWhitespace(std::string_view str);
+
+/**
  * If a char is a numerical character (0-9).
  * @param c The char.
  * @return The char is a numerical character.
  */
 [[nodiscard]] bool isNumber(char c);
+
+/**
+ * If a string is entirely composed of numerical characters (0-9).
+ * @param str The string.
+ * @return The string is entirely composed of numerical characters.
+ */
+[[nodiscard]] bool isNumber(std::string_view str);
 
 /**
  * Eat all whitespace after the current stream position.

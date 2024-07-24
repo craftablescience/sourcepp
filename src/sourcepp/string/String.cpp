@@ -21,13 +21,31 @@ void string::ltrim(std::string& s) {
     s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](char c) { return !std::isspace(c); }));
 }
 
+std::string_view string::ltrim(std::string_view s) {
+	while (!s.empty() && std::isspace(s[0])) {
+		s.remove_prefix(1);
+	}
+	return s;
+}
+
 void string::rtrim(std::string& s) {
     s.erase(std::find_if(s.rbegin(), s.rend(), [](char c) { return !std::isspace(c); }).base(), s.end());
+}
+
+std::string_view string::rtrim(std::string_view s) {
+	while (!s.empty() && std::isspace(s[s.size() - 1])) {
+		s.remove_suffix(1);
+	}
+	return s;
 }
 
 void string::trim(std::string& s) {
     rtrim(s);
     ltrim(s);
+}
+
+std::string_view string::trim(std::string_view s) {
+	return ltrim(rtrim(s));
 }
 
 void string::ltrim(std::string& s, std::string_view chars) {
@@ -36,15 +54,33 @@ void string::ltrim(std::string& s, std::string_view chars) {
 	}));
 }
 
+std::string_view string::ltrim(std::string_view s, std::string_view chars) {
+	while (!s.empty() && contains(chars, s[0])) {
+		s.remove_prefix(1);
+	}
+	return s;
+}
+
 void string::rtrim(std::string& s, std::string_view chars) {
 	s.erase(std::find_if(s.rbegin(), s.rend(), [chars](char c) {
 		return !contains(chars, c);
 	}).base(), s.end());
 }
 
-void string::trim(std::string& s, std::string_view c) {
-    rtrim(s, c);
-    ltrim(s, c);
+std::string_view string::rtrim(std::string_view s, std::string_view chars) {
+	while (!s.empty() && contains(chars, s[s.size() - 1])) {
+		s.remove_suffix(1);
+	}
+	return s;
+}
+
+void string::trim(std::string& s, std::string_view chars) {
+    rtrim(s, chars);
+    ltrim(s, chars);
+}
+
+std::string_view string::trim(std::string_view s, std::string_view chars) {
+	return ltrim(rtrim(s, chars), chars);
 }
 
 // https://stackoverflow.com/a/46931770
@@ -63,8 +99,20 @@ void string::toLower(std::string& input) {
 	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::tolower(c); });
 }
 
+std::string string::toLower(std::string_view input) {
+	std::string out{input};
+	toLower(out);
+	return out;
+}
+
 void string::toUpper(std::string& input) {
 	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::toupper(c); });
+}
+
+std::string string::toUpper(std::string_view input) {
+	std::string out{input};
+	toUpper(out);
+	return out;
 }
 
 std::string string::createRandom(uint16_t length, std::string_view chars) {

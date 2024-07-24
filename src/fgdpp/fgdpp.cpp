@@ -1,10 +1,8 @@
 #include <fgdpp/fgdpp.h>
 
 #include <algorithm>
-#include <charconv>
 #include <filesystem>
 #include <initializer_list>
-#include <utility>
 
 #include <BufferStream.h>
 
@@ -88,7 +86,7 @@ void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& versi
 	}
 	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES)};
 	string::trim(versionString);
-	version = std::stoi(versionString);
+	string::toInt(versionString, version);
 }
 
 void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2i& mapSize) {
@@ -106,8 +104,8 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 
 	string::trim(mapSizes[0]);
 	string::trim(mapSizes[1]);
-	mapSize.x = std::stoi(mapSizes[0]);
-	mapSize.y = std::stoi(mapSizes[1]);
+	string::toInt(mapSizes[0], mapSize.x);
+	string::toInt(mapSizes[1], mapSize.y);
 }
 
 void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<std::string_view>& materialExclusionDirs) {
@@ -290,7 +288,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		while (stream.peek<char>() != ']') {
 			auto& flag = field.flags.emplace_back();
 			auto valueString = ::readFGDString(stream, backing);
-			if (std::from_chars(valueString.data(), valueString.data() + valueString.size(), flag.value).ec != std::errc{}) {
+			if (string::toInt(valueString, flag.value).ec != std::errc{}) {
 				flag.value = 0;
 			}
 
@@ -304,7 +302,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 			}
 			auto enabledByDefaultString = ::readFGDString(stream, backing);
 			int enabledByDefault = 0;
-			if (std::from_chars(enabledByDefaultString.data(), enabledByDefaultString.data() + enabledByDefaultString.size(), enabledByDefault).ec != std::errc{}) {
+			if (string::toInt(enabledByDefaultString, enabledByDefault).ec != std::errc{}) {
 				flag.enabledByDefault = false;
 			} else {
 				flag.enabledByDefault = static_cast<bool>(enabledByDefault);

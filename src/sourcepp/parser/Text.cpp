@@ -31,12 +31,24 @@ bool parser::text::isNewLine(char c) {
 	return c == '\n' || c == '\r';
 }
 
+bool parser::text::isNewLine(std::string_view str) {
+	return std::all_of(str.begin(), str.end(), [](char c) { return isNewLine(c); });
+}
+
 bool parser::text::isWhitespace(char c) {
 	return c == ' ' || c == '\a' || c == '\f' || c == '\t' || c == '\v' || isNewLine(c);
 }
 
+bool parser::text::isWhitespace(std::string_view str) {
+	return std::all_of(str.begin(), str.end(), [](char c) { return isWhitespace(c); });
+}
+
 bool parser::text::isNumber(char c) {
 	return std::isdigit(c);
+}
+
+bool parser::text::isNumber(std::string_view str) {
+	return std::all_of(str.begin(), str.end(), [](char c) { return isNumber(c); });
 }
 
 void parser::text::eatWhitespace(BufferStream& stream) {
