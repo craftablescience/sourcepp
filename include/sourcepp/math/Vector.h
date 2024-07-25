@@ -6,75 +6,179 @@
 
 namespace sourcepp::math {
 
-template<Arithmetic P>
-struct Vec2 {
-	P x;
-	P y;
+template<uint8_t S, Arithmetic P>
+class Vec {
+	static_assert(S >= 2, "Vectors must have at least two values!");
 
-	[[nodiscard]] Vec2 operator+(const Vec2& other) const {
-		return {this->x + other.x, this->y + other.y};
+public:
+	using value_type = P;
+
+	constexpr Vec() = default;
+
+	template<std::convertible_to<P>... Vals>
+	requires (sizeof...(Vals) == S)
+	constexpr Vec(Vals... vals) // NOLINT(*-explicit-constructor)
+			: values{static_cast<P>(vals)...} {}
+
+	[[nodiscard]] consteval uint8_t size() const {
+		return S;
 	}
 
-	void operator+=(const Vec2& other) {
-		this->x += other.x;
-		this->y += other.y;
+	[[nodiscard]] constexpr P& operator[](uint8_t index) {
+		if (index < S) {
+			return this->values[index];
+		}
+		return this->operator[](index % S);
 	}
 
-	[[nodiscard]] Vec2 operator-(const Vec2& other) const {
-		return {this->x - other.x, this->y - other.y};
+	[[nodiscard]] constexpr P operator[](uint8_t index) const {
+		if (index < S) {
+			return this->values[index];
+		}
+		return this->operator[](index % S);
 	}
 
-	void operator-=(const Vec2& other) {
-		this->x -= other.x;
-		this->y -= other.y;
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr Vec operator+(const Vec<SO, PO>& other) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			out[i] += static_cast<P>(other[i]);
+		}
+		return out;
 	}
 
-	[[nodiscard]] Vec2 operator*(Arithmetic auto scalar) const {
-		return {this->x * scalar, this->y * scalar};
-	}
-
-	void operator*=(Arithmetic auto scalar) {
-		this->x *= scalar;
-		this->y *= scalar;
-	}
-
-	[[nodiscard]] Vec2 operator/(Arithmetic auto scalar) const {
-		return {this->x / scalar, this->y / scalar};
-	}
-
-	void operator/=(Arithmetic auto scalar) {
-		this->x /= scalar;
-		this->y /= scalar;
-	}
-
-	[[nodiscard]] bool operator==(const Vec2& other) const {
-		return this->x == other.x && this->y == other.y;
-	}
-
-	[[nodiscard]] Vec2 mul(const Vec2& other) const {
-		return {this->x * other.x, this->y * other.y};
-	}
-
-	[[nodiscard]] Vec2 div(const Vec2& other) const {
-		return {this->x / other.x, this->y / other.y};
-	}
-
-	[[nodiscard]] Vec2 mod(const Vec2& other) const {
-		if constexpr (std::floating_point<P>) {
-			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y)};
-		} else {
-			return {this->x % other.x, this->y % other.y};
+	template<uint8_t SO, Arithmetic PO>
+	constexpr void operator+=(const Vec<SO, PO>& other) {
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			(*this)[i] += static_cast<P>(other[i]);
 		}
 	}
 
-	[[nodiscard]] Vec2 abs() const {
-		return {std::abs(this->x), std::abs(this->y)};
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr Vec operator-(const Vec<SO, PO>& other) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			out[i] -= static_cast<P>(other[i]);
+		}
+		return out;
 	}
 
-	[[nodiscard]] static constexpr Vec2 zero() {
-		return {{}, {}};
+	template<uint8_t SO, Arithmetic PO>
+	constexpr void operator-=(const Vec<SO, PO>& other) {
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			(*this)[i] -= static_cast<P>(other[i]);
+		}
 	}
+
+	[[nodiscard]] constexpr Vec operator*(Arithmetic auto scalar) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] *= static_cast<P>(scalar);
+		}
+		return out;
+	}
+
+	constexpr void operator*=(Arithmetic auto scalar) {
+		for (uint8_t i = 0; i < S; i++) {
+			(*this)[i] *= static_cast<P>(scalar);
+		}
+	}
+
+	[[nodiscard]] constexpr Vec operator/(Arithmetic auto scalar) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] /= static_cast<P>(scalar);
+		}
+		return out;
+	}
+
+	constexpr void operator/=(Arithmetic auto scalar) {
+		for (uint8_t i = 0; i < S; i++) {
+			(*this)[i] /= static_cast<P>(scalar);
+		}
+	}
+
+	[[nodiscard]] constexpr Vec operator%(Arithmetic auto scalar) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] %= static_cast<P>(scalar);
+		}
+		return out;
+	}
+
+	constexpr void operator%=(Arithmetic auto scalar) {
+		for (uint8_t i = 0; i < S; i++) {
+			(*this)[i] %= static_cast<P>(scalar);
+		}
+	}
+
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr bool operator==(const Vec<SO, PO>& other) const {
+		if constexpr (S != SO) {
+			return false;
+		} else {
+			for (uint8_t i = 0; i < S; i++) {
+				if ((*this)[i] != static_cast<P>(other[i])) {
+					return false;
+				}
+			}
+			return true;
+		}
+	}
+
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr Vec mul(const Vec<SO, PO>& other) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			out[i] *= static_cast<P>(other[i]);
+		}
+		return out;
+	}
+
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr Vec div(const Vec<SO, PO>& other) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			out[i] /= static_cast<P>(other[i]);
+		}
+		return out;
+	}
+
+	template<uint8_t SO, Arithmetic PO>
+	[[nodiscard]] constexpr Vec mod(const Vec<SO, PO>& other) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			if constexpr ((std::floating_point<P> && std::floating_point<PO>) || std::floating_point<P>) {
+				out[i] = std::fmod(out[i], static_cast<P>(other[i]));
+			} else {
+				out[i] %= static_cast<P>(other[i]);
+			}
+		}
+		return out;
+	}
+
+	[[nodiscard]] constexpr Vec abs() const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] = std::abs(out[i]);
+		}
+		return out;
+	}
+
+	[[nodiscard]] static constexpr Vec zero() {
+		return {};
+	}
+
+	[[nodiscard]] constexpr bool isZero() const {
+		return *this == zero();
+	}
+
+private:
+	P values[S];
 };
+
+template<Arithmetic P>
+using Vec2 = Vec<2, P>;
 
 using Vec2i8 = Vec2<int8_t>;
 using Vec2i16 = Vec2<int16_t>;
@@ -93,79 +197,7 @@ using Vec2f64 = Vec2<double>;
 using Vec2f = Vec2f32;
 
 template<Arithmetic P>
-struct Vec3 {
-	P x;
-	P y;
-	P z;
-
-	[[nodiscard]] Vec3 operator+(const Vec3& other) const {
-		return {this->x + other.x, this->y + other.y, this->z + other.z};
-	}
-
-	void operator+=(const Vec3& other) {
-		this->x += other.x;
-		this->y += other.y;
-		this->z += other.z;
-	}
-
-	[[nodiscard]] Vec3 operator-(const Vec3& other) const {
-		return {this->x - other.x, this->y - other.y, this->z - other.z};
-	}
-
-	void operator-=(const Vec3& other) {
-		this->x -= other.x;
-		this->y -= other.y;
-		this->z -= other.z;
-	}
-
-	[[nodiscard]] Vec3 operator*(Arithmetic auto scalar) const {
-		return {this->x * scalar, this->y * scalar, this->z * scalar};
-	}
-
-	void operator*=(Arithmetic auto scalar) {
-		this->x *= scalar;
-		this->y *= scalar;
-		this->z *= scalar;
-	}
-
-	[[nodiscard]] Vec3 operator/(Arithmetic auto scalar) const {
-		return {this->x / scalar, this->y / scalar, this->z / scalar};
-	}
-
-	void operator/=(Arithmetic auto scalar) {
-		this->x /= scalar;
-		this->y /= scalar;
-		this->z /= scalar;
-	}
-
-	[[nodiscard]] bool operator==(const Vec3& other) const {
-		return this->x == other.x && this->y == other.y && this->z == other.z;
-	}
-
-	[[nodiscard]] Vec3 mul(const Vec3& other) const {
-		return {this->x * other.x, this->y * other.y, this->z * other.z};
-	}
-
-	[[nodiscard]] Vec3 div(const Vec3& other) const {
-		return {this->x / other.x, this->y / other.y, this->z / other.z};
-	}
-
-	[[nodiscard]] Vec3 mod(const Vec3& other) const {
-		if constexpr (std::floating_point<P>) {
-			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y), std::fmod(this->z, other.z)};
-		} else {
-			return {this->x % other.x, this->y % other.y, this->z % other.z};
-		}
-	}
-
-	[[nodiscard]] Vec3 abs() const {
-		return {std::abs(this->x), std::abs(this->y), std::abs(this->z)};
-	}
-
-	[[nodiscard]] static constexpr Vec3 zero() {
-		return {{}, {}, {}};
-	}
-};
+using Vec3 = Vec<3, P>;
 
 using Vec3i8 = Vec3<int8_t>;
 using Vec3i16 = Vec3<int16_t>;
@@ -184,84 +216,7 @@ using Vec3f64 = Vec3<double>;
 using Vec3f = Vec3f32;
 
 template<Arithmetic P>
-struct Vec4 {
-	P x;
-	P y;
-	P z;
-	P w;
-
-	[[nodiscard]] Vec4 operator+(const Vec4& other) const {
-		return {this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w};
-	}
-
-	void operator+=(const Vec4& other) {
-		this->x += other.x;
-		this->y += other.y;
-		this->z += other.z;
-		this->w += other.w;
-	}
-
-	[[nodiscard]] Vec4 operator-(const Vec4& other) const {
-		return {this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w};
-	}
-
-	void operator-=(const Vec4& other) {
-		this->x -= other.x;
-		this->y -= other.y;
-		this->z -= other.z;
-		this->w -= other.w;
-	}
-
-	[[nodiscard]] Vec4 operator*(Arithmetic auto scalar) const {
-		return {this->x * scalar, this->y * scalar, this->z * scalar, this->w * scalar};
-	}
-
-	void operator*=(Arithmetic auto scalar) {
-		this->x *= scalar;
-		this->y *= scalar;
-		this->z *= scalar;
-		this->w *= scalar;
-	}
-
-	[[nodiscard]] Vec4 operator/(Arithmetic auto scalar) const {
-		return {this->x / scalar, this->y / scalar, this->z / scalar, this->w / scalar};
-	}
-
-	void operator/=(Arithmetic auto scalar) {
-		this->x /= scalar;
-		this->y /= scalar;
-		this->z /= scalar;
-		this->w /= scalar;
-	}
-
-	[[nodiscard]] bool operator==(const Vec4& other) const {
-		return this->x == other.x && this->y == other.y && this->z == other.z && this->w == other.w;
-	}
-
-	[[nodiscard]] Vec4 mul(const Vec4& other) const {
-		return {this->x * other.x, this->y * other.y, this->z * other.z, this->z * other.z};
-	}
-
-	[[nodiscard]] Vec4 div(const Vec4& other) const {
-		return {this->x / other.x, this->y / other.y, this->z / other.z, this->w / other.w};
-	}
-
-	[[nodiscard]] Vec4 mod(const Vec4& other) const {
-		if constexpr (std::floating_point<P>) {
-			return {std::fmod(this->x, other.x), std::fmod(this->y, other.y), std::fmod(this->z, other.z), std::fmod(this->w, other.w)};
-		} else {
-			return {this->x % other.x, this->y % other.y, this->z % other.z, this->w % other.w};
-		}
-	}
-
-	[[nodiscard]] Vec4 abs() const {
-		return {std::abs(this->x), std::abs(this->y), std::abs(this->z), std::abs(this->w)};
-	}
-
-	[[nodiscard]] static constexpr Vec4 zero() {
-		return {{}, {}, {}, {}};
-	}
-};
+using Vec4 = Vec<4, P>;
 
 using Vec4i8 = Vec4<int8_t>;
 using Vec4i16 = Vec4<int16_t>;

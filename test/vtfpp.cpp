@@ -24,7 +24,7 @@ TEST(vtfpp, read_fmt_rgba8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgba8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_rgba8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_abgr8888) {
@@ -43,7 +43,7 @@ TEST(vtfpp, read_fmt_abgr8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_abgr8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_abgr8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb888) {
@@ -62,7 +62,7 @@ TEST(vtfpp, read_fmt_rgb888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_rgb888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr888) {
@@ -81,7 +81,7 @@ TEST(vtfpp, read_fmt_bgr888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgr888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb565) {
@@ -100,7 +100,7 @@ TEST(vtfpp, read_fmt_rgb565) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb565.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_rgb565.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_i8) {
@@ -119,7 +119,7 @@ TEST(vtfpp, read_fmt_i8) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_i8.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_i8.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_ia88) {
@@ -138,7 +138,7 @@ TEST(vtfpp, read_fmt_ia88) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_ia88.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_ia88.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_a8) {
@@ -157,7 +157,7 @@ TEST(vtfpp, read_fmt_a8) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_a8.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_a8.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_rgb888_bluescreen) {
@@ -176,7 +176,7 @@ TEST(vtfpp, read_fmt_rgb888_bluescreen) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_rgb888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_rgb888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr888_bluescreen) {
@@ -195,7 +195,7 @@ TEST(vtfpp, read_fmt_bgr888_bluescreen) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgr888_bluescreen.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_argb8888) {
@@ -214,7 +214,7 @@ TEST(vtfpp, read_fmt_argb8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_argb8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_argb8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra8888) {
@@ -233,7 +233,7 @@ TEST(vtfpp, read_fmt_bgra8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgra8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt1) {
@@ -252,7 +252,7 @@ TEST(vtfpp, read_fmt_dxt1) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt1.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_dxt1.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt3) {
@@ -271,7 +271,7 @@ TEST(vtfpp, read_fmt_dxt3) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt3.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_dxt3.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt5) {
@@ -290,7 +290,7 @@ TEST(vtfpp, read_fmt_dxt5) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt5.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_dxt5.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgrx8888) {
@@ -309,7 +309,7 @@ TEST(vtfpp, read_fmt_bgrx8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgrx8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgrx8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgr565) {
@@ -328,7 +328,7 @@ TEST(vtfpp, read_fmt_bgr565) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgr565.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgr565.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgrx5551) {
@@ -347,7 +347,7 @@ TEST(vtfpp, read_fmt_bgrx5551) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgrx5551.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgrx5551.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra4444) {
@@ -366,7 +366,7 @@ TEST(vtfpp, read_fmt_bgra4444) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra4444.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgra4444.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
@@ -385,7 +385,7 @@ TEST(vtfpp, read_fmt_dxt1_one_bit_alpha) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_dxt1_one_bit_alpha.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_dxt1_one_bit_alpha.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_bgra5551) {
@@ -404,7 +404,7 @@ TEST(vtfpp, read_fmt_bgra5551) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_bgra5551.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_bgra5551.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uv88) {
@@ -423,7 +423,7 @@ TEST(vtfpp, read_fmt_uv88) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uv88.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_uv88.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uvwq8888) {
@@ -442,7 +442,7 @@ TEST(vtfpp, read_fmt_uvwq8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uvwq8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_uvwq8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 TEST(vtfpp, read_fmt_uvlx8888) {
@@ -461,7 +461,7 @@ TEST(vtfpp, read_fmt_uvlx8888) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 
 	// Convert
-	::createFile("fmt_uvlx8888.png", vtf.convertAndSaveImageDataToFile());
+	fs::writeFileBuffer("fmt_uvlx8888.png", vtf.convertAndSaveImageDataToFile());
 }
 
 #endif
@@ -482,9 +482,9 @@ TEST(vtfpp, read_v70) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -520,9 +520,9 @@ TEST(vtfpp, read_v70_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -558,9 +558,9 @@ TEST(vtfpp, read_v70_nothumb) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -594,9 +594,9 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -630,9 +630,9 @@ TEST(vtfpp, read_v71) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -668,9 +668,9 @@ TEST(vtfpp, read_v71_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -706,9 +706,9 @@ TEST(vtfpp, read_v71_nothumb) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -742,9 +742,9 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -778,9 +778,9 @@ TEST(vtfpp, read_v72) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -816,9 +816,9 @@ TEST(vtfpp, read_v72_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -854,9 +854,9 @@ TEST(vtfpp, read_v72_nothumb) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -890,9 +890,9 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -926,9 +926,9 @@ TEST(vtfpp, read_v75) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -977,9 +977,9 @@ TEST(vtfpp, read_v75_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -1015,9 +1015,9 @@ TEST(vtfpp, read_v75_nothumb) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -1051,9 +1051,9 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
@@ -1087,9 +1087,9 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
@@ -1129,9 +1129,9 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getSliceCount(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().x, 0.14816631f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().y, 0.03145336f);
-	EXPECT_FLOAT_EQ(vtf.getReflectivity().z, 0.080934197f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.080934197f);
 	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);

@@ -104,8 +104,8 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 
 	string::trim(mapSizes[0]);
 	string::trim(mapSizes[1]);
-	string::toInt(mapSizes[0], mapSize.x);
-	string::toInt(mapSizes[1], mapSize.y);
+	string::toInt(mapSizes[0], mapSize[0]);
+	string::toInt(mapSizes[1], mapSize[1]);
 }
 
 void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<std::string_view>& materialExclusionDirs) {
@@ -618,12 +618,12 @@ FGDWriter& FGDWriter::version(int version) {
 	return *this;
 }
 
-FGDWriter& FGDWriter::mapSize(sourcepp::math::Vec2i mapSize) {
+FGDWriter& FGDWriter::mapSize(math::Vec2i mapSize) {
 	this->writer
 	    .write("@mapsize(", false)
-	    .write(std::to_string(mapSize.x), false)
+	    .write(std::to_string(mapSize[0]), false)
 	    .write(", ", false)
-	    .write(std::to_string(mapSize.y), false)
+	    .write(std::to_string(mapSize[1]), false)
 	    .write(")\n\n", false);
 	return *this;
 }

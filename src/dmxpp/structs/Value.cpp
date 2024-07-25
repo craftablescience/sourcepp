@@ -97,17 +97,17 @@ std::string DMXAttribute::getValue() const {
 		}
 		case VECTOR2: {
 			auto vec2 = this->getValueAs<Value::Vector2>();
-			return '[' + std::to_string(vec2.x) + ", " + std::to_string(vec2.y) + ']';
+			return '[' + std::to_string(vec2[0]) + ", " + std::to_string(vec2[1]) + ']';
 		}
 		case VECTOR3:
 		case EULER_ANGLE: {
 			auto vec3 = this->getValueAs<Value::Vector3>();
-			return '[' + std::to_string(vec3.x) + ", " + std::to_string(vec3.y) + ", " + std::to_string(vec3.z) + ']';
+			return '[' + std::to_string(vec3[0]) + ", " + std::to_string(vec3[1]) + ", " + std::to_string(vec3[2]) + ']';
 		}
 		case VECTOR4:
 		case QUATERNION: {
 			auto vec4 = this->getValueAs<Value::Vector4>();
-			return '[' + std::to_string(vec4.x) + ", " + std::to_string(vec4.y) + ", " + std::to_string(vec4.z) + ", " + std::to_string(vec4.w) + ']';
+			return '[' + std::to_string(vec4[0]) + ", " + std::to_string(vec4[1]) + ", " + std::to_string(vec4[2]) + ", " + std::to_string(vec4[3]) + ']';
 		}
 		case MATRIX_4X4: {
 			auto mat4 = this->getValueAs<Value::Matrix4x4>();
@@ -206,7 +206,7 @@ std::string DMXAttribute::getValue() const {
 			auto vectors = this->getValueAs<std::vector<Value::Vector2>>();
 			std::string out = "[";
 			for (int i = 0; i < vectors.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i].x) + ", " + std::to_string(vectors[i].y) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i][0]) + ", " + std::to_string(vectors[i][1]) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
 		}
@@ -215,7 +215,7 @@ std::string DMXAttribute::getValue() const {
 			auto vectors = this->getValueAs<std::vector<Value::Vector3>>();
 			std::string out = "[";
 			for (int i = 0; i < vectors.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i].x) + ", " + std::to_string(vectors[i].y) + ", " + std::to_string(vectors[i].z) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i][0]) + ", " + std::to_string(vectors[i][1]) + ", " + std::to_string(vectors[i][2]) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
 		}
@@ -224,7 +224,7 @@ std::string DMXAttribute::getValue() const {
 			auto vectors = this->getValueAs<std::vector<Value::Vector4>>();
 			std::string out = "[";
 			for (int i = 0; i < vectors.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i].x) + ", " + std::to_string(vectors[i].y) + ", " + std::to_string(vectors[i].z) + ']' + ", " + std::to_string(vectors[i].w) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + std::string{"["} + std::to_string(vectors[i][0]) + ", " + std::to_string(vectors[i][1]) + ", " + std::to_string(vectors[i][2]) + ']' + ", " + std::to_string(vectors[i][3]) + ']' + (i == vectors.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
 		}
