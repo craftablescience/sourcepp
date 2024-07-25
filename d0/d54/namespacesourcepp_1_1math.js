@@ -4,7 +4,7 @@ var namespacesourcepp_1_1math =
     [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
     [ "FloatCompressed16", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16" ],
     [ "Matrix", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", "d4/d4b/classsourcepp_1_1math_1_1Matrix" ],
-    [ "Vec", "df/dc5/classsourcepp_1_1math_1_1Vec.html", "df/dc5/classsourcepp_1_1math_1_1Vec" ],
+    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
     [ "EulerAngles", "d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8", null ],
     [ "Quat", "d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922", null ],
     [ "Vec2", "d0/d54/namespacesourcepp_1_1math.html#ae52fb916b8e82d7a87efe3888bcc3c91", null ],

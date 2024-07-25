@@ -1,6 +1,6 @@
 var Vector_8h =
 [
-    [ "Vec", "df/dc5/classsourcepp_1_1math_1_1Vec.html", "df/dc5/classsourcepp_1_1math_1_1Vec" ],
+    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
     [ "Vec2", "d6/dbe/Vector_8h.html#ae52fb916b8e82d7a87efe3888bcc3c91", null ],
     [ "Vec2f", "d6/dbe/Vector_8h.html#a06f7e150b307eddfba94b18ac5ef8430", null ],
     [ "Vec2f32", "d6/dbe/Vector_8h.html#a8b42a9b5e9572b0c558400d8fe747516", null ],

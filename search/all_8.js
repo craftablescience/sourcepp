@@ -38,7 +38,7 @@ var searchData=
   ['isnumber_568',['isNumber',['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ae4c0e91a50cee76046c000373b51089e',1,'sourcepp::parser::text::isNumber(char c)'],['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a6c0b3d1a0c331d8aa4f42d5735ab2f4b',1,'sourcepp::parser::text::isNumber(std::string_view str)']]],
   ['isreadonly_569',['isReadOnly',['../de/df6/classvpkpp_1_1PackFileReadOnly.html#abb1345f1ac6efc670ec12e44bb61e692',1,'vpkpp::PackFileReadOnly::isReadOnly()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a71dd4ec9ff22e4423fa22e1c9349fd94',1,'vpkpp::PackFile::isReadOnly()']]],
   ['iswhitespace_570',['isWhitespace',['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af09792417ee9447f6693c822411669c6',1,'sourcepp::parser::text::isWhitespace(char c)'],['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#afc1d5affe6ef24446dc2f903168c6241',1,'sourcepp::parser::text::isWhitespace(std::string_view str)']]],
-  ['iszero_571',['isZero',['../df/dc5/classsourcepp_1_1math_1_1Vec.html#a37e0ff14cb6056aa11d2c38500c65cc5',1,'sourcepp::math::Vec']]],
+  ['iszero_571',['isZero',['../d6/d21/structsourcepp_1_1math_1_1Vec.html#a37e0ff14cb6056aa11d2c38500c65cc5',1,'sourcepp::math::Vec']]],
   ['item_5fcount_572',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
   ['itemcount_573',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
   ['itemsize_574',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]]
