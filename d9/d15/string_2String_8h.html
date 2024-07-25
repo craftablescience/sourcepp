@@ -122,7 +122,9 @@ $(document).ready(function(){initNavTree('d9/d15/string_2String_8h.html','../../
 <div class="title">String.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;string&gt;</code><br />
+<div class="textblock"><code>#include &lt;charconv&gt;</code><br />
+<code>#include &lt;concepts&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d6/dac/Integer_8h_source.html">sourcepp/math/Integer.h</a>&gt;</code><br />
@@ -131,13 +133,15 @@ Include dependency graph for String.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/de1/string_2String_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2string_2String_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2string_2String_8h" id="ainclude_2sourcepp_2string_2String_8h">
-<area shape="rect" title=" " alt="" coords="103,5,276,47"/>
-<area shape="rect" title=" " alt="" coords="5,95,64,121"/>
-<area shape="rect" title=" " alt="" coords="89,95,186,121"/>
-<area shape="rect" title=" " alt="" coords="210,95,273,121"/>
-<area shape="rect" href="../../d6/dac/Integer_8h.html" title=" " alt="" coords="297,95,477,121"/>
-<area shape="rect" title=" " alt="" coords="301,169,368,196"/>
-<area shape="rect" title=" " alt="" coords="393,169,485,196"/>
+<area shape="rect" title=" " alt="" coords="209,5,382,47"/>
+<area shape="rect" title=" " alt="" coords="5,95,87,121"/>
+<area shape="rect" title=" " alt="" coords="111,95,191,121"/>
+<area shape="rect" title=" " alt="" coords="215,95,274,121"/>
+<area shape="rect" title=" " alt="" coords="299,95,396,121"/>
+<area shape="rect" title=" " alt="" coords="420,95,483,121"/>
+<area shape="rect" href="../../d6/dac/Integer_8h.html" title=" " alt="" coords="507,95,687,121"/>
+<area shape="rect" title=" " alt="" coords="511,169,578,196"/>
+<area shape="rect" title=" " alt="" coords="603,169,695,196"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -179,22 +183,38 @@ Functions</h2></td></tr>
 <tr class="separator:ae67855e62fdd7b2137081dd36d567637"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a56584ba389f86fa656f845042a113c1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">sourcepp::string::ltrim</a> (std::string &amp;s)</td></tr>
 <tr class="separator:a56584ba389f86fa656f845042a113c1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaffd6bef15e1224b7a85e6a80ac5086"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#aeaffd6bef15e1224b7a85e6a80ac5086">sourcepp::string::ltrim</a> (std::string_view s)</td></tr>
+<tr class="separator:aeaffd6bef15e1224b7a85e6a80ac5086"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad1fec827a88b6a9fbfc14ac6ec37d78b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">sourcepp::string::rtrim</a> (std::string &amp;s)</td></tr>
 <tr class="separator:ad1fec827a88b6a9fbfc14ac6ec37d78b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1543d2c6ddda5bac863b1326926ac602"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a1543d2c6ddda5bac863b1326926ac602">sourcepp::string::rtrim</a> (std::string_view s)</td></tr>
+<tr class="separator:a1543d2c6ddda5bac863b1326926ac602"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf068b2ce737cec15272334d4b704db6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">sourcepp::string::trim</a> (std::string &amp;s)</td></tr>
 <tr class="separator:adf068b2ce737cec15272334d4b704db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20985657fad63e39902dd418bc200b2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a20985657fad63e39902dd418bc200b2a">sourcepp::string::ltrim</a> (std::string &amp;s, std::string_view c)</td></tr>
-<tr class="separator:a20985657fad63e39902dd418bc200b2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a549562b2a5031cf30461c3bb6693fcad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a549562b2a5031cf30461c3bb6693fcad">sourcepp::string::rtrim</a> (std::string &amp;s, std::string_view c)</td></tr>
-<tr class="separator:a549562b2a5031cf30461c3bb6693fcad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6e59886204ab33f71e1e1407f3d7241"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab6e59886204ab33f71e1e1407f3d7241">sourcepp::string::trim</a> (std::string &amp;s, std::string_view c)</td></tr>
-<tr class="separator:ab6e59886204ab33f71e1e1407f3d7241"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f42811d591cf1dcb5576c20daf682c3"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3f42811d591cf1dcb5576c20daf682c3">sourcepp::string::trim</a> (std::string_view s)</td></tr>
+<tr class="separator:a3f42811d591cf1dcb5576c20daf682c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2921eb99eb12a40ad6d74fd6072e1f23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2921eb99eb12a40ad6d74fd6072e1f23">sourcepp::string::ltrim</a> (std::string &amp;s, std::string_view chars)</td></tr>
+<tr class="separator:a2921eb99eb12a40ad6d74fd6072e1f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10e3eb9713ad6cc59351814aa564cc33"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a10e3eb9713ad6cc59351814aa564cc33">sourcepp::string::ltrim</a> (std::string_view s, std::string_view chars)</td></tr>
+<tr class="separator:a10e3eb9713ad6cc59351814aa564cc33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55607c50daf7922ea221a4108e10c705"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a55607c50daf7922ea221a4108e10c705">sourcepp::string::rtrim</a> (std::string &amp;s, std::string_view chars)</td></tr>
+<tr class="separator:a55607c50daf7922ea221a4108e10c705"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1301f2148bb8f8a71bf7f7f6f15b722a"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a1301f2148bb8f8a71bf7f7f6f15b722a">sourcepp::string::rtrim</a> (std::string_view s, std::string_view chars)</td></tr>
+<tr class="separator:a1301f2148bb8f8a71bf7f7f6f15b722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15e63c1ab06cbcbf336bc87191d99a22"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22">sourcepp::string::trim</a> (std::string &amp;s, std::string_view chars)</td></tr>
+<tr class="separator:a15e63c1ab06cbcbf336bc87191d99a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a696dfaae8a570aee1870092baaa65ee0"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0">sourcepp::string::trim</a> (std::string_view s, std::string_view chars)</td></tr>
+<tr class="separator:a696dfaae8a570aee1870092baaa65ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fbbb19114593ab251e37fb7961ef1ca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">sourcepp::string::split</a> (std::string_view s, char delim)</td></tr>
 <tr class="separator:a6fbbb19114593ab251e37fb7961ef1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae71743f771ac2cbfd7ec52498d248614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">sourcepp::string::toLower</a> (std::string &amp;input)</td></tr>
 <tr class="separator:ae71743f771ac2cbfd7ec52498d248614"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaf798c726dd8f8fca2ad6bdc72e6e1f7"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#aaf798c726dd8f8fca2ad6bdc72e6e1f7">sourcepp::string::toLower</a> (std::string_view input)</td></tr>
+<tr class="separator:aaf798c726dd8f8fca2ad6bdc72e6e1f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad28940ddf92c963be5ae04e461dd269e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">sourcepp::string::toUpper</a> (std::string &amp;input)</td></tr>
 <tr class="separator:ad28940ddf92c963be5ae04e461dd269e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b2c5c714a90f9277af81ee27476b3c0"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3b2c5c714a90f9277af81ee27476b3c0">sourcepp::string::toUpper</a> (std::string_view input)</td></tr>
+<tr class="separator:a3b2c5c714a90f9277af81ee27476b3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e29b51a2811b4d21820292eeb2ecd1d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">sourcepp::string::createRandom</a> (uint16_t length=32, std::string_view chars=&quot;0123456789_abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;)</td></tr>
 <tr class="separator:a0e29b51a2811b4d21820292eeb2ecd1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae9a674d1d0d64b72fc90e880bc46a3f1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">sourcepp::string::generateUUIDv4</a> ()</td></tr>
@@ -205,6 +225,10 @@ Functions</h2></td></tr>
 <tr class="separator:a4106f9c1c6da69c3d53de30d61a29cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96b8df923d8c84b65a0a10afe6dd1648"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">sourcepp::string::denormalizeSlashes</a> (std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</td></tr>
 <tr class="separator:a96b8df923d8c84b65a0a10afe6dd1648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7fecda635e73196328498484cf8826cb"><td class="memItemLeft" align="right" valign="top">std::from_chars_result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb">sourcepp::string::toInt</a> (std::string_view number, std::integral auto &amp;out, int base=10)</td></tr>
+<tr class="separator:a7fecda635e73196328498484cf8826cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28e7a20eb7b482bf38b46fc7a67e75de"><td class="memItemLeft" align="right" valign="top">std::from_chars_result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a28e7a20eb7b482bf38b46fc7a67e75de">sourcepp::string::toFloat</a> (std::string_view number, std::floating_point auto &amp;out)</td></tr>
+<tr class="separator:a28e7a20eb7b482bf38b46fc7a67e75de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

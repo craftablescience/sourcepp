@@ -1,8 +1,7 @@
 var Vector_8h =
 [
-    [ "Vec2", "d0/d8e/structsourcepp_1_1math_1_1Vec2.html", "d0/d8e/structsourcepp_1_1math_1_1Vec2" ],
-    [ "Vec3", "d1/dff/structsourcepp_1_1math_1_1Vec3.html", "d1/dff/structsourcepp_1_1math_1_1Vec3" ],
-    [ "Vec4", "de/de5/structsourcepp_1_1math_1_1Vec4.html", "de/de5/structsourcepp_1_1math_1_1Vec4" ],
+    [ "Vec", "df/dc5/classsourcepp_1_1math_1_1Vec.html", "df/dc5/classsourcepp_1_1math_1_1Vec" ],
+    [ "Vec2", "d6/dbe/Vector_8h.html#ae52fb916b8e82d7a87efe3888bcc3c91", null ],
     [ "Vec2f", "d6/dbe/Vector_8h.html#a06f7e150b307eddfba94b18ac5ef8430", null ],
     [ "Vec2f32", "d6/dbe/Vector_8h.html#a8b42a9b5e9572b0c558400d8fe747516", null ],
     [ "Vec2f64", "d6/dbe/Vector_8h.html#ab278810c8d44763c87a21dea236e8c25", null ],
@@ -16,6 +15,7 @@ var Vector_8h =
     [ "Vec2ui32", "d6/dbe/Vector_8h.html#aa1b7d1d80e6b15cef9b5ad4c6014a128", null ],
     [ "Vec2ui64", "d6/dbe/Vector_8h.html#a88ec30817b17aa4892854d8ac6fbba50", null ],
     [ "Vec2ui8", "d6/dbe/Vector_8h.html#a70c03d61a7f775dd0b6b129ccc516507", null ],
+    [ "Vec3", "d6/dbe/Vector_8h.html#a6979218285cd4fa8c74a8b87d008594d", null ],
     [ "Vec3f", "d6/dbe/Vector_8h.html#ae691c07e4433c5a083247c5e240ca9f3", null ],
     [ "Vec3f32", "d6/dbe/Vector_8h.html#a2ecc4733c232751d5d5ecf290ae0698e", null ],
     [ "Vec3f64", "d6/dbe/Vector_8h.html#ac017ddbb787aeb4ebbb3d002f9dfed40", null ],
@@ -29,6 +29,7 @@ var Vector_8h =
     [ "Vec3ui32", "d6/dbe/Vector_8h.html#a72933b7740ea71ac56af53975c70e596", null ],
     [ "Vec3ui64", "d6/dbe/Vector_8h.html#aa0534d494ef593773b1e08f492ad1fd3", null ],
     [ "Vec3ui8", "d6/dbe/Vector_8h.html#aeb6a50d83dde8498b77a158c90e1cb70", null ],
+    [ "Vec4", "d6/dbe/Vector_8h.html#a3a9ad2fecf92fbccda25a9533129a1ed", null ],
     [ "Vec4f", "d6/dbe/Vector_8h.html#a0a322f6c31a1c6ad1adbbcfa3b984902", null ],
     [ "Vec4f32", "d6/dbe/Vector_8h.html#ac59f32c235d14c10df1487ef9238bc16", null ],
     [ "Vec4f64", "d6/dbe/Vector_8h.html#a094b0bc91485e32f3e9539be12d50323", null ],

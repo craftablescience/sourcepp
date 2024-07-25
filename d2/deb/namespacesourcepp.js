@@ -27,15 +27,25 @@ var namespacesourcepp =
       [ "generateUUIDv4", "d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1", null ],
       [ "iequals", "d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637", null ],
       [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a", null ],
-      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a20985657fad63e39902dd418bc200b2a", null ],
+      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a2921eb99eb12a40ad6d74fd6072e1f23", null ],
+      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#aeaffd6bef15e1224b7a85e6a80ac5086", null ],
+      [ "ltrim", "d0/d5a/namespacesourcepp_1_1string.html#a10e3eb9713ad6cc59351814aa564cc33", null ],
       [ "normalizeSlashes", "d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8", null ],
       [ "padNumber", "d0/d5a/namespacesourcepp_1_1string.html#aed4342e48d640f37f8d00c7b5d04a09b", null ],
       [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b", null ],
-      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a549562b2a5031cf30461c3bb6693fcad", null ],
+      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a55607c50daf7922ea221a4108e10c705", null ],
+      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a1543d2c6ddda5bac863b1326926ac602", null ],
+      [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a1301f2148bb8f8a71bf7f7f6f15b722a", null ],
       [ "split", "d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca", null ],
+      [ "toFloat", "d0/d5a/namespacesourcepp_1_1string.html#a28e7a20eb7b482bf38b46fc7a67e75de", null ],
+      [ "toInt", "d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb", null ],
       [ "toLower", "d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614", null ],
+      [ "toLower", "d0/d5a/namespacesourcepp_1_1string.html#aaf798c726dd8f8fca2ad6bdc72e6e1f7", null ],
       [ "toUpper", "d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e", null ],
+      [ "toUpper", "d0/d5a/namespacesourcepp_1_1string.html#a3b2c5c714a90f9277af81ee27476b3c0", null ],
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6", null ],
-      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#ab6e59886204ab33f71e1e1407f3d7241", null ]
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22", null ],
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a3f42811d591cf1dcb5576c20daf682c3", null ],
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0", null ]
     ] ]
 ];

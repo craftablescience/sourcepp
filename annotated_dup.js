@@ -59,9 +59,7 @@ var annotated_dup =
         [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
         [ "FloatCompressed16", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16" ],
         [ "Matrix", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", "d4/d4b/classsourcepp_1_1math_1_1Matrix" ],
-        [ "Vec2", "d0/d8e/structsourcepp_1_1math_1_1Vec2.html", "d0/d8e/structsourcepp_1_1math_1_1Vec2" ],
-        [ "Vec3", "d1/dff/structsourcepp_1_1math_1_1Vec3.html", "d1/dff/structsourcepp_1_1math_1_1Vec3" ],
-        [ "Vec4", "de/de5/structsourcepp_1_1math_1_1Vec4.html", "de/de5/structsourcepp_1_1math_1_1Vec4" ]
+        [ "Vec", "df/dc5/classsourcepp_1_1math_1_1Vec.html", "df/dc5/classsourcepp_1_1math_1_1Vec" ]
       ] ],
       [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", [
         [ "text", "d7/d75/namespacesourcepp_1_1parser_1_1text.html", [

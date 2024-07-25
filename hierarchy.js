@@ -56,9 +56,7 @@ var hierarchy =
     [ "sourcepp::math::Matrix< M, N, P >", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", null ],
     [ "sourcepp::math::QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", null ],
     [ "sourcepp::math::QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", null ],
-    [ "sourcepp::math::Vec2< P >", "d0/d8e/structsourcepp_1_1math_1_1Vec2.html", null ],
-    [ "sourcepp::math::Vec3< P >", "d1/dff/structsourcepp_1_1math_1_1Vec3.html", null ],
-    [ "sourcepp::math::Vec4< P >", "de/de5/structsourcepp_1_1math_1_1Vec4.html", null ],
+    [ "sourcepp::math::Vec< S, P >", "df/dc5/classsourcepp_1_1math_1_1Vec.html", null ],
     [ "std::exception", null, [
       [ "std::runtime_error", null, [
         [ "sourcepp::parser::text::syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", null ]
