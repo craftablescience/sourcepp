@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cmath>
 
 #include "Integer.h"
@@ -7,18 +8,25 @@
 namespace sourcepp::math {
 
 template<uint8_t S, Arithmetic P>
-class Vec {
+struct Vec {
 	static_assert(S >= 2, "Vectors must have at least two values!");
 
-public:
-	using value_type = P;
+	std::array<P, S> values;
 
+	// By defining these constructors, the type becomes nontrivial...
+#if 0
 	constexpr Vec() = default;
+
+	constexpr explicit Vec(values_type vals)
+			: values{vals} {}
 
 	template<std::convertible_to<P>... Vals>
 	requires (sizeof...(Vals) == S)
 	constexpr Vec(Vals... vals) // NOLINT(*-explicit-constructor)
 			: values{static_cast<P>(vals)...} {}
+#endif
+
+	using value_type = P;
 
 	[[nodiscard]] consteval uint8_t size() const {
 		return S;
@@ -172,9 +180,6 @@ public:
 	[[nodiscard]] constexpr bool isZero() const {
 		return *this == zero();
 	}
-
-private:
-	P values[S];
 };
 
 template<Arithmetic P>
