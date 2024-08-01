@@ -1,7 +1,7 @@
 set(COMPRESSONATOR_DIR ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
 
 function(target_link_compressonator TARGET)
-    if(MSVC)
+    if(WIN32)
         get_target_property(TARGET_MSVC_RUNTIME_LIBRARY ${TARGET} MSVC_RUNTIME_LIBRARY)
         if((TARGET_MSVC_RUNTIME_LIBRARY MATCHES "NOTFOUND$") OR (TARGET_MSVC_RUNTIME_LIBRARY MATCHES "DLL$"))
             target_link_libraries(${TARGET} PRIVATE
