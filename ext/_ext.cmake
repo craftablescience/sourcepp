@@ -9,11 +9,13 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/compressonator")
 
 
 # cryptopp
-if (NOT TARGET cryptopp::cryptopp)
+if(NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/cryptopp")
-    if (WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT MSVC)
+
+    # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
+    if(WIN32 AND NOT MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
         target_compile_options(cryptopp PRIVATE -mcrc32 -mssse3)
     endif()
 endif()
@@ -30,7 +32,7 @@ endif()
 
 
 # minizip-ng
-if (NOT TARGET MINIZIP::minizip)
+if(NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
     set(MZ_ZLIB             OFF CACHE INTERNAL "")
     set(MZ_BZIP2            OFF CACHE INTERNAL "")
