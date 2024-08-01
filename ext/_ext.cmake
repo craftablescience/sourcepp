@@ -13,6 +13,9 @@ if (NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/cryptopp")
+    if (WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND NOT MSVC)
+        target_compile_options(cryptopp PRIVATE -mcrc32 -mssse3)
+    endif()
 endif()
 
 
