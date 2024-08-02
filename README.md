@@ -148,5 +148,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 
 A list of projects using the `sourcepp` parser set. If you'd like to see your project here, make a PR!
 
-- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed tool that can create, extract from, preview the contents of and write to several pack file formats. A CLI application is bundled with the program which replicates the functionality of Valve's `vpk.exe`.
-- [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp` libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from a user project or from installed Source games.
+- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed tool that can create, extract from,
+  preview the contents of and write to several pack file formats. A CLI application is bundled with the program which replicates
+  the functionality of Valve's `vpk.exe`.
+- [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp`
+  libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from
+  a user project or from installed Source games.
+- [Verifier](https://github.com/StrataSource/verifier): A small program that can build an index of a game's files, and validate
+  existing files based on that index. Think Steam's "Verify integrity of game files" option, but without actually overwriting any
+  files. `sourcepp` is used to parse Steam depot configs, as well as enable indexing the contents of VPKs.
