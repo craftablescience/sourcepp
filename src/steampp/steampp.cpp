@@ -16,7 +16,7 @@
 #endif
 
 #include <kvpp/kvpp.h>
-#include <sourcepp/fs/FS.h>
+#include <sourcepp/FS.h>
 
 using namespace kvpp;
 using namespace sourcepp;

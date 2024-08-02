@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include <sourcepp/fs/FS.h>
+#include <sourcepp/FS.h>
 #include <vtfpp/vtfpp.h>
 
 using namespace sourcepp;

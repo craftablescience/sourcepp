@@ -10,8 +10,8 @@
 #include <FileStream.h>
 
 #include <sourcepp/crypto/CRC32.h>
-#include <sourcepp/fs/FS.h>
-#include <sourcepp/string/String.h>
+#include <sourcepp/FS.h>
+#include <sourcepp/String.h>
 #include <vpkpp/format/BSP.h>
 #include <vpkpp/format/FPX.h>
 #include <vpkpp/format/GCF.h>
