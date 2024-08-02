@@ -14,18 +14,18 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
 # Options
-option(SOURCEPP_USE_BSPPP               "Build bsppp library"                       ON)
-option(SOURCEPP_USE_DMXPP               "Build dmxpp library"                       ON)
-option(SOURCEPP_USE_FGDPP               "Build fgdpp library"                       ON)
-option(SOURCEPP_USE_KVPP                "Build kvpp library"                        ON)
-option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                       ON)
-option(SOURCEPP_USE_STEAMPP             "Build steampp library"                     ON)
-option(SOURCEPP_USE_VICEPP              "Build vicepp library"                      ON)
-option(SOURCEPP_USE_VPKPP               "Build vpkpp library"                       ON)
-option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                       ON)
-option(SOURCEPP_BUILD_C_WRAPPERS        "Build C wrappers for supported libraries"  ON)
-option(SOURCEPP_BUILD_TESTS             "Build tests for enabled libraries"        OFF)
-option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
+option(SOURCEPP_USE_BSPPP                "Build bsppp library"                       ON)
+option(SOURCEPP_USE_DMXPP                "Build dmxpp library"                       ON)
+option(SOURCEPP_USE_FGDPP                "Build fgdpp library"                       ON)
+option(SOURCEPP_USE_KVPP                 "Build kvpp library"                        ON)
+option(SOURCEPP_USE_MDLPP                "Build mdlpp library"                       ON)
+option(SOURCEPP_USE_STEAMPP              "Build steampp library"                     ON)
+option(SOURCEPP_USE_VICEPP               "Build vicepp library"                      ON)
+option(SOURCEPP_USE_VPKPP                "Build vpkpp library"                       ON)
+option(SOURCEPP_USE_VTFPP                "Build vtfpp library"                       ON)
+option(SOURCEPP_BUILD_C_WRAPPERS         "Build C wrappers for supported libraries" OFF)
+option(SOURCEPP_BUILD_TESTS              "Build tests for enabled libraries"        OFF)
+option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
 
 
 # Option overrides
