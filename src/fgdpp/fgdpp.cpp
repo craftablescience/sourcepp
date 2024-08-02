@@ -6,9 +6,9 @@
 
 #include <BufferStream.h>
 
-#include <sourcepp/fs/FS.h>
 #include <sourcepp/parser/Text.h>
-#include <sourcepp/string/String.h>
+#include <sourcepp/FS.h>
+#include <sourcepp/String.h>
 
 using namespace fgdpp;
 using namespace sourcepp;

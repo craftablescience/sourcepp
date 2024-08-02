@@ -1,4 +1,4 @@
-#include <sourcepp/string/String.h>
+#include <sourcepp/String.h>
 
 #include <algorithm>
 #include <cctype>

@@ -13,8 +13,8 @@
 #include <mz_zip_rw.h>
 
 #include <sourcepp/crypto/CRC32.h>
-#include <sourcepp/fs/FS.h>
-#include <sourcepp/string/String.h>
+#include <sourcepp/FS.h>
+#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;

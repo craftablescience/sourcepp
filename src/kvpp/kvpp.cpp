@@ -3,7 +3,7 @@
 #include <BufferStream.h>
 
 #include <sourcepp/parser/Text.h>
-#include <sourcepp/string/String.h>
+#include <sourcepp/String.h>
 
 using namespace kvpp;
 using namespace sourcepp;

@@ -13,8 +13,8 @@
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/crypto/RSA.h>
 #include <sourcepp/crypto/String.h>
-#include <sourcepp/fs/FS.h>
-#include <sourcepp/string/String.h>
+#include <sourcepp/FS.h>
+#include <sourcepp/String.h>
 #include <vpkpp/format/FPX.h>
 
 using namespace kvpp;

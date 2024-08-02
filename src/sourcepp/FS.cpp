@@ -1,4 +1,4 @@
-#include <sourcepp/fs/FS.h>
+#include <sourcepp/FS.h>
 
 #include <filesystem>
 
