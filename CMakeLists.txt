@@ -21,6 +21,7 @@ option(SOURCEPP_USE_KVPP                "Build kvpp library"                    
 option(SOURCEPP_USE_MDLPP               "Build mdlpp library"                       ON)
 option(SOURCEPP_USE_STEAMPP             "Build steampp library"                     ON)
 option(SOURCEPP_USE_VICEPP              "Build vicepp library"                      ON)
+option(SOURCEPP_USE_VMTPP               "Build vmtpp library"                       ON)
 option(SOURCEPP_USE_VPKPP               "Build vpkpp library"                       ON)
 option(SOURCEPP_USE_VTFPP               "Build vtfpp library"                       ON)
 option(SOURCEPP_BUILD_C_WRAPPERS        "Build C wrappers for supported libraries"  ON)
@@ -30,6 +31,9 @@ option(SOURCEPP_USE_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"   
 
 # Option overrides
 if(SOURCEPP_USE_STEAMPP)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
+endif()
+if(SOURCEPP_USE_VMTPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
 endif()
 if(SOURCEPP_USE_VPKPP)
@@ -92,6 +96,7 @@ add_sourcepp_library(kvpp)
 add_sourcepp_library(mdlpp)
 add_sourcepp_library(steampp C)
 add_sourcepp_library(vicepp C CSHARP)
+add_sourcepp_library(vmtpp)
 add_sourcepp_library(vpkpp C CSHARP NO_TEST)
 add_sourcepp_library(vtfpp)
 
