@@ -56,6 +56,18 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center"></td>
   </tr>
   <tr>
+    <td><code>gamepp</code></td>
+    <td>
+      <ul>
+        <li>Get Source engine instance window title/position/size</li>
+        <li>Run commands in a Source engine instance remotely</li>
+      </ul>
+    </td>
+    <td align="center">n/a</td>
+    <td align="center">n/a</td>
+    <td align="center"></td>
+  </tr>
+  <tr>
     <td><code>kvpp</code></td>
     <td>
       <ul>
@@ -83,11 +95,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><code>steampp</code></td>
     <td>
       <ul>
-        <li>Finding Steam install folder</li>
-        <li>Finding installed Steam games</li>
+        <li>Find Steam install folder</li>
+        <li>Find installed Steam games</li>
       </ul>
     </td>
-    <td align="center">✅</td>
+    <td align="center">n/a</td>
     <td align="center">n/a</td>
     <td align="center">C</td>
   </tr>
