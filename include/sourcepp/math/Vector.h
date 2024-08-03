@@ -46,6 +46,10 @@ struct Vec {
 		return this->operator[](index % S);
 	}
 
+	[[nodiscard]] constexpr Vec operator+() const {
+		return *this;
+	}
+
 	template<uint8_t SO, Arithmetic PO>
 	[[nodiscard]] constexpr Vec operator+(const Vec<SO, PO>& other) const {
 		auto out = *this;
@@ -60,6 +64,14 @@ struct Vec {
 		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
 			(*this)[i] += static_cast<P>(other[i]);
 		}
+	}
+
+	[[nodiscard]] constexpr Vec operator-() const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] *= -1;
+		}
+		return out;
 	}
 
 	template<uint8_t SO, Arithmetic PO>
