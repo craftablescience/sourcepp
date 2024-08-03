@@ -211,12 +211,17 @@ struct Vec {
 	}
 
 	template<Arithmetic PO>
-	[[nodiscard]] constexpr P dot(const Vec<S, PO>& other) const {
+	[[nodiscard]] constexpr Vec scale(const Vec<S, PO>& other) const {
 		Vec out;
 		for (uint8_t i = 0; i < S; i++) {
 			out[i] = (*this)[i] * static_cast<P>(other[i]);
 		}
-		return out.sum();
+		return out;
+	}
+
+	template<Arithmetic PO>
+	[[nodiscard]] constexpr P dot(const Vec<S, PO>& other) const {
+		return this->scale(other).sum();
 	}
 
 	[[nodiscard]] constexpr Vec abs() const {
