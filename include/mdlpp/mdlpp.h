@@ -2,11 +2,26 @@
 
 #include <vector>
 
+#include <sourcepp/Mesh.h>
+
 #include "structs/MDL.h"
 #include "structs/VTX.h"
 #include "structs/VVD.h"
 
 namespace mdlpp {
+
+/**
+ * A more accessible version of StudioModel's vertex data, so it can be rendered or converted more easily.
+ */
+struct BakedModel {
+	struct Mesh {
+		std::vector<uint16_t> indices;
+		int32_t materialIndex;
+	};
+
+	std::vector<sourcepp::mesh::VertexStatic> vertices;
+	std::vector<Mesh> meshes;
+};
 
 struct StudioModel {
 	[[nodiscard]] bool open(const std::byte* mdlData, std::size_t mdlSize,
@@ -26,6 +41,8 @@ struct StudioModel {
 							const std::vector<unsigned char>& vvdData);
 
 	[[nodiscard]] explicit operator bool() const;
+
+	[[nodiscard]] BakedModel bake(int currentLOD = ROOT_LOD) const;
 
 	MDL::MDL mdl;
 	VTX::VTX vtx;

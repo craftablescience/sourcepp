@@ -12,6 +12,7 @@ list(APPEND ${PROJECT_NAME}_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Binary.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Text.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/FS.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/Mesh.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/String.h")
 
 add_library(${PROJECT_NAME} STATIC
@@ -24,6 +25,7 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_LIST_DIR}/parser/Binary.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/parser/Text.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/FS.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Mesh.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/String.cpp")
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_HEADERS})

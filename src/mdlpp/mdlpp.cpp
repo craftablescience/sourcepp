@@ -1,6 +1,9 @@
 #include <mdlpp/mdlpp.h>
 
+#include <utility>
+
 using namespace mdlpp;
+using namespace sourcepp;
 
 bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 					   const std::byte* vtxData, std::size_t vtxSize,
@@ -43,4 +46,71 @@ bool StudioModel::open(const std::vector<unsigned char>& mdlData,
 
 StudioModel::operator bool() const {
 	return this->opened;
+}
+
+BakedModel StudioModel::bake(int currentLOD) const {
+	BakedModel model;
+
+	// According to my limited research, vertices stay constant (ignoring LOD fixups) but indices vary with LOD level
+	if (this->vvd.fixups.empty()) {
+		for (const auto& vertex : this->vvd.vertices) {
+			model.vertices.push_back({vertex.position, vertex.normal, vertex.uv});
+		}
+	} else {
+		for (const auto& fixup : this->vvd.fixups) {
+			if (fixup.LOD < currentLOD) {
+				continue;
+			}
+			for (int i = fixup.sourceVertexID; i < fixup.vertexCount; i++) {
+				model.vertices.push_back({this->vvd.vertices[i].position, this->vvd.vertices[i].normal, this->vvd.vertices[i].uv});
+			}
+		}
+	}
+
+	for (int bodyPartIndex = 0; bodyPartIndex < this->mdl.bodyParts.size(); bodyPartIndex++) {
+		auto& mdlBodyPart = this->mdl.bodyParts.at(bodyPartIndex);
+		auto& vtxBodyPart = this->vtx.bodyParts.at(bodyPartIndex);
+
+		for (int modelIndex = 0; modelIndex < mdlBodyPart.models.size(); modelIndex++) {
+			auto& mdlModel = mdlBodyPart.models.at(modelIndex);
+			auto& vtxModel = vtxBodyPart.models.at(modelIndex);
+
+			if (mdlModel.verticesCount == 0) {
+				continue;
+			}
+
+			for (int meshIndex = 0; meshIndex < mdlModel.meshes.size(); meshIndex++) {
+				auto& mdlMesh = mdlModel.meshes.at(meshIndex);
+				auto& vtxMesh = vtxModel.modelLODs.at(currentLOD).meshes.at(meshIndex);
+
+				std::vector<uint16_t> indices;
+				for (const auto& stripGroup : vtxMesh.stripGroups) {
+					for (const auto& strip : stripGroup.strips) {
+						const auto addIndex = [&indices, &mdlMesh, &mdlModel, &stripGroup](int index) {
+							indices.push_back(stripGroup.vertices.at(index).meshVertexID + mdlMesh.verticesOffset + mdlModel.verticesOffset);
+						};
+
+						// Remember to flip the winding order
+						if (strip.flags & VTX::Strip::FLAG_IS_TRILIST) {
+							for (int i = 0; i < strip.indices.size(); i += 3) {
+								addIndex(strip.indices[ i ]);
+								addIndex(strip.indices[i+2]);
+								addIndex(strip.indices[i+1]);
+							}
+						} else {
+							for (auto i = strip.indices.size(); i >= 2; i -= 3) {
+								addIndex(strip.indices[ i ]);
+								addIndex(strip.indices[i-2]);
+								addIndex(strip.indices[i-1]);
+							}
+						}
+					}
+				}
+
+				model.meshes.emplace_back(std::move(indices), mdlMesh.material);
+			}
+		}
+	}
+
+	return model;
 }
