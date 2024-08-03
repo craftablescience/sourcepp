@@ -3,6 +3,7 @@ var namespacemdlpp =
     [ "MDL", "d6/d3f/namespacemdlpp_1_1MDL.html", "d6/d3f/namespacemdlpp_1_1MDL" ],
     [ "VTX", "d8/d94/namespacemdlpp_1_1VTX.html", "d8/d94/namespacemdlpp_1_1VTX" ],
     [ "VVD", "d5/ddd/namespacemdlpp_1_1VVD.html", "d5/ddd/namespacemdlpp_1_1VVD" ],
+    [ "BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", "de/d21/structmdlpp_1_1BakedModel" ],
     [ "StudioModel", "db/dee/structmdlpp_1_1StudioModel.html", "db/dee/structmdlpp_1_1StudioModel" ],
     [ "BBox", "d9/dd3/structmdlpp_1_1BBox.html", "d9/dd3/structmdlpp_1_1BBox" ],
     [ "Movement", "d1/dbd/structmdlpp_1_1Movement.html", "d1/dbd/structmdlpp_1_1Movement" ],

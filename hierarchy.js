@@ -30,6 +30,8 @@ var hierarchy =
       [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
     ] ],
     [ "sourcepp::math::Matrix< 3, 4 >", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", null ],
+    [ "mdlpp::BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", null ],
+    [ "mdlpp::BakedModel::Mesh", "d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html", null ],
     [ "mdlpp::BBox", "d9/dd3/structmdlpp_1_1BBox.html", null ],
     [ "mdlpp::MDL::BodyPart", "d1/d46/structmdlpp_1_1MDL_1_1BodyPart.html", null ],
     [ "mdlpp::MDL::Bone", "d2/dbf/structmdlpp_1_1MDL_1_1Bone.html", null ],
@@ -58,6 +60,8 @@ var hierarchy =
     [ "sourcepp::math::QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", null ],
     [ "sourcepp::math::QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", null ],
     [ "sourcepp::math::Vec< S, P >", "d6/d21/structsourcepp_1_1math_1_1Vec.html", null ],
+    [ "sourcepp::mesh::MeshBuilderStatic", "d5/d2f/classsourcepp_1_1mesh_1_1MeshBuilderStatic.html", null ],
+    [ "sourcepp::mesh::VertexStatic", "da/d8e/structsourcepp_1_1mesh_1_1VertexStatic.html", null ],
     [ "std::exception", null, [
       [ "std::runtime_error", null, [
         [ "sourcepp::parser::text::syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", null ]

@@ -19,6 +19,7 @@ var namespacesourcepp =
       [ "writeFileText", "d9/dd6/namespacesourcepp_1_1fs.html#ab41ce0a38aed111d34806b0e77640e33", null ]
     ] ],
     [ "math", "d0/d54/namespacesourcepp_1_1math.html", "d0/d54/namespacesourcepp_1_1math" ],
+    [ "mesh", "d7/d91/namespacesourcepp_1_1mesh.html", "d7/d91/namespacesourcepp_1_1mesh" ],
     [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", "d5/d3c/namespacesourcepp_1_1parser" ],
     [ "string", "d0/d5a/namespacesourcepp_1_1string.html", [
       [ "contains", "d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167", null ],

@@ -52,6 +52,7 @@ var annotated_dup =
         [ "Vertex", "dc/d30/structmdlpp_1_1VVD_1_1Vertex.html", "dc/d30/structmdlpp_1_1VVD_1_1Vertex" ],
         [ "VVD", "d0/de2/structmdlpp_1_1VVD_1_1VVD.html", "d0/de2/structmdlpp_1_1VVD_1_1VVD" ]
       ] ],
+      [ "BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", "de/d21/structmdlpp_1_1BakedModel" ],
       [ "StudioModel", "db/dee/structmdlpp_1_1StudioModel.html", "db/dee/structmdlpp_1_1StudioModel" ],
       [ "BBox", "d9/dd3/structmdlpp_1_1BBox.html", "d9/dd3/structmdlpp_1_1BBox" ],
       [ "Movement", "d1/dbd/structmdlpp_1_1Movement.html", "d1/dbd/structmdlpp_1_1Movement" ]
@@ -63,6 +64,10 @@ var annotated_dup =
         [ "FloatCompressed16", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16" ],
         [ "Matrix", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", "d4/d4b/classsourcepp_1_1math_1_1Matrix" ],
         [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ]
+      ] ],
+      [ "mesh", "d7/d91/namespacesourcepp_1_1mesh.html", [
+        [ "VertexStatic", "da/d8e/structsourcepp_1_1mesh_1_1VertexStatic.html", "da/d8e/structsourcepp_1_1mesh_1_1VertexStatic" ],
+        [ "MeshBuilderStatic", "d5/d2f/classsourcepp_1_1mesh_1_1MeshBuilderStatic.html", "d5/d2f/classsourcepp_1_1mesh_1_1MeshBuilderStatic" ]
       ] ],
       [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", [
         [ "text", "d7/d75/namespacesourcepp_1_1parser_1_1text.html", [

@@ -1,5 +1,6 @@
 var structmdlpp_1_1StudioModel =
 [
+    [ "bake", "db/dee/structmdlpp_1_1StudioModel.html#a7dd3602abcfcfd7af160308943891efa", null ],
     [ "open", "db/dee/structmdlpp_1_1StudioModel.html#a9408eed97033e9820854ccc7f885214b", null ],
     [ "open", "db/dee/structmdlpp_1_1StudioModel.html#a2cf375e5dc4be7354e352046fd89dff7", null ],
     [ "open", "db/dee/structmdlpp_1_1StudioModel.html#abc2a40430d79cccc319ae3be39cc41c2", null ],
