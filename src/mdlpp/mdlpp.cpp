@@ -107,7 +107,7 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 					}
 				}
 
-				model.meshes.emplace_back(std::move(indices), mdlMesh.material);
+				model.meshes.push_back({std::move(indices), mdlMesh.material});
 			}
 		}
 	}
