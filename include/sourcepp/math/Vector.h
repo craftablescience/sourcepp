@@ -134,6 +134,15 @@ struct Vec {
 		}
 	}
 
+	template<uint8_t SO, Arithmetic PO = P>
+	[[nodiscard]] constexpr Vec<SO, PO> to() const {
+		Vec<SO, PO> out{};
+		for (uint8_t i = 0; i < (S > SO ? SO : S); i++) {
+			out[i] = static_cast<PO>((*this)[i]);
+		}
+		return out;
+	}
+
 	template<uint8_t SO, Arithmetic PO>
 	[[nodiscard]] constexpr Vec mul(const Vec<SO, PO>& other) const {
 		auto out = *this;
