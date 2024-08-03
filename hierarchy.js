@@ -25,6 +25,7 @@ var hierarchy =
     [ "fgdpp::FGDWriter::EntityWriter", "d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html", null ],
     [ "fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter", "d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html", null ],
     [ "fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter", "d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html", null ],
+    [ "gamepp::GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", null ],
     [ "kvpp::KV1Element", "da/daf/classkvpp_1_1KV1Element.html", [
       [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
     ] ],

@@ -18,6 +18,9 @@ var annotated_dup =
       [ "FGD", "d7/d45/classfgdpp_1_1FGD.html", "d7/d45/classfgdpp_1_1FGD" ],
       [ "FGDWriter", "d5/db1/classfgdpp_1_1FGDWriter.html", "d5/db1/classfgdpp_1_1FGDWriter" ]
     ] ],
+    [ "gamepp", "de/d04/namespacegamepp.html", [
+      [ "GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", "d2/dc0/classgamepp_1_1GameInstance" ]
+    ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
       [ "KV1Element", "da/daf/classkvpp_1_1KV1Element.html", "da/daf/classkvpp_1_1KV1Element" ],
       [ "KV1", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ]

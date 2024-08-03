@@ -67,12 +67,12 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d2/d0c/vtfpp_8cpp.html",
-"d4/d08/Attribute_8h.html#a06eb22162f2a2be87d77dd7eb3d2647faaddeac40406177897b3fccba88558f1c",
-"d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8",
-"d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b",
-"d8/df2/classvtfpp_1_1VTF.html#a6d9c560fa8ebf90b5f2420317c383128",
-"db/d47/VVD_8h_source.html",
-"de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca59d1e74ca4fb24d76a6e04937c41d2eb"
+"d3/df4/PackFile_8h.html#a609e29749da95400941076e6b496ca09",
+"d5/d8b/classvpkpp_1_1VPK.html#a780e1cc48325e7294c2791872edcc227",
+"d6/d35/Text_8h.html#aa940a6db105e64e5948bb6d7d692a346",
+"d8/df2/classvtfpp_1_1VTF.html",
+"da/de7/classvpkpp_1_1ZIP.html#a82d7f3bf2c41e484ed805ffc4039bffd",
+"de/d89/structmdlpp_1_1VTX_1_1Mesh.html#ac21879650a5226b05a17ae27aa0beb77"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
