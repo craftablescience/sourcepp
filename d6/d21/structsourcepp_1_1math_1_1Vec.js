@@ -3,7 +3,10 @@ var structsourcepp_1_1math_1_1Vec =
     [ "value_type", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a274ecaa4f9883e1e6a6208bd990501de", null ],
     [ "abs", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a8cdcfe07ffa3422d979944ff5887db0e", null ],
     [ "div", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a9c4957e197566ef432ac6dbf1598f92b", null ],
+    [ "dot", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a484f0e4eccb4ce913afb32dbd49e46dd", null ],
     [ "isZero", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a37e0ff14cb6056aa11d2c38500c65cc5", null ],
+    [ "mag", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a90bbeac6b7c32efec3134ffe2c7d7f89", null ],
+    [ "magf", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a11640e1a100c1bdf150dd68c955c081f", null ],
     [ "mod", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7e38440ce33559205ecfba07deb2dc4b", null ],
     [ "mul", "d6/d21/structsourcepp_1_1math_1_1Vec.html#aeaf9a25050eb928fdce4b18d7ed049fd", null ],
     [ "operator%", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a28a7dc041cbee137759243e870db2857", null ],
@@ -22,6 +25,7 @@ var structsourcepp_1_1math_1_1Vec =
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#adffcc9f4e060ae9fe3d4ae942a582c5d", null ],
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a344fcd4739c6071813e4d9f6831d5f55", null ],
     [ "size", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ad5f1890abc442d7afea5efa9d15cf239", null ],
+    [ "sum", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a78745bd18ae9c1d020db8d089ed784b1", null ],
     [ "to", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ae31614a3ccfa46be5adf64bb06e5d9c4", null ],
     [ "zero", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7d4059d35446104bb28906b0603d93d6", null ],
     [ "values", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a4de5725618d3e1f04dac2d001ba668f9", null ]

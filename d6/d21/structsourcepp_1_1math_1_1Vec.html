@@ -193,6 +193,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7e38440ce33559205ecfba07deb2dc4b"><td class="memTemplParams" colspan="2">template&lt;uint8_t SO, Arithmetic PO&gt; </td></tr>
 <tr class="memitem:a7e38440ce33559205ecfba07deb2dc4b"><td class="memTemplItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">Vec</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a7e38440ce33559205ecfba07deb2dc4b">mod</a> (const <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">Vec</a>&lt; SO, PO &gt; &amp;other) const</td></tr>
 <tr class="separator:a7e38440ce33559205ecfba07deb2dc4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11640e1a100c1bdf150dd68c955c081f"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a11640e1a100c1bdf150dd68c955c081f">magf</a> () const</td></tr>
+<tr class="separator:a11640e1a100c1bdf150dd68c955c081f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90bbeac6b7c32efec3134ffe2c7d7f89"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a90bbeac6b7c32efec3134ffe2c7d7f89">mag</a> () const</td></tr>
+<tr class="separator:a90bbeac6b7c32efec3134ffe2c7d7f89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a78745bd18ae9c1d020db8d089ed784b1"><td class="memItemLeft" align="right" valign="top">constexpr P&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a78745bd18ae9c1d020db8d089ed784b1">sum</a> () const</td></tr>
+<tr class="separator:a78745bd18ae9c1d020db8d089ed784b1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a484f0e4eccb4ce913afb32dbd49e46dd"><td class="memTemplParams" colspan="2">template&lt;Arithmetic PO&gt; </td></tr>
+<tr class="memitem:a484f0e4eccb4ce913afb32dbd49e46dd"><td class="memTemplItemLeft" align="right" valign="top">constexpr P&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a484f0e4eccb4ce913afb32dbd49e46dd">dot</a> (const <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">Vec</a>&lt; S, PO &gt; &amp;other) const</td></tr>
+<tr class="separator:a484f0e4eccb4ce913afb32dbd49e46dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cdcfe07ffa3422d979944ff5887db0e"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">Vec</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a8cdcfe07ffa3422d979944ff5887db0e">abs</a> () const</td></tr>
 <tr class="separator:a8cdcfe07ffa3422d979944ff5887db0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a37e0ff14cb6056aa11d2c38500c65cc5"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html#a37e0ff14cb6056aa11d2c38500c65cc5">isZero</a> () const</td></tr>
@@ -259,7 +268,7 @@ template&lt;uint8_t S, Arithmetic P&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00189">189</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00222">222</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
 
 </div>
 </div>
@@ -295,6 +304,38 @@ template&lt;uint8_t SO, Arithmetic PO&gt; </div>
 
 </div>
 </div>
+<a id="a484f0e4eccb4ce913afb32dbd49e46dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a484f0e4eccb4ce913afb32dbd49e46dd">&#9670;&nbsp;</a></span>dot()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t S, Arithmetic P&gt; </div>
+<div class="memtemplate">
+template&lt;Arithmetic PO&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr P <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">sourcepp::math::Vec</a>&lt; S, P &gt;::dot </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">Vec</a>&lt; S, PO &gt; &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00214">214</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
 <a id="a37e0ff14cb6056aa11d2c38500c65cc5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a37e0ff14cb6056aa11d2c38500c65cc5">&#9670;&nbsp;</a></span>isZero()</h2>
 
@@ -320,7 +361,65 @@ template&lt;uint8_t S, Arithmetic P&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00201">201</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00234">234</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a90bbeac6b7c32efec3134ffe2c7d7f89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a90bbeac6b7c32efec3134ffe2c7d7f89">&#9670;&nbsp;</a></span>mag()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t S, Arithmetic P&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr double <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">sourcepp::math::Vec</a>&lt; S, P &gt;::mag </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00197">197</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
+<a id="a11640e1a100c1bdf150dd68c955c081f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11640e1a100c1bdf150dd68c955c081f">&#9670;&nbsp;</a></span>magf()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t S, Arithmetic P&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr float <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">sourcepp::math::Vec</a>&lt; S, P &gt;::magf </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00189">189</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
 
 </div>
 </div>
@@ -875,6 +974,35 @@ template&lt;uint8_t S, Arithmetic P&gt; </div>
 
 </div>
 </div>
+<a id="a78745bd18ae9c1d020db8d089ed784b1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a78745bd18ae9c1d020db8d089ed784b1">&#9670;&nbsp;</a></span>sum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;uint8_t S, Arithmetic P&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr P <a class="el" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">sourcepp::math::Vec</a>&lt; S, P &gt;::sum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00205">205</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+
+</div>
+</div>
 <a id="ae31614a3ccfa46be5adf64bb06e5d9c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae31614a3ccfa46be5adf64bb06e5d9c4">&#9670;&nbsp;</a></span>to()</h2>
 
@@ -931,7 +1059,7 @@ template&lt;uint8_t S, Arithmetic P&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00197">197</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/dbe/Vector_8h_source.html#l00230">230</a> of file <a class="el" href="../../d6/dbe/Vector_8h_source.html">Vector.h</a>.</p>
 
 </div>
 </div>
