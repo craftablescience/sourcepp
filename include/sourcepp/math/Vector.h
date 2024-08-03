@@ -186,6 +186,39 @@ struct Vec {
 		return out;
 	}
 
+	[[nodiscard]] constexpr float magf() const {
+		float out = 0.0;
+		for (uint8_t i = 0; i < S; i++) {
+			out += std::pow((*this)[i], 2);
+		}
+		return std::sqrt(out);
+	}
+
+	[[nodiscard]] constexpr double mag() const {
+		double out = 0.0;
+		for (uint8_t i = 0; i < S; i++) {
+			out += std::pow((*this)[i], 2);
+		}
+		return std::sqrt(out);
+	}
+
+	[[nodiscard]] constexpr P sum() const {
+		P out{};
+		for (uint8_t i = 0; i < S; i++) {
+			out += (*this)[i];
+		}
+		return out;
+	}
+
+	template<Arithmetic PO>
+	[[nodiscard]] constexpr P dot(const Vec<S, PO>& other) const {
+		Vec out;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] = (*this)[i] * static_cast<P>(other[i]);
+		}
+		return out.sum();
+	}
+
 	[[nodiscard]] constexpr Vec abs() const {
 		auto out = *this;
 		for (uint8_t i = 0; i < S; i++) {
