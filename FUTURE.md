@@ -14,6 +14,11 @@
   - Add write support
 - `fgdpp`
   - Perhaps add the ability to parse TeamSpen's additions to the format?
+- `gamepp`
+  - Add a function to create instances of a game rather than just finding existing ones
+    - When creating an instance of the game, attaching a console might be easier, or enabling -condebug,
+      which would then allow reading output from the console
+  - Add a method to take a screenshot of the game and move the file to a user-specified location
 - `kvpp`
   - Add write support
 - `mdlpp`

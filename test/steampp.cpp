@@ -1,11 +1,11 @@
+#if 0
+
 #include <gtest/gtest.h>
 
 #include <steampp/steampp.h>
 
 using namespace sourcepp;
 using namespace steampp;
-
-#if 0
 
 TEST(steampp, list_installed_apps) {
 	Steam steam;
