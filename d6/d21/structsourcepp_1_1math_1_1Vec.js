@@ -20,6 +20,7 @@ var structsourcepp_1_1math_1_1Vec =
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#adffcc9f4e060ae9fe3d4ae942a582c5d", null ],
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a344fcd4739c6071813e4d9f6831d5f55", null ],
     [ "size", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ad5f1890abc442d7afea5efa9d15cf239", null ],
+    [ "to", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ae31614a3ccfa46be5adf64bb06e5d9c4", null ],
     [ "zero", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7d4059d35446104bb28906b0603d93d6", null ],
     [ "values", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a4de5725618d3e1f04dac2d001ba668f9", null ]
 ];
