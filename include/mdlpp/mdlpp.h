@@ -16,7 +16,7 @@ namespace mdlpp {
 struct BakedModel {
 	struct Mesh {
 		std::vector<uint16_t> indices;
-		int32_t materialIndex;
+		int32_t materialIndex = -1;
 	};
 
 	std::vector<sourcepp::mesh::VertexStatic> vertices;
@@ -42,7 +42,7 @@ struct StudioModel {
 
 	[[nodiscard]] explicit operator bool() const;
 
-	[[nodiscard]] BakedModel bake(int currentLOD = ROOT_LOD) const;
+	[[nodiscard]] BakedModel processModelData(int currentLOD = ROOT_LOD) const;
 
 	MDL::MDL mdl;
 	VTX::VTX vtx;

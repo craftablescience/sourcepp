@@ -48,7 +48,7 @@ StudioModel::operator bool() const {
 	return this->opened;
 }
 
-BakedModel StudioModel::bake(int currentLOD) const {
+BakedModel StudioModel::processModelData(int currentLOD) const {
 	BakedModel model;
 
 	// According to my limited research, vertices stay constant (ignoring LOD fixups) but indices vary with LOD level
