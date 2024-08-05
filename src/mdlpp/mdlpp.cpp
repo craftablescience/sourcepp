@@ -1,5 +1,7 @@
 #include <mdlpp/mdlpp.h>
 
+#include <algorithm>
+#include <span>
 #include <utility>
 
 using namespace mdlpp;
@@ -52,18 +54,18 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 	BakedModel model;
 
 	// According to my limited research, vertices stay constant (ignoring LOD fixups) but indices vary with LOD level
+	static constexpr auto convertVertex = [](const VVD::Vertex& vertex) {
+		return BakedModel::Vertex{vertex.position, vertex.normal, vertex.uv};
+	};
 	if (this->vvd.fixups.empty()) {
-		for (const auto& vertex : this->vvd.vertices) {
-			model.vertices.push_back({vertex.position, vertex.normal, vertex.uv});
-		}
+		std::transform(this->vvd.vertices.begin(), this->vvd.vertices.end(), std::back_inserter(model.vertices), convertVertex);
 	} else {
 		for (const auto& fixup : this->vvd.fixups) {
 			if (fixup.LOD < currentLOD) {
 				continue;
 			}
-			for (int i = fixup.sourceVertexID; i < fixup.vertexCount; i++) {
-				model.vertices.push_back({this->vvd.vertices[i].position, this->vvd.vertices[i].normal, this->vvd.vertices[i].uv});
-			}
+			std::span<const VVD::Vertex> fixupVertices{this->vvd.vertices.begin() + fixup.sourceVertexID, static_cast<std::span<const VVD::Vertex>::size_type>(fixup.vertexCount)};
+			std::transform(fixupVertices.begin(), fixupVertices.end(), std::back_inserter(model.vertices), convertVertex);
 		}
 	}
 
@@ -86,7 +88,7 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 				std::vector<uint16_t> indices;
 				for (const auto& stripGroup : vtxMesh.stripGroups) {
 					for (const auto& strip : stripGroup.strips) {
-						const auto addIndex = [&indices, &mdlMesh, &mdlModel, &stripGroup](int index) {
+						const auto addIndex = [&indices, mdlMesh, mdlModel, stripGroup](int index) {
 							indices.push_back(stripGroup.vertices.at(index).meshVertexID + mdlMesh.verticesOffset + mdlModel.verticesOffset);
 						};
 
@@ -98,7 +100,7 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 								addIndex(strip.indices[i+1]);
 							}
 						} else {
-							for (auto i = strip.indices.size(); i >= 2; i -= 3) {
+							for (auto i = strip.indices.size() - 1; i >= 2; i -= 3) {
 								addIndex(strip.indices[ i ]);
 								addIndex(strip.indices[i-2]);
 								addIndex(strip.indices[i-1]);
