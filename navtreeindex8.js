@@ -1,17 +1,5 @@
 var NAVTREEINDEX8 =
 {
-"index.html#autotoc_md1":[1],
-"index.html#autotoc_md2":[2],
-"namespacemembers.html":[0,4,0],
-"namespacemembers.html":[0,4,0,0],
-"namespacemembers_b.html":[0,4,0,1],
-"namespacemembers_c.html":[0,4,0,2],
-"namespacemembers_d.html":[0,4,0,3],
-"namespacemembers_e.html":[0,4,0,4],
-"namespacemembers_enum.html":[0,4,4],
-"namespacemembers_f.html":[0,4,0,5],
-"namespacemembers_func.html":[0,4,1],
-"namespacemembers_g.html":[0,4,0,6],
 "namespacemembers_h.html":[0,4,0,7],
 "namespacemembers_i.html":[0,4,0,8],
 "namespacemembers_l.html":[0,4,0,9],

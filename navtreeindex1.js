@@ -70,8 +70,6 @@ var NAVTREEINDEX1 =
 "d2/dc0/classgamepp_1_1GameInstance.html#ac4a10f313a51302c5f6b18de7f50ca46":[1,0,3,0,7],
 "d2/dc0/classgamepp_1_1GameInstance.html#ad12cf426974c60fbbcf7a916ef733d7c":[1,0,3,0,5],
 "d2/dc0/classgamepp_1_1GameInstance.html#ae2da5b77b8691fde2d401811de5ede9d":[1,0,3,0,3],
-"d2/dcc/Mesh_8cpp.html":[2,0,1,6,3],
-"d2/dcc/Mesh_8cpp_source.html":[2,0,1,6,3],
 "d2/dd1/BSP_8h.html":[2,0,0,9,0,0],
 "d2/dd1/BSP_8h.html#a09fb541c2049262e43a2503c7094b7df":[2,0,0,9,0,0,1],
 "d2/dd1/BSP_8h_source.html":[2,0,0,9,0,0],
@@ -206,6 +204,10 @@ var NAVTREEINDEX1 =
 "d3/d80/structvtfpp_1_1Resource.html#ab5079269f351efa7f186f6029adc65a8":[1,0,9,0,0],
 "d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a":[1,0,9,0,11],
 "d3/d80/structvtfpp_1_1Resource.html#af6f083ee840ba1a8cce2818e5e130c18":[1,0,9,0,10],
+"d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html":[1,0,5,3,1],
+"d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#a01ad18f937f49326151d5416a46a942c":[1,0,5,3,1,2],
+"d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#a281fab08400d7750b68444c17076151b":[1,0,5,3,1,1],
+"d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#aa1e28b36d1438c5dee860e5d73347a40":[1,0,5,3,1,0],
 "d3/d9d/FPX_8cpp.html":[2,0,1,9,0,2],
 "d3/d9d/FPX_8cpp_source.html":[2,0,1,9,0,2],
 "d3/db1/Matrix_8h.html":[2,0,0,6,1,3],
@@ -247,7 +249,5 @@ var NAVTREEINDEX1 =
 "d3/dc8/namespacevicepp_1_1KnownCodes.html#adef1c0b2ded7b2d540002a19df19484b":[0,3,8,0,6],
 "d3/dc8/namespacevicepp_1_1KnownCodes.html#ae084184fd0ce532cde2405c5da70d286":[0,3,8,0,1],
 "d3/dc8/namespacevicepp_1_1KnownCodes.html#aecb1cde2a49b581bb52e2b1594297672":[0,3,8,0,17],
-"d3/dce/namespacefgdpp.html":[0,3,2],
-"d3/def/structvpkpp_1_1GCF_1_1ChecksumMapEntry.html":[1,0,8,3,2],
-"d3/def/structvpkpp_1_1GCF_1_1ChecksumMapEntry.html#a006e3b379c769772ef2259a4774cda76":[1,0,8,3,2,1]
+"d3/dce/namespacefgdpp.html":[0,3,2]
 };

@@ -65,10 +65,6 @@ var annotated_dup =
         [ "Matrix", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", "d4/d4b/classsourcepp_1_1math_1_1Matrix" ],
         [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ]
       ] ],
-      [ "mesh", "d7/d91/namespacesourcepp_1_1mesh.html", [
-        [ "VertexStatic", "da/d8e/structsourcepp_1_1mesh_1_1VertexStatic.html", "da/d8e/structsourcepp_1_1mesh_1_1VertexStatic" ],
-        [ "MeshBuilderStatic", "d5/d2f/classsourcepp_1_1mesh_1_1MeshBuilderStatic.html", "d5/d2f/classsourcepp_1_1mesh_1_1MeshBuilderStatic" ]
-      ] ],
       [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", [
         [ "text", "d7/d75/namespacesourcepp_1_1parser_1_1text.html", [
           [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error" ]

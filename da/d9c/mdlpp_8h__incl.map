@@ -1,20 +1,19 @@
 <map id="include/mdlpp/mdlpp.h" name="include/mdlpp/mdlpp.h">
-<area shape="rect" id="node1" title=" " alt="" coords="367,5,538,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="24,229,87,256"/>
-<area shape="rect" id="node3" href="$d9/d31/Mesh_8h.html" title=" " alt="" coords="7,155,139,181"/>
-<area shape="rect" id="node11" href="$da/d9c/MDL_8h.html" title=" " alt="" coords="489,155,600,181"/>
-<area shape="rect" id="node16" href="$d8/de1/VTX_8h.html" title=" " alt="" coords="399,80,507,107"/>
-<area shape="rect" id="node18" href="$db/d47/VVD_8h.html" title=" " alt="" coords="635,80,745,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="359,304,418,331"/>
-<area shape="rect" id="node5" href="$d6/dbe/Vector_8h.html" title=" " alt="" coords="160,304,335,331"/>
-<area shape="rect" id="node6" title=" " alt="" coords="615,379,671,405"/>
-<area shape="rect" id="node7" title=" " alt="" coords="153,379,216,405"/>
-<area shape="rect" id="node8" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="492,379,571,405"/>
-<area shape="rect" id="node9" title=" " alt="" coords="765,453,831,480"/>
-<area shape="rect" id="node10" title=" " alt="" coords="485,453,577,480"/>
-<area shape="rect" id="node12" title=" " alt="" coords="728,229,799,256"/>
-<area shape="rect" id="node13" href="$dd/d79/Angles_8h.html" title=" " alt="" coords="111,229,290,256"/>
-<area shape="rect" id="node14" href="$d3/db1/Matrix_8h.html" title=" " alt="" coords="443,304,620,331"/>
-<area shape="rect" id="node15" href="$df/d6a/Generic_8h.html" title=" " alt="" coords="365,229,449,256"/>
-<area shape="rect" id="node17" title=" " alt="" coords="361,155,414,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="619,5,789,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="771,229,834,256"/>
+<area shape="rect" id="node3" href="$da/d9c/MDL_8h.html" title=" " alt="" coords="458,155,569,181"/>
+<area shape="rect" id="node15" href="$d8/de1/VTX_8h.html" title=" " alt="" coords="730,80,838,107"/>
+<area shape="rect" id="node17" href="$db/d47/VVD_8h.html" title=" " alt="" coords="573,80,683,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,379,61,405"/>
+<area shape="rect" id="node5" title=" " alt="" coords="610,229,681,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="612,453,679,480"/>
+<area shape="rect" id="node7" title=" " alt="" coords="449,304,508,331"/>
+<area shape="rect" id="node8" href="$dd/d79/Angles_8h.html" title=" " alt="" coords="196,229,375,256"/>
+<area shape="rect" id="node10" href="$d6/dbe/Vector_8h.html" title=" " alt="" coords="273,304,348,331"/>
+<area shape="rect" id="node13" href="$d3/db1/Matrix_8h.html" title=" " alt="" coords="71,304,249,331"/>
+<area shape="rect" id="node14" href="$df/d6a/Generic_8h.html" title=" " alt="" coords="399,229,483,256"/>
+<area shape="rect" id="node9" title=" " alt="" coords="354,379,417,405"/>
+<area shape="rect" id="node11" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="251,379,330,405"/>
+<area shape="rect" id="node12" title=" " alt="" coords="245,453,337,480"/>
+<area shape="rect" id="node16" title=" " alt="" coords="847,155,900,181"/>
 </map>
