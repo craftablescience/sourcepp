@@ -2,8 +2,6 @@
 
 #include <vector>
 
-#include <sourcepp/Mesh.h>
-
 #include "structs/MDL.h"
 #include "structs/VTX.h"
 #include "structs/VVD.h"
@@ -14,12 +12,17 @@ namespace mdlpp {
  * A more accessible version of StudioModel's vertex data, so it can be rendered or converted more easily.
  */
 struct BakedModel {
+	struct Vertex {
+		sourcepp::math::Vec3f position;
+		sourcepp::math::Vec3f normal;
+		sourcepp::math::Vec2f uv;
+	};
+	std::vector<Vertex> vertices;
+
 	struct Mesh {
 		std::vector<uint16_t> indices;
 		int32_t materialIndex = -1;
 	};
-
-	std::vector<sourcepp::mesh::VertexStatic> vertices;
 	std::vector<Mesh> meshes;
 };
 
