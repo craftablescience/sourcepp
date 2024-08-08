@@ -9,6 +9,7 @@ var namespacevpkpp =
     [ "PAK", "d9/daf/classvpkpp_1_1PAK.html", "d9/daf/classvpkpp_1_1PAK" ],
     [ "PCK", "d5/db5/classvpkpp_1_1PCK.html", "d5/db5/classvpkpp_1_1PCK" ],
     [ "VPK", "d5/d8b/classvpkpp_1_1VPK.html", "d5/d8b/classvpkpp_1_1VPK" ],
+    [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", "d4/ddb/classvpkpp_1_1VPK__VTMB" ],
     [ "ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ],
     [ "PackFileOptions", "d5/db7/structvpkpp_1_1PackFileOptions.html", "d5/db7/structvpkpp_1_1PackFileOptions" ],
     [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
@@ -33,6 +34,7 @@ var namespacevpkpp =
       [ "PAK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a520db707904f92039c093517ef0f748f", null ],
       [ "PCK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926abed028f19aa93adb7f45e064155e5278", null ],
       [ "VPK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850", null ],
+      [ "VPK_VTMB", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a895f95fda6944a0f9ee77b020d2854f8", null ],
       [ "ZIP", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4348f938bbddd8475e967ccb47ecb234", null ]
     ] ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
@@ -67,5 +69,6 @@ var namespacevpkpp =
     [ "VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE", "d5/d29/namespacevpkpp.html#a5a083f2e65dc297d5a090e1e1c70fff3", null ],
     [ "VPK_MAX_PRELOAD_BYTES", "d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2", null ],
     [ "VPK_SIGNATURE", "d5/d29/namespacevpkpp.html#a232e225c110d56abf39101bd1259fd35", null ],
+    [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
     [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ]
 ];
