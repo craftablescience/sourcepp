@@ -123,21 +123,25 @@ bool VPK_VTMB::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 	}
 
+	// Read data before overwriting, we don't know if we're writing to ourself
+	std::vector<std::byte> fileData;
+	for (auto* entry : entriesToBake) {
+		if (auto binData = this->readEntry(*entry)) {
+			entry->offset = fileData.size();
+
+			fileData.insert(fileData.end(), binData->begin(), binData->end());
+		} else {
+			entry->offset = 0;
+			entry->length = 0;
+		}
+	}
+
 	{
 		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		stream.seek_out(0);
 
 		// File data
-		for (auto* entry : entriesToBake) {
-			if (auto binData = this->readEntry(*entry)) {
-				entry->offset = stream.tell_out();
-
-				stream.write(*binData);
-			} else {
-				entry->offset = 0;
-				entry->length = 0;
-			}
-		}
+		stream.write(fileData);
 
 		// Directory
 		auto dirOffset = stream.tell_out();
