@@ -12,6 +12,7 @@ enum class PackFileType {
 	PAK,
 	PCK,
 	VPK,
+	VPK_VTMB,
 	ZIP,
 };
 
