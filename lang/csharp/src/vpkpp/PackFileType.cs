@@ -11,6 +11,7 @@ namespace vpkpp
         PAK,
         PCK,
         VPK,
+        VPK_VTMB,
         ZIP,
     }
 }
