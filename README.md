@@ -127,6 +127,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</li>
         <li><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</li>
         <li><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</li>
+        <li>VPK (Vampire: The Masquerade - Bloodlines)</li>
         <li>ZIP</li>
       </ul>
     </td>
