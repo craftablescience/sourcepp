@@ -1,48 +1,56 @@
-#include <vpkpp/format/PAK.h>
+#include <vpkpp/format/VPK_VTMB.h>
 
 #include <filesystem>
 
 #include <FileStream.h>
 
+#include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
 
-PAK::PAK(const std::string& fullFilePath_, PackFileOptions options_)
+VPK_VTMB::VPK_VTMB(const std::string& fullFilePath_, PackFileOptions options_)
 		: PackFile(fullFilePath_, options_) {
-	this->type = PackFileType::PAK;
+	this->type = PackFileType::VPK_VTMB;
 }
 
-std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOptions options, const Callback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* pak = new PAK{path, options};
-	auto packFile = std::unique_ptr<PackFile>(pak);
-
-	FileStream reader{pak->fullFilePath};
-	reader.seek_in(0);
-
-	if (auto signature = reader.read<uint32_t>(); signature != PAK_SIGNATURE) {
-		// File is not a PAK
+	// Extra check to make sure this is a VTMB VPK path
+	auto stem = std::filesystem::path{path}.stem().string();
+	if (stem.length() != 7 || !stem.starts_with("pack") || !parser::text::isNumber(stem.substr(4))) {
 		return nullptr;
 	}
 
-	auto directoryOffset = reader.read<uint32_t>();
-	// Directory size / file entry size
-	auto fileCount = reader.read<uint32_t>() / 64;
+	auto* vpkVTMB = new VPK_VTMB{path, options};
+	auto packFile = std::unique_ptr<PackFile>(vpkVTMB);
 
-	reader.seek_in(directoryOffset);
+	FileStream reader{vpkVTMB->fullFilePath};
+	reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) * 2 + sizeof(uint8_t)), std::ios::end);
+
+	auto fileCount = reader.read<uint32_t>();
+	auto dirOffset = reader.read<uint32_t>();
+
+	// Make 100% sure
+	auto version = reader.read<uint8_t>();
+	if (version != 0) {
+		return nullptr;
+	}
+
+	// Ok now let's load this thing
+	reader.seek_in(dirOffset);
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		reader.read(entry.path, PAK_FILENAME_MAX_SIZE);
+		entry.path = reader.read_string(reader.read<uint32_t>());
 		string::normalizeSlashes(entry.path, true);
-		if (!pak->isCaseSensitive()) {
+		if (!vpkVTMB->isCaseSensitive()) {
 			string::toLower(entry.path);
 		}
 
@@ -50,15 +58,10 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 		entry.length = reader.read<uint32_t>();
 
 		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir, true);
-		if (!pak->isCaseSensitive()) {
-			string::toLower(parentDir);
+		if (!vpkVTMB->entries.contains(parentDir)) {
+			vpkVTMB->entries[parentDir] = {};
 		}
-
-		if (!pak->entries.contains(parentDir)) {
-			pak->entries[parentDir] = {};
-		}
-		pak->entries[parentDir].push_back(entry);
+		vpkVTMB->entries[parentDir].push_back(entry);
 
 		if (callback) {
 			callback(parentDir, entry);
@@ -68,7 +71,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	return packFile;
 }
 
-std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
+std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const Entry& entry) const {
 	if (entry.unbaked) {
 		return this->readUnbakedEntry(entry);
 	}
@@ -82,7 +85,7 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
 	return stream.read_bytes(entry.length);
 }
 
-Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
+Entry& VPK_VTMB::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
 	auto filename = filename_;
 	if (!this->isCaseSensitive()) {
 		string::toLower(filename);
@@ -102,7 +105,7 @@ Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 	return this->unbakedEntries.at(dir).back();
 }
 
-bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
+bool VPK_VTMB::bake(const std::string& outputDir_, const Callback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
@@ -120,45 +123,39 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 	}
 
-	// Read data before overwriting, we don't know if we're writing to ourself
-	std::vector<std::byte> fileData;
-	for (auto* entry : entriesToBake) {
-		if (auto binData = this->readEntry(*entry)) {
-			entry->offset = fileData.size();
-
-			fileData.insert(fileData.end(), binData->begin(), binData->end());
-		} else {
-			entry->offset = 0;
-			entry->length = 0;
-		}
-	}
-
 	{
 		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		stream.seek_out(0);
 
-		// Signature
-		stream.write(PAK_SIGNATURE);
+		// File data
+		for (auto* entry : entriesToBake) {
+			if (auto binData = this->readEntry(*entry)) {
+				entry->offset = stream.tell_out();
 
-		// Index and size of directory
-		const uint32_t directoryIndex = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
-		stream.write(directoryIndex);
-		const uint32_t directorySize = entriesToBake.size() * 64;
-		stream.write(directorySize);
+				stream.write(*binData);
+			} else {
+				entry->offset = 0;
+				entry->length = 0;
+			}
+		}
 
 		// Directory
+		auto dirOffset = stream.tell_out();
 		for (auto entry : entriesToBake) {
-			stream.write(entry->path, false, PAK_FILENAME_MAX_SIZE);
-			stream.write(static_cast<uint32_t>(entry->offset + directoryIndex + directorySize));
-			stream.write(static_cast<uint32_t>(entry->length));
+			stream.write<uint32_t>(entry->path.length());
+			stream.write(entry->path, false);
+			stream.write<uint32_t>(entry->offset);
+			stream.write<uint32_t>(entry->length);
 
 			if (callback) {
 				callback(entry->getParentPath(), *entry);
 			}
 		}
 
-		// File data
-		stream.write(fileData);
+		// Footer
+		stream.write<uint32_t>(this->entries.size() + this->unbakedEntries.size());
+		stream.write<uint32_t>(dirOffset);
+		stream.write<uint8_t>(0);
 	}
 
 	// Clean up
@@ -167,7 +164,7 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 	return true;
 }
 
-std::vector<Attribute> PAK::getSupportedEntryAttributes() const {
+std::vector<Attribute> VPK_VTMB::getSupportedEntryAttributes() const {
 	using enum Attribute;
 	return {LENGTH};
 }

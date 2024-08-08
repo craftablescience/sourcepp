@@ -20,6 +20,7 @@
 #include <vpkpp/format/PAK.h>
 #include <vpkpp/format/PCK.h>
 #include <vpkpp/format/VPK.h>
+#include <vpkpp/format/VPK_VTMB.h>
 #include <vpkpp/format/ZIP.h>
 
 using namespace sourcepp;
@@ -418,6 +419,7 @@ bool PackFile::extractAll(const std::string& outputDir, const std::function<bool
 	std::vector<std::string> rootDirList;
 	{
 		std::vector<std::vector<std::string>> pathSplits;
+		pathSplits.reserve(saveEntries.size());
 		for (const auto& entry : saveEntries) {
 			pathSplits.push_back(::splitPath(entry.path));
 		}
