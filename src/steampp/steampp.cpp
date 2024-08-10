@@ -13,6 +13,8 @@
 #ifdef _WIN32
 #include <memory>
 #include <Windows.h>
+#else
+#include <cstdlib>
 #endif
 
 #include <kvpp/kvpp.h>

@@ -30,6 +30,7 @@
   - Look into better ways to store archive entries, such as a trie ~~or a set~~
     - And in that vein, get rid of the `path` property on an entry
   - In fact, perhaps restructure the API so having a copy of the file metadata is unnecessary to access content!
+  - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Improve conversion speeds between formats that use handrolled per-pixel converters (SIMD? Compute shader?)
   - Improve conversion between LDR/HDR
