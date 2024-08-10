@@ -23,7 +23,7 @@ var searchData=
   ['command_142',['command',['../d2/dc0/classgamepp_1_1GameInstance.html#a478e7980af9413ccccf40f40cb3d1c5d',1,'gamepp::GameInstance']]],
   ['compressed_143',['compressed',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#af6d0f44d430092e96d3c955f03fcf526',1,'vtfpp::ImageFormatDetails']]],
   ['compressedlength_144',['compressedLength',['../d9/d6b/classvpkpp_1_1Entry.html#a5e113b67485cf6920fd707ec96e3d722',1,'vpkpp::Entry']]],
-  ['computeadler32_145',['computeAdler32',['../db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260',1,'sourcepp::crypto::computeAdler32(const std::byte *buffer, std::size_t len)'],['../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564',1,'sourcepp::crypto::computeAdler32(const std::vector&lt; std::byte &gt; &amp;buffer)']]],
+  ['computeadler32_145',['computeAdler32',['../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564',1,'sourcepp::crypto::computeAdler32(const std::vector&lt; std::byte &gt; &amp;buffer)'],['../db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260',1,'sourcepp::crypto::computeAdler32(const std::byte *buffer, std::size_t len)']]],
   ['computecrc32_146',['computeCRC32',['../db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43',1,'sourcepp::crypto::computeCRC32(const std::vector&lt; std::byte &gt; &amp;buffer)'],['../db/d83/namespacesourcepp_1_1crypto.html#a6818bbd0d47838fd9e94e2d9a942f06a',1,'sourcepp::crypto::computeCRC32(const std::byte *buffer, std::size_t len)']]],
   ['computemd5_147',['computeMD5',['../db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00',1,'sourcepp::crypto::computeMD5(const std::vector&lt; std::byte &gt; &amp;buffer)'],['../db/d83/namespacesourcepp_1_1crypto.html#a788b3d4c0030bf2311e4da600371c89b',1,'sourcepp::crypto::computeMD5(const std::byte *buffer, std::size_t len)']]],
   ['computesha256keypair_148',['computeSHA256KeyPair',['../db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5',1,'sourcepp::crypto']]],
@@ -46,8 +46,8 @@ var searchData=
   ['counter_5fstrike_5fglobal_5foffensive_165',['COUNTER_STRIKE_GLOBAL_OFFENSIVE',['../d3/dc8/namespacevicepp_1_1KnownCodes.html#a7832c88d3706bfbb0b24114052d66f89',1,'vicepp::KnownCodes']]],
   ['counter_5fstrike_5fpromod_166',['COUNTER_STRIKE_PROMOD',['../d3/dc8/namespacevicepp_1_1KnownCodes.html#aa04c7016eb78ad67ef13681ce5d47c77',1,'vicepp::KnownCodes']]],
   ['counter_5fstrike_5fsource_167',['COUNTER_STRIKE_SOURCE',['../d3/dc8/namespacevicepp_1_1KnownCodes.html#adbc470e87369ab5ff2d63110559fcbd0',1,'vicepp::KnownCodes']]],
-  ['crc32_168',['CRC32',['../d5/d29/namespacevpkpp.html#a06eb22162f2a2be87d77dd7eb3d2647fa19c122b00447f21a2938e2602d53ceab',1,'vpkpp']]],
-  ['crc32_169',['crc32',['../d9/d6b/classvpkpp_1_1Entry.html#a6918177f2e8852cf5659af6397741e43',1,'vpkpp::Entry']]],
+  ['crc32_168',['crc32',['../d9/d6b/classvpkpp_1_1Entry.html#a6918177f2e8852cf5659af6397741e43',1,'vpkpp::Entry']]],
+  ['crc32_169',['CRC32',['../d5/d29/namespacevpkpp.html#a06eb22162f2a2be87d77dd7eb3d2647fa19c122b00447f21a2938e2602d53ceab',1,'vpkpp']]],
   ['crc32_2ecpp_170',['CRC32.cpp',['../d8/d6c/CRC32_8cpp.html',1,'']]],
   ['crc32_2eh_171',['CRC32.h',['../d6/d27/CRC32_8h.html',1,'']]],
   ['create_172',['create',['../d5/dba/classbsppp_1_1BSP.html#a03d2977eab502511316ee9517b2783c4',1,'bsppp::BSP']]],
@@ -59,5 +59,6 @@ var searchData=
   ['createrandom_178',['createRandom',['../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d',1,'sourcepp::string']]],
   ['cryptopp_5fenable_5fnamespace_5fweak_179',['CRYPTOPP_ENABLE_NAMESPACE_WEAK',['../d0/ddd/MD5_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;MD5.cpp'],['../d1/da7/VPK_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;VPK.cpp']]],
   ['cubemaps_180',['CUBEMAPS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54',1,'bsppp']]],
-  ['currentlyfilledchunksize_181',['currentlyFilledChunkSize',['../d5/d8b/classvpkpp_1_1VPK.html#a5e7b2e84cb81359776f1daa33f1a8e9c',1,'vpkpp::VPK']]]
+  ['currentarchive_181',['currentArchive',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#a4d1858e0f76d7753149c144498555f06',1,'vpkpp::VPK_VTMB']]],
+  ['currentlyfilledchunksize_182',['currentlyFilledChunkSize',['../d5/d8b/classvpkpp_1_1VPK.html#a5e7b2e84cb81359776f1daa33f1a8e9c',1,'vpkpp::VPK']]]
 ];

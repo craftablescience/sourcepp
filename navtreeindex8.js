@@ -1,5 +1,9 @@
 var NAVTREEINDEX8 =
 {
+"functions_~.html":[1,3,0,24],
+"globals.html":[2,1,0],
+"globals_defs.html":[2,1,2],
+"globals_vars.html":[2,1,1],
 "hierarchy.html":[1,2],
 "index.html":[],
 "index.html#autotoc_md0":[0],
