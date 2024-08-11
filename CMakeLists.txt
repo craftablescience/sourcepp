@@ -26,6 +26,7 @@ option(SOURCEPP_USE_VPKPP                "Build vpkpp library"                  
 option(SOURCEPP_USE_VTFPP                "Build vtfpp library"                       ON)
 option(SOURCEPP_BUILD_C_WRAPPERS         "Build C wrappers for supported libraries" OFF)
 option(SOURCEPP_BUILD_TESTS              "Build tests for enabled libraries"        OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT        "Build with Windows 7 compatibility"       OFF)
 option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
 
 
