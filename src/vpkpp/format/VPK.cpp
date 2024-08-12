@@ -325,19 +325,20 @@ bool VPK::verifyPackFileSignature() const {
 }
 
 std::optional<std::vector<std::byte>> VPK::readEntry(const Entry& entry) const {
+	if (entry.unbaked) {
+		return this->readUnbakedEntry(entry);
+	}
+
 	std::vector output(entry.length, static_cast<std::byte>(0));
 
 	if (!entry.vpk_preloadedData.empty()) {
 		std::copy(entry.vpk_preloadedData.begin(), entry.vpk_preloadedData.end(), output.begin());
 	}
-
 	if (entry.length == entry.vpk_preloadedData.size()) {
 		return output;
 	}
 
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
-	} else if (entry.archiveIndex != VPK_DIR_INDEX) {
+	if (entry.archiveIndex != VPK_DIR_INDEX) {
 		// Stored in a numbered archive
 		FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry.archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
 		if (!stream) {
