@@ -55,24 +55,24 @@ protected:
 	struct FreedChunk {
 		uint64_t offset;
 		uint64_t length;
-		uint16_t archiveIndex;
+		uint32_t archiveIndex;
 	};
 
 public:
 	// Accepts the full entry path (parent directory + filename), returns saveToDir and preloadBytes
-	using EntryCreationCallback = std::function<std::tuple<bool, uint32_t>(const std::string& fullEntryPath)>;
+	using EntryCreationCallback = std::function<std::tuple<bool, uint32_t>(const std::string& path)>;
 
 	/// Create a new directory VPK file - must end in "_dir.vpk"! This is not enforced but STRONGLY recommended
 	static std::unique_ptr<PackFile> createEmpty(const std::string& path, PackFileOptions options = {});
 
 	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. (See above comment)
-	static std::unique_ptr<PackFile> createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir = false, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
+	static std::unique_ptr<PackFile> createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir = false, PackFileOptions options = {}, const EntryCallback& bakeCallback = nullptr);
 
 	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. Each entry's properties is determined by a callback. (See above comment)
-	static std::unique_ptr<PackFile> createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options = {}, const Callback& bakeCallback = nullptr);
+	static std::unique_ptr<PackFile> createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options = {}, const EntryCallback& bakeCallback = nullptr);
 
 	/// Open a directory VPK file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
@@ -88,11 +88,13 @@ public:
 
 	[[nodiscard]] bool verifyPackFileSignature() const override;
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	bool removeEntry(const std::string& filename_) override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) override;
+	std::size_t removeDirectory(const std::string& dirName_) override;
+
+	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] std::string getTruncatedFilestem() const override;
 
@@ -120,13 +122,13 @@ public:
 protected:
 	VPK(const std::string& fullFilePath_, PackFileOptions options_);
 
-	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
-	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
 
 	[[nodiscard]] uint32_t getHeaderLength() const;
 
-	int numArchives = -1;
+	uint32_t numArchives = -1;
 	uint32_t currentlyFilledChunkSize = 0;
 
 	std::vector<FreedChunk> freedChunks;

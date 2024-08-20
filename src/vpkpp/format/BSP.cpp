@@ -24,7 +24,7 @@ BSP::BSP(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::BSP;
 }
 
-std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -75,38 +75,25 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 			continue;
 		}
 
-		Entry entry = createNewEntry();
-		entry.path = fileInfo->filename;
-		string::normalizeSlashes(entry.path, true);
-		if (!bsp->isCaseSensitive()) {
-			string::toLower(entry.path);
-		}
+		auto entryPath = bsp->cleanEntryPath(fileInfo->filename);
 
+		Entry entry = createNewEntry();
 		entry.flags = fileInfo->compression_method;
 		entry.length = fileInfo->uncompressed_size;
 		entry.compressedLength = fileInfo->compressed_size;
 		entry.crc32 = fileInfo->crc;
 
-		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir, true);
-		if (!bsp->isCaseSensitive()) {
-			string::toLower(parentDir);
-		}
-
-		if (!bsp->entries.contains(parentDir)) {
-			bsp->entries[parentDir] = {};
-		}
-		bsp->entries[parentDir].push_back(entry);
+		bsp->entries.emplace(entryPath, entry);
 
 		if (callback) {
-			callback(parentDir, entry);
+			callback(entryPath, entry);
 		}
 	}
 
 	return packFile;
 }
 
-bool BSP::bake(const std::string& outputDir_, const Callback& callback) {
+bool BSP::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();

@@ -11,12 +11,12 @@ constexpr std::string_view FPX_EXTENSION = ".fpx";
 class FPX : public VPK {
 public:
 	/// Open a directory VPK file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 protected:
 	FPX(const std::string& fullFilePath_, PackFileOptions options_);
 
-	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 private:
 	using VPK::generateKeyPairFiles;

@@ -16,7 +16,7 @@ VPK_VTMB::VPK_VTMB(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::VPK_VTMB;
 }
 
-std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -48,7 +48,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOption
 	return packFile;
 }
 
-void VPK_VTMB::openNumbered(uint16_t archiveIndex, const std::string& path, const Callback& callback) {
+void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, const EntryCallback& callback) {
 	FileStream reader{path};
 	reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) * 2 + sizeof(uint8_t)), std::ios::end);
 
@@ -72,63 +72,47 @@ void VPK_VTMB::openNumbered(uint16_t archiveIndex, const std::string& path, cons
 		Entry entry = createNewEntry();
 		entry.archiveIndex = archiveIndex;
 
-		entry.path = reader.read_string(reader.read<uint32_t>());
-		string::normalizeSlashes(entry.path, true);
-		if (!this->isCaseSensitive()) {
-			string::toLower(entry.path);
-		}
+		auto entryPath = this->cleanEntryPath(reader.read_string(reader.read<uint32_t>()));
 
 		entry.offset = reader.read<uint32_t>();
 		entry.length = reader.read<uint32_t>();
 
-		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		if (!this->entries.contains(parentDir)) {
-			this->entries[parentDir] = {};
-		}
-		this->entries[parentDir].push_back(entry);
+		this->entries.emplace(entryPath, entry);
 
 		if (callback) {
-			callback(parentDir, entry);
+			callback(entryPath, entry);
 		}
 	}
 }
 
-std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
 	// It's baked into the file on disk
-	FileStream stream{this->getTruncatedFilepath() + string::padNumber(entry.archiveIndex, 3) + VPK_VTMB_EXTENSION.data()};
+	FileStream stream{this->getTruncatedFilepath() + string::padNumber(entry->archiveIndex, 3) + VPK_VTMB_EXTENSION.data()};
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry.offset);
-	return stream.read_bytes(entry.length);
+	stream.seek_in_u(entry->offset);
+	return stream.read_bytes(entry->length);
 }
 
-Entry& VPK_VTMB::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
-	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
+void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
 	entry.archiveIndex = this->currentArchive;
-	entry.path = filename;
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
-
-	if (!this->unbakedEntries.contains(dir)) {
-		this->unbakedEntries[dir] = {};
-	}
-	this->unbakedEntries.at(dir).push_back(entry);
-	return this->unbakedEntries.at(dir).back();
 }
 
-bool VPK_VTMB::bake(const std::string& outputDir_, const Callback& callback) {
+bool VPK_VTMB::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	if (this->knownArchives.empty()) {
 		return false;
 	}
@@ -154,31 +138,21 @@ bool VPK_VTMB::bake(const std::string& outputDir_, const Callback& callback) {
 	this->fullFilePath = (tempDir / (this->getTruncatedFilestem())).string() + string::padNumber(this->knownArchives[0], 3) + VPK_VTMB_EXTENSION.data();
 
 	// Reconstruct data for ease of access
-	std::unordered_map<uint16_t, std::vector<Entry*>> entriesToBake;
-	for (auto& [entryDir, entryList] : this->entries) {
-		for (auto& entry : entryList) {
-			if (!entriesToBake.contains(entry.archiveIndex)) {
-				entriesToBake[entry.archiveIndex] = {};
-			}
-			entriesToBake[entry.archiveIndex].push_back(&entry);
+	std::unordered_map<uint16_t, std::vector<std::pair<std::string, Entry*>>> entriesToBake;
+	this->runForAllEntries([&entriesToBake](const std::string& path, Entry& entry) {
+		if (!entriesToBake.contains(entry.archiveIndex)) {
+			entriesToBake[entry.archiveIndex] = {};
 		}
-	}
-	for (auto& [entryDir, entryList] : this->unbakedEntries) {
-		for (auto& entry : entryList) {
-			if (!entriesToBake.contains(entry.archiveIndex)) {
-				entriesToBake[entry.archiveIndex] = {};
-			}
-			entriesToBake[entry.archiveIndex].push_back(&entry);
-		}
-	}
+		entriesToBake[entry.archiveIndex].emplace_back(path, &entry);
+	});
 
 	for (auto& [archiveIndex, entriesToBakeInArchive] : entriesToBake) {
 		FileStream stream{outputPathStem + string::padNumber(archiveIndex, 3) + VPK_VTMB_EXTENSION.data(), FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		stream.seek_out(0);
 
 		// File data
-		for (auto* entry : entriesToBakeInArchive) {
-			if (auto binData = this->readEntry(*entry)) {
+		for (auto& [path, entry] : entriesToBakeInArchive) {
+			if (auto binData = this->readEntry(path)) {
 				entry->offset = stream.tell_out();
 				stream.write(*binData);
 			} else {
@@ -189,14 +163,14 @@ bool VPK_VTMB::bake(const std::string& outputDir_, const Callback& callback) {
 
 		// Directory
 		auto dirOffset = stream.tell_out();
-		for (auto* entry : entriesToBakeInArchive) {
-			stream.write<uint32_t>(entry->path.length());
-			stream.write(entry->path, false);
+		for (const auto& [path, entry] : entriesToBakeInArchive) {
+			stream.write<uint32_t>(path.length());
+			stream.write(path, false);
 			stream.write<uint32_t>(entry->offset);
 			stream.write<uint32_t>(entry->length);
 
 			if (callback) {
-				callback(entry->getParentPath(), *entry);
+				callback(path, *entry);
 			}
 		}
 

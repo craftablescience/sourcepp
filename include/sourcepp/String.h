@@ -52,7 +52,7 @@ void toUpper(std::string& input);
 
 [[nodiscard]] std::string generateUUIDv4();
 
-[[nodiscard]] std::string padNumber(int number, int width, char pad = '0');
+[[nodiscard]] std::string padNumber(int64_t number, int width, char pad = '0');
 
 void normalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool stripSlashSuffix = true);
 

@@ -16,7 +16,6 @@
 #include <vpkpp/format/FPX.h>
 #include <vpkpp/format/GCF.h>
 #include <vpkpp/format/GMA.h>
-#include <vpkpp/format/GRP.h>
 #include <vpkpp/format/PAK.h>
 #include <vpkpp/format/PCK.h>
 #include <vpkpp/format/VPK.h>
@@ -74,21 +73,21 @@ void replace(std::string& line, const std::string& oldString, const std::string&
 	}
 }
 
-void fixFilePathForWindows(std::string& filePath) {
+void fixFilePathForWindows(std::string& path) {
 	// Remove invalid characters
-	::replace(filePath, "<", "_LT_");
-	::replace(filePath, "<", "_LT_");
-	::replace(filePath, ">", "_GT_");
-	::replace(filePath, ":", "_COLON_");
-	::replace(filePath, "\"", "_QUOT_");
-	::replace(filePath, "|", "_BAR_");
-	::replace(filePath, "?", "_QMARK_");
-	::replace(filePath, "*", "_AST_");
+	::replace(path, "<", "_");
+	::replace(path, "<", "_");
+	::replace(path, ">", "_");
+	::replace(path, ":", "_");
+	::replace(path, "\"", "_");
+	::replace(path, "|", "_");
+	::replace(path, "?", "_");
+	::replace(path, "*", "_");
 
-	std::filesystem::path path{filePath};
-	auto filename = path.filename().string();
-	auto extension = path.extension().string();
-	auto stem = path.stem().string();
+	std::filesystem::path filePath{path};
+	auto filename = filePath.filename().string();
+	auto extension = filePath.extension().string();
+	auto stem = filePath.stem().string();
 	string::toUpper(stem);
 
 	// Replace bad filenames
@@ -115,9 +114,10 @@ void fixFilePathForWindows(std::string& filePath) {
 	// Files cannot end with a period - weird
 	if (extension == ".") {
 		filename.pop_back();
+		filename += '_';
 	}
 
-	filePath = (path.parent_path() / filename).string();
+	path = (filePath.parent_path() / filename).string();
 }
 
 #endif
@@ -128,7 +128,7 @@ PackFile::PackFile(std::string fullFilePath_, PackFileOptions options_)
 		: fullFilePath(std::move(fullFilePath_))
 		, options(options_) {}
 
-std::unique_ptr<PackFile> PackFile::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> PackFile::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	auto extension = std::filesystem::path{path}.extension().string();
 	string::toLower(extension);
 	const auto& registry = PackFile::getOpenExtensionRegistry();
@@ -170,37 +170,25 @@ bool PackFile::verifyPackFileSignature() const {
 	return true;
 }
 
-bool PackFile::hasEntry(const std::string& filename_, bool includeUnbaked) const {
-	return static_cast<bool>(this->findEntry(filename_, includeUnbaked));
+bool PackFile::hasEntry(const std::string& path, bool includeUnbaked) const {
+	return static_cast<bool>(this->findEntry(path, includeUnbaked));
 }
 
-std::optional<Entry> PackFile::findEntry(const std::string& filename_, bool includeUnbaked) const {
-	auto filename = filename_;
-	string::normalizeSlashes(filename);
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
+std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeUnbaked) const {
+	auto path = this->cleanEntryPath(path_);
+	if (auto it = this->entries.find(path); it != this->entries.end()) {
+		return *it;
 	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	if (this->entries.contains(dir)) {
-		for (const Entry& entry : this->entries.at(dir)) {
-			if (entry.path == filename) {
-				return entry;
-			}
-		}
-	}
-	if (includeUnbaked && this->unbakedEntries.contains(dir)) {
-		for (const Entry& unbakedEntry : this->unbakedEntries.at(dir)) {
-			if (unbakedEntry.path == filename) {
-				return unbakedEntry;
-			}
+	if (includeUnbaked) {
+		if (auto it = this->unbakedEntries.find(path); it != this->unbakedEntries.end()) {
+			return *it;
 		}
 	}
 	return std::nullopt;
 }
 
-std::optional<std::string> PackFile::readEntryText(const Entry& entry) const {
-	auto bytes = this->readEntry(entry);
+std::optional<std::string> PackFile::readEntryText(const std::string& path) const {
+	auto bytes = this->readEntry(path);
 	if (!bytes) {
 		return std::nullopt;
 	}
@@ -213,23 +201,24 @@ std::optional<std::string> PackFile::readEntryText(const Entry& entry) const {
 	return out;
 }
 
-void PackFile::addEntry(const std::string& filename_, const std::string& pathToFile, EntryOptions options_) {
+void PackFile::addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options_) {
 	if (this->isReadOnly()) {
 		return;
 	}
 
-	auto buffer = fs::readFileBuffer(pathToFile);
+	auto buffer = fs::readFileBuffer(filepath);
 
 	Entry entry{};
 	entry.unbaked = true;
 	entry.unbakedUsingByteBuffer = false;
-	entry.unbakedData = pathToFile;
+	entry.unbakedData = filepath;
 
-	Entry& finalEntry = this->addEntryInternal(entry, filename_, buffer, options_);
-	finalEntry.unbakedData = pathToFile;
+	auto path = this->cleanEntryPath(entryPath);
+	this->addEntryInternal(entry, path, buffer, options_);
+	this->unbakedEntries.emplace(path, entry);
 }
 
-void PackFile::addEntry(const std::string& filename_, std::vector<std::byte>&& buffer, EntryOptions options_) {
+void PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options_) {
 	if (this->isReadOnly()) {
 		return;
 	}
@@ -238,70 +227,67 @@ void PackFile::addEntry(const std::string& filename_, std::vector<std::byte>&& b
 	entry.unbaked = true;
 	entry.unbakedUsingByteBuffer = true;
 
-	Entry& finalEntry = this->addEntryInternal(entry, filename_, buffer, options_);
-	finalEntry.unbakedData = std::move(buffer);
+	auto path_ = this->cleanEntryPath(path);
+	this->addEntryInternal(entry, path_, buffer, options_);
+	entry.unbakedData = std::move(buffer);
+	this->unbakedEntries.emplace(path_, entry);
 }
 
-void PackFile::addEntry(const std::string& filename_, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_) {
+void PackFile::addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_) {
 	std::vector<std::byte> data;
 	if (buffer && bufferLen > 0) {
 		data.resize(bufferLen);
 		std::memcpy(data.data(), buffer, bufferLen);
 	}
-	this->addEntry(filename_, std::move(data), options_);
+	this->addEntry(path, std::move(data), options_);
 }
 
-bool PackFile::removeEntry(const std::string& filename_) {
+bool PackFile::removeEntry(const std::string& path_) {
 	if (this->isReadOnly()) {
 		return false;
 	}
 
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
+	auto path = this->cleanEntryPath(path_);
+	if (this->entries.find(path) != this->entries.end()) {
+		this->entries.erase(path);
+		return true;
 	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	// Check unbaked entries first
-	if (this->unbakedEntries.contains(dir)) {
-		for (auto& [preexistingDir, unbakedEntryVec] : this->unbakedEntries) {
-			if (preexistingDir != dir) {
-				continue;
-			}
-			for (auto it = unbakedEntryVec.begin(); it != unbakedEntryVec.end(); ++it) {
-				if (it->path == filename) {
-					unbakedEntryVec.erase(it);
-					return true;
-				}
-			}
-		}
-	}
-
-	// If it's not in regular entries either you can't remove it!
-	if (!this->entries.contains(dir)) {
-		return false;
-	}
-
-	for (auto it = this->entries.at(dir).begin(); it != this->entries.at(dir).end(); ++it) {
-		if (it->path == filename) {
-			this->entries.at(dir).erase(it);
-			return true;
-		}
+	if (this->unbakedEntries.find(path) != this->unbakedEntries.end()) {
+		this->unbakedEntries.erase(path);
+		return true;
 	}
 	return false;
 }
 
-bool PackFile::extractEntry(const Entry& entry, const std::string& filePath) const {
-	if (filePath.empty()) {
+std::size_t PackFile::removeDirectory(const std::string& dirName_) {
+	if (this->isReadOnly()) {
 		return false;
 	}
 
-	auto data = this->readEntry(entry);
+	auto dirName = this->cleanEntryPath(dirName_);
+	dirName += '/';
+	if (dirName == "/") {
+		const auto size = this->getEntryCount();
+		this->entries.clear();
+		this->unbakedEntries.clear();
+		return size;
+	}
+	std::size_t count = this->entries.erase_prefix(dirName);
+	count += this->unbakedEntries.erase_prefix(dirName);
+	return count;
+}
+
+bool PackFile::extractEntry(const std::string& entryPath, const std::string& filepath) const {
+	if (filepath.empty()) {
+		return false;
+	}
+
+	auto data = this->readEntry(entryPath);
 	if (!data) {
 		return false;
 	}
 
-	FileStream stream{filePath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+	FileStream stream{filepath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	if (!stream) {
 		return false;
 	}
@@ -310,48 +296,28 @@ bool PackFile::extractEntry(const Entry& entry, const std::string& filePath) con
 	return true;
 }
 
-bool PackFile::extractDirectory(const std::string& dir, const std::string& outputDir) const {
-	if (dir.empty() || dir == "/") {
+bool PackFile::extractDirectory(const std::string& dir_, const std::string& outputDir) const {
+	auto dir = this->cleanEntryPath(dir_);
+	dir += '/';
+	if (dir == "/") {
 		return this->extractAll(outputDir, false);
 	}
 
-	auto testDir = dir;
-	if (testDir.starts_with('/')) {
-		testDir = testDir.substr(1);
-	}
-	if (testDir.ends_with('/')) {
-		testDir.pop_back();
-	}
-	auto outputDirPath = std::filesystem::path{outputDir} / std::filesystem::path{testDir}.filename();
+	auto outputDirPath = std::filesystem::path{outputDir} / std::filesystem::path{dir}.filename();
 	bool noneFailed = true;
-	for (const auto& [dir_, bakedEntries_] : this->getBakedEntries()) {
-		if (!dir_.starts_with(testDir)) {
-			continue;
+	this->runForAllEntries([this, &dir, &outputDirPath, &noneFailed](const std::string& path, const Entry& entry) {
+		if (!path.starts_with(dir)) {
+			return;
 		}
-		for (const auto& entry : bakedEntries_) {
-			std::string entryPath = entry.path.substr(testDir.length() + 1);
+
+		std::string outputPath = path.substr(dir.length());
 #ifdef _WIN32
-			::fixFilePathForWindows(entryPath);
+		::fixFilePathForWindows(outputPath);
 #endif
-			if (!this->extractEntry(entry, (outputDirPath / entryPath).string())) {
-				noneFailed = false;
-			}
+		if (!this->extractEntry(path, (outputDirPath / outputPath).string())) {
+			noneFailed = false;
 		}
-	}
-	for (const auto& [dir_, unbakedEntries_] : this->getUnbakedEntries()) {
-		if (!dir_.starts_with(testDir)) {
-			continue;
-		}
-		for (const auto& entry : unbakedEntries_) {
-			std::string entryPath = entry.path.substr(testDir.length() + 1);
-#ifdef _WIN32
-			::fixFilePathForWindows(entryPath);
-#endif
-			if (!this->extractEntry(entry, (outputDirPath / entryPath).string())) {
-				noneFailed = false;
-			}
-		}
-	}
+	});
 	return noneFailed;
 }
 
@@ -365,53 +331,31 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 		outputDirPath /= this->getTruncatedFilestem();
 	}
 	bool noneFailed = true;
-	for (const auto& [dir, bakedEntries_] : this->getBakedEntries()) {
-		for (const auto& entry : bakedEntries_) {
-			std::string entryPath = entry.path;
+	this->runForAllEntries([this, &outputDirPath, &noneFailed](const std::string& path, const Entry& entry) {
+		std::string entryPath = path;
 #ifdef _WIN32
-			::fixFilePathForWindows(entryPath);
+		::fixFilePathForWindows(entryPath);
 #endif
-			if (!this->extractEntry(entry, (outputDirPath / entryPath).string())) {
-				noneFailed = false;
-			}
+		if (!this->extractEntry(path, (outputDirPath / entryPath).string())) {
+			noneFailed = false;
 		}
-	}
-	for (const auto& [dir, unbakedEntries_] : this->getUnbakedEntries()) {
-		for (const auto& entry : unbakedEntries_) {
-			std::string entryPath = entry.path;
-#ifdef _WIN32
-			::fixFilePathForWindows(entryPath);
-#endif
-			if (!this->extractEntry(entry, (outputDirPath / entryPath).string())) {
-				noneFailed = false;
-			}
-		}
-	}
+	});
 	return noneFailed;
 }
 
-bool PackFile::extractAll(const std::string& outputDir, const std::function<bool(const Entry&)>& predicate) const {
+bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& predicate) const {
 	if (outputDir.empty() || !predicate) {
 		return false;
 	}
 
 	// Get list of paths
-	std::vector<Entry> saveEntries;
-	for (const auto& [dir, bakedEntries_] : this->getBakedEntries()) {
-		for (const auto& entry : bakedEntries_) {
-			if (predicate(entry)) {
-				saveEntries.push_back(entry);
-			}
+	std::vector<std::string> saveEntryPaths;
+	this->runForAllEntries([&predicate, &saveEntryPaths](const std::string& path, const Entry& entry) {
+		if (predicate(path, entry)) {
+			saveEntryPaths.push_back(path);
 		}
-	}
-	for (const auto& [dir, unbakedEntries_] : this->getUnbakedEntries()) {
-		for (const auto& entry : unbakedEntries_) {
-			if (predicate(entry)) {
-				saveEntries.push_back(entry);
-			}
-		}
-	}
-	if (saveEntries.empty()) {
+	});
+	if (saveEntryPaths.empty()) {
 		return false;
 	}
 
@@ -419,9 +363,9 @@ bool PackFile::extractAll(const std::string& outputDir, const std::function<bool
 	std::vector<std::string> rootDirList;
 	{
 		std::vector<std::vector<std::string>> pathSplits;
-		pathSplits.reserve(saveEntries.size());
-		for (const auto& entry : saveEntries) {
-			pathSplits.push_back(::splitPath(entry.path));
+		pathSplits.reserve(saveEntryPaths.size());
+		for (const auto& path : saveEntryPaths) {
+			pathSplits.push_back(::splitPath(path));
 		}
 		while (true) {
 			bool allTheSame = true;
@@ -450,37 +394,61 @@ bool PackFile::extractAll(const std::string& outputDir, const std::function<bool
 	// Extract
 	std::filesystem::path outputDirPath{outputDir};
 	bool noneFailed = true;
-	for (const auto& entry : saveEntries) {
-		std::string entryPath = entry.path.substr(rootDirLen);
+	for (const auto& path : saveEntryPaths) {
+		std::string entryPath = path.substr(rootDirLen);
 #ifdef _WIN32
 		::fixFilePathForWindows(entryPath);
 #endif
-		if (!this->extractEntry(entry, (outputDirPath / entryPath).string())) {
+		if (!this->extractEntry(entryPath, (outputDirPath / entryPath).string())) {
 			noneFailed = false;
 		}
 	}
 	return noneFailed;
 }
 
-const std::unordered_map<std::string, std::vector<Entry>>& PackFile::getBakedEntries() const {
+const PackFile::EntryTrie& PackFile::getBakedEntries() const {
 	return this->entries;
 }
 
-const std::unordered_map<std::string, std::vector<Entry>>& PackFile::getUnbakedEntries() const {
+const PackFile::EntryTrie& PackFile::getUnbakedEntries() const {
 	return this->unbakedEntries;
 }
 
 std::size_t PackFile::getEntryCount(bool includeUnbaked) const {
 	std::size_t count = 0;
-	for (const auto& [directory, entries_] : this->entries) {
-		count += entries_.size();
-	}
+	count += this->entries.size();
 	if (includeUnbaked) {
-		for (const auto& [directory, entries_] : this->unbakedEntries) {
-			count += entries_.size();
-		}
+		count += this->unbakedEntries.size();
 	}
 	return count;
+}
+
+void PackFile::runForAllEntries(const EntryCallback& operation, bool includeUnbaked) const {
+	std::string key;
+	for (auto entry = this->entries.cbegin(); entry != this->entries.cend(); ++entry) {
+		entry.key(key);
+		operation(key, entry.value());
+	}
+	if (includeUnbaked) {
+		for (auto entry = this->unbakedEntries.cbegin(); entry != this->unbakedEntries.cend(); ++entry) {
+			entry.key(key);
+			operation(key, entry.value());
+		}
+	}
+}
+
+void PackFile::runForAllEntries(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked) {
+	std::string key;
+	for (auto entry = this->entries.begin(); entry != this->entries.end(); ++entry) {
+		entry.key(key);
+		operation(key, entry.value());
+	}
+	if (includeUnbaked) {
+		for (auto entry = this->unbakedEntries.begin(); entry != this->unbakedEntries.end(); ++entry) {
+			entry.key(key);
+			operation(key, entry.value());
+		}
+	}
 }
 
 std::string_view PackFile::getFilepath() const {
@@ -516,7 +484,7 @@ PackFile::operator std::string() const {
 	return this->getTruncatedFilename();
 }
 
-std::string PackFile::escapeEntryPath(const std::string& path) {
+std::string PackFile::escapeEntryPathForWrite(const std::string& path) {
 #ifdef _WIN32
 	auto copy = path;
 	::fixFilePathForWindows(copy);
@@ -537,26 +505,15 @@ std::vector<std::string> PackFile::getSupportedFileTypes() {
 
 std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() const {
 	std::vector<std::string> out;
-	for (const auto& [dir, entryList] : this->entries) {
-		for (const auto& entry : entryList) {
-			if (!entry.crc32) {
-				continue;
-			}
-			if (auto data = this->readEntry(entry); !data || crypto::computeCRC32(*data) != entry.crc32) {
-				out.push_back(entry.path);
-			}
+	this->runForAllEntries([this, &out](const std::string& path, const Entry& entry) {
+		if (!entry.crc32) {
+			return;
 		}
-	}
-	for (const auto& [dir, entryList] : this->unbakedEntries) {
-		for (const auto& entry : entryList) {
-			if (!entry.crc32) {
-				continue;
-			}
-			if (auto data = this->readEntry(entry); !data || crypto::computeCRC32(*data) != entry.crc32) {
-				out.push_back(entry.path);
-			}
+		auto data = this->readEntry(path);
+		if (!data || crypto::computeCRC32(*data) != entry.crc32) {
+			out.push_back(path);
 		}
-	}
+	}, false); // Don't include unbaked since we probably calculate those manually on write
 	return out;
 }
 
@@ -577,20 +534,17 @@ std::string PackFile::getBakeOutputDir(const std::string& outputDir) const {
 }
 
 void PackFile::mergeUnbakedEntries() {
-	for (auto& [dir, unbakedEntriesAndData] : this->unbakedEntries) {
-		for (Entry& unbakedEntry : unbakedEntriesAndData) {
-			if (!this->entries.contains(dir)) {
-				this->entries[dir] = {};
-			}
+	std::string key;
+	for (auto entry = this->unbakedEntries.begin(); entry != this->unbakedEntries.end(); ++entry) {
+		entry.key(key);
 
-			unbakedEntry.unbaked = false;
+		entry->unbaked = false;
 
-			// Clear any data that might be stored in it
-			unbakedEntry.unbakedUsingByteBuffer = false;
-			unbakedEntry.unbakedData = "";
+		// Clear any data that might be stored in it
+		entry->unbakedUsingByteBuffer = false;
+		entry->unbakedData = "";
 
-			this->entries.at(dir).push_back(unbakedEntry);
-		}
+		this->entries.insert(key, *entry);
 	}
 	this->unbakedEntries.clear();
 }
@@ -600,49 +554,32 @@ void PackFile::setFullFilePath(const std::string& outputDir) {
 	this->fullFilePath = outputDir + '/' + this->getFilename();
 }
 
-std::pair<std::string, std::string> PackFile::splitFilenameAndParentDir(const std::string& filename) {
-	auto name = filename;
-	string::normalizeSlashes(name);
-
-	auto lastSeparator = name.rfind('/');
-	auto dir = lastSeparator != std::string::npos ? name.substr(0, lastSeparator) : "";
-	name = filename.substr(lastSeparator + 1);
-
-	return {dir, name};
+std::string PackFile::cleanEntryPath(const std::string& path) const {
+	auto path_ = path;
+	string::normalizeSlashes(path_, true);
+	if (!this->isCaseSensitive()) {
+		string::toLower(path_);
+	}
+	return path;
 }
 
 Entry PackFile::createNewEntry() {
 	return {};
 }
 
-const std::variant<std::string, std::vector<std::byte>>& PackFile::getEntryUnbakedData(const Entry& entry) {
-	return entry.unbakedData;
-}
-
-bool PackFile::isEntryUnbakedUsingByteBuffer(const Entry& entry) {
-	return entry.unbakedUsingByteBuffer;
-}
-
-std::optional<std::vector<std::byte>> PackFile::readUnbakedEntry(const Entry& entry) const {
+std::optional<std::vector<std::byte>> PackFile::readUnbakedEntry(const Entry& entry) {
 	if (!entry.unbaked) {
 		return std::nullopt;
 	}
 
 	// Get the stored data
-	for (const auto& [unbakedEntryDir, unbakedEntryList] : this->unbakedEntries) {
-		for (const auto& unbakedEntry : unbakedEntryList) {
-			if (unbakedEntry.path == entry.path) {
-				std::vector<std::byte> unbakedData;
-				if (isEntryUnbakedUsingByteBuffer(unbakedEntry)) {
-					unbakedData = std::get<std::vector<std::byte>>(getEntryUnbakedData(unbakedEntry));
-				} else {
-					unbakedData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(unbakedEntry)));
-				}
-				return unbakedData;
-			}
-		}
+	std::vector<std::byte> unbakedData;
+	if (entry.unbakedUsingByteBuffer) {
+		unbakedData = std::get<std::vector<std::byte>>(entry.unbakedData);
+	} else {
+		unbakedData = fs::readFileBuffer(std::get<std::string>(entry.unbakedData));
 	}
-	return std::nullopt;
+	return unbakedData;
 }
 
 std::unordered_map<std::string, std::vector<PackFile::FactoryFunction>>& PackFile::getOpenExtensionRegistry() {
@@ -667,10 +604,10 @@ PackFileReadOnly::operator std::string() const {
 	return PackFile::operator std::string() + " (Read-Only)";
 }
 
-Entry& PackFileReadOnly::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	return entry; // Stubbed
+void PackFileReadOnly::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+	// Stubbed
 }
 
-bool PackFileReadOnly::bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) {
+bool PackFileReadOnly::bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) {
 	return false; // Stubbed
 }

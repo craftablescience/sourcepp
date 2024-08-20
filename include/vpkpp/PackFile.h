@@ -10,6 +10,7 @@
 #include <vector>
 
 #include <sourcepp/math/Integer.h>
+#include <tsl/htrie_map.h>
 
 #include "Attribute.h"
 #include "Entry.h"
@@ -21,24 +22,28 @@ namespace vpkpp {
 // Executable extensions - mostly just for Godot exports
 constexpr std::string_view EXECUTABLE_EXTENSION0 = ".exe";    // - Windows
 constexpr std::string_view EXECUTABLE_EXTENSION1 = ".bin";    // - Linux + Godot 3 and below (and Generic)
-constexpr std::string_view EXECUTABLE_EXTENSION2 = ".x86";    //         | Godot 4 (32-bit)
-constexpr std::string_view EXECUTABLE_EXTENSION3 = ".x86_32"; //         | Godot 4 (32-bit)
-constexpr std::string_view EXECUTABLE_EXTENSION4 = ".x86_64"; //         | Godot 4 (64-bit)
+constexpr std::string_view EXECUTABLE_EXTENSION2 = ".x86_64"; //         | Godot 4 (64-bit)
 
 class PackFile {
 public:
+	/// Accepts the entry's path and metadata
+	using EntryCallback = std::function<void(const std::string& path, const Entry& entry)>;
+
+	/// Accepts the entry's path and metadata
+	using EntryPredicate = std::function<bool(const std::string& path, const Entry& entry)>;
+
+	using EntryTrie = tsl::htrie_map<char, Entry>;
+
 	PackFile(const PackFile& other) = delete;
 	PackFile& operator=(const PackFile& other) = delete;
+
 	PackFile(PackFile&& other) noexcept = default;
 	PackFile& operator=(PackFile&& other) noexcept = default;
 
 	virtual ~PackFile() = default;
 
-	// Accepts the entry parent directory and the entry metadata
-	using Callback = std::function<void(const std::string& directory, const Entry& entry)>;
-
 	/// Open a generic pack file. The parser is selected based on the file extension
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 	/// Get the file type of the pack file
 	[[nodiscard]] PackFileType getType() const;
@@ -51,7 +56,7 @@ public:
 		return false;
 	}
 
-	/// Verify the checksums of each file, if a file fails the check its filename will be added to the vector
+	/// Verify the checksums of each file, if a file fails the check its path will be added to the vector
 	/// If there is no checksum ability in the format, it will return an empty vector
 	[[nodiscard]] virtual std::vector<std::string> verifyEntryChecksums() const;
 
@@ -75,56 +80,62 @@ public:
 	}
 
 	/// Check if an entry exists given the file path
-	[[nodiscard]] bool hasEntry(const std::string& filename_, bool includeUnbaked = true) const;
+	[[nodiscard]] bool hasEntry(const std::string& path, bool includeUnbaked = true) const;
 
 	/// Try to find an entry given the file path
-	[[nodiscard]] std::optional<Entry> findEntry(const std::string& filename_, bool includeUnbaked = true) const;
+	[[nodiscard]] std::optional<Entry> findEntry(const std::string& path_, bool includeUnbaked = true) const;
 
 	/// Try to read the entry's data to a bytebuffer
-	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const = 0;
+	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const = 0;
 
 	/// Try to read the entry's data to a string
-	[[nodiscard]] std::optional<std::string> readEntryText(const Entry& entry) const;
+	[[nodiscard]] std::optional<std::string> readEntryText(const std::string& path) const;
 
 	[[nodiscard]] virtual constexpr bool isReadOnly() const noexcept {
 		return false;
 	}
 
 	/// Add a new entry from a file path - the first parameter is the path in the PackFile, the second is the path on disk
-	void addEntry(const std::string& filename_, const std::string& pathToFile, EntryOptions options_);
+	void addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options_);
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& filename_, std::vector<std::byte>&& buffer, EntryOptions options_);
+	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options_);
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& filename_, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_);
+	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_);
 
 	/// Remove an entry
-	virtual bool removeEntry(const std::string& filename_);
+	virtual bool removeEntry(const std::string& path_);
+
+	/// Remove a directory
+	virtual std::size_t removeDirectory(const std::string& dirName_);
 
 	/// If output folder is unspecified, it will overwrite the original
-	virtual bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) = 0;
+	virtual bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) = 0;
 
 	/// Extract the given entry to disk at the given file path
-	bool extractEntry(const Entry& entry, const std::string& filePath) const; // NOLINT(*-use-nodiscard)
+	bool extractEntry(const std::string& entryPath, const std::string& filepath) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the given directory to disk under the given output directory
-	bool extractDirectory(const std::string& dir, const std::string& outputDir) const; // NOLINT(*-use-nodiscard)
+	bool extractDirectory(const std::string& dir_, const std::string& outputDir) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory
 	bool extractAll(const std::string& outputDir, bool createUnderPackFileDir = true) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory - only entries which match the predicate are extracted
-	bool extractAll(const std::string& outputDir, const std::function<bool(const Entry&)>& predicate) const; // NOLINT(*-use-nodiscard)
+	bool extractAll(const std::string& outputDir, const EntryPredicate& predicate) const; // NOLINT(*-use-nodiscard)
 
 	/// Get entries saved to disk
-	[[nodiscard]] const std::unordered_map<std::string, std::vector<Entry>>& getBakedEntries() const;
+	[[nodiscard]] const EntryTrie& getBakedEntries() const;
 
 	/// Get entries that have been added but not yet baked
-	[[nodiscard]] const std::unordered_map<std::string, std::vector<Entry>>& getUnbakedEntries() const;
+	[[nodiscard]] const EntryTrie& getUnbakedEntries() const;
 
 	/// Get the number of entries in the pack file
 	[[nodiscard]] std::size_t getEntryCount(bool includeUnbaked = true) const;
+
+	/// Run a callback for each entry in the pack file
+	void runForAllEntries(const EntryCallback& operation, bool includeUnbaked = true) const;
 
 	/// /home/user/pak01_dir.vpk
 	[[nodiscard]] std::string_view getFilepath() const;
@@ -151,7 +162,7 @@ public:
 	[[nodiscard]] virtual explicit operator std::string() const;
 
 	/// On Windows, some characters and file names are invalid - this escapes the given entry path
-	[[nodiscard]] static std::string escapeEntryPath(const std::string& path);
+	[[nodiscard]] static std::string escapeEntryPathForWrite(const std::string& path);
 
 	/// Returns a list of supported extensions, e.g. {".vpk", ".bsp"}
 	[[nodiscard]] static std::vector<std::string> getSupportedFileTypes();
@@ -159,9 +170,11 @@ public:
 protected:
 	PackFile(std::string fullFilePath_, PackFileOptions options_);
 
+	void runForAllEntries(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
+
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32() const;
 
-	virtual Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) = 0;
+	virtual void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) = 0;
 
 	[[nodiscard]] std::string getBakeOutputDir(const std::string& outputDir) const;
 
@@ -169,25 +182,21 @@ protected:
 
 	void setFullFilePath(const std::string& outputDir);
 
-	[[nodiscard]] static std::pair<std::string, std::string> splitFilenameAndParentDir(const std::string& filename);
+	[[nodiscard]] std::string cleanEntryPath(const std::string& path) const;
 
 	[[nodiscard]] static Entry createNewEntry();
 
-	[[nodiscard]] static const std::variant<std::string, std::vector<std::byte>>& getEntryUnbakedData(const Entry& entry);
-
-	[[nodiscard]] static bool isEntryUnbakedUsingByteBuffer(const Entry& entry);
-
-	[[nodiscard]] std::optional<std::vector<std::byte>> readUnbakedEntry(const Entry& entry) const;
+	[[nodiscard]] static std::optional<std::vector<std::byte>> readUnbakedEntry(const Entry& entry);
 
 	std::string fullFilePath;
 
 	PackFileType type = PackFileType::UNKNOWN;
 	PackFileOptions options;
 
-	std::unordered_map<std::string, std::vector<Entry>> entries;
-	std::unordered_map<std::string, std::vector<Entry>> unbakedEntries;
+	EntryTrie entries;
+	EntryTrie unbakedEntries;
 
-	using FactoryFunction = std::function<std::unique_ptr<PackFile>(const std::string& path, PackFileOptions options, const Callback& callback)>;
+	using FactoryFunction = std::function<std::unique_ptr<PackFile>(const std::string& path, PackFileOptions options, const EntryCallback& callback)>;
 
 	static std::unordered_map<std::string, std::vector<FactoryFunction>>& getOpenExtensionRegistry();
 
@@ -203,11 +212,11 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	PackFileReadOnly(std::string fullFilePath_, PackFileOptions options_);
+	PackFileReadOnly([[maybe_unused]] [[maybe_unused]] std::string fullFilePath_, PackFileOptions options_);
 
-	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) final;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) final;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) final;
+	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) final;
 };
 
 } // namespace vpkpp
@@ -222,6 +231,4 @@ protected:
 #define VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE(function) \
 	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION0, function); \
 	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION1, function); \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function); \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable3TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION3, function); \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable4TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION4, function);
+	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function)

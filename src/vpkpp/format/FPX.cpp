@@ -11,7 +11,7 @@ FPX::FPX(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::FPX;
 }
 
-std::unique_ptr<PackFile> FPX::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> FPX::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	auto fpx = FPX::openInternal(path, options, callback);
 	if (!fpx && path.length() > 8) {
 		// If it just tried to load a numbered archive, let's try to load the directory FPX
@@ -22,7 +22,7 @@ std::unique_ptr<PackFile> FPX::open(const std::string& path, PackFileOptions opt
 	return fpx;
 }
 
-std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -64,9 +64,6 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 			} else {
 				fullDir = directory;
 			}
-			if (!fpx->entries.contains(fullDir)) {
-				fpx->entries[fullDir] = {};
-			}
 
 			// Files
 			while (true) {
@@ -77,14 +74,16 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 
 				Entry entry = createNewEntry();
 
+				std::string entryPath;
 				if (extension == " ") {
-					entry.path = fullDir.empty() ? "" : fullDir + '/';
-					entry.path += entryName;
+					entryPath = fullDir.empty() ? "" : fullDir + '/';
+					entryPath += entryName;
 				} else {
-					entry.path = fullDir.empty() ? "" : fullDir + '/';
-					entry.path += entryName + '.';
-					entry.path += extension;
+					entryPath = fullDir.empty() ? "" : fullDir + '/';
+					entryPath += entryName + '.';
+					entryPath += extension;
 				}
+				entryPath = fpx->cleanEntryPath(entryPath);
 
 				reader.read(entry.crc32);
 				auto preloadedDataSize = reader.read<uint16_t>();
@@ -98,18 +97,18 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 				}
 
 				if (preloadedDataSize > 0) {
-					entry.vpk_preloadedData = reader.read_bytes(preloadedDataSize);
+					entry.extraData = reader.read_bytes(preloadedDataSize);
 					entry.length += preloadedDataSize;
 				}
-
-				fpx->entries[fullDir].push_back(entry);
 
 				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > fpx->numArchives) {
 					fpx->numArchives = entry.archiveIndex;
 				}
 
+				fpx->entries.emplace(entryPath, entry);
+
 				if (callback) {
-					callback(fullDir, entry);
+					callback(entryPath, entry);
 				}
 			}
 		}

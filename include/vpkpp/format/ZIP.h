@@ -12,7 +12,7 @@ public:
 	~ZIP() override;
 
 	/// Open a ZIP file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
@@ -24,9 +24,9 @@ public:
 		return true;
 	}
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
 
@@ -39,9 +39,9 @@ public:
 protected:
 	ZIP(const std::string& fullFilePath_, PackFileOptions options_);
 
-	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
 
-	bool bakeTempZip(const std::string& writeZipPath, const Callback& callback);
+	bool bakeTempZip(const std::string& writeZipPath, const EntryCallback& callback);
 
 	bool openZIP(std::string_view path);
 

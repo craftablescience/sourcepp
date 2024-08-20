@@ -6,7 +6,6 @@
 
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/FS.h>
-#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -36,7 +35,7 @@ PCK::PCK(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::PCK;
 }
 
-std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -95,32 +94,21 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		entry.path = reader.read_string(reader.read<uint32_t>());
-		if (entry.path.starts_with(PCK_PATH_PREFIX)) {
-			entry.path = entry.path.substr(PCK_PATH_PREFIX.length());
-		}
-		string::normalizeSlashes(entry.path, true);
-		if (!pck->isCaseSensitive()) {
-			string::toLower(entry.path);
+		auto entryPath = pck->cleanEntryPath(reader.read_string(reader.read<uint32_t>()));
+		if (entryPath.starts_with(PCK_PATH_PREFIX)) {
+			entryPath = entryPath.substr(PCK_PATH_PREFIX.length());
 		}
 
 		entry.offset = reader.read<uint64_t>() + extraEntryContentsOffset;
 		entry.length = reader.read<uint64_t>();
-		entry.pck_md5 = reader.read_bytes<16>();
+		entry.extraData = reader.read_bytes(16);
 
 		if (pck->header.packVersion > 1) {
 			entry.flags = reader.read<uint32_t>();
 		}
 
-		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir, true);
-		if (!pck->entries.contains(parentDir)) {
-			pck->entries[parentDir] = {};
-		}
-		pck->entries[parentDir].push_back(entry);
-
 		if (callback) {
-			callback(parentDir, entry);
+			callback(entryPath, entry);
 		}
 	}
 
@@ -130,13 +118,18 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 	return packFile;
 }
 
-std::optional<std::vector<std::byte>> PCK::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
 	// It's baked into the file on disk
-	if (entry.flags & FLAG_ENCRYPTED) {
+	if (entry->flags & FLAG_ENCRYPTED) {
 		// File is encrypted
 		return std::nullopt;
 	}
@@ -145,53 +138,35 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry.offset);
-	return stream.read_bytes(entry.length);
+	stream.seek_in_u(entry->offset);
+	return stream.read_bytes(entry->length);
 }
 
-Entry& PCK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
-	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	entry.path = filename;
+void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
 	entry.length = buffer.size();
-	entry.pck_md5 = crypto::computeMD5(buffer);
+
+	const auto md5 = crypto::computeMD5(buffer);
+	entry.extraData = {md5.begin(), md5.end()};
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
-
-	if (!this->unbakedEntries.contains(dir)) {
-		this->unbakedEntries[dir] = {};
-	}
-	this->unbakedEntries.at(dir).push_back(entry);
-	return this->unbakedEntries.at(dir).back();
 }
 
-bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
+bool PCK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data for ease of access
-	std::vector<Entry*> entriesToBake;
-	for (auto& [entryDir, entryList] : this->entries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
-	for (auto& [entryDir, entryList] : this->unbakedEntries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
+	std::vector<std::pair<std::string, Entry*>> entriesToBake;
+	this->runForAllEntries([&entriesToBake](const std::string& path, Entry& entry) {
+		entriesToBake.emplace_back(path, &entry);
+	});
 
 	// Read data before overwriting, we don't know if we're writing to ourself
 	std::vector<std::byte> fileData;
-	for (auto* entry : entriesToBake) {
-		if (auto binData = this->readEntry(*entry)) {
+	for (auto& [path, entry] : entriesToBake) {
+		if (auto binData = this->readEntry(path)) {
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
@@ -247,11 +222,11 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 
 		// Dry-run to get the length of the directory section
 		this->dataOffset = stream.tell_out();
-		for (auto* entry : entriesToBake) {
-			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
+		for (const auto& [path, entry] : entriesToBake) {
+			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=
-					sizeof(uint32_t) +        // Path length
+					sizeof(uint32_t) +             // Path length
 					entryPath.length() + padding + // Path
 					(sizeof(std::size_t) * 2) +    // Offset, Length
 					(sizeof(std::byte) * 16);      // MD5
@@ -262,8 +237,8 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 		}
 
 		// Directory
-		for (auto* entry : entriesToBake) {
-			const auto entryPath = std::string{PCK_PATH_PREFIX} + entry->path;
+		for (const auto& [path, entry] : entriesToBake) {
+			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
 			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, false, entryPath.length() + padding);
@@ -271,14 +246,14 @@ bool PCK::bake(const std::string& outputDir_, const Callback& callback) {
 			entry->offset += this->dataOffset;
 			stream.write(entry->offset);
 			stream.write(entry->length);
-			stream.write(entry->pck_md5);
+			stream.write(entry->extraData);
 
 			if (this->header.packVersion > 1) {
 				stream.write(entry->flags);
 			}
 
 			if (callback) {
-				callback(entry->getParentPath(), *entry);
+				callback(path, *entry);
 			}
 		}
 

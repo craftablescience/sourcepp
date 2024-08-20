@@ -24,18 +24,18 @@ class EXAMPLE : public PackFile {
 public:
 	// Always return a unique_ptr to PackFile so it has a uniform return type
 	// If your type needs any new options, add them to PackFileOptions - it was the cleanest way to do it without messing with variants or std::any
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
 	// [OPTIONAL] Implement this and return true if your file format is case-sensitive
 	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
 		return PackFile::isCaseSensitive();
 	}
 
-	// Returns the raw data the Entry points to
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const override;
+	// Returns the raw entry data
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	// [WRITE] Save any changes made to the opened file(s)
-	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	// [OPTIONAL] Returns any attributes your file format's entries have (refer to the other file formats for more info)
 	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override {
@@ -52,7 +52,7 @@ protected:
 
 	// [WRITE] Adds a new entry from either a filename or a buffer
 	// Again, if your type needs any new options specific to entries, add them to EntryOptions
-	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
 
 private:
 	// Finally, register the open method with the extension
