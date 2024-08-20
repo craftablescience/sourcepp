@@ -679,7 +679,7 @@ std::string VPK::getTruncatedFilestem() const {
 
 Attribute VPK::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return LENGTH | VPK_PRELOADED_DATA_LENGTH | ARCHIVE_INDEX | CRC32;
+	return LENGTH | VPK_PRELOADED_DATA | ARCHIVE_INDEX | CRC32;
 }
 
 VPK::operator std::string() const {
