@@ -139,7 +139,7 @@ bool VPK_VTMB::bake(const std::string& outputDir_, const EntryCallback& callback
 
 	// Reconstruct data for ease of access
 	std::unordered_map<uint16_t, std::vector<std::pair<std::string, Entry*>>> entriesToBake;
-	this->runForAllEntries([&entriesToBake](const std::string& path, Entry& entry) {
+	this->runForAllEntriesInternal([&entriesToBake](const std::string& path, Entry& entry) {
 		if (!entriesToBake.contains(entry.archiveIndex)) {
 			entriesToBake[entry.archiveIndex] = {};
 		}

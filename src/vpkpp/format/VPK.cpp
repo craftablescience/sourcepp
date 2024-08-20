@@ -445,7 +445,7 @@ bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 
 	// Reconstruct data so we're not looping over it a ton of times
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
-	this->runForAllEntries([&temp](const std::string& path, Entry& entry) {
+	this->runForAllEntriesInternal([&temp](const std::string& path, Entry& entry) {
 		const auto fsPath = std::filesystem::path{path};
 		auto extension = fsPath.extension().string();
 		if (extension.starts_with('.')) {
@@ -468,7 +468,7 @@ bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Temporarily store baked file data that's stored in the directory VPK since it's getting overwritten
 	std::vector<std::byte> dirVPKEntryData;
 	std::size_t newDirEntryOffset = 0;
-	this->runForAllEntries([this, &dirVPKEntryData, &newDirEntryOffset](const std::string& path, Entry& entry) {
+	this->runForAllEntriesInternal([this, &dirVPKEntryData, &newDirEntryOffset](const std::string& path, Entry& entry) {
 		if (entry.archiveIndex != VPK_DIR_INDEX || entry.length == entry.extraData.size()) {
 			return;
 		}

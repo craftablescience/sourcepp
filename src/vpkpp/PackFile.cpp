@@ -475,7 +475,7 @@ void PackFile::runForAllEntries(const EntryCallback& operation, bool includeUnba
 	}
 }
 
-void PackFile::runForAllEntries(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked) {
+void PackFile::runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked) {
 	std::string key;
 	for (auto entry = this->entries.begin(); entry != this->entries.end(); ++entry) {
 		entry.key(key);

@@ -176,7 +176,7 @@ public:
 protected:
 	PackFile(std::string fullFilePath_, PackFileOptions options_);
 
-	void runForAllEntries(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
+	void runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32() const;
 
