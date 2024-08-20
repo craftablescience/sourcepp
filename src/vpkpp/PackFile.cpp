@@ -91,23 +91,11 @@ void fixFilePathForWindows(std::string& path) {
 	string::toUpper(stem);
 
 	// Replace bad filenames
-	if (stem == "CON") {
-		filename = "_CON_" + extension;
-	} else if (stem == "PRN") {
-		filename = "_PRN_" + extension;
-	} else if (stem == "AUX") {
-		filename = "_AUX_" + extension;
-	} else if (stem == "NUL") {
-		filename = "_NUL_" + extension;
-	} else if (stem.starts_with("COM") && stem.length() == 4 && std::isdigit(stem[3]) && stem[3] != '0') {
-		filename = "_COM";
+	if (stem == "CON" || stem == "PRN" || stem == "AUX" || stem == "NUL") {
+		filename = "___" + extension;
+	} else if (stem.length() == 4 && stem[3] != '0' && ((stem.starts_with("COM") || stem.starts_with("LPT")))) {
+		filename = "___";
 		filename += stem[3];
-		filename += '_';
-		filename += extension;
-	} else if (stem.starts_with("LPT") && stem.length() == 4 && std::isdigit(stem[3]) && stem[3] != '0') {
-		filename = "_LPT";
-		filename += stem[3];
-		filename += '_';
 		filename += extension;
 	}
 
@@ -126,7 +114,7 @@ void fixFilePathForWindows(std::string& path) {
 
 PackFile::PackFile(std::string fullFilePath_, PackFileOptions options_)
 		: fullFilePath(std::move(fullFilePath_))
-		, options(options_) {}
+		  , options(options_) {}
 
 std::unique_ptr<PackFile> PackFile::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	auto extension = std::filesystem::path{path}.extension().string();
@@ -396,11 +384,12 @@ bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& pr
 	// Extract
 	std::filesystem::path outputDirPath{outputDir};
 	bool noneFailed = true;
-	for (auto& path : saveEntryPaths) {
+	for (const auto& path : saveEntryPaths) {
+		auto savePath = path;
 #ifdef _WIN32
-		::fixFilePathForWindows(path);
+		::fixFilePathForWindows(savePath);
 #endif
-		if (!this->extractEntry(path, (outputDirPath / path.substr(rootDirLen)).string())) {
+		if (!this->extractEntry(path, (outputDirPath / savePath.substr(rootDirLen)).string())) {
 			noneFailed = false;
 		}
 	}
