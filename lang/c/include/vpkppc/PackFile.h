@@ -88,7 +88,7 @@ SOURCEPP_API int vpkpp_extract_directory(vpkpp_pack_file_handle_t handle, const 
 
 SOURCEPP_API int vpkpp_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, int createUnderPackFileDir);
 
-SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryPredicate predicate);
+SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryPredicate predicate, int stripSharedDirs);
 
 SOURCEPP_API size_t vpkpp_get_entry_count(vpkpp_pack_file_handle_t handle, int includeUnbaked);
 

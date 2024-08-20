@@ -343,7 +343,7 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 	return noneFailed;
 }
 
-bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& predicate) const {
+bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs) const {
 	if (outputDir.empty() || !predicate) {
 		return false;
 	}
@@ -359,9 +359,11 @@ bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& pr
 		return false;
 	}
 
-	// Strip shared directories until we have a root folder
-	std::vector<std::string> rootDirList;
-	{
+	std::size_t rootDirLen = 0;
+	if (stripSharedDirs) {
+		// Strip shared directories until we have a root folder
+		std::vector<std::string> rootDirList;
+
 		std::vector<std::vector<std::string>> pathSplits;
 		pathSplits.reserve(saveEntryPaths.size());
 		for (const auto& path : saveEntryPaths) {
@@ -388,18 +390,17 @@ bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& pr
 				path.erase(path.begin());
 			}
 		}
+		rootDirLen = ::joinPath(rootDirList).length() + 1;
 	}
-	auto rootDirLen = ::joinPath(rootDirList).length() + 1;
 
 	// Extract
 	std::filesystem::path outputDirPath{outputDir};
 	bool noneFailed = true;
-	for (const auto& path : saveEntryPaths) {
-		std::string entryPath = path.substr(rootDirLen);
+	for (auto& path : saveEntryPaths) {
 #ifdef _WIN32
-		::fixFilePathForWindows(entryPath);
+		::fixFilePathForWindows(path);
 #endif
-		if (!this->extractEntry(entryPath, (outputDirPath / entryPath).string())) {
+		if (!this->extractEntry(path, (outputDirPath / path.substr(rootDirLen)).string())) {
 			noneFailed = false;
 		}
 	}
