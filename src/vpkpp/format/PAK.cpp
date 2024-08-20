@@ -15,7 +15,7 @@ PAK::PAK(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::PAK;
 }
 
-std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -40,37 +40,29 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions opt
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		reader.read(entry.path, PAK_FILENAME_MAX_SIZE);
-		string::normalizeSlashes(entry.path, true);
-		if (!pak->isCaseSensitive()) {
-			string::toLower(entry.path);
-		}
+		auto entryPath = pak->cleanEntryPath(reader.read_string(PAK_FILENAME_MAX_SIZE));
 
 		entry.offset = reader.read<uint32_t>();
 		entry.length = reader.read<uint32_t>();
 
-		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir, true);
-		if (!pak->isCaseSensitive()) {
-			string::toLower(parentDir);
-		}
-
-		if (!pak->entries.contains(parentDir)) {
-			pak->entries[parentDir] = {};
-		}
-		pak->entries[parentDir].push_back(entry);
+		pak->entries.emplace(entryPath, entry);
 
 		if (callback) {
-			callback(parentDir, entry);
+			callback(entryPath, entry);
 		}
 	}
 
 	return packFile;
 }
 
-std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
 	// It's baked into the file on disk
@@ -78,52 +70,32 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry.offset);
-	return stream.read_bytes(entry.length);
+	stream.seek_in_u(entry->offset);
+	return stream.read_bytes(entry->length);
 }
 
-Entry& PAK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
-	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	entry.path = filename;
+void PAK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
-
-	if (!this->unbakedEntries.contains(dir)) {
-		this->unbakedEntries[dir] = {};
-	}
-	this->unbakedEntries.at(dir).push_back(entry);
-	return this->unbakedEntries.at(dir).back();
 }
 
-bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
+bool PAK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data for ease of access
-	std::vector<Entry*> entriesToBake;
-	for (auto& [entryDir, entryList] : this->entries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
-	for (auto& [entryDir, entryList] : this->unbakedEntries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
+	std::vector<std::pair<std::string, Entry*>> entriesToBake;
+	this->runForAllEntries([&entriesToBake](const std::string& path, Entry& entry) {
+		entriesToBake.emplace_back(path, &entry);
+	});
 
 	// Read data before overwriting, we don't know if we're writing to ourself
 	std::vector<std::byte> fileData;
-	for (auto* entry : entriesToBake) {
-		if (auto binData = this->readEntry(*entry)) {
+	for (auto& [path, entry] : entriesToBake) {
+		if (auto binData = this->readEntry(path)) {
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
@@ -147,13 +119,13 @@ bool PAK::bake(const std::string& outputDir_, const Callback& callback) {
 		stream.write(directorySize);
 
 		// Directory
-		for (auto entry : entriesToBake) {
-			stream.write(entry->path, false, PAK_FILENAME_MAX_SIZE);
+		for (const auto& [path, entry] : entriesToBake) {
+			stream.write(path, false, PAK_FILENAME_MAX_SIZE);
 			stream.write(static_cast<uint32_t>(entry->offset + directoryIndex + directorySize));
 			stream.write(static_cast<uint32_t>(entry->length));
 
 			if (callback) {
-				callback(entry->getParentPath(), *entry);
+				callback(path, *entry);
 			}
 		}
 

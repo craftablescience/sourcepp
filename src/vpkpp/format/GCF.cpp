@@ -8,7 +8,6 @@
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/FS.h>
-#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -18,7 +17,7 @@ GCF::GCF(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::GCF;
 }
 
-std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	// TODO: Add v5 and perhaps v4 support
 
 	if (!std::filesystem::exists(path)) {
@@ -129,28 +128,22 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 				dirname.insert(0, "/");
 				dirname.insert(0, current_filename_entry.filename);
 			}
+
+			auto gcfEntryPath = gcf->cleanEntryPath(dirname);
+			if (!gcfEntryPath.empty()) {
+				gcfEntryPath += '/';
+			}
+			gcfEntryPath += entry.filename;
+
 			Entry gcfEntry = createNewEntry();
-			string::normalizeSlashes(dirname, true);
-			if (!gcf->isCaseSensitive()) {
-				string::toLower(dirname);
-				string::toLower(entry.filename);
-			}
-			if (!gcf->entries.contains(dirname)) {
-				//printf("dirname creation: %s\n", dirname.c_str());
-				gcf->entries[dirname] = {};
-			}
 			gcfEntry.length = entry.entry_real.itemsize;
-			gcfEntry.path = dirname;
-			gcfEntry.path += dirname.empty() ? "" : "/";
-			gcfEntry.path += entry.filename;
 			gcfEntry.crc32 = entry.entry_real.fileid; // INDEX INTO THE CHECKSUM MAP VECTOR NOT CRC32!!!
 			gcfEntry.offset = i; // THIS IS THE STRUCT INDEX NOT SOME OFFSET!!!
 			//printf("%s\n", gcfEntry.path.c_str());
-			gcf->entries[dirname].push_back(gcfEntry);
-			//printf("dir %s file %s\n", dirname.c_str(), entry.filename.c_str());
+			gcf->entries.emplace(gcfEntryPath, gcfEntry);
 
 			if (callback) {
-				callback(dirname, gcfEntry);
+				callback(gcfEntryPath, gcfEntry);
 			}
 		}
 		reader.seek_in_u(currentoffset);
@@ -207,43 +200,46 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 
 std::vector<std::string> GCF::verifyEntryChecksums() const {
 	std::vector<std::string> bad;
-	for (const auto& entryList : this->entries) {
-		for (const auto& entry : entryList.second) {
-			auto bytes = this->readEntry(entry);
-			if (!bytes || bytes->empty()) {
-				continue;
-			}
-			std::size_t tocheck = bytes->size();
-			uint32_t idx = entry.crc32;
-			uint32_t count = this->chksum_map[idx].count;
-			uint32_t checksumstart = this->chksum_map[idx].firstindex;
-			for (int i = 0; i < count; i++) {
-				uint32_t csum = this->checksums[checksumstart + i];
-				std::size_t toread = std::min(static_cast<std::size_t>(0x8000), tocheck);
-				const auto* data = bytes->data() + (i * 0x8000);
-				uint32_t checksum = crypto::computeCRC32(data, toread) ^ crypto::computeAdler32(data, toread);
-				if (checksum != csum) {
-					bad.push_back(entry.path);
-				}
-				tocheck -= toread;
-			}
+	this->runForAllEntries([this, &bad](const std::string& path, const Entry& entry) {
+		auto bytes = this->readEntry(path);
+		if (!bytes || bytes->empty()) {
+			return;
 		}
-	}
+		std::size_t tocheck = bytes->size();
+		uint32_t idx = entry.crc32;
+		uint32_t count = this->chksum_map[idx].count;
+		uint32_t checksumstart = this->chksum_map[idx].firstindex;
+		for (int i = 0; i < count; i++) {
+			uint32_t csum = this->checksums[checksumstart + i];
+			std::size_t toread = std::min(static_cast<std::size_t>(0x8000), tocheck);
+			const auto* data = bytes->data() + (i * 0x8000);
+			uint32_t checksum = crypto::computeCRC32(data, toread) ^ crypto::computeAdler32(data, toread);
+			if (checksum != csum) {
+				bad.push_back(path);
+			}
+			tocheck -= toread;
+		}
+	});
 	return bad;
 }
 
-std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
 	std::vector<std::byte> filedata;
-	if (entry.length == 0) {
+	if (entry->length == 0) {
 		// don't bother
 		return filedata;
 	}
 
-	uint32_t dir_index = entry.offset;
+	uint32_t dir_index = entry->offset;
 	//printf(" extracting file: %s\n", entry.path.c_str());
 
 	std::vector<Block> toread;
@@ -253,15 +249,13 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 		}
 	}
 
-	std::sort(toread.begin(), toread.end(), [](Block lhs, Block rhs) {
-		return (lhs.file_data_offset < rhs.file_data_offset);
-		}
-	);
-
 	if (toread.empty()) {
 		//printf("could not find any directory index for %lu", entry.vpk_offset);
 		return std::nullopt;
 	}
+	std::sort(toread.begin(), toread.end(), [](const Block& lhs, const Block& rhs) {
+		return lhs.file_data_offset < rhs.file_data_offset;
+	});
 
 	FileStream stream{this->fullFilePath};
 	if (!stream) {
@@ -269,7 +263,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const Entry& entry) const {
 		return std::nullopt;
 	}
 
-	uint64_t remaining = entry.length;
+	uint64_t remaining = entry->length;
 
 	for (const auto& block : toread) {
 		uint32_t currindex = block.first_data_block_index;

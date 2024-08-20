@@ -76,13 +76,13 @@ std::unique_ptr<PackFile> VPK::createEmpty(const std::string& path, PackFileOpti
 	return VPK::open(path, options);
 }
 
-std::unique_ptr<PackFile> VPK::createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir, PackFileOptions options, const Callback& bakeCallback) {
+std::unique_ptr<PackFile> VPK::createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir, PackFileOptions options, const EntryCallback& bakeCallback) {
 	return VPK::createFromDirectoryProcedural(vpkPath, contentPath, [saveToDir](const std::string&) {
 		return std::make_tuple(saveToDir, 0);
 	}, options, bakeCallback);
 }
 
-std::unique_ptr<PackFile> VPK::createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options, const Callback& bakeCallback) {
+std::unique_ptr<PackFile> VPK::createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options, const EntryCallback& bakeCallback) {
 	auto vpk = VPK::createEmpty(vpkPath, options);
 	if (!std::filesystem::exists(contentPath) || std::filesystem::status(contentPath).type() != std::filesystem::file_type::directory) {
 		return vpk;
@@ -112,7 +112,7 @@ std::unique_ptr<PackFile> VPK::createFromDirectoryProcedural(const std::string& 
 	return vpk;
 }
 
-std::unique_ptr<PackFile> VPK::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> VPK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	auto vpk = VPK::openInternal(path, options, callback);
 	if (!vpk && path.length() > 8) {
 		// If it just tried to load a numbered archive, let's try to load the directory VPK
@@ -123,7 +123,7 @@ std::unique_ptr<PackFile> VPK::open(const std::string& path, PackFileOptions opt
 	return vpk;
 }
 
-std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -167,9 +167,6 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOpt
 			} else {
 				fullDir = directory;
 			}
-			if (!vpk->entries.contains(fullDir)) {
-				vpk->entries[fullDir] = {};
-			}
 
 			// Files
 			while (true) {
@@ -180,18 +177,20 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOpt
 
 				Entry entry = createNewEntry();
 
+				std::string entryPath;
 				if (extension == " ") {
-					entry.path = fullDir.empty() ? "" : fullDir + '/';
-					entry.path += entryName;
+					entryPath = fullDir.empty() ? "" : fullDir + '/';
+					entryPath += entryName;
 				} else {
-					entry.path = fullDir.empty() ? "" : fullDir + '/';
-					entry.path += entryName + '.';
-					entry.path += extension;
+					entryPath = fullDir.empty() ? "" : fullDir + '/';
+					entryPath += entryName + '.';
+					entryPath += extension;
 				}
+				entryPath = vpk->cleanEntryPath(entryPath);
 
 				reader.read(entry.crc32);
 				auto preloadedDataSize = reader.read<uint16_t>();
-				reader.read(entry.archiveIndex);
+				entry.archiveIndex = reader.read<uint16_t>();
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 
@@ -201,18 +200,18 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOpt
 				}
 
 				if (preloadedDataSize > 0) {
-					entry.vpk_preloadedData = reader.read_bytes(preloadedDataSize);
+					entry.extraData = reader.read_bytes(preloadedDataSize);
 					entry.length += preloadedDataSize;
 				}
-
-				vpk->entries[fullDir].push_back(entry);
 
 				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > vpk->numArchives) {
 					vpk->numArchives = entry.archiveIndex;
 				}
 
+				vpk->entries.emplace(entryPath, entry);
+
 				if (callback) {
-					callback(fullDir, entry);
+					callback(entryPath, entry);
 				}
 			}
 		}
@@ -324,51 +323,49 @@ bool VPK::verifyPackFileSignature() const {
 	return crypto::verifySHA256PublicKey(dirFileBuffer, this->footer2.publicKey, this->footer2.signature);
 }
 
-std::optional<std::vector<std::byte>> VPK::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
-	std::vector output(entry.length, static_cast<std::byte>(0));
+	std::vector output(entry->length, static_cast<std::byte>(0));
 
-	if (!entry.vpk_preloadedData.empty()) {
-		std::copy(entry.vpk_preloadedData.begin(), entry.vpk_preloadedData.end(), output.begin());
+	if (!entry->extraData.empty()) {
+		std::copy(entry->extraData.begin(), entry->extraData.end(), output.begin());
 	}
-	if (entry.length == entry.vpk_preloadedData.size()) {
+	if (entry->length == entry->extraData.size()) {
 		return output;
 	}
 
-	if (entry.archiveIndex != VPK_DIR_INDEX) {
+	if (entry->archiveIndex != VPK_DIR_INDEX) {
 		// Stored in a numbered archive
-		FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry.archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
+		FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry->archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
 		if (!stream) {
 			return std::nullopt;
 		}
-		stream.seek_in_u(entry.offset);
-		auto bytes = stream.read_bytes(entry.length - entry.vpk_preloadedData.size());
-		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry.vpk_preloadedData.size()));
+		stream.seek_in_u(entry->offset);
+		auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
+		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry->extraData.size()));
 	} else {
 		// Stored in this directory VPK
 		FileStream stream{this->fullFilePath};
 		if (!stream) {
 			return std::nullopt;
 		}
-		stream.seek_in_u(this->getHeaderLength() + this->header1.treeSize + entry.offset);
-		auto bytes = stream.read_bytes(entry.length - entry.vpk_preloadedData.size());
-		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry.vpk_preloadedData.size()));
+		stream.seek_in_u(this->getHeaderLength() + this->header1.treeSize + entry->offset);
+		auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
+		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry->extraData.size()));
 	}
 
 	return output;
 }
 
-Entry& VPK::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
-	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	entry.path = filename;
+void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
 	entry.crc32 = crypto::computeCRC32(buffer);
 	entry.length = buffer.size();
 
@@ -402,8 +399,8 @@ Entry& VPK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 
 	if (options_.vpk_preloadBytes > 0) {
 		auto clampedPreloadBytes = std::clamp(options_.vpk_preloadBytes, 0u, buffer.size() > VPK_MAX_PRELOAD_BYTES ? VPK_MAX_PRELOAD_BYTES : static_cast<uint32_t>(buffer.size()));
-		entry.vpk_preloadedData.resize(clampedPreloadBytes);
-		std::memcpy(entry.vpk_preloadedData.data(), buffer.data(), clampedPreloadBytes);
+		entry.extraData.resize(clampedPreloadBytes);
+		std::memcpy(entry.extraData.data(), buffer.data(), clampedPreloadBytes);
 		buffer.erase(buffer.begin(), buffer.begin() + clampedPreloadBytes);
 	}
 
@@ -418,81 +415,74 @@ Entry& VPK::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 			}
 		}
 	}
-
-	if (!this->unbakedEntries.contains(dir)) {
-		this->unbakedEntries[dir] = {};
-	}
-	this->unbakedEntries.at(dir).push_back(entry);
-	return this->unbakedEntries.at(dir).back();
 }
 
 bool VPK::removeEntry(const std::string& filename_) {
-	if (auto entry = this->findEntry(filename_); entry && (!entry->unbaked || entry->flags & VPK_FLAG_REUSING_CHUNK)) {
+	auto filename = this->cleanEntryPath(filename_);
+	if (auto entry = this->findEntry(filename); entry && (!entry->unbaked || entry->flags & VPK_FLAG_REUSING_CHUNK)) {
 		this->freedChunks.push_back({entry->offset, entry->length, entry->archiveIndex});
 	}
-	return PackFile::removeEntry(filename_);
+	return PackFile::removeEntry(filename);
 }
 
-bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
+std::size_t VPK::removeDirectory(const std::string& dirName_) {
+	auto dirName = this->cleanEntryPath(dirName_);
+	if (!dirName.empty()) {
+		dirName += '/';
+	}
+	this->runForAllEntries([this, &dirName](const std::string& path, const Entry& entry) {
+		if (path.starts_with(dirName) && (!entry.unbaked || entry.flags & VPK_FLAG_REUSING_CHUNK)) {
+			this->freedChunks.push_back({entry.offset, entry.length, entry.archiveIndex});
+		}
+	});
+	return PackFile::removeDirectory(dirName_);
+}
+
+bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data so we're not looping over it a ton of times
-	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<Entry*>>> temp;
+	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
+	this->runForAllEntries([&temp](const std::string& path, Entry& entry) {
+		const auto fsPath = std::filesystem::path{path};
+		auto extension = fsPath.extension().string();
+		auto parentDir = fsPath.parent_path().string();
 
-	for (auto& [tDir, tEntries] : this->entries) {
-		for (auto& tEntry : tEntries) {
-			std::string extension = tEntry.getExtension();
-			if (extension.empty()) {
-				extension = " ";
-			}
-			if (!temp.contains(extension)) {
-				temp[extension] = {};
-			}
-			if (!temp.at(extension).contains(tDir)) {
-				temp.at(extension)[tDir] = {};
-			}
-			temp.at(extension).at(tDir).push_back(&tEntry);
+		if (extension.empty()) {
+			extension = " ";
 		}
-	}
-	for (auto& [tDir, tEntries]: this->unbakedEntries) {
-		for (auto& tEntry : tEntries) {
-			std::string extension = tEntry.getExtension();
-			if (extension.empty()) {
-				extension = " ";
-			}
-			if (!temp.contains(extension)) {
-				temp[extension] = {};
-			}
-			if (!temp.at(extension).contains(tDir)) {
-				temp.at(extension)[tDir] = {};
-			}
-			temp.at(extension).at(tDir).push_back(&tEntry);
+		if (!temp.contains(extension)) {
+			temp[extension] = {};
 		}
-	}
+		if (!temp.at(extension).contains(parentDir)) {
+			temp.at(extension)[parentDir] = {};
+		}
+		temp.at(extension).at(parentDir).emplace_back(path, &entry);
+	});
 
 	// Temporarily store baked file data that's stored in the directory VPK since it's getting overwritten
 	std::vector<std::byte> dirVPKEntryData;
 	std::size_t newDirEntryOffset = 0;
-	for (auto& [tDir, tEntries] : this->entries) {
-		for (Entry& tEntry : tEntries) {
-			if (!tEntry.unbaked && tEntry.archiveIndex == VPK_DIR_INDEX && tEntry.length != tEntry.vpk_preloadedData.size()) {
-				auto binData = this->readEntry(tEntry);
-				if (!binData) {
-					continue;
-				}
-				dirVPKEntryData.reserve(dirVPKEntryData.size() + tEntry.length - tEntry.vpk_preloadedData.size());
-				dirVPKEntryData.insert(dirVPKEntryData.end(), binData->begin() + static_cast<std::vector<std::byte>::difference_type>(tEntry.vpk_preloadedData.size()), binData->end());
-
-				tEntry.offset = newDirEntryOffset;
-				newDirEntryOffset += tEntry.length - tEntry.vpk_preloadedData.size();
-			}
+	this->runForAllEntries([this, &dirVPKEntryData, &newDirEntryOffset](const std::string& path, Entry& entry) {
+		if (entry.archiveIndex != VPK_DIR_INDEX || entry.length == entry.extraData.size()) {
+			return;
 		}
-	}
+
+		auto binData = this->readEntry(path);
+		if (!binData) {
+			return;
+		}
+		dirVPKEntryData.reserve(dirVPKEntryData.size() + entry.length - entry.extraData.size());
+		dirVPKEntryData.insert(dirVPKEntryData.end(), binData->begin() + static_cast<std::vector<std::byte>::difference_type>(entry.extraData.size()), binData->end());
+
+		entry.offset = newDirEntryOffset;
+		newDirEntryOffset += entry.length - entry.extraData.size();
+	}, false);
 
 	// Helper
-	const auto getArchiveFilename = [this](const std::string& filename_, int archiveIndex) {
+	const auto getArchiveFilename = [this](const std::string& filename_, uint32_t archiveIndex) {
 		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
 		string::normalizeSlashes(out);
 		return out;
@@ -500,7 +490,7 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 
 	// Copy external binary blobs to the new dir
 	if (!outputDir_.empty()) {
-		for (int archiveIndex = 0; archiveIndex < this->numArchives; archiveIndex++) {
+		for (uint32_t archiveIndex = 0; archiveIndex < this->numArchives; archiveIndex++) {
 			std::string from = getArchiveFilename(this->getTruncatedFilepath(), archiveIndex);
 			if (!std::filesystem::exists(from)) {
 				continue;
@@ -524,23 +514,20 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 	}
 
 	// File tree data
-	for (auto& [ext, tDirs] : temp) {
+	for (auto& [ext, dirs] : temp) {
 		outDir.write(ext);
 
-		for (auto& [dir, tEntries] : tDirs) {
+		for (auto& [dir, tempEntries] : dirs) {
 			outDir.write(!dir.empty() ? dir : " ");
 
-			for (auto* entry : tEntries) {
+			for (auto& [path, entry] : tempEntries) {
 				// Calculate entry offset if it's unbaked and upload the data
 				if (entry->unbaked) {
-					std::vector<std::byte> entryData;
-					if (isEntryUnbakedUsingByteBuffer(*entry)) {
-						entryData = std::get<std::vector<std::byte>>(getEntryUnbakedData(*entry));
-					} else {
-						entryData = fs::readFileBuffer(std::get<std::string>(getEntryUnbakedData(*entry)), entry->vpk_preloadedData.size());
+					auto entryData = readUnbakedEntry(*entry);
+					if (!entryData) {
+						continue;
 					}
-
-					if (entry->length == entry->vpk_preloadedData.size()) {
+					if (entry->length == entry->extraData.size()) {
 						// Override the archive index, no need for an archive VPK
 						entry->archiveIndex = VPK_DIR_INDEX;
 						entry->offset = dirVPKEntryData.size();
@@ -549,37 +536,37 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						FileStream stream{archiveFilename, FileStream::OPT_READ | FileStream::OPT_WRITE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 						stream.seek_out_u(entry->offset);
-						stream.write(entryData);
+						stream.write(*entryData);
 					} else if (entry->archiveIndex != VPK_DIR_INDEX) {
 						// The entry is being appended to a newly created VPK archive
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						entry->offset = std::filesystem::exists(archiveFilename) ? std::filesystem::file_size(archiveFilename) : 0;
 						FileStream stream{archiveFilename, FileStream::OPT_APPEND | FileStream::OPT_CREATE_IF_NONEXISTENT};
-						stream.write(entryData);
+						stream.write(*entryData);
 					} else {
 						// The entry will be added to the directory VPK
 						entry->offset = dirVPKEntryData.size();
-						dirVPKEntryData.insert(dirVPKEntryData.end(), entryData.data(), entryData.data() + entryData.size());
+						dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
 					}
 
 					// Clear flags
 					entry->flags = 0;
 				}
 
-				outDir.write(entry->getStem());
+				outDir.write(std::filesystem::path{path}.stem().string());
 				outDir.write(entry->crc32);
-				outDir.write(static_cast<uint16_t>(entry->vpk_preloadedData.size()));
-				outDir.write(entry->archiveIndex);
-				outDir.write(static_cast<uint32_t>(entry->offset));
-				outDir.write(static_cast<uint32_t>(entry->length - entry->vpk_preloadedData.size()));
+				outDir.write<uint16_t>(entry->extraData.size());
+				outDir.write<uint16_t>(entry->archiveIndex);
+				outDir.write<uint32_t>(entry->offset);
+				outDir.write<uint32_t>(entry->length - entry->extraData.size());
 				outDir.write(VPK_ENTRY_TERM);
 
-				if (!entry->vpk_preloadedData.empty()) {
-					outDir.write(entry->vpk_preloadedData);
+				if (!entry->extraData.empty()) {
+					outDir.write(entry->extraData);
 				}
 
 				if (callback) {
-					callback(dir, *entry);
+					callback(path, *entry);
 				}
 			}
 			outDir.write('\0');
@@ -604,21 +591,20 @@ bool VPK::bake(const std::string& outputDir_, const Callback& callback) {
 		// Calculate hashes for all entries
 		this->md5Entries.clear();
 		if (this->options.vpk_generateMD5Entries) {
-			for (const auto& [tDir, tEntries] : this->entries) {
-				for (const auto& tEntry : tEntries) {
-					// Believe it or not this should be safe to call by now
-					auto binData = this->readEntry(tEntry);
-					if (!binData) {
-						continue;
-					}
-					MD5Entry md5Entry{};
-					md5Entry.archiveIndex = tEntry.archiveIndex;
-					md5Entry.length = tEntry.length - tEntry.vpk_preloadedData.size();
-					md5Entry.offset = tEntry.offset;
-					md5Entry.checksum = crypto::computeMD5(*binData);
-					this->md5Entries.push_back(md5Entry);
+			this->runForAllEntries([this](const std::string& path, const Entry& entry) {
+				// Believe it or not this should be safe to call by now
+				auto binData = this->readEntry(path);
+				if (!binData) {
+					return;
 				}
-			}
+				MD5Entry md5Entry{
+					.archiveIndex = entry.archiveIndex,
+					.offset = static_cast<uint32_t>(entry.offset),
+					.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
+					.checksum = crypto::computeMD5(*binData),
+				};
+				this->md5Entries.push_back(md5Entry);
+			}, false);
 		}
 
 		// Calculate Header2

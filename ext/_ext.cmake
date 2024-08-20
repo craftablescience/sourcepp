@@ -21,6 +21,12 @@ if(NOT TARGET cryptopp::cryptopp)
 endif()
 
 
+# hat-trie
+if(NOT TARGET tsl::hat_trie)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/hat-trie")
+endif()
+
+
 # ice
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")
 

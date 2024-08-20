@@ -6,7 +6,6 @@
 
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/FS.h>
-#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -16,7 +15,7 @@ GMA::GMA(const std::string& fullFilePath_, PackFileOptions options_)
 	this->type = PackFileType::GMA;
 }
 
-std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions options, const Callback& callback) {
+std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -42,42 +41,28 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions opt
 	reader.read(gma->header.addonAuthor);
 	reader.read(gma->header.addonVersion);
 
-	std::vector<Entry> entries;
+	std::vector<std::pair<std::string, Entry>> entries;
 	while (reader.read<uint32_t>() > 0) {
 		Entry entry = createNewEntry();
 
-		reader.read(entry.path);
-		string::normalizeSlashes(entry.path, true);
-		if (!gma->isCaseSensitive()) {
-			string::toLower(entry.path);
-		}
+		auto entryPath = reader.read_string();
 
 		entry.length = reader.read<uint64_t>();
 		reader.read(entry.crc32);
 
-		entries.push_back(entry);
+		entries.emplace_back(entryPath, entry);
 	}
 
 	// At this point we've reached the file data section, calculate the offsets and then add the entries
 	std::size_t offset = reader.tell_in();
-	for (auto& entry : entries) {
+	for (auto& [entryPath, entry] : entries) {
 		entry.offset = offset;
 		offset += entry.length;
-	}
-	for (const auto& entry : entries) {
-		auto parentDir = std::filesystem::path{entry.path}.parent_path().string();
-		string::normalizeSlashes(parentDir, true);
-		if (!gma->isCaseSensitive()) {
-			string::toLower(parentDir);
-		}
 
-		if (!gma->entries.contains(parentDir)) {
-			gma->entries[parentDir] = {};
-		}
-		gma->entries[parentDir].push_back(entry);
+		gma->entries.emplace(entryPath, entry);
 
 		if (callback) {
-			callback(parentDir, entry);
+			callback(entryPath, entry);
 		}
 	}
 
@@ -106,9 +91,14 @@ bool GMA::verifyPackFileChecksum() const {
 	return checksum == crypto::computeCRC32(data);
 }
 
-std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
-	if (entry.unbaked) {
-		return this->readUnbakedEntry(entry);
+std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) const {
+	auto path = this->cleanEntryPath(path_);
+	auto entry = this->findEntry(path);
+	if (!entry) {
+		return std::nullopt;
+	}
+	if (entry->unbaked) {
+		return readUnbakedEntry(*entry);
 	}
 
 	// It's baked into the file on disk
@@ -116,18 +106,11 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const Entry& entry) const {
 	if (!stream) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry.offset);
-	return stream.read_bytes(entry.length);
+	stream.seek_in_u(entry->offset);
+	return stream.read_bytes(entry->length);
 }
 
-Entry& GMA::addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) {
-	auto filename = filename_;
-	if (!this->isCaseSensitive()) {
-		string::toLower(filename);
-	}
-	auto [dir, name] = splitFilenameAndParentDir(filename);
-
-	entry.path = filename;
+void GMA::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
 	entry.length = buffer.size();
 	if (this->options.gma_writeCRCs) {
 		entry.crc32 = crypto::computeCRC32(buffer);
@@ -135,36 +118,23 @@ Entry& GMA::addEntryInternal(Entry& entry, const std::string& filename_, std::ve
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
-
-	if (!this->unbakedEntries.contains(dir)) {
-		this->unbakedEntries[dir] = {};
-	}
-	this->unbakedEntries.at(dir).push_back(entry);
-	return this->unbakedEntries.at(dir).back();
 }
 
-bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
+bool GMA::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data for ease of access
-	std::vector<Entry*> entriesToBake;
-	for (auto& [entryDir, entryList] : this->entries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
-	for (auto& [entryDir, entryList] : this->unbakedEntries) {
-		for (auto& entry : entryList) {
-			entriesToBake.push_back(&entry);
-		}
-	}
+	std::vector<std::pair<std::string, Entry*>> entriesToBake;
+	this->runForAllEntries([&entriesToBake](const std::string& path, Entry& entry) {
+		entriesToBake.emplace_back(path, &entry);
+	});
 
 	// Read data before overwriting, we don't know if we're writing to ourself
 	std::vector<std::byte> fileData;
-	for (auto* entry : entriesToBake) {
-		if (auto binData = this->readEntry(*entry)) {
+	for (auto& [path, entry] : entriesToBake) {
+		if (auto binData = this->readEntry(path)) {
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
 		} else {
 			entry->length = 0;
@@ -189,20 +159,20 @@ bool GMA::bake(const std::string& outputDir_, const Callback& callback) {
 		// File tree
 		for (uint32_t i = 1; i <= entriesToBake.size(); i++) {
 			stream.write(i);
-			auto* entry = entriesToBake[i - 1];
-			stream.write(entry->path);
+			const auto& [path, entry] = entriesToBake[i - 1];
+			stream.write(path);
 			stream.write(entry->length);
 			stream.write<uint32_t>(this->options.gma_writeCRCs ? entry->crc32 : 0);
 
 			if (callback) {
-				callback(entry->getParentPath(), *entry);
+				callback(path, *entry);
 			}
 		}
-		stream.write(static_cast<uint32_t>(0));
+		stream.write<uint32_t>(0);
 
 		// Fix offsets
 		std::size_t offset = stream.tell_out();
-		for (auto* entry : entriesToBake) {
+		for (auto& [path, entry] : entriesToBake) {
 			entry->offset = offset;
 			offset += entry->length;
 		}

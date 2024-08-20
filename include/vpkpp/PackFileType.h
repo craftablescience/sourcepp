@@ -8,7 +8,6 @@ enum class PackFileType {
 	FPX,
 	GCF,
 	GMA,
-	GRP,
 	PAK,
 	PCK,
 	VPK,

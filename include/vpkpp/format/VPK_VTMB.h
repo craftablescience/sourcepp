@@ -12,11 +12,11 @@ constexpr std::string_view VPK_VTMB_EXTENSION = ".vpk";
 class VPK_VTMB : public PackFile {
 public:
 	/// Open Vampire: The Masquerade - Bloodlines VPK files
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const Callback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const Entry& entry) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const Callback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] std::string getTruncatedFilestem() const override;
 
@@ -25,12 +25,12 @@ public:
 protected:
 	VPK_VTMB(const std::string& fullFilePath_, PackFileOptions options_);
 
-	void openNumbered(uint16_t archiveIndex, const std::string& path, const Callback& callback);
+	void openNumbered(uint32_t archiveIndex, const std::string& path, const EntryCallback& callback);
 
-	Entry& addEntryInternal(Entry& entry, const std::string& filename_, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
 
-	std::vector<uint16_t> knownArchives;
-	uint16_t currentArchive = 0;
+	std::vector<uint32_t> knownArchives;
+	uint32_t currentArchive = 0;
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(VPK_VTMB_EXTENSION, &VPK_VTMB::open);

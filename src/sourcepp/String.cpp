@@ -153,7 +153,7 @@ std::string string::generateUUIDv4() {
 	return out;
 }
 
-std::string string::padNumber(int number, int width, char pad) {
+std::string string::padNumber(int64_t number, int width, char pad) {
 	auto numStr = std::to_string(number);
 	return std::string(width - std::min<std::string::size_type>(width, numStr.length()), pad) + numStr;
 }
