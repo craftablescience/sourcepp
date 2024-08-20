@@ -27,9 +27,6 @@
   - Add a save method to write the constituent parts of a StudioModel to disk
 - `vpkpp`
   - Read/write LZMA-compressed zip files, and make sure it works correctly as a BSP paklump
-  - Look into better ways to store archive entries, such as a trie ~~or a set~~
-    - And in that vein, get rid of the `path` property on an entry
-  - In fact, perhaps restructure the API so having a copy of the file metadata is unnecessary to access content!
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Improve conversion speeds between formats that use handrolled per-pixel converters (SIMD? Compute shader?)
