@@ -1,5 +1,4 @@
 add_pretty_parser(vpkpp C
-        DEPS tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/FPX.h"

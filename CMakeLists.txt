@@ -87,16 +87,16 @@ endif()
 
 
 # Add libraries
-add_sourcepp_library(bsppp NO_TEST)
-add_sourcepp_library(dmxpp)
-add_sourcepp_library(fgdpp)
-add_sourcepp_library(gamepp)
-add_sourcepp_library(kvpp)
-add_sourcepp_library(mdlpp)
-add_sourcepp_library(steampp C)
-add_sourcepp_library(vicepp C CSHARP)
-add_sourcepp_library(vpkpp C CSHARP NO_TEST)
-add_sourcepp_library(vtfpp)
+add_sourcepp_library(bsppp NO_TEST)           # sourcepp::bsppp
+add_sourcepp_library(dmxpp)                   # sourcepp::dmxpp
+add_sourcepp_library(fgdpp)                   # sourcepp::fgdpp
+add_sourcepp_library(gamepp)                  # sourcepp::gamepp
+add_sourcepp_library(kvpp)                    # sourcepp::kvpp
+add_sourcepp_library(mdlpp)                   # sourcepp::mdlpp
+add_sourcepp_library(steampp C)               # sourcepp::steampp
+add_sourcepp_library(vicepp C CSHARP)         # sourcepp::vicepp
+add_sourcepp_library(vpkpp C CSHARP NO_TEST)  # sourcepp::vpkpp
+add_sourcepp_library(vtfpp)                   # sourcepp::vtfpp
 
 
 # Tests, part 2
