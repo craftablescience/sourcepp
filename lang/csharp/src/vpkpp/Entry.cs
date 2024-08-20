@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace vpkpp
@@ -8,45 +6,44 @@ namespace vpkpp
     internal static unsafe partial class Extern
     {
         [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_path(void* handle, sbyte* buffer, ulong bufferLen);
+        public static extern uint vpkpp_entry_get_flags(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_parent_path(void* handle, sbyte* buffer, ulong bufferLen);
+        public static extern uint vpkpp_entry_get_archive_index(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_filename(void* handle, sbyte* buffer, ulong bufferLen);
+        public static extern ulong vpkpp_entry_get_length(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_stem(void* handle, sbyte* buffer, ulong bufferLen);
+        public static extern ulong vpkpp_entry_get_compressed_length(void* handle);
 
         [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_extension(void* handle, sbyte* buffer, ulong bufferLen);
+        public static extern ulong vpkpp_entry_get_offset(void* handle);
+
+        [DllImport("vpkppc")]
+        public static extern Buffer vpkpp_entry_get_extra_data(void* handle);
+
+        [DllImport("vpkppc")]
+        public static extern uint vpkpp_entry_get_crc32(void* handle);
+
+        [DllImport("vpkppc")]
+        public static extern int vpkpp_entry_is_unbaked(void* handle);
 
         [DllImport("vpkppc")]
         public static extern void vpkpp_entry_free(void** handle);
-
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_entry_array_free(EntryHandleArray* array);
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    internal unsafe struct EntryHandleArray
-    {
-        internal long size;
-        internal void** data;
     }
 
     public class Entry
     {
-        internal unsafe Entry(void* handle, bool inArray)
+        internal unsafe Entry(void* handle, bool managed)
         {
             Handle = handle;
-            _inArray = inArray;
+            _managed = managed;
         }
 
         ~Entry()
         {
-            if (!_inArray)
+            if (!_managed)
             {
                 unsafe
                 {
@@ -58,135 +55,97 @@ namespace vpkpp
             }
         }
 
-        public string Path
+        public uint Flags
         {
             get
             {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxPath];
                 unsafe
                 {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_entry_get_path(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
+                    return Extern.vpkpp_entry_get_flags(Handle);
                 }
             }
         }
 
-        public string ParentPath
+        public uint ArchiveIndex
         {
             get
             {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxPath];
                 unsafe
                 {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_entry_get_parent_path(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
+                    return Extern.vpkpp_entry_get_archive_index(Handle);
                 }
             }
         }
 
-        public string FileName
+        public ulong Length
         {
             get
             {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxFilename];
                 unsafe
                 {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_entry_get_filename(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
+                    return Extern.vpkpp_entry_get_length(Handle);
                 }
             }
         }
 
-        public string Stem
+        public ulong CompressedLength
         {
             get
             {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxFilename];
                 unsafe
                 {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_entry_get_stem(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
+                    return Extern.vpkpp_entry_get_compressed_length(Handle);
                 }
             }
         }
 
-        public string Extension
+        public ulong Offset
         {
             get
             {
-                Span<sbyte> stringArray = new sbyte[Constants.MaxFilename];
                 unsafe
                 {
-                    fixed (sbyte* stringPtr = stringArray)
-                    {
-                        Extern.vpkpp_entry_get_extension(Handle, stringPtr, Convert.ToUInt64(stringArray.Length));
-                        return new string(stringPtr);
-                    }
+                    return Extern.vpkpp_entry_get_offset(Handle);
+                }
+            }
+        }
+
+        public byte[] ExtraData
+        {
+            get
+            {
+                unsafe
+                {
+                    var buffer = Extern.vpkpp_entry_get_extra_data(Handle);
+                    return BufferUtils.ConvertToArrayAndDelete(ref buffer);
+                }
+            }
+        }
+
+        public uint CRC32
+        {
+            get
+            {
+                unsafe
+                {
+                    return Extern.vpkpp_entry_get_crc32(Handle);
+                }
+            }
+        }
+
+        public bool Unbaked
+        {
+            get
+            {
+                unsafe
+                {
+                    return Convert.ToBoolean(Extern.vpkpp_entry_is_unbaked(Handle));
                 }
             }
         }
 
         internal unsafe void* Handle;
 
-        private readonly bool _inArray;
-    }
-
-    public class EntryEnumerable : IEnumerable<Entry>
-    {
-        internal EntryEnumerable(EntryHandleArray array)
-        {
-            _array = array;
-        }
-
-        ~EntryEnumerable()
-        {
-            unsafe
-            {
-                fixed (EntryHandleArray* arrayPtr = &_array)
-                {
-                    Extern.vpkpp_entry_array_free(arrayPtr);
-                }
-            }
-        }
-
-        private Entry GetEntryAtPosition(ulong pos)
-        {
-            unsafe
-            {
-                return new Entry(_array.data[pos], true);
-            }
-        }
-
-        private IEnumerator<Entry> GetEnumerator()
-        {
-            for (long i = 0; i < _array.size; i++)
-            {
-                yield return GetEntryAtPosition((ulong) i);
-            }
-        }
-
-        IEnumerator<Entry> IEnumerable<Entry>.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        private EntryHandleArray _array;
+        private readonly bool _managed;
     }
 }
