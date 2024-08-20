@@ -20,7 +20,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_empty(const char* path) {
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_empty_with_options(const char* path, vpkpp_pack_file_options_t options) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = PackFile::open(path, Convert::optionsFromC(options));
+	auto packFile = VPK::createEmpty(path, Convert::optionsFromC(options));
 	if (!packFile) {
 		return nullptr;
 	}
@@ -38,11 +38,39 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory(const char
 	return packFile.release();
 }
 
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_callback(const char* vpkPath, const char* contentPath, bool saveToDir, EntryCallback callback) {
+	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
+
+	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, {}, [callback](const std::string& path, const Entry& entry) {
+		callback(path.c_str(), const_cast<Entry*>(&entry));
+	});
+	if (!packFile) {
+		return nullptr;
+	}
+	return packFile.release();
+}
+
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options) {
 	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
 	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
 
 	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, Convert::optionsFromC(options));
+	if (!packFile) {
+		return nullptr;
+	}
+	return packFile.release();
+}
+
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options_and_callback(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options, EntryCallback callback) {
+	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
+
+	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
+		callback(path.c_str(), const_cast<Entry*>(&entry));
+	});
 	if (!packFile) {
 		return nullptr;
 	}
@@ -59,10 +87,36 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path) {
 	return packFile.release();
 }
 
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_callback(const char* path, EntryCallback callback) {
+	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
+
+	auto packFile = VPK::open(path, {}, [callback](const std::string& path, const Entry& entry) {
+		callback(path.c_str(), const_cast<Entry*>(&entry));
+	});
+	if (!packFile) {
+		return nullptr;
+	}
+	return packFile.release();
+}
+
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options(const char* path, vpkpp_pack_file_options_t options) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = VPK::open(path, Convert::optionsFromC(options));
+	if (!packFile) {
+		return nullptr;
+	}
+	return packFile.release();
+}
+
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback) {
+	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
+
+	auto packFile = VPK::open(path, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
+		callback(path.c_str(), const_cast<Entry*>(&entry));
+	});
 	if (!packFile) {
 		return nullptr;
 	}

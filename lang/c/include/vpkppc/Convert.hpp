@@ -28,6 +28,10 @@ vpkpp::Entry* entry(vpkpp_entry_handle_t handle);
 
 vpkpp::PackFileOptions optionsFromC(vpkpp_pack_file_options_t options);
 
+vpkpp::EntryOptions optionsFromC(vpkpp_entry_options_t options);
+
 vpkpp_pack_file_options_t optionsToC(vpkpp::PackFileOptions options);
+
+vpkpp_entry_options_t optionsToC(vpkpp::EntryOptions options);
 
 } // namespace Convert

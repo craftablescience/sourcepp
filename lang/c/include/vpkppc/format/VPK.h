@@ -12,13 +12,25 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_empty_with_options(const 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory(const char* vpkPath, const char* contentPath, bool saveToDir);
 
 // REQUIRES MANUAL FREE: vpkpp_close
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_callback(const char* vpkPath, const char* contentPath, bool saveToDir, EntryCallback callback);
+
+// REQUIRES MANUAL FREE: vpkpp_close
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options);
+
+// REQUIRES MANUAL FREE: vpkpp_close
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options_and_callback(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options, EntryCallback callback);
 
 // REQUIRES MANUAL FREE: vpkpp_close
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path);
 
 // REQUIRES MANUAL FREE: vpkpp_close
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_callback(const char* path, EntryCallback callback);
+
+// REQUIRES MANUAL FREE: vpkpp_close
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options(const char* path, vpkpp_pack_file_options_t options);
+
+// REQUIRES MANUAL FREE: vpkpp_close
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback);
 
 SOURCEPP_API bool vpkpp_vpk_generate_keypair_files(const char* path);
 

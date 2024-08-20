@@ -20,7 +20,7 @@ public:
 
 	[[nodiscard]] std::string getTruncatedFilestem() const override;
 
-	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
+	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 protected:
 	VPK_VTMB(const std::string& fullFilePath_, PackFileOptions options_);

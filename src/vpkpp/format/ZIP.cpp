@@ -127,9 +127,9 @@ bool ZIP::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	return true;
 }
 
-std::vector<Attribute> ZIP::getSupportedEntryAttributes() const {
+Attribute ZIP::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH, CRC32};
+	return LENGTH | CRC32;
 }
 
 #ifdef VPKPP_ZIP_COMPRESSION

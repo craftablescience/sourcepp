@@ -8,44 +8,52 @@
 
 using namespace vpkpp;
 
-SOURCEPP_API size_t vpkpp_entry_get_path(vpkpp_entry_handle_t handle, char* buffer, size_t bufferLen) {
+SOURCEPP_API uint32_t vpkpp_entry_get_flags(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, 0);
 
-	return Convert::writeStringToMem(Convert::entry(handle)->path, buffer, bufferLen);
+	return Convert::entry(handle)->flags;
 }
 
-SOURCEPP_API size_t vpkpp_entry_get_parent_path(vpkpp_entry_handle_t handle, char* buffer, size_t bufferLen) {
+SOURCEPP_API uint32_t vpkpp_entry_get_archive_index(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, 0);
 
-	return Convert::writeStringToMem(Convert::entry(handle)->getParentPath(), buffer, bufferLen);
+	return Convert::entry(handle)->archiveIndex;
 }
 
-SOURCEPP_API size_t vpkpp_entry_get_filename(vpkpp_entry_handle_t handle, char* buffer, size_t bufferLen) {
+SOURCEPP_API uint64_t vpkpp_entry_get_length(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, 0);
 
-	return Convert::writeStringToMem(Convert::entry(handle)->getFilename(), buffer, bufferLen);
+	return Convert::entry(handle)->length;
 }
 
-SOURCEPP_API size_t vpkpp_entry_get_stem(vpkpp_entry_handle_t handle, char* buffer, size_t bufferLen) {
+SOURCEPP_API uint64_t vpkpp_entry_get_compressed_length(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, 0);
 
-	return Convert::writeStringToMem(Convert::entry(handle)->getStem(), buffer, bufferLen);
+	return Convert::entry(handle)->compressedLength;
 }
 
-SOURCEPP_API size_t vpkpp_entry_get_extension(vpkpp_entry_handle_t handle, char* buffer, size_t bufferLen) {
+SOURCEPP_API uint64_t vpkpp_entry_get_offset(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-	SOURCEPP_EARLY_RETURN_VAL(buffer, 0);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, 0);
 
-	return Convert::writeStringToMem(Convert::entry(handle)->getExtension(), buffer, bufferLen);
+	return Convert::entry(handle)->offset;
+}
+
+SOURCEPP_API sourcepp_buffer_t vpkpp_entry_get_extra_data(vpkpp_entry_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
+
+	return Convert::toBuffer(Convert::entry(handle)->extraData);
+}
+
+SOURCEPP_API uint32_t vpkpp_entry_get_crc32(vpkpp_entry_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	return Convert::entry(handle)->crc32;
+}
+
+SOURCEPP_API int vpkpp_entry_is_unbaked(vpkpp_entry_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+
+	return Convert::entry(handle)->unbaked;
 }
 
 SOURCEPP_API void vpkpp_entry_free(vpkpp_entry_handle_t* handle) {
@@ -53,19 +61,4 @@ SOURCEPP_API void vpkpp_entry_free(vpkpp_entry_handle_t* handle) {
 
 	delete Convert::entry(*handle);
 	*handle = nullptr;
-}
-
-SOURCEPP_API void vpkpp_entry_array_free(vpkpp_entry_handle_array_t* array) {
-	SOURCEPP_EARLY_RETURN(array);
-
-	if (array->data) {
-		for (size_t i = 0; i < array->size; i++) {
-			if (auto*& entry = array->data[i]) {
-				vpkpp_entry_free(&entry);
-			}
-		}
-		std::free(array->data);
-		array->data = nullptr;
-	}
-	array->size = 0;
 }

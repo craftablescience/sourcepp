@@ -200,9 +200,9 @@ bool GMA::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	return true;
 }
 
-std::vector<Attribute> GMA::getSupportedEntryAttributes() const {
+Attribute GMA::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH, CRC32};
+	return LENGTH | CRC32;
 }
 
 GMA::operator std::string() const {

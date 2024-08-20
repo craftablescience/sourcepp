@@ -139,7 +139,7 @@ bool PAK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	return true;
 }
 
-std::vector<Attribute> PAK::getSupportedEntryAttributes() const {
+Attribute PAK::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH};
+	return LENGTH;
 }
