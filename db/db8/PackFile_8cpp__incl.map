@@ -1,47 +1,48 @@
 <map id="src/vpkpp/PackFile.cpp" name="src/vpkpp/PackFile.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="1293,5,1463,32"/>
-<area shape="rect" id="node2" href="$d3/df4/PackFile_8h.html" title=" " alt="" coords="1177,229,1307,256"/>
-<area shape="rect" id="node21" title=" " alt="" coords="546,80,631,107"/>
-<area shape="rect" id="node22" title=" " alt="" coords="656,80,721,107"/>
-<area shape="rect" id="node23" title=" " alt="" coords="746,80,813,107"/>
-<area shape="rect" id="node24" title=" " alt="" coords="837,80,927,107"/>
-<area shape="rect" id="node25" title=" " alt="" coords="951,80,1026,107"/>
-<area shape="rect" id="node26" title=" " alt="" coords="1051,80,1111,107"/>
-<area shape="rect" id="node27" title=" " alt="" coords="1135,80,1239,107"/>
-<area shape="rect" id="node28" href="$d6/d27/CRC32_8h.html" title=" " alt="" coords="1523,304,1708,331"/>
-<area shape="rect" id="node29" href="$d5/dd2/FS_8h.html" title=" " alt="" coords="1882,304,1994,331"/>
-<area shape="rect" id="node30" href="$d9/dba/String_8h.html" title=" " alt="" coords="84,304,219,331"/>
-<area shape="rect" id="node33" href="$d2/dd1/BSP_8h.html" title=" " alt="" coords="1695,80,1845,107"/>
-<area shape="rect" id="node37" href="$d6/d66/ZIP_8h.html" title=" " alt="" coords="1567,155,1621,181"/>
-<area shape="rect" id="node38" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="2029,80,2180,107"/>
-<area shape="rect" id="node39" href="$d3/d5a/VPK_8h.html" title=" " alt="" coords="2075,155,2135,181"/>
-<area shape="rect" id="node40" href="$df/d32/GCF_8h.html" title=" " alt="" coords="1167,155,1317,181"/>
-<area shape="rect" id="node41" href="$d1/dbf/GMA_8h.html" title=" " alt="" coords="809,155,966,181"/>
-<area shape="rect" id="node42" href="$dc/d73/GRP_8h.html" title=" " alt="" coords="1341,155,1492,181"/>
-<area shape="rect" id="node43" href="$dc/da5/PAK_8h.html" title=" " alt="" coords="633,155,784,181"/>
-<area shape="rect" id="node44" href="$dd/dae/PCK_8h.html" title=" " alt="" coords="990,155,1142,181"/>
-<area shape="rect" id="node45" href="$d7/d1d/VPK__VTMB_8h.html" title=" " alt="" coords="2163,155,2361,181"/>
-<area shape="rect" id="node3" title=" " alt="" coords="501,304,588,331"/>
-<area shape="rect" id="node4" title=" " alt="" coords="613,304,690,331"/>
-<area shape="rect" id="node5" title=" " alt="" coords="1733,304,1807,331"/>
-<area shape="rect" id="node6" title=" " alt="" coords="1291,379,1350,405"/>
-<area shape="rect" id="node7" title=" " alt="" coords="216,379,313,405"/>
-<area shape="rect" id="node8" title=" " alt="" coords="2171,304,2225,331"/>
-<area shape="rect" id="node9" title=" " alt="" coords="715,304,839,331"/>
-<area shape="rect" id="node10" title=" " alt="" coords="1483,379,1545,405"/>
-<area shape="rect" id="node11" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="1077,379,1257,405"/>
-<area shape="rect" id="node14" href="$d4/d08/Attribute_8h.html" title=" " alt="" coords="863,304,954,331"/>
-<area shape="rect" id="node15" href="$d4/d42/Entry_8h.html" title=" " alt="" coords="1381,304,1447,331"/>
-<area shape="rect" id="node19" href="$d5/d76/Options_8h.html" title=" " alt="" coords="1120,304,1204,331"/>
-<area shape="rect" id="node20" href="$d6/da8/PackFileType_8h.html" title=" " alt="" coords="978,304,1095,331"/>
-<area shape="rect" id="node12" title=" " alt="" coords="1082,453,1149,480"/>
-<area shape="rect" id="node13" title=" " alt="" coords="1173,453,1265,480"/>
-<area shape="rect" id="node16" title=" " alt="" coords="2105,379,2161,405"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1580,379,1651,405"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1380,379,1448,405"/>
-<area shape="rect" id="node31" title=" " alt="" coords="5,379,87,405"/>
-<area shape="rect" id="node32" title=" " alt="" coords="111,379,191,405"/>
-<area shape="rect" id="node34" href="$d5/d60/bsppp_8h.html" title=" " alt="" coords="1712,229,1828,256"/>
-<area shape="rect" id="node35" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="295,304,477,331"/>
-<area shape="rect" id="node36" title=" " alt="" coords="349,379,423,405"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1672,5,1841,32"/>
+<area shape="rect" id="node2" href="$d3/df4/PackFile_8h.html" title=" " alt="" coords="914,229,1045,256"/>
+<area shape="rect" id="node22" title=" " alt="" coords="1951,80,2037,107"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2061,80,2127,107"/>
+<area shape="rect" id="node24" title=" " alt="" coords="2151,80,2218,107"/>
+<area shape="rect" id="node25" title=" " alt="" coords="2242,80,2333,107"/>
+<area shape="rect" id="node26" title=" " alt="" coords="2357,80,2431,107"/>
+<area shape="rect" id="node27" title=" " alt="" coords="2456,80,2516,107"/>
+<area shape="rect" id="node28" title=" " alt="" coords="2541,80,2645,107"/>
+<area shape="rect" id="node29" href="$d6/d27/CRC32_8h.html" title=" " alt="" coords="1801,304,1987,331"/>
+<area shape="rect" id="node30" href="$d5/dd2/FS_8h.html" title=" " alt="" coords="2011,304,2123,331"/>
+<area shape="rect" id="node31" href="$d9/dba/String_8h.html" title=" " alt="" coords="2148,304,2283,331"/>
+<area shape="rect" id="node34" href="$d2/dd1/BSP_8h.html" title=" " alt="" coords="1626,80,1775,107"/>
+<area shape="rect" id="node39" href="$d6/d66/ZIP_8h.html" title=" " alt="" coords="1273,155,1326,181"/>
+<area shape="rect" id="node40" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="1400,80,1551,107"/>
+<area shape="rect" id="node41" href="$d3/d5a/VPK_8h.html" title=" " alt="" coords="1351,155,1411,181"/>
+<area shape="rect" id="node42" href="$df/d32/GCF_8h.html" title=" " alt="" coords="1097,155,1248,181"/>
+<area shape="rect" id="node43" href="$d1/dbf/GMA_8h.html" title=" " alt="" coords="689,155,846,181"/>
+<area shape="rect" id="node44" href="$dc/da5/PAK_8h.html" title=" " alt="" coords="871,155,1021,181"/>
+<area shape="rect" id="node45" href="$dd/dae/PCK_8h.html" title=" " alt="" coords="513,155,665,181"/>
+<area shape="rect" id="node46" href="$d7/d1d/VPK__VTMB_8h.html" title=" " alt="" coords="1435,155,1633,181"/>
+<area shape="rect" id="node3" title=" " alt="" coords="551,304,637,331"/>
+<area shape="rect" id="node4" title=" " alt="" coords="662,304,739,331"/>
+<area shape="rect" id="node5" title=" " alt="" coords="1521,304,1595,331"/>
+<area shape="rect" id="node6" title=" " alt="" coords="1734,379,1793,405"/>
+<area shape="rect" id="node7" title=" " alt="" coords="356,379,453,405"/>
+<area shape="rect" id="node8" title=" " alt="" coords="1441,304,1496,331"/>
+<area shape="rect" id="node9" title=" " alt="" coords="956,304,1080,331"/>
+<area shape="rect" id="node10" title=" " alt="" coords="1975,379,2037,405"/>
+<area shape="rect" id="node11" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="648,379,828,405"/>
+<area shape="rect" id="node14" title=" " alt="" coords="1105,304,1225,331"/>
+<area shape="rect" id="node15" href="$d4/d08/Attribute_8h.html" title=" " alt="" coords="69,304,159,331"/>
+<area shape="rect" id="node17" href="$d4/d42/Entry_8h.html" title=" " alt="" coords="814,304,881,331"/>
+<area shape="rect" id="node20" href="$d5/d76/Options_8h.html" title=" " alt="" coords="443,304,527,331"/>
+<area shape="rect" id="node21" href="$d6/da8/PackFileType_8h.html" title=" " alt="" coords="1249,304,1366,331"/>
+<area shape="rect" id="node12" title=" " alt="" coords="705,453,771,480"/>
+<area shape="rect" id="node13" title=" " alt="" coords="348,453,440,480"/>
+<area shape="rect" id="node16" href="$d3/d58/BitwiseEnumClass_8h.html" title=" " alt="" coords="5,379,223,405"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1639,379,1709,405"/>
+<area shape="rect" id="node19" title=" " alt="" coords="852,379,920,405"/>
+<area shape="rect" id="node32" title=" " alt="" coords="2121,379,2203,405"/>
+<area shape="rect" id="node33" title=" " alt="" coords="2227,379,2307,405"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1619,304,1675,331"/>
+<area shape="rect" id="node36" href="$d5/d60/bsppp_8h.html" title=" " alt="" coords="1659,229,1775,256"/>
+<area shape="rect" id="node37" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="184,304,367,331"/>
+<area shape="rect" id="node38" title=" " alt="" coords="247,379,320,405"/>
 </map>

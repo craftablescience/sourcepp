@@ -1,13 +1,13 @@
 var classvpkpp_1_1VPK__VTMB =
 [
     [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a93fff007784380c2c1bd1494d1e30a14", null ],
-    [ "addEntryInternal", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a711fb03165636deacf12b228af575994", null ],
-    [ "bake", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#acd2cca1e534e35c1b740e6f34cf7032b", null ],
-    [ "getSupportedEntryAttributes", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a2d78030f1565e2733358a9249ad733e1", null ],
+    [ "addEntryInternal", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#af47d29c72567e3fa26097819f00e8799", null ],
+    [ "bake", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a7a3066f9c4a04f481e85a5d98902cce1", null ],
+    [ "getSupportedEntryAttributes", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a37fea8d5ced63fad607eeb794d99bcc3", null ],
     [ "getTruncatedFilestem", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#ab781e0350de1cd753b28eb15c78dddfd", null ],
-    [ "open", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#acbcb7bf7ccb2e7cf3963718f6573b7fc", null ],
-    [ "openNumbered", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a0d3f50cc71817febd5a1709d268cc005", null ],
-    [ "readEntry", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#aa900f853432b1ead5710976ea7c0d445", null ],
-    [ "currentArchive", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a4d1858e0f76d7753149c144498555f06", null ],
-    [ "knownArchives", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a328c76bbf5b16d3717b4a10cbf9f2903", null ]
+    [ "open", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#aa907ceeb2e65c4eadc50315d891104d7", null ],
+    [ "openNumbered", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#ae0d4d6d91da9b5aa5c185091c7ceaf6b", null ],
+    [ "readEntry", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a91e531b118c2d9c7e6f5427081345886", null ],
+    [ "currentArchive", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#afba35789362f5e1e8d5658b17086b57e", null ],
+    [ "knownArchives", "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a6df50a69be1599700ecc221835e1650b", null ]
 ];

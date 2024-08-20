@@ -1,18 +1,18 @@
 var searchData=
 [
-  ['bc6h_1998',['BC6H',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94',1,'vtfpp']]],
-  ['bc7_1999',['BC7',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593',1,'vtfpp']]],
-  ['bgr565_2000',['BGR565',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca7c93b8aa81bd858a70f2e6a55f59b68d',1,'vtfpp']]],
-  ['bgr888_2001',['BGR888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca7cec9e9c2dffb6982c75cdbf5f2af9ef',1,'vtfpp']]],
-  ['bgr888_5fbluescreen_2002',['BGR888_BLUESCREEN',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca079e24d047a312c0c419e038e93bc7d6',1,'vtfpp']]],
-  ['bgra4444_2003',['BGRA4444',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca947c44b1aedaed558e03b2885a550bf7',1,'vtfpp']]],
-  ['bgra5551_2004',['BGRA5551',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca827fa748e9b9fd829c528ce04069f0af',1,'vtfpp']]],
-  ['bgra8888_2005',['BGRA8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca0ec600bfbcf9efd33a5d337700f19896',1,'vtfpp']]],
-  ['bgrx5551_2006',['BGRX5551',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca8da48beb17700a2f8ff70958171550bc',1,'vtfpp']]],
-  ['bgrx8888_2007',['BGRX8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab5dbc9955a7992b2f2b4986c8f09afe9',1,'vtfpp']]],
-  ['bool_2008',['BOOL',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eaa97b2c144243b2b9d2c593ec268b62f5',1,'dmxpp::Value']]],
-  ['brushes_2009',['BRUSHES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00',1,'bsppp']]],
-  ['brushsides_2010',['BRUSHSIDES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6',1,'bsppp']]],
-  ['bsp_2011',['BSP',['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a',1,'vpkpp']]],
-  ['bytearray_2012',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]]
+  ['bc6h_1981',['BC6H',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94',1,'vtfpp']]],
+  ['bc7_1982',['BC7',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593',1,'vtfpp']]],
+  ['bgr565_1983',['BGR565',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca7c93b8aa81bd858a70f2e6a55f59b68d',1,'vtfpp']]],
+  ['bgr888_1984',['BGR888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca7cec9e9c2dffb6982c75cdbf5f2af9ef',1,'vtfpp']]],
+  ['bgr888_5fbluescreen_1985',['BGR888_BLUESCREEN',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca079e24d047a312c0c419e038e93bc7d6',1,'vtfpp']]],
+  ['bgra4444_1986',['BGRA4444',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca947c44b1aedaed558e03b2885a550bf7',1,'vtfpp']]],
+  ['bgra5551_1987',['BGRA5551',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca827fa748e9b9fd829c528ce04069f0af',1,'vtfpp']]],
+  ['bgra8888_1988',['BGRA8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca0ec600bfbcf9efd33a5d337700f19896',1,'vtfpp']]],
+  ['bgrx5551_1989',['BGRX5551',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca8da48beb17700a2f8ff70958171550bc',1,'vtfpp']]],
+  ['bgrx8888_1990',['BGRX8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab5dbc9955a7992b2f2b4986c8f09afe9',1,'vtfpp']]],
+  ['bool_1991',['BOOL',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eaa97b2c144243b2b9d2c593ec268b62f5',1,'dmxpp::Value']]],
+  ['brushes_1992',['BRUSHES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00',1,'bsppp']]],
+  ['brushsides_1993',['BRUSHSIDES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6',1,'bsppp']]],
+  ['bsp_1994',['BSP',['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a',1,'vpkpp']]],
+  ['bytearray_1995',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]]
 ];

@@ -9,7 +9,5 @@ var PackFile_8h =
     [ "VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE", "d3/df4/PackFile_8h.html#a5fe24fb8e6c2fff820c6bafb3efdbe3b", null ],
     [ "EXECUTABLE_EXTENSION0", "d3/df4/PackFile_8h.html#a15e9ee05896c196e63abf2deafe49a54", null ],
     [ "EXECUTABLE_EXTENSION1", "d3/df4/PackFile_8h.html#a05b5908a562a1f3e7bff1b1ca8d04fb7", null ],
-    [ "EXECUTABLE_EXTENSION2", "d3/df4/PackFile_8h.html#a775dc7575afded7ae13cf8f5049c2a29", null ],
-    [ "EXECUTABLE_EXTENSION3", "d3/df4/PackFile_8h.html#a953f160bad0e6c8921b333b54ca5b6a2", null ],
-    [ "EXECUTABLE_EXTENSION4", "d3/df4/PackFile_8h.html#aecfe627bcdbaff7dd2a12f36bacc70b8", null ]
+    [ "EXECUTABLE_EXTENSION2", "d3/df4/PackFile_8h.html#a775dc7575afded7ae13cf8f5049c2a29", null ]
 ];

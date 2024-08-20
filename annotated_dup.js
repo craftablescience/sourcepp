@@ -80,7 +80,6 @@ var annotated_dup =
       [ "FPX", "da/d42/classvpkpp_1_1FPX.html", "da/d42/classvpkpp_1_1FPX" ],
       [ "GCF", "d1/d01/classvpkpp_1_1GCF.html", "d1/d01/classvpkpp_1_1GCF" ],
       [ "GMA", "d6/d2c/classvpkpp_1_1GMA.html", "d6/d2c/classvpkpp_1_1GMA" ],
-      [ "GRP", "dd/d74/classvpkpp_1_1GRP.html", "dd/d74/classvpkpp_1_1GRP" ],
       [ "PAK", "d9/daf/classvpkpp_1_1PAK.html", "d9/daf/classvpkpp_1_1PAK" ],
       [ "PCK", "d5/db5/classvpkpp_1_1PCK.html", "d5/db5/classvpkpp_1_1PCK" ],
       [ "VPK", "d5/d8b/classvpkpp_1_1VPK.html", "d5/d8b/classvpkpp_1_1VPK" ],

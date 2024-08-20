@@ -1,9 +1,10 @@
 var searchData=
 [
-  ['binary_2ecpp_1209',['Binary.cpp',['../dc/d3c/Binary_8cpp.html',1,'']]],
-  ['binary_2eh_1210',['Binary.h',['../d9/db1/Binary_8h.html',1,'']]],
-  ['bsp_2ecpp_1211',['BSP.cpp',['../d7/db3/BSP_8cpp.html',1,'']]],
-  ['bsp_2eh_1212',['BSP.h',['../d2/dd1/BSP_8h.html',1,'']]],
-  ['bsppp_2ecpp_1213',['bsppp.cpp',['../d3/d79/bsppp_8cpp.html',1,'']]],
-  ['bsppp_2eh_1214',['bsppp.h',['../d5/d60/bsppp_8h.html',1,'']]]
+  ['binary_2ecpp_1201',['Binary.cpp',['../dc/d3c/Binary_8cpp.html',1,'']]],
+  ['binary_2eh_1202',['Binary.h',['../d9/db1/Binary_8h.html',1,'']]],
+  ['bitwiseenumclass_2eh_1203',['BitwiseEnumClass.h',['../d3/d58/BitwiseEnumClass_8h.html',1,'']]],
+  ['bsp_2ecpp_1204',['BSP.cpp',['../d7/db3/BSP_8cpp.html',1,'']]],
+  ['bsp_2eh_1205',['BSP.h',['../d2/dd1/BSP_8h.html',1,'']]],
+  ['bsppp_2ecpp_1206',['bsppp.cpp',['../d3/d79/bsppp_8cpp.html',1,'']]],
+  ['bsppp_2eh_1207',['bsppp.h',['../d5/d60/bsppp_8h.html',1,'']]]
 ];
