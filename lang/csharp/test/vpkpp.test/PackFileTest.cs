@@ -8,7 +8,10 @@ namespace vpkpp.test
         [TestMethod]
         public void Open()
         {
-            var vpk = PackFile.Open(BasePortalPath + "portal_pak_dir.vpk");
+            var vpk = PackFile.Open(BasePortalPath + "portal_pak_dir.vpk", (path, entry) =>
+            {
+                Console.WriteLine(path);
+            });
             Assert.IsNotNull(vpk);
             Assert.AreEqual(vpk.Type, PackFileType.VPK);
 
@@ -16,14 +19,9 @@ namespace vpkpp.test
 
             var entry = vpk.FindEntry("materials/console/background1.vmt");
             Assert.IsNotNull(entry);
-            Assert.AreEqual(vpk.ReadEntryText(entry), "\"UnlitGeneric\"\r\n{\r\n\t\"$basetexture\" \"console/background1\"\r\n\t\"$vertexcolor\" 1\r\n\t\"$vertexalpha\" 1\r\n\t\"$ignorez\" 1\r\n\t\"$no_fullbright\" \"1\"\r\n\t\"$nolod\" \"1\"\r\n}");
+            Assert.AreEqual(vpk.ReadEntryText("materials/console/background1.vmt"), "\"UnlitGeneric\"\r\n{\r\n\t\"$basetexture\" \"console/background1\"\r\n\t\"$vertexcolor\" 1\r\n\t\"$vertexalpha\" 1\r\n\t\"$ignorez\" 1\r\n\t\"$no_fullbright\" \"1\"\r\n\t\"$nolod\" \"1\"\r\n}");
 
             Assert.IsFalse(vpk.ReadOnly);
-
-            foreach(var baked in vpk.GetBakedEntries())
-            {
-                Console.WriteLine(baked.Path);
-            }
 
             Assert.AreEqual(vpk.GetEntryCount(), 3509u);
 
@@ -33,13 +31,8 @@ namespace vpkpp.test
             Assert.AreEqual(vpk.TruncatedFileName, "portal_pak.vpk");
             Assert.AreEqual(vpk.FileStem, "portal_pak_dir");
             Assert.AreEqual(vpk.TruncatedFileStem, "portal_pak");
-
-            CollectionAssert.AreEqual(vpk.SupportedEntryAttributes, new List<Attribute>
-            {
-                Attribute.LENGTH, Attribute.VPK_PRELOADED_DATA_LENGTH, Attribute.VPK_ARCHIVE_INDEX, Attribute.CRC32
-            });
-
-            Assert.AreEqual(vpk.ToString(), "portal_pak_dir.vpk | Version v2");
+            Assert.AreEqual(vpk.SupportedEntryAttributes, Attribute.LENGTH | Attribute.VPK_PRELOADED_DATA_LENGTH | Attribute.ARCHIVE_INDEX | Attribute.CRC32);
+            Assert.AreEqual(vpk.ToString(), "portal_pak.vpk | Version v2");
         }
 
         [TestMethod]
@@ -54,8 +47,7 @@ namespace vpkpp.test
         [TestMethod]
         public void GetSupportedFileTypes()
         {
-            // 15 as of v4.1.2
-            Assert.AreEqual(PackFile.GetSupportedFileTypes().Count, 15);
+            Assert.AreEqual(PackFile.GetSupportedFileTypes().Count, 12);
         }
 
         [TestMethod]
