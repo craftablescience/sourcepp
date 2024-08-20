@@ -38,7 +38,7 @@ public:
 	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	// [OPTIONAL] Returns any attributes your file format's entries have (refer to the other file formats for more info)
-	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override {
+	[[nodiscard]] Attribute getSupportedEntryAttributes() const override {
 		return PackFile::getSupportedEntryAttributes();
 	}
 

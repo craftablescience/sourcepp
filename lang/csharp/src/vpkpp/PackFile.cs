@@ -98,7 +98,7 @@ namespace vpkpp
         public static extern int vpkpp_extract_all(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, int createUnderPackFileDir);
 
         [DllImport("vpkppc")]
-        public static extern int vpkpp_extract_all_if(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr predicate);
+        public static extern int vpkpp_extract_all_if(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr predicate, int stripSharedDirs);
 
         [DllImport("vpkppc")]
         public static extern ulong vpkpp_get_entry_count(void* handle, int includeUnbaked);
@@ -389,7 +389,7 @@ namespace vpkpp
             }
         }
 
-        public bool ExtractAll(string outputDir, EntryPredicate predicate)
+        public bool ExtractAll(string outputDir, EntryPredicate predicate, bool stripSharedDirs = true)
         {
             unsafe
             {
@@ -397,7 +397,7 @@ namespace vpkpp
                 {
                     return Convert.ToInt32(predicate(path, new Entry(entry, true)));
                 };
-                return Convert.ToBoolean(Extern.vpkpp_extract_all_if(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(predicateNative)));
+                return Convert.ToBoolean(Extern.vpkpp_extract_all_if(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(predicateNative), Convert.ToInt32(stripSharedDirs));
             }
         }
 

@@ -123,7 +123,7 @@ public:
 	bool extractAll(const std::string& outputDir, bool createUnderPackFileDir = true) const; // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory - only entries which match the predicate are extracted
-	bool extractAll(const std::string& outputDir, const EntryPredicate& predicate) const; // NOLINT(*-use-nodiscard)
+	bool extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs = true) const; // NOLINT(*-use-nodiscard)
 
 	/// Get entries saved to disk
 	[[nodiscard]] const EntryTrie& getBakedEntries() const;
