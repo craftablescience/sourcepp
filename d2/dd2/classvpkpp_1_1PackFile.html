@@ -320,8 +320,8 @@ Protected Types</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:af716aafa5f4db1f8dc095b836923c71e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#af716aafa5f4db1f8dc095b836923c71e">PackFile</a> (std::string fullFilePath_, <a class="el" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a> options_)</td></tr>
 <tr class="separator:af716aafa5f4db1f8dc095b836923c71e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a82c48855421b3dd43bc857aa7e8a0e59"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a82c48855421b3dd43bc857aa7e8a0e59">runForAllEntries</a> (const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;operation, bool includeUnbaked=true)</td></tr>
-<tr class="separator:a82c48855421b3dd43bc857aa7e8a0e59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a818133a0eb1603d19fba7920268d04d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a818133a0eb1603d19fba7920268d04d9">runForAllEntriesInternal</a> (const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;operation, bool includeUnbaked=true)</td></tr>
+<tr class="separator:a818133a0eb1603d19fba7920268d04d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7ade9f6e4a156e5868e9eaf52d84e9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6e7ade9f6e4a156e5868e9eaf52d84e9">verifyEntryChecksumsUsingCRC32</a> () const</td></tr>
 <tr class="separator:a6e7ade9f6e4a156e5868e9eaf52d84e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab38027f0d19d7b847306d7950d1073d7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ab38027f0d19d7b847306d7950d1073d7">addEntryInternal</a> (<a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;path, std::vector&lt; std::byte &gt; &amp;buffer, <a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options_)=0</td></tr>
@@ -1976,7 +1976,7 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <a id="ab86d38291517dbe3fe59a6e84d6ac796"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab86d38291517dbe3fe59a6e84d6ac796">&#9670;&nbsp;</a></span>runForAllEntries() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86d38291517dbe3fe59a6e84d6ac796">&#9670;&nbsp;</a></span>runForAllEntries()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2007,8 +2007,8 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a82c48855421b3dd43bc857aa7e8a0e59"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a82c48855421b3dd43bc857aa7e8a0e59">&#9670;&nbsp;</a></span>runForAllEntries() <span class="overload">[2/2]</span></h2>
+<a id="a818133a0eb1603d19fba7920268d04d9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a818133a0eb1603d19fba7920268d04d9">&#9670;&nbsp;</a></span>runForAllEntriesInternal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2017,7 +2017,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void PackFile::runForAllEntries </td>
+          <td class="memname">void PackFile::runForAllEntriesInternal </td>
           <td>(</td>
           <td class="paramtype">const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;&#160;</td>
           <td class="paramname"><em>operation</em>, </td>
