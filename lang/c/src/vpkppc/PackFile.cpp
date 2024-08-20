@@ -277,7 +277,7 @@ SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, Ent
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(operation);
 
-	return const_cast<const PackFile*>(Convert::packFile(handle))->runForAllEntries([operation](const std::string& path, const Entry& entry) {
+	return Convert::packFile(handle)->runForAllEntries([operation](const std::string& path, const Entry& entry) {
 		return operation(path.c_str(), const_cast<Entry*>(&entry));
 	}, includeUnbaked);
 }
