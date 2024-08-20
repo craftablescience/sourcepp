@@ -77,6 +77,12 @@ namespace vpkpp
         public static extern void vpkpp_add_entry_from_mem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen);
 
         [DllImport("vpkppc")]
+        public static extern int vpkpp_rename_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldPath, [MarshalAs(UnmanagedType.LPStr)] string newPath);
+
+        [DllImport("vpkppc")]
+        public static extern int vpkpp_rename_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldDir, [MarshalAs(UnmanagedType.LPStr)] string newDir);
+
+        [DllImport("vpkppc")]
         public static extern int vpkpp_remove_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
         [DllImport("vpkppc")]
@@ -326,6 +332,22 @@ namespace vpkpp
                 {
                     Extern.vpkpp_add_entry_from_mem(Handle, path, bufferPtr, (ulong) data.LongLength);
                 }
+            }
+        }
+
+        public bool RenameEntry(string oldPath, string newPath)
+        {
+            unsafe
+            {
+                return Convert.ToBoolean(Extern.vpkpp_rename_entry(Handle, oldPath, newPath));
+            }
+        }
+
+        public bool RenameDirectory(string oldDir, string newDir)
+        {
+            unsafe
+            {
+                return Convert.ToBoolean(Extern.vpkpp_rename_directory(Handle, oldDir, newDir));
             }
         }
 

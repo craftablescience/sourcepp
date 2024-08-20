@@ -230,6 +230,54 @@ void PackFile::addEntry(const std::string& path, const std::byte* buffer, uint64
 	this->addEntry(path, std::move(data), options_);
 }
 
+bool PackFile::renameEntry(const std::string& oldPath_, const std::string& newPath_) {
+	auto oldPath = this->cleanEntryPath(oldPath_);
+	auto newPath = this->cleanEntryPath(newPath_);
+	if (this->entries.count(oldPath)) {
+		// Currently there is no pack file format that relies on file path to access data.
+		// If there ever is one, we're in trouble! (Well, no, just override the method.)
+		auto entry = this->entries.at(oldPath);
+		this->entries.erase(oldPath);
+		this->entries.emplace(newPath, entry);
+		return true;
+	} else if (this->unbakedEntries.count(oldPath)) {
+		auto entry = this->unbakedEntries.at(oldPath);
+		this->unbakedEntries.erase(oldPath);
+		this->unbakedEntries.emplace(newPath, entry);
+		return true;
+	}
+	return false;
+}
+
+bool PackFile::renameDirectory(const std::string& oldDir_, const std::string& newDir_) {
+	auto oldDir = this->cleanEntryPath(oldDir_) + '/';
+	auto newDir = this->cleanEntryPath(newDir_) + '/';
+
+	std::vector<std::string> entryPaths;
+	std::vector<std::string> unbakedEntryPaths;
+	this->runForAllEntries([&oldDir, &entryPaths, &unbakedEntryPaths](const std::string& path, const Entry& entry) {
+		if (path.starts_with(oldDir)) {
+			if (entry.unbaked) {
+				unbakedEntryPaths.push_back(path);
+			} else {
+				entryPaths.push_back(path);
+			}
+		}
+	});
+
+	for (const auto& entryPath : entryPaths) {
+		auto entry = this->entries.at(entryPath);
+		this->entries.erase(entryPath);
+		this->entries.emplace(newDir + entryPath.substr(oldDir.length()), entry);
+	}
+	for (const auto& entryPath : unbakedEntryPaths) {
+		auto entry = this->unbakedEntries.at(entryPath);
+		this->unbakedEntries.erase(entryPath);
+		this->unbakedEntries.emplace(newDir + entryPath.substr(oldDir.length()), entry);
+	}
+	return !entryPaths.empty() || !unbakedEntryPaths.empty();
+}
+
 bool PackFile::removeEntry(const std::string& path_) {
 	if (this->isReadOnly()) {
 		return false;
