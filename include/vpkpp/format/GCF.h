@@ -120,7 +120,7 @@ public:
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
-	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
+	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 	[[nodiscard]] explicit operator std::string() const override;
 

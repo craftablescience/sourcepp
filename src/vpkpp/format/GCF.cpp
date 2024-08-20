@@ -283,9 +283,9 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 	return filedata;
 }
 
-std::vector<Attribute> GCF::getSupportedEntryAttributes() const {
+Attribute GCF::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH};
+	return LENGTH;
 }
 
 GCF::operator std::string() const {

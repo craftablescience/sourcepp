@@ -41,7 +41,7 @@ public:
 
 	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
-	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
+	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 	[[nodiscard]] explicit operator std::string() const override;
 

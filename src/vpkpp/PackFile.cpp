@@ -476,8 +476,8 @@ std::string PackFile::getTruncatedFilestem() const {
 	return this->getFilestem();
 }
 
-std::vector<Attribute> PackFile::getSupportedEntryAttributes() const {
-	return {};
+Attribute PackFile::getSupportedEntryAttributes() const {
+	return Attribute::NONE;
 }
 
 PackFile::operator std::string() const {

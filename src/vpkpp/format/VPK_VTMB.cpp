@@ -197,7 +197,7 @@ std::string VPK_VTMB::getTruncatedFilestem() const {
 	return "pack";
 }
 
-std::vector<Attribute> VPK_VTMB::getSupportedEntryAttributes() const {
+Attribute VPK_VTMB::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH, ARCHIVE_INDEX};
+	return LENGTH | ARCHIVE_INDEX;
 }

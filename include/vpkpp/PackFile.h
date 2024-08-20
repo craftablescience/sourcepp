@@ -157,7 +157,7 @@ public:
 
 	/// Returns a list of supported entry attributes
 	/// Mostly for GUI programs that show entries and their metadata in a table ;)
-	[[nodiscard]] virtual std::vector<Attribute> getSupportedEntryAttributes() const;
+	[[nodiscard]] virtual Attribute getSupportedEntryAttributes() const;
 
 	[[nodiscard]] virtual explicit operator std::string() const;
 

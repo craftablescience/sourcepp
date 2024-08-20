@@ -19,7 +19,7 @@ public:
 
 	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
 
-	[[nodiscard]] std::vector<Attribute> getSupportedEntryAttributes() const override;
+	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 protected:
 	PAK(const std::string& fullFilePath_, PackFileOptions options_);

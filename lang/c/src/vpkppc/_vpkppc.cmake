@@ -1,10 +1,10 @@
 add_pretty_parser(vpkpp C
+        DEPS tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/GCF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/GMA.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/GRP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/PAK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/PCK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/VPK.h"
@@ -22,7 +22,6 @@ add_pretty_parser(vpkpp C
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GMA.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/format/GRP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PAK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PCK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK.cpp"

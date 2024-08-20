@@ -273,9 +273,9 @@ bool PCK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	return true;
 }
 
-std::vector<Attribute> PCK::getSupportedEntryAttributes() const {
+Attribute PCK::getSupportedEntryAttributes() const {
 	using enum Attribute;
-	return {LENGTH, PCK_MD5};
+	return LENGTH | PCK_MD5;
 }
 
 PCK::operator std::string() const {

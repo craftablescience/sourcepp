@@ -123,7 +123,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
         <li>FPX v10 (Tactical Intervention)</li>
         <li><a href="https://developer.valvesoftware.com/wiki/GCF_archive">GCF</a> v6</li>
         <li>GMA v1-3 (Garry's Mod)</li>
-        <li>GRP (Build Engine)</li>
         <li><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</li>
         <li><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</li>
         <li><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</li>
