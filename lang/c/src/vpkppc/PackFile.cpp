@@ -189,6 +189,22 @@ SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t
 	Convert::packFile(handle)->addEntry(path, reinterpret_cast<const std::byte*>(buffer), bufferLen, Convert::optionsFromC(options));
 }
 
+SOURCEPP_API int vpkpp_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+	SOURCEPP_EARLY_RETURN_VAL(oldPath, false);
+	SOURCEPP_EARLY_RETURN_VAL(newPath, false);
+
+	return Convert::packFile(handle)->renameEntry(oldPath, newPath);
+}
+
+SOURCEPP_API int vpkpp_rename_directory(vpkpp_pack_file_handle_t handle, const char* oldDir, const char* newDir) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+	SOURCEPP_EARLY_RETURN_VAL(oldDir, false);
+	SOURCEPP_EARLY_RETURN_VAL(newDir, false);
+
+	return Convert::packFile(handle)->renameEntry(oldDir, newDir);
+}
+
 SOURCEPP_API int vpkpp_remove_entry(vpkpp_pack_file_handle_t handle, const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(path, false);

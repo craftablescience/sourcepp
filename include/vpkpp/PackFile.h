@@ -104,6 +104,12 @@ public:
 	/// Add a new entry from a buffer
 	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_);
 
+	/// Rename an existing entry
+	virtual bool renameEntry(const std::string& oldPath_, const std::string& newPath_); // NOLINT(*-use-nodiscard)
+
+	/// Rename an existing directory
+	virtual bool renameDirectory(const std::string& oldDir_, const std::string& newDir_); // NOLINT(*-use-nodiscard)
+
 	/// Remove an entry
 	virtual bool removeEntry(const std::string& path_);
 

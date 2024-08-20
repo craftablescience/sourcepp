@@ -74,6 +74,10 @@ SOURCEPP_API void vpkpp_add_entry_from_mem(vpkpp_pack_file_handle_t handle, cons
 
 SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen, vpkpp_entry_options_t options);
 
+SOURCEPP_API int vpkpp_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath);
+
+SOURCEPP_API int vpkpp_rename_directory(vpkpp_pack_file_handle_t handle, const char* oldDir, const char* newDir);
+
 SOURCEPP_API int vpkpp_remove_entry(vpkpp_pack_file_handle_t handle, const char* path);
 
 SOURCEPP_API int vpkpp_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirName);
