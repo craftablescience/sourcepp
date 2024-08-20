@@ -378,9 +378,9 @@ void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 		std::size_t currentChunkGap = SIZE_MAX;
 		for (int64_t i = 0; i < this->freedChunks.size(); i++) {
 			if (
-				(bestChunkIndex < 0 && this->freedChunks[i].length >= entry.length) ||
-				(bestChunkIndex >= 0 && this->freedChunks[i].length >= entry.length && (this->freedChunks[i].length - entry.length) < currentChunkGap)
-			) {
+					(bestChunkIndex < 0 && this->freedChunks[i].length >= entry.length) ||
+					(bestChunkIndex >= 0 && this->freedChunks[i].length >= entry.length && (this->freedChunks[i].length - entry.length) < currentChunkGap)
+					) {
 				bestChunkIndex = i;
 				currentChunkGap = this->freedChunks[i].length - entry.length;
 			}
@@ -448,6 +448,9 @@ bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	this->runForAllEntries([&temp](const std::string& path, Entry& entry) {
 		const auto fsPath = std::filesystem::path{path};
 		auto extension = fsPath.extension().string();
+		if (extension.starts_with('.')) {
+			extension = extension.substr(1);
+		}
 		auto parentDir = fsPath.parent_path().string();
 
 		if (extension.empty()) {
@@ -598,10 +601,10 @@ bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 					return;
 				}
 				MD5Entry md5Entry{
-					.archiveIndex = entry.archiveIndex,
-					.offset = static_cast<uint32_t>(entry.offset),
-					.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
-					.checksum = crypto::computeMD5(*binData),
+						.archiveIndex = entry.archiveIndex,
+						.offset = static_cast<uint32_t>(entry.offset),
+						.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
+						.checksum = crypto::computeMD5(*binData),
 				};
 				this->md5Entries.push_back(md5Entry);
 			}, false);
@@ -684,7 +687,7 @@ Attribute VPK::getSupportedEntryAttributes() const {
 
 VPK::operator std::string() const {
 	return PackFile::operator std::string() +
-		" | Version v" + std::to_string(this->header1.version);
+	       " | Version v" + std::to_string(this->header1.version);
 }
 
 bool VPK::generateKeyPairFiles(const std::string& name) {
