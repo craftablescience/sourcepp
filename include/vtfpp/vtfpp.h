@@ -11,12 +11,13 @@
 #include <vector>
 
 #include <sourcepp/math/Vector.h>
+#include <sourcepp/parser/Binary.h>
 
 #include "ImageFormats.h"
 
 namespace vtfpp {
 
-constexpr int32_t VTF_SIGNATURE = 'V' + ('T' << 8) + ('F' << 16);
+constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
 
 struct Resource {
 	enum Type : uint8_t {
@@ -41,11 +42,11 @@ struct Resource {
 	std::span<std::byte> data;
 
 	using ConvertedData = std::variant<
-			std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
-			uint32_t, // CRC, TSO
-			std::pair<uint8_t, uint8_t>, // LOD
-			std::string, // KVD
-			std::span<uint32_t> // AXC
+		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
+		uint32_t, // CRC, TSO
+		std::pair<uint8_t, uint8_t>, // LOD
+		std::string, // KVD
+		std::span<uint32_t> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
@@ -182,7 +183,7 @@ private:
 
 	std::vector<std::byte> data;
 
-	//int32_t signature;
+	//uint32_t signature;
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
 
