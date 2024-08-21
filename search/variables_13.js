@@ -34,7 +34,7 @@ var searchData=
   ['vpk_5fsignature_1998',['VPK_SIGNATURE',['../d5/d29/namespacevpkpp.html#a232e225c110d56abf39101bd1259fd35',1,'vpkpp']]],
   ['vpk_5fversion_1999',['vpk_version',['../d5/db7/structvpkpp_1_1PackFileOptions.html#aaaacb2212e01be5e7cca76123c3e3509',1,'vpkpp::PackFileOptions']]],
   ['vpk_5fvtmb_5fextension_2000',['VPK_VTMB_EXTENSION',['../d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0',1,'vpkpp']]],
-  ['vtf_5fsignature_2001',['VTF_SIGNATURE',['../de/d90/namespacevtfpp.html#adee22ac88d7025ba645024fc356f656b',1,'vtfpp']]],
+  ['vtf_5fsignature_2001',['VTF_SIGNATURE',['../de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575',1,'vtfpp']]],
   ['vtx_2002',['vtx',['../db/dee/structmdlpp_1_1StudioModel.html#afd1b2c935828f448f006bddb4d1afcdf',1,'mdlpp::StudioModel']]],
   ['vvd_2003',['vvd',['../db/dee/structmdlpp_1_1StudioModel.html#aa73cee613122e3ed38278a53c653fe71',1,'mdlpp::StudioModel']]],
   ['vvd_5fid_2004',['VVD_ID',['../d4/d35/VVD_8cpp.html#ae5ad1bf6bb2dedb149bda20eedeee9ed',1,'VVD.cpp']]]

@@ -122,7 +122,7 @@ var searchData=
   ['vpkpp_5fregister_5fpackfile_5fopen_1110',['VPKPP_REGISTER_PACKFILE_OPEN',['../d3/df4/PackFile_8h.html#a6a222d89b469cd488595d490abf1a092',1,'PackFile.h']]],
   ['vpkpp_5fregister_5fpackfile_5fopen_5fexecutable_1111',['VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE',['../d3/df4/PackFile_8h.html#a5fe24fb8e6c2fff820c6bafb3efdbe3b',1,'PackFile.h']]],
   ['vtf_1112',['VTF',['../d8/df2/classvtfpp_1_1VTF.html#af7a4dc39162c5a922f3f401f141bb6dd',1,'vtfpp::VTF::VTF(const unsigned char *vtfData, std::size_t vtfSize, bool parseHeaderOnly=false)'],['../d8/df2/classvtfpp_1_1VTF.html#ad6378152489b9a79171d94166d4e9bda',1,'vtfpp::VTF::VTF(std::vector&lt; std::byte &gt; &amp;&amp;vtfData, bool parseHeaderOnly=false)'],['../d8/df2/classvtfpp_1_1VTF.html#ab21c32a51e80ea73a4930b21f2bc8d2e',1,'vtfpp::VTF::VTF(const std::vector&lt; std::byte &gt; &amp;vtfData, bool parseHeaderOnly=false)'],['../d8/df2/classvtfpp_1_1VTF.html#a15de747efef134572e30b43650df7be3',1,'vtfpp::VTF::VTF(const std::byte *vtfData, std::size_t vtfSize, bool parseHeaderOnly=false)'],['../d8/df2/classvtfpp_1_1VTF.html#a9d97bb23ffb70eda7056629c2bb6f1f6',1,'vtfpp::VTF::VTF(const std::vector&lt; unsigned char &gt; &amp;vtfData, bool parseHeaderOnly=false)'],['../d8/df2/classvtfpp_1_1VTF.html',1,'vtfpp::VTF']]],
-  ['vtf_5fsignature_1113',['VTF_SIGNATURE',['../de/d90/namespacevtfpp.html#adee22ac88d7025ba645024fc356f656b',1,'vtfpp']]],
+  ['vtf_5fsignature_1113',['VTF_SIGNATURE',['../de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575',1,'vtfpp']]],
   ['vtfpp_1114',['vtfpp',['../de/d90/namespacevtfpp.html',1,'']]],
   ['vtfpp_2ecpp_1115',['vtfpp.cpp',['../d2/d0c/vtfpp_8cpp.html',1,'']]],
   ['vtfpp_2eh_1116',['vtfpp.h',['../d3/db3/vtfpp_8h.html',1,'']]],
