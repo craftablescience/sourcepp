@@ -587,11 +587,11 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <span class="keyword">static</span> constexpr <span class="keyword">auto</span> writeOptionalString = [](BufferStream&amp; stream, <span class="keyword">const</span> std::string&amp; str) {</div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        <span class="keywordflow">if</span> (!str.empty()) {</div>
 <div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;            stream</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;                .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, 4)</div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;                .write(str, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;                .write(<span class="charliteral">&#39;\&quot;&#39;</span>);</div>
 <div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;            stream.write(<span class="stringliteral">&quot; :&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;            stream.write(<span class="stringliteral">&quot; :&quot;</span>, 2);</div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        }</div>
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;    };</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> revString = std::rbegin(strings); revString != std::rend(strings); ++revString) {</div>
@@ -725,66 +725,66 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160; </div>
 <div class="line"><a name="l00605"></a><span class="lineno"><a class="line" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#ae922f0ade17f926ae18d5046405ae547">  605</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#ae922f0ade17f926ae18d5046405ae547">FGDWriter::include</a>(<span class="keyword">const</span> std::string&amp; fgdPath) {</div>
 <div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;    this-&gt;writer</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;        .write(<span class="stringliteral">&quot;@include \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;        .write(<span class="stringliteral">&quot;@include \&quot;&quot;</span>, 10)</div>
 <div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;        .write(fgdPath, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;}</div>
 <div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160; </div>
 <div class="line"><a name="l00613"></a><span class="lineno"><a class="line" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a5e83f2fffe7e1a49c6aa1b18ab5359cc">  613</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a5e83f2fffe7e1a49c6aa1b18ab5359cc">FGDWriter::version</a>(<span class="keywordtype">int</span> version) {</div>
 <div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;    this-&gt;writer</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;        .write(<span class="stringliteral">&quot;@version(&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;        .write(<span class="stringliteral">&quot;@version(&quot;</span>, 9)</div>
 <div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;        .write(std::to_string(<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a5e83f2fffe7e1a49c6aa1b18ab5359cc">version</a>), <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;        .write(<span class="stringliteral">&quot;)\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;        .write(<span class="stringliteral">&quot;)\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;}</div>
 <div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160; </div>
 <div class="line"><a name="l00621"></a><span class="lineno"><a class="line" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a67a87c83dea19c47d6b959ebb6b676c4">  621</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a67a87c83dea19c47d6b959ebb6b676c4">FGDWriter::mapSize</a>(<a class="code" href="../../d6/d21/structsourcepp_1_1math_1_1Vec.html">math::Vec2i</a> mapSize) {</div>
 <div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;    this-&gt;writer</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        .write(<span class="stringliteral">&quot;@mapsize(&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        .write(<span class="stringliteral">&quot;@mapsize(&quot;</span>, 9)</div>
 <div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;        .write(std::to_string(<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a67a87c83dea19c47d6b959ebb6b676c4">mapSize</a>[0]), <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;        .write(<span class="stringliteral">&quot;, &quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;        .write(<span class="stringliteral">&quot;, &quot;</span>, 2)</div>
 <div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;        .write(std::to_string(<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a67a87c83dea19c47d6b959ebb6b676c4">mapSize</a>[1]), <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;        .write(<span class="stringliteral">&quot;)\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;        .write(<span class="stringliteral">&quot;)\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;}</div>
 <div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160; </div>
 <div class="line"><a name="l00631"></a><span class="lineno"><a class="line" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#af2d841c31bde9fb6148c8758c19b559b">  631</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#af2d841c31bde9fb6148c8758c19b559b">FGDWriter::materialExclusionDirs</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; dirs) {</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;@MaterialExclusion\n[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;@MaterialExclusion\n[\n&quot;</span>, 21);</div>
 <div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; dir : dirs) {</div>
 <div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;        this-&gt;writer &lt;&lt; <span class="charliteral">&#39;\t&#39;</span> &lt;&lt; <span class="charliteral">&#39;\&quot;&#39;</span>;</div>
 <div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        this-&gt;writer.write(dir, <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;        this-&gt;writer &lt;&lt; <span class="charliteral">&#39;\&quot;&#39;</span> &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;    }</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;}</div>
 <div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160; </div>
 <div class="line"><a name="l00642"></a><span class="lineno"><a class="line" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a6ce41b9a0c107209d5b00a1a3a4ac17b">  642</a></span>&#160;<a class="code" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html">FGDWriter::AutoVisGroupWriter</a> <a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#a6ce41b9a0c107209d5b00a1a3a4ac17b">FGDWriter::beginAutoVisGroup</a>(<span class="keyword">const</span> std::string&amp; parentName) {</div>
 <div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;    this-&gt;writer</div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        .write(<span class="stringliteral">&quot;@AutoVisGroup = \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;        .write(<span class="stringliteral">&quot;@AutoVisGroup = \&quot;&quot;</span>, 17)</div>
 <div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;        .write(parentName, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n[\n&quot;</span>, 4);</div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html">AutoVisGroupWriter</a>{*<span class="keyword">this</span>};</div>
 <div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;}</div>
 <div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160; </div>
 <div class="line"><a name="l00650"></a><span class="lineno"><a class="line" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html#a4af5314f6d2d7b24e95027642947a032">  650</a></span>&#160;<a class="code" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html">FGDWriter::AutoVisGroupWriter</a>&amp; <a class="code" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html#a4af5314f6d2d7b24e95027642947a032">FGDWriter::AutoVisGroupWriter::visGroup</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; entities) {</div>
 <div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a></div>
-<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        .write(<span class="stringliteral">&quot;\t\&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00652"></a><span class="lineno">  652</span>&#160;        .write(<span class="stringliteral">&quot;\t\&quot;&quot;</span>, 2)</div>
 <div class="line"><a name="l00653"></a><span class="lineno">  653</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n\t[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00654"></a><span class="lineno">  654</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n\t[\n&quot;</span>, 5);</div>
 <div class="line"><a name="l00655"></a><span class="lineno">  655</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; entity : entities) {</div>
 <div class="line"><a name="l00656"></a><span class="lineno">  656</span>&#160;        this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a></div>
-<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            .write(<span class="stringliteral">&quot;\t\t\&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00657"></a><span class="lineno">  657</span>&#160;            .write(<span class="stringliteral">&quot;\t\t\&quot;&quot;</span>, 3)</div>
 <div class="line"><a name="l00658"></a><span class="lineno">  658</span>&#160;            .write(entity, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            .write(<span class="stringliteral">&quot;\&quot;\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00659"></a><span class="lineno">  659</span>&#160;            .write(<span class="stringliteral">&quot;\&quot;\n&quot;</span>, 2);</div>
 <div class="line"><a name="l00660"></a><span class="lineno">  660</span>&#160;    }</div>
-<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00661"></a><span class="lineno">  661</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00662"></a><span class="lineno">  662</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00663"></a><span class="lineno">  663</span>&#160;}</div>
 <div class="line"><a name="l00664"></a><span class="lineno">  664</span>&#160; </div>
 <div class="line"><a name="l00665"></a><span class="lineno"><a class="line" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html#a81cdbd461d81b91c3b2ee82fced29eaa">  665</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d1/d08/classfgdpp_1_1FGDWriter_1_1AutoVisGroupWriter.html#a81cdbd461d81b91c3b2ee82fced29eaa">FGDWriter::AutoVisGroupWriter::endAutoVisGroup</a>() {</div>
-<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00666"></a><span class="lineno">  666</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00667"></a><span class="lineno">  667</span>&#160;    <span class="keywordflow">return</span> this-&gt;parent;</div>
 <div class="line"><a name="l00668"></a><span class="lineno">  668</span>&#160;}</div>
 <div class="line"><a name="l00669"></a><span class="lineno">  669</span>&#160; </div>
@@ -798,26 +798,26 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00677"></a><span class="lineno">  677</span>&#160;        this-&gt;writer &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
 <div class="line"><a name="l00678"></a><span class="lineno">  678</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; classProperty : classProperties) {</div>
 <div class="line"><a name="l00679"></a><span class="lineno">  679</span>&#160;            this-&gt;writer</div>
-<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;                .write(<span class="stringliteral">&quot;\t&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00680"></a><span class="lineno">  680</span>&#160;                .write(<span class="charliteral">&#39;\t&#39;</span>)</div>
 <div class="line"><a name="l00681"></a><span class="lineno">  681</span>&#160;                .write(classProperty, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00682"></a><span class="lineno">  682</span>&#160;                .write(<span class="charliteral">&#39;\n&#39;</span>);</div>
 <div class="line"><a name="l00683"></a><span class="lineno">  683</span>&#160;        }</div>
 <div class="line"><a name="l00684"></a><span class="lineno">  684</span>&#160;    }</div>
 <div class="line"><a name="l00685"></a><span class="lineno">  685</span>&#160;    this-&gt;writer</div>
-<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;        .write(<span class="stringliteral">&quot;= &quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00686"></a><span class="lineno">  686</span>&#160;        .write(<span class="stringliteral">&quot;= &quot;</span>, 2)</div>
 <div class="line"><a name="l00687"></a><span class="lineno">  687</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;        .write(<span class="stringliteral">&quot; :&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00688"></a><span class="lineno">  688</span>&#160;        .write(<span class="stringliteral">&quot; :&quot;</span>, 2);</div>
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;    <span class="comment">// Put the description on the same line if it&#39;s short</span></div>
 <div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;    <span class="keywordflow">if</span> (description.size() &lt; 32) {</div>
 <div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;        this-&gt;writer</div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            .write(<span class="stringliteral">&quot; \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;            .write(<span class="stringliteral">&quot; \&quot;&quot;</span>, 2)</div>
 <div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;            .write(description, <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;    } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;        this-&gt;writer</div>
-<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;            .write(<span class="stringliteral">&quot;\n\t\&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;            .write(<span class="stringliteral">&quot;\n\t\&quot;&quot;</span>, 3)</div>
 <div class="line"><a name="l00697"></a><span class="lineno">  697</span>&#160;            .write(description, <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;    }</div>
-<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;\&quot;\n[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;    this-&gt;writer.write(<span class="stringliteral">&quot;\&quot;\n[\n&quot;</span>, 4);</div>
 <div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html">EntityWriter</a>{*<span class="keyword">this</span>};</div>
 <div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;}</div>
 <div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160; </div>
@@ -829,10 +829,10 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;        .write(valueType, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;        .write(<span class="charliteral">&#39;)&#39;</span>);</div>
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;    <span class="keywordflow">if</span> (readOnly) {</div>
-<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, 9);</div>
 <div class="line"><a name="l00712"></a><span class="lineno">  712</span>&#160;    }</div>
 <div class="line"><a name="l00713"></a><span class="lineno">  713</span>&#160;    <span class="keywordflow">if</span> (report) {</div>
-<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00714"></a><span class="lineno">  714</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, 7);</div>
 <div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;    }</div>
 <div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;    ::writeOptionalKeyValueStrings(this-&gt;parent.writer, {displayName, valueDefault, description});</div>
 <div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;    this-&gt;parent.writer &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
@@ -843,30 +843,30 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    this-&gt;parent.writer</div>
 <div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;        .write(<span class="charliteral">&#39;\t&#39;</span>)</div>
 <div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        .write(<span class="stringliteral">&quot;(choices)&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;        .write(<span class="stringliteral">&quot;(choices)&quot;</span>, 9);</div>
 <div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;    <span class="keywordflow">if</span> (readOnly) {</div>
-<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, 9);</div>
 <div class="line"><a name="l00728"></a><span class="lineno">  728</span>&#160;    }</div>
 <div class="line"><a name="l00729"></a><span class="lineno">  729</span>&#160;    <span class="keywordflow">if</span> (report) {</div>
-<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00730"></a><span class="lineno">  730</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, 7);</div>
 <div class="line"><a name="l00731"></a><span class="lineno">  731</span>&#160;    }</div>
 <div class="line"><a name="l00732"></a><span class="lineno">  732</span>&#160;    ::writeOptionalKeyValueStrings(this-&gt;parent.writer, {displayName, valueDefault, description});</div>
-<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    this-&gt;parent.writer.write(<span class="stringliteral">&quot; =\n\t[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00733"></a><span class="lineno">  733</span>&#160;    this-&gt;parent.writer.write(<span class="stringliteral">&quot; =\n\t[\n&quot;</span>, 6);</div>
 <div class="line"><a name="l00734"></a><span class="lineno">  734</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html">KeyValueChoicesWriter</a>{*<span class="keyword">this</span>};</div>
 <div class="line"><a name="l00735"></a><span class="lineno">  735</span>&#160;}</div>
 <div class="line"><a name="l00736"></a><span class="lineno">  736</span>&#160; </div>
 <div class="line"><a name="l00737"></a><span class="lineno"><a class="line" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#abcfc6de0a17cd8c8671c34663969a2ad">  737</a></span>&#160;<a class="code" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html">FGDWriter::EntityWriter::KeyValueChoicesWriter</a>&amp; <a class="code" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#abcfc6de0a17cd8c8671c34663969a2ad">FGDWriter::EntityWriter::KeyValueChoicesWriter::choice</a>(<span class="keyword">const</span> std::string&amp; value, <span class="keyword">const</span> std::string&amp; displayName) {</div>
 <div class="line"><a name="l00738"></a><span class="lineno">  738</span>&#160;    this-&gt;parent.parent.writer</div>
-<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        .write(<span class="stringliteral">&quot;\t\t\&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00739"></a><span class="lineno">  739</span>&#160;        .write(<span class="stringliteral">&quot;\t\t\&quot;&quot;</span>, 3)</div>
 <div class="line"><a name="l00740"></a><span class="lineno">  740</span>&#160;        .write(value, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        .write(<span class="stringliteral">&quot;\&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00741"></a><span class="lineno">  741</span>&#160;        .write(<span class="stringliteral">&quot;\&quot; : \&quot;&quot;</span>, 5)</div>
 <div class="line"><a name="l00742"></a><span class="lineno">  742</span>&#160;        .write(displayName, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00743"></a><span class="lineno">  743</span>&#160;        .write(<span class="stringliteral">&quot;\&quot;\n&quot;</span>, 2);</div>
 <div class="line"><a name="l00744"></a><span class="lineno">  744</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
 <div class="line"><a name="l00745"></a><span class="lineno">  745</span>&#160;}</div>
 <div class="line"><a name="l00746"></a><span class="lineno">  746</span>&#160; </div>
 <div class="line"><a name="l00747"></a><span class="lineno"><a class="line" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#acbc059e59dd8a13529a45a01d63babd3">  747</a></span>&#160;<a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html">FGDWriter::EntityWriter</a>&amp; <a class="code" href="../../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#acbc059e59dd8a13529a45a01d63babd3">FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyValueChoices</a>() {</div>
-<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    this-&gt;parent.parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00748"></a><span class="lineno">  748</span>&#160;    this-&gt;parent.parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00749"></a><span class="lineno">  749</span>&#160;    <span class="keywordflow">return</span> this-&gt;parent;</div>
 <div class="line"><a name="l00750"></a><span class="lineno">  750</span>&#160;}</div>
 <div class="line"><a name="l00751"></a><span class="lineno">  751</span>&#160; </div>
@@ -874,29 +874,29 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00753"></a><span class="lineno">  753</span>&#160;    this-&gt;parent.writer</div>
 <div class="line"><a name="l00754"></a><span class="lineno">  754</span>&#160;        .write(<span class="charliteral">&#39;\t&#39;</span>)</div>
 <div class="line"><a name="l00755"></a><span class="lineno">  755</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        .write(<span class="stringliteral">&quot;(flags)&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00756"></a><span class="lineno">  756</span>&#160;        .write(<span class="stringliteral">&quot;(flags)&quot;</span>, 7);</div>
 <div class="line"><a name="l00757"></a><span class="lineno">  757</span>&#160;    <span class="keywordflow">if</span> (readOnly) {</div>
-<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00758"></a><span class="lineno">  758</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; readonly&quot;</span>, 9);</div>
 <div class="line"><a name="l00759"></a><span class="lineno">  759</span>&#160;    }</div>
 <div class="line"><a name="l00760"></a><span class="lineno">  760</span>&#160;    <span class="keywordflow">if</span> (report) {</div>
-<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00761"></a><span class="lineno">  761</span>&#160;        this-&gt;parent.writer.write(<span class="stringliteral">&quot; report&quot;</span>, 7);</div>
 <div class="line"><a name="l00762"></a><span class="lineno">  762</span>&#160;    }</div>
 <div class="line"><a name="l00763"></a><span class="lineno">  763</span>&#160;    ::writeOptionalKeyValueStrings(this-&gt;parent.writer, {displayName, description});</div>
-<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;    this-&gt;parent.writer.write(<span class="stringliteral">&quot; =\n\t[\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00764"></a><span class="lineno">  764</span>&#160;    this-&gt;parent.writer.write(<span class="stringliteral">&quot; =\n\t[\n&quot;</span>, 6);</div>
 <div class="line"><a name="l00765"></a><span class="lineno">  765</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html">KeyValueFlagsWriter</a>{*<span class="keyword">this</span>};</div>
 <div class="line"><a name="l00766"></a><span class="lineno">  766</span>&#160;}</div>
 <div class="line"><a name="l00767"></a><span class="lineno">  767</span>&#160; </div>
 <div class="line"><a name="l00768"></a><span class="lineno"><a class="line" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#ab13c4f1d54cae78820bb62175e3499c6">  768</a></span>&#160;<a class="code" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html">FGDWriter::EntityWriter::KeyValueFlagsWriter</a>&amp; <a class="code" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#ab13c4f1d54cae78820bb62175e3499c6">FGDWriter::EntityWriter::KeyValueFlagsWriter::flag</a>(uint64_t value, <span class="keyword">const</span> std::string&amp; displayName, <span class="keywordtype">bool</span> enabledByDefault, <span class="keyword">const</span> std::string&amp; description) {</div>
 <div class="line"><a name="l00769"></a><span class="lineno">  769</span>&#160;    this-&gt;parent.parent.writer</div>
-<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        .write(<span class="stringliteral">&quot;\t\t&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00770"></a><span class="lineno">  770</span>&#160;        .write(<span class="stringliteral">&quot;\t\t&quot;</span>, 2)</div>
 <div class="line"><a name="l00771"></a><span class="lineno">  771</span>&#160;        .write(std::to_string(value), <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00772"></a><span class="lineno">  772</span>&#160;        .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, 4)</div>
 <div class="line"><a name="l00773"></a><span class="lineno">  773</span>&#160;        .write(displayName, <span class="keyword">false</span>)</div>
-<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        .write(<span class="stringliteral">&quot;\&quot; : &quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00774"></a><span class="lineno">  774</span>&#160;        .write(<span class="stringliteral">&quot;\&quot; : &quot;</span>, 4)</div>
 <div class="line"><a name="l00775"></a><span class="lineno">  775</span>&#160;        .write(std::to_string(enabledByDefault), <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00776"></a><span class="lineno">  776</span>&#160;    <span class="keywordflow">if</span> (!description.empty()) {</div>
 <div class="line"><a name="l00777"></a><span class="lineno">  777</span>&#160;        this-&gt;parent.parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a></div>
-<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00778"></a><span class="lineno">  778</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, 4)</div>
 <div class="line"><a name="l00779"></a><span class="lineno">  779</span>&#160;            .write(description, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00780"></a><span class="lineno">  780</span>&#160;            .write(<span class="charliteral">&#39;\&quot;&#39;</span>);</div>
 <div class="line"><a name="l00781"></a><span class="lineno">  781</span>&#160;    }</div>
@@ -905,21 +905,21 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00784"></a><span class="lineno">  784</span>&#160;}</div>
 <div class="line"><a name="l00785"></a><span class="lineno">  785</span>&#160; </div>
 <div class="line"><a name="l00786"></a><span class="lineno"><a class="line" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#a0a82dd2629a4b6b731249a6707efa75d">  786</a></span>&#160;<a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html">FGDWriter::EntityWriter</a>&amp; <a class="code" href="../../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#a0a82dd2629a4b6b731249a6707efa75d">FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyValueFlags</a>() {</div>
-<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    this-&gt;parent.parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00787"></a><span class="lineno">  787</span>&#160;    this-&gt;parent.parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;\t]\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00788"></a><span class="lineno">  788</span>&#160;    <span class="keywordflow">return</span> this-&gt;parent;</div>
 <div class="line"><a name="l00789"></a><span class="lineno">  789</span>&#160;}</div>
 <div class="line"><a name="l00790"></a><span class="lineno">  790</span>&#160; </div>
 <div class="line"><a name="l00791"></a><span class="lineno"><a class="line" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a507ca552728c30b5e31761895b4d5aee">  791</a></span>&#160;<a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html">FGDWriter::EntityWriter</a>&amp; <a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a507ca552728c30b5e31761895b4d5aee">FGDWriter::EntityWriter::input</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> std::string&amp; valueType, <span class="keyword">const</span> std::string&amp; description) {</div>
 <div class="line"><a name="l00792"></a><span class="lineno">  792</span>&#160;    this-&gt;parent.writer</div>
 <div class="line"><a name="l00793"></a><span class="lineno">  793</span>&#160;        .write(<span class="charliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;        .write(<span class="stringliteral">&quot;input &quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00794"></a><span class="lineno">  794</span>&#160;        .write(<span class="stringliteral">&quot;input &quot;</span>, 6)</div>
 <div class="line"><a name="l00795"></a><span class="lineno">  795</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00796"></a><span class="lineno">  796</span>&#160;        .write(<span class="charliteral">&#39;(&#39;</span>)</div>
 <div class="line"><a name="l00797"></a><span class="lineno">  797</span>&#160;        .write(valueType, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00798"></a><span class="lineno">  798</span>&#160;        .write(<span class="charliteral">&#39;)&#39;</span>);</div>
 <div class="line"><a name="l00799"></a><span class="lineno">  799</span>&#160;    <span class="keywordflow">if</span> (!description.empty()) {</div>
 <div class="line"><a name="l00800"></a><span class="lineno">  800</span>&#160;        this-&gt;parent.writer</div>
-<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00801"></a><span class="lineno">  801</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, 4)</div>
 <div class="line"><a name="l00802"></a><span class="lineno">  802</span>&#160;            .write(description, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00803"></a><span class="lineno">  803</span>&#160;            .write(<span class="charliteral">&#39;\&quot;&#39;</span>);</div>
 <div class="line"><a name="l00804"></a><span class="lineno">  804</span>&#160;    }</div>
@@ -930,14 +930,14 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00809"></a><span class="lineno"><a class="line" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a8aadae4cac730f53929b802521b200bf">  809</a></span>&#160;<a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html">FGDWriter::EntityWriter</a>&amp; <a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a8aadae4cac730f53929b802521b200bf">FGDWriter::EntityWriter::output</a>(<span class="keyword">const</span> std::string&amp; name, <span class="keyword">const</span> std::string&amp; valueType, <span class="keyword">const</span> std::string&amp; description) {</div>
 <div class="line"><a name="l00810"></a><span class="lineno">  810</span>&#160;    this-&gt;parent.writer</div>
 <div class="line"><a name="l00811"></a><span class="lineno">  811</span>&#160;        .write(<span class="charliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;        .write(<span class="stringliteral">&quot;output &quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00812"></a><span class="lineno">  812</span>&#160;        .write(<span class="stringliteral">&quot;output &quot;</span>, 7)</div>
 <div class="line"><a name="l00813"></a><span class="lineno">  813</span>&#160;        .write(name, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00814"></a><span class="lineno">  814</span>&#160;        .write(<span class="charliteral">&#39;(&#39;</span>)</div>
 <div class="line"><a name="l00815"></a><span class="lineno">  815</span>&#160;        .write(valueType, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00816"></a><span class="lineno">  816</span>&#160;        .write(<span class="charliteral">&#39;)&#39;</span>);</div>
 <div class="line"><a name="l00817"></a><span class="lineno">  817</span>&#160;    <span class="keywordflow">if</span> (!description.empty()) {</div>
 <div class="line"><a name="l00818"></a><span class="lineno">  818</span>&#160;        this-&gt;parent.writer</div>
-<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, <span class="keyword">false</span>)</div>
+<div class="line"><a name="l00819"></a><span class="lineno">  819</span>&#160;            .write(<span class="stringliteral">&quot; : \&quot;&quot;</span>, 4)</div>
 <div class="line"><a name="l00820"></a><span class="lineno">  820</span>&#160;            .write(description, <span class="keyword">false</span>)</div>
 <div class="line"><a name="l00821"></a><span class="lineno">  821</span>&#160;            .write(<span class="charliteral">&#39;\&quot;&#39;</span>);</div>
 <div class="line"><a name="l00822"></a><span class="lineno">  822</span>&#160;    }</div>
@@ -946,7 +946,7 @@ $(document).ready(function(){initNavTree('d9/d87/fgdpp_8cpp_source.html','../../
 <div class="line"><a name="l00825"></a><span class="lineno">  825</span>&#160;}</div>
 <div class="line"><a name="l00826"></a><span class="lineno">  826</span>&#160; </div>
 <div class="line"><a name="l00827"></a><span class="lineno"><a class="line" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a0b27eb51a3d89e4fceb82254ef985c56">  827</a></span>&#160;<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html">FGDWriter</a>&amp; <a class="code" href="../../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a0b27eb51a3d89e4fceb82254ef985c56">FGDWriter::EntityWriter::endEntity</a>() {</div>
-<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, <span class="keyword">false</span>);</div>
+<div class="line"><a name="l00828"></a><span class="lineno">  828</span>&#160;    this-&gt;parent.<a class="code" href="../../d5/db1/classfgdpp_1_1FGDWriter.html#aef3b48a6bf499bcf696e08c7e9162fb6">writer</a>.write(<span class="stringliteral">&quot;]\n\n&quot;</span>, 3);</div>
 <div class="line"><a name="l00829"></a><span class="lineno">  829</span>&#160;    <span class="keywordflow">return</span> this-&gt;parent;</div>
 <div class="line"><a name="l00830"></a><span class="lineno">  830</span>&#160;}</div>
 <div class="line"><a name="l00831"></a><span class="lineno">  831</span>&#160; </div>

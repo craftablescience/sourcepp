@@ -1,7 +1,17 @@
 var annotated_dup =
 [
     [ "bsppp", "dd/d11/namespacebsppp.html", [
-      [ "BSP", "d5/dba/classbsppp_1_1BSP.html", "d5/dba/classbsppp_1_1BSP" ]
+      [ "BSP", "d5/dba/classbsppp_1_1BSP.html", "d5/dba/classbsppp_1_1BSP" ],
+      [ "BSPPlane_v0", "d8/de4/structbsppp_1_1BSPPlane__v0.html", "d8/de4/structbsppp_1_1BSPPlane__v0" ],
+      [ "BSPTextureData_v0", "d1/d93/structbsppp_1_1BSPTextureData__v0.html", "d1/d93/structbsppp_1_1BSPTextureData__v0" ],
+      [ "BSPVertex_v0", "d2/d27/structbsppp_1_1BSPVertex__v0.html", "d2/d27/structbsppp_1_1BSPVertex__v0" ],
+      [ "BSPTextureInfo_v0", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0" ],
+      [ "BSPFace_v1", "d6/d98/structbsppp_1_1BSPFace__v1.html", "d6/d98/structbsppp_1_1BSPFace__v1" ],
+      [ "BSPFace_v2", "d8/d85/structbsppp_1_1BSPFace__v2.html", "d8/d85/structbsppp_1_1BSPFace__v2" ],
+      [ "BSPEdge_v0", "d8/d16/structbsppp_1_1BSPEdge__v0.html", "d8/d16/structbsppp_1_1BSPEdge__v0" ],
+      [ "BSPEdge_v1", "dd/d95/structbsppp_1_1BSPEdge__v1.html", "dd/d95/structbsppp_1_1BSPEdge__v1" ],
+      [ "BSPSurfEdge_v0", "df/d2e/structbsppp_1_1BSPSurfEdge__v0.html", "df/d2e/structbsppp_1_1BSPSurfEdge__v0" ],
+      [ "BSPBrushModel_v0", "d3/db0/structbsppp_1_1BSPBrushModel__v0.html", "d3/db0/structbsppp_1_1BSPBrushModel__v0" ]
     ] ],
     [ "dmxpp", "d9/db0/namespacedmxpp.html", [
       [ "Value", "d7/d45/namespacedmxpp_1_1Value.html", [

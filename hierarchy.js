@@ -3,6 +3,16 @@ var hierarchy =
     [ "bsppp::BSP", "d5/dba/classbsppp_1_1BSP.html", [
       [ "vpkpp::BSP", "d2/da8/classvpkpp_1_1BSP.html", null ]
     ] ],
+    [ "bsppp::BSPBrushModel_v0", "d3/db0/structbsppp_1_1BSPBrushModel__v0.html", null ],
+    [ "bsppp::BSPEdge_v0", "d8/d16/structbsppp_1_1BSPEdge__v0.html", null ],
+    [ "bsppp::BSPEdge_v1", "dd/d95/structbsppp_1_1BSPEdge__v1.html", null ],
+    [ "bsppp::BSPFace_v1", "d6/d98/structbsppp_1_1BSPFace__v1.html", null ],
+    [ "bsppp::BSPFace_v2", "d8/d85/structbsppp_1_1BSPFace__v2.html", null ],
+    [ "bsppp::BSPPlane_v0", "d8/de4/structbsppp_1_1BSPPlane__v0.html", null ],
+    [ "bsppp::BSPSurfEdge_v0", "df/d2e/structbsppp_1_1BSPSurfEdge__v0.html", null ],
+    [ "bsppp::BSPTextureData_v0", "d1/d93/structbsppp_1_1BSPTextureData__v0.html", null ],
+    [ "bsppp::BSPTextureInfo_v0", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html", null ],
+    [ "bsppp::BSPVertex_v0", "d2/d27/structbsppp_1_1BSPVertex__v0.html", null ],
     [ "dmxpp::DMX", "d1/d5f/classdmxpp_1_1DMX.html", null ],
     [ "dmxpp::DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", null ],
     [ "dmxpp::DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", null ],

@@ -232,6 +232,13 @@ var NAVTREEINDEX0 =
 "d1/d8e/namespacemdlpp.html#a25d753c940323b356b25e5cf1af0f742":[0,3,5,9],
 "d1/d8e/namespacemdlpp.html#a911219182530ef13c5611baa23e6a20f":[0,3,5,8],
 "d1/d8e/namespacemdlpp.html#adfd642b2eeafc61fa613ed93ef03deb1":[0,3,5,7],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html":[1,0,0,2],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#a4d382b2a6f238effd1cf12a1b99d01e1":[1,0,0,2,3],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#a51e7955b91f78dd821ae5a755516f091":[1,0,0,2,5],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#a616650d3b0055a531a154dd85bc63ca3":[1,0,0,2,0],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#a892860e69d04177de96e290c81aa25b9":[1,0,0,2,4],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#aa992e550ee188237111bbb887eb670aa":[1,0,0,2,1],
+"d1/d93/structbsppp_1_1BSPTextureData__v0.html#ab8dbe62c73dd821f3f904ed6e6dc3e02":[1,0,0,2,2],
 "d1/da7/VPK_8cpp.html":[2,0,1,9,0,7],
 "d1/da7/VPK_8cpp.html#a60054cd46e0dc2ed04249519a5291cda":[2,0,1,9,0,7,0],
 "d1/da7/VPK_8cpp.html#a8cde7f2032650c1ab622eab95691beab":[2,0,1,9,0,7,1],
@@ -242,12 +249,5 @@ var NAVTREEINDEX0 =
 "d1/dbd/structmdlpp_1_1Movement.html#a302979e41d39f0ad5d0e63740adf7f9f":[1,0,5,6,6],
 "d1/dbd/structmdlpp_1_1Movement.html#a487c040063cbeb14889521d4d097f891":[1,0,5,6,1],
 "d1/dbd/structmdlpp_1_1Movement.html#a5687b07c5e12b0aecb9adf1749ca7a3c":[1,0,5,6,7],
-"d1/dbd/structmdlpp_1_1Movement.html#a5c6672fc6f39bf976227ae13a66860ca":[1,0,5,6,4],
-"d1/dbd/structmdlpp_1_1Movement.html#a752de0d0ab9871e2f1f5fc44c5417620":[1,0,5,6,0],
-"d1/dbd/structmdlpp_1_1Movement.html#a752de0d0ab9871e2f1f5fc44c5417620a88db902977c695cddc1c1de2f38aeb81":[1,0,5,6,0,0],
-"d1/dbd/structmdlpp_1_1Movement.html#ad3afc843277330861ca41b87d1f97f53":[1,0,5,6,3],
-"d1/dbd/structmdlpp_1_1Movement.html#ad546207a7be4fdc23688d90d5a7c6919":[1,0,5,6,2],
-"d1/dbd/structmdlpp_1_1Movement.html#adea4aa6b66b3e1c44eca0f384a6e7a5b":[1,0,5,6,5],
-"d1/dbf/GMA_8h.html":[2,0,0,9,0,3],
-"d1/dbf/GMA_8h.html#a19d2b5b3eedfb8f55ddaf4fd8ac89756":[2,0,0,9,0,3,2]
+"d1/dbd/structmdlpp_1_1Movement.html#a5c6672fc6f39bf976227ae13a66860ca":[1,0,5,6,4]
 };
