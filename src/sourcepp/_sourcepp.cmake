@@ -11,6 +11,7 @@ list(APPEND ${PROJECT_NAME}_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/math/Vector.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Binary.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Text.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/BitwiseEnumClass.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/FS.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/String.h")
 
