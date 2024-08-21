@@ -8,6 +8,8 @@
 
 #include <sourcepp/parser/Binary.h>
 
+#include "LumpData.h"
+
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
@@ -145,7 +147,34 @@ public:
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
 
+	template<BSPLump Lump>
+	[[nodiscard]] auto readLump() const {
+		if constexpr (Lump == BSPLump::PLANES) {
+			return this->readPlanes();
+		} else if constexpr (Lump == BSPLump::TEXDATA) {
+			return this->readTextureData();
+		} else if constexpr (Lump == BSPLump::VERTEXES) {
+			return this->readVertices();
+		} else if constexpr (Lump == BSPLump::TEXINFO) {
+			return this->readTextureInfo();
+		} else if constexpr (Lump == BSPLump::FACES) {
+			return this->readFaces();
+		} else if constexpr (Lump == BSPLump::EDGES) {
+			return this->readEdges();
+		} else if constexpr (Lump == BSPLump::SURFEDGES) {
+			return this->readSurfEdges();
+		} else if constexpr (Lump == BSPLump::MODELS) {
+			return this->readBrushModels();
+		} else if constexpr (Lump == BSPLump::ORIGINALFACES) {
+			return this->readOriginalFaces();
+		} else {
+			return this->readLump(Lump);
+		}
+	}
+
 	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);
+
+	void writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen);
 
 	bool applyLumpPatchFile(const std::string& lumpFilePath);
 
@@ -156,6 +185,24 @@ protected:
 
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
 	void moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize);
+
+	[[nodiscard]] std::vector<BSPPlane> readPlanes() const;
+
+	[[nodiscard]] std::vector<BSPTextureData> readTextureData() const;
+
+	[[nodiscard]] std::vector<BSPVertex> readVertices() const;
+
+	[[nodiscard]] std::vector<BSPTextureInfo> readTextureInfo() const;
+
+	[[nodiscard]] std::vector<BSPFace> readFaces() const;
+
+	[[nodiscard]] std::vector<BSPEdge> readEdges() const;
+
+	[[nodiscard]] std::vector<BSPSurfEdge> readSurfEdges() const;
+
+	[[nodiscard]] std::vector<BSPBrushModel> readBrushModels() const;
+
+	[[nodiscard]] std::vector<BSPFace> readOriginalFaces() const;
 
 	std::string path;
 	Header header{};
