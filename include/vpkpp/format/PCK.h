@@ -45,6 +45,16 @@ public:
 
 	[[nodiscard]] explicit operator std::string() const override;
 
+	/// Returns 1 for v1, 2 for v2
+	[[nodiscard]] uint32_t getVersion() const;
+
+	/// Change the version of the PCK. Valid values are 1 and 2
+	void setVersion(uint32_t version);
+
+	[[nodiscard]] std::tuple<uint32_t, uint32_t, uint32_t> getGodotVersion() const;
+
+	void setGodotVersion(uint32_t major, uint32_t minor = 0, uint32_t patch = 0);
+
 protected:
 	explicit PCK(const std::string& fullFilePath_);
 

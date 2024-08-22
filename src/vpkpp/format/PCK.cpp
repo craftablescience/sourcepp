@@ -320,3 +320,23 @@ PCK::operator std::string() const {
 	}
 	return out;
 }
+
+uint32_t PCK::getVersion() const {
+	return this->header.packVersion;
+}
+
+void PCK::setVersion(uint32_t version) {
+	if (version == 1 || version == 2) {
+		this->header.packVersion = version;
+	}
+}
+
+std::tuple<uint32_t, uint32_t, uint32_t> PCK::getGodotVersion() const {
+	return {this->header.godotVersionMajor, this->header.godotVersionMinor, this->header.godotVersionPatch};
+}
+
+void PCK::setGodotVersion(uint32_t major, uint32_t minor, uint32_t patch) {
+	this->header.godotVersionMajor = major;
+	this->header.godotVersionMinor = minor;
+	this->header.godotVersionPatch = patch;
+}

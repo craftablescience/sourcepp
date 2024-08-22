@@ -745,6 +745,9 @@ uint32_t VPK::getVersion() const {
 }
 
 void VPK::setVersion(uint32_t version) {
+	if (version != 1 && version != 2) {
+		return;
+	}
 	if (::isFPX(this) || version == this->header1.version) {
 		return;
 	}
