@@ -249,8 +249,11 @@ void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string&
 		return;
 	}
 
-	const auto entryBaseDir = this->cleanEntryPath(entryBaseDir_) + '/';
-	const auto dirLen = std::filesystem::absolute(dir).string().length();
+	auto entryBaseDir = this->cleanEntryPath(entryBaseDir_);
+	if (!entryBaseDir.empty()) {
+		entryBaseDir += '/';
+	}
+	const auto dirLen = std::filesystem::absolute(dir).string().length() + 1;
 	for (const auto& file : std::filesystem::recursive_directory_iterator(dir, std::filesystem::directory_options::skip_permission_denied)) {
 		if (!file.is_regular_file()) {
 			continue;
