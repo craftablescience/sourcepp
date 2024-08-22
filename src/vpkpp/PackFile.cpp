@@ -634,7 +634,7 @@ std::string PackFile::cleanEntryPath(const std::string& path) const {
 	if (!this->isCaseSensitive()) {
 		string::toLower(path_);
 	}
-	return path;
+	return path_;
 }
 
 Entry PackFile::createNewEntry() {
