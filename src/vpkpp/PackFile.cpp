@@ -258,16 +258,19 @@ void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string&
 		if (!file.is_regular_file()) {
 			continue;
 		}
+		std::string absPath;
 		std::string entryPath;
 		try {
-			entryPath = this->cleanEntryPath(entryBaseDir + std::filesystem::absolute(file.path()).string().substr(dirLen));
+			absPath = std::filesystem::absolute(file.path()).string();
+			string::normalizeSlashes(absPath);
+			entryPath = this->cleanEntryPath(entryBaseDir + absPath.substr(dirLen));
 		} catch (const std::exception&) {
 			continue; // Likely a Unicode error, unsupported filename
 		}
 		if (entryPath.empty()) {
 			continue;
 		}
-		this->addEntry(entryPath, file.path().string(), creation ? creation(entryPath) : EntryOptions{});
+		this->addEntry(entryPath, absPath, creation ? creation(entryPath) : EntryOptions{});
 	}
 }
 
