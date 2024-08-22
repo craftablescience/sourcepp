@@ -208,6 +208,7 @@ void PackFile::addEntry(const std::string& entryPath, const std::string& filepat
 	entry.unbaked = true;
 	entry.unbakedUsingByteBuffer = false;
 	entry.unbakedData = filepath;
+	string::normalizeSlashes(std::get<std::string>(entry.unbakedData));
 
 	auto path = this->cleanEntryPath(entryPath);
 	this->addEntryInternal(entry, path, buffer, options);
