@@ -57,7 +57,7 @@ std::unique_ptr<PackFile> PCK::create(const std::string& path, uint32_t version,
 		}
 
 		stream
-			.write<std::array<int32_t, 16>>({})
+			.write(std::array<int32_t, 16>{})
 			.write<uint32_t>(0);
 	}
 	return PCK::open(path);

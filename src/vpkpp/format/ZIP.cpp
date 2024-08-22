@@ -40,8 +40,8 @@ std::unique_ptr<PackFile> ZIP::create(const std::string& path) {
 			.write('K')
 			.write<uint8_t>(5)
 			.write<uint8_t>(6)
-			.write<std::array<uint16_t, 4>>({})
-			.write<std::array<uint32_t, 2>>({})
+			.write(std::array<uint16_t, 4>{})
+			.write(std::array<uint32_t, 2>{})
 			.write<uint16_t>(0);
 	}
 	return ZIP::open(path);
