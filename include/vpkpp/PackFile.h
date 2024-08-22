@@ -225,7 +225,7 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	explicit PackFileReadOnly(std::string fullFilePath_);
+	explicit PackFileReadOnly(const std::string& fullFilePath_);
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) final;
 

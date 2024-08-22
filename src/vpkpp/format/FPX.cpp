@@ -101,7 +101,7 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, const Entry
 
 				reader.read(entry.crc32);
 				auto preloadedDataSize = reader.read<uint16_t>();
-				reader.read(entry.archiveIndex);
+				entry.archiveIndex = reader.read<uint16_t>();
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 

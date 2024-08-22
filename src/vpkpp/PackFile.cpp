@@ -671,8 +671,8 @@ const PackFile::OpenFactoryFunction& PackFile::registerOpenExtensionForTypeFacto
 	return factory;
 }
 
-PackFileReadOnly::PackFileReadOnly(std::string fullFilePath_)
-		: PackFile(std::move(fullFilePath_)) {}
+PackFileReadOnly::PackFileReadOnly(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {}
 
 PackFileReadOnly::operator std::string() const {
 	return PackFile::operator std::string() + " (Read-Only)";
