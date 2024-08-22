@@ -222,7 +222,7 @@ $(document).ready(function(){initNavTree('d3/d9d/FPX_8cpp_source.html','../../')
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                reader.read(entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a6918177f2e8852cf5659af6397741e43">crc32</a>);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keyword">auto</span> preloadedDataSize = reader.read&lt;uint16_t&gt;();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                reader.read(entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> = reader.read&lt;uint16_t&gt;();</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a1782a952a397dad8083a7f7ae9ba6c5e">offset</a> = reader.read&lt;uint32_t&gt;();</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">length</a> = reader.read&lt;uint32_t&gt;();</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>

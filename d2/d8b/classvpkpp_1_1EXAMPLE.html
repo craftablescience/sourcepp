@@ -155,8 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa0740ac3b7c3be4ba5bb572aa65a7d9c"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#aa0740ac3b7c3be4ba5bb572aa65a7d9c">readEntry</a> (const std::string &amp;path_) const override</td></tr>
 <tr class="memdesc:aa0740ac3b7c3be4ba5bb572aa65a7d9c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to read the entry's data to a bytebuffer.  <a href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#aa0740ac3b7c3be4ba5bb572aa65a7d9c">More...</a><br /></td></tr>
 <tr class="separator:aa0740ac3b7c3be4ba5bb572aa65a7d9c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3892745f8440164a0bea403ed7ee6617"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a3892745f8440164a0bea403ed7ee6617">bake</a> (const std::string &amp;outputDir_, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback) override</td></tr>
-<tr class="separator:a3892745f8440164a0bea403ed7ee6617"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8a4feb9524029da8f43a46d9dfc3b39"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#ab8a4feb9524029da8f43a46d9dfc3b39">bake</a> (const std::string &amp;outputDir_, <a class="el" href="../../d0/dff/structvpkpp_1_1BakeOptions.html">BakeOptions</a> options, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback) override</td></tr>
+<tr class="memdesc:ab8a4feb9524029da8f43a46d9dfc3b39"><td class="mdescLeft">&#160;</td><td class="mdescRight">If output folder is an empty string, it will overwrite the original.  <a href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#ab8a4feb9524029da8f43a46d9dfc3b39">More...</a><br /></td></tr>
+<tr class="separator:ab8a4feb9524029da8f43a46d9dfc3b39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a990479fab18cb1e8c61a06cfc74f8c22"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838dae">Attribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a990479fab18cb1e8c61a06cfc74f8c22">getSupportedEntryAttributes</a> () const override</td></tr>
 <tr class="memdesc:a990479fab18cb1e8c61a06cfc74f8c22"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of supported entry attributes Mostly for GUI programs that show entries and their metadata in a table ;)  <a href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a990479fab18cb1e8c61a06cfc74f8c22">More...</a><br /></td></tr>
 <tr class="separator:a990479fab18cb1e8c61a06cfc74f8c22"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -232,9 +233,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2baa28d03d0c0892319547b10957d343 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2baa28d03d0c0892319547b10957d343">removeDirectory</a> (const std::string &amp;dirName_)</td></tr>
 <tr class="memdesc:a2baa28d03d0c0892319547b10957d343 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2baa28d03d0c0892319547b10957d343">More...</a><br /></td></tr>
 <tr class="separator:a2baa28d03d0c0892319547b10957d343 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a53588a5f99f4a4cf8fbe67268a9ca4b2 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">bake</a> (const std::string &amp;outputDir_, <a class="el" href="../../d0/dff/structvpkpp_1_1BakeOptions.html">BakeOptions</a> options, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback)=0</td></tr>
-<tr class="memdesc:a53588a5f99f4a4cf8fbe67268a9ca4b2 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">If output folder is an empty string, it will overwrite the original.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">More...</a><br /></td></tr>
-<tr class="separator:a53588a5f99f4a4cf8fbe67268a9ca4b2 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5b22edd8215966e194d9875fac0fe923 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923">extractEntry</a> (const std::string &amp;entryPath, const std::string &amp;filepath) const</td></tr>
 <tr class="memdesc:a5b22edd8215966e194d9875fac0fe923 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extract the given entry to disk at the given file path.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923">More...</a><br /></td></tr>
 <tr class="separator:a5b22edd8215966e194d9875fac0fe923 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -280,8 +278,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a2f151e77a3b8304280e5c683657ac1de"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a2f151e77a3b8304280e5c683657ac1de">open</a> (const std::string &amp;path, PackFileOptions options={}, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback=nullptr)</td></tr>
-<tr class="separator:a2f151e77a3b8304280e5c683657ac1de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8df7812f92147f192a527a97cf692f8"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#ae8df7812f92147f192a527a97cf692f8">open</a> (const std::string &amp;path, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback=nullptr)</td></tr>
+<tr class="separator:ae8df7812f92147f192a527a97cf692f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_static_methods_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:aeeb713b27d8b4f6a5c84e7de2aa51196 inherit pub_static_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aeeb713b27d8b4f6a5c84e7de2aa51196">open</a> (const std::string &amp;path, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback=nullptr)</td></tr>
 <tr class="memdesc:aeeb713b27d8b4f6a5c84e7de2aa51196 inherit pub_static_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open a generic pack file. The parser is selected based on the file extension.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#aeeb713b27d8b4f6a5c84e7de2aa51196">More...</a><br /></td></tr>
@@ -295,10 +293,10 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a238f0701846d19cabf2d80dafe4850b0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a238f0701846d19cabf2d80dafe4850b0">EXAMPLE</a> (const std::string &amp;fullFilePath_, PackFileOptions options_)</td></tr>
-<tr class="separator:a238f0701846d19cabf2d80dafe4850b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6c91079753919cfaebd55571d51265c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#af6c91079753919cfaebd55571d51265c">addEntryInternal</a> (<a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;path, std::vector&lt; std::byte &gt; &amp;buffer, <a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options_) override</td></tr>
-<tr class="separator:af6c91079753919cfaebd55571d51265c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab8193ceae611c462c74adc97411a6ea0"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#ab8193ceae611c462c74adc97411a6ea0">EXAMPLE</a> (const std::string &amp;fullFilePath_)</td></tr>
+<tr class="separator:ab8193ceae611c462c74adc97411a6ea0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5843281f3771774337ce20a0673b86d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a5843281f3771774337ce20a0673b86d6">addEntryInternal</a> (<a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;path, std::vector&lt; std::byte &gt; &amp;buffer, <a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options) override</td></tr>
+<tr class="separator:a5843281f3771774337ce20a0673b86d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:a706ae4057a060449a8beb15317f77839 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a706ae4057a060449a8beb15317f77839">PackFile</a> (std::string fullFilePath_)</td></tr>
 <tr class="separator:a706ae4057a060449a8beb15317f77839 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -356,8 +354,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00023">23</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a238f0701846d19cabf2d80dafe4850b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a238f0701846d19cabf2d80dafe4850b0">&#9670;&nbsp;</a></span>EXAMPLE()</h2>
+<a id="ab8193ceae611c462c74adc97411a6ea0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8193ceae611c462c74adc97411a6ea0">&#9670;&nbsp;</a></span>EXAMPLE()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -369,23 +367,13 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">EXAMPLE::EXAMPLE </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>fullFilePath_</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramname"><em>fullFilePath_</em></td><td>)</td>
           <td></td>
-          <td class="paramtype">PackFileOptions&#160;</td>
-          <td class="paramname"><em>options_</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -395,8 +383,8 @@ Additional Inherited Members</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af6c91079753919cfaebd55571d51265c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6c91079753919cfaebd55571d51265c">&#9670;&nbsp;</a></span>addEntryInternal()</h2>
+<a id="a5843281f3771774337ce20a0673b86d6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5843281f3771774337ce20a0673b86d6">&#9670;&nbsp;</a></span>addEntryInternal()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -426,7 +414,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a>&#160;</td>
-          <td class="paramname"><em>options_</em>&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -447,8 +435,8 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
-<a id="a3892745f8440164a0bea403ed7ee6617"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3892745f8440164a0bea403ed7ee6617">&#9670;&nbsp;</a></span>bake()</h2>
+<a id="ab8a4feb9524029da8f43a46d9dfc3b39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab8a4feb9524029da8f43a46d9dfc3b39">&#9670;&nbsp;</a></span>bake()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -465,6 +453,12 @@ Additional Inherited Members</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="../../d0/dff/structvpkpp_1_1BakeOptions.html">BakeOptions</a>&#160;</td>
+          <td class="paramname"><em>options</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;&#160;</td>
           <td class="paramname"><em>callback</em>&#160;</td>
         </tr>
@@ -476,10 +470,14 @@ Additional Inherited Members</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>If output folder is an empty string, it will overwrite the original. </p>
+
+<p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/da6/ExamplePackFileImpl_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../d0/da6/ExamplePackFileImpl_8cpp_source.html">ExamplePackFileImpl.cpp</a>.</p>
 
@@ -512,7 +510,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00041">41</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00040">40</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
 
 </div>
 </div>
@@ -543,12 +541,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00030">30</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00029">29</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
 
 </div>
 </div>
-<a id="a2f151e77a3b8304280e5c683657ac1de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2f151e77a3b8304280e5c683657ac1de">&#9670;&nbsp;</a></span>open()</h2>
+<a id="ae8df7812f92147f192a527a97cf692f8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae8df7812f92147f192a527a97cf692f8">&#9670;&nbsp;</a></span>open()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -561,12 +559,6 @@ Additional Inherited Members</h2></td></tr>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">PackFileOptions&#160;</td>
-          <td class="paramname"><em>options</em> = <code>{}</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -616,7 +608,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00046">46</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html#l00045">45</a> of file <a class="el" href="../../da/d60/ExamplePackFileImpl_8h_source.html">ExamplePackFileImpl.h</a>.</p>
 
 </div>
 </div>
