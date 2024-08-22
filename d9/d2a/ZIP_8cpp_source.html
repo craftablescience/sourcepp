@@ -161,8 +161,8 @@ $(document).ready(function(){initNavTree('d9/d2a/ZIP_8cpp_source.html','../../')
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            .write(<span class="charliteral">&#39;K&#39;</span>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            .write&lt;uint8_t&gt;(5)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            .write&lt;uint8_t&gt;(6)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            .write&lt;std::array&lt;uint16_t, 4&gt;&gt;({})</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            .write&lt;std::array&lt;uint32_t, 2&gt;&gt;({})</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            .write(std::array&lt;uint16_t, 4&gt;{})</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            .write(std::array&lt;uint32_t, 2&gt;{})</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            .write&lt;uint16_t&gt;(0);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a43c3702d26f0708f0f87627e627fb621">ZIP::open</a>(path);</div>
