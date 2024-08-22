@@ -135,6 +135,8 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 			entry.flags = reader.read<uint32_t>();
 		}
 
+		pck->entries.emplace(entryPath, entry);
+
 		if (callback) {
 			callback(entryPath, entry);
 		}
