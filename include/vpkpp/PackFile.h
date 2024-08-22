@@ -1,5 +1,6 @@
 #pragma once
 
+#include <concepts>
 #include <functional>
 #include <memory>
 #include <optional>
@@ -10,6 +11,7 @@
 #include <vector>
 
 #include <sourcepp/math/Integer.h>
+#include <sourcepp/Macros.h>
 #include <tsl/htrie_map.h>
 
 #include "Attribute.h"
@@ -27,10 +29,13 @@ constexpr std::string_view EXECUTABLE_EXTENSION2 = ".x86_64"; //         | Godot
 class PackFile {
 public:
 	/// Accepts the entry's path and metadata
-	using EntryCallback = std::function<void(const std::string& path, const Entry& entry)>;
+	template<typename R>
+	using EntryCallbackBase = std::function<R(const std::string& path, const Entry& entry)>;
+	using EntryCallback     = EntryCallbackBase<void>;
+	using EntryPredicate    = EntryCallbackBase<bool>;
 
-	/// Accepts the entry's path and metadata
-	using EntryPredicate = std::function<bool(const std::string& path, const Entry& entry)>;
+	// Accepts the entry's path
+	using EntryCreation     = std::function<EntryOptions(const std::string& path)>;
 
 	using EntryTrie = tsl::htrie_map<char, Entry>;
 
@@ -43,13 +48,13 @@ public:
 	virtual ~PackFile() = default;
 
 	/// Open a generic pack file. The parser is selected based on the file extension
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
+
+	/// Returns a sorted list of supported extensions for opening, e.g. {".bsp", ".vpk"}
+	[[nodiscard]] static std::vector<std::string> getOpenableExtensions();
 
 	/// Get the file type of the pack file
 	[[nodiscard]] PackFileType getType() const;
-
-	/// Get the current options of the pack file
-	[[nodiscard]] PackFileOptions getOptions() const;
 
 	/// Returns true if the format has a checksum for each entry
 	[[nodiscard]] virtual constexpr bool hasEntryChecksums() const {
@@ -96,13 +101,19 @@ public:
 	}
 
 	/// Add a new entry from a file path - the first parameter is the path in the PackFile, the second is the path on disk
-	void addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options_);
+	void addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options_);
+	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options_);
+	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options = {});
+
+	/// Adds new entries using the contents of a given directory
+	void addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});
+
+	/// Adds new entries using the contents of a given directory
+	void addDirectory(const std::string& entryBaseDir, const std::string& dir, const EntryCreation& creation);
 
 	/// Rename an existing entry
 	virtual bool renameEntry(const std::string& oldPath_, const std::string& newPath_); // NOLINT(*-use-nodiscard)
@@ -116,8 +127,8 @@ public:
 	/// Remove a directory
 	virtual std::size_t removeDirectory(const std::string& dirName_);
 
-	/// If output folder is unspecified, it will overwrite the original
-	virtual bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) = 0;
+	/// If output folder is an empty string, it will overwrite the original
+	virtual bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) = 0;
 
 	/// Extract the given entry to disk at the given file path
 	bool extractEntry(const std::string& entryPath, const std::string& filepath) const; // NOLINT(*-use-nodiscard)
@@ -170,17 +181,14 @@ public:
 	/// On Windows, some characters and file names are invalid - this escapes the given entry path
 	[[nodiscard]] static std::string escapeEntryPathForWrite(const std::string& path);
 
-	/// Returns a list of supported extensions, e.g. {".vpk", ".bsp"}
-	[[nodiscard]] static std::vector<std::string> getSupportedFileTypes();
-
 protected:
-	PackFile(std::string fullFilePath_, PackFileOptions options_);
+	explicit PackFile(std::string fullFilePath_);
 
 	void runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32() const;
 
-	virtual void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) = 0;
+	virtual void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) = 0;
 
 	[[nodiscard]] std::string getBakeOutputDir(const std::string& outputDir) const;
 
@@ -194,19 +202,18 @@ protected:
 
 	[[nodiscard]] static std::optional<std::vector<std::byte>> readUnbakedEntry(const Entry& entry);
 
+	using OpenFactoryFunction = std::function<std::unique_ptr<PackFile>(const std::string& path, const EntryCallback& callback)>;
+
+	static std::unordered_map<std::string, std::vector<OpenFactoryFunction>>& getOpenExtensionRegistry();
+
+	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory);
+
 	std::string fullFilePath;
 
 	PackFileType type = PackFileType::UNKNOWN;
-	PackFileOptions options;
 
 	EntryTrie entries;
 	EntryTrie unbakedEntries;
-
-	using FactoryFunction = std::function<std::unique_ptr<PackFile>(const std::string& path, PackFileOptions options, const EntryCallback& callback)>;
-
-	static std::unordered_map<std::string, std::vector<FactoryFunction>>& getOpenExtensionRegistry();
-
-	static const FactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const FactoryFunction& factory);
 };
 
 class PackFileReadOnly : public PackFile {
@@ -218,23 +225,19 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	PackFileReadOnly([[maybe_unused]] [[maybe_unused]] std::string fullFilePath_, PackFileOptions options_);
+	explicit PackFileReadOnly(std::string fullFilePath_);
 
-	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) final;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) final;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) final;
+	bool bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) final;
 };
 
 } // namespace vpkpp
 
-#define VPKPP_HELPER_CONCAT_INNER(a, b) a ## b
-#define VPKPP_HELPER_CONCAT(a, b) VPKPP_HELPER_CONCAT_INNER(a, b)
-#define VPKPP_HELPER_UNIQUE_NAME(base) VPKPP_HELPER_CONCAT(base, __LINE__)
-
 #define VPKPP_REGISTER_PACKFILE_OPEN(extension, function) \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenTypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(extension, function)
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenTypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(extension, function)
 
 #define VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE(function) \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION0, function); \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION1, function); \
-	static inline const FactoryFunction& VPKPP_HELPER_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function)
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION0, function); \
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION1, function); \
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function)

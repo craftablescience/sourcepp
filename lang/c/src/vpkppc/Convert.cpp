@@ -12,13 +12,10 @@ Entry* Convert::entry(vpkpp_entry_handle_t handle) {
 	return static_cast<Entry*>(handle);
 }
 
-PackFileOptions Convert::optionsFromC(vpkpp_pack_file_options_t options) {
+BakeOptions Convert::optionsFromC(vpkpp_bake_options_t options) {
 	return {
 		.gma_writeCRCs = static_cast<bool>(options.gma_writeCRCs),
-		.vpk_version = options.vpk_version,
-		.vpk_preferredChunkSize = options.vpk_preferredChunkSize,
 		.vpk_generateMD5Entries = static_cast<bool>(options.vpk_generateMD5Entries),
-		.zip_compressionMethod = options.zip_compressionMethod,
 	};
 }
 
@@ -29,13 +26,10 @@ EntryOptions Convert::optionsFromC(vpkpp_entry_options_t options) {
 	};
 }
 
-vpkpp_pack_file_options_t Convert::optionsToC(PackFileOptions options) {
+vpkpp_bake_options_t Convert::optionsToC(BakeOptions options) {
 	return {
 		.gma_writeCRCs = options.gma_writeCRCs,
-		.vpk_version = options.vpk_version,
-		.vpk_preferredChunkSize = options.vpk_preferredChunkSize,
 		.vpk_generateMD5Entries = options.vpk_generateMD5Entries,
-		.zip_compressionMethod = options.zip_compressionMethod,
 	};
 }
 

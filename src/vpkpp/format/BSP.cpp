@@ -17,20 +17,20 @@ using namespace vpkpp;
 
 using bsppp::BSPLump;
 
-BSP::BSP(const std::string& fullFilePath_, PackFileOptions options_)
-		: ZIP(fullFilePath_, options_)
+BSP::BSP(const std::string& fullFilePath_)
+		: ZIP(fullFilePath_)
 		, bsppp::BSP(fullFilePath_)
 		, tempBSPPakLumpPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::BSP;
 }
 
-std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* bsp = new BSP{path, options};
+	auto* bsp = new BSP{path};
 	auto packFile = std::unique_ptr<PackFile>(bsp);
 
 	if (!(*bsp)) {
@@ -93,7 +93,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, PackFileOptions opt
 	return packFile;
 }
 
-bool BSP::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();

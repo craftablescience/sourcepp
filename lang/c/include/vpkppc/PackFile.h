@@ -14,29 +14,23 @@ extern "C" {
 
 typedef void* vpkpp_pack_file_handle_t;
 
-typedef void(*EntryCallback)(const char* path, vpkpp_entry_handle_t entry);
+typedef void(*vpkpp_entry_callback_t)(const char* path, vpkpp_entry_handle_t entry);
 
-typedef int(*EntryPredicate)(const char* path, vpkpp_entry_handle_t entry);
+typedef int(*vpkpp_entry_predicate_t)(const char* path, vpkpp_entry_handle_t entry);
+
+typedef vpkpp_entry_options_t(*vpkpp_entry_creation_t)(const char* path);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
 
 // REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path);
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_callback_t callback /*= NULL*/);
 
-// REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_callback(const char* path, EntryCallback callback);
-
-// REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_options(const char* path, vpkpp_pack_file_options_t options);
-
-// REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback);
+// REQUIRES MANUAL FREE: sourcepp_string_array_free
+SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions();
 
 SOURCEPP_API vpkpp_pack_file_type_e vpkpp_get_type(vpkpp_pack_file_handle_t handle);
-
-SOURCEPP_API vpkpp_pack_file_options_t vpkpp_get_options(vpkpp_pack_file_handle_t handle);
 
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle);
 
@@ -74,6 +68,10 @@ SOURCEPP_API void vpkpp_add_entry_from_mem(vpkpp_pack_file_handle_t handle, cons
 
 SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen, vpkpp_entry_options_t options);
 
+SOURCEPP_API void vpkpp_add_directory(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_creation_t creation);
+
+SOURCEPP_API void vpkpp_add_directory_with_options(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_options_t options);
+
 SOURCEPP_API int vpkpp_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath);
 
 SOURCEPP_API int vpkpp_rename_directory(vpkpp_pack_file_handle_t handle, const char* oldDir, const char* newDir);
@@ -82,9 +80,9 @@ SOURCEPP_API int vpkpp_remove_entry(vpkpp_pack_file_handle_t handle, const char*
 
 SOURCEPP_API int vpkpp_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirName);
 
-SOURCEPP_API int vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir);
+SOURCEPP_API int vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_callback_t callback);
 
-SOURCEPP_API int vpkpp_bake_with_callback(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryCallback callback);
+SOURCEPP_API int vpkpp_bake_with_options(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_bake_options_t options, vpkpp_entry_callback_t callback);
 
 SOURCEPP_API int vpkpp_extract_entry(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filepath);
 
@@ -92,11 +90,11 @@ SOURCEPP_API int vpkpp_extract_directory(vpkpp_pack_file_handle_t handle, const 
 
 SOURCEPP_API int vpkpp_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, int createUnderPackFileDir);
 
-SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryPredicate predicate, int stripSharedDirs);
+SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_predicate_t predicate, int stripSharedDirs);
 
 SOURCEPP_API size_t vpkpp_get_entry_count(vpkpp_pack_file_handle_t handle, int includeUnbaked);
 
-SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, EntryCallback operation, int includeUnbaked);
+SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, vpkpp_entry_callback_t operation, int includeUnbaked);
 
 // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_API sourcepp_string_t vpkpp_get_filepath(vpkpp_pack_file_handle_t handle);
@@ -125,6 +123,3 @@ SOURCEPP_API void vpkpp_close(vpkpp_pack_file_handle_t* handle);
 
 // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_API sourcepp_string_t vpkpp_escape_entry_path_for_write(const char* path);
-
-// REQUIRES MANUAL FREE: sourcepp_string_array_free
-SOURCEPP_API sourcepp_string_array_t vpkpp_get_supported_file_types();

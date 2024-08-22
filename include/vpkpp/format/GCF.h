@@ -110,7 +110,7 @@ protected:
 #pragma pack(pop)
 
 public:
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
@@ -125,7 +125,7 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	GCF(const std::string& fullFilePath_, PackFileOptions options_);
+	explicit GCF(const std::string& fullFilePath_);
 
 	Header header{};
 	BlockHeader blockheader{};

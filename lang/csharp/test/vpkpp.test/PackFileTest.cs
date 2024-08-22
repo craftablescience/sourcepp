@@ -31,7 +31,7 @@ namespace vpkpp.test
             Assert.AreEqual(vpk.TruncatedFileName, "portal_pak.vpk");
             Assert.AreEqual(vpk.FileStem, "portal_pak_dir");
             Assert.AreEqual(vpk.TruncatedFileStem, "portal_pak");
-            Assert.AreEqual(vpk.SupportedEntryAttributes, Attribute.LENGTH | Attribute.VPK_PRELOADED_DATA_LENGTH | Attribute.ARCHIVE_INDEX | Attribute.CRC32);
+            Assert.AreEqual(vpk.SupportedEntryAttributes, Attribute.LENGTH | Attribute.VPK_PRELOADED_DATA | Attribute.ARCHIVE_INDEX | Attribute.CRC32);
             Assert.AreEqual(vpk.ToString(), "portal_pak.vpk | Version v2");
         }
 
@@ -64,7 +64,7 @@ namespace vpkpp.test
             {
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 {
-                    return @"C:\Program Files (x86)\Steam\steamapps\common\Portal\portal\";
+                    return @"D:\SteamLibrary\steamapps\common\Portal\portal\";
                 }
                 if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
                 {

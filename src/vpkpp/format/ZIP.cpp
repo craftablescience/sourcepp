@@ -12,6 +12,7 @@
 #include <mz_zip.h>
 #include <mz_zip_rw.h>
 
+#include <FileStream.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
@@ -19,8 +20,8 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-ZIP::ZIP(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_)
+ZIP::ZIP(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_)
 		, tempZIPPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::ZIP;
 }
@@ -29,13 +30,40 @@ ZIP::~ZIP() {
 	this->closeZIP();
 }
 
-std::unique_ptr<PackFile> ZIP::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> ZIP::create(const std::string& path) {
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+	}
+
+	auto* streamHandle = mz_stream_os_create();
+	if (mz_stream_open(streamHandle, path.data(), MZ_OPEN_MODE_WRITE) != MZ_OK) {
+		mz_stream_delete(&streamHandle);
+		return nullptr;
+	}
+
+	auto* zipHandle = mz_zip_create();
+	if (mz_zip_open(zipHandle, streamHandle, MZ_OPEN_MODE_WRITE) != MZ_OK) {
+		mz_zip_delete(&zipHandle);
+		mz_stream_close(streamHandle);
+		mz_stream_delete(&streamHandle);
+		return nullptr;
+	}
+
+	mz_zip_close(zipHandle);
+	mz_zip_delete(&zipHandle);
+	mz_stream_close(streamHandle);
+	mz_stream_delete(&streamHandle);
+
+	return ZIP::open(path);
+}
+
+std::unique_ptr<PackFile> ZIP::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* zip = new ZIP{path, options};
+	auto* zip = new ZIP{path};
 	auto packFile = std::unique_ptr<PackFile>(zip);
 
 	if (!zip->openZIP(zip->fullFilePath)) {
@@ -100,13 +128,13 @@ std::optional<std::vector<std::byte>> ZIP::readEntry(const std::string& path_) c
 	return out;
 }
 
-void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.length = buffer.size();
 	entry.compressedLength = 0;
 	entry.crc32 = crypto::computeCRC32(buffer);
 }
 
-bool ZIP::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool ZIP::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
@@ -184,7 +212,7 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, const EntryCallback& call
 		fileInfo.uncompressed_size = static_cast<int64_t>(entry.length);
 		fileInfo.compressed_size = static_cast<int64_t>(entry.compressedLength);
 		fileInfo.crc = entry.crc32;
-		fileInfo.compression_method = this->options.zip_compressionMethod;
+		fileInfo.compression_method = MZ_COMPRESS_METHOD_STORE;
 		if (mz_zip_writer_add_buffer(writeZipHandle, binData->data(), static_cast<int>(binData->size()), &fileInfo)) {
 			noneFailed = false;
 			return;

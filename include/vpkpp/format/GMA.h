@@ -25,7 +25,7 @@ protected:
 
 public:
 	/// Open a GMA file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
@@ -39,16 +39,16 @@ public:
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	GMA(const std::string& fullFilePath_, PackFileOptions options_);
+	explicit GMA(const std::string& fullFilePath_);
 
-	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
 	Header header{};
 

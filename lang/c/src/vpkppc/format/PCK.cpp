@@ -3,50 +3,35 @@
 #include <vpkpp/format/PCK.h>
 
 #include <sourceppc/Helpers.h>
-#include <vpkppc/Convert.hpp>
 
 using namespace vpkpp;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open(const char* path) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = PCK::open(path);
+	auto packFile = PCK::create(path);
 	if (!packFile) {
 		return nullptr;
 	}
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open_with_callback(const char* path, EntryCallback callback) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_create_with_options(const char* path, uint32_t version, uint32_t godotMajorVersion, uint32_t godotMinorVersion, uint32_t godotPatchVersion) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
 
-	auto packFile = PCK::open(path, {}, [callback](const std::string& path, const Entry& entry) {
+	auto packFile = PCK::create(path, version, godotMajorVersion, godotMinorVersion, godotPatchVersion);
+	if (!packFile) {
+		return nullptr;
+	}
+	return packFile.release();
+}
+
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open(const char* path, vpkpp_entry_callback_t callback) {
+	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
+
+	auto packFile = PCK::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open_with_options(const char* path, vpkpp_pack_file_options_t options) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-
-	auto packFile = PCK::open(path, Convert::optionsFromC(options));
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = PCK::open(path, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
+	} : static_cast<PackFile::EntryCallback>(nullptr));
 	if (!packFile) {
 		return nullptr;
 	}

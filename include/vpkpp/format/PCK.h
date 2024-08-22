@@ -27,8 +27,11 @@ protected:
 	};
 
 public:
+	/// Create a new PCK file
+	static std::unique_ptr<PackFile> create(const std::string& path, uint32_t version = 2, uint32_t godotMajorVersion = 0, uint32_t godotMinorVersion = 0, uint32_t godotPatchVersion = 0);
+
 	/// Open a PCK file (potentially embedded in an executable)
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
 		return true;
@@ -36,16 +39,16 @@ public:
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	PCK(const std::string& fullFilePath_, PackFileOptions options_);
+	explicit PCK(const std::string& fullFilePath_);
 
-	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
 	Header header{};
 
