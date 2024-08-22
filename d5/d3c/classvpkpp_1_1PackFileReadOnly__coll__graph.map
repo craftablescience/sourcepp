@@ -1,9 +1,6 @@
 <map id="vpkpp::PackFileReadOnly" name="vpkpp::PackFileReadOnly">
-<area shape="rect" id="node1" title=" " alt="" coords="220,289,407,316"/>
-<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="252,213,375,240"/>
-<area shape="rect" id="node3" href="$d5/db7/structvpkpp_1_1PackFileOptions.html" title=" " alt="" coords="151,124,324,151"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,13,80,39"/>
-<area shape="rect" id="node5" title=" " alt="" coords="200,13,275,39"/>
-<area shape="rect" id="node6" title=" " alt="" coords="362,124,449,151"/>
-<area shape="rect" id="node7" title=" " alt="" coords="351,5,489,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,261,192,288"/>
+<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="37,185,160,212"/>
+<area shape="rect" id="node3" title=" " alt="" coords="55,96,142,123"/>
+<area shape="rect" id="node4" title=" " alt="" coords="29,5,168,47"/>
 </map>

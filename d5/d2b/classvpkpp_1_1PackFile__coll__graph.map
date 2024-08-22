@@ -1,8 +1,5 @@
 <map id="vpkpp::PackFile" name="vpkpp::PackFile">
-<area shape="rect" id="node1" title=" " alt="" coords="252,213,375,240"/>
-<area shape="rect" id="node2" href="$d5/db7/structvpkpp_1_1PackFileOptions.html" title=" " alt="" coords="151,124,324,151"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,13,80,39"/>
-<area shape="rect" id="node4" title=" " alt="" coords="200,13,275,39"/>
-<area shape="rect" id="node5" title=" " alt="" coords="362,124,449,151"/>
-<area shape="rect" id="node6" title=" " alt="" coords="351,5,489,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="13,185,136,212"/>
+<area shape="rect" id="node2" title=" " alt="" coords="31,96,118,123"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,144,47"/>
 </map>

@@ -26,7 +26,7 @@ var searchData=
   ['readvertices_834',['readVertices',['../d5/dba/classbsppp_1_1BSP.html#a0fc1286e6c7c586f662138ba8b472747',1,'bsppp::BSP']]],
   ['red_835',['red',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a',1,'vtfpp::ImageFormatDetails']]],
   ['reflectivity_836',['reflectivity',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#ab8dbe62c73dd821f3f904ed6e6dc3e02',1,'bsppp::BSPTextureData_v0']]],
-  ['registeropenextensionfortypefactory_837',['registerOpenExtensionForTypeFactory',['../d2/dd2/classvpkpp_1_1PackFile.html#a48d5a7b79c3c10d64745048eb5b18b21',1,'vpkpp::PackFile']]],
+  ['registeropenextensionfortypefactory_837',['registerOpenExtensionForTypeFactory',['../d2/dd2/classvpkpp_1_1PackFile.html#a86e560db1da63e24e24c33a0f78a7b77',1,'vpkpp::PackFile']]],
   ['relativeposition_838',['relativePosition',['../d1/dbd/structmdlpp_1_1Movement.html#a5c6672fc6f39bf976227ae13a66860ca',1,'mdlpp::Movement']]],
   ['removedirectory_839',['removeDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a2baa28d03d0c0892319547b10957d343',1,'vpkpp::PackFile::removeDirectory()'],['../d5/d8b/classvpkpp_1_1VPK.html#a097bb8a52c68ca1253b1e1b9817f230d',1,'vpkpp::VPK::removeDirectory(const std::string &amp;dirName_) override']]],
   ['removeentry_840',['removeEntry',['../d5/d8b/classvpkpp_1_1VPK.html#aa1e0ac4d125dd6e1129bee61a3653750',1,'vpkpp::VPK::removeEntry()'],['../d2/dd2/classvpkpp_1_1PackFile.html#aed35a45b68bff1eedcc3a217cf7563b7',1,'vpkpp::PackFile::removeEntry(const std::string &amp;path_)']]],

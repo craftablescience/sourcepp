@@ -77,6 +77,7 @@ var hierarchy =
       ] ]
     ] ],
     [ "steampp::Steam", "d9/d81/classsteampp_1_1Steam.html", null ],
+    [ "vpkpp::BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", null ],
     [ "vpkpp::Entry", "d9/d6b/classvpkpp_1_1Entry.html", null ],
     [ "vpkpp::EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", null ],
     [ "vpkpp::GCF::Block", "d4/d3e/structvpkpp_1_1GCF_1_1Block.html", null ],
@@ -107,7 +108,6 @@ var hierarchy =
         [ "vpkpp::BSP", "d2/da8/classvpkpp_1_1BSP.html", null ]
       ] ]
     ] ],
-    [ "vpkpp::PackFileOptions", "d5/db7/structvpkpp_1_1PackFileOptions.html", null ],
     [ "vpkpp::PCK::Header", "d5/da3/structvpkpp_1_1PCK_1_1Header.html", null ],
     [ "vpkpp::VPK::Footer2", "d5/dde/structvpkpp_1_1VPK_1_1Footer2.html", null ],
     [ "vpkpp::VPK::FreedChunk", "d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html", null ],

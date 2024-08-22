@@ -1,13 +1,13 @@
 var classvpkpp_1_1GMA =
 [
     [ "Header", "dc/d1f/structvpkpp_1_1GMA_1_1Header.html", "dc/d1f/structvpkpp_1_1GMA_1_1Header" ],
-    [ "GMA", "d6/d2c/classvpkpp_1_1GMA.html#a91d553c516fc367e037315fd7a45c8f9", null ],
-    [ "addEntryInternal", "d6/d2c/classvpkpp_1_1GMA.html#a8e7aaffbe1b81711618608b347192e3f", null ],
-    [ "bake", "d6/d2c/classvpkpp_1_1GMA.html#ad2f24de6268c3805cecf751a226006d1", null ],
+    [ "GMA", "d6/d2c/classvpkpp_1_1GMA.html#af0710c747136de546aba41347bd3c200", null ],
+    [ "addEntryInternal", "d6/d2c/classvpkpp_1_1GMA.html#a120a18df541ae296d12152ce6e84429e", null ],
+    [ "bake", "d6/d2c/classvpkpp_1_1GMA.html#a59acbdec69e9a1d18edaf2ea4cbfce3e", null ],
     [ "getSupportedEntryAttributes", "d6/d2c/classvpkpp_1_1GMA.html#a7841107681ad985627624acb7895b83a", null ],
     [ "hasEntryChecksums", "d6/d2c/classvpkpp_1_1GMA.html#a8174579010783acb5d6389df969dfcab", null ],
     [ "hasPackFileChecksum", "d6/d2c/classvpkpp_1_1GMA.html#a8e1b42953add9309894e1aa75567318e", null ],
-    [ "open", "d6/d2c/classvpkpp_1_1GMA.html#a9111b517d6e76c49acd3a77920989a70", null ],
+    [ "open", "d6/d2c/classvpkpp_1_1GMA.html#a787e4b11e85da22b304798d5731b79c7", null ],
     [ "operator std::string", "d6/d2c/classvpkpp_1_1GMA.html#a9dec308262366ac77d263efcb2b0de9d", null ],
     [ "readEntry", "d6/d2c/classvpkpp_1_1GMA.html#acc6dd86a1a690ddf593f3a831d911dd3", null ],
     [ "verifyEntryChecksums", "d6/d2c/classvpkpp_1_1GMA.html#a862027b34066fdfdbd995eb89c9a6739", null ],

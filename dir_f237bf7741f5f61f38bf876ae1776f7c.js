@@ -5,7 +5,10 @@ var dir_f237bf7741f5f61f38bf876ae1776f7c =
     [ "Entry.h", "d4/d42/Entry_8h.html", [
       [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ]
     ] ],
-    [ "Options.h", "d5/d76/Options_8h.html", "d5/d76/Options_8h" ],
+    [ "Options.h", "d5/d76/Options_8h.html", [
+      [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
+      [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ]
+    ] ],
     [ "PackFile.h", "d3/df4/PackFile_8h.html", "d3/df4/PackFile_8h" ],
     [ "PackFileType.h", "d6/da8/PackFileType_8h.html", "d6/da8/PackFileType_8h" ],
     [ "vpkpp.h", "d6/dae/vpkpp_8h.html", null ]

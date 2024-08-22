@@ -147,7 +147,7 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/de7/classvpkpp_1_1ZIP.html">ZIP</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db7/structvpkpp_1_1PackFileOptions.html">PackFileOptions</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/dff/structvpkpp_1_1BakeOptions.html">BakeOptions</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -230,18 +230,18 @@ Variables</h2></td></tr>
 <tr class="separator:a5a083f2e65dc297d5a090e1e1c70fff3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab81d557f41f43dc8529153b289a6ef05"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#ab81d557f41f43dc8529153b289a6ef05">VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE</a> = &quot;private_key\n{\n\ttype \&quot;rsa\&quot;\n\trsa_private_key \&quot;%s\&quot;\n\tprivate_key_encrypted 0\n\tpublic_key\n\t{\n\t\ttype \&quot;rsa\&quot;\n\t\trsa_public_key \&quot;%s\&quot;\n\t}\n}\n&quot;</td></tr>
 <tr class="separator:ab81d557f41f43dc8529153b289a6ef05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24a5c671b7c17e554a742304d8abc1a2"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2">VPK_MAX_PRELOAD_BYTES</a> = 1024</td></tr>
+<tr class="memdesc:a24a5c671b7c17e554a742304d8abc1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum preload data size in bytes.  <a href="../../d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2">More...</a><br /></td></tr>
+<tr class="separator:a24a5c671b7c17e554a742304d8abc1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2c63ed50a7426ba45599efdf439c36b"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b">VPK_DEFAULT_CHUNK_SIZE</a> = 200 * 1024 * 1024</td></tr>
+<tr class="memdesc:ad2c63ed50a7426ba45599efdf439c36b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Chunk size in bytes (default is 200mb)  <a href="../../d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b">More...</a><br /></td></tr>
+<tr class="separator:ad2c63ed50a7426ba45599efdf439c36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a360e36d001b917a2a73828b315116cc0"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0">VPK_VTMB_EXTENSION</a> = &quot;.vpk&quot;</td></tr>
 <tr class="separator:a360e36d001b917a2a73828b315116cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af80785db5464d702cb39ae2712fa02fd"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">BMZ_EXTENSION</a> = &quot;.bmz&quot;</td></tr>
 <tr class="separator:af80785db5464d702cb39ae2712fa02fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50c90d61c3ce05d48a2e0e5fb3cbab21"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">ZIP_EXTENSION</a> = &quot;.zip&quot;</td></tr>
 <tr class="separator:a50c90d61c3ce05d48a2e0e5fb3cbab21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a24a5c671b7c17e554a742304d8abc1a2"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2">VPK_MAX_PRELOAD_BYTES</a> = 1024</td></tr>
-<tr class="memdesc:a24a5c671b7c17e554a742304d8abc1a2"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a> - Maximum preload data size in bytes.  <a href="../../d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2">More...</a><br /></td></tr>
-<tr class="separator:a24a5c671b7c17e554a742304d8abc1a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2c63ed50a7426ba45599efdf439c36b"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b">VPK_DEFAULT_CHUNK_SIZE</a> = 200 * 1024 * 1024</td></tr>
-<tr class="memdesc:ad2c63ed50a7426ba45599efdf439c36b"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a> - Chunk size in bytes (default is 200mb)  <a href="../../d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b">More...</a><br /></td></tr>
-<tr class="separator:ad2c63ed50a7426ba45599efdf439c36b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e9ee05896c196e63abf2deafe49a54"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54">EXECUTABLE_EXTENSION0</a> = &quot;.exe&quot;</td></tr>
 <tr class="separator:a15e9ee05896c196e63abf2deafe49a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05b5908a562a1f3e7bff1b1ca8d04fb7"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7">EXECUTABLE_EXTENSION1</a> = &quot;.bin&quot;</td></tr>
@@ -413,7 +413,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00023">23</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00025">25</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -437,7 +437,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00024">24</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00026">26</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -461,7 +461,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00025">25</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00027">27</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -773,9 +773,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a> - Chunk size in bytes (default is 200mb) </p>
+<p>Chunk size in bytes (default is 200mb) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d76/Options_8h_source.html#l00011">11</a> of file <a class="el" href="../../d5/d76/Options_8h_source.html">Options.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/VPK_8h_source.html#l00023">23</a> of file <a class="el" href="../../d3/d5a/VPK_8h_source.html">VPK.h</a>.</p>
 
 </div>
 </div>
@@ -943,9 +943,9 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a> - Maximum preload data size in bytes. </p>
+<p>Maximum preload data size in bytes. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d76/Options_8h_source.html#l00008">8</a> of file <a class="el" href="../../d5/d76/Options_8h_source.html">Options.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d5a/VPK_8h_source.html#l00020">20</a> of file <a class="el" href="../../d3/d5a/VPK_8h_source.html">VPK.h</a>.</p>
 
 </div>
 </div>

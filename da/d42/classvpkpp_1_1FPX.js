@@ -1,6 +1,7 @@
 var classvpkpp_1_1FPX =
 [
-    [ "FPX", "da/d42/classvpkpp_1_1FPX.html#ab17f8bf3e9a4f87a043f33afcfbf38a6", null ],
-    [ "open", "da/d42/classvpkpp_1_1FPX.html#ab869e9d723dfa3355d5b1068236fe6af", null ],
-    [ "openInternal", "da/d42/classvpkpp_1_1FPX.html#a615d0d118b0bff03bf2e504f4987f0cd", null ]
+    [ "FPX", "da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b", null ],
+    [ "create", "da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe", null ],
+    [ "open", "da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3", null ],
+    [ "openInternal", "da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755", null ]
 ];

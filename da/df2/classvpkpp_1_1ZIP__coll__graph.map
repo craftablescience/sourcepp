@@ -1,9 +1,6 @@
 <map id="vpkpp::ZIP" name="vpkpp::ZIP">
-<area shape="rect" id="node1" title=" " alt="" coords="319,289,409,316"/>
-<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="248,213,371,240"/>
-<area shape="rect" id="node3" href="$d5/db7/structvpkpp_1_1PackFileOptions.html" title=" " alt="" coords="151,124,324,151"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,13,80,39"/>
-<area shape="rect" id="node5" title=" " alt="" coords="200,13,275,39"/>
-<area shape="rect" id="node6" title=" " alt="" coords="375,124,462,151"/>
-<area shape="rect" id="node7" title=" " alt="" coords="351,5,489,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="24,261,115,288"/>
+<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="165,185,288,212"/>
+<area shape="rect" id="node3" title=" " alt="" coords="31,96,118,123"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,5,144,47"/>
 </map>

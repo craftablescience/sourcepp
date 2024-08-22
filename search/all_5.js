@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['face_5fmacro_5ftexture_5finfo_314',['FACE_MACRO_TEXTURE_INFO',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058',1,'bsppp']]],
-  ['faceids_315',['FACEIDS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d',1,'bsppp']]],
-  ['faces_316',['FACES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528',1,'bsppp']]],
-  ['faces_5fhdr_317',['FACES_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0',1,'bsppp']]],
-  ['factoryfunction_318',['FactoryFunction',['../d2/dd2/classvpkpp_1_1PackFile.html#a0139dcf824decb806270d4233cc1518c',1,'vpkpp::PackFile']]],
+  ['face_5fmacro_5ftexture_5finfo_315',['FACE_MACRO_TEXTURE_INFO',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058',1,'bsppp']]],
+  ['faceids_316',['FACEIDS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d',1,'bsppp']]],
+  ['faces_317',['FACES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528',1,'bsppp']]],
+  ['faces_5fhdr_318',['FACES_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0',1,'bsppp']]],
   ['fgd_319',['FGD',['../d7/d45/classfgdpp_1_1FGD.html#a3ff3713c2989587f02dbf2b96071f091',1,'fgdpp::FGD::FGD(const std::string &amp;fgdPath)'],['../d7/d45/classfgdpp_1_1FGD.html#a4d4d591105f3a50d442d6c61c094dbd8',1,'fgdpp::FGD::FGD()=default'],['../d7/d45/classfgdpp_1_1FGD.html',1,'fgdpp::FGD']]],
   ['fgdpp_320',['fgdpp',['../d3/dce/namespacefgdpp.html',1,'']]],
   ['fgdpp_2ecpp_321',['fgdpp.cpp',['../d9/d87/fgdpp_8cpp.html',1,'']]],
@@ -110,7 +109,7 @@ var searchData=
   ['floatcompressed16_421',['FloatCompressed16',['../d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html#a982d50df7c09f03c12cf5c85d1219162',1,'sourcepp::math::FloatCompressed16::FloatCompressed16(uint16_t in)'],['../d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html#a1f7839e1e798055d9d99227e3bc934ee',1,'sourcepp::math::FloatCompressed16::FloatCompressed16(float in)'],['../d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html',1,'sourcepp::math::FloatCompressed16']]],
   ['footer2_422',['footer2',['../d5/d8b/classvpkpp_1_1VPK.html#a0281a6593257a2a8c8a1d5a289d60ca3',1,'vpkpp::VPK']]],
   ['footer2_423',['Footer2',['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html',1,'vpkpp::VPK']]],
-  ['fpx_424',['FPX',['../da/d42/classvpkpp_1_1FPX.html#ab17f8bf3e9a4f87a043f33afcfbf38a6',1,'vpkpp::FPX::FPX()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861',1,'vpkpp::FPX()'],['../da/d42/classvpkpp_1_1FPX.html',1,'vpkpp::FPX']]],
+  ['fpx_424',['FPX',['../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b',1,'vpkpp::FPX::FPX()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861',1,'vpkpp::FPX()'],['../da/d42/classvpkpp_1_1FPX.html',1,'vpkpp::FPX']]],
   ['fpx_2ecpp_425',['FPX.cpp',['../d3/d9d/FPX_8cpp.html',1,'']]],
   ['fpx_2eh_426',['FPX.h',['../dd/d63/FPX_8h.html',1,'']]],
   ['fpx_5fdir_5fsuffix_427',['FPX_DIR_SUFFIX',['../d5/d29/namespacevpkpp.html#a7f9a7752945a1d999a623a53dd8a437d',1,'vpkpp']]],

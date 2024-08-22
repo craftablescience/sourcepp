@@ -95,7 +95,7 @@ var annotated_dup =
       [ "VPK", "d5/d8b/classvpkpp_1_1VPK.html", "d5/d8b/classvpkpp_1_1VPK" ],
       [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", "d4/ddb/classvpkpp_1_1VPK__VTMB" ],
       [ "ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ],
-      [ "PackFileOptions", "d5/db7/structvpkpp_1_1PackFileOptions.html", "d5/db7/structvpkpp_1_1PackFileOptions" ],
+      [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
       [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
       [ "PackFile", "d2/dd2/classvpkpp_1_1PackFile.html", "d2/dd2/classvpkpp_1_1PackFile" ],
       [ "PackFileReadOnly", "de/df6/classvpkpp_1_1PackFileReadOnly.html", "de/df6/classvpkpp_1_1PackFileReadOnly" ],

@@ -1,15 +1,12 @@
 <map id="vpkpp::BSP" name="vpkpp::BSP">
-<area shape="rect" id="node1" title=" " alt="" coords="465,527,559,553"/>
-<area shape="rect" id="node2" href="$da/de7/classvpkpp_1_1ZIP.html" title=" " alt="" coords="341,451,432,477"/>
-<area shape="rect" id="node3" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="216,361,339,388"/>
-<area shape="rect" id="node4" href="$d5/db7/structvpkpp_1_1PackFileOptions.html" title=" " alt="" coords="119,265,292,291"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,146,80,173"/>
-<area shape="rect" id="node6" title=" " alt="" coords="200,146,275,173"/>
-<area shape="rect" id="node7" title=" " alt="" coords="438,265,525,291"/>
-<area shape="rect" id="node9" href="$d5/dba/classbsppp_1_1BSP.html" title=" " alt="" coords="635,451,730,477"/>
-<area shape="rect" id="node8" title=" " alt="" coords="412,139,551,180"/>
-<area shape="rect" id="node10" title=" " alt="" coords="740,361,889,388"/>
-<area shape="rect" id="node11" title=" " alt="" coords="647,257,815,299"/>
-<area shape="rect" id="node12" title=" " alt="" coords="669,146,808,173"/>
-<area shape="rect" id="node13" title=" " alt="" coords="765,5,832,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="335,527,430,553"/>
+<area shape="rect" id="node2" href="$da/de7/classvpkpp_1_1ZIP.html" title=" " alt="" coords="337,451,428,477"/>
+<area shape="rect" id="node3" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="260,361,383,388"/>
+<area shape="rect" id="node4" title=" " alt="" coords="297,265,383,291"/>
+<area shape="rect" id="node6" href="$d5/dba/classbsppp_1_1BSP.html" title=" " alt="" coords="155,451,250,477"/>
+<area shape="rect" id="node5" title=" " alt="" coords="271,139,409,180"/>
+<area shape="rect" id="node7" title=" " alt="" coords="5,361,155,388"/>
+<area shape="rect" id="node8" title=" " alt="" coords="99,257,267,299"/>
+<area shape="rect" id="node9" title=" " alt="" coords="107,146,245,173"/>
+<area shape="rect" id="node10" title=" " alt="" coords="49,5,116,32"/>
 </map>
