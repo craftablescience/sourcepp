@@ -33,27 +33,17 @@ ZIP::~ZIP() {
 std::unique_ptr<PackFile> ZIP::create(const std::string& path) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+
+		// I just created an empty zip with Windows and pasted the result because minizip-ng wasn't behaving
+		stream
+			.write('P')
+			.write('K')
+			.write<uint8_t>(5)
+			.write<uint8_t>(6)
+			.write<std::array<uint16_t, 4>>({})
+			.write<std::array<uint32_t, 2>>({})
+			.write<uint16_t>(0);
 	}
-
-	auto* streamHandle = mz_stream_os_create();
-	if (mz_stream_open(streamHandle, path.data(), MZ_OPEN_MODE_WRITE) != MZ_OK) {
-		mz_stream_delete(&streamHandle);
-		return nullptr;
-	}
-
-	auto* zipHandle = mz_zip_create();
-	if (mz_zip_open(zipHandle, streamHandle, MZ_OPEN_MODE_WRITE) != MZ_OK) {
-		mz_zip_delete(&zipHandle);
-		mz_stream_close(streamHandle);
-		mz_stream_delete(&streamHandle);
-		return nullptr;
-	}
-
-	mz_zip_close(zipHandle);
-	mz_zip_delete(&zipHandle);
-	mz_stream_close(streamHandle);
-	mz_stream_delete(&streamHandle);
-
 	return ZIP::open(path);
 }
 
