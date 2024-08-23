@@ -128,8 +128,10 @@ var NAVTREEINDEX0 =
 "d0/dfe/structfgdpp_1_1FGD_1_1Entity_1_1ClassProperty.html#a0843cd9535d08064cf539b79d06f0926":[1,0,2,0,1,0,0],
 "d0/dfe/structfgdpp_1_1FGD_1_1Entity_1_1ClassProperty.html#a95290ccf783e714f47aa2bb6dec3f144":[1,0,2,0,1,0,1],
 "d0/dff/structvpkpp_1_1BakeOptions.html":[1,0,8,10],
+"d0/dff/structvpkpp_1_1BakeOptions.html#a029a5155177153cc4707d8d58cbfc90d":[1,0,8,10,3],
 "d0/dff/structvpkpp_1_1BakeOptions.html#a2f38ce00e221f0a74f0c5b9d82cad9cc":[1,0,8,10,0],
 "d0/dff/structvpkpp_1_1BakeOptions.html#a5e5adcb078c020b79f15a2ae196e0ea4":[1,0,8,10,1],
+"d0/dff/structvpkpp_1_1BakeOptions.html#afcf7e8f88130c108d37a882e477f19e2":[1,0,8,10,2],
 "d1/d01/classvpkpp_1_1GCF.html":[1,0,8,3],
 "d1/d01/classvpkpp_1_1GCF.html#a03d2cacba825233823734914b3e5f4ff":[1,0,8,3,26],
 "d1/d01/classvpkpp_1_1GCF.html#a07a3d0133349a9a5f2b1209542f3ed87":[1,0,8,3,24],
@@ -247,7 +249,5 @@ var NAVTREEINDEX0 =
 "d1/da7/VPK_8cpp.html#a8cde7f2032650c1ab622eab95691beab":[2,0,1,9,0,7,1],
 "d1/da7/VPK_8cpp_source.html":[2,0,1,9,0,7],
 "d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html":[1,0,5,1,6],
-"d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa":[1,0,5,1,6,0],
-"d1/dbd/structmdlpp_1_1Movement.html":[1,0,5,6],
-"d1/dbd/structmdlpp_1_1Movement.html#a302979e41d39f0ad5d0e63740adf7f9f":[1,0,5,6,6]
+"d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa":[1,0,5,1,6,0]
 };

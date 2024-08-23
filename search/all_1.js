@@ -5,7 +5,7 @@ var searchData=
   ['bake_58',['bake',['../d2/d8b/classvpkpp_1_1EXAMPLE.html#ab8a4feb9524029da8f43a46d9dfc3b39',1,'vpkpp::EXAMPLE::bake()'],['../de/df6/classvpkpp_1_1PackFileReadOnly.html#a0d6ce018374cb8045d9ef216817b96ca',1,'vpkpp::PackFileReadOnly::bake()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2',1,'vpkpp::PackFile::bake()'],['../da/de7/classvpkpp_1_1ZIP.html#a7913c9e88154efab32ed55f4164b7888',1,'vpkpp::ZIP::bake()'],['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#aa6d77797d6b2d82616d9d9532f18134d',1,'vpkpp::VPK_VTMB::bake()'],['../d2/da8/classvpkpp_1_1BSP.html#aea7059976c981c3ed33f7f35ec8725fc',1,'vpkpp::BSP::bake()'],['../d6/d2c/classvpkpp_1_1GMA.html#a59acbdec69e9a1d18edaf2ea4cbfce3e',1,'vpkpp::GMA::bake()'],['../d9/daf/classvpkpp_1_1PAK.html#aba9a6d1c121f7f110156d19677b13f5a',1,'vpkpp::PAK::bake()'],['../d5/db5/classvpkpp_1_1PCK.html#acbd571f1abce6fa3d41ffa675d40a451',1,'vpkpp::PCK::bake()'],['../d5/d8b/classvpkpp_1_1VPK.html#ad57032fc38420f161077d85d01b4a4c0',1,'vpkpp::VPK::bake()']]],
   ['bakedmodel_59',['BakedModel',['../de/d21/structmdlpp_1_1BakedModel.html',1,'mdlpp']]],
   ['bakeoptions_60',['BakeOptions',['../d0/dff/structvpkpp_1_1BakeOptions.html',1,'vpkpp']]],
-  ['baketempzip_61',['bakeTempZip',['../da/de7/classvpkpp_1_1ZIP.html#ab889dc0fc0fdc90538dc0a4b2b5d46a5',1,'vpkpp::ZIP']]],
+  ['baketempzip_61',['bakeTempZip',['../da/de7/classvpkpp_1_1ZIP.html#afc47d738ec6959005c85a5dbd46e93c8',1,'vpkpp::ZIP']]],
   ['baketofile_62',['bakeToFile',['../d5/db1/classfgdpp_1_1FGDWriter.html#a19eeca162efb064f261b69f71fa2fa3c',1,'fgdpp::FGDWriter']]],
   ['baketostring_63',['bakeToString',['../d5/db1/classfgdpp_1_1FGDWriter.html#a6dd30f73b40be77bc3eb0f5fa0ad270a',1,'fgdpp::FGDWriter']]],
   ['base_64',['BASE',['../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10',1,'Adler32.cpp']]],
@@ -86,5 +86,7 @@ var searchData=
   ['bspvertex_5fv0_139',['BSPVertex_v0',['../d2/d27/structbsppp_1_1BSPVertex__v0.html',1,'bsppp']]],
   ['bytearray_140',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
   ['bytearray_141',['ByteArray',['../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71',1,'dmxpp::Value']]],
-  ['bytetoid_142',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]]
+  ['bytetoid_142',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]],
+  ['bz2_5fextension_143',['BZ2_EXTENSION',['../d5/d29/namespacevpkpp.html#a7d2810cb43690ba5cbbf97106a511aec',1,'vpkpp']]],
+  ['bzip2_144',['BZIP2',['../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
 ];

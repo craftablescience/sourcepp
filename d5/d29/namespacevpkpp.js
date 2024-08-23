@@ -23,6 +23,15 @@ var namespacevpkpp =
       [ "PCK_MD5", "d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeaf5daff9c8c4c160617d48afe23ec36c5", null ],
       [ "VPK_PRELOADED_DATA", "d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeac514d589875c1a147d787d1ac36649bc", null ]
     ] ],
+    [ "EntryCompressionType", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcd", [
+      [ "NO_OVERRIDE", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda9ed9fde06cff703c7420b059dd1bfca9", null ],
+      [ "NO_COMPRESS", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda2c7a9f26cee915ace4dfd40250ac57eb", null ],
+      [ "DEFLATE", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcdaf17e827fa227b759dc5c053b334d77cc", null ],
+      [ "BZIP2", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda800edd55a1e18b397e3d5d826f85ce34", null ],
+      [ "LZMA", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcdaf42190e84ceca474c5c77e4ddad30fb1", null ],
+      [ "ZSTD", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda8406cc2302e19183037b61249546b234", null ],
+      [ "XZ", "d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda27db3b98d01e664c17a6620b222c6469", null ]
+    ] ],
     [ "PackFileType", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926", [
       [ "UNKNOWN", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3", null ],
       [ "BSP", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a", null ],
@@ -37,6 +46,7 @@ var namespacevpkpp =
     ] ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
     [ "BSP_EXTENSION", "d5/d29/namespacevpkpp.html#a09fb541c2049262e43a2503c7094b7df", null ],
+    [ "BZ2_EXTENSION", "d5/d29/namespacevpkpp.html#a7d2810cb43690ba5cbbf97106a511aec", null ],
     [ "EXAMPLE_EXTENSION", "d5/d29/namespacevpkpp.html#a5d2f9e88caa61407f218c763d0af0256", null ],
     [ "EXECUTABLE_EXTENSION0", "d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54", null ],
     [ "EXECUTABLE_EXTENSION1", "d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7", null ],
@@ -47,12 +57,14 @@ var namespacevpkpp =
     [ "GCF_EXTENSION", "d5/d29/namespacevpkpp.html#a8995592ee693f0149c0b7e02ac63190a", null ],
     [ "GMA_EXTENSION", "d5/d29/namespacevpkpp.html#a19d2b5b3eedfb8f55ddaf4fd8ac89756", null ],
     [ "GMA_SIGNATURE", "d5/d29/namespacevpkpp.html#afc84db2ed44058792375f4a59518b7b1", null ],
+    [ "GZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a3c1173f45242d97f79fbb0aa1468da12", null ],
     [ "PAK_EXTENSION", "d5/d29/namespacevpkpp.html#adec671277ece08cb7a5cb8d21271488a", null ],
     [ "PAK_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a4927a77f9388bd06544dbbccefe04e79", null ],
     [ "PAK_SIGNATURE", "d5/d29/namespacevpkpp.html#a4f65be65eb264cc405ac1dabeae4fe69", null ],
     [ "PCK_EXTENSION", "d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7", null ],
     [ "PCK_PATH_PREFIX", "d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1", null ],
     [ "PCK_SIGNATURE", "d5/d29/namespacevpkpp.html#a9403d19e08235c1f62f9e0fe8f3d4eb8", null ],
+    [ "PK3_EXTENSION", "d5/d29/namespacevpkpp.html#ad4d41789f3009280940d92748b4c7c77", null ],
     [ "VPK_DEFAULT_CHUNK_SIZE", "d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b", null ],
     [ "VPK_DIR_INDEX", "d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078", null ],
     [ "VPK_DIR_SUFFIX", "d5/d29/namespacevpkpp.html#a41acece59031847553d1fdac8d3e400f", null ],
@@ -63,5 +75,7 @@ var namespacevpkpp =
     [ "VPK_MAX_PRELOAD_BYTES", "d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2", null ],
     [ "VPK_SIGNATURE", "d5/d29/namespacevpkpp.html#a232e225c110d56abf39101bd1259fd35", null ],
     [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
-    [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ]
+    [ "XZ_EXTENSION", "d5/d29/namespacevpkpp.html#a7e1632e11552d43b6ab79fafb743c5e2", null ],
+    [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ],
+    [ "ZSTD_EXTENSION", "d5/d29/namespacevpkpp.html#ac54710b943063ae2799c13469c886c55", null ]
 ];

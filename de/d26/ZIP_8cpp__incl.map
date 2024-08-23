@@ -1,17 +1,19 @@
 <map id="src/vpkpp/format/ZIP.cpp" name="src/vpkpp/format/ZIP.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="763,5,946,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="846,5,1029,32"/>
 <area shape="rect" id="node2" href="$d6/d66/ZIP_8h.html" title=" " alt="" coords="501,80,646,107"/>
 <area shape="rect" id="node25" title=" " alt="" coords="671,80,737,107"/>
-<area shape="rect" id="node26" title=" " alt="" coords="761,80,852,107"/>
-<area shape="rect" id="node27" title=" " alt="" coords="877,80,931,107"/>
-<area shape="rect" id="node28" title=" " alt="" coords="956,80,1047,107"/>
-<area shape="rect" id="node29" title=" " alt="" coords="1071,80,1185,107"/>
-<area shape="rect" id="node30" title=" " alt="" coords="1209,80,1289,107"/>
-<area shape="rect" id="node31" title=" " alt="" coords="1314,80,1417,107"/>
-<area shape="rect" id="node32" title=" " alt="" coords="1441,80,1545,107"/>
-<area shape="rect" id="node33" href="$d6/d27/CRC32_8h.html" title=" " alt="" coords="142,229,327,256"/>
-<area shape="rect" id="node34" href="$d5/dd2/FS_8h.html" title=" " alt="" coords="5,229,117,256"/>
-<area shape="rect" id="node35" href="$d9/dba/String_8h.html" title=" " alt="" coords="455,155,590,181"/>
+<area shape="rect" id="node26" title=" " alt="" coords="761,80,820,107"/>
+<area shape="rect" id="node27" title=" " alt="" coords="844,80,935,107"/>
+<area shape="rect" id="node28" title=" " alt="" coords="959,80,1014,107"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1038,80,1114,107"/>
+<area shape="rect" id="node30" title=" " alt="" coords="1139,80,1229,107"/>
+<area shape="rect" id="node31" title=" " alt="" coords="1254,80,1367,107"/>
+<area shape="rect" id="node32" title=" " alt="" coords="1392,80,1472,107"/>
+<area shape="rect" id="node33" title=" " alt="" coords="1497,80,1599,107"/>
+<area shape="rect" id="node34" title=" " alt="" coords="1624,80,1728,107"/>
+<area shape="rect" id="node35" href="$d6/d27/CRC32_8h.html" title=" " alt="" coords="142,229,327,256"/>
+<area shape="rect" id="node36" href="$d5/dd2/FS_8h.html" title=" " alt="" coords="5,229,117,256"/>
+<area shape="rect" id="node37" href="$d9/dba/String_8h.html" title=" " alt="" coords="455,155,590,181"/>
 <area shape="rect" id="node3" href="$d3/df4/PackFile_8h.html" title=" " alt="" coords="1183,155,1281,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="683,229,763,256"/>
 <area shape="rect" id="node5" title=" " alt="" coords="1189,229,1275,256"/>
@@ -34,5 +36,5 @@
 <area shape="rect" id="node19" href="$d3/d58/BitwiseEnumClass_8h.html" title=" " alt="" coords="1241,304,1458,331"/>
 <area shape="rect" id="node21" title=" " alt="" coords="199,304,270,331"/>
 <area shape="rect" id="node22" title=" " alt="" coords="837,304,905,331"/>
-<area shape="rect" id="node36" title=" " alt="" coords="403,229,485,256"/>
+<area shape="rect" id="node38" title=" " alt="" coords="403,229,485,256"/>
 </map>

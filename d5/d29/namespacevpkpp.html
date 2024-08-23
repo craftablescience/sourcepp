@@ -171,6 +171,18 @@ Enumerations</h2></td></tr>
 <br />
  }</td></tr>
 <tr class="separator:a63727a96905643976a73888dcc838dae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a083b65420715cbcfde081903f00addcd"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcd">EntryCompressionType</a> : int8_t { <br />
+&#160;&#160;<a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda9ed9fde06cff703c7420b059dd1bfca9">NO_OVERRIDE</a> = -1
+, <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda2c7a9f26cee915ace4dfd40250ac57eb">NO_COMPRESS</a> = 0
+, <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcdaf17e827fa227b759dc5c053b334d77cc">DEFLATE</a> = 8
+, <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda800edd55a1e18b397e3d5d826f85ce34">BZIP2</a> = 12
+, <br />
+&#160;&#160;<a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcdaf42190e84ceca474c5c77e4ddad30fb1">LZMA</a> = 14
+, <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda8406cc2302e19183037b61249546b234">ZSTD</a> = 93
+, <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda27db3b98d01e664c17a6620b222c6469">XZ</a> = 95
+<br />
+ }</td></tr>
+<tr class="separator:a083b65420715cbcfde081903f00addcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa85a67fde1caa75abb46425eaa54d926"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926">PackFileType</a> { <br />
 &#160;&#160;<a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3">UNKNOWN</a>
 , <a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a">BSP</a>
@@ -240,8 +252,18 @@ Variables</h2></td></tr>
 <tr class="separator:a360e36d001b917a2a73828b315116cc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af80785db5464d702cb39ae2712fa02fd"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd">BMZ_EXTENSION</a> = &quot;.bmz&quot;</td></tr>
 <tr class="separator:af80785db5464d702cb39ae2712fa02fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d2810cb43690ba5cbbf97106a511aec"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a7d2810cb43690ba5cbbf97106a511aec">BZ2_EXTENSION</a> = &quot;.bz2&quot;</td></tr>
+<tr class="separator:a7d2810cb43690ba5cbbf97106a511aec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c1173f45242d97f79fbb0aa1468da12"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a3c1173f45242d97f79fbb0aa1468da12">GZIP_EXTENSION</a> = &quot;.gz&quot;</td></tr>
+<tr class="separator:a3c1173f45242d97f79fbb0aa1468da12"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad4d41789f3009280940d92748b4c7c77"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#ad4d41789f3009280940d92748b4c7c77">PK3_EXTENSION</a> = &quot;.pk3&quot;</td></tr>
+<tr class="separator:ad4d41789f3009280940d92748b4c7c77"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1632e11552d43b6ab79fafb743c5e2"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a7e1632e11552d43b6ab79fafb743c5e2">XZ_EXTENSION</a> = &quot;.xz&quot;</td></tr>
+<tr class="separator:a7e1632e11552d43b6ab79fafb743c5e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a50c90d61c3ce05d48a2e0e5fb3cbab21"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21">ZIP_EXTENSION</a> = &quot;.zip&quot;</td></tr>
 <tr class="separator:a50c90d61c3ce05d48a2e0e5fb3cbab21"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac54710b943063ae2799c13469c886c55"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#ac54710b943063ae2799c13469c886c55">ZSTD_EXTENSION</a> = &quot;.zstd&quot;</td></tr>
+<tr class="separator:ac54710b943063ae2799c13469c886c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a15e9ee05896c196e63abf2deafe49a54"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54">EXECUTABLE_EXTENSION0</a> = &quot;.exe&quot;</td></tr>
 <tr class="separator:a15e9ee05896c196e63abf2deafe49a54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05b5908a562a1f3e7bff1b1ca8d04fb7"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7">EXECUTABLE_EXTENSION1</a> = &quot;.bin&quot;</td></tr>
@@ -281,6 +303,39 @@ Variables</h2></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d08/Attribute_8h_source.html#l00007">7</a> of file <a class="el" href="../../d4/d08/Attribute_8h_source.html">Attribute.h</a>.</p>
+
+</div>
+</div>
+<a id="a083b65420715cbcfde081903f00addcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a083b65420715cbcfde081903f00addcd">&#9670;&nbsp;</a></span>EntryCompressionType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcd">vpkpp::EntryCompressionType</a> : int8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcda9ed9fde06cff703c7420b059dd1bfca9"></a>NO_OVERRIDE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcda2c7a9f26cee915ace4dfd40250ac57eb"></a>NO_COMPRESS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcdaf17e827fa227b759dc5c053b334d77cc"></a>DEFLATE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcda800edd55a1e18b397e3d5d826f85ce34"></a>BZIP2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcdaf42190e84ceca474c5c77e4ddad30fb1"></a>LZMA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcda8406cc2302e19183037b61249546b234"></a>ZSTD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a083b65420715cbcfde081903f00addcda27db3b98d01e664c17a6620b222c6469"></a>XZ&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d76/Options_8h_source.html#l00007">7</a> of file <a class="el" href="../../d5/d76/Options_8h_source.html">Options.h</a>.</p>
 
 </div>
 </div>
@@ -366,6 +421,30 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00012">12</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+
+</div>
+</div>
+<a id="a7d2810cb43690ba5cbbf97106a511aec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d2810cb43690ba5cbbf97106a511aec">&#9670;&nbsp;</a></span>BZ2_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::BZ2_EXTENSION = &quot;.bz2&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00008">8</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
 
 </div>
 </div>
@@ -609,6 +688,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a3c1173f45242d97f79fbb0aa1468da12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3c1173f45242d97f79fbb0aa1468da12">&#9670;&nbsp;</a></span>GZIP_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::GZIP_EXTENSION = &quot;.gz&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00009">9</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
+
+</div>
+</div>
 <a id="adec671277ece08cb7a5cb8d21271488a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adec671277ece08cb7a5cb8d21271488a">&#9670;&nbsp;</a></span>PAK_EXTENSION</h2>
 
@@ -750,6 +853,30 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00009">9</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="ad4d41789f3009280940d92748b4c7c77"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad4d41789f3009280940d92748b4c7c77">&#9670;&nbsp;</a></span>PK3_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::PK3_EXTENSION = &quot;.pk3&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00010">10</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
 
 </div>
 </div>
@@ -997,6 +1124,30 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a7e1632e11552d43b6ab79fafb743c5e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e1632e11552d43b6ab79fafb743c5e2">&#9670;&nbsp;</a></span>XZ_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::XZ_EXTENSION = &quot;.xz&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00011">11</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
+
+</div>
+</div>
 <a id="a50c90d61c3ce05d48a2e0e5fb3cbab21"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a50c90d61c3ce05d48a2e0e5fb3cbab21">&#9670;&nbsp;</a></span>ZIP_EXTENSION</h2>
 
@@ -1017,7 +1168,31 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00008">8</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00012">12</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
+
+</div>
+</div>
+<a id="ac54710b943063ae2799c13469c886c55"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac54710b943063ae2799c13469c886c55">&#9670;&nbsp;</a></span>ZSTD_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::ZSTD_EXTENSION = &quot;.zstd&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d66/ZIP_8h_source.html#l00013">13</a> of file <a class="el" href="../../d6/d66/ZIP_8h_source.html">ZIP.h</a>.</p>
 
 </div>
 </div>
