@@ -5,8 +5,12 @@
 namespace vpkpp {
 
 constexpr std::string_view BMZ_EXTENSION = ".bmz";
+constexpr std::string_view BZ2_EXTENSION = ".bz2";
+constexpr std::string_view GZIP_EXTENSION = ".gz";
 constexpr std::string_view PK3_EXTENSION = ".pk3";
+constexpr std::string_view XZ_EXTENSION = ".xz";
 constexpr std::string_view ZIP_EXTENSION = ".zip";
+constexpr std::string_view ZSTD_EXTENSION = ".zstd";
 
 class ZIP : public PackFile {
 public:
@@ -34,18 +38,12 @@ public:
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
-#ifdef VPKPP_ZIP_COMPRESSION
-	[[nodiscard]] uint16_t getCompressionMethod() const;
-
-	void setCompressionMethod(uint16_t compressionMethod);
-#endif
-
 protected:
 	explicit ZIP(const std::string& fullFilePath_);
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
-	bool bakeTempZip(const std::string& writeZipPath, const EntryCallback& callback);
+	bool bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback);
 
 	bool openZIP(std::string_view path);
 
@@ -61,8 +59,12 @@ protected:
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(BMZ_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(BZ2_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(GZIP_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(PK3_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(XZ_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(ZIP_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(ZSTD_EXTENSION, &ZIP::open);
 };
 
 } // namespace vpkpp

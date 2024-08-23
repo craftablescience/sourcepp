@@ -99,7 +99,7 @@ bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Use temp folder so we can read from the current ZIP
-	if (!this->bakeTempZip(this->tempZIPPath, callback)) {
+	if (!this->bakeTempZip(this->tempZIPPath, options, callback)) {
 		return false;
 	}
 	this->mergeUnbakedEntries();
