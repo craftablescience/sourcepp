@@ -1,13 +1,12 @@
 #include <vpkpp/format/ZIP.h>
 
 #include <cstring>
+#include <ctime>
 #include <filesystem>
 
 #include <mz.h>
+#include <mz_os.h>
 #include <mz_strm.h>
-#ifdef VPKPP_ZIP_COMPRESSION
-#include <mz_strm_lzma.h>
-#endif
 #include <mz_strm_os.h>
 #include <mz_zip.h>
 #include <mz_zip_rw.h>
@@ -61,12 +60,13 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, const EntryCallback
 	}
 
 	for (auto code = mz_zip_goto_first_entry(zip->zipHandle); code == MZ_OK; code = mz_zip_goto_next_entry(zip->zipHandle)) {
+		if (mz_zip_entry_is_dir(zip->zipHandle) == MZ_OK) {
+			continue;
+		}
+
 		mz_zip_file* fileInfo = nullptr;
 		if (mz_zip_entry_get_info(zip->zipHandle, &fileInfo)) {
 			return nullptr;
-		}
-		if (mz_zip_entry_is_dir(zip->zipHandle) == MZ_OK) {
-			continue;
 		}
 
 		auto entryPath = zip->cleanEntryPath(fileInfo->filename);
@@ -122,6 +122,12 @@ void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 	entry.length = buffer.size();
 	entry.compressedLength = 0;
 	entry.crc32 = crypto::computeCRC32(buffer);
+
+	if (options.zip_compressionType != EntryCompressionType::NO_OVERRIDE) {
+		entry.flags = static_cast<uint32_t>(options.zip_compressionType);
+	} else {
+		entry.flags = static_cast<uint32_t>(EntryCompressionType::NO_COMPRESS);
+	}
 }
 
 bool ZIP::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
@@ -130,7 +136,7 @@ bool ZIP::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Use temp folder so we can read from the current ZIP
-	if (!this->bakeTempZip(this->tempZIPPath, callback)) {
+	if (!this->bakeTempZip(this->tempZIPPath, options, callback)) {
 		return false;
 	}
 	this->mergeUnbakedEntries();
@@ -150,27 +156,8 @@ Attribute ZIP::getSupportedEntryAttributes() const {
 	return LENGTH | CRC32;
 }
 
-#ifdef VPKPP_ZIP_COMPRESSION
-uint16_t ZIP::getCompressionMethod() const {
-	return this->options.zip_compressionMethod;
-}
-
-void ZIP::setCompressionMethod(uint16_t compressionMethod) {
-	this->options.zip_compressionMethod = compressionMethod;
-}
-#endif
-
-bool ZIP::bakeTempZip(const std::string& writeZipPath, const EntryCallback& callback) {
-	void* writeStreamHandle;
-#ifdef VPKPP_ZIP_COMPRESSION
-	if (this->options.zip_compressionMethod != MZ_COMPRESS_METHOD_STORE) {
-		writeStreamHandle = mz_stream_lzma_create();
-	} else {
-#endif
-		writeStreamHandle = mz_stream_os_create();
-#ifdef VPKPP_ZIP_COMPRESSION
-	}
-#endif
+bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback) {
+	void* writeStreamHandle = mz_stream_os_create();
 	if (mz_stream_open(writeStreamHandle, writeZipPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
 		return false;
 	}
@@ -180,29 +167,35 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, const EntryCallback& call
 		return false;
 	}
 
-#ifdef VPKPP_ZIP_COMPRESSION
-	if (this->options.zip_compressionMethod != MZ_COMPRESS_METHOD_STORE) {
-		mz_zip_writer_set_compress_level(writeZipHandle, MZ_COMPRESS_LEVEL_DEFAULT);
-		mz_zip_writer_set_compress_method(writeZipHandle, MZ_COMPRESS_METHOD_LZMA);
-	}
-#endif
+	const auto time = std::time(nullptr);
+
+	const bool overrideCompression = options.zip_compressionTypeOverride != EntryCompressionType::NO_OVERRIDE;
+	mz_zip_writer_set_compress_level(writeStreamHandle, options.zip_compressionStrength);
 
 	bool noneFailed = true;
-	this->runForAllEntries([this, &callback, writeZipHandle, &noneFailed](const std::string& path, const Entry& entry) {
+	this->runForAllEntries([this, &options, &callback, writeStreamHandle, writeZipHandle, time, overrideCompression, &noneFailed](const std::string& path, const Entry& entry) {
 		auto binData = this->readEntry(path);
 		if (!binData) {
 			return;
 		}
 
+		if (overrideCompression) {
+			mz_zip_writer_set_compress_method(writeStreamHandle, static_cast<uint16_t>(options.zip_compressionTypeOverride));
+		} else {
+			mz_zip_writer_set_compress_method(writeStreamHandle, entry.flags);
+		}
+
 		mz_zip_file fileInfo;
 		std::memset(&fileInfo, 0, sizeof(mz_zip_entry));
-		fileInfo.flag = MZ_ZIP_FLAG_DATA_DESCRIPTOR;
 		fileInfo.filename = path.c_str();
 		fileInfo.filename_size = path.length();
+		fileInfo.version_madeby = MZ_VERSION_MADEBY;
+		fileInfo.modified_date = time;
+		fileInfo.compression_method = overrideCompression ? static_cast<uint16_t>(options.zip_compressionTypeOverride) : entry.flags;
+		fileInfo.flag = MZ_ZIP_FLAG_DATA_DESCRIPTOR | MZ_ZIP_FLAG_UTF8;
 		fileInfo.uncompressed_size = static_cast<int64_t>(entry.length);
 		fileInfo.compressed_size = static_cast<int64_t>(entry.compressedLength);
 		fileInfo.crc = entry.crc32;
-		fileInfo.compression_method = MZ_COMPRESS_METHOD_STORE;
 		if (mz_zip_writer_add_buffer(writeZipHandle, binData->data(), static_cast<int>(binData->size()), &fileInfo)) {
 			noneFailed = false;
 			return;
@@ -248,9 +241,11 @@ void ZIP::closeZIP() {
 	if (this->zipOpen) {
 		mz_zip_close(this->zipHandle);
 		mz_zip_delete(&this->zipHandle);
+		this->zipOpen = false;
 	}
 	if (this->streamOpen) {
 		mz_stream_close(this->streamHandle);
 		mz_stream_delete(&this->streamHandle);
+		this->streamOpen = false;
 	}
 }
