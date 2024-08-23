@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['quatcompressed48_1251',['QuatCompressed48',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html',1,'sourcepp::math']]],
-  ['quatcompressed64_1252',['QuatCompressed64',['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html',1,'sourcepp::math']]]
+  ['quatcompressed48_1252',['QuatCompressed48',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html',1,'sourcepp::math']]],
+  ['quatcompressed64_1253',['QuatCompressed64',['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html',1,'sourcepp::math']]]
 ];
