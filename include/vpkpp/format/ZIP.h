@@ -5,6 +5,7 @@
 namespace vpkpp {
 
 constexpr std::string_view BMZ_EXTENSION = ".bmz";
+constexpr std::string_view PK3_EXTENSION = ".pk3";
 constexpr std::string_view ZIP_EXTENSION = ".zip";
 
 class ZIP : public PackFile {
@@ -60,6 +61,7 @@ protected:
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(BMZ_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(PK3_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(ZIP_EXTENSION, &ZIP::open);
 };
 
