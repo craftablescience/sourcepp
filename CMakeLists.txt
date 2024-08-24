@@ -21,6 +21,7 @@ option(SOURCEPP_USE_GAMEPP               "Build gamepp library"                 
 option(SOURCEPP_USE_KVPP                 "Build kvpp library"                        ON)
 option(SOURCEPP_USE_MDLPP                "Build mdlpp library"                       ON)
 option(SOURCEPP_USE_STEAMPP              "Build steampp library"                     ON)
+option(SOURCEPP_USE_TOOLPP               "Build toolpp library"                      ON)
 option(SOURCEPP_USE_VICEPP               "Build vicepp library"                      ON)
 option(SOURCEPP_USE_VPKPP                "Build vpkpp library"                       ON)
 option(SOURCEPP_USE_VTFPP                "Build vtfpp library"                       ON)
@@ -32,6 +33,9 @@ option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"  
 
 # Option overrides
 if(SOURCEPP_USE_STEAMPP)
+    set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
+endif()
+if(SOURCEPP_USE_TOOLPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "")
 endif()
 if(SOURCEPP_USE_VPKPP)
@@ -94,6 +98,7 @@ add_sourcepp_library(gamepp)                  # sourcepp::gamepp
 add_sourcepp_library(kvpp)                    # sourcepp::kvpp
 add_sourcepp_library(mdlpp)                   # sourcepp::mdlpp
 add_sourcepp_library(steampp C)               # sourcepp::steampp
+add_sourcepp_library(toolpp)                  # sourcepp::toolpp
 add_sourcepp_library(vicepp C CSHARP)         # sourcepp::vicepp
 add_sourcepp_library(vpkpp C CSHARP NO_TEST)  # sourcepp::vpkpp
 add_sourcepp_library(vtfpp)                   # sourcepp::vtfpp

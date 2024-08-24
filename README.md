@@ -89,7 +89,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     </td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td></td>
+    <td align="center"></td>
   </tr>
   <tr>
     <td><code>steampp</code></td>
@@ -103,6 +103,17 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">n/a</td>
     <td align="center">C</td>
   </tr>
+  <tr>
+    <td><code>toolpp</code></td>
+    <td>
+      <ul>
+        <li><a href="https://developer.valvesoftware.com/wiki/Command_Sequences">WC</a> v0.1-0.2</li>
+      </ul>
+    </td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td align="center"></td>
+  </tr>  
   <tr>
     <td><code>vicepp</code></td>
     <td>
