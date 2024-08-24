@@ -41,7 +41,7 @@ struct Strip {
 	//int32_t numTopologyIndices;
 	//int32_t topologyOffset;
 };
-SOURCEPP_BITWISE_ENUM(Strip::Flags)
+SOURCEPP_BITFLAGS_ENUM(Strip::Flags)
 
 struct StripGroup {
 	enum Flags : uint8_t {
@@ -70,7 +70,7 @@ struct StripGroup {
 	//int32_t numTopologyIndices;
 	//int32_t topologyOffset;
 };
-SOURCEPP_BITWISE_ENUM(StripGroup::Flags)
+SOURCEPP_BITFLAGS_ENUM(StripGroup::Flags)
 
 struct Mesh {
 	enum Flags : uint8_t {
@@ -85,7 +85,7 @@ struct Mesh {
 
 	Flags flags;
 };
-SOURCEPP_BITWISE_ENUM(Mesh::Flags)
+SOURCEPP_BITFLAGS_ENUM(Mesh::Flags)
 
 struct ModelLOD {
 	//int32_t meshCount;

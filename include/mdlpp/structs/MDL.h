@@ -44,7 +44,7 @@ struct Bone {
 
 	//int32_t _unused0[8];
 };
-SOURCEPP_BITWISE_ENUM(Bone::Flags)
+SOURCEPP_BITFLAGS_ENUM(Bone::Flags)
 
 struct BoneController {
 	int32_t bone;
@@ -200,7 +200,7 @@ struct Material {
 	//int32_t used; // No idea what this is
 	//int32_t _unused0[13];
 };
-SOURCEPP_BITWISE_ENUM(Material::Flags)
+SOURCEPP_BITFLAGS_ENUM(Material::Flags)
 
 struct Mesh {
 	int32_t material;
@@ -414,6 +414,6 @@ struct MDL {
 
 	//int32_t _unused3;
 };
-SOURCEPP_BITWISE_ENUM(MDL::Flags)
+SOURCEPP_BITFLAGS_ENUM(MDL::Flags)
 
 } // namespace mdlpp::MDL

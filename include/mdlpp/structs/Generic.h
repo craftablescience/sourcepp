@@ -37,6 +37,6 @@ struct Movement {
 	sourcepp::math::Vec3f movement;
 	sourcepp::math::Vec3f relativePosition;
 };
-SOURCEPP_BITWISE_ENUM(Movement::Flags)
+SOURCEPP_BITFLAGS_ENUM(Movement::Flags)
 
 } // namespace mdlpp

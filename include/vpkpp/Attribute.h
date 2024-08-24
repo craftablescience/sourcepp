@@ -12,6 +12,6 @@ enum class Attribute {
 	PCK_MD5            = 1 << 3,
 	VPK_PRELOADED_DATA = 1 << 4,
 };
-SOURCEPP_BITWISE_ENUM(Attribute)
+SOURCEPP_BITFLAGS_ENUM(Attribute)
 
 } // namespace vpkpp

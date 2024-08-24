@@ -10,7 +10,7 @@
 #define SOURCEPP_UNIQUE_NAME(base) SOURCEPP_CONCAT(base, __LINE__)
 
 /// Defines bitwise operators for an enum or enum class
-#define SOURCEPP_BITWISE_ENUM(Enum)                                 \
+#define SOURCEPP_BITFLAGS_ENUM(Enum)                                \
     inline constexpr Enum operator|(Enum lhs, Enum rhs) {           \
         return static_cast<Enum>(                                   \
             static_cast<std::underlying_type_t<Enum>>(lhs) |        \
