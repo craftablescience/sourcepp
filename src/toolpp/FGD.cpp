@@ -1,4 +1,4 @@
-#include <fgdpp/fgdpp.h>
+#include <toolpp/FGD.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -10,8 +10,8 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
-using namespace fgdpp;
 using namespace sourcepp;
+using namespace toolpp;
 
 namespace {
 
@@ -829,7 +829,7 @@ FGDWriter& FGDWriter::EntityWriter::endEntity() {
 	return this->parent;
 }
 
-std::string FGDWriter::bakeToString() {
+std::string FGDWriter::bake() {
 	this->backingData.resize(this->writer.tell());
 	if (this->backingData.ends_with("\n\n")) {
 		this->backingData.pop_back();
@@ -837,6 +837,6 @@ std::string FGDWriter::bakeToString() {
 	return this->backingData;
 }
 
-void FGDWriter::bakeToFile(const std::string& fgdPath) {
-	fs::writeFileText(fgdPath, this->bakeToString());
+void FGDWriter::bake(const std::string& fgdPath) {
+	fs::writeFileText(fgdPath, this->bake());
 }

@@ -16,7 +16,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options
 option(SOURCEPP_USE_BSPPP                "Build bsppp library"                       ON)
 option(SOURCEPP_USE_DMXPP                "Build dmxpp library"                       ON)
-option(SOURCEPP_USE_FGDPP                "Build fgdpp library"                       ON)
 option(SOURCEPP_USE_GAMEPP               "Build gamepp library"                      ON)
 option(SOURCEPP_USE_KVPP                 "Build kvpp library"                        ON)
 option(SOURCEPP_USE_MDLPP                "Build mdlpp library"                       ON)
@@ -93,7 +92,6 @@ endif()
 # Add libraries
 add_sourcepp_library(bsppp NO_TEST)           # sourcepp::bsppp
 add_sourcepp_library(dmxpp)                   # sourcepp::dmxpp
-add_sourcepp_library(fgdpp)                   # sourcepp::fgdpp
 add_sourcepp_library(gamepp)                  # sourcepp::gamepp
 add_sourcepp_library(kvpp)                    # sourcepp::kvpp
 add_sourcepp_library(mdlpp)                   # sourcepp::mdlpp
