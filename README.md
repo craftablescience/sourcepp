@@ -21,142 +21,158 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Wrappers</th>
   </tr>
   <tr>
-    <td><code>bsppp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</li>
-      </ul>
-    </td>
+    <td rowspan="1"><code>bsppp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td align="center"></td>
+    <td rowspan="1" align="center"></td>
   </tr>
   <tr>
-    <td><code>dmxpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</li>
-      </ul>
-    </td>
+    <td rowspan="1"><code>dmxpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td align="center"></td>
+    <td rowspan="1" align="center"></td>
   </tr>
   <tr>
-    <td><code>fgdpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a></li>
-        <li><a href="https://ficool2.github.io/HammerPlusPlus-Website">Hammer++</a> FGD modifications</li>
-        <li><a href="https://stratasource.org">Strata Source</a> FGD modifications</li>
-      </ul>
-    </td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td><code>gamepp</code></td>
-    <td>
-      <ul>
-        <li>Get Source engine instance window title/position/size</li>
-        <li>Run commands in a Source engine instance remotely</li>
-      </ul>
-    </td>
-    <td align="center">n/a</td>
-    <td align="center">n/a</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td><code>kvpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></li>
-      </ul>
-    </td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-    <td align="center"></td>
-  </tr>
-  <tr>
-    <td><code>mdlpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></li>
-        <li><a href="https://developer.valvesoftware.com/wiki/VTX">VTX</a> v7</li>
-        <li><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</li>
-      </ul>
-    </td>
+    <td rowspan="2"><code>gamepp</code></td>
+    <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td align="center"></td>
+    <td rowspan="2" align="center"></td>
   </tr>
   <tr>
-    <td><code>steampp</code></td>
-    <td>
-      <ul>
-        <li>Find Steam install folder</li>
-        <li>Find installed Steam games</li>
-      </ul>
-    </td>
-    <td align="center">n/a</td>
-    <td align="center">n/a</td>
-    <td align="center">C</td>
+    <td>Run commands in a Source engine instance remotely</td>
+    <td align="center">❌</td>
+    <td align="center">✅</td>
   </tr>
   <tr>
-    <td><code>toolpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/Command_Sequences">WC</a> v0.1-0.2</li>
-      </ul>
-    </td>
+    <td rowspan="1"><code>kvpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="1" align="center"></td>
+  </tr>
+  <tr>
+    <td rowspan="3"><code>mdlpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td align="center"></td>
-  </tr>  
-  <tr>
-    <td><code>vicepp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</li>
-      </ul>
-    </td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-    <td align="center">C<br>C#</td>
+    <td rowspan="3" align="center"></td>
   </tr>
   <tr>
-    <td><code>vpkpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></li>
-        <li><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</li>
-        <li>FPX v10 (Tactical Intervention)</li>
-        <li><a href="https://developer.valvesoftware.com/wiki/GCF_archive">GCF</a> v6</li>
-        <li>GMA v1-3 (Garry's Mod)</li>
-        <li><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</li>
-        <li><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</li>
-        <li><a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)</li>
-        <li><a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)</li>
-        <li><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</li>
-        <li>VPK (Vampire: The Masquerade - Bloodlines)</li>
-        <li>ZIP</li>
-      </ul>
-    </td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-    <td align="center">C<br>C#</td>
-  </tr>
-  <tr>
-    <td><code>vtfpp</code></td>
-    <td>
-      <ul>
-        <li><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</li>
-      </ul>
-    </td>
+    <td><a href="https://developer.valvesoftware.com/wiki/VTX">VTX</a> v7</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td align="center"></td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr>
+    <td rowspan="2"><code>steampp</code></td>
+    <td>Find Steam install folder</td>
+    <td align="center">✅</td>
+    <td align="center">-</td>
+    <td rowspan="2" align="center">C</td>
+  </tr>
+  <tr>
+    <td>Find installed Steam games</td>
+    <td align="center">✅</td>
+    <td align="center">-</td>
+  </tr>
+  <tr>
+    <td rowspan="2"><code>toolpp</code></td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a>
+      <br> &bull; <a href="https://ficool2.github.io/HammerPlusPlus-Website">Hammer++</a> FGD modifications
+      <br> &bull; <a href="https://stratasource.org">Strata Source</a> FGD modifications
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="2" align="center"></td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/Command_Sequences">WC</a> (Command Sequences) v0.1-0.2</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr>
+    <td rowspan="1"><code>vicepp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="1" align="center">C<br>C#</td>
+  </tr>
+  <tr>
+    <td rowspan="12"><code>vpkpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="12" align="center">C<br>C#</td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>FPX v10 (Tactical Intervention)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/GCF_archive">GCF</a> v6</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr>
+    <td>GMA v1-3 (Garry's Mod)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>VPK (Vampire: The Masquerade - Bloodlines)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>ZIP (and BZ2, GZ, XZ, ZSTD)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td rowspan="1"><code>vtfpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td rowspan="1" align="center"></td>
   </tr>
 </table>
 
