@@ -22,24 +22,27 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, const EntryCallback
 	}
 
 	auto* gma = new GMA{path};
-	auto packFile = std::unique_ptr<PackFile>(gma);
+	auto packFile = std::unique_ptr<PackFile>{gma};
 
-	FileStream reader{gma->fullFilePath};
-	reader.seek_in(0);
+	auto& reader = (gma->readHandle = FileStream{path}).value();
+	if (!reader) {
+		return nullptr;
+	}
 
-	reader.read(gma->header.signature);
+	reader.seek_in(0).read(gma->header.signature);
 	if (gma->header.signature != GMA_SIGNATURE) {
 		// File is not a GMA
 		return nullptr;
 	}
-	reader.read(gma->header.version);
-	reader.read(gma->header.steamID);
-	reader.read(gma->header.timestamp);
-	reader.read(gma->header.requiredContent);
-	reader.read(gma->header.addonName);
-	reader.read(gma->header.addonDescription);
-	reader.read(gma->header.addonAuthor);
-	reader.read(gma->header.addonVersion);
+	reader
+		.read(gma->header.version)
+		.read(gma->header.steamID)
+		.read(gma->header.timestamp)
+		.read(gma->header.requiredContent)
+		.read(gma->header.addonName)
+		.read(gma->header.addonDescription)
+		.read(gma->header.addonAuthor)
+		.read(gma->header.addonVersion);
 
 	std::vector<std::pair<std::string, Entry>> entries;
 	while (reader.read<uint32_t>() > 0) {
@@ -69,7 +72,7 @@ std::unique_ptr<PackFile> GMA::open(const std::string& path, const EntryCallback
 	return packFile;
 }
 
-std::vector<std::string> GMA::verifyEntryChecksums() const {
+std::vector<std::string> GMA::verifyEntryChecksums() {
 	return this->verifyEntryChecksumsUsingCRC32();
 }
 
@@ -77,21 +80,22 @@ bool GMA::hasPackFileChecksum() const {
 	return true;
 }
 
-bool GMA::verifyPackFileChecksum() const {
-	auto data = fs::readFileBuffer(this->fullFilePath);
-	if (data.size() <= 4) {
+bool GMA::verifyPackFileChecksum() {
+	if (!this->isReadHandleOpen()) {
+		return false;
+	}
+	auto& reader = this->readHandle.value();
+
+	auto dataSize = std::filesystem::file_size(this->getFilepath());
+	if (dataSize <= sizeof(uint32_t)) {
 		return true;
 	}
 
-	auto checksum = *(reinterpret_cast<uint32_t*>(data.data() + data.size()) - 1);
-	data.pop_back();
-	data.pop_back();
-	data.pop_back();
-	data.pop_back();
-	return checksum == crypto::computeCRC32(data);
+	auto data = reader.seek_in(0).read_bytes(dataSize - sizeof(uint32_t));
+	return reader.read<uint32_t>() == crypto::computeCRC32(data);
 }
 
-std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {
@@ -102,12 +106,10 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) c
 	}
 
 	// It's baked into the file on disk
-	FileStream stream{this->fullFilePath};
-	if (!stream) {
+	if (!this->isReadHandleOpen()) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry->offset);
-	return stream.read_bytes(entry->length);
+	return this->readHandle->seek_in_u(entry->offset).read_bytes(entry->length);
 }
 
 void GMA::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
@@ -138,6 +140,9 @@ bool GMA::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			entry->length = 0;
 		}
 	}
+
+	// Close read handle
+	this->readHandle = std::nullopt;
 
 	{
 		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
@@ -183,19 +188,17 @@ bool GMA::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	uint32_t crc = 0;
 	if (options.gma_writeCRCs) {
 		auto fileSize = std::filesystem::file_size(outputPath);
-		FileStream stream{outputPath};
-		stream.seek_in(0);
-		crc = crypto::computeCRC32(stream.read_bytes(fileSize));
+		crc = crypto::computeCRC32(FileStream{outputPath}.seek_in(0).read_bytes(fileSize));
 	}
-	{
-		FileStream stream{outputPath, FileStream::OPT_APPEND};
-		stream.write(crc);
-	}
+	FileStream{outputPath, FileStream::OPT_APPEND}.write(crc);
 
 	// Clean up
 	this->mergeUnbakedEntries();
 	PackFile::setFullFilePath(outputDir);
-	return true;
+
+	// Reopen read handle
+	this->readHandle = FileStream{std::string{this->getFilepath()}};
+	return this->isReadHandleOpen();
 }
 
 Attribute GMA::getSupportedEntryAttributes() const {

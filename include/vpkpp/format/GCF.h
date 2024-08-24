@@ -116,9 +116,9 @@ public:
 		return true;
 	}
 
-	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
+	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() override;
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 

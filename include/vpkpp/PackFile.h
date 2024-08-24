@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <FileStream.h>
 #include <sourcepp/math/Integer.h>
 #include <sourcepp/Macros.h>
 #include <tsl/htrie_map.h>
@@ -63,21 +64,21 @@ public:
 
 	/// Verify the checksums of each file, if a file fails the check its path will be added to the vector
 	/// If there is no checksum ability in the format, it will return an empty vector
-	[[nodiscard]] virtual std::vector<std::string> verifyEntryChecksums() const;
+	[[nodiscard]] virtual std::vector<std::string> verifyEntryChecksums();
 
 	/// Returns true if the entire file has a checksum
 	[[nodiscard]] virtual bool hasPackFileChecksum() const;
 
 	/// Verify the checksum of the entire file, returns true on success
 	/// Will return true if there is no checksum ability in the format
-	[[nodiscard]] virtual bool verifyPackFileChecksum() const;
+	[[nodiscard]] virtual bool verifyPackFileChecksum();
 
 	/// Returns true if the file is signed
 	[[nodiscard]] virtual bool hasPackFileSignature() const;
 
 	/// Verify the file signature, returns true on success
 	/// Will return true if there is no signature ability in the format
-	[[nodiscard]] virtual bool verifyPackFileSignature() const;
+	[[nodiscard]] virtual bool verifyPackFileSignature();
 
 	/// Does the format support case-sensitive file names?
 	[[nodiscard]] virtual constexpr bool isCaseSensitive() const noexcept {
@@ -91,10 +92,10 @@ public:
 	[[nodiscard]] std::optional<Entry> findEntry(const std::string& path_, bool includeUnbaked = true) const;
 
 	/// Try to read the entry's data to a bytebuffer
-	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const = 0;
+	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const std::string& path_) = 0;
 
 	/// Try to read the entry's data to a string
-	[[nodiscard]] std::optional<std::string> readEntryText(const std::string& path) const;
+	[[nodiscard]] std::optional<std::string> readEntryText(const std::string& path);
 
 	[[nodiscard]] virtual constexpr bool isReadOnly() const noexcept {
 		return false;
@@ -131,16 +132,16 @@ public:
 	virtual bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) = 0;
 
 	/// Extract the given entry to disk at the given file path
-	bool extractEntry(const std::string& entryPath, const std::string& filepath) const; // NOLINT(*-use-nodiscard)
+	bool extractEntry(const std::string& entryPath, const std::string& filepath); // NOLINT(*-use-nodiscard)
 
 	/// Extract the given directory to disk under the given output directory
-	bool extractDirectory(const std::string& dir_, const std::string& outputDir) const; // NOLINT(*-use-nodiscard)
+	bool extractDirectory(const std::string& dir_, const std::string& outputDir); // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory
-	bool extractAll(const std::string& outputDir, bool createUnderPackFileDir = true) const; // NOLINT(*-use-nodiscard)
+	bool extractAll(const std::string& outputDir, bool createUnderPackFileDir = true); // NOLINT(*-use-nodiscard)
 
 	/// Extract the contents of the pack file to disk at the given directory - only entries which match the predicate are extracted
-	bool extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs = true) const; // NOLINT(*-use-nodiscard)
+	bool extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs = true); // NOLINT(*-use-nodiscard)
 
 	/// Get entries saved to disk
 	[[nodiscard]] const EntryTrie& getBakedEntries() const;
@@ -187,9 +188,13 @@ public:
 protected:
 	explicit PackFile(std::string fullFilePath_);
 
+	[[nodiscard]] bool isReadHandleOpen() const;
+
 	void runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
 
 	void runForAllEntriesInternal(const std::string& parentDir, const std::function<void(const std::string&, Entry&)>& operation, bool recursive = true, bool includeUnbaked = true);
+
+	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32();
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32() const;
 
@@ -214,6 +219,7 @@ protected:
 	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory);
 
 	std::string fullFilePath;
+	std::optional<FileStream> readHandle;
 
 	PackFileType type = PackFileType::UNKNOWN;
 

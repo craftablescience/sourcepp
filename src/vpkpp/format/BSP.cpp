@@ -31,7 +31,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 	}
 
 	auto* bsp = new BSP{path};
-	auto packFile = std::unique_ptr<PackFile>(bsp);
+	auto packFile = std::unique_ptr<PackFile>{bsp};
 
 	if (!(*bsp)) {
 		// File failed to load, or has an invalid signature
@@ -44,22 +44,7 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 		writer.write(*pakFileLump);
 	} else {
 		// No paklump, create an empty zip
-		void* writeStreamHandle = mz_stream_os_create();
-		if (mz_stream_os_open(writeStreamHandle, bsp->tempBSPPakLumpPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
-			return nullptr;
-		}
-		void* writeZipHandle = mz_zip_writer_create();
-		if (mz_zip_writer_open(writeZipHandle, writeStreamHandle, 0)) {
-			return nullptr;
-		}
-		if (mz_zip_writer_close(writeZipHandle)) {
-			return nullptr;
-		}
-		mz_zip_writer_delete(&writeZipHandle);
-		if (mz_stream_os_close(writeStreamHandle)) {
-			return nullptr;
-		}
-		mz_stream_os_delete(&writeStreamHandle);
+		ZIP::create(bsp->tempBSPPakLumpPath);
 	}
 
 	if (!bsp->openZIP(bsp->tempBSPPakLumpPath)) {

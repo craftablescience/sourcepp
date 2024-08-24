@@ -31,13 +31,13 @@ public:
 		return true;
 	}
 
-	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
+	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() override;
 
 	[[nodiscard]] bool hasPackFileChecksum() const override;
 
-	[[nodiscard]] bool verifyPackFileChecksum() const override;
+	[[nodiscard]] bool verifyPackFileChecksum() override;
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) override;
 
 	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 
