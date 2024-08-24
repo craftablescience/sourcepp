@@ -9,7 +9,7 @@
 #include <BufferStream.h>
 #include <sourcepp/math/Vector.h>
 
-namespace fgdpp {
+namespace toolpp {
 
 class FGD {
 public:
@@ -189,9 +189,9 @@ public:
 
 	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description);
 
-	[[nodiscard]] std::string bakeToString();
+	[[nodiscard]] std::string bake();
 
-	void bakeToFile(const std::string& fgdPath);
+	void bake(const std::string& fgdPath);
 
 protected:
 	FGDWriter();

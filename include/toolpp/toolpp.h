@@ -6,3 +6,4 @@
  */
 
 #include "CmdSeq.h"
+#include "FGD.h"
