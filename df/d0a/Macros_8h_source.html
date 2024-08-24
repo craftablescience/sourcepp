@@ -129,7 +129,7 @@ $(document).ready(function(){initNavTree('df/d0a/Macros_8h_source.html','../../'
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../df/d0a/Macros_8h.html#a0cf3915f8668a12735f29e7d3dab6cda">   10</a></span>&#160;<span class="preprocessor">#define SOURCEPP_UNIQUE_NAME(base) SOURCEPP_CONCAT(base, __LINE__)</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../df/d0a/Macros_8h.html#a35b08c59e822a855b0415bba855641e7">   13</a></span>&#160;<span class="preprocessor">#define SOURCEPP_BITWISE_ENUM(Enum)                                 \</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../df/d0a/Macros_8h.html#a31ea8f9657e7de9c4e1541097de76603">   13</a></span>&#160;<span class="preprocessor">#define SOURCEPP_BITFLAGS_ENUM(Enum)                                \</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">    inline constexpr Enum operator|(Enum lhs, Enum rhs) {           \</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">        return static_cast&lt;Enum&gt;(                                   \</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">            static_cast&lt;std::underlying_type_t&lt;Enum&gt;&gt;(lhs) |        \</span></div>

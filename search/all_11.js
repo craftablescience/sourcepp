@@ -35,7 +35,7 @@ var searchData=
   ['sl4d2_5fproptris_907',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
   ['smoothinggroups_908',['smoothingGroups',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a498532287187882cf66a1608f86f71aa',1,'bsppp::BSPFace_v1::smoothingGroups()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#aaa89368e3ede250f379039671a0cd1f6',1,'bsppp::BSPFace_v2::smoothingGroups()']]],
   ['sourcepp_909',['sourcepp',['../d2/deb/namespacesourcepp.html',1,'']]],
-  ['sourcepp_5fbitwise_5fenum_910',['SOURCEPP_BITWISE_ENUM',['../df/d0a/Macros_8h.html#a35b08c59e822a855b0415bba855641e7',1,'Macros.h']]],
+  ['sourcepp_5fbitflags_5fenum_910',['SOURCEPP_BITFLAGS_ENUM',['../df/d0a/Macros_8h.html#a31ea8f9657e7de9c4e1541097de76603',1,'Macros.h']]],
   ['sourcepp_5fconcat_911',['SOURCEPP_CONCAT',['../df/d0a/Macros_8h.html#a2f3ef8dbc6845aa72cede943df19e1df',1,'Macros.h']]],
   ['sourcepp_5fconcat_5finner_912',['SOURCEPP_CONCAT_INNER',['../df/d0a/Macros_8h.html#ad28851c060076a763c47e076fde48d04',1,'Macros.h']]],
   ['sourcepp_5funique_5fname_913',['SOURCEPP_UNIQUE_NAME',['../df/d0a/Macros_8h.html#a0cf3915f8668a12735f29e7d3dab6cda',1,'Macros.h']]],
