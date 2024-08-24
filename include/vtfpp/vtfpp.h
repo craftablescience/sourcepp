@@ -12,6 +12,7 @@
 
 #include <sourcepp/math/Vector.h>
 #include <sourcepp/parser/Binary.h>
+#include <sourcepp/Macros.h>
 
 #include "ImageFormats.h"
 
@@ -74,6 +75,7 @@ struct Resource {
 		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
 };
+SOURCEPP_BITWISE_ENUM(Resource::Flags)
 
 class VTF {
 public:
@@ -220,5 +222,6 @@ private:
 	// False for v7.5 and lower (not actually a field in the header, just simplifies the check)
 	bool hasAuxCompression = false;
 };
+SOURCEPP_BITWISE_ENUM(VTF::Flags)
 
 } // namespace vtfpp

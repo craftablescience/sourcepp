@@ -44,6 +44,7 @@ struct Bone {
 
 	//int32_t _unused0[8];
 };
+SOURCEPP_BITWISE_ENUM(Bone::Flags)
 
 struct BoneController {
 	int32_t bone;
@@ -111,6 +112,7 @@ struct AnimDesc {
 	//int32_t zeroFrameIndex;
 	//float zeroFrameStallTime;
 };
+SOURCEPP_BITWISE_ENUM(AnimDesc::Flags)
 
 struct SequenceDesc {
 	enum Flags : int32_t {
@@ -181,6 +183,7 @@ struct SequenceDesc {
 
 	//int32_t _unused0[7];
 };
+SOURCEPP_BITWISE_ENUM(SequenceDesc::Flags)
 */
 
 struct Material {
@@ -197,6 +200,7 @@ struct Material {
 	//int32_t used; // No idea what this is
 	//int32_t _unused0[13];
 };
+SOURCEPP_BITWISE_ENUM(Material::Flags)
 
 struct Mesh {
 	int32_t material;
@@ -410,5 +414,6 @@ struct MDL {
 
 	//int32_t _unused3;
 };
+SOURCEPP_BITWISE_ENUM(MDL::Flags)
 
 } // namespace mdlpp::MDL
