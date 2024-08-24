@@ -252,7 +252,6 @@ std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uin
 		}
 
 		offset = 0;
-		length = 0;
 		for (int i = this->mipCount - 1; i >= 0; i--) {
 			for (int j = 0; j < this->frameCount; j++) {
 				for (int k = 0; k < this->getFaceCount(); k++) {
