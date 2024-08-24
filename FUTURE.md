@@ -26,7 +26,6 @@
   - Make something to construct StudioModel objects from a given model file like obj/glTF?
   - Add a save method to write the constituent parts of a StudioModel to disk
 - `vpkpp`
-  - Read/write LZMA-compressed zip files, and make sure it works correctly as a BSP paklump
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Improve conversion speeds between formats that use handrolled per-pixel converters (SIMD? Compute shader?)
