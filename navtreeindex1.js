@@ -192,9 +192,6 @@ var NAVTREEINDEX1 =
 "d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#aa63ba8c5947265d7dddf5cc4bcbec52d":[1,0,5,0,1,5],
 "d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#ac2316c762552efe9c1494754d726cd9b":[1,0,5,0,1,3],
 "d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#ae3f420bf7c5af6e36f4679970cfcce22":[1,0,5,0,1,2],
-"d3/d58/BitwiseEnumClass_8h.html":[2,0,0,6,3],
-"d3/d58/BitwiseEnumClass_8h.html#a27751d8f1fe548b710e42a5f8d8b55ed":[2,0,0,6,3,0],
-"d3/d58/BitwiseEnumClass_8h_source.html":[2,0,0,6,3],
 "d3/d5a/VPK_8h.html":[2,0,0,9,0,6],
 "d3/d5a/VPK_8h.html#a232e225c110d56abf39101bd1259fd35":[2,0,0,9,0,6,14],
 "d3/d5a/VPK_8h.html#a24a5c671b7c17e554a742304d8abc1a2":[2,0,0,9,0,6,13],
@@ -249,5 +246,8 @@ var NAVTREEINDEX1 =
 "d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a939308d164965d4746be9a165e2b2914":[1,0,0,10,5],
 "d3/db0/structbsppp_1_1BSPBrushModel__v0.html#adbdbfb68313283dced16d32b16d92f94":[1,0,0,10,2],
 "d3/db1/Matrix_8h.html":[2,0,0,6,1,3],
-"d3/db1/Matrix_8h_source.html":[2,0,0,6,1,3]
+"d3/db1/Matrix_8h_source.html":[2,0,0,6,1,3],
+"d3/db3/vtfpp_8h.html":[2,0,0,10,2],
+"d3/db3/vtfpp_8h.html#a1e1c52fc9b46a7b77835b125b9372575":[2,0,0,10,2,2],
+"d3/db3/vtfpp_8h_source.html":[2,0,0,10,2]
 };

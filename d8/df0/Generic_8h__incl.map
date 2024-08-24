@@ -1,10 +1,11 @@
 <map id="include/mdlpp/structs/Generic.h" name="include/mdlpp/structs/Generic.h">
-<area shape="rect" id="node1" title=" " alt="" coords="24,5,187,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="95,5,257,47"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,95,64,121"/>
 <area shape="rect" id="node3" href="$d6/dbe/Vector_8h.html" title=" " alt="" coords="89,95,263,121"/>
+<area shape="rect" id="node9" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="288,95,432,121"/>
 <area shape="rect" id="node4" title=" " alt="" coords="64,169,120,196"/>
 <area shape="rect" id="node5" title=" " alt="" coords="145,169,207,196"/>
 <area shape="rect" id="node6" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="231,169,310,196"/>
-<area shape="rect" id="node7" title=" " alt="" coords="185,244,252,271"/>
-<area shape="rect" id="node8" title=" " alt="" coords="277,244,369,271"/>
+<area shape="rect" id="node7" title=" " alt="" coords="223,244,289,271"/>
+<area shape="rect" id="node8" title=" " alt="" coords="314,244,406,271"/>
 </map>
