@@ -20,6 +20,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Write</th>
     <th>Wrappers</th>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>bsppp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
@@ -27,6 +28,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>dmxpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</td>
@@ -34,18 +36,21 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
     <td rowspan="1" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="2"><code>gamepp</code></td>
+    <td rowspan="3"><code>gamepp</code></td>
     <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="2" align="center"></td>
+    <td rowspan="3" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>Run commands in a Source engine instance remotely</td>
     <td align="center">❌</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>kvpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></td>
@@ -53,37 +58,43 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="3"><code>mdlpp</code></td>
+    <td rowspan="5"><code>mdlpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="3" align="center"></td>
+    <td rowspan="5" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/VTX">VTX</a> v7</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="2"><code>steampp</code></td>
+    <td rowspan="3"><code>steampp</code></td>
     <td>Find Steam install folder</td>
     <td align="center">✅</td>
     <td align="center">-</td>
-    <td rowspan="2" align="center">C</td>
+    <td rowspan="3" align="center">C</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>Find installed Steam games</td>
     <td align="center">✅</td>
     <td align="center">-</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="2"><code>toolpp</code></td>
+    <td rowspan="3"><code>toolpp</code></td>
     <td>
       <a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a>
       <br> &bull; <a href="https://ficool2.github.io/HammerPlusPlus-Website">Hammer++</a> FGD modifications
@@ -91,13 +102,15 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="2" align="center"></td>
+    <td rowspan="3" align="center"></td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/Command_Sequences">WC</a> (Command Sequences) v0.1-0.2</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>vicepp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</td>
@@ -105,68 +118,81 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td rowspan="1" align="center">C<br>C#</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="12"><code>vpkpp</code></td>
+    <td rowspan="23"><code>vpkpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="12" align="center">C<br>C#</td>
+    <td rowspan="23" align="center">C<br>C#</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>FPX v10 (Tactical Intervention)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/GCF_archive">GCF</a> v6</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>GMA v1-3 (Garry's Mod)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>VPK (Vampire: The Masquerade - Bloodlines)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>ZIP (and BZ2, GZ, XZ, ZSTD)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>vtfpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</td>
