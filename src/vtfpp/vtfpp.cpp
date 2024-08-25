@@ -143,11 +143,11 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
 			auto thumbnailLength = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength));
+			this->resources.push_back({Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength)});
 		}
 		if (this->width > 0 && this->height > 0) {
 			auto imageLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength));
+			this->resources.push_back({Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength)});
 		}
 	}
 }
