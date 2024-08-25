@@ -12,8 +12,6 @@
   - Add support for v9+ DMX files
   - Add support for keyvalues2 and keyvalues2_flat formats
   - Add write support
-- `fgdpp`
-  - Perhaps add the ability to parse TeamSpen's additions to the format?
 - `gamepp`
   - Add a function to create instances of a game rather than just finding existing ones
     - When creating an instance of the game, attaching a console might be easier, or enabling -condebug,
@@ -25,6 +23,9 @@
   - Parse animations/sequences
   - Make something to construct StudioModel objects from a given model file like obj/glTF?
   - Add a save method to write the constituent parts of a StudioModel to disk
+- `toolpp`
+  - Add write support to KV1 `CmdSeq.wc` files when `kvpp` write support is implemented
+  - Perhaps add the ability to parse TeamSpen's additions to the FGD format?
 - `vpkpp`
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`

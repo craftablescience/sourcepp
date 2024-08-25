@@ -174,7 +174,6 @@ TEST(kvpp, write_escaped) {
 	EXPECT_STREQ(kv1Writer["\"keys\""]["test\t2"].getValue().data(), "0\n");
 	EXPECT_TRUE(kv1Writer["\"keys\""]["test\t2"].getChildren().empty());
 
-	kv1Writer.bake("test.txt");
 	KV1 kv1{kv1Writer.bake(), true};
 
 	ASSERT_EQ(kv1.getChildren().size(), 1);

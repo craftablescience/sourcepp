@@ -1,7 +1,9 @@
 #include <gtest/gtest.h>
 
+#include <sourcepp/FS.h>
 #include <toolpp/toolpp.h>
 
+using namespace sourcepp;
 using namespace toolpp;
 
 TEST(toolpp, cmdSeqOpenBinary) {
@@ -12,6 +14,20 @@ TEST(toolpp, cmdSeqOpenBinary) {
 TEST(toolpp, cmdSeqOpenKeyValues) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
 	ASSERT_EQ(cmdSeq.getSequences().size(), 4);
+}
+
+TEST(toolpp, cmdSeqBakeBinary) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/binary.wc"};
+	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/binary.wc");
+	auto bakedData = cmdSeq.bake();
+	ASSERT_EQ(existingData, bakedData);
+}
+
+TEST(toolpp, cmdSeqBakeKeyValues) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
+	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/keyvalues.wc");
+	auto bakedData = cmdSeq.bake();
+	ASSERT_EQ(existingData, bakedData);
 }
 
 TEST(toolpp, fgdParseEmpty) {
