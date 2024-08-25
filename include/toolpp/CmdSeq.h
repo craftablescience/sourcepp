@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <optional>
 #include <string>
 #include <vector>
@@ -38,15 +39,32 @@ public:
 		std::vector<Command> commands;
 	};
 
-	explicit CmdSeq(const std::string& path);
+	explicit CmdSeq(std::string path_);
+
+	[[nodiscard]] float getVersion() const;
+
+	void setVersion(bool isV02);
+
+	[[nodiscard]] std::vector<Sequence>& getSequences();
 
 	[[nodiscard]] const std::vector<Sequence>& getSequences() const;
+
+	[[nodiscard]] std::vector<std::byte> bake() const;
+
+	[[nodiscard]] std::vector<std::byte> bake(bool overrideUsingKeyValues) const;
+
+	bool bake(const std::string& path_);
+
+	bool bake(const std::string& path_, bool overrideUsingKeyValues);
 
 protected:
 	void parseBinary(const std::string& path);
 
 	void parseKeyValues(const std::string& path);
 
+	bool usingKeyValues = false;
+	float version;
+	std::string path;
 	std::vector<Sequence> sequences;
 };
 
