@@ -92,27 +92,32 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		auto resourceCount = stream.read<uint32_t>();
 		stream.skip(8);
 
+		if (resourceCount > VTF_MAX_RESOURCES) {
+			resourceCount = VTF_MAX_RESOURCES;
+		}
+		this->resources.reserve(resourceCount);
+
 		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
-			auto& resource = this->resources.emplace_back(new Resource{});
+			auto& resource = this->resources.emplace_back();
 
 			stream
-				.read(resource->type)
+				.read(resource.type)
 				.skip(2)
-				.read(resource->flags);
-			resource->data = stream.read_span<std::byte>(4);
+				.read(resource.flags);
+			resource.data = stream.read_span<std::byte>(4);
 
-			if (!(resource->flags & Resource::FLAG_NO_DATA)) {
+			if (!(resource.flags & Resource::FLAG_NO_DATA)) {
 				if (lastResource) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(resource->data.data());
+					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(static_cast<int64_t>(curPos));
 				}
-				lastResource = this->resources.back().get();
+				lastResource = &this->resources.back();
 			}
 		}
 		if (lastResource) {
@@ -130,17 +135,19 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		this->opened = stream.tell() == headerLength;
 	} else {
 		while (stream.tell() % 16 != 0) {
-			stream.skip(1);
+			stream.skip();
 		}
 		this->opened = stream.tell() == headerLength;
 
+		this->resources.reserve(2);
+
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
 			auto thumbnailLength = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-			this->resources.emplace_back(new Resource{Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength)});
+			this->resources.emplace_back(Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength));
 		}
 		if (this->width > 0 && this->height > 0) {
 			auto imageLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-			this->resources.emplace_back(new Resource{Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength)});
+			this->resources.emplace_back(Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength));
 		}
 	}
 }
@@ -225,14 +232,14 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
-const std::vector<std::unique_ptr<Resource>>& VTF::getResources() const {
+const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
 }
 
 const Resource* VTF::getResource(Resource::Type type) const {
 	for (const auto& resource : this->resources) {
-		if (resource->type == type) {
-			return resource.get();
+		if (resource.type == type) {
+			return &resource;
 		}
 	}
 	return nullptr;

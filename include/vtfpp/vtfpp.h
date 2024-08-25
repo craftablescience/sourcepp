@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstddef>
-#include <memory>
 #include <span>
 #include <string>
 #include <string_view>
@@ -19,6 +18,8 @@
 namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+
+constexpr int32_t VTF_MAX_RESOURCES = 32;
 
 struct Resource {
 	enum Type : uint8_t {
@@ -160,7 +161,7 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] const std::vector<std::unique_ptr<Resource>>& getResources() const;
+	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
@@ -216,7 +217,7 @@ private:
 
 	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
 	//uint32_t resourceCount;
-	std::vector<std::unique_ptr<Resource>> resources;
+	std::vector<Resource> resources;
 	//uint8_t _padding3[4];
 
 	// False for v7.5 and lower (not actually a field in the header, just simplifies the check)
