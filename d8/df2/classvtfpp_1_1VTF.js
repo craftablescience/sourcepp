@@ -57,7 +57,7 @@ var classvtfpp_1_1VTF =
     [ "getMipCount", "d8/df2/classvtfpp_1_1VTF.html#a9e2df06814f24beaa24012f2821a5a23", null ],
     [ "getReflectivity", "d8/df2/classvtfpp_1_1VTF.html#ab80910b09b43f5417dfc5b12caaf9083", null ],
     [ "getResource", "d8/df2/classvtfpp_1_1VTF.html#ad139ee18476340752e250ec59b43ea13", null ],
-    [ "getResources", "d8/df2/classvtfpp_1_1VTF.html#a11a0c003555859c9523a653efe3c4d63", null ],
+    [ "getResources", "d8/df2/classvtfpp_1_1VTF.html#a79237fa1b82e36638510eab26d78802d", null ],
     [ "getSliceCount", "d8/df2/classvtfpp_1_1VTF.html#a969bd3e490c7eff6ca12fbcd15b4aa4c", null ],
     [ "getStartFrame", "d8/df2/classvtfpp_1_1VTF.html#a6c0645b2b8dd4271c4a5ad0bab6b4284", null ],
     [ "getThumbnailDataAs", "d8/df2/classvtfpp_1_1VTF.html#aac0be92a1cc92ae8ed4f67ce3ee0a5db", null ],

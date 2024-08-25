@@ -60,5 +60,6 @@ var namespacevtfpp =
       [ "BC7", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593", null ],
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
+    [ "VTF_MAX_RESOURCES", "de/d90/namespacevtfpp.html#a36c4c4a0d66072b7329f1688f298e504", null ],
     [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ]
 ];

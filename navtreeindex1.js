@@ -248,6 +248,6 @@ var NAVTREEINDEX1 =
 "d3/db1/Matrix_8h.html":[2,0,0,6,1,3],
 "d3/db1/Matrix_8h_source.html":[2,0,0,6,1,3],
 "d3/db3/vtfpp_8h.html":[2,0,0,10,2],
-"d3/db3/vtfpp_8h.html#a1e1c52fc9b46a7b77835b125b9372575":[2,0,0,10,2,2],
-"d3/db3/vtfpp_8h_source.html":[2,0,0,10,2]
+"d3/db3/vtfpp_8h.html#a1e1c52fc9b46a7b77835b125b9372575":[2,0,0,10,2,3],
+"d3/db3/vtfpp_8h.html#a36c4c4a0d66072b7329f1688f298e504":[2,0,0,10,2,2]
 };
