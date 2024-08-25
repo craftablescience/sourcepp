@@ -310,7 +310,7 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 		return {};
 	}
 	decompressedImageData.resize(decompressedImageDataSize);
-	return decompressedImageData;
+	return ImageConversion::convertImageDataToFormat(decompressedImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
