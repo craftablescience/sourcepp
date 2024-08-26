@@ -138,21 +138,21 @@ Collaboration diagram for vtfpp::Resource:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:aa9e1458ff1d295370654a1b1663d1a37"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37">Type</a> : uint8_t { <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a> = '\0'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37ad37bb464fcbbc79cfcd57e18d0177b1e">TYPE_THUMBNAIL_DATA</a> = '\x01'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a8cad7b5f073b32e2424593fdc9de31bd">TYPE_IMAGE_DATA</a> = '\x30'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a6afef14016f970521f516c13cd640561">TYPE_PARTICLE_SHEET_DATA</a> = '\x10'
+<tr class="memitem:acd09d7ee06a97ae24066966fa8408e69"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a> : uint32_t { <br />
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a> = 0
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e">TYPE_THUMBNAIL_DATA</a> = sourcepp::parser::binary::makeFourCC("\x01\0\0\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd">TYPE_IMAGE_DATA</a> = sourcepp::parser::binary::makeFourCC("\x30\0\0\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561">TYPE_PARTICLE_SHEET_DATA</a> = sourcepp::parser::binary::makeFourCC("\x10\0\0\0")
 , <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a481fbb9dfa644dc38a29fc14f1e5d4cd">TYPE_CRC</a> = 'C'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a989c081dec4b185f76cf6170e6e02c6f">TYPE_LOD_CONTROL_INFO</a> = 'L'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a8581d9603be0694d4d2f2fde7cfb7ba0">TYPE_EXTENDED_FLAGS</a> = 'T'
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a36fedfba6d345c6255bc8c6184071d54">TYPE_KEYVALUES_DATA</a> = 'K'
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd">TYPE_CRC</a> = sourcepp::parser::binary::makeFourCC("CRC\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f">TYPE_LOD_CONTROL_INFO</a> = sourcepp::parser::binary::makeFourCC("LOD\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0">TYPE_EXTENDED_FLAGS</a> = sourcepp::parser::binary::makeFourCC("TSO\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54">TYPE_KEYVALUES_DATA</a> = sourcepp::parser::binary::makeFourCC("KVD\0")
 , <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = 'A'
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = sourcepp::parser::binary::makeFourCC("AXC\0")
 <br />
  }</td></tr>
-<tr class="separator:aa9e1458ff1d295370654a1b1663d1a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:acd09d7ee06a97ae24066966fa8408e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa5bb79f3e1a48d5c6d0ade0e4fc4ec34"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34">Flags</a> : uint8_t { <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34afa684042bc8cf30ba5dfb26e112494c4">FLAG_NONE</a> = 0
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34a9e1026baf34568ff5ac77b091b38f5e4">FLAG_NO_DATA</a> = 1 &lt;&lt; 1
  }</td></tr>
@@ -179,7 +179,7 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
-<tr class="memitem:a3bff6626aa65380f1f4e866998ed4621"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621">type</a> = <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a></td></tr>
+<tr class="memitem:a3bff6626aa65380f1f4e866998ed4621"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621">type</a> = <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a></td></tr>
 <tr class="separator:a3bff6626aa65380f1f4e866998ed4621"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2617305852baf2d0f75223840f4fa8a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34">Flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a">flags</a> = <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34afa684042bc8cf30ba5dfb26e112494c4">FLAG_NONE</a></td></tr>
 <tr class="separator:ae2617305852baf2d0f75223840f4fa8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -227,27 +227,27 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="aa9e1458ff1d295370654a1b1663d1a37"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa9e1458ff1d295370654a1b1663d1a37">&#9670;&nbsp;</a></span>Type</h2>
+<a id="acd09d7ee06a97ae24066966fa8408e69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd09d7ee06a97ae24066966fa8408e69">&#9670;&nbsp;</a></span>Type</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37">vtfpp::Resource::Type</a> : uint8_t</td>
+          <td class="memname">enum <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">vtfpp::Resource::Type</a> : uint32_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a85fa7c200d2f311839caefd5f132b95e"></a>TYPE_UNKNOWN&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37ad37bb464fcbbc79cfcd57e18d0177b1e"></a>TYPE_THUMBNAIL_DATA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a8cad7b5f073b32e2424593fdc9de31bd"></a>TYPE_IMAGE_DATA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a6afef14016f970521f516c13cd640561"></a>TYPE_PARTICLE_SHEET_DATA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a481fbb9dfa644dc38a29fc14f1e5d4cd"></a>TYPE_CRC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a989c081dec4b185f76cf6170e6e02c6f"></a>TYPE_LOD_CONTROL_INFO&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a8581d9603be0694d4d2f2fde7cfb7ba0"></a>TYPE_EXTENDED_FLAGS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a36fedfba6d345c6255bc8c6184071d54"></a>TYPE_KEYVALUES_DATA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aa9e1458ff1d295370654a1b1663d1a37a8dfac7638298bcae21ba9e6bdb94df27"></a>TYPE_AUX_COMPRESSION&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e"></a>TYPE_UNKNOWN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e"></a>TYPE_THUMBNAIL_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd"></a>TYPE_IMAGE_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561"></a>TYPE_PARTICLE_SHEET_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd"></a>TYPE_CRC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f"></a>TYPE_LOD_CONTROL_INFO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0"></a>TYPE_EXTENDED_FLAGS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54"></a>TYPE_KEYVALUES_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27"></a>TYPE_AUX_COMPRESSION&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00025">25</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
@@ -511,7 +511,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37">Type</a> vtfpp::Resource::type = <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa9e1458ff1d295370654a1b1663d1a37a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a></td>
+          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a> vtfpp::Resource::type = <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
