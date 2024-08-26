@@ -22,16 +22,16 @@ constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0")
 constexpr int32_t VTF_MAX_RESOURCES = 32;
 
 struct Resource {
-	enum Type : uint8_t {
-		TYPE_UNKNOWN             = '\0',   // Unknown
-		TYPE_THUMBNAIL_DATA      = '\x01', // \x01\0\0
-		TYPE_IMAGE_DATA          = '\x30', // \x30\0\0
-		TYPE_PARTICLE_SHEET_DATA = '\x10', // \x10\0\0
-		TYPE_CRC                 = 'C',    // CRC
-		TYPE_LOD_CONTROL_INFO    = 'L',    // LOD
-		TYPE_EXTENDED_FLAGS      = 'T',    // TSO
-		TYPE_KEYVALUES_DATA      = 'K',    // KVD
-		TYPE_AUX_COMPRESSION     = 'A',    // AXC
+	enum Type : uint32_t {
+		TYPE_UNKNOWN             = 0,   // Unknown
+		TYPE_THUMBNAIL_DATA      = sourcepp::parser::binary::makeFourCC("\x01\0\0\0"),
+		TYPE_IMAGE_DATA          = sourcepp::parser::binary::makeFourCC("\x30\0\0\0"),
+		TYPE_PARTICLE_SHEET_DATA = sourcepp::parser::binary::makeFourCC("\x10\0\0\0"),
+		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
+		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
+		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TSO\0"),
+		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
+		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 	};
 
 	enum Flags : uint8_t {

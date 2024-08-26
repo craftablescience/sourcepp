@@ -101,10 +101,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		for (int i = 0; i < resourceCount; i++) {
 			auto& resource = this->resources.emplace_back();
 
-			stream
-				.read(resource.type)
-				.skip(2)
-				.read(resource.flags);
+			auto typeAndFlags = stream.read<uint32_t>();
+			resource.type = static_cast<Resource::Type>(typeAndFlags & 0xFFFFFF); // last 3 bytes
+			resource.flags = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
 			resource.data = stream.read_span<std::byte>(4);
 
 			if (!(resource.flags & Resource::FLAG_NO_DATA)) {
