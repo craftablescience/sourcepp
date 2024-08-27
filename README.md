@@ -75,7 +75,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
       </ul>
     </td>
     <td align="center">✅</td>
-    <td align="center">❌</td>
+    <td align="center">✅</td>
     <td align="center"></td>
   </tr>
   <tr>

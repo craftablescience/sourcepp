@@ -9,7 +9,7 @@ using namespace sourcepp;
 
 namespace sourcepp::parser::text {
 
-const std::unordered_map<char, char> DEFAULT_ESCAPE_SEQUENCES = {
+const EscapeSequenceMap DEFAULT_ESCAPE_SEQUENCES = {
 		{'\'', '\''},
 		{'\"', '\"'},
 		{'?',   '?'},
@@ -23,7 +23,7 @@ const std::unordered_map<char, char> DEFAULT_ESCAPE_SEQUENCES = {
 		{'v',  '\v'},
 };
 
-const std::unordered_map<char, char> NO_ESCAPE_SEQUENCES = {};
+const EscapeSequenceMap NO_ESCAPE_SEQUENCES = {};
 
 } // namespace parser::text
 
@@ -49,6 +49,43 @@ bool parser::text::isNumber(char c) {
 
 bool parser::text::isNumber(std::string_view str) {
 	return std::all_of(str.begin(), str.end(), [](char c) { return isNumber(c); });
+}
+
+std::string parser::text::convertSpecialCharsToEscapes(std::string_view str, const EscapeSequenceMap& escapeSequences) {
+	// Reverse escape sequences map (assume that it's bidirectional)
+	EscapeSequenceMap specialSequences;
+	for (const auto& [normal, special] : escapeSequences) {
+		specialSequences[special] = normal;
+	}
+
+	std::string out;
+	for (int i = 0; i < str.length(); i++) {
+		if (specialSequences.contains(str[i])) {
+			out += '\\';
+			out += specialSequences[str[i]];
+		} else {
+			out += str[i];
+		}
+	}
+	return out;
+}
+
+std::string parser::text::convertEscapesToSpecialChars(std::string_view str, const EscapeSequenceMap& escapeSequences) {
+	std::string out;
+	for (int i = 0; i < str.length(); i++) {
+		if (!escapeSequences.empty() && str[i] == '\\' && i < str.length() - 1) {
+			auto n = str[i + 1];
+			if (escapeSequences.contains(n)) {
+				out += escapeSequences.at(n);
+			} else {
+				out += str[i];
+				out += str[i + 1];
+			}
+		} else {
+			out += str[i];
+		}
+	}
+	return out;
 }
 
 void parser::text::eatWhitespace(BufferStream& stream) {
@@ -107,7 +144,7 @@ bool parser::text::tryToEatChar(BufferStream& stream, char c) {
 	return true;
 }
 
-std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start, std::string_view end, const std::unordered_map<char, char>& escapeSequences) {
+std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start, std::string_view end, const EscapeSequenceMap& escapeSequences) {
 	auto startSpan = backing.tell();
 
 	bool stopAtWhitespace = true;
@@ -140,11 +177,11 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
 }
 
-std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const std::unordered_map<char, char>& escapeSequences) {
+std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences) {
 	return readStringToBuffer(stream, backing, "", "", escapeSequences);
 }
 
-std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const std::unordered_map<char, char>& escapeSequences) {
+std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences) {
 	auto startSpan = backing.tell();
 
 	for (char c = stream.read<char>(); !isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
