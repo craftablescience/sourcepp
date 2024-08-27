@@ -24,10 +24,6 @@ var annotated_dup =
       [ "DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", "dc/d56/structdmxpp_1_1DMXAttribute" ],
       [ "DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", "d4/d6d/structdmxpp_1_1DMXElement" ]
     ] ],
-    [ "fgdpp", "d3/dce/namespacefgdpp.html", [
-      [ "FGD", "d7/d45/classfgdpp_1_1FGD.html", "d7/d45/classfgdpp_1_1FGD" ],
-      [ "FGDWriter", "d5/db1/classfgdpp_1_1FGDWriter.html", "d5/db1/classfgdpp_1_1FGDWriter" ]
-    ] ],
     [ "gamepp", "de/d04/namespacegamepp.html", [
       [ "GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", "d2/dc0/classgamepp_1_1GameInstance" ]
     ] ],
@@ -86,6 +82,11 @@ var annotated_dup =
     ] ],
     [ "steampp", "d7/d4d/namespacesteampp.html", [
       [ "Steam", "d9/d81/classsteampp_1_1Steam.html", "d9/d81/classsteampp_1_1Steam" ]
+    ] ],
+    [ "toolpp", "d6/d4a/namespacetoolpp.html", [
+      [ "CmdSeq", "d5/d62/classtoolpp_1_1CmdSeq.html", "d5/d62/classtoolpp_1_1CmdSeq" ],
+      [ "FGD", "d2/d4c/classtoolpp_1_1FGD.html", "d2/d4c/classtoolpp_1_1FGD" ],
+      [ "FGDWriter", "d5/d25/classtoolpp_1_1FGDWriter.html", "d5/d25/classtoolpp_1_1FGDWriter" ]
     ] ],
     [ "vpkpp", "d5/d29/namespacevpkpp.html", [
       [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ],

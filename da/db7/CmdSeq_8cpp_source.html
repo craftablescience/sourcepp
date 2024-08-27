@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: src/toolpp/CmdSeq.cpp Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('da/db7/CmdSeq_8cpp_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">CmdSeq.cpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="../../da/db7/CmdSeq_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/d5c/CmdSeq_8h.html">toolpp/CmdSeq.h</a>&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cstring&gt;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;FileStream.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/d3b/kvpp_8h.html">kvpp/kvpp.h</a>&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../d9/dba/String_8h.html">sourcepp/String.h</a>&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d8/d57/namespacekvpp.html">kvpp</a>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d2/deb/namespacesourcepp.html">sourcepp</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d6/d4a/namespacetoolpp.html">toolpp</a>;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">namespace </span>{</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;std::vector&lt;std::byte&gt; bakeBinary(<span class="keyword">const</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html">CmdSeq</a>&amp; cmdSeq) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    std::vector&lt;std::byte&gt; out;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    BufferStream writer{out};</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    writer</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        .write(<span class="stringliteral">&quot;Worldcraft Command Sequences\r\n\x1a&quot;</span>, 31)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        .write&lt;<span class="keywordtype">float</span>&gt;(cmdSeq.<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aae3f398953444c985bdd2dfc0b9bc478">getVersion</a>())</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        .write&lt;uint32_t&gt;(cmdSeq.<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">getSequences</a>().size());</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sequence : cmdSeq.<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">getSequences</a>()) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        writer</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            .write(sequence.name, <span class="keyword">true</span>, 128)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            .write&lt;uint32_t&gt;(sequence.commands.size());</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; command : sequence.commands) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            writer</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                .write&lt;uint32_t&gt;(command.enabled)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                .write(command.special)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                .write(command.executable, <span class="keyword">true</span>, 260)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                .write(command.arguments, <span class="keyword">true</span>, 260)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                .write&lt;uint32_t&gt;(<span class="keyword">true</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                .write&lt;uint32_t&gt;(command.ensureFileExists)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                .write(command.pathToTheoreticallyExistingFile, <span class="keyword">true</span>, 260)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                .write&lt;uint32_t&gt;(command.useProcessWindow);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">if</span> (cmdSeq.<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aae3f398953444c985bdd2dfc0b9bc478">getVersion</a>() &gt; 0.15f) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                writer.write&lt;uint32_t&gt;(command.waitForKeypress);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    out.resize(writer.size());</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;std::vector&lt;std::byte&gt; bakeKeyValues(<span class="keyword">const</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html">CmdSeq</a>&amp; cmdSeq) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../d4/d43/classkvpp_1_1KV1Writer.html">KV1Writer</a> kv;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">auto</span>&amp; kvFile = kv.<a class="code" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#aba30f18178dc0201fe8e7bf2bba9d7b4">addChild</a>(<span class="stringliteral">&quot;Command Sequences&quot;</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sequence : cmdSeq.<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">getSequences</a>()) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keyword">auto</span>&amp; kvSequence = kvFile.<a class="code" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#aba30f18178dc0201fe8e7bf2bba9d7b4">addChild</a>(sequence.name);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= sequence.commands.size(); i++) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <span class="keyword">const</span> <span class="keyword">auto</span>&amp; command = sequence.commands[i - 1];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keyword">auto</span>&amp; kvCommand = kvSequence.<a class="code" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#aba30f18178dc0201fe8e7bf2bba9d7b4">addChild</a>(std::to_string(i));</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            kvCommand[<span class="stringliteral">&quot;enabled&quot;</span>] = command.enabled;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            kvCommand[<span class="stringliteral">&quot;special_cmd&quot;</span>] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(command.special);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            kvCommand[<span class="stringliteral">&quot;run&quot;</span>] = command.executable;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            kvCommand[<span class="stringliteral">&quot;params&quot;</span>] = command.arguments;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            kvCommand[<span class="stringliteral">&quot;ensure_check&quot;</span>] = command.ensureFileExists;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            kvCommand[<span class="stringliteral">&quot;ensure_fn&quot;</span>] = command.pathToTheoreticallyExistingFile;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            kvCommand[<span class="stringliteral">&quot;use_process_wnd&quot;</span>] = command.useProcessWindow;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            kvCommand[<span class="stringliteral">&quot;no_wait&quot;</span>] = command.waitForKeypress;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> kvStr = kv.<a class="code" href="../../d4/d43/classkvpp_1_1KV1Writer.html#a239c634ea8a35d003d9d1c7a9568374a">bake</a>();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    std::vector&lt;std::byte&gt; out;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    out.resize(kvStr.length());</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    std::memcpy(out.data(), kvStr.data(), kvStr.length());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;} <span class="comment">// namespace</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a9c0e33707fb51d9d07c58864f1fe8810">   78</a></span>&#160;CmdSeq::CmdSeq(std::string path_)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        : version(0.f)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        , path(std::move(path_)) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        FileStream reader{<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>};</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">if</span> (!reader) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">auto</span> binStr = reader.seek_in(0).read_string(10); binStr == <span class="stringliteral">&quot;Worldcraft&quot;</span>) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keyword">auto</span> kvStr = reader.seek_in(0).read_string(19);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">string::toLower</a>(kvStr);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">if</span> (kvStr == <span class="stringliteral">&quot;\&quot;command sequences\&quot;&quot;</span>) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a>) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae6c401bf9fbb26e6c326b6912dbc025d">parseKeyValues</a>(<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a92b3c4c8f9f39ed28a87ddad9ec63080">parseBinary</a>(<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aae3f398953444c985bdd2dfc0b9bc478">  105</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aae3f398953444c985bdd2dfc0b9bc478">CmdSeq::getVersion</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ac3653329697301d4619962afcf297163">  109</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ac3653329697301d4619962afcf297163">CmdSeq::setVersion</a>(<span class="keywordtype">bool</span> isV02) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span> (isV02) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a> = 0.2f;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a> = 0.1f;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;}</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a92b3c4c8f9f39ed28a87ddad9ec63080">  117</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a92b3c4c8f9f39ed28a87ddad9ec63080">CmdSeq::parseBinary</a>(<span class="keyword">const</span> std::string&amp; path_) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    FileStream reader{path_};</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">if</span> (!reader) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    reader.seek_in(31).read(this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a>);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keyword">auto</span> sequenceCount = reader.read&lt;uint32_t&gt;();</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordflow">for</span> (uint32_t s = 0; s &lt; sequenceCount; s++) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keyword">auto</span>&amp; sequence = this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23">sequences</a>.emplace_back();</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        sequence.name = reader.read_string(128);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keyword">auto</span> commandCount = reader.read&lt;uint32_t&gt;();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">for</span> (uint32_t c = 0; c &lt; commandCount; c++) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keyword">auto</span>&amp; command = sequence.commands.emplace_back();</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            command.enabled = reader.read&lt;int32_t&gt;() &amp; 0xFF;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            command.special = reader.read&lt;<a class="code" href="../../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181">Command::Special</a>&gt;();</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            command.executable = reader.read_string(260);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            command.arguments = reader.read_string(260);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            reader.skip_in&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            command.ensureFileExists = reader.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            command.pathToTheoreticallyExistingFile = reader.read_string(260);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            command.useProcessWindow = reader.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a> &gt; 0.15f) {</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                command.waitForKeypress = reader.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae6c401bf9fbb26e6c326b6912dbc025d">  148</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae6c401bf9fbb26e6c326b6912dbc025d">CmdSeq::parseKeyValues</a>(<span class="keyword">const</span> std::string&amp; path_) {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a> = 0.2f;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160; </div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="../../de/d0f/classkvpp_1_1KV1.html">KV1</a> cmdSeq{<a class="code" href="../../d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f">fs::readFileText</a>(path_)};</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; kvSequence : cmdSeq[<span class="stringliteral">&quot;Command Sequences&quot;</span>].getChildren()) {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keyword">auto</span>&amp; sequence = this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23">sequences</a>.emplace_back();</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        sequence.name = kvSequence.getKey();</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; kvCommand : kvSequence.getChildren()) {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;            <span class="keyword">auto</span>&amp; command = sequence.commands.emplace_back();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(kvCommand[<span class="stringliteral">&quot;enabled&quot;</span>].getValue(), command.enabled);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb">string::toInt</a>(kvCommand[<span class="stringliteral">&quot;special_cmd&quot;</span>].getValue(), <span class="keyword">reinterpret_cast&lt;</span>std::underlying_type_t&lt;Command::Special&gt;&amp;<span class="keyword">&gt;</span>(command.special));</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            command.executable = kvCommand[<span class="stringliteral">&quot;run&quot;</span>].getValue();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            command.arguments = kvCommand[<span class="stringliteral">&quot;params&quot;</span>].getValue();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(kvCommand[<span class="stringliteral">&quot;ensure_check&quot;</span>].getValue(), command.ensureFileExists);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            command.pathToTheoreticallyExistingFile = kvCommand[<span class="stringliteral">&quot;ensure_fn&quot;</span>].getValue();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(kvCommand[<span class="stringliteral">&quot;use_process_wnd&quot;</span>].getValue(), command.useProcessWindow);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(kvCommand[<span class="stringliteral">&quot;no_wait&quot;</span>].getValue(), command.waitForKeypress);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;}</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">  170</a></span>&#160;std::vector&lt;CmdSeq::Sequence&gt;&amp; <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">CmdSeq::getSequences</a>() {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23">sequences</a>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a24db07d3dd4c9ed9de1d97d443f2273b">  174</a></span>&#160;<span class="keyword">const</span> std::vector&lt;CmdSeq::Sequence&gt;&amp; <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">CmdSeq::getSequences</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23">sequences</a>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">  178</a></span>&#160;std::vector&lt;std::byte&gt; <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">CmdSeq::bake</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">bake</a>(this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a>);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160; </div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#addf46108e383c83c3cd152aec0c8c2b0">  182</a></span>&#160;std::vector&lt;std::byte&gt; <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">CmdSeq::bake</a>(<span class="keywordtype">bool</span> overrideUsingKeyValues)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">if</span> (overrideUsingKeyValues) {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        return ::bakeKeyValues(*<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    return ::bakeBinary(*<span class="keyword">this</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af90e9408a871f2c94ed9e2ed855816a7">  189</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">CmdSeq::bake</a>(<span class="keyword">const</span> std::string&amp; path_) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">return</span> this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">bake</a>(path_, this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a>);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad636f43ad90e0b8f35a2e68941b36393">  193</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">CmdSeq::bake</a>(<span class="keyword">const</span> std::string&amp; path_, <span class="keywordtype">bool</span> overrideUsingKeyValues) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    FileStream writer{path_};</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">if</span> (!writer) {</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    }</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    this-&gt;<a class="code" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a> = path_;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    writer.seek_out(0);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">if</span> (overrideUsingKeyValues) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        writer.write(::bakeKeyValues(*<span class="keyword">this</span>));</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        writer.write(::bakeBinary(*<span class="keyword">this</span>));</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    }</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;}</div>
+<div class="ttc" id="aCmdSeq_8h_html"><div class="ttname"><a href="../../dd/d5c/CmdSeq_8h.html">CmdSeq.h</a></div></div>
+<div class="ttc" id="aString_8h_html"><div class="ttname"><a href="../../d9/dba/String_8h.html">String.h</a></div></div>
+<div class="ttc" id="aclasskvpp_1_1KV1ElementWritable_html_aba30f18178dc0201fe8e7bf2bba9d7b4"><div class="ttname"><a href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#aba30f18178dc0201fe8e7bf2bba9d7b4">kvpp::KV1ElementWritable::addChild</a></div><div class="ttdeci">KV1ElementWritable &amp; addChild(std::string_view key_, V value_={}, std::string_view conditional_=&quot;&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d10/KV1_8h_source.html#l00228">KV1.h:228</a></div></div>
+<div class="ttc" id="aclasskvpp_1_1KV1Writer_html"><div class="ttname"><a href="../../d4/d43/classkvpp_1_1KV1Writer.html">kvpp::KV1Writer</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d10/KV1_8h_source.html#l00314">KV1.h:314</a></div></div>
+<div class="ttc" id="aclasskvpp_1_1KV1Writer_html_a239c634ea8a35d003d9d1c7a9568374a"><div class="ttname"><a href="../../d4/d43/classkvpp_1_1KV1Writer.html#a239c634ea8a35d003d9d1c7a9568374a">kvpp::KV1Writer::bake</a></div><div class="ttdeci">std::string bake()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d10/KV1_8h_source.html#l00333">KV1.h:333</a></div></div>
+<div class="ttc" id="aclasskvpp_1_1KV1_html"><div class="ttname"><a href="../../de/d0f/classkvpp_1_1KV1.html">kvpp::KV1</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d10/KV1_8h_source.html#l00181">KV1.h:181</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html">toolpp::CmdSeq</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00012">CmdSeq.h:12</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_a05da4d63bc6c4d8b74eb999ab56998da"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">toolpp::CmdSeq::bake</a></div><div class="ttdeci">std::vector&lt; std::byte &gt; bake() const</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00178">CmdSeq.cpp:178</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_a92b3c4c8f9f39ed28a87ddad9ec63080"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a92b3c4c8f9f39ed28a87ddad9ec63080">toolpp::CmdSeq::parseBinary</a></div><div class="ttdeci">void parseBinary(const std::string &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00117">CmdSeq.cpp:117</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_aae3f398953444c985bdd2dfc0b9bc478"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aae3f398953444c985bdd2dfc0b9bc478">toolpp::CmdSeq::getVersion</a></div><div class="ttdeci">float getVersion() const</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00105">CmdSeq.cpp:105</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_ac3653329697301d4619962afcf297163"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ac3653329697301d4619962afcf297163">toolpp::CmdSeq::setVersion</a></div><div class="ttdeci">void setVersion(bool isV02)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00109">CmdSeq.cpp:109</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_ad44575f5eb0fd399ba437f74792641ef"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad44575f5eb0fd399ba437f74792641ef">toolpp::CmdSeq::getSequences</a></div><div class="ttdeci">std::vector&lt; Sequence &gt; &amp; getSequences()</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00170">CmdSeq.cpp:170</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_ae29a36a856d54cd4d1067dd2389e5f23"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23">toolpp::CmdSeq::sequences</a></div><div class="ttdeci">std::vector&lt; Sequence &gt; sequences</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00068">CmdSeq.h:68</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_ae6c401bf9fbb26e6c326b6912dbc025d"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae6c401bf9fbb26e6c326b6912dbc025d">toolpp::CmdSeq::parseKeyValues</a></div><div class="ttdeci">void parseKeyValues(const std::string &amp;path)</div><div class="ttdef"><b>Definition:</b> <a href="../../da/db7/CmdSeq_8cpp_source.html#l00148">CmdSeq.cpp:148</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_aea08f6170aaff51ae0fcd1dafe8b358f"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">toolpp::CmdSeq::path</a></div><div class="ttdeci">std::string path</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00067">CmdSeq.h:67</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_aef92c331fd5db9f6958a27da33cb17e8"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">toolpp::CmdSeq::version</a></div><div class="ttdeci">float version</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00066">CmdSeq.h:66</a></div></div>
+<div class="ttc" id="aclasstoolpp_1_1CmdSeq_html_af55350b195664e398000d8ae6a076431"><div class="ttname"><a href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">toolpp::CmdSeq::usingKeyValues</a></div><div class="ttdeci">bool usingKeyValues</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00065">CmdSeq.h:65</a></div></div>
+<div class="ttc" id="akvpp_8h_html"><div class="ttname"><a href="../../dd/d3b/kvpp_8h.html">kvpp.h</a></div></div>
+<div class="ttc" id="anamespacekvpp_html"><div class="ttname"><a href="../../d8/d57/namespacekvpp.html">kvpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d10/KV1_8h_source.html#l00014">KV1.h:14</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1fs_html_a7ed336978ac1e29e416b4fae436fe61f"><div class="ttname"><a href="../../d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f">sourcepp::fs::readFileText</a></div><div class="ttdeci">std::string readFileText(const std::string &amp;filepath, std::size_t startOffset=0)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d4e/FS_8cpp_source.html#l00020">FS.cpp:20</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a53edfd6de4431dccfbd39818163cc438"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">sourcepp::string::toBool</a></div><div class="ttdeci">std::from_chars_result toBool(std::string_view number, bool &amp;out, int base=10)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00181">String.cpp:181</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a7fecda635e73196328498484cf8826cb"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb">sourcepp::string::toInt</a></div><div class="ttdeci">std::from_chars_result toInt(std::string_view number, std::integral auto &amp;out, int base=10)</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dba/String_8h_source.html#l00063">String.h:63</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ae71743f771ac2cbfd7ec52498d248614"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">sourcepp::string::toLower</a></div><div class="ttdeci">void toLower(std::string &amp;input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00098">String.cpp:98</a></div></div>
+<div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/Adler32_8h_source.html#l00008">Adler32.h:8</a></div></div>
+<div class="ttc" id="anamespacetoolpp_html"><div class="ttname"><a href="../../d6/d4a/namespacetoolpp.html">toolpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00010">CmdSeq.h:10</a></div></div>
+<div class="ttc" id="astructtoolpp_1_1CmdSeq_1_1Command_html_aac3d750178168a24eee68d9617bf4181"><div class="ttname"><a href="../../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181">toolpp::CmdSeq::Command::Special</a></div><div class="ttdeci">Special</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d5c/CmdSeq_8h_source.html#l00017">CmdSeq.h:17</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_09885a610f348bb51f3bd691dad44ff7.html">toolpp</a></li><li class="navelem"><a class="el" href="../../da/db7/CmdSeq_8cpp.html">CmdSeq.cpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['type_2165',['Type',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69',1,'vtfpp::Resource']]]
+  ['special_2210',['Special',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181',1,'toolpp::CmdSeq::Command']]]
 ];

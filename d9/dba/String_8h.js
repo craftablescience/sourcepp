@@ -16,6 +16,7 @@ var String_8h =
     [ "rtrim", "d9/dba/String_8h.html#a1543d2c6ddda5bac863b1326926ac602", null ],
     [ "rtrim", "d9/dba/String_8h.html#a1301f2148bb8f8a71bf7f7f6f15b722a", null ],
     [ "split", "d9/dba/String_8h.html#a6fbbb19114593ab251e37fb7961ef1ca", null ],
+    [ "toBool", "d9/dba/String_8h.html#a53edfd6de4431dccfbd39818163cc438", null ],
     [ "toFloat", "d9/dba/String_8h.html#a28e7a20eb7b482bf38b46fc7a67e75de", null ],
     [ "toInt", "d9/dba/String_8h.html#a7fecda635e73196328498484cf8826cb", null ],
     [ "toLower", "d9/dba/String_8h.html#ae71743f771ac2cbfd7ec52498d248614", null ],

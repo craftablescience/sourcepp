@@ -37,6 +37,7 @@ var namespacesourcepp =
       [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a1543d2c6ddda5bac863b1326926ac602", null ],
       [ "rtrim", "d0/d5a/namespacesourcepp_1_1string.html#a1301f2148bb8f8a71bf7f7f6f15b722a", null ],
       [ "split", "d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca", null ],
+      [ "toBool", "d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438", null ],
       [ "toFloat", "d0/d5a/namespacesourcepp_1_1string.html#a28e7a20eb7b482bf38b46fc7a67e75de", null ],
       [ "toInt", "d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb", null ],
       [ "toLower", "d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614", null ],

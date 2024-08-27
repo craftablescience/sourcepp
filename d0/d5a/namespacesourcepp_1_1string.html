@@ -172,6 +172,8 @@ Functions</h2></td></tr>
 <tr class="separator:a4106f9c1c6da69c3d53de30d61a29cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96b8df923d8c84b65a0a10afe6dd1648"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">denormalizeSlashes</a> (std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</td></tr>
 <tr class="separator:a96b8df923d8c84b65a0a10afe6dd1648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53edfd6de4431dccfbd39818163cc438"><td class="memItemLeft" align="right" valign="top">std::from_chars_result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">toBool</a> (std::string_view number, bool &amp;out, int base=10)</td></tr>
+<tr class="separator:a53edfd6de4431dccfbd39818163cc438"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fecda635e73196328498484cf8826cb"><td class="memItemLeft" align="right" valign="top">std::from_chars_result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a7fecda635e73196328498484cf8826cb">toInt</a> (std::string_view number, std::integral auto &amp;out, int base=10)</td></tr>
 <tr class="separator:a7fecda635e73196328498484cf8826cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28e7a20eb7b482bf38b46fc7a67e75de"><td class="memItemLeft" align="right" valign="top">std::from_chars_result&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a28e7a20eb7b482bf38b46fc7a67e75de">toFloat</a> (std::string_view number, std::floating_point auto &amp;out)</td></tr>
@@ -625,11 +627,50 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a53edfd6de4431dccfbd39818163cc438"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53edfd6de4431dccfbd39818163cc438">&#9670;&nbsp;</a></span>toBool()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::from_chars_result sourcepp::string::toBool </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>number</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>out</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>base</em> = <code>10</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00181">181</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a28e7a20eb7b482bf38b46fc7a67e75de"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a28e7a20eb7b482bf38b46fc7a67e75de">&#9670;&nbsp;</a></span>toFloat()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::from_chars_result sourcepp::string::toFloat </td>
@@ -649,9 +690,14 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00065">65</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00067">67</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
 
 </div>
 </div>
@@ -660,6 +706,9 @@ Functions</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">std::from_chars_result sourcepp::string::toInt </td>
@@ -685,9 +734,14 @@ Functions</h2></td></tr>
           <td></td><td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00061">61</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00063">63</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
 
 </div>
 </div>
