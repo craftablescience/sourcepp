@@ -116,7 +116,8 @@ $(document).ready(function(){initNavTree('d8/d57/namespacekvpp.html','../../'); 
 
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">kvpp Namespace Reference</div>  </div>
 </div><!--header-->
@@ -124,11 +125,46 @@ $(document).ready(function(){initNavTree('d8/d57/namespacekvpp.html','../../'); 
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html">KV1ElementReadable</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html">KV1</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html">KV1ElementWritable</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d43/classkvpp_1_1KV1Writer.html">KV1Writer</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5a4a0411f8e1f95d4e2c7b81fcca430c"><td class="memTemplParams" colspan="2">template&lt;typename V &gt; </td></tr>
+<tr class="memitem:a5a4a0411f8e1f95d4e2c7b81fcca430c"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d8/d57/namespacekvpp.html#a5a4a0411f8e1f95d4e2c7b81fcca430c">KV1ValueType</a></td></tr>
+<tr class="separator:a5a4a0411f8e1f95d4e2c7b81fcca430c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="a5a4a0411f8e1f95d4e2c7b81fcca430c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5a4a0411f8e1f95d4e2c7b81fcca430c">&#9670;&nbsp;</a></span>KV1ValueType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename V &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">concept kvpp::KV1ValueType</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= std::convertible_to&lt;V, std::string_view&gt;</div>
+<div class="line">                    || std::same_as&lt;V, bool&gt;</div>
+<div class="line">                    || std::same_as&lt;V, int&gt;</div>
+<div class="line">                    || std::same_as&lt;V, float&gt;</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00017">17</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

@@ -1,13 +1,22 @@
 var searchData=
 [
-  ['key_622',['key',['../da/daf/classkvpp_1_1KV1Element.html#a91ca0fff6c7ce32ba32ab1171e6291d0',1,'kvpp::KV1Element']]],
-  ['keyvalue_623',['keyValue',['../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a49d8f573df292340f6e30c3d35f0ef40',1,'fgdpp::FGDWriter::EntityWriter']]],
-  ['keyvaluechoiceswriter_624',['KeyValueChoicesWriter',['../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html',1,'fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter'],['../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#a6e3d201928f350488929734589c253e6',1,'fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter::KeyValueChoicesWriter()']]],
-  ['keyvalueflagswriter_625',['KeyValueFlagsWriter',['../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html',1,'fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter'],['../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#a79a16000f66e2acd8833333541375d61',1,'fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter::KeyValueFlagsWriter()']]],
-  ['knownarchives_626',['knownArchives',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#a6df50a69be1599700ecc221835e1650b',1,'vpkpp::VPK_VTMB']]],
-  ['kv1_627',['KV1',['../de/d0f/classkvpp_1_1KV1.html#a5d9811c7252cdb4390e8aab73fc5d611',1,'kvpp::KV1::KV1()'],['../de/d0f/classkvpp_1_1KV1.html',1,'kvpp::KV1']]],
-  ['kv1element_628',['KV1Element',['../da/daf/classkvpp_1_1KV1Element.html#af5b51b35519cab6ac529b6da65953f75',1,'kvpp::KV1Element::KV1Element()'],['../da/daf/classkvpp_1_1KV1Element.html',1,'kvpp::KV1Element']]],
-  ['kvpp_629',['kvpp',['../d8/d57/namespacekvpp.html',1,'']]],
-  ['kvpp_2ecpp_630',['kvpp.cpp',['../df/da7/kvpp_8cpp.html',1,'']]],
-  ['kvpp_2eh_631',['kvpp.h',['../dd/d3b/kvpp_8h.html',1,'']]]
+  ['key_625',['key',['../de/d62/classkvpp_1_1KV1ElementBase.html#a00da99325feeed872adfdcb47fc423ad',1,'kvpp::KV1ElementBase']]],
+  ['keyvalue_626',['keyValue',['../d9/ddd/classfgdpp_1_1FGDWriter_1_1EntityWriter.html#a49d8f573df292340f6e30c3d35f0ef40',1,'fgdpp::FGDWriter::EntityWriter']]],
+  ['keyvaluechoiceswriter_627',['KeyValueChoicesWriter',['../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html',1,'fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter'],['../d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#a6e3d201928f350488929734589c253e6',1,'fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter::KeyValueChoicesWriter()']]],
+  ['keyvalueflagswriter_628',['KeyValueFlagsWriter',['../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html',1,'fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter'],['../d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#a79a16000f66e2acd8833333541375d61',1,'fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter::KeyValueFlagsWriter()']]],
+  ['knownarchives_629',['knownArchives',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#a6df50a69be1599700ecc221835e1650b',1,'vpkpp::VPK_VTMB']]],
+  ['kv1_630',['KV1',['../de/d0f/classkvpp_1_1KV1.html#a5d9811c7252cdb4390e8aab73fc5d611',1,'kvpp::KV1::KV1()'],['../de/d0f/classkvpp_1_1KV1.html',1,'kvpp::KV1']]],
+  ['kv1_2ecpp_631',['KV1.cpp',['../d2/d4a/KV1_8cpp.html',1,'']]],
+  ['kv1_2eh_632',['KV1.h',['../d3/d10/KV1_8h.html',1,'']]],
+  ['kv1elementbase_633',['KV1ElementBase',['../de/d62/classkvpp_1_1KV1ElementBase.html#a7049e585f4942a971ccc3a4078fad3b8',1,'kvpp::KV1ElementBase::KV1ElementBase()'],['../de/d62/classkvpp_1_1KV1ElementBase.html',1,'kvpp::KV1ElementBase&lt; S, K &gt;']]],
+  ['kv1elementbase_3c_20std_3a_3astring_2c_20kv1elementwritable_3c_20s_20_3e_20_3e_634',['KV1ElementBase&lt; std::string, KV1ElementWritable&lt; S &gt; &gt;',['../de/d75/classkvpp_1_1KV1ElementWritable.html#aedadc2239feb104a18f05afd3f762e23',1,'kvpp::KV1ElementWritable']]],
+  ['kv1elementbase_3c_20std_3a_3astring_2c_20kv1elementwritable_3c_20std_3a_3astring_20_3e_20_3e_635',['KV1ElementBase&lt; std::string, KV1ElementWritable&lt; std::string &gt; &gt;',['../de/d62/classkvpp_1_1KV1ElementBase.html',1,'kvpp']]],
+  ['kv1elementbase_3c_20std_3a_3astring_5fview_2c_20kv1elementreadable_20_3e_636',['KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;',['../de/d62/classkvpp_1_1KV1ElementBase.html',1,'kvpp::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;'],['../d4/d2d/classkvpp_1_1KV1ElementReadable.html#a6922c6cf2edaa38fefa2c824acbeee46',1,'kvpp::KV1ElementReadable::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;()']]],
+  ['kv1elementreadable_637',['KV1ElementReadable',['../d4/d2d/classkvpp_1_1KV1ElementReadable.html#a103da1dca3a4e653afd23d5e0c288f96',1,'kvpp::KV1ElementReadable::KV1ElementReadable()'],['../d4/d2d/classkvpp_1_1KV1ElementReadable.html',1,'kvpp::KV1ElementReadable']]],
+  ['kv1elementwritable_638',['KV1ElementWritable',['../de/d75/classkvpp_1_1KV1ElementWritable.html#a29f5029c5018722657c4a70825c62218',1,'kvpp::KV1ElementWritable::KV1ElementWritable()'],['../de/d75/classkvpp_1_1KV1ElementWritable.html',1,'kvpp::KV1ElementWritable&lt; S &gt;']]],
+  ['kv1elementwritable_3c_20std_3a_3astring_20_3e_639',['KV1ElementWritable&lt; std::string &gt;',['../de/d75/classkvpp_1_1KV1ElementWritable.html',1,'kvpp']]],
+  ['kv1valuetype_640',['KV1ValueType',['../d8/d57/namespacekvpp.html#a5a4a0411f8e1f95d4e2c7b81fcca430c',1,'kvpp']]],
+  ['kv1writer_641',['KV1Writer',['../d4/d43/classkvpp_1_1KV1Writer.html#ad6eec6ac938dd9055415413d027ba59c',1,'kvpp::KV1Writer::KV1Writer()'],['../d4/d43/classkvpp_1_1KV1Writer.html',1,'kvpp::KV1Writer&lt; S &gt;']]],
+  ['kvpp_642',['kvpp',['../d8/d57/namespacekvpp.html',1,'']]],
+  ['kvpp_2eh_643',['kvpp.h',['../dd/d3b/kvpp_8h.html',1,'']]]
 ];

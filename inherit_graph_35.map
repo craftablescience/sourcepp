@@ -1,3 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/d21/structmdlpp_1_1BakedModel.html" title="A more accessible version of StudioModel&#39;s vertex data, so it can be rendered or converted more easil..." alt="" coords="5,5,156,32"/>
+<area shape="rect" id="node1" href="$de/d62/classkvpp_1_1KV1ElementBase.html" title=" " alt="" coords="5,27,251,83"/>
+<area shape="rect" id="node2" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="317,5,515,47"/>
+<area shape="rect" id="node4" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="299,71,533,98"/>
+<area shape="rect" id="node3" href="$d4/d43/classkvpp_1_1KV1Writer.html" title=" " alt="" coords="581,13,748,39"/>
 </map>

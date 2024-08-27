@@ -32,8 +32,11 @@ var annotated_dup =
       [ "GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", "d2/dc0/classgamepp_1_1GameInstance" ]
     ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
-      [ "KV1Element", "da/daf/classkvpp_1_1KV1Element.html", "da/daf/classkvpp_1_1KV1Element" ],
-      [ "KV1", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ]
+      [ "KV1ElementBase", "de/d62/classkvpp_1_1KV1ElementBase.html", "de/d62/classkvpp_1_1KV1ElementBase" ],
+      [ "KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", "d4/d2d/classkvpp_1_1KV1ElementReadable" ],
+      [ "KV1", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ],
+      [ "KV1ElementWritable", "de/d75/classkvpp_1_1KV1ElementWritable.html", "de/d75/classkvpp_1_1KV1ElementWritable" ],
+      [ "KV1Writer", "d4/d43/classkvpp_1_1KV1Writer.html", "d4/d43/classkvpp_1_1KV1Writer" ]
     ] ],
     [ "mdlpp", "d1/d8e/namespacemdlpp.html", [
       [ "MDL", "d6/d3f/namespacemdlpp_1_1MDL.html", [

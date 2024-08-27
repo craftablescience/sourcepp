@@ -117,6 +117,7 @@ $(document).ready(function(){initNavTree('d7/d75/namespacesourcepp_1_1parser_1_1
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
@@ -128,6 +129,11 @@ $(document).ready(function(){initNavTree('d7/d75/namespacesourcepp_1_1parser_1_1
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html">syntax_error</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a372147434dc8a65090a5be1878d23601"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> = std::unordered_map&lt; char, char &gt;</td></tr>
+<tr class="separator:a372147434dc8a65090a5be1878d23601"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -149,6 +155,12 @@ Functions</h2></td></tr>
 <tr class="memitem:a6c0b3d1a0c331d8aa4f42d5735ab2f4b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a6c0b3d1a0c331d8aa4f42d5735ab2f4b">isNumber</a> (std::string_view str)</td></tr>
 <tr class="memdesc:a6c0b3d1a0c331d8aa4f42d5735ab2f4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">If a string is entirely composed of numerical characters (0-9).  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a6c0b3d1a0c331d8aa4f42d5735ab2f4b">More...</a><br /></td></tr>
 <tr class="separator:a6c0b3d1a0c331d8aa4f42d5735ab2f4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b19c978d6ed532500d1129e20af5382"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382">convertSpecialCharsToEscapes</a> (std::string_view str, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;escapeSequences)</td></tr>
+<tr class="memdesc:a1b19c978d6ed532500d1129e20af5382"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert special characters like \n to escaped special characters like \\n.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382">More...</a><br /></td></tr>
+<tr class="separator:a1b19c978d6ed532500d1129e20af5382"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a329ee9bf54ac0786210469e21f77f56b"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a329ee9bf54ac0786210469e21f77f56b">convertEscapesToSpecialChars</a> (std::string_view str, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;escapeSequences)</td></tr>
+<tr class="memdesc:a329ee9bf54ac0786210469e21f77f56b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert escaped special characters like \\n to special characters like \n.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a329ee9bf54ac0786210469e21f77f56b">More...</a><br /></td></tr>
+<tr class="separator:a329ee9bf54ac0786210469e21f77f56b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">eatWhitespace</a> (BufferStream &amp;stream)</td></tr>
 <tr class="memdesc:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="mdescLeft">&#160;</td><td class="mdescRight">Eat all whitespace after the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">More...</a><br /></td></tr>
 <tr class="separator:a97a7ed5d9fef57ec5780c1fc15fa2cff"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -170,15 +182,15 @@ Functions</h2></td></tr>
 <tr class="memitem:aa940a6db105e64e5948bb6d7d692a346"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa940a6db105e64e5948bb6d7d692a346">tryToEatChar</a> (BufferStream &amp;stream, char c)</td></tr>
 <tr class="memdesc:aa940a6db105e64e5948bb6d7d692a346"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the given char exists at the current position, skip over it.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa940a6db105e64e5948bb6d7d692a346">More...</a><br /></td></tr>
 <tr class="separator:aa940a6db105e64e5948bb6d7d692a346"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af9a6178ab91fd1a200ac700fd5358d77"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af9a6178ab91fd1a200ac700fd5358d77">readStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view start=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aca41f866caa4cd3cc44b5fb0c1aa86e5">DEFAULT_STRING_START</a>, std::string_view end=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a>, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
-<tr class="memdesc:af9a6178ab91fd1a200ac700fd5358d77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af9a6178ab91fd1a200ac700fd5358d77">More...</a><br /></td></tr>
-<tr class="separator:af9a6178ab91fd1a200ac700fd5358d77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a111cac6627c14c60412ca273a7907a77"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a111cac6627c14c60412ca273a7907a77">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
-<tr class="memdesc:a111cac6627c14c60412ca273a7907a77"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a111cac6627c14c60412ca273a7907a77">More...</a><br /></td></tr>
-<tr class="separator:a111cac6627c14c60412ca273a7907a77"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a16cc35003d631a62738e72d79417e93d"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a16cc35003d631a62738e72d79417e93d">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view end, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
-<tr class="memdesc:a16cc35003d631a62738e72d79417e93d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a16cc35003d631a62738e72d79417e93d">More...</a><br /></td></tr>
-<tr class="separator:a16cc35003d631a62738e72d79417e93d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a059604b0178935b12bfba0e6296969ab"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a059604b0178935b12bfba0e6296969ab">readStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view start=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aca41f866caa4cd3cc44b5fb0c1aa86e5">DEFAULT_STRING_START</a>, std::string_view end=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a>, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:a059604b0178935b12bfba0e6296969ab"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a059604b0178935b12bfba0e6296969ab">More...</a><br /></td></tr>
+<tr class="separator:a059604b0178935b12bfba0e6296969ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0eda0af547256e7eeefeb65fada05e1b"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a0eda0af547256e7eeefeb65fada05e1b">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:a0eda0af547256e7eeefeb65fada05e1b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a0eda0af547256e7eeefeb65fada05e1b">More...</a><br /></td></tr>
+<tr class="separator:a0eda0af547256e7eeefeb65fada05e1b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ff37b657463d88a53b4f778afa055a4"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5ff37b657463d88a53b4f778afa055a4">readUnquotedStringToBuffer</a> (BufferStream &amp;stream, BufferStream &amp;backing, std::string_view end, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;escapeSequences=<a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a>)</td></tr>
+<tr class="memdesc:a5ff37b657463d88a53b4f778afa055a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read a string starting at the current stream position.  <a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5ff37b657463d88a53b4f778afa055a4">More...</a><br /></td></tr>
+<tr class="separator:a5ff37b657463d88a53b4f778afa055a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
@@ -192,12 +204,109 @@ Variables</h2></td></tr>
 <tr class="separator:aca41f866caa4cd3cc44b5fb0c1aa86e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaf82447a7560ac88654607d1902302f4"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aaf82447a7560ac88654607d1902302f4">DEFAULT_STRING_END</a> = &quot;\&quot;&quot;</td></tr>
 <tr class="separator:aaf82447a7560ac88654607d1902302f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9f1a7d71168836876b1fe13afee7443"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; char, char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></td></tr>
-<tr class="separator:ab9f1a7d71168836876b1fe13afee7443"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a37c8caf4ba98ba71a191da88605ead5b"><td class="memItemLeft" align="right" valign="top">const std::unordered_map&lt; char, char &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a37c8caf4ba98ba71a191da88605ead5b">NO_ESCAPE_SEQUENCES</a> = {}</td></tr>
-<tr class="separator:a37c8caf4ba98ba71a191da88605ead5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0d4faf5aba5df763300f7653aa7f0e2"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a></td></tr>
+<tr class="separator:aa0d4faf5aba5df763300f7653aa7f0e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3559e3fdd071666052ef3fc804dc7fa7"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3559e3fdd071666052ef3fc804dc7fa7">NO_ESCAPE_SEQUENCES</a> = {}</td></tr>
+<tr class="separator:a3559e3fdd071666052ef3fc804dc7fa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a372147434dc8a65090a5be1878d23601"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a372147434dc8a65090a5be1878d23601">&#9670;&nbsp;</a></span>EscapeSequenceMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">sourcepp::parser::text::EscapeSequenceMap</a> = typedef std::unordered_map&lt;char, char&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d35/Text_8h_source.html#l00017">17</a> of file <a class="el" href="../../d6/d35/Text_8h_source.html">Text.h</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a329ee9bf54ac0786210469e21f77f56b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a329ee9bf54ac0786210469e21f77f56b">&#9670;&nbsp;</a></span>convertEscapesToSpecialChars()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sourcepp::parser::text::convertEscapesToSpecialChars </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert escaped special characters like \\n to special characters like \n. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>The string to convert </td></tr>
+    <tr><td class="paramname">escapeSequences</td><td>The escapes to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string with special characters instead of escapes </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1b19c978d6ed532500d1129e20af5382"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1b19c978d6ed532500d1129e20af5382">&#9670;&nbsp;</a></span>convertSpecialCharsToEscapes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sourcepp::parser::text::convertSpecialCharsToEscapes </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>str</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convert special characters like \n to escaped special characters like \\n. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">str</td><td>The string to convert </td></tr>
+    <tr><td class="paramname">escapeSequences</td><td>The escapes to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The string without any special characters </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00054">54</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a5119820befec25e12c9a46550a6cdf57"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5119820befec25e12c9a46550a6cdf57">&#9670;&nbsp;</a></span>eatMultiLineComment()</h2>
 
@@ -233,7 +342,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00063">63</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -261,7 +370,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00059">59</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -289,7 +398,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00054">54</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -335,7 +444,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00115">115</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -374,7 +483,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00110">110</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +522,7 @@ Variables</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00106">106</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -591,8 +700,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="af9a6178ab91fd1a200ac700fd5358d77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af9a6178ab91fd1a200ac700fd5358d77">&#9670;&nbsp;</a></span>readStringToBuffer()</h2>
+<a id="a059604b0178935b12bfba0e6296969ab"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a059604b0178935b12bfba0e6296969ab">&#9670;&nbsp;</a></span>readStringToBuffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -624,8 +733,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
-          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -648,12 +757,12 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00110">110</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00147">147</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a111cac6627c14c60412ca273a7907a77"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a111cac6627c14c60412ca273a7907a77">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[1/2]</span></h2>
+<a id="a0eda0af547256e7eeefeb65fada05e1b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0eda0af547256e7eeefeb65fada05e1b">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -673,8 +782,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
-          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -695,12 +804,12 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00143">143</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00180">180</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a16cc35003d631a62738e72d79417e93d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a16cc35003d631a62738e72d79417e93d">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[2/2]</span></h2>
+<a id="a5ff37b657463d88a53b4f778afa055a4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ff37b657463d88a53b4f778afa055a4">&#9670;&nbsp;</a></span>readUnquotedStringToBuffer() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -726,8 +835,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::unordered_map&lt; char, char &gt; &amp;&#160;</td>
-          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ab9f1a7d71168836876b1fe13afee7443">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> &amp;&#160;</td>
+          <td class="paramname"><em>escapeSequences</em> = <code><a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">DEFAULT_ESCAPE_SEQUENCES</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -749,7 +858,7 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A view over the string written to the backing stream. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00147">147</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00184">184</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
@@ -789,19 +898,19 @@ Variables</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If the char exists at the current position </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00102">102</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d37/Text_8cpp_source.html#l00139">139</a> of file <a class="el" href="../../de/d37/Text_8cpp_source.html">Text.cpp</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="ab9f1a7d71168836876b1fe13afee7443"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9f1a7d71168836876b1fe13afee7443">&#9670;&nbsp;</a></span>DEFAULT_ESCAPE_SEQUENCES</h2>
+<a id="aa0d4faf5aba5df763300f7653aa7f0e2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa0d4faf5aba5df763300f7653aa7f0e2">&#9670;&nbsp;</a></span>DEFAULT_ESCAPE_SEQUENCES</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unordered_map&lt; char, char &gt; sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES</td>
+          <td class="memname">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -943,14 +1052,14 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a37c8caf4ba98ba71a191da88605ead5b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a37c8caf4ba98ba71a191da88605ead5b">&#9670;&nbsp;</a></span>NO_ESCAPE_SEQUENCES</h2>
+<a id="a3559e3fdd071666052ef3fc804dc7fa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3559e3fdd071666052ef3fc804dc7fa7">&#9670;&nbsp;</a></span>NO_ESCAPE_SEQUENCES</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const std::unordered_map&lt; char, char &gt; sourcepp::parser::text::NO_ESCAPE_SEQUENCES = {}</td>
+          <td class="memname">const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">EscapeSequenceMap</a> sourcepp::parser::text::NO_ESCAPE_SEQUENCES = {}</td>
         </tr>
       </table>
 </div><div class="memdoc">

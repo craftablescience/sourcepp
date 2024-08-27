@@ -36,9 +36,18 @@ var hierarchy =
     [ "fgdpp::FGDWriter::EntityWriter::KeyValueChoicesWriter", "d7/daf/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html", null ],
     [ "fgdpp::FGDWriter::EntityWriter::KeyValueFlagsWriter", "d0/d3b/classfgdpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html", null ],
     [ "gamepp::GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", null ],
-    [ "kvpp::KV1Element", "da/daf/classkvpp_1_1KV1Element.html", [
-      [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
+    [ "kvpp::KV1ElementBase< std::string, KV1ElementWritable< std::string > >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
+      [ "kvpp::KV1ElementWritable< std::string >", "de/d75/classkvpp_1_1KV1ElementWritable.html", [
+        [ "kvpp::KV1Writer< S >", "d4/d43/classkvpp_1_1KV1Writer.html", null ]
+      ] ],
+      [ "kvpp::KV1ElementWritable< S >", "de/d75/classkvpp_1_1KV1ElementWritable.html", null ]
     ] ],
+    [ "kvpp::KV1ElementBase< std::string_view, KV1ElementReadable >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
+      [ "kvpp::KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", [
+        [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
+      ] ]
+    ] ],
+    [ "kvpp::KV1ElementBase< S, K >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
     [ "sourcepp::math::Matrix< 3, 4 >", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", null ],
     [ "mdlpp::BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", null ],
     [ "mdlpp::BakedModel::Mesh", "d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html", null ],

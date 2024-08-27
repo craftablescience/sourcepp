@@ -117,7 +117,6 @@ $(document).ready(function(){initNavTree('de/d0f/classkvpp_1_1KV1.html','../../'
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d9/d98/classkvpp_1_1KV1-members.html">List of all members</a>  </div>
   <div class="headertitle">
@@ -125,14 +124,15 @@ $(document).ready(function(){initNavTree('de/d0f/classkvpp_1_1KV1.html','../../'
 </div><!--header-->
 <div class="contents">
 
-<p><code>#include &lt;<a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for kvpp::KV1:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/d5b/classkvpp_1_1KV1__inherit__graph.png" border="0" usemap="#akvpp_1_1KV1_inherit__map" alt="Inheritance graph"/></div>
 <map name="akvpp_1_1KV1_inherit__map" id="akvpp_1_1KV1_inherit__map">
-<area shape="rect" title=" " alt="" coords="33,80,121,107"/>
-<area shape="rect" href="../../da/daf/classkvpp_1_1KV1Element.html" title=" " alt="" coords="5,5,148,32"/>
+<area shape="rect" title=" " alt="" coords="75,184,163,211"/>
+<area shape="rect" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html" title=" " alt="" coords="18,109,221,136"/>
+<area shape="rect" href="../../de/d62/classkvpp_1_1KV1ElementBase.html" title=" " alt="" coords="5,5,233,61"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <div class="dynheader">
@@ -140,13 +140,11 @@ Collaboration diagram for kvpp::KV1:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dc/d52/classkvpp_1_1KV1__coll__graph.png" border="0" usemap="#akvpp_1_1KV1_coll__map" alt="Collaboration graph"/></div>
 <map name="akvpp_1_1KV1_coll__map" id="akvpp_1_1KV1_coll__map">
-<area shape="rect" title=" " alt="" coords="192,326,280,353"/>
-<area shape="rect" href="../../da/daf/classkvpp_1_1KV1Element.html" title=" " alt="" coords="51,229,194,256"/>
-<area shape="rect" title=" " alt="" coords="5,319,152,360"/>
-<area shape="rect" title=" " alt="" coords="51,103,176,130"/>
-<area shape="rect" title=" " alt="" coords="30,5,197,47"/>
-<area shape="rect" title=" " alt="" coords="225,229,311,256"/>
-<area shape="rect" title=" " alt="" coords="200,96,339,137"/>
+<area shape="rect" title=" " alt="" coords="620,61,708,88"/>
+<area shape="rect" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html" title=" " alt="" coords="283,25,485,52"/>
+<area shape="rect" href="../../de/d62/classkvpp_1_1KV1ElementBase.html" title=" " alt="" coords="5,5,233,61"/>
+<area shape="rect" title=" " alt="" coords="341,87,427,113"/>
+<area shape="rect" title=" " alt="" coords="50,86,189,127"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -154,66 +152,46 @@ Collaboration diagram for kvpp::KV1:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a5d9811c7252cdb4390e8aab73fc5d611"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#a5d9811c7252cdb4390e8aab73fc5d611">KV1</a> (std::string_view kv1Data, bool useEscapeSequences_=false)</td></tr>
 <tr class="separator:a5d9811c7252cdb4390e8aab73fc5d611"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pub_methods_classkvpp_1_1KV1Element"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkvpp_1_1KV1Element')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">kvpp::KV1Element</a></td></tr>
-<tr class="memitem:a228ef9cb0dfb161b3d7a0da68633513d inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a228ef9cb0dfb161b3d7a0da68633513d">getKey</a> () const</td></tr>
-<tr class="memdesc:a228ef9cb0dfb161b3d7a0da68633513d inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a228ef9cb0dfb161b3d7a0da68633513d">More...</a><br /></td></tr>
-<tr class="separator:a228ef9cb0dfb161b3d7a0da68633513d inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0c9a0f58fe97fc24fc22258f8e6233b inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#aa0c9a0f58fe97fc24fc22258f8e6233b">getValue</a> () const</td></tr>
-<tr class="memdesc:aa0c9a0f58fe97fc24fc22258f8e6233b inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#aa0c9a0f58fe97fc24fc22258f8e6233b">More...</a><br /></td></tr>
-<tr class="separator:aa0c9a0f58fe97fc24fc22258f8e6233b inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe996c0d0ad981675df7a14084f59a2 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9fe996c0d0ad981675df7a14084f59a2 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memTemplItemLeft" align="right" valign="top">requires std::same_as&lt; T, std::string_view &gt; std::same_as&lt; T, bool &gt; std::same_as&lt; T, int &gt; std::same_as&lt; T, float &gt; T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a9fe996c0d0ad981675df7a14084f59a2">getValue</a> () const</td></tr>
-<tr class="memdesc:a9fe996c0d0ad981675df7a14084f59a2 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element as the given type.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a9fe996c0d0ad981675df7a14084f59a2">More...</a><br /></td></tr>
-<tr class="separator:a9fe996c0d0ad981675df7a14084f59a2 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cce10459315a04b0addd9ee329b38a4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a5cce10459315a04b0addd9ee329b38a4">getConditional</a> () const</td></tr>
-<tr class="memdesc:a5cce10459315a04b0addd9ee329b38a4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the conditional associated with the element.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a5cce10459315a04b0addd9ee329b38a4">More...</a><br /></td></tr>
-<tr class="separator:a5cce10459315a04b0addd9ee329b38a4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa8f4d6985e6acc578074ad105a908e5d inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#aa8f4d6985e6acc578074ad105a908e5d">hasChild</a> (std::string_view childKey) const</td></tr>
-<tr class="memdesc:aa8f4d6985e6acc578074ad105a908e5d inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the element has one or more children with the given name.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#aa8f4d6985e6acc578074ad105a908e5d">More...</a><br /></td></tr>
-<tr class="separator:aa8f4d6985e6acc578074ad105a908e5d inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c089ff94d04e5d6e6cfe5747e0cfd81 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a0c089ff94d04e5d6e6cfe5747e0cfd81">getChildCount</a> () const</td></tr>
-<tr class="memdesc:a0c089ff94d04e5d6e6cfe5747e0cfd81 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a0c089ff94d04e5d6e6cfe5747e0cfd81">More...</a><br /></td></tr>
-<tr class="separator:a0c089ff94d04e5d6e6cfe5747e0cfd81 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af88079c1d0f9876b560acbefc4538cad inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#af88079c1d0f9876b560acbefc4538cad">getChildCount</a> (std::string_view childKey) const</td></tr>
-<tr class="memdesc:af88079c1d0f9876b560acbefc4538cad inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements with the given key.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#af88079c1d0f9876b560acbefc4538cad">More...</a><br /></td></tr>
-<tr class="separator:af88079c1d0f9876b560acbefc4538cad inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad87a042882c4cd51ee5045078597dad4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#ad87a042882c4cd51ee5045078597dad4">getChildren</a> () const</td></tr>
-<tr class="memdesc:ad87a042882c4cd51ee5045078597dad4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child elements of the element.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#ad87a042882c4cd51ee5045078597dad4">More...</a><br /></td></tr>
-<tr class="separator:ad87a042882c4cd51ee5045078597dad4 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af8360591ed072a396148c252c50fa327 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#af8360591ed072a396148c252c50fa327">operator[]</a> (unsigned int n) const</td></tr>
-<tr class="memdesc:af8360591ed072a396148c252c50fa327 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child element of the element at the given index.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#af8360591ed072a396148c252c50fa327">More...</a><br /></td></tr>
-<tr class="separator:af8360591ed072a396148c252c50fa327 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a040c2f890094a8e1336e0655d6fb9ed1 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a040c2f890094a8e1336e0655d6fb9ed1">operator[]</a> (std::string_view childKey) const</td></tr>
-<tr class="memdesc:a040c2f890094a8e1336e0655d6fb9ed1 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a040c2f890094a8e1336e0655d6fb9ed1">More...</a><br /></td></tr>
-<tr class="separator:a040c2f890094a8e1336e0655d6fb9ed1 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae8dc34291c7a18e173301c6a4fe0f0ab inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#ae8dc34291c7a18e173301c6a4fe0f0ab">operator()</a> (std::string_view childKey) const</td></tr>
-<tr class="memdesc:ae8dc34291c7a18e173301c6a4fe0f0ab inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#ae8dc34291c7a18e173301c6a4fe0f0ab">More...</a><br /></td></tr>
-<tr class="separator:ae8dc34291c7a18e173301c6a4fe0f0ab inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ce9fdc69e44ba404c5ffe43743b9ac9 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a1ce9fdc69e44ba404c5ffe43743b9ac9">operator()</a> (std::string_view childKey, unsigned int n) const</td></tr>
-<tr class="memdesc:a1ce9fdc69e44ba404c5ffe43743b9ac9 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth child element of the element with the given key.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a1ce9fdc69e44ba404c5ffe43743b9ac9">More...</a><br /></td></tr>
-<tr class="separator:a1ce9fdc69e44ba404c5ffe43743b9ac9 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a418922aa7d642615103685ec9deee6a6 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a418922aa7d642615103685ec9deee6a6">isInvalid</a> () const</td></tr>
-<tr class="memdesc:a418922aa7d642615103685ec9deee6a6 inherit pub_methods_classkvpp_1_1KV1Element"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given element is invalid.  <a href="../../da/daf/classkvpp_1_1KV1Element.html#a418922aa7d642615103685ec9deee6a6">More...</a><br /></td></tr>
-<tr class="separator:a418922aa7d642615103685ec9deee6a6 inherit pub_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
-Protected Member Functions</h2></td></tr>
-<tr class="memitem:a228ef9cb0dfb161b3d7a0da68633513d"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#a228ef9cb0dfb161b3d7a0da68633513d">getKey</a> () const</td></tr>
-<tr class="memdesc:a228ef9cb0dfb161b3d7a0da68633513d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <a href="../../de/d0f/classkvpp_1_1KV1.html#a228ef9cb0dfb161b3d7a0da68633513d">More...</a><br /></td></tr>
-<tr class="separator:a228ef9cb0dfb161b3d7a0da68633513d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa0c9a0f58fe97fc24fc22258f8e6233b"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#aa0c9a0f58fe97fc24fc22258f8e6233b">getValue</a> () const</td></tr>
-<tr class="memdesc:aa0c9a0f58fe97fc24fc22258f8e6233b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element.  <a href="../../de/d0f/classkvpp_1_1KV1.html#aa0c9a0f58fe97fc24fc22258f8e6233b">More...</a><br /></td></tr>
-<tr class="separator:aa0c9a0f58fe97fc24fc22258f8e6233b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9fe996c0d0ad981675df7a14084f59a2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a9fe996c0d0ad981675df7a14084f59a2"><td class="memTemplItemLeft" align="right" valign="top">requires std::same_as&lt; T, std::string_view &gt; std::same_as&lt; T, bool &gt; std::same_as&lt; T, int &gt; std::same_as&lt; T, float &gt; T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#a9fe996c0d0ad981675df7a14084f59a2">getValue</a> () const</td></tr>
-<tr class="memdesc:a9fe996c0d0ad981675df7a14084f59a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element as the given type.  <a href="../../de/d0f/classkvpp_1_1KV1.html#a9fe996c0d0ad981675df7a14084f59a2">More...</a><br /></td></tr>
-<tr class="separator:a9fe996c0d0ad981675df7a14084f59a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5cce10459315a04b0addd9ee329b38a4"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#a5cce10459315a04b0addd9ee329b38a4">getConditional</a> () const</td></tr>
-<tr class="memdesc:a5cce10459315a04b0addd9ee329b38a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the conditional associated with the element.  <a href="../../de/d0f/classkvpp_1_1KV1.html#a5cce10459315a04b0addd9ee329b38a4">More...</a><br /></td></tr>
-<tr class="separator:a5cce10459315a04b0addd9ee329b38a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_methods_classkvpp_1_1KV1Element"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classkvpp_1_1KV1Element')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">kvpp::KV1Element</a></td></tr>
-<tr class="memitem:af5b51b35519cab6ac529b6da65953f75 inherit pro_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#af5b51b35519cab6ac529b6da65953f75">KV1Element</a> ()=default</td></tr>
-<tr class="separator:af5b51b35519cab6ac529b6da65953f75 inherit pro_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkvpp_1_1KV1ElementBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkvpp_1_1KV1ElementBase')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">kvpp::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;</a></td></tr>
+<tr class="memitem:a11e4ef28e4dcbf68dc46392413807685 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a11e4ef28e4dcbf68dc46392413807685">getKey</a> () const</td></tr>
+<tr class="memdesc:a11e4ef28e4dcbf68dc46392413807685 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a11e4ef28e4dcbf68dc46392413807685">More...</a><br /></td></tr>
+<tr class="separator:a11e4ef28e4dcbf68dc46392413807685 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8dc08a4c69228df779d2a742a10e1186 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a8dc08a4c69228df779d2a742a10e1186">getValue</a> () const</td></tr>
+<tr class="memdesc:a8dc08a4c69228df779d2a742a10e1186 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a8dc08a4c69228df779d2a742a10e1186">More...</a><br /></td></tr>
+<tr class="separator:a8dc08a4c69228df779d2a742a10e1186 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64696065eb280ae2511bc319428f0a3d inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">V&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a64696065eb280ae2511bc319428f0a3d">getValue</a> () const</td></tr>
+<tr class="memdesc:a64696065eb280ae2511bc319428f0a3d inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element as the given type.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a64696065eb280ae2511bc319428f0a3d">More...</a><br /></td></tr>
+<tr class="separator:a64696065eb280ae2511bc319428f0a3d inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61cd447f0c8da4ed7deb7284bd73bc66 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a61cd447f0c8da4ed7deb7284bd73bc66">getConditional</a> () const</td></tr>
+<tr class="memdesc:a61cd447f0c8da4ed7deb7284bd73bc66 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the conditional associated with the element.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a61cd447f0c8da4ed7deb7284bd73bc66">More...</a><br /></td></tr>
+<tr class="separator:a61cd447f0c8da4ed7deb7284bd73bc66 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afd19515c74bd33928066f395695b14a3 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#afd19515c74bd33928066f395695b14a3">hasChild</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:afd19515c74bd33928066f395695b14a3 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the element has one or more children with the given name.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#afd19515c74bd33928066f395695b14a3">More...</a><br /></td></tr>
+<tr class="separator:afd19515c74bd33928066f395695b14a3 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f8bdf9062a76c32cfe17ff7fdfc5379 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a1f8bdf9062a76c32cfe17ff7fdfc5379">getChildCount</a> () const</td></tr>
+<tr class="memdesc:a1f8bdf9062a76c32cfe17ff7fdfc5379 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a1f8bdf9062a76c32cfe17ff7fdfc5379">More...</a><br /></td></tr>
+<tr class="separator:a1f8bdf9062a76c32cfe17ff7fdfc5379 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a98c7dde547758dce3786a5b28853aa30 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a98c7dde547758dce3786a5b28853aa30">getChildCount</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:a98c7dde547758dce3786a5b28853aa30 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements with the given key.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a98c7dde547758dce3786a5b28853aa30">More...</a><br /></td></tr>
+<tr class="separator:a98c7dde547758dce3786a5b28853aa30 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ca328007e5c06b562a86758691504c7 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html">KV1ElementReadable</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a6ca328007e5c06b562a86758691504c7">getChildren</a> () const</td></tr>
+<tr class="memdesc:a6ca328007e5c06b562a86758691504c7 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child elements of the element.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a6ca328007e5c06b562a86758691504c7">More...</a><br /></td></tr>
+<tr class="separator:a6ca328007e5c06b562a86758691504c7 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a293dd5bc1317629c85c11a7fb1761bfe inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a293dd5bc1317629c85c11a7fb1761bfe">operator[]</a> (unsigned int n) const</td></tr>
+<tr class="memdesc:a293dd5bc1317629c85c11a7fb1761bfe inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child element of the element at the given index.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a293dd5bc1317629c85c11a7fb1761bfe">More...</a><br /></td></tr>
+<tr class="separator:a293dd5bc1317629c85c11a7fb1761bfe inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af9ffe7a77b57017ee0fff32dc8007de5 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#af9ffe7a77b57017ee0fff32dc8007de5">operator[]</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:af9ffe7a77b57017ee0fff32dc8007de5 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#af9ffe7a77b57017ee0fff32dc8007de5">More...</a><br /></td></tr>
+<tr class="separator:af9ffe7a77b57017ee0fff32dc8007de5 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa14392deda9571bc24de23d1352069c8 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#aa14392deda9571bc24de23d1352069c8">operator()</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:aa14392deda9571bc24de23d1352069c8 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#aa14392deda9571bc24de23d1352069c8">More...</a><br /></td></tr>
+<tr class="separator:aa14392deda9571bc24de23d1352069c8 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a6b129ba08d5ecf75539148a3f73ddb inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a3a6b129ba08d5ecf75539148a3f73ddb">operator()</a> (std::string_view childKey, unsigned int n) const</td></tr>
+<tr class="memdesc:a3a6b129ba08d5ecf75539148a3f73ddb inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth child element of the element with the given key.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a3a6b129ba08d5ecf75539148a3f73ddb">More...</a><br /></td></tr>
+<tr class="separator:a3a6b129ba08d5ecf75539148a3f73ddb inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a675bb3af6a884b1c818a7f2f14f0578b inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a675bb3af6a884b1c818a7f2f14f0578b">isInvalid</a> () const</td></tr>
+<tr class="memdesc:a675bb3af6a884b1c818a7f2f14f0578b inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given element is invalid.  <a href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a675bb3af6a884b1c818a7f2f14f0578b">More...</a><br /></td></tr>
+<tr class="separator:a675bb3af6a884b1c818a7f2f14f0578b inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -221,27 +199,33 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:ae13dc4811b54eff58baba329b21749e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba9a5b1f6bb7ac908a9d7232f3ab4913"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html#aba9a5b1f6bb7ac908a9d7232f3ab4913">useEscapeSequences</a></td></tr>
 <tr class="separator:aba9a5b1f6bb7ac908a9d7232f3ab4913"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classkvpp_1_1KV1Element"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classkvpp_1_1KV1Element')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">kvpp::KV1Element</a></td></tr>
-<tr class="memitem:a91ca0fff6c7ce32ba32ab1171e6291d0 inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a91ca0fff6c7ce32ba32ab1171e6291d0">key</a></td></tr>
-<tr class="separator:a91ca0fff6c7ce32ba32ab1171e6291d0 inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e3ed0904fa5abf0f1633be5ddb3adfc inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a1e3ed0904fa5abf0f1633be5ddb3adfc">value</a> = &quot;&quot;</td></tr>
-<tr class="separator:a1e3ed0904fa5abf0f1633be5ddb3adfc inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7285605270bfa6a804349e638676baf3 inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a7285605270bfa6a804349e638676baf3">conditional</a> = &quot;&quot;</td></tr>
-<tr class="separator:a7285605270bfa6a804349e638676baf3 inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aee73a40b993a99cc01979a3ea3f1a11f inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#aee73a40b993a99cc01979a3ea3f1a11f">children</a></td></tr>
-<tr class="separator:aee73a40b993a99cc01979a3ea3f1a11f inherit pro_attribs_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classkvpp_1_1KV1ElementBase"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classkvpp_1_1KV1ElementBase')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">kvpp::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;</a></td></tr>
+<tr class="memitem:a00da99325feeed872adfdcb47fc423ad inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a00da99325feeed872adfdcb47fc423ad">key</a></td></tr>
+<tr class="separator:a00da99325feeed872adfdcb47fc423ad inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af52ea6d85b9b851c57f7489eeae706b5 inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#af52ea6d85b9b851c57f7489eeae706b5">value</a></td></tr>
+<tr class="separator:af52ea6d85b9b851c57f7489eeae706b5 inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18b8980268b7c94ba4b7d20821c34eab inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a18b8980268b7c94ba4b7d20821c34eab">conditional</a></td></tr>
+<tr class="separator:a18b8980268b7c94ba4b7d20821c34eab inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad2a516f9df58e6be07753b0660609ac0 inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html">KV1ElementReadable</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#ad2a516f9df58e6be07753b0660609ac0">children</a></td></tr>
+<tr class="separator:ad2a516f9df58e6be07753b0660609ac0 inherit pro_attribs_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
-<tr class="inherit_header pro_static_methods_classkvpp_1_1KV1Element"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classkvpp_1_1KV1Element')"><img src="../../closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">kvpp::KV1Element</a></td></tr>
-<tr class="memitem:a07940aeb2a069e5a4aa30ca0f6ef82d2 inherit pro_static_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#a07940aeb2a069e5a4aa30ca0f6ef82d2">getInvalid</a> ()</td></tr>
-<tr class="separator:a07940aeb2a069e5a4aa30ca0f6ef82d2 inherit pro_static_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb714d09ff8778b16eb06fa0697b63a7 inherit pro_static_methods_classkvpp_1_1KV1Element"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html#abb714d09ff8778b16eb06fa0697b63a7">readElements</a> (BufferStreamReadOnly &amp;stream, BufferStream &amp;backing, std::vector&lt; <a class="el" href="../../da/daf/classkvpp_1_1KV1Element.html">KV1Element</a> &gt; &amp;element, const std::unordered_map&lt; char, char &gt; &amp;escapeSequences)</td></tr>
-<tr class="separator:abb714d09ff8778b16eb06fa0697b63a7 inherit pro_static_methods_classkvpp_1_1KV1Element"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classkvpp_1_1KV1ElementReadable"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classkvpp_1_1KV1ElementReadable')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html">kvpp::KV1ElementReadable</a></td></tr>
+<tr class="memitem:a103da1dca3a4e653afd23d5e0c288f96 inherit pro_methods_classkvpp_1_1KV1ElementReadable"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html#a103da1dca3a4e653afd23d5e0c288f96">KV1ElementReadable</a> ()=default</td></tr>
+<tr class="separator:a103da1dca3a4e653afd23d5e0c288f96 inherit pro_methods_classkvpp_1_1KV1ElementReadable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_methods_classkvpp_1_1KV1ElementBase"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classkvpp_1_1KV1ElementBase')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">kvpp::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;</a></td></tr>
+<tr class="memitem:a7049e585f4942a971ccc3a4078fad3b8 inherit pro_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a7049e585f4942a971ccc3a4078fad3b8">KV1ElementBase</a> ()=default</td></tr>
+<tr class="separator:a7049e585f4942a971ccc3a4078fad3b8 inherit pro_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_static_methods_classkvpp_1_1KV1ElementBase"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classkvpp_1_1KV1ElementBase')"><img src="../../closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">kvpp::KV1ElementBase&lt; std::string_view, KV1ElementReadable &gt;</a></td></tr>
+<tr class="memitem:a8e6883aefd33dcbda5b8ef2c255de5ea inherit pro_static_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a8e6883aefd33dcbda5b8ef2c255de5ea">getInvalid</a> ()</td></tr>
+<tr class="separator:a8e6883aefd33dcbda5b8ef2c255de5ea inherit pro_static_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a434274b0e299ecabe005d227865cedb8 inherit pro_static_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a434274b0e299ecabe005d227865cedb8">read</a> (BufferStreamReadOnly &amp;stream, BufferStream &amp;backing, std::vector&lt; <a class="el" href="../../d4/d2d/classkvpp_1_1KV1ElementReadable.html">KV1ElementReadable</a> &gt; &amp;elements, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">sourcepp::parser::text::EscapeSequenceMap</a> &amp;escapeSequences)</td></tr>
+<tr class="separator:a434274b0e299ecabe005d227865cedb8 inherit pro_static_methods_classkvpp_1_1KV1ElementBase"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dd/d3b/kvpp_8h_source.html#l00083">83</a> of file <a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00181">181</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5d9811c7252cdb4390e8aab73fc5d611"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5d9811c7252cdb4390e8aab73fc5d611">&#9670;&nbsp;</a></span>KV1()</h2>
@@ -277,118 +261,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/da7/kvpp_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../df/da7/kvpp_8cpp_source.html">kvpp.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
-<a id="a5cce10459315a04b0addd9ee329b38a4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5cce10459315a04b0addd9ee329b38a4">&#9670;&nbsp;</a></span>getConditional()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string_view KV1Element::getConditional</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the conditional associated with the element. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../df/da7/kvpp_8cpp_source.html#l00041">41</a> of file <a class="el" href="../../df/da7/kvpp_8cpp_source.html">kvpp.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a228ef9cb0dfb161b3d7a0da68633513d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a228ef9cb0dfb161b3d7a0da68633513d">&#9670;&nbsp;</a></span>getKey()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string_view KV1Element::getKey</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the key associated with the element. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../df/da7/kvpp_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../df/da7/kvpp_8cpp_source.html">kvpp.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a9fe996c0d0ad981675df7a14084f59a2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9fe996c0d0ad981675df7a14084f59a2">&#9670;&nbsp;</a></span>getValue() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">requires std::same_as&lt;T, std::string_view&gt; std::same_as&lt;T, bool&gt; std::same_as&lt;T, int&gt; std::same_as&lt;T, float&gt; T kvpp::KV1Element::getValue </td>
-          <td>(</td>
-          <td class="paramtype">typename T&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the value associated with the element as the given type. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../dd/d3b/kvpp_8h_source.html#l00027">27</a> of file <a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a>.</p>
-
-</div>
-</div>
-<a id="aa0c9a0f58fe97fc24fc22258f8e6233b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa0c9a0f58fe97fc24fc22258f8e6233b">&#9670;&nbsp;</a></span>getValue() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::string_view KV1Element::getValue</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Get the value associated with the element. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../df/da7/kvpp_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../df/da7/kvpp_8cpp_source.html">kvpp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d4a/KV1_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../d2/d4a/KV1_8cpp_source.html">KV1.cpp</a>.</p>
 
 </div>
 </div>
@@ -413,7 +286,7 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d3b/kvpp_8h_source.html#l00092">92</a> of file <a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00190">190</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>
@@ -437,13 +310,13 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d3b/kvpp_8h_source.html#l00093">93</a> of file <a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00191">191</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
-<li>include/kvpp/<a class="el" href="../../dd/d3b/kvpp_8h_source.html">kvpp.h</a></li>
-<li>src/kvpp/<a class="el" href="../../df/da7/kvpp_8cpp_source.html">kvpp.cpp</a></li>
+<li>include/kvpp/<a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a></li>
+<li>src/kvpp/<a class="el" href="../../d2/d4a/KV1_8cpp_source.html">KV1.cpp</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
