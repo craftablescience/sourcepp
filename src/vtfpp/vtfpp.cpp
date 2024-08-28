@@ -257,19 +257,16 @@ std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uin
 			return {};
 		}
 
+		// Keep in mind that the slice parameter gets ignored when returning raw compressed data - the slices are compressed together
 		offset = 0;
 		for (int i = this->mipCount - 1; i >= 0; i--) {
 			for (int j = 0; j < this->frameCount; j++) {
 				for (int k = 0; k < this->getFaceCount(); k++) {
-					// This is done out of hope that it works, but it probably doesn't...
-					// Don't compress a volumetric texture if you want it to load properly...
-					for (int l = 0; l < this->sliceCount; l++) {
-						length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
-						if (i == mip && j == frame && k == face && l == slice) {
-							return imageResource->data.subspan(offset, length);
-						} else {
-							offset += length;
-						}
+					length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
+					if (i == mip && j == frame && k == face) {
+						return imageResource->data.subspan(offset, length);
+					} else {
+						offset += length;
 					}
 				}
 			}
@@ -309,7 +306,13 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 		return {};
 	}
 	decompressedImageData.resize(decompressedImageDataSize);
-	return ImageConversion::convertImageDataToFormat(decompressedImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+
+	// 3D compressed images will have their slices aggregated together, so we need to do some trickery to pull a specific one out
+	if (this->sliceCount == 1) {
+		return ImageConversion::convertImageDataToFormat(decompressedImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+	}
+	const auto sliceSize = ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), 1);
+	return ImageConversion::convertImageDataToFormat({decompressedImageData.begin() + (slice * sliceSize), sliceSize}, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {
