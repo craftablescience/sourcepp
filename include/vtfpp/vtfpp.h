@@ -91,8 +91,8 @@ public:
 		FLAG_SRGB                                    = 1 <<  6,
 		FLAG_NO_COMPRESS                             = FLAG_SRGB, // Internal to vtex, removed
 		FLAG_NORMAL                                  = 1 <<  7,
-		FLAG_NO_MIP                                  = 1 <<  8,
-		FLAG_NO_LOD                                  = 1 <<  9,
+		FLAG_NO_MIP                                  = 1 <<  8, // Added at VTF creation time
+		FLAG_NO_LOD                                  = 1 <<  9, // Added at VTF creation time
 		FLAG_MIN_MIP                                 = 1 << 10,
 		FLAG_PROCEDURAL                              = 1 << 11,
 		FLAG_ONE_BIT_ALPHA                           = 1 << 12, // Added at VTF creation time

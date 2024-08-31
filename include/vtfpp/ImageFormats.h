@@ -353,7 +353,7 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
-			return std::max((width + 3) / 4, 1) * std::max((height + 3) / 4, 1) * sliceCount * bpp(format) * 2;
+			return ((((width + 3) / 4) < 1) ? 1 : ((width + 3) / 4)) * ((((height + 3) / 4) < 1) ? 1 : ((height + 3) / 4)) * sliceCount * bpp(format) * 2;
 		default:
 			break;
 	}
