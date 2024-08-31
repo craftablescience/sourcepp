@@ -13,8 +13,10 @@ constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_START  = "/*";
 constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_END    = "*/";
 constexpr std::string_view DEFAULT_STRING_START              = "\"";
 constexpr std::string_view DEFAULT_STRING_END                = "\"";
-extern const std::unordered_map<char, char> DEFAULT_ESCAPE_SEQUENCES;
-extern const std::unordered_map<char, char> NO_ESCAPE_SEQUENCES;
+
+using EscapeSequenceMap = std::unordered_map<char, char>;
+extern const EscapeSequenceMap DEFAULT_ESCAPE_SEQUENCES;
+extern const EscapeSequenceMap NO_ESCAPE_SEQUENCES;
 
 /**
  * If a char is a newline character.
@@ -57,6 +59,22 @@ extern const std::unordered_map<char, char> NO_ESCAPE_SEQUENCES;
  * @return The string is entirely composed of numerical characters.
  */
 [[nodiscard]] bool isNumber(std::string_view str);
+
+/**
+ * Convert special characters like \\n to escaped special characters like \\\\n
+ * @param str The string to convert
+ * @param escapeSequences The escapes to convert
+ * @return The string without any special characters
+ */
+[[nodiscard]] std::string convertSpecialCharsToEscapes(std::string_view str, const EscapeSequenceMap& escapeSequences);
+
+/**
+ * Convert escaped special characters like \\\\n to special characters like \\n
+ * @param str The string to convert
+ * @param escapeSequences The escapes to convert
+ * @return The string with special characters instead of escapes
+ */
+[[nodiscard]] std::string convertEscapesToSpecialChars(std::string_view str, const EscapeSequenceMap& escapeSequences);
 
 /**
  * Eat all whitespace after the current stream position.
@@ -118,7 +136,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 /**
  * Read a string starting at the current stream position.
@@ -127,7 +145,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 /**
  * Read a string starting at the current stream position.
@@ -137,7 +155,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const std::unordered_map<char, char>& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 class syntax_error : public std::runtime_error {
 public:

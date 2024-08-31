@@ -12,12 +12,12 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-GCF::GCF(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFileReadOnly(fullFilePath_, options_) {
+GCF::GCF(const std::string& fullFilePath_)
+		: PackFileReadOnly(fullFilePath_) {
 	this->type = PackFileType::GCF;
 }
 
-std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback& callback) {
 	// TODO: Add v5 and perhaps v4 support
 
 	if (!std::filesystem::exists(path)) {
@@ -26,7 +26,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, PackFileOptions opt
 	}
 
 	// Create the pack file
-	auto* gcf = new GCF{path, options};
+	auto* gcf = new GCF{path};
 	auto packFile = std::unique_ptr<PackFile>(gcf);
 
 	// open file

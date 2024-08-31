@@ -1,11 +1,37 @@
 #include <gtest/gtest.h>
 
-#include <fgdpp/fgdpp.h>
+#include <sourcepp/FS.h>
+#include <toolpp/toolpp.h>
 
-using namespace fgdpp;
+using namespace sourcepp;
+using namespace toolpp;
 
-TEST(fgdpp, parseEmpty) {
-	FGD fgd{ASSET_ROOT "fgdpp/empty.fgd"};
+TEST(toolpp, cmdSeqOpenBinary) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/binary.wc"};
+	ASSERT_EQ(cmdSeq.getSequences().size(), 8);
+}
+
+TEST(toolpp, cmdSeqOpenKeyValues) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
+	ASSERT_EQ(cmdSeq.getSequences().size(), 4);
+}
+
+TEST(toolpp, cmdSeqBakeBinary) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/binary.wc"};
+	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/binary.wc");
+	auto bakedData = cmdSeq.bake();
+	ASSERT_EQ(existingData, bakedData);
+}
+
+TEST(toolpp, cmdSeqBakeKeyValues) {
+	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
+	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/keyvalues.wc");
+	auto bakedData = cmdSeq.bake();
+	ASSERT_EQ(existingData, bakedData);
+}
+
+TEST(toolpp, fgdParseEmpty) {
+	FGD fgd{ASSET_ROOT "toolpp/fgd/empty.fgd"};
 	EXPECT_EQ(fgd.getVersion(), 0);
 	EXPECT_EQ(fgd.getMapSize()[0], 0);
 	EXPECT_EQ(fgd.getMapSize()[1], 0);
@@ -14,8 +40,8 @@ TEST(fgdpp, parseEmpty) {
 	EXPECT_TRUE(fgd.getAutoVisGroups().empty());
 }
 
-TEST(fgdpp, parseIdeal) {
-	FGD fgd{ASSET_ROOT "fgdpp/ideal.fgd"};
+TEST(toolpp, fgdParseIdeal) {
+	FGD fgd{ASSET_ROOT "toolpp/fgd/ideal.fgd"};
 	EXPECT_EQ(fgd.getVersion(), 8);
 	EXPECT_EQ(fgd.getMapSize()[0], -16384);
 	EXPECT_EQ(fgd.getMapSize()[1], 16384);
@@ -24,8 +50,8 @@ TEST(fgdpp, parseIdeal) {
 	EXPECT_EQ(fgd.getAutoVisGroups().size(), 3);
 }
 
-TEST(fgdpp, parsePortal2) {
-    FGD fgd{ASSET_ROOT "fgdpp/game/portal2.fgd"};
+TEST(toolpp, fgdParsePortal2) {
+    FGD fgd{ASSET_ROOT "toolpp/fgd/game/portal2.fgd"};
 	EXPECT_EQ(fgd.getVersion(), 0);
 	EXPECT_EQ(fgd.getMapSize()[0], -16384);
 	EXPECT_EQ(fgd.getMapSize()[1], 16384);
@@ -34,7 +60,7 @@ TEST(fgdpp, parsePortal2) {
 	EXPECT_TRUE(fgd.getAutoVisGroups().empty());
 }
 
-TEST(fgdpp, write) {
+TEST(toolpp, fgdWrite) {
 	std::string writeContents = FGDWriter::begin()
 		.version(8)
 		.mapSize({-16384, 16384})
@@ -103,7 +129,7 @@ TEST(fgdpp, write) {
 				"func_viscluster",
 			})
 		.endAutoVisGroup()
-		.bakeToString();
+		.bake();
 
 	std::string expectedContents = R"~(@version(8)
 

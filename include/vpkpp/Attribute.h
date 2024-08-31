@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sourcepp/BitwiseEnumClass.h>
+#include <sourcepp/Macros.h>
 
 namespace vpkpp {
 
@@ -12,6 +12,6 @@ enum class Attribute {
 	PCK_MD5            = 1 << 3,
 	VPK_PRELOADED_DATA = 1 << 4,
 };
-SOURCEPP_SETUP_BITWISE_ENUM_CLASS(Attribute)
+SOURCEPP_BITFLAGS_ENUM(Attribute)
 
 } // namespace vpkpp

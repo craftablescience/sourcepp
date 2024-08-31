@@ -30,18 +30,46 @@ std::size_t getPadding(int alignment, int n) {
 
 } // namespace
 
-PCK::PCK(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+PCK::PCK(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	this->type = PackFileType::PCK;
 }
 
-std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> PCK::create(const std::string& path, uint32_t version, uint32_t godotMajorVersion, uint32_t godotMinorVersion, uint32_t godotPatchVersion) {
+	if (version != 1 && version != 2) {
+		return nullptr;
+	}
+
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+
+		stream
+			.write(PCK_SIGNATURE)
+			.write(version)
+			.write(godotMajorVersion)
+			.write(godotMinorVersion)
+			.write(godotPatchVersion);
+
+		if (version > 1) {
+			stream
+				.write(FlagsV2::FLAG_NONE)
+				.write<uint64_t>(0);
+		}
+
+		stream
+			.write(std::array<int32_t, 16>{})
+			.write<uint32_t>(0);
+	}
+	return PCK::open(path);
+}
+
+std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* pck = new PCK{path, options};
+	auto* pck = new PCK{path};
 	auto packFile = std::unique_ptr<PackFile>(pck);
 
 	FileStream reader{pck->fullFilePath};
@@ -107,6 +135,8 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, PackFileOptions opt
 			entry.flags = reader.read<uint32_t>();
 		}
 
+		pck->entries.emplace(entryPath, entry);
+
 		if (callback) {
 			callback(entryPath, entry);
 		}
@@ -142,7 +172,7 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.length = buffer.size();
 
 	const auto md5 = crypto::computeMD5(buffer);
@@ -152,7 +182,7 @@ void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 	entry.offset = 0;
 }
 
-bool PCK::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
@@ -289,4 +319,24 @@ PCK::operator std::string() const {
 		out += " | Encrypted";
 	}
 	return out;
+}
+
+uint32_t PCK::getVersion() const {
+	return this->header.packVersion;
+}
+
+void PCK::setVersion(uint32_t version) {
+	if (version == 1 || version == 2) {
+		this->header.packVersion = version;
+	}
+}
+
+std::tuple<uint32_t, uint32_t, uint32_t> PCK::getGodotVersion() const {
+	return {this->header.godotVersionMajor, this->header.godotVersionMinor, this->header.godotVersionPatch};
+}
+
+void PCK::setGodotVersion(uint32_t major, uint32_t minor, uint32_t patch) {
+	this->header.godotVersionMajor = major;
+	this->header.godotVersionMinor = minor;
+	this->header.godotVersionPatch = patch;
 }

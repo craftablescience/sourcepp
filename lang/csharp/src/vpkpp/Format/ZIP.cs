@@ -8,27 +8,30 @@ namespace vpkpp.Format
     internal static unsafe partial class Extern
     {
         [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_open([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static extern void* vpkpp_zip_create([MarshalAs(UnmanagedType.LPStr)] string path);
 
         [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_open_with_callback([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_open_with_options([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_open_with_options_and_callback([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options, IntPtr callback);
+        public static extern void* vpkpp_zip_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
     }
 
     public class ZIP : PackFile
     {
         private protected unsafe ZIP(void* handle) : base(handle) {}
 
+        public static ZIP? Create(string path)
+        {
+            unsafe
+            {
+                var handle = Extern.vpkpp_zip_create(path);
+                return handle == null ? null : new ZIP(handle);
+            }
+        }
+
         public new static ZIP? Open(string path)
         {
             unsafe
             {
-                var handle = Extern.vpkpp_zip_open(path);
+                var handle = Extern.vpkpp_zip_open(path, 0);
                 return handle == null ? null : new ZIP(handle);
             }
         }
@@ -41,29 +44,7 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_zip_open_with_callback(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new ZIP(handle);
-            }
-        }
-
-        public new static ZIP? Open(string path, PackFileOptions options)
-        {
-            unsafe
-            {
-                var handle = Extern.vpkpp_zip_open_with_options(path, options);
-                return handle == null ? null : new ZIP(handle);
-            }
-        }
-
-        public new static ZIP? Open(string path, PackFileOptions options, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.vpkpp_zip_open_with_options_and_callback(path, options, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.vpkpp_zip_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new ZIP(handle);
             }
         }

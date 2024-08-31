@@ -12,6 +12,7 @@ list(APPEND ${PROJECT_NAME}_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Binary.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/parser/Text.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/FS.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/Macros.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/String.h")
 
 add_library(${PROJECT_NAME} STATIC

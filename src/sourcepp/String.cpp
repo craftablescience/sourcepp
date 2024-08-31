@@ -177,3 +177,10 @@ void string::denormalizeSlashes(std::string& path, bool stripSlashPrefix, bool s
 		path.pop_back();
 	}
 }
+
+std::from_chars_result string::toBool(std::string_view number, bool& out, int base) {
+	uint8_t tmp;
+	auto result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
+	out = tmp;
+	return result;
+}

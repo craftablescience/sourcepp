@@ -89,7 +89,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
 
-	if (stream.read<int32_t>() != VTF_SIGNATURE) {
+	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
 		return;
 	}
 
@@ -138,27 +138,31 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		auto resourceCount = stream.read<uint32_t>();
 		stream.skip(8);
 
+		if (resourceCount > VTF_MAX_RESOURCES) {
+			resourceCount = VTF_MAX_RESOURCES;
+		}
+		this->resources.reserve(resourceCount);
+
 		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
-			auto& resource = this->resources.emplace_back(new Resource{});
+			auto& resource = this->resources.emplace_back();
 
-			stream
-				.read(resource->type)
-				.skip(2)
-				.read(resource->flags);
-			resource->data = stream.read_span<std::byte>(4);
+			auto typeAndFlags = stream.read<uint32_t>();
+			resource.type = static_cast<Resource::Type>(typeAndFlags & 0xFFFFFF); // last 3 bytes
+			resource.flags = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
+			resource.data = stream.read_span<std::byte>(4);
 
-			if (!(resource->flags & Resource::FLAG_NO_DATA)) {
+			if (!(resource.flags & Resource::FLAG_NO_DATA)) {
 				if (lastResource) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(resource->data.data());
+					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(static_cast<int64_t>(curPos));
 				}
-				lastResource = this->resources.back().get();
+				lastResource = &this->resources.back();
 			}
 		}
 		if (lastResource) {
@@ -176,17 +180,19 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		this->opened = stream.tell() == headerLength;
 	} else {
 		while (stream.tell() % 16 != 0) {
-			stream.skip(1);
+			stream.skip();
 		}
 		this->opened = stream.tell() == headerLength;
 
+		this->resources.reserve(2);
+
 		if (this->thumbnailWidth > 0 && this->thumbnailHeight > 0) {
 			auto thumbnailLength = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-			this->resources.emplace_back(new Resource{Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength)});
+			this->resources.push_back({Resource::TYPE_THUMBNAIL_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(thumbnailLength)});
 		}
 		if (this->width > 0 && this->height > 0) {
 			auto imageLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-			this->resources.emplace_back(new Resource{Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength)});
+			this->resources.push_back({Resource::TYPE_IMAGE_DATA, Resource::FLAG_NONE, stream.read_span<std::byte>(imageLength)});
 		}
 	}
 }
@@ -271,14 +277,14 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
-const std::vector<std::unique_ptr<Resource>>& VTF::getResources() const {
+const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
 }
 
 const Resource* VTF::getResource(Resource::Type type) const {
 	for (const auto& resource : this->resources) {
-		if (resource->type == type) {
-			return resource.get();
+		if (resource.type == type) {
+			return &resource;
 		}
 	}
 	return nullptr;
@@ -297,20 +303,16 @@ std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uin
 			return {};
 		}
 
+		// Keep in mind that the slice parameter gets ignored when returning raw compressed data - the slices are compressed together
 		offset = 0;
-		length = 0;
 		for (int i = this->mipCount - 1; i >= 0; i--) {
 			for (int j = 0; j < this->frameCount; j++) {
 				for (int k = 0; k < this->getFaceCount(); k++) {
-					// This is done out of hope that it works, but it probably doesn't...
-					// Don't compress a volumetric texture if you want it to load properly...
-					for (int l = 0; l < this->sliceCount; l++) {
-						length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
-						if (i == mip && j == frame && k == face && l == slice) {
-							return imageResource->data.subspan(offset, length);
-						} else {
-							offset += length;
-						}
+					length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
+					if (i == mip && j == frame && k == face) {
+						return imageResource->data.subspan(offset, length);
+					} else {
+						offset += length;
 					}
 				}
 			}
@@ -350,7 +352,13 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 		return {};
 	}
 	decompressedImageData.resize(decompressedImageDataSize);
-	return decompressedImageData;
+
+	// 3D compressed images will have their slices aggregated together, so we need to do some trickery to pull a specific one out
+	if (this->sliceCount == 1) {
+		return ImageConversion::convertImageDataToFormat(decompressedImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+	}
+	const auto sliceSize = ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), 1);
+	return ImageConversion::convertImageDataToFormat({decompressedImageData.begin() + (slice * sliceSize), sliceSize}, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
 std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, uint16_t face, uint16_t slice) const {

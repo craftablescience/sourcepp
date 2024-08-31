@@ -6,29 +6,44 @@
 
 using namespace vpkpp;
 
-FPX::FPX(const std::string& fullFilePath_, PackFileOptions options_)
-		: VPK(fullFilePath_, options_) {
+FPX::FPX(const std::string& fullFilePath_)
+		: VPK(fullFilePath_) {
 	this->type = PackFileType::FPX;
 }
 
-std::unique_ptr<PackFile> FPX::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
-	auto fpx = FPX::openInternal(path, options, callback);
+std::unique_ptr<PackFile> FPX::create(const std::string& path) {
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+
+		Header1 header1{};
+		header1.signature = FPX_SIGNATURE;
+		header1.version = 10;
+		header1.treeSize = 1;
+		stream.write(header1);
+
+		stream.write('\0');
+	}
+	return FPX::open(path);
+}
+
+std::unique_ptr<PackFile> FPX::open(const std::string& path, const EntryCallback& callback) {
+	auto fpx = FPX::openInternal(path, callback);
 	if (!fpx && path.length() > 8) {
 		// If it just tried to load a numbered archive, let's try to load the directory FPX
 		if (auto dirPath = path.substr(0, path.length() - 8) + FPX_DIR_SUFFIX.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {
-			fpx = FPX::openInternal(dirPath, options, callback);
+			fpx = FPX::openInternal(dirPath, callback);
 		}
 	}
 	return fpx;
 }
 
-std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* fpx = new FPX{path, options};
+	auto* fpx = new FPX{path};
 	auto packFile = std::unique_ptr<PackFile>(fpx);
 
 	FileStream reader{fpx->fullFilePath};
@@ -42,7 +57,6 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 		// Only support v10 FPX files
 		return nullptr;
 	}
-	fpx->options.vpk_version = fpx->header1.version;
 
 	// Extensions
 	while (true) {
@@ -87,7 +101,7 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, PackFileOpt
 
 				reader.read(entry.crc32);
 				auto preloadedDataSize = reader.read<uint16_t>();
-				reader.read(entry.archiveIndex);
+				entry.archiveIndex = reader.read<uint16_t>();
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 

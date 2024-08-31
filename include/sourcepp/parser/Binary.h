@@ -16,10 +16,7 @@ namespace sourcepp::parser::binary {
  * @param fourCC The human-readable FourCC.
  * @return The FourCC identifier.
  */
-consteval uint32_t makeFourCC(std::string_view fourCC) {
-	if (fourCC.length() != 4) {
-		return 0;
-	}
+consteval uint32_t makeFourCC(const char fourCC[4]) {
 	return fourCC[0] | (fourCC[1] << 8) | (fourCC[2] << 16) | (fourCC[3] << 24);
 }
 

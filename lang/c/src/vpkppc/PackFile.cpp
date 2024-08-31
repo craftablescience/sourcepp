@@ -1,6 +1,5 @@
 #include <vpkppc/PackFile.h>
 
-#include <cstdlib>
 #include <cstring>
 #include <memory>
 #include <utility>
@@ -13,60 +12,26 @@
 
 using namespace vpkpp;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = PackFile::open(path);
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_callback(const char* path, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = PackFile::open(path, {}, [callback](const std::string& path, const Entry& entry) {
+	auto packFile = PackFile::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
+	} : static_cast<PackFile::EntryCallback>(nullptr));
 	if (!packFile) {
 		return nullptr;
 	}
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_options(const char* path, vpkpp_pack_file_options_t options) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-
-	auto packFile = PackFile::open(path, Convert::optionsFromC(options));
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = PackFile::open(path, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
+SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions() {
+	return Convert::toStringArray(PackFile::getOpenableExtensions());
 }
 
 SOURCEPP_API vpkpp_pack_file_type_e vpkpp_get_type(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_PACK_FILE_TYPE_UNKNOWN);
 
 	return static_cast<vpkpp_pack_file_type_e>(Convert::packFile(handle)->getType());
-}
-
-SOURCEPP_API vpkpp_pack_file_options_t vpkpp_get_options(vpkpp_pack_file_handle_t handle) {
-	return Convert::optionsToC(Convert::packFile(handle)->getOptions());
 }
 
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle) {
@@ -189,6 +154,22 @@ SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t
 	Convert::packFile(handle)->addEntry(path, reinterpret_cast<const std::byte*>(buffer), bufferLen, Convert::optionsFromC(options));
 }
 
+SOURCEPP_API void vpkpp_add_directory(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_creation_t creation) {
+	SOURCEPP_EARLY_RETURN(handle);
+	SOURCEPP_EARLY_RETURN(dir);
+
+	Convert::packFile(handle)->addDirectory(entryBaseDir ? entryBaseDir : "", dir, creation ? [creation](const std::string& path) {
+		return Convert::optionsFromC(creation(path.c_str()));
+	} : static_cast<PackFile::EntryCreation>(nullptr));
+}
+
+SOURCEPP_API void vpkpp_add_directory_with_options(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_options_t options) {
+	SOURCEPP_EARLY_RETURN(handle);
+	SOURCEPP_EARLY_RETURN(dir);
+
+	Convert::packFile(handle)->addDirectory(entryBaseDir ? entryBaseDir : "", dir, Convert::optionsFromC(options));
+}
+
 SOURCEPP_API int vpkpp_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(oldPath, false);
@@ -219,21 +200,22 @@ SOURCEPP_API int vpkpp_remove_directory(vpkpp_pack_file_handle_t handle, const c
 	return Convert::packFile(handle)->removeEntry(dirName);
 }
 
-SOURCEPP_API int vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir) {
+SOURCEPP_API int vpkpp_bake(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(outputDir, false);
 
-	return Convert::packFile(handle)->bake(outputDir, nullptr);
+	return Convert::packFile(handle)->bake(outputDir, {}, callback ? [callback](const std::string& path, const Entry& entry) {
+		callback(path.c_str(), const_cast<Entry*>(&entry));
+	} : static_cast<PackFile::EntryCallback>(nullptr));
 }
 
-SOURCEPP_API int vpkpp_bake_with_callback(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryCallback callback) {
+SOURCEPP_API int vpkpp_bake_with_options(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_bake_options_t options, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(outputDir, false);
-	SOURCEPP_EARLY_RETURN_VAL(callback, false);
 
-	return Convert::packFile(handle)->bake(outputDir, [callback](const std::string& path, const Entry& entry) {
+	return Convert::packFile(handle)->bake(outputDir, Convert::optionsFromC(options), callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
+	} : static_cast<PackFile::EntryCallback>(nullptr));
 }
 
 SOURCEPP_API int vpkpp_extract_entry(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filePath) {
@@ -259,7 +241,7 @@ SOURCEPP_API int vpkpp_extract_all(vpkpp_pack_file_handle_t handle, const char* 
 	return Convert::packFile(handle)->extractAll(outputDir, createUnderPackFileDir);
 }
 
-SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, EntryPredicate predicate, int stripSharedDirs) {
+SOURCEPP_API int vpkpp_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_predicate_t predicate, int stripSharedDirs) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(outputDir, false);
 	SOURCEPP_EARLY_RETURN_VAL(predicate, false);
@@ -273,7 +255,7 @@ SOURCEPP_API size_t vpkpp_get_entry_count(vpkpp_pack_file_handle_t handle, int i
 	return Convert::packFile(handle)->getEntryCount(includeUnbaked);
 }
 
-SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, EntryCallback operation, int includeUnbaked) {
+SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, vpkpp_entry_callback_t operation, int includeUnbaked) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(operation);
 
@@ -341,8 +323,4 @@ SOURCEPP_API sourcepp_string_t vpkpp_escape_entry_path_for_write(const char* pat
 	SOURCEPP_EARLY_RETURN_VAL(path, SOURCEPP_STRING_INVALID);
 
 	return Convert::toString(PackFile::escapeEntryPathForWrite(path));
-}
-
-SOURCEPP_API sourcepp_string_array_t vpkpp_get_supported_file_types() {
-	return Convert::toStringArray(PackFile::getSupportedFileTypes());
 }

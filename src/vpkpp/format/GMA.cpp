@@ -10,18 +10,18 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-GMA::GMA(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+GMA::GMA(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	this->type = PackFileType::GMA;
 }
 
-std::unique_ptr<PackFile> GMA::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> GMA::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* gma = new GMA{path, options};
+	auto* gma = new GMA{path};
 	auto packFile = std::unique_ptr<PackFile>(gma);
 
 	FileStream reader{gma->fullFilePath};
@@ -110,17 +110,15 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void GMA::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void GMA::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.length = buffer.size();
-	if (this->options.gma_writeCRCs) {
-		entry.crc32 = crypto::computeCRC32(buffer);
-	}
+	entry.crc32 = crypto::computeCRC32(buffer);
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
 }
 
-bool GMA::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool GMA::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
@@ -162,7 +160,7 @@ bool GMA::bake(const std::string& outputDir_, const EntryCallback& callback) {
 			const auto& [path, entry] = entriesToBake[i - 1];
 			stream.write(path);
 			stream.write(entry->length);
-			stream.write<uint32_t>(this->options.gma_writeCRCs ? entry->crc32 : 0);
+			stream.write<uint32_t>(options.gma_writeCRCs ? entry->crc32 : 0);
 
 			if (callback) {
 				callback(path, *entry);
@@ -183,7 +181,7 @@ bool GMA::bake(const std::string& outputDir_, const EntryCallback& callback) {
 
 	// CRC of everything that's been written
 	uint32_t crc = 0;
-	if (this->options.gma_writeCRCs) {
+	if (options.gma_writeCRCs) {
 		auto fileSize = std::filesystem::file_size(outputPath);
 		FileStream stream{outputPath};
 		stream.seek_in(0);

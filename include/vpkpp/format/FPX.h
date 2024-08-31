@@ -10,13 +10,16 @@ constexpr std::string_view FPX_EXTENSION = ".fpx";
 
 class FPX : public VPK {
 public:
-	/// Open a directory VPK file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	/// Create a new directory FPX file - should end in "_dir.fpx"! This is not enforced but STRONGLY recommended
+	static std::unique_ptr<PackFile> create(const std::string& path);
+
+	/// Open an FPX file
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
 protected:
-	FPX(const std::string& fullFilePath_, PackFileOptions options_);
+	explicit FPX(const std::string& fullFilePath_);
 
-	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, const EntryCallback& callback = nullptr);
 
 private:
 	using VPK::generateKeyPairFiles;

@@ -10,18 +10,29 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-PAK::PAK(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+PAK::PAK(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	this->type = PackFileType::PAK;
 }
 
-std::unique_ptr<PackFile> PAK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> PAK::create(const std::string& path) {
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream
+			.write(PAK_SIGNATURE)
+			.write<uint32_t>(0)
+			.write<uint32_t>(0);
+	}
+	return PAK::open(path);
+}
+
+std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* pak = new PAK{path, options};
+	auto* pak = new PAK{path};
 	auto packFile = std::unique_ptr<PackFile>(pak);
 
 	FileStream reader{pak->fullFilePath};
@@ -74,14 +85,14 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void PAK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void PAK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
 }
 
-bool PAK::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
