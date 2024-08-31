@@ -50,7 +50,7 @@ TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FL
 #endif
 
 TEST(vtfpp, write_non_po2) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src_non_po2.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/non_po2.png", {
 		.widthResizeMethod = ImageConversion::ResizeMethod::NONE,
 		.heightResizeMethod = ImageConversion::ResizeMethod::NONE,
 	});
@@ -116,7 +116,7 @@ TEST(vtfpp, read_v70) {
 }
 
 TEST(vtfpp, write_v70) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.minorVersion = 0,
 	});
 	ASSERT_TRUE(vtf);
@@ -291,7 +291,7 @@ TEST(vtfpp, read_v71) {
 }
 
 TEST(vtfpp, write_v71) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.minorVersion = 1,
 	});
 	ASSERT_TRUE(vtf);
@@ -466,7 +466,7 @@ TEST(vtfpp, read_v72) {
 }
 
 TEST(vtfpp, write_v72) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.minorVersion = 2,
 	});
 	ASSERT_TRUE(vtf);
@@ -654,7 +654,7 @@ TEST(vtfpp, read_v75) {
 }
 
 TEST(vtfpp, write_v75) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.minorVersion = 5,
 	});
 	ASSERT_TRUE(vtf);
@@ -830,7 +830,7 @@ TEST(vtfpp, read_v76_c9) {
 }
 
 TEST(vtfpp, write_v76_c6) {
-	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.minorVersion = 6,
 	});
 	ASSERT_TRUE(vtf);

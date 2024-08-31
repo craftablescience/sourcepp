@@ -386,6 +386,10 @@ namespace ImageFormatDetails {
 	return red(format) > 8 || bpp(format) > 32;
 }
 
+[[nodiscard]] constexpr bool decimal(ImageFormat format) {
+	return large(format) && format != ImageFormat::RGBA16161616;
+}
+
 [[nodiscard]] constexpr bool transparent(ImageFormat format) {
 	const auto a = alpha(format);
 	if (a < 0) {
@@ -403,13 +407,69 @@ namespace ImageFormatDetails {
 				break;
 		}
 		return false;
-	} else {
-		return a != 0;
 	}
+	switch (format) {
+		using enum ImageFormat;
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+			return true;
+		case BGRX8888:
+		case BGRX5551:
+			return false;
+		default:
+			break;
+	}
+	return a != 0;
 }
 
 [[nodiscard]] constexpr bool opaque(ImageFormat format) {
 	return !transparent(format);
+}
+
+[[nodiscard]] constexpr ImageFormat containerFormat(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case R32F:
+		case RGB323232F:
+		case RGBA16161616F:
+		case RGBA32323232F:
+		case BC6H:
+			return RGBA32323232F;
+		case RGBA16161616:
+			return RGBA16161616;
+		case RGBA8888:
+		case ABGR8888:
+		case RGB888:
+		case BGR888:
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+		case ARGB8888:
+		case BGRA8888:
+		case BGRX8888:
+		case UVWQ8888:
+		case UVLX8888:
+		case RGB565:
+		case BGR565:
+		case BGRX5551:
+		case BGRA5551:
+		case BGRA4444:
+		case I8:
+		case IA88:
+		case P8:
+		case UV88:
+		case A8:
+		case DXT1:
+		case DXT3:
+		case DXT5:
+		case DXT1_ONE_BIT_ALPHA:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+			return RGBA8888;
+		case EMPTY:
+			break;
+	}
+	return ImageFormat::EMPTY;
 }
 
 } // namespace ImageFormatDetails

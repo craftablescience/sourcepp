@@ -1,4 +1,4 @@
-#include <vtfpp/vtfpp.h>
+#include <vtfpp/VTF.h>
 
 #include <cstring>
 #include <memory>
@@ -19,7 +19,7 @@ std::vector<std::byte> compressData(std::span<const std::byte> data, int level) 
 	mz_ulong compressedSize = mz_compressBound(data.size());
 	std::vector<std::byte> out(compressedSize);
 
-	int status;
+	int status = MZ_OK;
 	while ((status = mz_compress2(reinterpret_cast<unsigned char*>(out.data()), &compressedSize, reinterpret_cast<const unsigned char*>(data.data()), data.size(), level)) == MZ_BUF_ERROR) {
 		compressedSize *= 2;
 		out.resize(compressedSize);
@@ -1236,6 +1236,6 @@ std::vector<std::byte> VTF::bake() {
 	return out;
 }
 
-void VTF::bake(const std::string& vtfPath) {
-	fs::writeFileBuffer(vtfPath, this->bake());
+bool VTF::bake(const std::string& vtfPath) {
+	return fs::writeFileBuffer(vtfPath, this->bake());
 }

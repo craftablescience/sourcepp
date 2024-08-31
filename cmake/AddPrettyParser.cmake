@@ -23,6 +23,11 @@ function(add_pretty_parser TARGET)
     # Define DEBUG macro
     target_compile_definitions(${TARGET} PRIVATE "$<$<CONFIG:Debug>:DEBUG>")
 
+    # MSVC on its bullshit again
+    if(MSVC)
+        target_compile_options(${TARGET} PRIVATE "/Zc:preprocessor")
+    endif()
+
     # Set optimization flags
     if(CMAKE_BUILD_TYPE MATCHES "Debug")
         # Build with debug friendly optimizations and debug symbols (MSVC defaults are fine)
