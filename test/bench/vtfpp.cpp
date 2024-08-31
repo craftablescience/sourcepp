@@ -2,7 +2,6 @@
 
 #include <VTFLib.h>
 #include <sourcepp/FS.h>
-#include <vtfpp/ImageConversion.h>
 #include <vtfpp/vtfpp.h>
 
 using namespace sourcepp;

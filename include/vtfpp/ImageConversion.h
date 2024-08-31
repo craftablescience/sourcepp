@@ -4,9 +4,196 @@
 #include <span>
 #include <vector>
 
+#include <sourcepp/math/Float.h>
+
 #include "ImageFormats.h"
 
-namespace vtfpp::ImageConversion {
+namespace vtfpp {
+
+namespace ImagePixel {
+
+struct RGBA8888 {
+	static constexpr auto FORMAT = ImageFormat::RGBA8888;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+	uint8_t a;
+};
+
+struct ABGR8888 {
+	static constexpr auto FORMAT = ImageFormat::ABGR8888;
+	uint8_t a;
+	uint8_t b;
+	uint8_t g;
+	uint8_t r;
+};
+
+struct RGB888 {
+	static constexpr auto FORMAT = ImageFormat::RGB888;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+};
+
+struct RGB888_BLUESCREEN : public RGB888 {
+	static constexpr auto FORMAT = ImageFormat::RGB888_BLUESCREEN;
+};
+
+struct BGR888 {
+	static constexpr auto FORMAT = ImageFormat::BGR888;
+	uint8_t b;
+	uint8_t g;
+	uint8_t r;
+};
+
+struct BGR888_BLUESCREEN : public BGR888 {
+	static constexpr auto FORMAT = ImageFormat::BGR888_BLUESCREEN;
+};
+
+struct RGB565 {
+	static constexpr auto FORMAT = ImageFormat::RGB565;
+	uint16_t r : 5;
+	uint16_t g : 6;
+	uint16_t b : 5;
+};
+
+struct I8 {
+	static constexpr auto FORMAT = ImageFormat::I8;
+	uint8_t i;
+};
+
+struct IA88 {
+	static constexpr auto FORMAT = ImageFormat::IA88;
+	uint8_t i;
+	uint8_t a;
+};
+
+struct P8 {
+	static constexpr auto FORMAT = ImageFormat::P8;
+	uint8_t p;
+};
+
+struct A8 {
+	static constexpr auto FORMAT = ImageFormat::A8;
+	uint8_t a;
+};
+
+struct ARGB8888 {
+	static constexpr auto FORMAT = ImageFormat::ARGB8888;
+	uint8_t a;
+	uint8_t r;
+	uint8_t g;
+	uint8_t b;
+};
+
+struct BGRA8888 {
+	static constexpr auto FORMAT = ImageFormat::BGRA8888;
+	uint8_t b;
+	uint8_t g;
+	uint8_t r;
+	uint8_t a;
+};
+
+struct BGRX8888 {
+	static constexpr auto FORMAT = ImageFormat::BGRX8888;
+	uint8_t b;
+	uint8_t g;
+	uint8_t r;
+	uint8_t x;
+};
+
+struct BGR565 {
+	static constexpr auto FORMAT = ImageFormat::BGR565;
+	uint16_t b : 5;
+	uint16_t g : 6;
+	uint16_t r : 5;
+};
+
+struct BGRX5551 {
+	static constexpr auto FORMAT = ImageFormat::BGRX5551;
+	uint16_t b : 5;
+	uint16_t g : 5;
+	uint16_t r : 5;
+	uint16_t x : 1;
+};
+
+struct BGRA4444 {
+	static constexpr auto FORMAT = ImageFormat::BGRA4444;
+	uint16_t b : 4;
+	uint16_t g : 4;
+	uint16_t r : 4;
+	uint16_t a : 4;
+};
+
+struct BGRA5551 {
+	static constexpr auto FORMAT = ImageFormat::BGRA5551;
+	uint16_t b : 5;
+	uint16_t g : 5;
+	uint16_t r : 5;
+	uint16_t a : 1;
+};
+
+struct UV88 {
+	static constexpr auto FORMAT = ImageFormat::UV88;
+	uint8_t u;
+	uint8_t v;
+};
+
+struct UVWQ8888 {
+	static constexpr auto FORMAT = ImageFormat::UVWQ8888;
+	uint8_t u;
+	uint8_t v;
+	uint8_t w;
+	uint8_t q;
+};
+
+struct RGBA16161616F {
+	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
+	sourcepp::math::FloatCompressed16 r;
+	sourcepp::math::FloatCompressed16 g;
+	sourcepp::math::FloatCompressed16 b;
+	sourcepp::math::FloatCompressed16 a;
+};
+
+struct RGBA16161616 {
+	static constexpr auto FORMAT = ImageFormat::RGBA16161616;
+	uint16_t r;
+	uint16_t g;
+	uint16_t b;
+	uint16_t a;
+};
+
+struct UVLX8888 {
+	static constexpr auto FORMAT = ImageFormat::UVLX8888;
+	uint8_t u;
+	uint8_t v;
+	uint8_t l;
+	uint8_t x;
+};
+
+struct R32F {
+	static constexpr auto FORMAT = ImageFormat::R32F;
+	float r;
+};
+
+struct RGB323232F {
+	static constexpr auto FORMAT = ImageFormat::R32F;
+	float r;
+	float g;
+	float b;
+};
+
+struct RGBA32323232F {
+	static constexpr auto FORMAT = ImageFormat::RGBA32323232F;
+	float r;
+	float g;
+	float b;
+	float a;
+};
+
+} // namespace ImagePixel
+
+namespace ImageConversion {
 
 /// Converts an image from one format to another.
 [[nodiscard]] std::vector<std::byte> convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height);
@@ -56,4 +243,6 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 /// Resize given image data to the new dimensions, where the new width and height are governed by the resize methods
 [[nodiscard]] std::vector<std::byte> resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP);
 
-} // namespace vtfpp::ImageConversion
+} // namespace ImageConversion
+
+} // namespace vtfpp
