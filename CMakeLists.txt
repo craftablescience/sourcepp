@@ -13,22 +13,27 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
-# Options
-option(SOURCEPP_LIBS_START_ENABLED       "Libraries will all build by default"      ON)
-option(SOURCEPP_USE_BSPPP                "Build bsppp library"                      ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_DMXPP                "Build dmxpp library"                      ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_GAMEPP               "Build gamepp library"                     ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_KVPP                 "Build kvpp library"                       ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_MDLPP                "Build mdlpp library"                      ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_STEAMPP              "Build steampp library"                    ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_TOOLPP               "Build toolpp library"                     ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_VICEPP               "Build vicepp library"                     ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_VPKPP                "Build vpkpp library"                      ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_USE_VTFPP                "Build vtfpp library"                      ${SOURCEPP_LIBS_START_ENABLED})
-option(SOURCEPP_BUILD_C_WRAPPERS         "Build C wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_TESTS              "Build tests for enabled libraries"        OFF)
-option(SOURCEPP_BUILD_WIN7_COMPAT        "Build with Windows 7 compatibility"       OFF)
-option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"      OFF)
+# Options (update print_options at the bottom of this file when modifying)
+option(SOURCEPP_LIBS_START_ENABLED "Libraries will all build by default"                             ON)
+option(SOURCEPP_USE_BSPPP          "Build bsppp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_DMXPP          "Build dmxpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_GAMEPP         "Build gamepp library"                ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_KVPP           "Build kvpp library"                  ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_MDLPP          "Build mdlpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_STEAMPP        "Build steampp library"               ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_TOOLPP         "Build toolpp library"                ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_VICEPP         "Build vicepp library"                ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+
+option(SOURCEPP_BUILD_BENCHMARKS  "Build benchmarks for supported libraries" OFF)
+option(SOURCEPP_BUILD_C_WRAPPERS  "Build C wrappers for supported libraries" OFF)
+option(SOURCEPP_BUILD_WITH_OPENCL "Build with support for GPU compute"       OFF)
+option(SOURCEPP_BUILD_WITH_TBB    "Build with support for std::execution"    OFF)
+option(SOURCEPP_BUILD_TESTS       "Build tests for supported libraries"      OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT "Build with Windows 7 compatibility"       OFF)
+
+option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
 
 
 # Option overrides
@@ -41,6 +46,11 @@ endif()
 if(SOURCEPP_USE_VPKPP)
     set(SOURCEPP_USE_BSPPP ON CACHE INTERNAL "" FORCE)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
+endif()
+
+if(MSVC)
+    # MSVC does not rely on tbb for std::execution policies, so we can force this on
+    set(SOURCEPP_BUILD_WITH_TBB ON CACHE INTERNAL "" FORCE)
 endif()
 
 
@@ -59,6 +69,7 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
 include(AddSourcePPLibrary)
 include(IncludeSubdirectory)
+include(PrintOptions)
 
 
 # Include thirdparty libraries
@@ -82,7 +93,7 @@ if(SOURCEPP_BUILD_TESTS)
     FetchContent_Declare(
             googletest
             GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG v1.14.0)
+            GIT_TAG v1.15.2)
     FetchContent_MakeAvailable(googletest)
     enable_testing()
     set(${SOURCEPP_TEST_NAME}_SOURCES "")
@@ -90,17 +101,32 @@ if(SOURCEPP_BUILD_TESTS)
 endif()
 
 
+# Benchmarks, part 1
+if(SOURCEPP_BUILD_BENCHMARKS)
+    set(SOURCEPP_BENCH_NAME "${PROJECT_NAME}_bench")
+    include(FetchContent)
+    FetchContent_Declare(
+            benchmark
+            GIT_REPOSITORY https://github.com/google/benchmark.git
+            GIT_TAG v1.9.0)
+    set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "" FORCE)
+    FetchContent_MakeAvailable(benchmark)
+    list(APPEND ${SOURCEPP_BENCH_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/_bench.cpp")
+    list(APPEND ${SOURCEPP_BENCH_NAME}_DEPS benchmark::benchmark)
+endif()
+
+
 # Add libraries
-add_sourcepp_library(bsppp NO_TEST)           # sourcepp::bsppp
-add_sourcepp_library(dmxpp)                   # sourcepp::dmxpp
-add_sourcepp_library(gamepp)                  # sourcepp::gamepp
-add_sourcepp_library(kvpp)                    # sourcepp::kvpp
-add_sourcepp_library(mdlpp)                   # sourcepp::mdlpp
-add_sourcepp_library(steampp C)               # sourcepp::steampp
-add_sourcepp_library(toolpp)                  # sourcepp::toolpp
-add_sourcepp_library(vicepp C CSHARP)         # sourcepp::vicepp
-add_sourcepp_library(vpkpp C CSHARP NO_TEST)  # sourcepp::vpkpp
-add_sourcepp_library(vtfpp)                   # sourcepp::vtfpp
+add_sourcepp_library(bsppp            NO_TEST      ) # sourcepp::bsppp
+add_sourcepp_library(dmxpp                         ) # sourcepp::dmxpp
+add_sourcepp_library(gamepp                        ) # sourcepp::gamepp
+add_sourcepp_library(kvpp                          ) # sourcepp::kvpp
+add_sourcepp_library(mdlpp                         ) # sourcepp::mdlpp
+add_sourcepp_library(steampp C                     ) # sourcepp::steampp
+add_sourcepp_library(toolpp                        ) # sourcepp::toolpp
+add_sourcepp_library(vicepp  C CSHARP              ) # sourcepp::vicepp
+add_sourcepp_library(vpkpp   C CSHARP NO_TEST      ) # sourcepp::vpkpp
+add_sourcepp_library(vtfpp                    BENCH) # sourcepp::vtfpp
 
 
 # Tests, part 2
@@ -111,3 +137,18 @@ if(SOURCEPP_BUILD_TESTS)
     include(GoogleTest)
     gtest_discover_tests(${SOURCEPP_TEST_NAME})
 endif()
+
+
+# Benchmarks, part 2
+if(SOURCEPP_BUILD_BENCHMARKS)
+    add_executable(${SOURCEPP_BENCH_NAME} ${${SOURCEPP_BENCH_NAME}_SOURCES})
+    target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC ${${SOURCEPP_BENCH_NAME}_DEPS})
+    target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
+endif()
+
+
+# Print options
+print_options(OPTIONS
+        USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VICEPP USE_VPKPP USE_VTFPP
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_TESTS BUILD_WIN7_COMPAT
+        LINK_STATIC_MSVC_RUNTIME)

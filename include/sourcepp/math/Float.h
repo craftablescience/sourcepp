@@ -7,11 +7,11 @@ namespace sourcepp::math {
 // https://stackoverflow.com/a/60047308
 class FloatCompressed16 {
 public:
-	explicit FloatCompressed16(uint16_t in) {
-		this->data = in;
-	}
+	explicit FloatCompressed16(uint16_t in)
+			: data(in) {}
 
-	explicit FloatCompressed16(float in) { // IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
+	// NOLINTNEXTLINE(*-explicit-constructor)
+	FloatCompressed16(float in) { // IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
 		const auto b = *reinterpret_cast<uint32_t*>(&in) + 0x00001000; // round-to-nearest-even: add last bit after truncated mantissa
 		const auto e = (b & 0x7F800000) >> 23; // exponent
 		const auto m = b & 0x007FFFFF; // mantissa; in line below: 0x007FF000 = 0x00800000-0x00001000 = decimal indicator flag - initial rounding
