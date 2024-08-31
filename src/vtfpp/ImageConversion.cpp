@@ -6,6 +6,7 @@
 #include <Compressonator.h>
 #include <sourcepp/math/Float.h>
 #include <stb_image_write.h>
+#include <cstring>
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -621,18 +622,49 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	return finalData;
 }
 
+std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, uint16_t frames, uint8_t faces, uint8_t mips, uint16_t slices)
+{
+    std::vector<std::byte> convertedData{};
+    convertedData.resize(ImageFormatDetails::getDataLength(newFormat,mips,frames,faces,width,height,slices));
+    for(int l = 0; l < mips; l++)
+        for(int i = 0; i < frames; i++)
+            for(int j = 0; j < faces; j++)
+                for(int k = 0; k < slices; k++)
+                {
+                    uint32_t oldOffset = 0;
+                    uint32_t oldLength = 0;
+                    uint32_t newOffset = 0;
+                    uint32_t newLength = 0;
+                    uint16_t mipWidth = ImageDimensions::getMipDim(l, width);
+                    uint16_t mipHeight = ImageDimensions::getMipDim(l, height);
+
+                    auto a = ImageFormatDetails::getDataPosition(oldOffset,oldLength,oldFormat,l,mips,i,frames,j,faces,width,height,k,slices);
+                    auto b = ImageFormatDetails::getDataPosition(newOffset,newLength,newFormat,l,mips,i,frames,j,faces,width,height,k,slices);
+
+                    std::vector<std::byte> tmpConvertedData = ImageConversion::convertImageDataToFormat({imageData.begin() + oldOffset, imageData.begin() + oldOffset + oldLength}, oldFormat, newFormat, mipWidth, mipHeight);
+                    std::memcpy(convertedData.data() + newOffset, tmpConvertedData.data(), newLength);
+                }
+    return convertedData;
+}
+
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
 	std::vector<std::byte> out;
 	auto stbWriteFunc = [](void* out, void* data, int size) {
 		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
 	};
-	if (ImageFormatDetails::large(format)) {
+	if (ImageFormatDetails::large(format) && format != ImageFormat::RGBA16161616) {
 		auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
 		stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
-	} else {
+	} else if(format == ImageFormat::RGBA16161616)
+    {
+        stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, imageData.data(), 0);
+    }
+    else
+    {
 		// This works for compressed formats too
 		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
 	}
 	return out;
 }
+

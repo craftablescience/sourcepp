@@ -2,6 +2,7 @@
 
 #include <sourcepp/FS.h>
 #include <vtfpp/vtfpp.h>
+#include "../ext/stb/include/stb_image.h"
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -1154,3 +1155,173 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	ASSERT_TRUE(auxResource);
 	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
 }
+
+TEST(vtfpp, create_v75_resize)
+{
+    auto builder = VTFBuilder::open(ASSET_ROOT "vtfpp/images/1970_tile_floor_01.png");
+    builder->setReflectivity({0.14816631f, 0.03145336f, 0.080934197f})
+            .generateThumbnail()
+            .generateMipmaps()
+            .resizeImage(2048,2048)
+            .setVersion(7,5)
+            .setVTFFormat(vtfpp::ImageFormat::DXT1_ONE_BIT_ALPHA);
+    auto vtf = builder->build();
+    ASSERT_TRUE(vtf);
+
+    // Header
+    EXPECT_EQ(vtf->getMajorVersion(), 7);
+    EXPECT_EQ(vtf->getMinorVersion(), 5);
+    EXPECT_EQ(vtf->getWidth(), 2048);
+    EXPECT_EQ(vtf->getHeight(), 2048);
+    EXPECT_EQ(vtf->getFlags(),  VTF::FLAG_ONE_BIT_ALPHA );
+    EXPECT_EQ(vtf->getFormat(), ImageFormat::DXT1_ONE_BIT_ALPHA);
+    EXPECT_EQ(vtf->getMipCount(), 12);
+    EXPECT_EQ(vtf->getFrameCount(), 1);
+    EXPECT_EQ(vtf->getFaceCount(), 1);
+    EXPECT_EQ(vtf->getSliceCount(), 1);
+    EXPECT_EQ(vtf->getStartFrame(), 0);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[0], 0.14816631f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[1], 0.03145336f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[2], 0.080934197f);
+    EXPECT_FLOAT_EQ(vtf->getBumpMapScale(), 1.f);
+    EXPECT_EQ(vtf->getThumbnailFormat(), ImageFormat::DXT1);
+    EXPECT_EQ(vtf->getThumbnailWidth(), 16);
+    EXPECT_EQ(vtf->getThumbnailHeight(), 16);
+
+    // Resources
+    EXPECT_EQ(vtf->getResources().size(), 2);
+
+    const auto* thumbnail = vtf->getResource(Resource::TYPE_THUMBNAIL_DATA);
+    ASSERT_TRUE(thumbnail);
+    EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf->getThumbnailFormat(), vtf->getThumbnailWidth(), vtf->getThumbnailHeight()));
+
+
+    const auto* image = vtf->getResource(Resource::TYPE_IMAGE_DATA);
+    ASSERT_TRUE(image);
+    EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf->getFormat(), vtf->getMipCount(), vtf->getFrameCount(), vtf->getFaceCount(), vtf->getWidth(), vtf->getHeight(), vtf->getSliceCount()));
+
+    fs::writeFileBuffer(ASSET_ROOT "vtfpp/1970_tile_floor_01.vtf", vtf->saveVTFToFile());
+
+}
+
+TEST(vtfpp, create_v75_2048)
+{
+    auto builder = VTFBuilder::open(ASSET_ROOT "vtfpp/images/0000.png");
+    builder->setReflectivity({0.14816631f, 0.03145336f, 0.080934197f})
+            .generateThumbnail()
+            .generateMipmaps()
+            .setVersion(7,5)
+            .addFlags(VTF::FLAG_SRGB)
+            .setVTFFormat(vtfpp::ImageFormat::DXT5);
+    auto vtf = builder->build();
+    ASSERT_TRUE(vtf);
+
+    // Header
+    EXPECT_EQ(vtf->getMajorVersion(), 7);
+    EXPECT_EQ(vtf->getMinorVersion(), 5);
+    EXPECT_EQ(vtf->getWidth(), 2048);
+    EXPECT_EQ(vtf->getHeight(), 2048);
+    EXPECT_EQ(vtf->getFlags(),  VTF::FLAG_MULTI_BIT_ALPHA | VTF::FLAG_SRGB );
+    EXPECT_EQ(vtf->getFormat(), ImageFormat::DXT5);
+    EXPECT_EQ(vtf->getMipCount(), 12);
+    EXPECT_EQ(vtf->getFrameCount(), 1);
+    EXPECT_EQ(vtf->getFaceCount(), 1);
+    EXPECT_EQ(vtf->getSliceCount(), 1);
+    EXPECT_EQ(vtf->getStartFrame(), 0);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[0], 0.14816631f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[1], 0.03145336f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[2], 0.080934197f);
+    EXPECT_FLOAT_EQ(vtf->getBumpMapScale(), 1.f);
+    EXPECT_EQ(vtf->getThumbnailFormat(), ImageFormat::DXT1);
+    EXPECT_EQ(vtf->getThumbnailWidth(), 16);
+    EXPECT_EQ(vtf->getThumbnailHeight(), 16);
+
+    // Resources
+    EXPECT_EQ(vtf->getResources().size(), 2);
+
+    const auto* thumbnail = vtf->getResource(Resource::TYPE_THUMBNAIL_DATA);
+    ASSERT_TRUE(thumbnail);
+    EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf->getThumbnailFormat(), vtf->getThumbnailWidth(), vtf->getThumbnailHeight()));
+
+
+    const auto* image = vtf->getResource(Resource::TYPE_IMAGE_DATA);
+    ASSERT_TRUE(image);
+    EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf->getFormat(), vtf->getMipCount(), vtf->getFrameCount(), vtf->getFaceCount(), vtf->getWidth(), vtf->getHeight(), vtf->getSliceCount()));
+
+    fs::writeFileBuffer(ASSET_ROOT "vtfpp/0000.vtf", vtf->saveVTFToFile());
+
+}
+
+TEST(vtfpp, create_v75_2048_animated)
+{
+
+    std::vector<std::byte> imgbuff{};
+    int32_t x, y, n;
+    for(int i = 0; i < 65; i++)
+    {
+        auto str = std::string(ASSET_ROOT "vtfpp/images/00") + ((i < 10) ? "0" : "") + std::to_string(i) + ".png";
+        auto buff = reinterpret_cast<std::byte*>(stbi_load(str.c_str(),&x,&y,&n,4));
+
+        if(!buff)
+            return;
+
+        imgbuff.insert(imgbuff.end(),buff, buff + ImageFormatDetails::getDataLength(ImageFormat::RGBA8888,x,y));
+
+        stbi_image_free(buff);
+    }
+
+    auto builder = VTFBuilder::open(imgbuff);
+    builder->setReflectivity({0.14816631f, 0.03145336f, 0.080934197f})
+            .setDimensions(x,y)
+            .setInputDataFormat(ImageFormat::RGBA8888)
+            .setFrameCount(64)
+            .generateThumbnail()
+            .generateMipmaps()
+            .setVersion(7,5)
+            .addFlags(VTF::FLAG_SRGB)
+            .setVTFFormat(vtfpp::ImageFormat::DXT5);
+    auto vtf = builder->build();
+    ASSERT_TRUE(vtf);
+
+    // Header
+    EXPECT_EQ(vtf->getMajorVersion(), 7);
+    EXPECT_EQ(vtf->getMinorVersion(), 5);
+    EXPECT_EQ(vtf->getWidth(), 2048);
+    EXPECT_EQ(vtf->getHeight(), 2048);
+    EXPECT_EQ(vtf->getFlags(),  VTF::FLAG_MULTI_BIT_ALPHA | VTF::FLAG_SRGB );
+    EXPECT_EQ(vtf->getFormat(), ImageFormat::DXT5);
+    EXPECT_EQ(vtf->getMipCount(), 12);
+    EXPECT_EQ(vtf->getFrameCount(), 64);
+    EXPECT_EQ(vtf->getFaceCount(), 1);
+    EXPECT_EQ(vtf->getSliceCount(), 1);
+    EXPECT_EQ(vtf->getStartFrame(), 0);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[0], 0.14816631f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[1], 0.03145336f);
+    EXPECT_FLOAT_EQ(vtf->getReflectivity()[2], 0.080934197f);
+    EXPECT_FLOAT_EQ(vtf->getBumpMapScale(), 1.f);
+    EXPECT_EQ(vtf->getThumbnailFormat(), ImageFormat::DXT1);
+    EXPECT_EQ(vtf->getThumbnailWidth(), 16);
+    EXPECT_EQ(vtf->getThumbnailHeight(), 16);
+
+    // Resources
+    EXPECT_EQ(vtf->getResources().size(), 2);
+
+    const auto* thumbnail = vtf->getResource(Resource::TYPE_THUMBNAIL_DATA);
+    ASSERT_TRUE(thumbnail);
+    EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf->getThumbnailFormat(), vtf->getThumbnailWidth(), vtf->getThumbnailHeight()));
+
+
+    const auto* image = vtf->getResource(Resource::TYPE_IMAGE_DATA);
+    ASSERT_TRUE(image);
+    EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+    EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf->getFormat(), vtf->getMipCount(), vtf->getFrameCount(), vtf->getFaceCount(), vtf->getWidth(), vtf->getHeight(), vtf->getSliceCount()));
+
+    fs::writeFileBuffer(ASSET_ROOT "vtfpp/adhesion_animation.vtf", vtf->saveVTFToFile());
+
+}
+

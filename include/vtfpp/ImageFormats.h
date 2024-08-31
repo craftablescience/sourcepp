@@ -257,6 +257,30 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+[[nodiscard]] constexpr int8_t alphaBits(ImageFormat format)
+{
+
+    int8_t bits = alpha(format);
+    switch (format) {
+        using
+        enum ImageFormat;
+        case DXT3:
+            return 4;
+        case DXT5:
+            return 8;
+        case BC6H:
+        case DXT1:
+        case ATI2N:
+        case ATI1N:
+        case BC7:
+            return 0;
+        case DXT1_ONE_BIT_ALPHA:
+            return 1;
+        default:
+            return bits;
+    }
+}
+
 [[nodiscard]] constexpr uint8_t bpp(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
