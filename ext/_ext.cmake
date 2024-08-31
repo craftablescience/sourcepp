@@ -10,8 +10,8 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/compressonator")
 
 # cryptopp
 if(NOT TARGET cryptopp::cryptopp)
-    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "")
-    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "")
+    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
+    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/cryptopp")
 
     # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
@@ -39,7 +39,7 @@ endif()
 
 # minizip-ng
 if(NOT TARGET MINIZIP::minizip)
-    set(MZ_COMPAT           OFF CACHE INTERNAL "")
+    set(MZ_COMPAT           OFF CACHE INTERNAL "" FORCE)
     set(MZ_ZLIB             ON  CACHE INTERNAL "")
     set(MZ_BZIP2            ON  CACHE INTERNAL "")
     set(MZ_LZMA             ON  CACHE INTERNAL "")
@@ -50,7 +50,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
     set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
     set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "")
-    set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "")
+    set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/minizip-ng")
 
     if(SOURCEPP_BUILD_WIN7_COMPAT)
@@ -63,5 +63,32 @@ if(NOT TARGET MINIZIP::minizip)
 endif()
 
 
+# OpenCL
+if(SOURCEPP_BUILD_WITH_OPENCL AND NOT TARGET OpenCL::OpenCL)
+    find_package(OpenCL)
+    if(NOT OpenCL_FOUND)
+        set(SOURCEPP_BUILD_WITH_OPENCL OFF CACHE INTERNAL "" FORCE)
+    endif()
+endif()
+
+function(sourcepp_add_opencl TARGET)
+    if(SOURCEPP_BUILD_WITH_OPENCL)
+        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_OPENCL)
+        target_link_libraries(${TARGET} PRIVATE OpenCL::OpenCL)
+    endif()
+endfunction()
+
+
 # stb
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
+
+
+# TBB
+function(sourcepp_add_tbb TARGET)
+    if(SOURCEPP_BUILD_WITH_TBB)
+        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_TBB)
+        if(NOT MSVC)
+            target_link_libraries(${TARGET} PRIVATE tbb)
+        endif()
+    endif()
+endfunction()

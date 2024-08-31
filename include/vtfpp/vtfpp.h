@@ -164,7 +164,7 @@ public:
 		uint8_t compressionLevel = 6;
 	};
 
-	/// This value is only valid when passed to VTFWriter::create through CreationOptions or VTF::setFormat
+	/// This value is only valid when passed to VTF::create through CreationOptions or VTF::setFormat
 	static constexpr ImageFormat FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
 
 	static constexpr int32_t MAX_RESOURCES = 32;
