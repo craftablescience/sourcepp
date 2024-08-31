@@ -89,6 +89,7 @@ var hierarchy =
     [ "toolpp::FGDWriter::EntityWriter", "d4/da2/classtoolpp_1_1FGDWriter_1_1EntityWriter.html", null ],
     [ "toolpp::FGDWriter::EntityWriter::KeyValueChoicesWriter", "db/d88/classtoolpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html", null ],
     [ "toolpp::FGDWriter::EntityWriter::KeyValueFlagsWriter", "d5/d18/classtoolpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html", null ],
+    [ "uint24_t", "d9/d80/structuint24__t.html", null ],
     [ "vpkpp::BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", null ],
     [ "vpkpp::Entry", "d9/d6b/classvpkpp_1_1Entry.html", null ],
     [ "vpkpp::EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", null ],

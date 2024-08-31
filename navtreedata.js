@@ -66,14 +66,15 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "annotated.html",
-"d1/dbd/structmdlpp_1_1Movement.html#a5c6672fc6f39bf976227ae13a66860ca",
-"d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f",
-"d5/d29/namespacevpkpp.html#ad4d41789f3009280940d92748b4c7c77",
-"d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a5d84fe6a1b8b42e72dd1a02316869e69",
-"d6/dbe/Vector_8h.html#aba5e0c824fd08d466c86c87849b898b2",
-"d8/df2/classvtfpp_1_1VTF.html#ab89e0e751af359ee6384725df7a96b26",
-"dc/d1f/structvpkpp_1_1GMA_1_1Header.html#aec3cdcd504b79029dd2e646a90046cc4",
-"de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cad933b9f93d931f1aebc13f196c821f0f"
+"d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa",
+"d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561",
+"d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1",
+"d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a2b62198918af12b33ac494526950a18caca3f78fcde26e409983660596337f775",
+"d6/dbe/Vector_8h.html#a968426560abbbe571e42dc802317ca86",
+"d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aae821ca961f3025fe4df06a45f5f94633",
+"db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#a2d3115758824df2d17e6cf268a63a879",
+"de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c",
+"namespacemembers_enum.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

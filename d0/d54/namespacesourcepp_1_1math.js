@@ -18,6 +18,7 @@ var namespacesourcepp_1_1math =
     [ "Vec2i8", "d0/d54/namespacesourcepp_1_1math.html#a09e4cd55da025a9ddbf6adf6a6774c8b", null ],
     [ "Vec2ui", "d0/d54/namespacesourcepp_1_1math.html#a3d34b5b87e15c528d2e872739b04e025", null ],
     [ "Vec2ui16", "d0/d54/namespacesourcepp_1_1math.html#a680b0ef95bdddf049a033a9bd9c62edd", null ],
+    [ "Vec2ui24", "d0/d54/namespacesourcepp_1_1math.html#af213fccac914b6844d53d999463a02c1", null ],
     [ "Vec2ui32", "d0/d54/namespacesourcepp_1_1math.html#aa1b7d1d80e6b15cef9b5ad4c6014a128", null ],
     [ "Vec2ui64", "d0/d54/namespacesourcepp_1_1math.html#a88ec30817b17aa4892854d8ac6fbba50", null ],
     [ "Vec2ui8", "d0/d54/namespacesourcepp_1_1math.html#a70c03d61a7f775dd0b6b129ccc516507", null ],
@@ -32,6 +33,7 @@ var namespacesourcepp_1_1math =
     [ "Vec3i8", "d0/d54/namespacesourcepp_1_1math.html#a6387c18b66dd49ab6c2a01a56b624933", null ],
     [ "Vec3ui", "d0/d54/namespacesourcepp_1_1math.html#afc4154d2ce442267e98393089794151f", null ],
     [ "Vec3ui16", "d0/d54/namespacesourcepp_1_1math.html#a6222352dcc9aad7dd2231a10ff72a114", null ],
+    [ "Vec3ui24", "d0/d54/namespacesourcepp_1_1math.html#a968426560abbbe571e42dc802317ca86", null ],
     [ "Vec3ui32", "d0/d54/namespacesourcepp_1_1math.html#a72933b7740ea71ac56af53975c70e596", null ],
     [ "Vec3ui64", "d0/d54/namespacesourcepp_1_1math.html#aa0534d494ef593773b1e08f492ad1fd3", null ],
     [ "Vec3ui8", "d0/d54/namespacesourcepp_1_1math.html#aeb6a50d83dde8498b77a158c90e1cb70", null ],
@@ -46,8 +48,11 @@ var namespacesourcepp_1_1math =
     [ "Vec4i8", "d0/d54/namespacesourcepp_1_1math.html#a834eb67d10a85547782bf63b9fd14385", null ],
     [ "Vec4ui", "d0/d54/namespacesourcepp_1_1math.html#ab5e7a20fe0b15519da42ea6f430d2477", null ],
     [ "Vec4ui16", "d0/d54/namespacesourcepp_1_1math.html#afdc274bbaabf76ce7e899bd8510a12fc", null ],
+    [ "Vec4ui24", "d0/d54/namespacesourcepp_1_1math.html#ae758bcc83fbbf33d01430484c6d82d86", null ],
     [ "Vec4ui32", "d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab", null ],
     [ "Vec4ui64", "d0/d54/namespacesourcepp_1_1math.html#a68a1cc43e9dcd54def87c4f9c9d9a1a5", null ],
     [ "Vec4ui8", "d0/d54/namespacesourcepp_1_1math.html#aba5e0c824fd08d466c86c87849b898b2", null ],
+    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#af8946c464de2f4993474b8b4fdb2fd0f", null ],
+    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#a9e5810cc1e93954bbd4a145108d9df59", null ],
     [ "Arithmetic", "d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482", null ]
 ];

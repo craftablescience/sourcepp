@@ -116,22 +116,28 @@ $(document).ready(function(){initNavTree('d6/dac/Integer_8h.html','../../'); ini
 
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#func-members">Functions</a> &#124;
 <a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Integer.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;cstdint&gt;</code><br />
+<div class="textblock"><code>#include &lt;bit&gt;</code><br />
+<code>#include &lt;concepts&gt;</code><br />
+<code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Integer.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../de/de0/Integer_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2math_2Integer_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2math_2Integer_8h" id="ainclude_2sourcepp_2math_2Integer_8h">
-<area shape="rect" title=" " alt="" coords="5,5,176,47"/>
-<area shape="rect" title=" " alt="" coords="5,95,72,121"/>
-<area shape="rect" title=" " alt="" coords="97,95,189,121"/>
+<area shape="rect" title=" " alt="" coords="71,5,242,47"/>
+<area shape="rect" title=" " alt="" coords="5,95,44,121"/>
+<area shape="rect" title=" " alt="" coords="69,95,149,121"/>
+<area shape="rect" title=" " alt="" coords="173,95,239,121"/>
+<area shape="rect" title=" " alt="" coords="264,95,356,121"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -194,6 +200,12 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="../../d6/dac/Integer_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d80/structuint24__t.html">uint24_t</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3-byte wide unsigned integer  <a href="../../d9/d80/structuint24__t.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:d2/deb/namespacesourcepp"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/deb/namespacesourcepp.html">sourcepp</a></td></tr>
@@ -201,10 +213,19 @@ Namespaces</h2></td></tr>
 <tr class="memitem:d0/d54/namespacesourcepp_1_1math"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html">sourcepp::math</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a9e5810cc1e93954bbd4a145108d9df59"><td class="memTemplParams" colspan="2">template&lt;Arithmetic T&gt; </td></tr>
+<tr class="memitem:a9e5810cc1e93954bbd4a145108d9df59"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a9e5810cc1e93954bbd4a145108d9df59">sourcepp::math::remap</a> (T value, T l1, T h1, T l2, T h2)</td></tr>
+<tr class="separator:a9e5810cc1e93954bbd4a145108d9df59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8946c464de2f4993474b8b4fdb2fd0f"><td class="memTemplParams" colspan="2">template&lt;Arithmetic T&gt; </td></tr>
+<tr class="memitem:af8946c464de2f4993474b8b4fdb2fd0f"><td class="memTemplItemLeft" align="right" valign="top">T&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#af8946c464de2f4993474b8b4fdb2fd0f">sourcepp::math::remap</a> (T value, T h1, T h2)</td></tr>
+<tr class="separator:af8946c464de2f4993474b8b4fdb2fd0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
 <tr class="memitem:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
-<tr class="memitem:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482">sourcepp::math::Arithmetic</a> = std::is_arithmetic_v&lt;T&gt;</td></tr>
+<tr class="memitem:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memTemplItemLeft" align="right" valign="top">concept&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482">sourcepp::math::Arithmetic</a> = std::is_arithmetic_v&lt;T&gt; || std::same_as&lt;T, <a class="el" href="../../d9/d80/structuint24__t.html">uint24_t</a>&gt;</td></tr>
 <tr class="separator:a3a81f3ba65bab66d6d6521b0358dc482"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
