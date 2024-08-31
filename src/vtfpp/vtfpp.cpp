@@ -151,20 +151,15 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	}
 }
 
-VTF::VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly)
+VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly)
 		: VTF(std::vector<std::byte>{vtfData.begin(), vtfData.end()}, parseHeaderOnly) {}
-
-VTF::VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly)
-		: VTF(std::vector<std::byte>{reinterpret_cast<const std::byte*>(vtfData.data()), reinterpret_cast<const std::byte*>(vtfData.data() + vtfData.size())}, parseHeaderOnly) {}
-
-VTF::VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
-		: VTF(std::vector<std::byte>{vtfData, vtfData + vtfSize}, parseHeaderOnly) {}
-
-VTF::VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly)
-		: VTF(std::vector<std::byte>{reinterpret_cast<const std::byte*>(vtfData), reinterpret_cast<const std::byte*>(vtfData + vtfSize)}, parseHeaderOnly) {}
 
 VTF::operator bool() const {
 	return this->opened;
+}
+
+std::span<const std::byte> VTF::getData() const {
+	return this->data;
 }
 
 uint32_t VTF::getMajorVersion() const {
@@ -231,6 +226,10 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
+bool VTF::isCompressed() const {
+	return this->hasAuxCompression;
+}
+
 const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
 }
@@ -259,9 +258,9 @@ std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uin
 
 		// Keep in mind that the slice parameter gets ignored when returning raw compressed data - the slices are compressed together
 		offset = 0;
-		for (int i = this->mipCount - 1; i >= 0; i--) {
-			for (int j = 0; j < this->frameCount; j++) {
-				for (int k = 0; k < this->getFaceCount(); k++) {
+		for (uint8_t i = this->mipCount - 1; i >= 0; i--) {
+			for (uint16_t j = 0; j < this->frameCount; j++) {
+				for (uint16_t k = 0; k < this->getFaceCount(); k++) {
 					length = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
 					if (i == mip && j == frame && k == face) {
 						return imageResource->data.subspan(offset, length);

@@ -119,15 +119,11 @@ public:
 
 	explicit VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly = false);
 
-	explicit VTF(const std::vector<std::byte>& vtfData, bool parseHeaderOnly = false);
-
-	explicit VTF(const std::vector<unsigned char>& vtfData, bool parseHeaderOnly = false);
-
-	VTF(const std::byte* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
-
-	VTF(const unsigned char* vtfData, std::size_t vtfSize, bool parseHeaderOnly = false);
+	explicit VTF([[maybe_unused]] std::span<const std::byte> vtfData, bool parseHeaderOnly = false);
 
 	[[nodiscard]] explicit operator bool() const;
+
+	[[nodiscard]] std::span<const std::byte> getData() const;
 
 	[[nodiscard]] uint32_t getMajorVersion() const;
 
@@ -160,6 +156,8 @@ public:
 	[[nodiscard]] uint8_t getThumbnailWidth() const;
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
+
+	[[nodiscard]] bool isCompressed() const;
 
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 

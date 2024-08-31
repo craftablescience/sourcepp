@@ -213,6 +213,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
+- `vtfpp`'s write support is based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
 
 ## Gallery
 

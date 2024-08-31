@@ -109,6 +109,26 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+[[nodiscard]] constexpr int8_t decompressedRed(ImageFormat format) {
+	// This is merely for convenience, the true size may be different depending on the data
+	switch (format) {
+		using enum ImageFormat;
+		case DXT1:
+		case DXT1_ONE_BIT_ALPHA:
+		case DXT3:
+		case DXT5:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+			return 8;
+		case BC6H:
+			return 16;
+		default:
+			break;
+	}
+	return red(format);
+}
+
 [[nodiscard]] constexpr int8_t green(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -157,6 +177,26 @@ namespace ImageFormatDetails {
 			return -1;
 	}
 	return 0;
+}
+
+[[nodiscard]] constexpr int8_t decompressedGreen(ImageFormat format) {
+	// This is merely for convenience, the true size may be different depending on the data
+	switch (format) {
+		using enum ImageFormat;
+		case DXT1:
+		case DXT1_ONE_BIT_ALPHA:
+		case DXT3:
+		case DXT5:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+			return 8;
+		case BC6H:
+			return 16;
+		default:
+			break;
+	}
+	return green(format);
 }
 
 [[nodiscard]] constexpr int8_t blue(ImageFormat format) {
@@ -208,6 +248,26 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+[[nodiscard]] constexpr int8_t decompressedBlue(ImageFormat format) {
+	// This is merely for convenience, the true size may be different depending on the data
+	switch (format) {
+		using enum ImageFormat;
+		case DXT1:
+		case DXT1_ONE_BIT_ALPHA:
+		case DXT3:
+		case DXT5:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+			return 8;
+		case BC6H:
+			return 16;
+		default:
+			break;
+	}
+	return blue(format);
+}
+
 [[nodiscard]] constexpr int8_t alpha(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -255,6 +315,28 @@ namespace ImageFormatDetails {
 			return -1;
 	}
 	return 0;
+}
+
+[[nodiscard]] constexpr int8_t decompressedAlpha(ImageFormat format) {
+	// This is merely for convenience, the true size may be different depending on the data
+	switch (format) {
+		using enum ImageFormat;
+		case DXT5:
+		case BC7:
+			return 8;
+		case DXT3:
+			return 4;
+		case DXT1_ONE_BIT_ALPHA:
+			return 1;
+		case DXT1:
+		case ATI2N:
+		case ATI1N:
+		case BC6H:
+			return 0;
+		default:
+			break;
+	}
+	return alpha(format);
 }
 
 [[nodiscard]] constexpr uint8_t bpp(ImageFormat format) {
@@ -369,7 +451,7 @@ namespace ImageFormatDetails {
 	return length;
 }
 
-[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount,  uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
 	offset = 0;
 	length = 0;
 	for (int i = mipCount - 1; i >= 0; i--) {
