@@ -8,6 +8,35 @@
 
 using namespace bsppp;
 
+namespace {
+
+template<BufferStreamPODType T>
+[[nodiscard]] std::vector<T> readLumpContents(const BSP& bsp, BSPLump lump, void(*callback)(const BSP&, BufferStreamReadOnly&, std::vector<T>&) = [](const BSP&, BufferStreamReadOnly& stream, std::vector<T>& out) {
+	stream.read(out, stream.size() / sizeof(T));
+}) {
+	auto data = bsp.readLump(lump);
+	if (!data) {
+		return {};
+	}
+
+	BufferStreamReadOnly stream{*data};
+	std::vector<T> out;
+	callback(bsp, stream, out);
+	return out;
+}
+
+template<BufferStreamPODType Old, BufferStreamPODType New>
+requires requires(New) { {New::upgrade(Old{})} -> std::same_as<New>; }
+void readAndUpgrade(BufferStreamReadOnly& stream, std::vector<New>& out) {
+	std::vector<Old> old;
+	stream.read(old, stream.size() / sizeof(Old));
+	for (const auto& elem : old) {
+		out.push_back(New::upgrade(elem));
+	}
+}
+
+} // namespace
+
 BSP::BSP(std::string path_)
 		: path(std::move(path_)) {
 	FileStream reader{this->path};
@@ -125,6 +154,17 @@ void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
 
 	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
+}
+
+void BSP::writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen) {
+	if (this->path.empty()) {
+		return;
+	}
+
+	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(bufferLen));
+
+	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
+	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(buffer, bufferLen);
 }
 
 bool BSP::applyLumpPatchFile(const std::string& lumpFilePath) {
@@ -269,4 +309,59 @@ void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize) {
 
 	// Write modified header
 	this->writeHeader();
+}
+
+std::vector<BSPPlane> BSP::readPlanes() const {
+	return ::readLumpContents<BSPPlane>(*this, BSPLump::PLANES);
+}
+
+std::vector<BSPTextureData> BSP::readTextureData() const {
+	return ::readLumpContents<BSPTextureData>(*this, BSPLump::TEXDATA);
+}
+
+std::vector<BSPVertex> BSP::readVertices() const {
+	return ::readLumpContents<BSPVertex>(*this, BSPLump::VERTEXES);
+}
+
+std::vector<BSPTextureInfo> BSP::readTextureInfo() const {
+	return ::readLumpContents<BSPTextureInfo>(*this, BSPLump::TEXINFO);
+}
+
+std::vector<BSPFace> BSP::readFaces() const {
+	return ::readLumpContents<BSPFace>(*this, BSPLump::FACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
+		if (bsp.getLumpVersion(BSPLump::FACES) == 2) {
+			stream.read(out, stream.size() / sizeof(BSPFace_v2));
+		} else {
+			::readAndUpgrade<BSPFace_v1>(stream, out);
+		}
+	});
+}
+
+std::vector<BSPEdge> BSP::readEdges() const {
+	return ::readLumpContents<BSPEdge>(*this, BSPLump::EDGES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPEdge>& out) {
+		if (bsp.getLumpVersion(BSPLump::EDGES) == 1) {
+			stream.read(out, stream.size() / sizeof(BSPEdge_v1));
+		} else {
+			::readAndUpgrade<BSPEdge_v0>(stream, out);
+		}
+	});
+}
+
+std::vector<BSPSurfEdge> BSP::readSurfEdges() const {
+	return ::readLumpContents<BSPSurfEdge>(*this, BSPLump::SURFEDGES);
+}
+
+std::vector<BSPBrushModel> BSP::readBrushModels() const {
+	return ::readLumpContents<BSPBrushModel>(*this, BSPLump::MODELS);
+}
+
+std::vector<BSPFace> BSP::readOriginalFaces() const {
+	return ::readLumpContents<BSPFace>(*this, BSPLump::ORIGINALFACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
+		// ORIGINALFACES lump version is always 0?
+		if (bsp.getLumpVersion(BSPLump::FACES) == 2) {
+			stream.read(out, stream.size() / sizeof(BSPFace_v2));
+		} else {
+			::readAndUpgrade<BSPFace_v1>(stream, out);
+		}
+	});
 }

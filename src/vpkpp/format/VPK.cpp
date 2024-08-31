@@ -47,22 +47,26 @@ bool isFPX(const VPK* vpk) {
 
 } // namespace
 
-VPK::VPK(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+VPK::VPK(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	this->type = PackFileType::VPK;
 }
 
-std::unique_ptr<PackFile> VPK::createEmpty(const std::string& path, PackFileOptions options) {
+std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version) {
+	if (version != 1 && version != 2) {
+		return nullptr;
+	}
+
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 
 		Header1 header1{};
 		header1.signature = VPK_SIGNATURE;
-		header1.version = options.vpk_version;
+		header1.version = version;
 		header1.treeSize = 1;
 		stream.write(header1);
 
-		if (options.vpk_version != 1) {
+		if (version != 1) {
 			Header2 header2{};
 			header2.fileDataSectionSize = 0;
 			header2.archiveMD5SectionSize = 0;
@@ -73,63 +77,27 @@ std::unique_ptr<PackFile> VPK::createEmpty(const std::string& path, PackFileOpti
 
 		stream.write('\0');
 	}
-	return VPK::open(path, options);
+	return VPK::open(path);
 }
 
-std::unique_ptr<PackFile> VPK::createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir, PackFileOptions options, const EntryCallback& bakeCallback) {
-	return VPK::createFromDirectoryProcedural(vpkPath, contentPath, [saveToDir](const std::string&) {
-		return std::make_tuple(saveToDir, 0);
-	}, options, bakeCallback);
-}
-
-std::unique_ptr<PackFile> VPK::createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options, const EntryCallback& bakeCallback) {
-	auto vpk = VPK::createEmpty(vpkPath, options);
-	if (!std::filesystem::exists(contentPath) || std::filesystem::status(contentPath).type() != std::filesystem::file_type::directory) {
-		return vpk;
-	}
-	for (const auto& file : std::filesystem::recursive_directory_iterator(contentPath, std::filesystem::directory_options::skip_permission_denied)) {
-		if (!file.is_regular_file()) {
-			continue;
-		}
-		std::string entryPath;
-		try {
-			entryPath = std::filesystem::absolute(file.path()).string().substr(std::filesystem::absolute(contentPath).string().length());
-			string::normalizeSlashes(entryPath, true);
-		} catch (const std::exception&) {
-			continue; // Likely a Unicode error, unsupported filename
-		}
-		if (entryPath.empty()) {
-			continue;
-		}
-		if (creationCallback) {
-			auto [saveToDir, preloadBytes] = creationCallback(entryPath);
-			vpk->addEntry(entryPath, file.path().string(), { .vpk_saveToDirectory = saveToDir, .vpk_preloadBytes = preloadBytes });
-		} else {
-			vpk->addEntry(entryPath, file.path().string(), {});
-		}
-	}
-	vpk->bake("", bakeCallback);
-	return vpk;
-}
-
-std::unique_ptr<PackFile> VPK::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
-	auto vpk = VPK::openInternal(path, options, callback);
+std::unique_ptr<PackFile> VPK::open(const std::string& path, const EntryCallback& callback) {
+	auto vpk = VPK::openInternal(path, callback);
 	if (!vpk && path.length() > 8) {
 		// If it just tried to load a numbered archive, let's try to load the directory VPK
 		if (auto dirPath = path.substr(0, path.length() - 8) + VPK_DIR_SUFFIX.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {
-			vpk = VPK::openInternal(dirPath, options, callback);
+			vpk = VPK::openInternal(dirPath, callback);
 		}
 	}
 	return vpk;
 }
 
-std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
 	}
 
-	auto* vpk = new VPK{path, options};
+	auto* vpk = new VPK{path};
 	auto packFile = std::unique_ptr<PackFile>(vpk);
 
 	FileStream reader{vpk->fullFilePath};
@@ -145,7 +113,6 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, PackFileOpt
 		// Apex Legends, Titanfall, etc. are not supported
 		return nullptr;
 	}
-	vpk->options.vpk_version = vpk->header1.version;
 
 	// Extensions
 	while (true) {
@@ -365,15 +332,15 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 	return output;
 }
 
-void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.crc32 = crypto::computeCRC32(buffer);
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked, assuming we're not replacing an existing chunk (when flags = 1)
 	entry.flags = 0;
 	entry.offset = 0;
-	entry.archiveIndex = options_.vpk_saveToDirectory ? VPK_DIR_INDEX : this->numArchives;
-	if (!options_.vpk_saveToDirectory && !this->freedChunks.empty()) {
+	entry.archiveIndex = options.vpk_saveToDirectory ? VPK_DIR_INDEX : this->numArchives;
+	if (!options.vpk_saveToDirectory && !this->freedChunks.empty()) {
 		int64_t bestChunkIndex = -1;
 		std::size_t currentChunkGap = SIZE_MAX;
 		for (int64_t i = 0; i < this->freedChunks.size(); i++) {
@@ -397,22 +364,20 @@ void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 		}
 	}
 
-	if (options_.vpk_preloadBytes > 0) {
-		auto clampedPreloadBytes = std::clamp(options_.vpk_preloadBytes, 0u, buffer.size() > VPK_MAX_PRELOAD_BYTES ? VPK_MAX_PRELOAD_BYTES : static_cast<uint32_t>(buffer.size()));
+	if (options.vpk_preloadBytes > 0) {
+		auto clampedPreloadBytes = std::clamp(options.vpk_preloadBytes, 0u, buffer.size() > VPK_MAX_PRELOAD_BYTES ? VPK_MAX_PRELOAD_BYTES : static_cast<uint32_t>(buffer.size()));
 		entry.extraData.resize(clampedPreloadBytes);
 		std::memcpy(entry.extraData.data(), buffer.data(), clampedPreloadBytes);
 		buffer.erase(buffer.begin(), buffer.begin() + clampedPreloadBytes);
 	}
 
 	// Now that archive index is calculated for this entry, check if it needs to be incremented
-	if (!options_.vpk_saveToDirectory && !(entry.flags & VPK_FLAG_REUSING_CHUNK)) {
+	if (!options.vpk_saveToDirectory && !(entry.flags & VPK_FLAG_REUSING_CHUNK)) {
 		entry.offset = this->currentlyFilledChunkSize;
 		this->currentlyFilledChunkSize += static_cast<int>(buffer.size());
-		if (this->options.vpk_preferredChunkSize) {
-			if (this->currentlyFilledChunkSize > this->options.vpk_preferredChunkSize) {
-				this->currentlyFilledChunkSize = 0;
-				this->numArchives++;
-			}
+		if (this->currentlyFilledChunkSize > this->chunkSize) {
+			this->currentlyFilledChunkSize = 0;
+			this->numArchives++;
 		}
 	}
 }
@@ -438,7 +403,7 @@ std::size_t VPK::removeDirectory(const std::string& dirName_) {
 	return PackFile::removeDirectory(dirName_);
 }
 
-bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
@@ -593,7 +558,7 @@ bool VPK::bake(const std::string& outputDir_, const EntryCallback& callback) {
 	if (this->header1.version == 2) {
 		// Calculate hashes for all entries
 		this->md5Entries.clear();
-		if (this->options.vpk_generateMD5Entries) {
+		if (options.vpk_generateMD5Entries) {
 			this->runForAllEntries([this](const std::string& path, const Entry& entry) {
 				// Believe it or not this should be safe to call by now
 				auto binData = this->readEntry(path);
@@ -780,16 +745,26 @@ uint32_t VPK::getVersion() const {
 }
 
 void VPK::setVersion(uint32_t version) {
+	if (version != 1 && version != 2) {
+		return;
+	}
 	if (::isFPX(this) || version == this->header1.version) {
 		return;
 	}
 	this->header1.version = version;
-	this->options.vpk_version = version;
 
 	// Clearing these isn't necessary, but might as well
 	this->header2 = Header2{};
 	this->footer2 = Footer2{};
 	this->md5Entries.clear();
+}
+
+uint32_t VPK::getChunkSize() const {
+	return this->chunkSize;
+}
+
+void VPK::setChunkSize(uint32_t newChunkSize) {
+	this->chunkSize = newChunkSize;
 }
 
 uint32_t VPK::getHeaderLength() const {

@@ -16,6 +16,12 @@ constexpr std::string_view VPK_EXTENSION = ".vpk";
 constexpr std::string_view VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE = "public_key\n{\n\ttype \"rsa\"\n\trsa_public_key \"%s\"\n}\n";
 constexpr std::string_view VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE = "private_key\n{\n\ttype \"rsa\"\n\trsa_private_key \"%s\"\n\tprivate_key_encrypted 0\n\tpublic_key\n\t{\n\t\ttype \"rsa\"\n\t\trsa_public_key \"%s\"\n\t}\n}\n";
 
+/// Maximum preload data size in bytes
+constexpr uint32_t VPK_MAX_PRELOAD_BYTES = 1024;
+
+/// Chunk size in bytes (default is 200mb)
+constexpr uint32_t VPK_DEFAULT_CHUNK_SIZE = 200 * 1024 * 1024;
+
 class VPK : public PackFile {
 protected:
 #pragma pack(push, 1)
@@ -59,20 +65,11 @@ protected:
 	};
 
 public:
-	// Accepts the full entry path (parent directory + filename), returns saveToDir and preloadBytes
-	using EntryCreationCallback = std::function<std::tuple<bool, uint32_t>(const std::string& path)>;
+	/// Create a new directory VPK file - should end in "_dir.vpk"! This is not enforced but STRONGLY recommended
+	static std::unique_ptr<PackFile> create(const std::string& path, uint32_t version = 2);
 
-	/// Create a new directory VPK file - must end in "_dir.vpk"! This is not enforced but STRONGLY recommended
-	static std::unique_ptr<PackFile> createEmpty(const std::string& path, PackFileOptions options = {});
-
-	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. (See above comment)
-	static std::unique_ptr<PackFile> createFromDirectory(const std::string& vpkPath, const std::string& contentPath, bool saveToDir = false, PackFileOptions options = {}, const EntryCallback& bakeCallback = nullptr);
-
-	/// Create a new directory VPK file from a directory, the contents of the directory will be present in the root VPK directory. Each entry's properties is determined by a callback. (See above comment)
-	static std::unique_ptr<PackFile> createFromDirectoryProcedural(const std::string& vpkPath, const std::string& contentPath, const EntryCreationCallback& creationCallback, PackFileOptions options = {}, const EntryCallback& bakeCallback = nullptr);
-
-	/// Open a directory VPK file
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	/// Open a VPK file
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
@@ -94,7 +91,7 @@ public:
 
 	std::size_t removeDirectory(const std::string& dirName_) override;
 
-	bool bake(const std::string& outputDir_ /*= ""*/, const EntryCallback& callback /*= nullptr*/) override;
+	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] std::string getTruncatedFilestem() const override;
 
@@ -119,17 +116,24 @@ public:
 	/// Change the version of the VPK. Valid values are 1 and 2
 	void setVersion(uint32_t version);
 
+	/// Get the VPK chunk size in bytes (size of generated archives when baking)
+	[[nodiscard]] uint32_t getChunkSize() const;
+
+	/// Set the VPK chunk size in bytes (size of generated archives when baking)
+	void setChunkSize(uint32_t newChunkSize);
+
 protected:
-	VPK(const std::string& fullFilePath_, PackFileOptions options_);
+	explicit VPK(const std::string& fullFilePath_);
 
-	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, PackFileOptions options = {}, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, const EntryCallback& callback = nullptr);
 
-	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) override;
+	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
 	[[nodiscard]] uint32_t getHeaderLength() const;
 
 	uint32_t numArchives = -1;
 	uint32_t currentlyFilledChunkSize = 0;
+	uint32_t chunkSize = VPK_DEFAULT_CHUNK_SIZE;
 
 	std::vector<FreedChunk> freedChunks;
 

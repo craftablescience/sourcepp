@@ -10,28 +10,13 @@ namespace vpkpp.Format
     internal static unsafe partial class Extern
     {
         [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create_empty([MarshalAs(UnmanagedType.LPStr)] string path);
+        public static extern void* vpkpp_vpk_create([MarshalAs(UnmanagedType.LPStr)] string path);
 
         [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create_empty_with_options([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options);
+        public static extern void* vpkpp_vpk_create_with_options([MarshalAs(UnmanagedType.LPStr)] string path, uint version);
 
         [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create_from_directory([MarshalAs(UnmanagedType.LPStr)] string vpkPath, [MarshalAs(UnmanagedType.LPStr)] string contentPath, byte saveToDir);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create_from_directory_with_options([MarshalAs(UnmanagedType.LPStr)] string vpkPath, [MarshalAs(UnmanagedType.LPStr)] string contentPath, byte saveToDir, PackFileOptions options);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_open([MarshalAs(UnmanagedType.LPStr)] string path);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_open_with_callback([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_open_with_options([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options);
-
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_open_with_options_and_callback([MarshalAs(UnmanagedType.LPStr)] string path, PackFileOptions options, IntPtr callback);
+        public static extern void* vpkpp_vpk_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
         [DllImport("vpkppc")]
         public static extern byte vpkpp_vpk_generate_keypair_files([MarshalAs(UnmanagedType.LPStr)] string path);
@@ -53,38 +38,20 @@ namespace vpkpp.Format
     {
         private unsafe VPK(void* handle) : base(handle) {}
 
-        public static VPK? CreateEmpty(string path)
+        public static VPK? Create(string path)
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_create_empty(path);
+                var handle = Extern.vpkpp_vpk_create(path);
                 return handle == null ? null : new VPK(handle);
             }
         }
 
-        public static VPK? CreateEmpty(string path, PackFileOptions options)
+        public static VPK? Create(string path, uint version)
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_create_empty_with_options(path, options);
-                return handle == null ? null : new VPK(handle);
-            }
-        }
-
-        public static VPK? CreateFromDirectory(string vpkPath, string contentPath, bool saveToDir = false)
-        {
-            unsafe
-            {
-                var handle = Extern.vpkpp_vpk_create_from_directory(vpkPath, contentPath, Convert.ToByte(saveToDir));
-                return handle == null ? null : new VPK(handle);
-            }
-        }
-
-        public static VPK? CreateFromDirectory(string vpkPath, string contentPath, PackFileOptions options, bool saveToDir = false)
-        {
-            unsafe
-            {
-                var handle = Extern.vpkpp_vpk_create_from_directory_with_options(vpkPath, contentPath, Convert.ToByte(saveToDir), options);
+                var handle = Extern.vpkpp_vpk_create_with_options(path, version);
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -93,7 +60,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_open(path);
+                var handle = Extern.vpkpp_vpk_open(path, 0);
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -106,29 +73,7 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_vpk_open_with_callback(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new VPK(handle);
-            }
-        }
-
-        public new static VPK? Open(string path, PackFileOptions options)
-        {
-            unsafe
-            {
-                var handle = Extern.vpkpp_vpk_open_with_options(path, options);
-                return handle == null ? null : new VPK(handle);
-            }
-        }
-
-        public new static VPK? Open(string path, PackFileOptions options, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.vpkpp_vpk_open_with_options_and_callback(path, options, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.vpkpp_vpk_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new VPK(handle);
             }
         }

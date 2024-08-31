@@ -3,6 +3,7 @@
 #include <string>
 
 #include <sourcepp/math/Vector.h>
+#include <sourcepp/Macros.h>
 
 namespace mdlpp {
 
@@ -36,5 +37,6 @@ struct Movement {
 	sourcepp::math::Vec3f movement;
 	sourcepp::math::Vec3f relativePosition;
 };
+SOURCEPP_BITFLAGS_ENUM(Movement::Flags)
 
 } // namespace mdlpp

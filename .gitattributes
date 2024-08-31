@@ -8,7 +8,7 @@
 *.md linguist-detectable
 
 # Compressonator
-*.a binary
+*.a   binary
 *.lib binary
 
 # dmxpp
@@ -21,6 +21,9 @@
 *.ani binary
 *.phy binary
 *.vta binary
+
+# toolpp
+*.wc  binary
 
 # vicepp
 *.dec binary

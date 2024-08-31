@@ -7,116 +7,32 @@
 
 using namespace vpkpp;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_empty(const char* path) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = VPK::createEmpty(path);
+	auto packFile = VPK::create(path);
 	if (!packFile) {
 		return nullptr;
 	}
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_empty_with_options(const char* path, vpkpp_pack_file_options_t options) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_with_options(const char* path, uint32_t version) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = VPK::createEmpty(path, Convert::optionsFromC(options));
+	auto packFile = VPK::create(path, version);
 	if (!packFile) {
 		return nullptr;
 	}
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory(const char* vpkPath, const char* contentPath, bool saveToDir) {
-	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path, vpkpp_entry_callback_t callback) {
+	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir);
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_callback(const char* vpkPath, const char* contentPath, bool saveToDir, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, {}, [callback](const std::string& path, const Entry& entry) {
+	auto packFile = VPK::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options) {
-	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
-
-	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, Convert::optionsFromC(options));
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_from_directory_with_options_and_callback(const char* vpkPath, const char* contentPath, bool saveToDir, vpkpp_pack_file_options_t options, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(vpkPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(contentPath, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = VPK::createFromDirectory(vpkPath, contentPath, saveToDir, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-
-	auto packFile = VPK::open(path);
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_callback(const char* path, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = VPK::open(path, {}, [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options(const char* path, vpkpp_pack_file_options_t options) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-
-	auto packFile = VPK::open(path, Convert::optionsFromC(options));
-	if (!packFile) {
-		return nullptr;
-	}
-	return packFile.release();
-}
-
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open_with_options_and_callback(const char* path, vpkpp_pack_file_options_t options, EntryCallback callback) {
-	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
-	SOURCEPP_EARLY_RETURN_VAL(callback, nullptr);
-
-	auto packFile = VPK::open(path, Convert::optionsFromC(options), [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
-	});
+	} : static_cast<PackFile::EntryCallback>(nullptr));
 	if (!packFile) {
 		return nullptr;
 	}
@@ -174,4 +90,24 @@ SOURCEPP_API void vpkpp_vpk_set_version(vpkpp_pack_file_handle_t handle, uint32_
 		return;
 	}
 	dynamic_cast<VPK*>(vpk)->setVersion(version);
+}
+
+SOURCEPP_API uint32_t vpkpp_vpk_get_chunk_size(vpkpp_pack_file_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	auto* vpk = Convert::packFile(handle);
+	if (vpk->getType() != PackFileType::VPK) {
+		return 0;
+	}
+	return dynamic_cast<VPK*>(vpk)->getChunkSize();
+}
+
+SOURCEPP_API void vpkpp_vpk_set_chunk_size(vpkpp_pack_file_handle_t handle, uint32_t chunkSize) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	auto* vpk = Convert::packFile(handle);
+	if (vpk->getType() != PackFileType::VPK) {
+		return;
+	}
+	dynamic_cast<VPK*>(vpk)->setChunkSize(chunkSize);
 }

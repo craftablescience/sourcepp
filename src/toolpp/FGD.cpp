@@ -1,4 +1,4 @@
-#include <fgdpp/fgdpp.h>
+#include <toolpp/FGD.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -10,8 +10,8 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
-using namespace fgdpp;
 using namespace sourcepp;
+using namespace toolpp;
 
 namespace {
 
@@ -466,11 +466,11 @@ void writeOptionalKeyValueStrings(BufferStream& writer, std::initializer_list<st
 	static constexpr auto writeOptionalString = [](BufferStream& stream, const std::string& str) {
 		if (!str.empty()) {
 			stream
-				.write(" : \"", false)
+				.write(" : \"", 4)
 				.write(str, false)
 				.write('\"');
 		} else {
-			stream.write(" :", false);
+			stream.write(" :", 2);
 		}
 	};
 	for (auto revString = std::rbegin(strings); revString != std::rend(strings); ++revString) {
@@ -604,66 +604,66 @@ FGDWriter FGDWriter::begin() {
 
 FGDWriter& FGDWriter::include(const std::string& fgdPath) {
 	this->writer
-		.write("@include \"", false)
+		.write("@include \"", 10)
 		.write(fgdPath, false)
-		.write("\"\n\n", false);
+		.write("\"\n\n", 3);
 	return *this;
 }
 
 FGDWriter& FGDWriter::version(int version) {
 	this->writer
-		.write("@version(", false)
+		.write("@version(", 9)
 		.write(std::to_string(version), false)
-		.write(")\n\n", false);
+		.write(")\n\n", 3);
 	return *this;
 }
 
 FGDWriter& FGDWriter::mapSize(math::Vec2i mapSize) {
 	this->writer
-	    .write("@mapsize(", false)
+	    .write("@mapsize(", 9)
 	    .write(std::to_string(mapSize[0]), false)
-	    .write(", ", false)
+	    .write(", ", 2)
 	    .write(std::to_string(mapSize[1]), false)
-	    .write(")\n\n", false);
+	    .write(")\n\n", 3);
 	return *this;
 }
 
 FGDWriter& FGDWriter::materialExclusionDirs(const std::vector<std::string>& dirs) {
-	this->writer.write("@MaterialExclusion\n[\n", false);
+	this->writer.write("@MaterialExclusion\n[\n", 21);
 	for (const auto& dir : dirs) {
 		this->writer << '\t' << '\"';
 		this->writer.write(dir, false);
 		this->writer << '\"' << '\n';
 	}
-	this->writer.write("]\n\n", false);
+	this->writer.write("]\n\n", 3);
 	return *this;
 }
 
 FGDWriter::AutoVisGroupWriter FGDWriter::beginAutoVisGroup(const std::string& parentName) {
 	this->writer
-		.write("@AutoVisGroup = \"", false)
+		.write("@AutoVisGroup = \"", 17)
 		.write(parentName, false)
-		.write("\"\n[\n", false);
+		.write("\"\n[\n", 4);
 	return AutoVisGroupWriter{*this};
 }
 
 FGDWriter::AutoVisGroupWriter& FGDWriter::AutoVisGroupWriter::visGroup(const std::string& name, const std::vector<std::string>& entities) {
 	this->parent.writer
-	    .write("\t\"", false)
+	    .write("\t\"", 2)
 	    .write(name, false)
-	    .write("\"\n\t[\n", false);
+	    .write("\"\n\t[\n", 5);
 	for (const auto& entity : entities) {
 		this->parent.writer
-			.write("\t\t\"", false)
+			.write("\t\t\"", 3)
 			.write(entity, false)
-			.write("\"\n", false);
+			.write("\"\n", 2);
 	}
-	this->parent.writer.write("\t]\n", false);
+	this->parent.writer.write("\t]\n", 3);
 	return *this;
 }
 
 FGDWriter& FGDWriter::AutoVisGroupWriter::endAutoVisGroup() {
-	this->parent.writer.write("]\n\n", false);
+	this->parent.writer.write("]\n\n", 3);
 	return this->parent;
 }
 
@@ -677,26 +677,26 @@ FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, con
 		this->writer << '\n';
 		for (const auto& classProperty : classProperties) {
 			this->writer
-			    .write("\t", false)
+			    .write('\t')
 			    .write(classProperty, false)
 			    .write('\n');
 		}
 	}
 	this->writer
-		.write("= ", false)
+		.write("= ", 2)
 		.write(name, false)
-		.write(" :", false);
+		.write(" :", 2);
 	// Put the description on the same line if it's short
 	if (description.size() < 32) {
 		this->writer
-			.write(" \"", false)
+			.write(" \"", 2)
 			.write(description, false);
 	} else {
 		this->writer
-			.write("\n\t\"", false)
+			.write("\n\t\"", 3)
 			.write(description, false);
 	}
-	this->writer.write("\"\n[\n", false);
+	this->writer.write("\"\n[\n", 4);
 	return EntityWriter{*this};
 }
 
@@ -708,10 +708,10 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::keyValue(const std::string& na
 		.write(valueType, false)
 		.write(')');
 	if (readOnly) {
-		this->parent.writer.write(" readonly", false);
+		this->parent.writer.write(" readonly", 9);
 	}
 	if (report) {
-		this->parent.writer.write(" report", false);
+		this->parent.writer.write(" report", 7);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, valueDefault, description});
 	this->parent.writer << '\n';
@@ -722,30 +722,30 @@ FGDWriter::EntityWriter::KeyValueChoicesWriter FGDWriter::EntityWriter::beginKey
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
-	    .write("(choices)", false);
+	    .write("(choices)", 9);
 	if (readOnly) {
-		this->parent.writer.write(" readonly", false);
+		this->parent.writer.write(" readonly", 9);
 	}
 	if (report) {
-		this->parent.writer.write(" report", false);
+		this->parent.writer.write(" report", 7);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, valueDefault, description});
-	this->parent.writer.write(" =\n\t[\n", false);
+	this->parent.writer.write(" =\n\t[\n", 6);
 	return KeyValueChoicesWriter{*this};
 }
 
 FGDWriter::EntityWriter::KeyValueChoicesWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::choice(const std::string& value, const std::string& displayName) {
 	this->parent.parent.writer
-		.write("\t\t\"", false)
+		.write("\t\t\"", 3)
 		.write(value, false)
-		.write("\" : \"", false)
+		.write("\" : \"", 5)
 		.write(displayName, false)
-		.write("\"\n", false);
+		.write("\"\n", 2);
 	return *this;
 }
 
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyValueChoices() {
-	this->parent.parent.writer.write("\t]\n", false);
+	this->parent.parent.writer.write("\t]\n", 3);
 	return this->parent;
 }
 
@@ -753,29 +753,29 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyVa
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
-	    .write("(flags)", false);
+	    .write("(flags)", 7);
 	if (readOnly) {
-		this->parent.writer.write(" readonly", false);
+		this->parent.writer.write(" readonly", 9);
 	}
 	if (report) {
-		this->parent.writer.write(" report", false);
+		this->parent.writer.write(" report", 7);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, description});
-	this->parent.writer.write(" =\n\t[\n", false);
+	this->parent.writer.write(" =\n\t[\n", 6);
 	return KeyValueFlagsWriter{*this};
 }
 
 FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::flag(uint64_t value, const std::string& displayName, bool enabledByDefault, const std::string& description) {
 	this->parent.parent.writer
-		.write("\t\t", false)
+		.write("\t\t", 2)
 	    .write(std::to_string(value), false)
-	    .write(" : \"", false)
+	    .write(" : \"", 4)
 	    .write(displayName, false)
-	    .write("\" : ", false)
+	    .write("\" : ", 4)
 	    .write(std::to_string(enabledByDefault), false);
 	if (!description.empty()) {
 		this->parent.parent.writer
-		    .write(" : \"", false)
+		    .write(" : \"", 4)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -784,21 +784,21 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueF
 }
 
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyValueFlags() {
-	this->parent.parent.writer.write("\t]\n", false);
+	this->parent.parent.writer.write("\t]\n", 3);
 	return this->parent;
 }
 
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name, const std::string& valueType, const std::string& description) {
 	this->parent.writer
 	    .write('\t')
-		.write("input ", false)
+		.write("input ", 6)
 	    .write(name, false)
 	    .write('(')
 	    .write(valueType, false)
 	    .write(')');
 	if (!description.empty()) {
 		this->parent.writer
-		    .write(" : \"", false)
+		    .write(" : \"", 4)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -809,14 +809,14 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name,
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(const std::string& name, const std::string& valueType, const std::string& description) {
 	this->parent.writer
 	    .write('\t')
-	    .write("output ", false)
+	    .write("output ", 7)
 	    .write(name, false)
 	    .write('(')
 	    .write(valueType, false)
 	    .write(')');
 	if (!description.empty()) {
 		this->parent.writer
-		    .write(" : \"", false)
+		    .write(" : \"", 4)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -825,11 +825,11 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(const std::string& name
 }
 
 FGDWriter& FGDWriter::EntityWriter::endEntity() {
-	this->parent.writer.write("]\n\n", false);
+	this->parent.writer.write("]\n\n", 3);
 	return this->parent;
 }
 
-std::string FGDWriter::bakeToString() {
+std::string FGDWriter::bake() {
 	this->backingData.resize(this->writer.tell());
 	if (this->backingData.ends_with("\n\n")) {
 		this->backingData.pop_back();
@@ -837,6 +837,6 @@ std::string FGDWriter::bakeToString() {
 	return this->backingData;
 }
 
-void FGDWriter::bakeToFile(const std::string& fgdPath) {
-	fs::writeFileText(fgdPath, this->bakeToString());
+void FGDWriter::bake(const std::string& fgdPath) {
+	fs::writeFileText(fgdPath, this->bake());
 }

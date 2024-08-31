@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cstddef>
-#include <memory>
 #include <span>
 #include <string>
 #include <string_view>
@@ -11,30 +10,28 @@
 #include <vector>
 
 #include <sourcepp/math/Vector.h>
-#include <cstring>
-#include <iostream>
-#include <map>
+#include <sourcepp/parser/Binary.h>
+#include <sourcepp/Macros.h>
 
 #include "ImageFormats.h"
-#include "ImageConversion.h"
-#include "sourcepp/FS.h"
-#include "sourcepp/BitwiseEnumClass.h"
 
 namespace vtfpp {
 
-constexpr int32_t VTF_SIGNATURE = 'V' + ('T' << 8) + ('F' << 16);
+constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+
+constexpr int32_t VTF_MAX_RESOURCES = 32;
 
 struct Resource {
-	enum Type : uint8_t {
-		TYPE_UNKNOWN             = '\0',   // Unknown
-		TYPE_THUMBNAIL_DATA      = '\x01', // \x01\0\0
-		TYPE_IMAGE_DATA          = '\x30', // \x30\0\0
-		TYPE_PARTICLE_SHEET_DATA = '\x10', // \x10\0\0
-		TYPE_CRC                 = 'C',    // CRC
-		TYPE_LOD_CONTROL_INFO    = 'L',    // LOD
-		TYPE_EXTENDED_FLAGS      = 'T',    // TSO
-		TYPE_KEYVALUES_DATA      = 'K',    // KVD
-		TYPE_AUX_COMPRESSION     = 'A',    // AXC
+	enum Type : uint32_t {
+		TYPE_UNKNOWN             = 0,   // Unknown
+		TYPE_THUMBNAIL_DATA      = sourcepp::parser::binary::makeFourCC("\x01\0\0\0"),
+		TYPE_IMAGE_DATA          = sourcepp::parser::binary::makeFourCC("\x30\0\0\0"),
+		TYPE_PARTICLE_SHEET_DATA = sourcepp::parser::binary::makeFourCC("\x10\0\0\0"),
+		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
+		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
+		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TSO\0"),
+		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
+		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 	};
 
 	enum Flags : uint8_t {
@@ -47,11 +44,11 @@ struct Resource {
 	std::span<std::byte> data;
 
 	using ConvertedData = std::variant<
-			std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
-			uint32_t, // CRC, TSO
-			std::pair<uint8_t, uint8_t>, // LOD
-			std::string, // KVD
-			std::span<uint32_t> // AXC
+		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
+		uint32_t, // CRC, TSO
+		std::pair<uint8_t, uint8_t>, // LOD
+		std::string, // KVD
+		std::span<uint32_t> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
@@ -79,6 +76,7 @@ struct Resource {
 		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
 };
+SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
 
 class VTF {
 public:
@@ -163,7 +161,7 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] const std::vector<std::unique_ptr<Resource>>& getResources() const;
+	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
@@ -183,16 +181,12 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> convertAndSaveThumbnailDataToFile() const;
 
-    [[nodiscard]] const std::vector<std::byte> & saveVTFToFile() const;
-protected:
-
-    explicit VTF() = default;
-
-    bool opened = false;
+private:
+	bool opened = false;
 
 	std::vector<std::byte> data;
 
-	//int32_t signature;
+	//uint32_t signature;
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
 
@@ -223,186 +217,12 @@ protected:
 
 	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
 	//uint32_t resourceCount;
-	std::vector<std::unique_ptr<Resource>> resources;
+	std::vector<Resource> resources;
 	//uint8_t _padding3[4];
 
 	// False for v7.5 and lower (not actually a field in the header, just simplifies the check)
 	bool hasAuxCompression = false;
 };
-
-    SOURCEPP_SETUP_BITWISE_ENUM_CLASS(VTF::Flags)
-
-class VTFBuilder
-{
-public:
-
-    //We have to "borrow" this from STB_IMAGE_RESIZE for types and defaults.
-    enum ResizeFilter
-    {
-        STBIR_FILTER_DEFAULT      = 0,  // use same filter type that easy-to-use API chooses
-        STBIR_FILTER_BOX          = 1,  // A trapezoid w/1-pixel wide ramps, same result as box for integer scale ratios
-        STBIR_FILTER_TRIANGLE     = 2,  // On upsampling, produces same results as bilinear texture filtering
-        STBIR_FILTER_CUBICBSPLINE = 3,  // The cubic b-spline (aka Mitchell-Netrevalli with B=1,C=0), gaussian-esque
-        STBIR_FILTER_CATMULLROM   = 4,  // An interpolating cubic spline
-        STBIR_FILTER_MITCHELL     = 5,  // Mitchell-Netrevalli filter with B=1/3, C=1/3
-    };
-    
-    enum ResizeMethod
-    {
-        RESIZE_NEAREST_POWER2 = 0,
-        RESIZE_BIGGEST_POWER2,
-        RESIZE_SMALLEST_POWER2,
-        RESIZE_SET,
-        RESIZE_COUNT
-    };
-
-    enum ResourceType : uint32_t {
-        TYPE_UNKNOWN             = 0,   // Unknown
-        TYPE_THUMBNAIL_DATA      = 1, // \x01\0\0
-        TYPE_IMAGE_DATA          = 48, // \x30\0\0
-        TYPE_PARTICLE_SHEET_DATA = 16, // \x10\0\0
-        TYPE_CRC                 = 37966403,    // CRC
-        TYPE_LOD_CONTROL_INFO    = 38031180,    // LOD
-        TYPE_EXTENDED_FLAGS      = 38753108,    // TSO
-        TYPE_KEYVALUES_DATA      = 4478539,    // KVD
-        TYPE_AUX_COMPRESSION     = 4413505,    // AXC
-    };
-
-private:
-
-    struct VTFCreationData
-    {
-        //This is uint8_t, in the VTF header it's uint32_t.
-        //I'll keep this. For tidying sake.
-        uint8_t majorVersion = 7;
-        uint8_t minorVersion = 5;
-
-        std::vector<std::byte> imageData{};
-
-        uint16_t width = 0;
-        uint16_t height = 0;
-
-        uint16_t frames = 1;
-        uint16_t slices = 1;
-        uint16_t startFrame = 0;
-
-        ImageFormat inputImageFormat = ImageFormat::RGBA8888;
-        ImageFormat destinationImageFormat = ImageFormat::RGBA8888;
-
-        VTF::Flags flags{};
-        float bumpScale = 1.0f;
-
-        bool computeReflectivity = false;
-        sourcepp::math::Vec3f reflectivity = {0.0f,0.0f,0.0f};
-
-        bool generateMipmaps = false;
-        ResizeFilter mipmapFilter = STBIR_FILTER_DEFAULT;
-
-        bool generateThumbnail = false;
-        ResizeFilter thumbnailFilter = STBIR_FILTER_DEFAULT;
-
-        bool shouldResizeImage = false;
-        ResizeMethod resizeMethod = RESIZE_NEAREST_POWER2;
-        ResizeFilter resizeFilter = STBIR_FILTER_DEFAULT;
-        uint16_t resizeWidth = 0;
-        uint16_t resizeHeight = 0;
-
-        bool shouldResizeToClamp = false;
-        uint16_t uiResizeClampWidth = 0;
-        uint16_t uiResizeClampHeight = 0;
-
-        bool applyGammaCorrection = false;
-        float gammaCorrection = 0.0f;
-
-        bool applyAuxCompression = false;
-        int8_t auxCompressionLevel = 9;
-
-        [[nodiscard]] uint8_t getFaceCount() const
-        {
-            return (this->flags & VTF::FLAG_ENVMAP) ? (this->minorVersion < 5 ? 7 : 6) : 1;
-        }
-
-        std::map<ResourceType, std::vector<std::byte>> resources;
-    };
-
-    VTFCreationData builderData;
-
-    explicit VTFBuilder(const std::vector<std::byte>& data);
-
-public:
-
-    static std::unique_ptr<VTFBuilder> open(const std::string& path);
-    static std::unique_ptr<VTFBuilder> open(const std::vector<std::byte>& data)
-    {
-
-        std::unique_ptr<VTFBuilder> builder;
-        builder.reset(new VTFBuilder{data});
-        return std::move(builder);
-    };
-
-    static std::unique_ptr<VTFBuilder> open(const unsigned char* rawImageData, std::size_t size )
-    {
-        std::vector<std::byte> imageData{};
-        imageData.resize(size);
-        std::memcpy(imageData.data(), rawImageData, size);
-
-        return std::move(open(imageData));
-    };
-
-    static std::vector<std::byte> resizeImageData(const std::vector<std::byte>& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resizeWidth, uint16_t resizeHeight, ResizeFilter resizeFilter, bool isSRGBGColorSpace);
-
-    static uint8_t computeMipmapCount(uint16_t width, uint16_t height, uint16_t slices);
-
-    static std::vector<std::byte>
-    computeMipmaps(const std::vector<std::byte> &data, ImageFormat format, uint16_t width, uint16_t height,
-                   uint16_t frames, uint16_t faces, uint16_t slices, ResizeFilter resizeFilter, bool srgb);
-
-    VTFBuilder& setDimensions(uint16_t width, uint16_t height);
-
-    VTFBuilder& setInputDataFormat(ImageFormat format);
-
-    VTFBuilder& setVTFFormat(ImageFormat format);
-
-    VTFBuilder& setVersion(uint8_t majorVersion, uint8_t minorVersion);
-
-    VTFBuilder& setFrameCount(uint16_t count);
-
-    VTFBuilder& setSliceCount(uint16_t count);
-
-    VTFBuilder& setStartFrame(uint16_t frame);
-
-    VTFBuilder& computeReflectivity();
-
-    VTFBuilder& setReflectivity(sourcepp::math::Vec3f reflectivity);
-
-    VTFBuilder& resizeImage(uint16_t resizeWidth, uint16_t resizeHeight, ResizeFilter resizeFilter = STBIR_FILTER_DEFAULT);
-
-    VTFBuilder& generateMipmaps(ResizeFilter mipmapFilter = STBIR_FILTER_DEFAULT);
-
-    VTFBuilder& generateThumbnail(ResizeFilter mipmapFilter = STBIR_FILTER_DEFAULT);
-
-    VTFBuilder& setResizeMethod(ResizeMethod resizeMethod);
-
-    VTFBuilder& setResizeFilter(ResizeFilter filter);
-
-    VTFBuilder& resizeClamp(uint16_t resizeWidth, uint16_t resizeHeight);
-
-    VTFBuilder& applyGammaCorrection(float correction);
-
-    VTFBuilder& addResource(ResourceType resourceType, const std::vector<std::byte>& data);
-
-    VTFBuilder& removeResource(ResourceType resourceType);
-
-    VTFBuilder& applyAuxCompression(int8_t compression = 9);
-
-    VTFBuilder& addFlags(VTF::Flags flag);
-
-    VTFBuilder& removeFlags(VTF::Flags flag);
-
-    VTFBuilder& setBumpScale(float scale);
-
-    std::unique_ptr<VTF> build();
-
-};
+SOURCEPP_BITFLAGS_ENUM(VTF::Flags)
 
 } // namespace vtfpp

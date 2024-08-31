@@ -8,13 +8,13 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-EXAMPLE::EXAMPLE(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+EXAMPLE::EXAMPLE(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	// Add a new type in the PackFileType enum for this file type, and set it here
 	this->type = PackFileType::UNKNOWN;
 }
 
-std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, const EntryCallback& callback) {
 	// Check if the file exists
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
@@ -22,7 +22,7 @@ std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, PackFileOptions
 	}
 
 	// Create the pack file
-	auto* example = new EXAMPLE{path, options};
+	auto* example = new EXAMPLE{path};
 	auto packFile = std::unique_ptr<PackFile>(example);
 
 	// Here is where you add entries to the entries member variable
@@ -75,13 +75,13 @@ std::optional<std::vector<std::byte>> EXAMPLE::readEntry(const std::string& path
 	return std::nullopt;
 }
 
-void EXAMPLE::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void EXAMPLE::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	// Initialize the entry - set the entry properties just like in EXAMPLE::open
 	entry.length = 0;
 	// ...
 }
 
-bool EXAMPLE::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool EXAMPLE::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder (include this verbatim)
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();

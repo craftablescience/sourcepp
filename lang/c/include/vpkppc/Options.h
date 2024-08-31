@@ -7,15 +7,12 @@ extern "C" {
 #endif
 
 typedef struct {
-	int gma_writeCRCs;
-	uint32_t vpk_version;
-	uint32_t vpk_preferredChunkSize;
-	int vpk_generateMD5Entries;
-	uint16_t zip_compressionMethod;
-} vpkpp_pack_file_options_t;
+	int32_t gma_writeCRCs;
+	int32_t vpk_generateMD5Entries;
+} vpkpp_bake_options_t;
 
 typedef struct {
-	int vpk_saveToDirectory;
+	int32_t vpk_saveToDirectory;
 	uint32_t vpk_preloadBytes;
 } vpkpp_entry_options_t;
 

@@ -11,12 +11,23 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-VPK_VTMB::VPK_VTMB(const std::string& fullFilePath_, PackFileOptions options_)
-		: PackFile(fullFilePath_, options_) {
+VPK_VTMB::VPK_VTMB(const std::string& fullFilePath_)
+		: PackFile(fullFilePath_) {
 	this->type = PackFileType::VPK_VTMB;
 }
 
-std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOptions options, const EntryCallback& callback) {
+std::unique_ptr<PackFile> VPK_VTMB::create(const std::string& path) {
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream
+			.write<uint32_t>(0)
+			.write<uint32_t>(0)
+			.write<uint8_t>(0);
+	}
+	return VPK_VTMB::open(path);
+}
+
+std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
 		return nullptr;
@@ -28,7 +39,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, PackFileOption
 		return nullptr;
 	}
 
-	auto* vpkVTMB = new VPK_VTMB{path, options};
+	auto* vpkVTMB = new VPK_VTMB{path};
 	auto packFile = std::unique_ptr<PackFile>(vpkVTMB);
 
 	for (int i = 0; i <= 9; i++) {
@@ -104,7 +115,7 @@ std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& pat
 	return stream.read_bytes(entry->length);
 }
 
-void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options_) {
+void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.archiveIndex = this->currentArchive;
 	entry.length = buffer.size();
 
@@ -112,7 +123,7 @@ void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vect
 	entry.offset = 0;
 }
 
-bool VPK_VTMB::bake(const std::string& outputDir_, const EntryCallback& callback) {
+bool VPK_VTMB::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	if (this->knownArchives.empty()) {
 		return false;
 	}

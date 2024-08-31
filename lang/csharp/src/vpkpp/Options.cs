@@ -3,16 +3,18 @@ using System.Runtime.InteropServices;
 namespace vpkpp
 {
     [StructLayout(LayoutKind.Sequential)]
-    public struct PackFileOptions
+    public struct BakeOptions
     {
-        public byte gma_writeCRCs;
+        public int gma_writeCRCs;
 
-        public uint vpk_version;
+        public int vpk_generateMD5Entries;
+    }
 
-        public uint vpk_preferredChunkSize;
+    [StructLayout(LayoutKind.Sequential)]
+    public struct EntryOptions
+    {
+        public int vpk_saveToDirectory;
 
-        public byte vpk_generateMD5Entries;
-
-        public ushort zip_compressionMethod;
+        public uint vpk_preloadBytes;
     }
 }
