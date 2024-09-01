@@ -1,10 +1,12 @@
 #include <vtfpp/ImageConversion.h>
 
 #include <algorithm>
+#include <bit>
 #include <cstring>
 
 #include <Compressonator.h>
 #include <sourcepp/math/Float.h>
+#include <stb_image_resize2.h>
 #include <stb_image_write.h>
 
 using namespace sourcepp;
@@ -17,6 +19,7 @@ namespace {
 		using enum ImageFormat;
 		case RGBA8888:
 		case UVWQ8888:
+		case UVLX8888:
 			return CMP_FORMAT_RGBA_8888;
 		case ABGR8888:
 			return CMP_FORMAT_ABGR_8888;
@@ -68,14 +71,117 @@ namespace {
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
-		case UVLX8888:
 		case EMPTY:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
 }
 
+[[nodiscard]] constexpr int imageFormatToSTBIRPixelLayout(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case RGBA8888:
+		case UVWQ8888:
+		case UVLX8888:
+		case RGBA16161616:
+		case RGBA16161616F:
+		case RGBA32323232F:
+			return STBIR_RGBA;
+		case ABGR8888:
+			return STBIR_ABGR;
+		case RGB888:
+		case RGB323232F:
+			return STBIR_RGB;
+		case BGR888:
+			return STBIR_BGR;
+		case I8:
+		case P8:
+		case R32F:
+			return STBIR_1CHANNEL;
+		case ARGB8888:
+			return STBIR_ARGB;
+		case BGRA8888:
+			return STBIR_BGRA;
+		case UV88:
+			return STBIR_2CHANNEL;
+		case IA88:
+			return STBIR_RA;
+		// We want these to get converted to RGBA8888 before resize
+		case DXT1:
+		case DXT1_ONE_BIT_ALPHA:
+		case DXT3:
+		case DXT5:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+		case BC6H:
+		case RGB565:
+		case A8:
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+		case BGRX8888:
+		case BGR565:
+		case BGRX5551:
+		case BGRA4444:
+		case BGRA5551:
+		case EMPTY:
+			break;
+	}
+	return -1;
+}
+
+[[nodiscard]] constexpr int imageFormatToSTBIRDataType(ImageFormat format, bool srgb = false) {
+	switch (format) {
+		using enum ImageFormat;
+		case RGBA8888:
+		case ABGR8888:
+		case RGB888:
+		case BGR888:
+		case I8:
+		case IA88:
+		case P8:
+		case A8:
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+		case ARGB8888:
+		case BGRA8888:
+		case BGRX8888:
+		case UV88:
+		case UVWQ8888:
+		case UVLX8888:
+			return srgb ? STBIR_TYPE_UINT8_SRGB : STBIR_TYPE_UINT8;
+		case RGBA16161616F:
+			return STBIR_TYPE_HALF_FLOAT;
+		case RGBA16161616:
+			return STBIR_TYPE_UINT16;
+		case R32F:
+		case RGB323232F:
+		case RGBA32323232F:
+			return STBIR_TYPE_FLOAT;
+		case RGB565:
+		case BGR565:
+		case BGRX5551:
+		case BGRA4444:
+		case DXT1_ONE_BIT_ALPHA:
+		case BGRA5551:
+		case DXT1:
+		case DXT3:
+		case DXT5:
+		case EMPTY:
+		case ATI2N:
+		case ATI1N:
+		case BC7:
+		case BC6H:
+			break;
+	}
+	return -1;
+}
+
 [[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	CMP_Texture srcTexture{};
 	srcTexture.dwSize     = sizeof(srcTexture);
 	srcTexture.dwWidth    = width;
@@ -110,6 +216,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
 	switch (format) {
@@ -275,6 +385,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(format) / 8));
 	switch (format) {
@@ -438,6 +552,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
 	switch (format) {
@@ -496,6 +614,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232F(std::span<const std::byte> imageData, ImageFormat format) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(format) / 8));
 	switch (format) {
@@ -550,6 +672,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA8888ToRGBA32323232F(std::span<const std::byte> imageData) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
 	for (int i = 0; i < imageData.size(); i += 4) {
@@ -565,6 +691,10 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataFromRGBA32323232FToRGBA8888(std::span<const std::byte> imageData) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	std::vector<std::byte> newData;
 	newData.reserve(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
 	for (int i = 0; i < imageData.size(); i += 16) {
@@ -579,6 +709,10 @@ namespace {
 } // namespace
 
 std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	if (oldFormat == newFormat) {
 		return {imageData.begin(), imageData.end()};
 	}
@@ -622,6 +756,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 }
 
 std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
+	if (imageData.empty()) {
+		return {};
+	}
+
 	if (oldFormat == newFormat) {
 		return {imageData.begin(), imageData.end()};
 	}
@@ -646,6 +784,9 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 }
 
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+	if (imageData.empty()) {
+		return {};
+	}
 	std::vector<std::byte> out;
 	auto stbWriteFunc = [](void* out, void* data, int size) {
 		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
@@ -662,4 +803,44 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
 	}
 	return out;
+}
+
+uint16_t ImageConversion::getResizedDim(uint16_t n, ResizeMethod method) {
+	switch (method) {
+		case ResizeMethod::NONE:                 break;
+		case ResizeMethod::POWER_OF_TWO_BIGGER:  return std::bit_ceil(n);
+		case ResizeMethod::POWER_OF_TWO_SMALLER: return std::bit_floor(n);
+		case ResizeMethod::POWER_OF_TWO_NEAREST: return math::nearestPowerOf2(n);
+	}
+	return n;
+}
+
+void ImageConversion::setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height, ResizeMethod heightResize) {
+	width = getResizedDim(width, widthResize);
+	height = getResizedDim(height, heightResize);
+}
+
+std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge) {
+	if (imageData.empty()) {
+		return {};
+	}
+	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format);
+	if (pixelLayout == -1) {
+		const auto in = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+		std::vector<std::byte> intermediary(ImageFormatDetails::getDataLength(ImageFormat::RGBA8888, newWidth, newHeight));
+		stbir_resize(in.data(), width, height, 4, intermediary.data(), newWidth, newHeight, 4, STBIR_RGBA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, static_cast<stbir_filter>(filter));
+		return convertImageDataToFormat(intermediary, ImageFormat::RGBA8888, format, newWidth, newHeight);
+	}
+	std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, newWidth, newHeight));
+	stbir_resize(imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)), static_cast<stbir_edge>(edge), static_cast<stbir_filter>(filter));
+	return out;
+}
+
+std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge) {
+	if (imageData.empty()) {
+		return {};
+	}
+	widthOut = getResizedDim(newWidth, widthResize);
+	heightOut = getResizedDim(newHeight, heightResize);
+	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, filter, edge);
 }

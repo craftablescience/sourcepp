@@ -16,6 +16,10 @@ namespace ImageDimensions {
 	return ceil(static_cast<float>(dim) / static_cast<float>(1 << mip));
 }
 
+[[nodiscard]] constexpr uint8_t getRecommendedMipCountForDims(uint16_t width, uint16_t height) {
+	return std::bit_width(width > height ? width : height);
+}
+
 } // namespace ImageDimensions
 
 enum class ImageFormat : int32_t {
@@ -443,7 +447,7 @@ namespace ImageFormatDetails {
 	return out;
 }
 
-[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
 	uint32_t length = 0;
 	for (int mip = mipCount - 1; mip >= 0; mip--) {
 		length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), sliceCount) * frameCount * faceCount;
@@ -451,13 +455,13 @@ namespace ImageFormatDetails {
 	return length;
 }
 
-[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
 	offset = 0;
 	length = 0;
-	for (int i = mipCount - 1; i >= 0; i--) {
-		for (int j = 0; j < frameCount; j++) {
-			for (int k = 0; k < faceCount; k++) {
-				for (int l = 0; l < sliceCount; l++) {
+	for (uint8_t i = mipCount - 1; i >= 0; i--) {
+		for (uint16_t j = 0; j < frameCount; j++) {
+			for (uint8_t k = 0; k < faceCount; k++) {
+				for (uint16_t l = 0; l < sliceCount; l++) {
 					auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
 					if (i == mip && j == frame && k == face && l == slice) {
 						length = imageSize;

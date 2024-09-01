@@ -133,13 +133,27 @@ template<typename T>
 concept Arithmetic = std::is_arithmetic_v<T> || std::same_as<T, uint24_t>;
 
 template<Arithmetic T>
-T remap(T value, T l1, T h1, T l2, T h2) {
+[[nodiscard]] constexpr T remap(T value, T l1, T h1, T l2, T h2) {
 	return l2 + (value - l1) * (h2 - l2) / (h1 - l1);
 }
 
 template<Arithmetic T>
-T remap(T value, T h1, T h2) {
+[[nodiscard]] constexpr T remap(T value, T h1, T h2) {
 	return value * h2 / h1;
+}
+
+[[nodiscard]] constexpr bool isPowerOf2(std::integral auto n) {
+	return n && !(n & (n - 1));
+}
+
+template<std::integral T>
+[[nodiscard]] constexpr T nearestPowerOf2(T n) {
+	if (math::isPowerOf2(n)) {
+		return n;
+	}
+	auto bigger = std::bit_ceil(n);
+	auto smaller = std::bit_floor(n);
+	return (n - smaller) < (bigger - n) ? smaller : bigger;
 }
 
 } // namespace sourcepp::math
