@@ -13,23 +13,6 @@ using namespace vpkpp;
 constexpr int PCK_DIRECTORY_STRING_PADDING = 4;
 constexpr int PCK_FILE_DATA_PADDING = 16;
 
-namespace {
-
-/*
- * This function is modified from Godot Engine code, licensed under the MIT License.
- * Copyright (c) 2014-present Godot Engine contributors.
- * Copyright (c) 2007-2014 Juan Linietsky, Ariel Manzur.
- * https://github.com/godotengine/godot/blob/99ff024f78f65ba0bc54fb409cfeca43ba2008fe/core/io/pck_packer.cpp#L39
- */
-std::size_t getPadding(int alignment, int n) {
-	if (const int rest = n % alignment; rest > 0) {
-		return alignment - rest;
-	}
-	return 0;
-}
-
-} // namespace
-
 PCK::PCK(const std::string& fullFilePath_)
 		: PackFile(fullFilePath_) {
 	this->type = PackFileType::PCK;
@@ -200,7 +183,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
-			const auto padding = ::getPadding(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
+			const auto padding = math::getPaddingForAlignment(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
 			for (int i = 0; i < padding; i++) {
 				fileData.push_back(static_cast<std::byte>(0));
 			}
@@ -254,7 +237,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		this->dataOffset = stream.tell_out();
 		for (const auto& [path, entry] : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=
 					sizeof(uint32_t) +             // Path length
 					entryPath.length() + padding + // Path
@@ -269,7 +252,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = ::getPadding(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, false, entryPath.length() + padding);
 
