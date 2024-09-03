@@ -156,6 +156,11 @@ template<std::integral T>
 	return (n - smaller) < (bigger - n) ? smaller : bigger;
 }
 
-uint16_t getPaddingForAlignment(uint16_t alignment, uint64_t n);
+[[nodiscard]] constexpr uint16_t getPaddingForAlignment(uint16_t alignment, uint64_t n) {
+	if (const auto rest = n % alignment; rest > 0) {
+		return alignment - rest;
+	}
+	return 0;
+}
 
 } // namespace sourcepp::math

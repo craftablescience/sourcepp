@@ -26,7 +26,7 @@ std::string fs::readFileText(const std::string& filepath, std::size_t startOffse
 	return stream.read_string();
 }
 
-bool fs::writeFileBuffer(const std::string& filepath, const std::vector<std::byte>& buffer) {
+bool fs::writeFileBuffer(const std::string& filepath, std::span<const std::byte> buffer) {
 	FileStream stream{filepath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	if (!stream) {
 		return false;

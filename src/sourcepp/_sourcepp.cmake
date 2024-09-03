@@ -22,7 +22,6 @@ add_library(${PROJECT_NAME} STATIC
         "${CMAKE_CURRENT_LIST_DIR}/crypto/MD5.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/crypto/RSA.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/crypto/String.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/math/Integer.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/parser/Binary.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/parser/Text.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/FS.cpp"

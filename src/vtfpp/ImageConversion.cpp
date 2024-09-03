@@ -765,17 +765,17 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 	}
 
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, sliceCount));
-	for(uint8_t mip = mipCount - 1; mip >= 0; mip--) {
-		for (uint16_t frame = 0; frame < frameCount; frame++) {
-			for (uint16_t face = 0; face < faceCount; face++) {
-				for (uint16_t slice = 0; slice < sliceCount; slice++) {
-					uint32_t oldOffset;
-					uint32_t oldLength;
-					if (!ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
-						return {};
+	for(int mip = mipCount - 1; mip >= 0; mip--) {
+		for (int frame = 0; frame < frameCount; frame++) {
+			for (int face = 0; face < faceCount; face++) {
+				for (int slice = 0; slice < sliceCount; slice++) {
+					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height));
+						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+							std::memcpy(out.data() + newOffset, convertedImageData.data(), convertedImageData.size());
+							newOffset += convertedImageData.size();
+						}
 					}
-					const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldOffset + oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height));
-					std::memcpy(out.data() + out.size(), convertedImageData.data(), convertedImageData.size());
 				}
 			}
 		}
@@ -791,12 +791,12 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	auto stbWriteFunc = [](void* out, void* data, int size) {
 		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
 	};
-	if (ImageFormatDetails::large(format)) {
-		auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-		stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
-	} else if (format == ImageFormat::RGBA16161616) {
+	if (format == ImageFormat::RGBA16161616) {
 		// Larger than RGBA8888!
 		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, imageData.data(), 0);
+	} else if (ImageFormatDetails::large(format)) {
+		auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+		stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
 	} else {
 		// This works for compressed formats too
 		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
@@ -832,7 +832,7 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 		return convertImageDataToFormat(intermediary, ImageFormat::RGBA8888, format, newWidth, newHeight);
 	}
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, newWidth, newHeight));
-	stbir_resize(imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)), static_cast<stbir_edge>(edge), static_cast<stbir_filter>(filter));
+	stbir_resize(imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8 * width, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8 * newWidth, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)), static_cast<stbir_edge>(edge), static_cast<stbir_filter>(filter));
 	return out;
 }
 

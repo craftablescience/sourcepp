@@ -1,7 +1,7 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
-#include <list>
 #include <span>
 #include <string>
 #include <string_view>
@@ -22,6 +22,8 @@ constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0")
 
 constexpr int32_t VTF_MAX_RESOURCES = 32;
 
+constexpr uint16_t VTF_SPHEREMAP_START_FRAME = 0xffff;
+
 struct Resource {
 	enum Type : uint32_t {
 		TYPE_UNKNOWN             = 0,   // Unknown
@@ -33,6 +35,12 @@ struct Resource {
 		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TSO\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
+	};
+	static constexpr std::array<Resource::Type, 8> TYPE_ARRAY_ORDER{
+		// These don't really matter
+		Resource::TYPE_CRC, Resource::TYPE_EXTENDED_FLAGS, Resource::TYPE_LOD_CONTROL_INFO, Resource::TYPE_KEYVALUES_DATA, Resource::TYPE_PARTICLE_SHEET_DATA,
+		// These matter
+		Resource::TYPE_THUMBNAIL_DATA, Resource::TYPE_AUX_COMPRESSION, Resource::TYPE_IMAGE_DATA,
 	};
 
 	enum Flags : uint8_t {
@@ -125,9 +133,13 @@ public:
 
 	explicit VTF(const std::string& vtfPath, bool parseHeaderOnly = false);
 
-	[[nodiscard]] explicit operator bool() const;
+	VTF(const VTF&) = delete;
+	VTF& operator=(const VTF&) = delete;
 
-	[[nodiscard]] std::span<const std::byte> getData() const;
+	VTF(VTF&&) noexcept = default;
+	VTF& operator=(VTF&&) noexcept = default;
+
+	[[nodiscard]] explicit operator bool() const;
 
 	[[nodiscard]] uint32_t getMajorVersion() const;
 
@@ -147,8 +159,6 @@ public:
 
 	[[nodiscard]] uint8_t getFaceCount() const;
 
-	[[nodiscard]] static uint8_t getFaceCountFor(uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame);
-
 	[[nodiscard]] uint16_t getSliceCount() const;
 
 	[[nodiscard]] uint16_t getStartFrame() const;
@@ -163,13 +173,13 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] bool isCompressed() const;
-
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
 	[[nodiscard]] bool hasImageData() const;
+
+	[[nodiscard]] bool imageDataIsSRGB() const;
 
 	[[nodiscard]] std::span<const std::byte> getImageDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
@@ -178,6 +188,8 @@ public:
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> convertAndSaveImageDataToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+
+	void convertAndSaveImageDataToFile(const std::string& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] bool hasThumbnailData() const;
 
@@ -189,8 +201,18 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> convertAndSaveThumbnailDataToFile() const;
 
+	void convertAndSaveThumbnailDataToFile(const std::string& imagePath) const;
+
 protected:
 	VTF() = default;
+
+	[[nodiscard]] static uint8_t getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame);
+
+	[[nodiscard]] Resource* getResourceInternal(Resource::Type type);
+
+	void setResourceInternal(Resource::Type type, std::span<const std::byte> data_);
+
+	void removeResourceInternal(Resource::Type type);
 
 	bool opened = false;
 
@@ -200,7 +222,7 @@ protected:
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
 
-	//uint32_t headerSize;
+	uint32_t headerSize{};
 
 	uint16_t width{};
 	uint16_t height{};
@@ -229,9 +251,6 @@ protected:
 	//uint32_t resourceCount;
 	std::vector<Resource> resources;
 	//uint8_t _padding3[4];
-
-	// False for v7.5 and lower (not actually a field in the header, just simplifies the check)
-	bool hasAuxCompression = false;
 };
 SOURCEPP_BITFLAGS_ENUM(VTF::Flags)
 
@@ -253,72 +272,49 @@ SOURCEPP_BITFLAGS_ENUM(VTF::Flags)
  * 3. Set the image resize methods (optional)              - VTFWriter::setImageResizeMethods
  * 4. Set the base image (mip 0, frame 0, face 0, slice 0) - VTFWriter::setImage
  * 5. Set the output format (optional)                     - VTFWriter::setFormat
+ * 6. Compute mips (optional)                              - VTFWriter::computeMips
  *
  * After these methods are called, the other methods in the class should work as expected.
  */
 class VTFWriter : public VTF {
 public:
+	/// This value is only valid when passed to VTFWriter::create through CreationOptions or VTFWriter::setFormat
+	static constexpr ImageFormat FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
+
+	struct CreationOptions {
+		uint32_t majorVersion = 7;
+		uint32_t minorVersion = 4;
+		ImageFormat outputFormat = FORMAT_DEFAULT;
+		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
+		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
+		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR;
+		bool createMips = true;
+		bool createThumbnail = true;
+		bool createReflectivity = true;
+		Flags flags = FLAG_NONE;
+		float bumpMapScale = 1.f;
+		uint8_t compressionLevel = 6;
+	};
+
 	VTFWriter();
 
 	explicit VTFWriter(std::vector<std::byte>&& vtfData);
 
 	explicit VTFWriter(const std::string& vtfPath);
 
-	static void create(
-			std::vector<std::byte>&& imageData,
-			ImageFormat format,
-			uint16_t width,
-			uint16_t height,
-			const std::string& vtfPath,
-			uint32_t majorVersion = 7,
-			uint32_t minorVersion = 4,
-			ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR,
-			bool createMips = true,
-			bool createThumbnail = true,
-			Flags flags = FLAG_NONE,
-			float bumpMapScale = 0.f);
+	VTFWriter(const VTFWriter&) = delete;
+	VTFWriter& operator=(const VTFWriter&) = delete;
 
-	static VTF create(
-			std::vector<std::byte>&& imageData,
-			ImageFormat format,
-			uint16_t width,
-			uint16_t height,
-			uint32_t majorVersion = 7,
-			uint32_t minorVersion = 4,
-			ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR,
-			bool createMips = true,
-			bool createThumbnail = true,
-			Flags flags = FLAG_NONE,
-			float bumpMapScale = 0.f);
+	VTFWriter(VTFWriter&&) noexcept = default;
+	VTFWriter& operator=(VTFWriter&&) noexcept = default;
 
-	static void create(
-			const std::string& imagePath,
-			const std::string& vtfPath,
-			uint32_t majorVersion = 7,
-			uint32_t minorVersion = 4,
-			ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR,
-			bool createMips = true,
-			bool createThumbnail = true,
-			Flags flags = FLAG_NONE,
-			float bumpMapScale = 0.f);
+	static void create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
 
-	static VTF create(
-			const std::string& imagePath,
-			uint32_t majorVersion = 7,
-			uint32_t minorVersion = 4,
-			ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER,
-			ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR,
-			bool createMips = true,
-			bool createThumbnail = true,
-			Flags flags = FLAG_NONE,
-			float bumpMapScale = 0.f);
+	[[nodiscard]] static VTFWriter create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
+
+	static void create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
+
+	[[nodiscard]] static VTFWriter create(const std::string& imagePath, CreationOptions options);
 
 	void setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion);
 
@@ -332,7 +328,7 @@ public:
 
 	void setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_);
 
-	void setSize(uint16_t newWidth, ImageConversion::ResizeMethod widthResize, uint16_t newHeight, ImageConversion::ResizeMethod heightResize, ImageConversion::ResizeFilter filter);
+	void setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter);
 
 	void setFlags(Flags flags_);
 
@@ -340,7 +336,7 @@ public:
 
 	void removeFlags(Flags flags_);
 
-	void setFormat(ImageFormat newFormat);
+	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
 	bool setMipCount(uint8_t newMipCount);
 
@@ -350,7 +346,7 @@ public:
 
 	bool setFrameCount(uint16_t newFrameCount);
 
-	bool setFaceCount(bool hasMultipleFaces);
+	bool setFaceCount(bool hasMultipleFaces, bool hasSphereMap = false);
 
 	bool setSliceCount(uint16_t newSliceCount);
 
@@ -364,25 +360,33 @@ public:
 
 	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
-	bool computeSphereMap();
+	void removeThumbnail();
 
-	void setParticleSheetResource(std::vector<std::byte>&& value);
+	//bool computeSphereMap();
+
+	void setParticleSheetResource(std::span<const std::byte> value);
+
+	void removeParticleSheetResource();
 
 	void setCRCResource(uint32_t value);
 
-	[[nodiscard]] bool getComputeCRCResourceForBake() const;
-
-	void setComputeCRCResourceForBake(bool computeCRCResourceOnBake);
+	void removeCRCResource();
 
 	void setLODResource(uint8_t u, uint8_t v);
 
+	void removeLODResource();
+
 	void setExtendedFlagsResource(uint32_t value);
+
+	void removeExtendedFlagsResource();
 
 	void setKeyValuesData(const std::string& value);
 
-	[[nodiscard]] int8_t getCompressionLevelForBake() const;
+	void removeKeyValuesData();
 
-	void setCompressionLevelForBake(int8_t newCompressionLevel);
+	[[nodiscard]] uint8_t getCompressionLevel() const;
+
+	void setCompressionLevel(uint8_t newCompressionLevel);
 
 	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
 
@@ -393,21 +397,13 @@ public:
 	void bake(const std::string& vtfPath);
 
 protected:
+	[[nodiscard]] ImageFormat getDefaultFormat() const;
+
 	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
-	int8_t compressionLevel = 0;
+	uint8_t compressionLevel = 0;
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
-	bool computeCRCOnBake = false;
-
-	std::vector<std::byte> imageData;
-	std::vector<std::byte> thumbnailData;
-	std::vector<std::byte> particleSheetData;
-	std::vector<std::byte> crcData;
-	std::vector<std::byte> lodData;
-	std::vector<std::byte> extendedFlagsData;
-	std::vector<std::byte> keyValuesData;
-	std::vector<std::byte> auxCompressionData;
 };
 
 } // namespace vtfpp

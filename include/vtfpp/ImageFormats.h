@@ -6,22 +6,6 @@
 
 namespace vtfpp {
 
-namespace ImageDimensions {
-
-[[nodiscard]] constexpr uint32_t getMipDim(uint8_t mip, uint16_t dim) {
-	// https://stackoverflow.com/a/31962570
-	constexpr auto ceil = [](float num) {
-		return (static_cast<float>(static_cast<uint32_t>(num)) == num) ? static_cast<uint32_t>(num) : static_cast<uint32_t>(num) + ((num > 0) ? 1 : 0);
-	};
-	return ceil(static_cast<float>(dim) / static_cast<float>(1 << mip));
-}
-
-[[nodiscard]] constexpr uint8_t getRecommendedMipCountForDims(uint16_t width, uint16_t height) {
-	return std::bit_width(width > height ? width : height);
-}
-
-} // namespace ImageDimensions
-
 enum class ImageFormat : int32_t {
 	RGBA8888 = 0,
 	ABGR8888,
@@ -428,6 +412,49 @@ namespace ImageFormatDetails {
 	return !transparent(format);
 }
 
+} // namespace ImageFormatDetails
+
+namespace ImageDimensions {
+
+[[nodiscard]] constexpr uint32_t getMipDim(uint8_t mip, uint16_t dim) {
+	for (int i = 0; i < mip; i++) {
+		dim /= 2;
+	}
+	return dim;
+}
+
+[[nodiscard]] constexpr uint8_t getRecommendedMipCountForDims(ImageFormat format, uint16_t width, uint16_t height) {
+	// Note that compressed formats need 4x4 pixel blocks
+	if (sourcepp::math::isPowerOf2(width) && sourcepp::math::isPowerOf2(height)) {
+		const auto log2 = std::bit_width(width > height ? height : width);
+		if (!ImageFormatDetails::compressed(format)) {
+			return log2;
+		}
+		// Eliminate 2x2, 1x1
+		return log2 - 2 > 1 ? log2 - 2 : 1;
+	}
+
+	uint8_t maxMipCount = 1;
+	if (ImageFormatDetails::compressed(format)) {
+		while (width > 0 && height > 0 && width % 4 == 0 && height % 4 == 0) {
+			width /= 2;
+			height /= 2;
+			maxMipCount++;
+		}
+	} else {
+		while (width > 0 && height > 0 && width % 2 == 0 && height % 2 == 0) {
+			width /= 2;
+			height /= 2;
+			maxMipCount++;
+		}
+	}
+	return maxMipCount;
+}
+
+} // namespace ImageDimensions
+
+namespace ImageFormatDetails {
+
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
 	switch(format) {
 		using enum ImageFormat;
@@ -455,13 +482,13 @@ namespace ImageFormatDetails {
 	return length;
 }
 
-constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
 	offset = 0;
 	length = 0;
-	for (uint8_t i = mipCount - 1; i >= 0; i--) {
-		for (uint16_t j = 0; j < frameCount; j++) {
-			for (uint8_t k = 0; k < faceCount; k++) {
-				for (uint16_t l = 0; l < sliceCount; l++) {
+	for (int i = mipCount - 1; i >= 0; i--) {
+		for (int j = 0; j < frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				for (int l = 0; l < sliceCount; l++) {
 					auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
 					if (i == mip && j == frame && k == face && l == slice) {
 						length = imageSize;
