@@ -4,8 +4,10 @@
 #include <cstddef>
 #include <optional>
 #include <string>
+#include <string_view>
 #include <vector>
 
+#include <vpkpp/format/ZIP.h>
 #include <sourcepp/parser/Binary.h>
 
 #include "LumpData.h"
@@ -13,6 +15,7 @@
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
+constexpr std::string_view BSP_EXTENSION = ".bsp";
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
@@ -103,7 +106,7 @@ static_assert(static_cast<int32_t>(BSPLump::COUNT) == 64, "Incorrect lump count!
 
 constexpr auto BSP_LUMP_COUNT = static_cast<int32_t>(BSPLump::COUNT);
 
-class BSP {
+class BSP : public vpkpp::ZIP {
 	struct Lump {
 		/// Byte offset into file
 		int32_t offset;
@@ -125,11 +128,19 @@ class BSP {
 	};
 
 public:
-	explicit BSP(std::string path_);
-
 	explicit operator bool() const;
 
 	static BSP create(std::string path, int32_t version = 21, int32_t mapRevision = 0);
+
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
+
+	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
+		return false;
+	}
+
+	bool bake(const std::string& outputDir_ /*= ""*/, vpkpp::BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
+
+	[[nodiscard]] explicit operator std::string() const override;
 
 	[[nodiscard]] int32_t getVersion() const;
 
@@ -181,6 +192,9 @@ public:
 	void createLumpPatchFile(BSPLump lumpIndex) const;
 
 protected:
+	// Open through vpkpp
+	explicit BSP(std::string path_);
+
 	void writeHeader() const;
 
 	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
@@ -209,6 +223,11 @@ protected:
 
 	// Slightly different header just to be quirky and special
 	bool isL4D2 = false;
+
+	const std::string tempBSPPakLumpPath;
+
+private:
+	VPKPP_REGISTER_PACKFILE_OPEN(BSP_EXTENSION, &BSP::open);
 };
 
 } // namespace bsppp
