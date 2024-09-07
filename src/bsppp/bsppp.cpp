@@ -6,6 +6,9 @@
 
 #include <FileStream.h>
 
+// automated registry, see PackFile.cpp in vpkpp for more info - Eden
+#include <bsppp/BSPPack.h>
+
 using namespace bsppp;
 
 namespace {

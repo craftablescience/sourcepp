@@ -2,10 +2,12 @@
 
 #include <array>
 
-#include <bsppp/bsppp.h>
+#include <vpkpp/format/ZIP.h>
 
-#include "ZIP.h"
+#include "bsppp.h"
 
+// this extends off of vpkpp I think it's fine to keep it under the vpkpp  - Eden
+// also BSP already exists under the bsppp namespace
 namespace vpkpp {
 
 using bsppp::BSP_SIGNATURE;

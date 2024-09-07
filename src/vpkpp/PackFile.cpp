@@ -14,7 +14,6 @@
 
 // Need to include these so the compiler will think the automatic registry
 // variables are important enough to initialize :3 (I love C++!)
-#include <vpkpp/format/BSP.h>
 #include <vpkpp/format/FPX.h>
 #include <vpkpp/format/GCF.h>
 #include <vpkpp/format/GMA.h>
