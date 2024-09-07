@@ -1,4 +1,6 @@
 add_pretty_parser(bsppp
+        # BSP contains a packfile
+        DEPS MINIZIP::minizip sourcepp::vpkpp
         SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/bsppp.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/LumpData.h"
