@@ -948,7 +948,7 @@ WARN_LOGFILE           =
 # spaces. See also FILE_PATTERNS and EXTENSION_MAPPING
 # Note: If this tag is empty the current directory is searched.
 
-INPUT                  = docs/DOXYMAINPAGE.md \
+INPUT                  = docs/index.md \
                          include \
                          src
 
@@ -1165,7 +1165,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = docs/DOXYMAINPAGE.md
+USE_MDFILE_AS_MAINPAGE = docs/index.md
 
 # The Fortran standard specifies that for fixed formatted Fortran code all
 # characters from position 72 are to be considered as comment. A common
