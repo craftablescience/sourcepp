@@ -107,7 +107,8 @@ var annotated_dup =
     ] ],
     [ "vtfpp", "de/d90/namespacevtfpp.html", [
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
-      [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ]
+      [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
+      [ "VTFWriter", "d0/d83/classvtfpp_1_1VTFWriter.html", "d0/d83/classvtfpp_1_1VTFWriter" ]
     ] ],
     [ "uint24_t", "d9/d80/structuint24__t.html", "d9/d80/structuint24__t" ]
 ];

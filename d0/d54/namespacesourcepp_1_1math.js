@@ -52,7 +52,10 @@ var namespacesourcepp_1_1math =
     [ "Vec4ui32", "d0/d54/namespacesourcepp_1_1math.html#aa6ef5d47556a7a364114c793ea56a0ab", null ],
     [ "Vec4ui64", "d0/d54/namespacesourcepp_1_1math.html#a68a1cc43e9dcd54def87c4f9c9d9a1a5", null ],
     [ "Vec4ui8", "d0/d54/namespacesourcepp_1_1math.html#aba5e0c824fd08d466c86c87849b898b2", null ],
-    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#af8946c464de2f4993474b8b4fdb2fd0f", null ],
-    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#a9e5810cc1e93954bbd4a145108d9df59", null ],
+    [ "getPaddingForAlignment", "d0/d54/namespacesourcepp_1_1math.html#acd262f8aeb80be8d88ed01ee50ffeb3d", null ],
+    [ "isPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a849e2ecc350f0f2291547b51fab5f942", null ],
+    [ "nearestPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a1bdf52cb659232b552995cb6940689af", null ],
+    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#aeb822b72bb06c58f134ef0e58e3f9824", null ],
+    [ "remap", "d0/d54/namespacesourcepp_1_1math.html#a96812e59e5b02c0c91792114e62d3f75", null ],
     [ "Arithmetic", "d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482", null ]
 ];

@@ -3,7 +3,7 @@ var structvtfpp_1_1Resource =
     [ "ConvertedData", "d3/d80/structvtfpp_1_1Resource.html#ab5079269f351efa7f186f6029adc65a8", null ],
     [ "Flags", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34", [
       [ "FLAG_NONE", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34afa684042bc8cf30ba5dfb26e112494c4", null ],
-      [ "FLAG_NO_DATA", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34a9e1026baf34568ff5ac77b091b38f5e4", null ]
+      [ "FLAG_LOCAL_DATA", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a", null ]
     ] ],
     [ "Type", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69", [
       [ "TYPE_UNKNOWN", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e", null ],
@@ -25,5 +25,6 @@ var structvtfpp_1_1Resource =
     [ "getDataAsLODControlInfo", "d3/d80/structvtfpp_1_1Resource.html#a583cf048f403bb0a9e3b9b3929ef2e8a", null ],
     [ "data", "d3/d80/structvtfpp_1_1Resource.html#af6f083ee840ba1a8cce2818e5e130c18", null ],
     [ "flags", "d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a", null ],
-    [ "type", "d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621", null ]
+    [ "type", "d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621", null ],
+    [ "TYPE_ARRAY_ORDER", "d3/d80/structvtfpp_1_1Resource.html#ab78a22c0f5da0b2c8efcb05248a5affa", null ]
 ];

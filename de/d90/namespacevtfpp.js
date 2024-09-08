@@ -1,20 +1,50 @@
 var namespacevtfpp =
 [
     [ "ImageConversion", "d5/d61/namespacevtfpp_1_1ImageConversion.html", [
+      [ "ResizeEdge", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53", [
+        [ "CLAMP", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345", null ],
+        [ "REFLECT", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae4f6a05f82ed398f984f4bc1a55838df", null ],
+        [ "WRAP", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0", null ],
+        [ "ZERO", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53a529e9e0beb5f85d1f132917c1a09860c", null ]
+      ] ],
+      [ "ResizeFilter", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be", [
+        [ "DEFAULT", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea5b39c8b553c821e7cddc6da64b5bd2ee", null ],
+        [ "BOX", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beae657cce1913c857166b0475f18668ef5", null ],
+        [ "BILINEAR", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beaad6fddf718ad19b063e02fdd7e8e3e65", null ],
+        [ "CUBIC_BSPLINE", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77", null ],
+        [ "CATMULLROM", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255", null ],
+        [ "MITCHELL", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d", null ]
+      ] ],
+      [ "ResizeMethod", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc", [
+        [ "NONE", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccab50339a10e1de285ac99d4c3990b8693", null ],
+        [ "POWER_OF_TWO_BIGGER", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65", null ],
+        [ "POWER_OF_TWO_SMALLER", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801", null ],
+        [ "POWER_OF_TWO_NEAREST", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35", null ]
+      ] ],
       [ "convertImageDataToFile", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a180ce836d3a592d8222d9c2462a0ac1e", null ],
-      [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ]
+      [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ],
+      [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93", null ],
+      [ "getResizedDim", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a440840aa87de2dc367add665f674b365", null ],
+      [ "resizeImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#afcbc2ecd898c6e46a52535fa62494c8d", null ],
+      [ "resizeImageDataStrict", "d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf", null ],
+      [ "setResizedDims", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a2c8bc6e0d781ad7eb30294063a7da865", null ]
     ] ],
     [ "ImageDimensions", "d6/d38/namespacevtfpp_1_1ImageDimensions.html", [
-      [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b", null ]
+      [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b", null ],
+      [ "getRecommendedMipCountForDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#acef2e68e33078497b3669fa1c07bb954", null ]
     ] ],
     [ "ImageFormatDetails", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html", [
       [ "alpha", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9", null ],
       [ "blue", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0", null ],
       [ "bpp", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#acc53a7285be1b23a4cc06d28cee7f9e2", null ],
       [ "compressed", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#af6d0f44d430092e96d3c955f03fcf526", null ],
+      [ "decompressedAlpha", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a9d3114201ce329a024b6f05780ed8a88", null ],
+      [ "decompressedBlue", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a3c11bce4477d5ba879b5a1d33e1cfa3b", null ],
+      [ "decompressedGreen", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a0e5479b1e7fdbd64a1aae6af0a05f91d", null ],
+      [ "decompressedRed", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a99c40f659044beb0e3c43568423a25dd", null ],
       [ "getDataLength", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a708dc57f5c69e5ed309f780548df41b6", null ],
-      [ "getDataLength", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a79c419893d21f9f5c2f9ef0a601c4bc3", null ],
-      [ "getDataPosition", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#abcc7109f048489bee620227ca5da2ce4", null ],
+      [ "getDataLength", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad", null ],
+      [ "getDataPosition", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aa00fc65d120a4ed1710f96e3965aaff1", null ],
       [ "green", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b", null ],
       [ "large", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2abec7b9aa23378e8d4f975269697270", null ],
       [ "opaque", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#af165209ed03701f0a935efcd5f3cd9fd", null ],
@@ -23,6 +53,7 @@ var namespacevtfpp =
     ] ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
+    [ "VTFWriter", "d0/d83/classvtfpp_1_1VTFWriter.html", "d0/d83/classvtfpp_1_1VTFWriter" ],
     [ "ImageFormat", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c", [
       [ "RGBA8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca165f06116e7b8d9b2481dfc805db4619", null ],
       [ "ABGR8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab0936176de5430f4f9d7f512a6d72c35", null ],
@@ -61,5 +92,6 @@ var namespacevtfpp =
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
     [ "VTF_MAX_RESOURCES", "de/d90/namespacevtfpp.html#a36c4c4a0d66072b7329f1688f298e504", null ],
-    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ]
+    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
+    [ "VTF_SPHEREMAP_START_FRAME", "de/d90/namespacevtfpp.html#a098bc4f5437e75c6ba612ed34c4f72f4", null ]
 ];

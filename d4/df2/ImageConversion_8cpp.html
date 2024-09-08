@@ -121,32 +121,35 @@ $(document).ready(function(){initNavTree('d4/df2/ImageConversion_8cpp.html','../
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="../../da/d01/ImageConversion_8h_source.html">vtfpp/ImageConversion.h</a>&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;bit&gt;</code><br />
+<code>#include &lt;cstring&gt;</code><br />
 <code>#include &lt;Compressonator.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d4/d93/Float_8h_source.html">sourcepp/math/Float.h</a>&gt;</code><br />
+<code>#include &lt;stb_image_resize2.h&gt;</code><br />
 <code>#include &lt;stb_image_write.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for ImageConversion.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d1/d06/ImageConversion_8cpp__incl.png" border="0" usemap="#asrc_2vtfpp_2ImageConversion_8cpp" alt=""/></div>
 <map name="asrc_2vtfpp_2ImageConversion_8cpp" id="asrc_2vtfpp_2ImageConversion_8cpp">
-<area shape="rect" title=" " alt="" coords="342,5,566,32"/>
-<area shape="rect" href="../../da/d01/ImageConversion_8h.html" title=" " alt="" coords="34,80,221,107"/>
-<area shape="rect" title=" " alt="" coords="245,80,330,107"/>
-<area shape="rect" title=" " alt="" coords="355,80,425,107"/>
-<area shape="rect" title=" " alt="" coords="449,80,589,107"/>
-<area shape="rect" href="../../d4/d93/Float_8h.html" title=" " alt="" coords="511,155,679,181"/>
-<area shape="rect" title=" " alt="" coords="665,80,808,107"/>
-<area shape="rect" title=" " alt="" coords="5,155,76,181"/>
-<area shape="rect" title=" " alt="" coords="101,155,154,181"/>
-<area shape="rect" title=" " alt="" coords="179,155,241,181"/>
-<area shape="rect" href="../../d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="329,155,457,181"/>
-<area shape="rect" title=" " alt="" coords="363,229,423,256"/>
-<area shape="rect" href="../../d6/dac/Integer_8h.html" title=" " alt="" coords="460,229,640,256"/>
-<area shape="rect" title=" " alt="" coords="399,304,437,331"/>
-<area shape="rect" title=" " alt="" coords="462,304,542,331"/>
-<area shape="rect" title=" " alt="" coords="566,304,633,331"/>
-<area shape="rect" title=" " alt="" coords="657,304,749,331"/>
+<area shape="rect" title=" " alt="" coords="481,5,705,32"/>
+<area shape="rect" href="../../da/d01/ImageConversion_8h.html" title=" " alt="" coords="125,80,311,107"/>
+<area shape="rect" title=" " alt="" coords="711,304,749,331"/>
+<area shape="rect" title=" " alt="" coords="386,80,471,107"/>
+<area shape="rect" title=" " alt="" coords="495,80,562,107"/>
+<area shape="rect" title=" " alt="" coords="587,80,727,107"/>
+<area shape="rect" href="../../d4/d93/Float_8h.html" title=" " alt="" coords="418,155,586,181"/>
+<area shape="rect" title=" " alt="" coords="803,80,959,107"/>
+<area shape="rect" title=" " alt="" coords="983,80,1125,107"/>
+<area shape="rect" title=" " alt="" coords="245,155,316,181"/>
+<area shape="rect" title=" " alt="" coords="341,155,394,181"/>
+<area shape="rect" title=" " alt="" coords="5,155,68,181"/>
+<area shape="rect" href="../../d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="93,155,221,181"/>
+<area shape="rect" title=" " alt="" coords="127,229,187,256"/>
+<area shape="rect" href="../../d6/dac/Integer_8h.html" title=" " alt="" coords="412,229,592,256"/>
+<area shape="rect" title=" " alt="" coords="365,304,445,331"/>
+<area shape="rect" title=" " alt="" coords="469,304,535,331"/>
+<area shape="rect" title=" " alt="" coords="560,304,652,331"/>
 </map>
 </div>
 </div>

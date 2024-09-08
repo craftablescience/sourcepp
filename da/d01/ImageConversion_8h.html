@@ -117,6 +117,7 @@ $(document).ready(function(){initNavTree('da/d01/ImageConversion_8h.html','../..
 <div class="header">
   <div class="summary">
 <a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">ImageConversion.h File Reference</div>  </div>
@@ -149,9 +150,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d9/d71/ImageConversion_8h__dep__incl.png" border="0" usemap="#ainclude_2vtfpp_2ImageConversion_8hdep" alt=""/></div>
 <map name="ainclude_2vtfpp_2ImageConversion_8hdep" id="ainclude_2vtfpp_2ImageConversion_8hdep">
-<area shape="rect" title=" " alt="" coords="103,5,340,32"/>
-<area shape="rect" href="../../d4/df2/ImageConversion_8cpp.html" title=" " alt="" coords="5,80,229,107"/>
-<area shape="rect" href="../../d2/d0c/vtfpp_8cpp.html" title=" " alt="" coords="253,80,397,107"/>
+<area shape="rect" title=" " alt="" coords="81,5,319,32"/>
+<area shape="rect" href="../../d3/db3/vtfpp_8h.html" title=" " alt="" coords="5,80,163,107"/>
+<area shape="rect" href="../../d2/d0c/vtfpp_8cpp.html" title=" " alt="" coords="69,155,213,181"/>
+<area shape="rect" href="../../d4/df2/ImageConversion_8cpp.html" title=" " alt="" coords="237,80,461,107"/>
 </map>
 </div>
 </div>
@@ -164,13 +166,55 @@ Namespaces</h2></td></tr>
 <tr class="memitem:d5/d61/namespacevtfpp_1_1ImageConversion"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html">vtfpp::ImageConversion</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a5958476a157c26336cb52c3055cffb53"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53">vtfpp::ImageConversion::ResizeEdge</a> { <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345">vtfpp::ImageConversion::CLAMP</a> = 0
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae4f6a05f82ed398f984f4bc1a55838df">vtfpp::ImageConversion::REFLECT</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0">vtfpp::ImageConversion::WRAP</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53a529e9e0beb5f85d1f132917c1a09860c">vtfpp::ImageConversion::ZERO</a>
+ }</td></tr>
+<tr class="separator:a5958476a157c26336cb52c3055cffb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69415c9957b5d27602eeb20f862d26be"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be">vtfpp::ImageConversion::ResizeFilter</a> { <br />
+&#160;&#160;<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea5b39c8b553c821e7cddc6da64b5bd2ee">vtfpp::ImageConversion::DEFAULT</a> = 0
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beae657cce1913c857166b0475f18668ef5">vtfpp::ImageConversion::BOX</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beaad6fddf718ad19b063e02fdd7e8e3e65">vtfpp::ImageConversion::BILINEAR</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77">vtfpp::ImageConversion::CUBIC_BSPLINE</a>
+, <br />
+&#160;&#160;<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255">vtfpp::ImageConversion::CATMULLROM</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d">vtfpp::ImageConversion::MITCHELL</a>
+<br />
+ }</td></tr>
+<tr class="separator:a69415c9957b5d27602eeb20f862d26be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9008d2944fc178ec39a2a406536dc3cc"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">vtfpp::ImageConversion::ResizeMethod</a> { <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccab50339a10e1de285ac99d4c3990b8693">vtfpp::ImageConversion::NONE</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65">vtfpp::ImageConversion::POWER_OF_TWO_BIGGER</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801">vtfpp::ImageConversion::POWER_OF_TWO_SMALLER</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35">vtfpp::ImageConversion::POWER_OF_TWO_NEAREST</a>
+ }</td></tr>
+<tr class="separator:a9008d2944fc178ec39a2a406536dc3cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:af45f71e1645bd14fbcfcd48531de0303"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303">vtfpp::ImageConversion::convertImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint16_t width, uint16_t height)</td></tr>
+<tr class="memdesc:af45f71e1645bd14fbcfcd48531de0303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an image from one format to another.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303">More...</a><br /></td></tr>
 <tr class="separator:af45f71e1645bd14fbcfcd48531de0303"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6daac8f2694c03062cdf794542c3ee93"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93">vtfpp::ImageConversion::convertSeveralImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount)</td></tr>
+<tr class="memdesc:a6daac8f2694c03062cdf794542c3ee93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts several images from one format to another.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93">More...</a><br /></td></tr>
+<tr class="separator:a6daac8f2694c03062cdf794542c3ee93"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a180ce836d3a592d8222d9c2462a0ac1e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a180ce836d3a592d8222d9c2462a0ac1e">vtfpp::ImageConversion::convertImageDataToFile</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t height)</td></tr>
 <tr class="memdesc:a180ce836d3a592d8222d9c2462a0ac1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a180ce836d3a592d8222d9c2462a0ac1e">More...</a><br /></td></tr>
 <tr class="separator:a180ce836d3a592d8222d9c2462a0ac1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a440840aa87de2dc367add665f674b365"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a440840aa87de2dc367add665f674b365">vtfpp::ImageConversion::getResizedDim</a> (uint16_t n, ResizeMethod method)</td></tr>
+<tr class="memdesc:a440840aa87de2dc367add665f674b365"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the new image size given a resize method.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a440840aa87de2dc367add665f674b365">More...</a><br /></td></tr>
+<tr class="separator:a440840aa87de2dc367add665f674b365"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c8bc6e0d781ad7eb30294063a7da865"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a2c8bc6e0d781ad7eb30294063a7da865">vtfpp::ImageConversion::setResizedDims</a> (uint16_t &amp;width, ResizeMethod widthResize, uint16_t &amp;height, ResizeMethod heightResize)</td></tr>
+<tr class="memdesc:a2c8bc6e0d781ad7eb30294063a7da865"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the new image dimensions given a resize method.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a2c8bc6e0d781ad7eb30294063a7da865">More...</a><br /></td></tr>
+<tr class="separator:a2c8bc6e0d781ad7eb30294063a7da865"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcbc2ecd898c6e46a52535fa62494c8d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#afcbc2ecd898c6e46a52535fa62494c8d">vtfpp::ImageConversion::resizeImageData</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge=ResizeEdge::CLAMP)</td></tr>
+<tr class="memdesc:afcbc2ecd898c6e46a52535fa62494c8d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize given image data to the new dimensions.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#afcbc2ecd898c6e46a52535fa62494c8d">More...</a><br /></td></tr>
+<tr class="separator:afcbc2ecd898c6e46a52535fa62494c8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec2b00461a0a8b11227ed921a1996dcf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf">vtfpp::ImageConversion::resizeImageDataStrict</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t &amp;widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t &amp;heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge=ResizeEdge::CLAMP)</td></tr>
+<tr class="memdesc:aec2b00461a0a8b11227ed921a1996dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize given image data to the new dimensions, where the new width and height are governed by the resize methods.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf">More...</a><br /></td></tr>
+<tr class="separator:aec2b00461a0a8b11227ed921a1996dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
