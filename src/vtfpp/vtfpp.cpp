@@ -612,8 +612,12 @@ void VTFWriter::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::
 		this->regenerateImageData(this->format, newWidth, newHeight, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else {
 		this->format = ImageFormat::RGBA8888;
+		this->mipCount = 1;
+		this->frameCount = 1;
+		this->flags &= ~FLAG_ENVMAP;
 		this->width = newWidth;
 		this->height = newHeight;
+		this->sliceCount = 1;
 		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount)));
 	}
 }
