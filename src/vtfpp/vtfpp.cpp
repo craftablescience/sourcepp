@@ -251,7 +251,7 @@ uint8_t VTF::getFaceCount() const {
 }
 
 uint8_t VTF::getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame) {
-	return (width && height) ? ((flags & VTF::FLAG_ENVMAP) ? ((majorVersion == 7 && minorVersion == 4 && startFrame == VTF_SPHEREMAP_START_FRAME) ? 7 : 6) : 1) : 0;
+	return (width && height) ? ((flags & VTF::FLAG_ENVMAP) ? ((majorVersion == 7 && minorVersion >= 1 && minorVersion <= 4 && startFrame == VTF_SPHEREMAP_START_FRAME) ? 7 : 6) : 1) : 0;
 }
 
 uint16_t VTF::getSliceCount() const {
