@@ -8,8 +8,12 @@ var structvtfpp_1_1VTFWriter_1_1CreationOptions =
     [ "filter", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a4f1ff2340b1579440766887cc7289c4f", null ],
     [ "flags", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#aac274d1cc9102b7d5b06be91ac4a5c65", null ],
     [ "heightResizeMethod", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a95183fe3161445a4f719420cf25ee1dc", null ],
+    [ "initialFrameCount", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a96660fe76ea1ea2869624902777f7658", null ],
+    [ "initialSliceCount", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#aba2f28cebc4f1243d9074308906a3b01", null ],
+    [ "isCubeMap", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a009fed9248f724c14a50bd047c1f21ca", null ],
     [ "majorVersion", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a76044bf3c61e1b9d5146a5dcd6e6b3c6", null ],
     [ "minorVersion", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a192a39fbeca7adf12049e8afc971cd80", null ],
     [ "outputFormat", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a6ef84a0ead08fd2fe8f9081f7c30163b", null ],
+    [ "startFrame", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#aac06df3662257a18890d8915b2929e71", null ],
     [ "widthResizeMethod", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#af74c3deda1dbb5193dcc86790b091e9d", null ]
 ];
