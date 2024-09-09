@@ -609,7 +609,14 @@ void VTFWriter::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::
 
 	ImageConversion::setResizedDims(newWidth, this->imageWidthResizeMethod, newHeight, this->imageHeightResizeMethod);
 	if (this->hasImageData()) {
-		this->regenerateImageData(this->format, newWidth, newHeight, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		if (this->width == newWidth && this->height == newHeight) {
+			return;
+		}
+		auto newMipCount = this->mipCount;
+		if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
+			newMipCount = recommendedCount;
+		}
+		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else {
 		this->format = ImageFormat::RGBA8888;
 		this->mipCount = 1;
