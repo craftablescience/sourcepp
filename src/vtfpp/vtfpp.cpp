@@ -469,7 +469,7 @@ VTFWriter::VTFWriter(std::vector<std::byte>&& vtfData)
 VTFWriter::VTFWriter(const std::string& vtfPath)
 		: VTFWriter(fs::readFileBuffer(vtfPath)) {}
 
-void VTFWriter::create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+void VTFWriter::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
 	VTFWriter writer;
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);
@@ -494,7 +494,7 @@ void VTFWriter::create(std::vector<std::byte>&& imageData, ImageFormat format, u
 	writer.bake(vtfPath);
 }
 
-VTFWriter VTFWriter::create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
+VTFWriter VTFWriter::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
 	VTFWriter writer;
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);

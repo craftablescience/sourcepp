@@ -308,9 +308,9 @@ public:
 	VTFWriter(VTFWriter&&) noexcept = default;
 	VTFWriter& operator=(VTFWriter&&) noexcept = default;
 
-	static void create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+	static void create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
 
-	[[nodiscard]] static VTFWriter create(std::vector<std::byte>&& imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
+	[[nodiscard]] static VTFWriter create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
 
 	static void create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
 
