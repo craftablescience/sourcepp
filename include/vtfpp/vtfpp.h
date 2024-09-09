@@ -288,11 +288,15 @@ public:
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR;
+		uint16_t initialFrameCount = 1;
+		uint16_t initialSliceCount = 1;
+		bool isCubeMap = false;
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
 		Flags flags = FLAG_NONE;
 		float bumpMapScale = 1.f;
+		uint16_t startFrame = 0;
 		uint8_t compressionLevel = 6;
 	};
 

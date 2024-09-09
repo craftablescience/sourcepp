@@ -475,6 +475,18 @@ void VTFWriter::create(std::span<const std::byte> imageData, ImageFormat format,
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imageData, format, width, height, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
 	writer.setBumpMapScale(options.bumpMapScale);
 	if (options.createReflectivity) {
 		writer.computeReflectivity();
@@ -500,6 +512,18 @@ VTFWriter VTFWriter::create(std::span<const std::byte> imageData, ImageFormat fo
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imageData, format, width, height, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
 	writer.setBumpMapScale(options.bumpMapScale);
 	if (options.createReflectivity) {
 		writer.computeReflectivity();
@@ -525,6 +549,18 @@ void VTFWriter::create(const std::string& imagePath, const std::string& vtfPath,
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imagePath, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
 	writer.setBumpMapScale(options.bumpMapScale);
 	if (options.createReflectivity) {
 		writer.computeReflectivity();
@@ -550,6 +586,18 @@ VTFWriter VTFWriter::create(const std::string& imagePath, CreationOptions option
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imagePath, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
 	writer.setBumpMapScale(options.bumpMapScale);
 	if (options.createReflectivity) {
 		writer.computeReflectivity();
