@@ -837,6 +837,6 @@ std::string FGDWriter::bake() {
 	return this->backingData;
 }
 
-void FGDWriter::bake(const std::string& fgdPath) {
-	fs::writeFileText(fgdPath, this->bake());
+bool FGDWriter::bake(const std::string& fgdPath) {
+	return fs::writeFileText(fgdPath, this->bake());
 }
