@@ -19,7 +19,7 @@ var searchData=
   ['headersize_621',['headerSize',['../d8/df2/classvtfpp_1_1VTF.html#a48fcd4e755fbbc57c6a43de7f6d7cdc1',1,'vtfpp::VTF']]],
   ['headnode_622',['headNode',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a422eb77182dd7af266e8cad08de739e5',1,'bsppp::BSPBrushModel_v0']]],
   ['height_623',['height',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a616650d3b0055a531a154dd85bc63ca3',1,'bsppp::BSPTextureData_v0::height()'],['../d8/df2/classvtfpp_1_1VTF.html#adc9bb8a8b8895f651b2fb9bebf0f0e32',1,'vtfpp::VTF::height()']]],
-  ['heightresizemethod_624',['heightResizeMethod',['../d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html#a95183fe3161445a4f719420cf25ee1dc',1,'vtfpp::VTFWriter::CreationOptions']]],
+  ['heightresizemethod_624',['heightResizeMethod',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac26ed8e6bcb15408c99d8562f63374b7',1,'vtfpp::VTF::CreationOptions']]],
   ['hitboxes_625',['hitboxes',['../d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html#a6a682571420dc92f8a551e6852f5eba1',1,'mdlpp::MDL::HitboxSet']]],
   ['hitboxset_626',['HitboxSet',['../d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html',1,'mdlpp::MDL']]],
   ['hitboxsets_627',['hitboxSets',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#ae3e8af47cc7526d5627701ce5f393a5d',1,'mdlpp::MDL::MDL']]],

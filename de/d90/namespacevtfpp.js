@@ -53,7 +53,6 @@ var namespacevtfpp =
     ] ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
-    [ "VTFWriter", "d0/d83/classvtfpp_1_1VTFWriter.html", "d0/d83/classvtfpp_1_1VTFWriter" ],
     [ "ImageFormat", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c", [
       [ "RGBA8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca165f06116e7b8d9b2481dfc805db4619", null ],
       [ "ABGR8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab0936176de5430f4f9d7f512a6d72c35", null ],
@@ -91,7 +90,5 @@ var namespacevtfpp =
       [ "BC7", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593", null ],
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
-    [ "VTF_MAX_RESOURCES", "de/d90/namespacevtfpp.html#a36c4c4a0d66072b7329f1688f298e504", null ],
-    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
-    [ "VTF_SPHEREMAP_START_FRAME", "de/d90/namespacevtfpp.html#a098bc4f5437e75c6ba612ed34c4f72f4", null ]
+    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ]
 ];

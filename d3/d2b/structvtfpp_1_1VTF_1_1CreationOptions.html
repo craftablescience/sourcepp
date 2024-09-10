@@ -1,0 +1,447 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: vtfpp::VTF::CreationOptions Struct Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.1 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "../../search",false,'Search','.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(document).ready(function(){initNavTree('d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-attribs">Public Attributes</a> &#124;
+<a href="../../d6/d2d/structvtfpp_1_1VTF_1_1CreationOptions-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">vtfpp::VTF::CreationOptions Struct Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for vtfpp::VTF::CreationOptions:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d6/d1c/structvtfpp_1_1VTF_1_1CreationOptions__coll__graph.png" border="0" usemap="#avtfpp_1_1VTF_1_1CreationOptions_coll__map" alt="Collaboration graph"/></div>
+<map name="avtfpp_1_1VTF_1_1CreationOptions_coll__map" id="avtfpp_1_1VTF_1_1CreationOptions_coll__map">
+<area shape="rect" title=" " alt="" coords="63,124,265,151"/>
+<area shape="rect" title=" " alt="" coords="5,5,80,32"/>
+<area shape="rect" title=" " alt="" coords="127,5,201,32"/>
+<area shape="rect" title=" " alt="" coords="283,5,349,32"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a7cc61a7b6a8560c89d76b75f894b2845"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a7cc61a7b6a8560c89d76b75f894b2845">majorVersion</a> = 7</td></tr>
+<tr class="separator:a7cc61a7b6a8560c89d76b75f894b2845"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3697bca5e9413dc3ccd89730a307ed83"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3697bca5e9413dc3ccd89730a307ed83">minorVersion</a> = 4</td></tr>
+<tr class="separator:a3697bca5e9413dc3ccd89730a307ed83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af915802e60a9d07349e8f3ab2c5dbe94"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#af915802e60a9d07349e8f3ab2c5dbe94">outputFormat</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7d6ca398077bb5152c6473384fb97438">FORMAT_DEFAULT</a></td></tr>
+<tr class="separator:af915802e60a9d07349e8f3ab2c5dbe94"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb8ac015a591e7c6675d6ed6c810f339"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ImageConversion::ResizeMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339">widthResizeMethod</a> = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65">ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER</a></td></tr>
+<tr class="separator:acb8ac015a591e7c6675d6ed6c810f339"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26ed8e6bcb15408c99d8562f63374b7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ImageConversion::ResizeMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac26ed8e6bcb15408c99d8562f63374b7">heightResizeMethod</a> = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65">ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER</a></td></tr>
+<tr class="separator:ac26ed8e6bcb15408c99d8562f63374b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abc68ffca02d11580254d524c59cecfd2"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be">ImageConversion::ResizeFilter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abc68ffca02d11580254d524c59cecfd2">filter</a> = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beaad6fddf718ad19b063e02fdd7e8e3e65">ImageConversion::ResizeFilter::BILINEAR</a></td></tr>
+<tr class="separator:abc68ffca02d11580254d524c59cecfd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12cf74165936d5f2ff1239aa00a0afd3"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a12cf74165936d5f2ff1239aa00a0afd3">initialFrameCount</a> = 1</td></tr>
+<tr class="separator:a12cf74165936d5f2ff1239aa00a0afd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4689cf620be30181df735192656d861c"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a4689cf620be30181df735192656d861c">initialSliceCount</a> = 1</td></tr>
+<tr class="separator:a4689cf620be30181df735192656d861c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a88cfc13c28524148e79f53d367e39a7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c">isCubeMap</a> = false</td></tr>
+<tr class="separator:a88cfc13c28524148e79f53d367e39a7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f341ca72505496a468a2df1c0fc2a2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3f341ca72505496a468a2df1c0fc2a2a">createMips</a> = true</td></tr>
+<tr class="separator:a3f341ca72505496a468a2df1c0fc2a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5f38da3921a42d14b6d1b7fb3a01e3b7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5f38da3921a42d14b6d1b7fb3a01e3b7">createThumbnail</a> = true</td></tr>
+<tr class="separator:a5f38da3921a42d14b6d1b7fb3a01e3b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ddda1fb38043c7e091208018d348a2a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5ddda1fb38043c7e091208018d348a2a">createReflectivity</a> = true</td></tr>
+<tr class="separator:a5ddda1fb38043c7e091208018d348a2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac04b371682934a1c017f2b84b3dcf4df"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51a">Flags</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac04b371682934a1c017f2b84b3dcf4df">flags</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aac5fd199640935ab041c57f4dec3c2ffb">FLAG_NONE</a></td></tr>
+<tr class="separator:ac04b371682934a1c017f2b84b3dcf4df"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf53fea7afbef857a7008777eb21f816"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adf53fea7afbef857a7008777eb21f816">bumpMapScale</a> = 1.f</td></tr>
+<tr class="separator:adf53fea7afbef857a7008777eb21f816"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26f65bdf88549c6f7c153ed178797ab5"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a26f65bdf88549c6f7c153ed178797ab5">startFrame</a> = 0</td></tr>
+<tr class="separator:a26f65bdf88549c6f7c153ed178797ab5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3615c0fd225aa764a074a222834f4864"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3615c0fd225aa764a074a222834f4864">compressionLevel</a> = 6</td></tr>
+<tr class="separator:a3615c0fd225aa764a074a222834f4864"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00148">148</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+</div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="adf53fea7afbef857a7008777eb21f816"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf53fea7afbef857a7008777eb21f816">&#9670;&nbsp;</a></span>bumpMapScale</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">float vtfpp::VTF::CreationOptions::bumpMapScale = 1.f</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00162">162</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a3615c0fd225aa764a074a222834f4864"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3615c0fd225aa764a074a222834f4864">&#9670;&nbsp;</a></span>compressionLevel</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t vtfpp::VTF::CreationOptions::compressionLevel = 6</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00164">164</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a3f341ca72505496a468a2df1c0fc2a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f341ca72505496a468a2df1c0fc2a2a">&#9670;&nbsp;</a></span>createMips</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool vtfpp::VTF::CreationOptions::createMips = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00158">158</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a5ddda1fb38043c7e091208018d348a2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ddda1fb38043c7e091208018d348a2a">&#9670;&nbsp;</a></span>createReflectivity</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool vtfpp::VTF::CreationOptions::createReflectivity = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00160">160</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a5f38da3921a42d14b6d1b7fb3a01e3b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5f38da3921a42d14b6d1b7fb3a01e3b7">&#9670;&nbsp;</a></span>createThumbnail</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool vtfpp::VTF::CreationOptions::createThumbnail = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00159">159</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="abc68ffca02d11580254d524c59cecfd2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abc68ffca02d11580254d524c59cecfd2">&#9670;&nbsp;</a></span>filter</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be">ImageConversion::ResizeFilter</a> vtfpp::VTF::CreationOptions::filter = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beaad6fddf718ad19b063e02fdd7e8e3e65">ImageConversion::ResizeFilter::BILINEAR</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00154">154</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="ac04b371682934a1c017f2b84b3dcf4df"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac04b371682934a1c017f2b84b3dcf4df">&#9670;&nbsp;</a></span>flags</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51a">Flags</a> vtfpp::VTF::CreationOptions::flags = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aac5fd199640935ab041c57f4dec3c2ffb">FLAG_NONE</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00161">161</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="ac26ed8e6bcb15408c99d8562f63374b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac26ed8e6bcb15408c99d8562f63374b7">&#9670;&nbsp;</a></span>heightResizeMethod</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ImageConversion::ResizeMethod</a> vtfpp::VTF::CreationOptions::heightResizeMethod = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65">ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00153">153</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a12cf74165936d5f2ff1239aa00a0afd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a12cf74165936d5f2ff1239aa00a0afd3">&#9670;&nbsp;</a></span>initialFrameCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t vtfpp::VTF::CreationOptions::initialFrameCount = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00155">155</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a4689cf620be30181df735192656d861c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4689cf620be30181df735192656d861c">&#9670;&nbsp;</a></span>initialSliceCount</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t vtfpp::VTF::CreationOptions::initialSliceCount = 1</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00156">156</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a88cfc13c28524148e79f53d367e39a7c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a88cfc13c28524148e79f53d367e39a7c">&#9670;&nbsp;</a></span>isCubeMap</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool vtfpp::VTF::CreationOptions::isCubeMap = false</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00157">157</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a7cc61a7b6a8560c89d76b75f894b2845"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7cc61a7b6a8560c89d76b75f894b2845">&#9670;&nbsp;</a></span>majorVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vtfpp::VTF::CreationOptions::majorVersion = 7</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00149">149</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a3697bca5e9413dc3ccd89730a307ed83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3697bca5e9413dc3ccd89730a307ed83">&#9670;&nbsp;</a></span>minorVersion</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint32_t vtfpp::VTF::CreationOptions::minorVersion = 4</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00150">150</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="af915802e60a9d07349e8f3ab2c5dbe94"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af915802e60a9d07349e8f3ab2c5dbe94">&#9670;&nbsp;</a></span>outputFormat</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> vtfpp::VTF::CreationOptions::outputFormat = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7d6ca398077bb5152c6473384fb97438">FORMAT_DEFAULT</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00151">151</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="a26f65bdf88549c6f7c153ed178797ab5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a26f65bdf88549c6f7c153ed178797ab5">&#9670;&nbsp;</a></span>startFrame</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint16_t vtfpp::VTF::CreationOptions::startFrame = 0</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00163">163</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<a id="acb8ac015a591e7c6675d6ed6c810f339"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acb8ac015a591e7c6675d6ed6c810f339">&#9670;&nbsp;</a></span>widthResizeMethod</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ImageConversion::ResizeMethod</a> vtfpp::VTF::CreationOptions::widthResizeMethod = <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65">ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/db3/vtfpp_8h_source.html#l00152">152</a> of file <a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>include/vtfpp/<a class="el" href="../../d3/db3/vtfpp_8h_source.html">vtfpp.h</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../de/d90/namespacevtfpp.html">vtfpp</a></li><li class="navelem"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html">VTF</a></li><li class="navelem"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1 </li>
+  </ul>
+</div>
+</body>
+</html>

@@ -128,8 +128,6 @@ var hierarchy =
     [ "vpkpp::VPK::Header2", "d2/d8d/structvpkpp_1_1VPK_1_1Header2.html", null ],
     [ "vpkpp::VPK::MD5Entry", "dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html", null ],
     [ "vtfpp::Resource", "d3/d80/structvtfpp_1_1Resource.html", null ],
-    [ "vtfpp::VTF", "d8/df2/classvtfpp_1_1VTF.html", [
-      [ "vtfpp::VTFWriter", "d0/d83/classvtfpp_1_1VTFWriter.html", null ]
-    ] ],
-    [ "vtfpp::VTFWriter::CreationOptions", "d6/d2c/structvtfpp_1_1VTFWriter_1_1CreationOptions.html", null ]
+    [ "vtfpp::VTF", "d8/df2/classvtfpp_1_1VTF.html", null ],
+    [ "vtfpp::VTF::CreationOptions", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html", null ]
 ];
