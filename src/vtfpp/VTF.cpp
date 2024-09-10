@@ -501,10 +501,14 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		this->format = newFormat;
 		return;
 	}
+	auto newMipCount = this->mipCount;
+	if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommendedCount) {
+		newMipCount = recommendedCount;
+	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else if (this->format != newFormat) {
-		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	}
 }
 
