@@ -65,6 +65,24 @@ Resource::ConvertedData Resource::convertData() const {
 	return {};
 }
 
+VTF::VTF() {
+	this->majorVersion = 7;
+	this->minorVersion = 4;
+
+	this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
+
+	this->format = ImageFormat::EMPTY;
+	this->thumbnailFormat = ImageFormat::EMPTY;
+
+	this->width = 0;
+	this->height = 0;
+	this->mipCount = 0;
+	this->frameCount = 0;
+	this->sliceCount = 0;
+
+	this->opened = true;
+}
+
 VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
@@ -117,8 +135,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		auto resourceCount = stream.read<uint32_t>();
 		stream.skip(8);
 
-		if (resourceCount > VTF_MAX_RESOURCES) {
-			resourceCount = VTF_MAX_RESOURCES;
+		if (resourceCount > VTF::MAX_RESOURCES) {
+			resourceCount = VTF::MAX_RESOURCES;
 		}
 		this->resources.reserve(resourceCount);
 
@@ -202,6 +220,11 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			});
 		}
 	}
+
+	if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
+		this->compressionLevel = static_cast<int8_t>(resource->getDataAsAuxCompressionLevel());
+		this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
+	}
 }
 
 VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly)
@@ -214,12 +237,201 @@ VTF::operator bool() const {
 	return this->opened;
 }
 
+ImageFormat VTF::getDefaultFormat() const {
+	if (this->format != ImageFormat::EMPTY) {
+		if (ImageFormatDetails::decompressedAlpha(this->format) > 0) {
+			if (this->majorVersion >= 7 && this->minorVersion >= 6) {
+				return ImageFormat::BC7;
+			}
+			return ImageFormat::DXT5;
+		}
+	}
+	return ImageFormat::DXT1;
+}
+
+void VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+	VTF writer;
+	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.addFlags(options.flags);
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	writer.setImage(imageData, format, width, height, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
+	writer.setBumpMapScale(options.bumpMapScale);
+	if (options.createReflectivity) {
+		writer.computeReflectivity();
+	}
+	if (options.createThumbnail) {
+		writer.computeThumbnail();
+	}
+	if (options.outputFormat == FORMAT_DEFAULT) {
+		options.outputFormat = writer.getDefaultFormat();
+	}
+	if (options.createMips) {
+		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
+		writer.computeMips();
+	}
+	writer.setFormat(options.outputFormat);
+	writer.setCompressionLevel(options.compressionLevel);
+	writer.bake(vtfPath);
+}
+
+VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
+	VTF writer;
+	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.addFlags(options.flags);
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	writer.setImage(imageData, format, width, height, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
+	writer.setBumpMapScale(options.bumpMapScale);
+	if (options.createReflectivity) {
+		writer.computeReflectivity();
+	}
+	if (options.createThumbnail) {
+		writer.computeThumbnail();
+	}
+	if (options.outputFormat == FORMAT_DEFAULT) {
+		options.outputFormat = writer.getDefaultFormat();
+	}
+	if (options.createMips) {
+		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
+		writer.computeMips();
+	}
+	writer.setFormat(options.outputFormat);
+	writer.setCompressionLevel(options.compressionLevel);
+	return writer;
+}
+
+void VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
+	VTF writer;
+	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.addFlags(options.flags);
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	writer.setImage(imagePath, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
+	writer.setBumpMapScale(options.bumpMapScale);
+	if (options.createReflectivity) {
+		writer.computeReflectivity();
+	}
+	if (options.createThumbnail) {
+		writer.computeThumbnail();
+	}
+	if (options.outputFormat == FORMAT_DEFAULT) {
+		options.outputFormat = writer.getDefaultFormat();
+	}
+	if (options.createMips) {
+		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
+		writer.computeMips();
+	}
+	writer.setFormat(options.outputFormat);
+	writer.setCompressionLevel(options.compressionLevel);
+	writer.bake(vtfPath);
+}
+
+VTF VTF::create(const std::string& imagePath, CreationOptions options) {
+	VTF writer;
+	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.addFlags(options.flags);
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	writer.setImage(imagePath, options.filter);
+	if (options.initialFrameCount > 1) {
+		writer.setFrameCount(options.initialFrameCount);
+	}
+	if (options.isCubeMap) {
+		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME);
+	}
+	if (options.initialSliceCount > 1) {
+		writer.setSliceCount(options.initialSliceCount);
+	}
+	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
+		writer.setStartFrame(options.startFrame);
+	}
+	writer.setBumpMapScale(options.bumpMapScale);
+	if (options.createReflectivity) {
+		writer.computeReflectivity();
+	}
+	if (options.createThumbnail) {
+		writer.computeThumbnail();
+	}
+	if (options.outputFormat == FORMAT_DEFAULT) {
+		options.outputFormat = writer.getDefaultFormat();
+	}
+	if (options.createMips) {
+		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
+		writer.computeMips();
+	}
+	writer.setFormat(options.outputFormat);
+	writer.setCompressionLevel(options.compressionLevel);
+	return writer;
+}
+
 uint32_t VTF::getMajorVersion() const {
 	return this->majorVersion;
 }
 
 uint32_t VTF::getMinorVersion() const {
 	return this->minorVersion;
+}
+
+void VTF::setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion) {
+	this->setMajorVersion(newMajorVersion);
+	this->setMinorVersion(newMinorVersion);
+}
+
+void VTF::setMajorVersion(uint32_t newMajorVersion) {
+	this->majorVersion = newMajorVersion;
+}
+
+void VTF::setMinorVersion(uint32_t newMinorVersion) {
+	if (this->hasImageData()) {
+		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, newMinorVersion, this->flags, this->startFrame), this->sliceCount);
+	}
+	this->minorVersion = newMinorVersion;
+}
+
+ImageConversion::ResizeMethod VTF::getImageWidthResizeMethod() const {
+	return this->imageWidthResizeMethod;
+}
+
+ImageConversion::ResizeMethod VTF::getImageHeightResizeMethod() const {
+	return this->imageHeightResizeMethod;
+}
+
+void VTF::setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_) {
+	this->imageWidthResizeMethod = imageWidthResizeMethod_;
+	this->imageHeightResizeMethod = imageHeightResizeMethod_;
 }
 
 uint16_t VTF::getWidth(uint8_t mip) const {
@@ -230,20 +442,135 @@ uint16_t VTF::getHeight(uint8_t mip) const {
 	return mip > 0 ? ImageDimensions::getMipDim(mip, this->height) : this->height;
 }
 
+void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter) {
+	if (newWidth == 0 || newHeight == 0) {
+		this->format = ImageFormat::EMPTY;
+		this->width = 0;
+		this->height = 0;
+		this->removeResourceInternal(Resource::TYPE_IMAGE_DATA);
+		return;
+	}
+
+	ImageConversion::setResizedDims(newWidth, this->imageWidthResizeMethod, newHeight, this->imageHeightResizeMethod);
+	if (this->hasImageData()) {
+		if (this->width == newWidth && this->height == newHeight) {
+			return;
+		}
+		auto newMipCount = this->mipCount;
+		if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
+			newMipCount = recommendedCount;
+		}
+		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+	} else {
+		this->format = ImageFormat::RGBA8888;
+		this->mipCount = 1;
+		this->frameCount = 1;
+		this->flags &= ~FLAG_ENVMAP;
+		this->width = newWidth;
+		this->height = newHeight;
+		this->sliceCount = 1;
+		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount)));
+	}
+}
+
 VTF::Flags VTF::getFlags() const {
 	return this->flags;
+}
+
+void VTF::setFlags(Flags flags_) {
+	this->flags = static_cast<Flags>((this->flags & FLAG_MASK_GENERATED) | (flags_ & ~FLAG_MASK_GENERATED));
+}
+
+void VTF::addFlags(Flags flags_) {
+	this->flags |= static_cast<Flags>(flags_ & ~FLAG_MASK_GENERATED);
+}
+
+void VTF::removeFlags(Flags flags_) {
+	this->flags &= static_cast<Flags>(~flags_ | FLAG_MASK_GENERATED);
 }
 
 ImageFormat VTF::getFormat() const {
 	return this->format;
 }
 
+void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter) {
+	if (newFormat == FORMAT_DEFAULT) {
+		newFormat = this->getDefaultFormat();
+	}
+	if (!this->hasImageData()) {
+		this->format = newFormat;
+		return;
+	}
+	if (ImageFormatDetails::compressed(newFormat)) {
+		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+	} else {
+		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+	}
+}
+
 uint8_t VTF::getMipCount() const {
 	return this->mipCount;
 }
 
+bool VTF::setMipCount(uint8_t newMipCount) {
+	if (!this->hasImageData()) {
+		return false;
+	}
+	if (auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
+		newMipCount = recommended;
+		if (newMipCount == 1) {
+			return false;
+		}
+	}
+	if (newMipCount > 1) {
+		this->flags &= ~(FLAG_NO_MIP | FLAG_NO_LOD);
+	} else {
+		this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
+	}
+	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
+	return true;
+}
+
+bool VTF::setRecommendedMipCount() {
+	return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
+}
+
+void VTF::computeMips(ImageConversion::ResizeFilter filter) {
+	auto* imageResource = this->getResourceInternal(Resource::TYPE_IMAGE_DATA);
+	if (!imageResource || !this->hasImageData()) {
+		return;
+	}
+
+	if (this->mipCount <= 1) {
+		if (!this->setRecommendedMipCount() || this->mipCount <= 1) {
+			return;
+		}
+	}
+
+	for (int i = 1; i < this->mipCount; i++) {
+		for (int j = 0; j < this->frameCount; j++) {
+			for (int k = 0; k < this->getFaceCount(); k++) {
+				for (int l = 0; l < this->sliceCount; l++) {
+					auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
+					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, this->getFaceCount(), this->width, this->height, l, this->sliceCount) && mip.size() == length) {
+						std::memcpy(imageResource->data.data() + offset, mip.data(), mip.size());
+					}
+				}
+			}
+		}
+	}
+}
+
 uint16_t VTF::getFrameCount() const {
 	return this->frameCount;
+}
+
+bool VTF::setFrameCount(uint16_t newFrameCount) {
+	if (!this->hasImageData()) {
+		return false;
+	}
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, this->getFaceCount(), this->sliceCount);
+	return true;
 }
 
 uint8_t VTF::getFaceCount() const {
@@ -251,23 +578,98 @@ uint8_t VTF::getFaceCount() const {
 }
 
 uint8_t VTF::getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame) {
-	return (width && height) ? ((flags & VTF::FLAG_ENVMAP) ? ((majorVersion == 7 && minorVersion >= 1 && minorVersion <= 4 && startFrame == VTF_SPHEREMAP_START_FRAME) ? 7 : 6) : 1) : 0;
+	return (width && height) ? ((flags & VTF::FLAG_ENVMAP) ? ((majorVersion == 7 && minorVersion >= 1 && minorVersion <= 4 && startFrame == VTF::SPHEREMAP_START_FRAME) ? 7 : 6) : 1) : 0;
 }
+
+bool VTF::setFaceCount(bool hasMultipleFaces, bool hasSphereMap) {
+	if (!this->hasImageData()) {
+		return false;
+	}
+	if (!hasSphereMap && this->startFrame == VTF::SPHEREMAP_START_FRAME) {
+		this->startFrame = 0;
+	}
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, this->minorVersion, hasMultipleFaces ? this->flags | FLAG_ENVMAP : this->flags & ~FLAG_ENVMAP, hasSphereMap ? VTF::SPHEREMAP_START_FRAME : this->startFrame), this->sliceCount);
+	return true;
+}
+
+/*
+bool VTF::computeSphereMap() {
+	if (this->getFaceCount() != 7) {
+		return false;
+	}
+	// compute spheremap here
+	return true;
+}
+*/
 
 uint16_t VTF::getSliceCount() const {
 	return this->sliceCount;
+}
+
+bool VTF::setSliceCount(uint16_t newSliceCount) {
+	if (!this->hasImageData()) {
+		return false;
+	}
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), newSliceCount);
+	return true;
 }
 
 uint16_t VTF::getStartFrame() const {
 	return this->startFrame;
 }
 
+bool VTF::setStartFrame(uint16_t newStartFrame) {
+	if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && (this->flags & FLAG_ENVMAP) && ((this->startFrame == VTF::SPHEREMAP_START_FRAME && newStartFrame != VTF::SPHEREMAP_START_FRAME) || (this->startFrame != VTF::SPHEREMAP_START_FRAME && newStartFrame == VTF::SPHEREMAP_START_FRAME))) {
+		this->startFrame = newStartFrame;
+		return this->setFaceCount(true, this->startFrame == VTF::SPHEREMAP_START_FRAME);
+	}
+	this->startFrame = newStartFrame;
+	return true;
+}
+
 math::Vec3f VTF::getReflectivity() const {
 	return this->reflectivity;
 }
 
+void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
+	this->reflectivity = newReflectivity;
+}
+
+void VTF::computeReflectivity() {
+	this->reflectivity = {};
+	for (int j = 0; j < this->frameCount; j++) {
+		math::Vec3f facesOut{};
+		for (int k = 0; k < this->getFaceCount(); k++) {
+			math::Vec3f slicesOut{};
+			for (int l = 0; l < this->sliceCount; l++) {
+				auto rgba8888Data = this->getImageDataAsRGBA8888(0, j, k, l);
+
+				math::Vec3f sliceOut{};
+				for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
+					// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
+					math::Vec3f pixel{static_cast<float>(rgba8888Data[i]), static_cast<float>(rgba8888Data[i+1]), static_cast<float>(rgba8888Data[i+2])};
+					pixel /= 255.f * 0.9f;
+					pixel[0] *= pixel[0];
+					pixel[1] *= pixel[1];
+					pixel[2] *= pixel[2];
+					sliceOut += pixel;
+				}
+				sliceOut /= rgba8888Data.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8);
+				slicesOut += sliceOut;
+			}
+			facesOut += slicesOut / this->sliceCount;
+		}
+		this->reflectivity += facesOut / this->getFaceCount();
+	}
+	this->reflectivity /= this->frameCount;
+}
+
 float VTF::getBumpMapScale() const {
 	return this->bumpMapScale;
+}
+
+void VTF::setBumpMapScale(float newBumpMapScale) {
+	this->bumpMapScale = newBumpMapScale;
 }
 
 ImageFormat VTF::getThumbnailFormat() const {
@@ -364,7 +766,140 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 }
 
 void VTF::removeResourceInternal(Resource::Type type) {
-	this->setResourceInternal(type, {});
+	this->resources.erase(std::remove_if(this->resources.begin(), this->resources.end(), [type](const Resource& resource) { return resource.type == type; }), this->resources.end());
+}
+
+void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter) {
+	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFaceCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
+		return;
+	}
+
+	std::vector<std::byte> newImageData;
+	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFaceCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
+			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
+		} else {
+			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
+			for (int i = newMipCount - 1; i >= 0; i--) {
+				for (int j = 0; j < newFrameCount; j++) {
+					for (int k = 0; k < newFaceCount; k++) {
+						for (int l = 0; l < newSliceCount; l++) {
+							if (i < this->mipCount && j < this->frameCount && k < this->getFaceCount() && l < this->sliceCount) {
+								auto imageSpan = this->getImageDataRaw(i, j, k, l);
+								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
+								if (this->width != newWidth || this->height != newHeight) {
+									image = ImageConversion::resizeImageData(image, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, newWidth), ImageDimensions::getMipDim(i, this->height), ImageDimensions::getMipDim(i, newHeight), this->imageDataIsSRGB(), filter);
+								}
+								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newSliceCount) && image.size() == length) {
+									std::memcpy(newImageData.data() + offset, image.data(), image.size());
+								}
+							}
+						}
+					}
+				}
+			}
+			if (this->format != newFormat) {
+				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFaceCount, newFaceCount, newWidth, newHeight, newSliceCount);
+			}
+		}
+	} else {
+		newImageData.resize(ImageFormatDetails::getDataLength(newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
+	}
+
+	this->format = newFormat;
+	this->width = newWidth;
+	this->height = newHeight;
+	this->mipCount = newMipCount;
+	this->frameCount = newFrameCount;
+	if (newFaceCount > 1) {
+		this->flags |= FLAG_ENVMAP;
+		if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && newFaceCount == 7) {
+			this->startFrame = VTF::SPHEREMAP_START_FRAME;
+		} else if (this->startFrame == VTF::SPHEREMAP_START_FRAME) {
+			this->startFrame = 0;
+		}
+	} else {
+		this->flags &= ~FLAG_ENVMAP;
+	}
+	this->sliceCount = newSliceCount;
+
+	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
+}
+
+void VTF::setParticleSheetResource(std::span<const std::byte> value) {
+	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, value);
+}
+
+void VTF::removeParticleSheetResource() {
+	this->removeResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA);
+}
+
+void VTF::setCRCResource(uint32_t value) {
+	std::vector<std::byte> crcData;
+	BufferStream writer{crcData};
+
+	writer.write<uint32_t>(value);
+	crcData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_CRC, crcData);
+}
+
+void VTF::removeCRCResource() {
+	this->removeResourceInternal(Resource::TYPE_CRC);
+}
+
+void VTF::setLODResource(uint8_t u, uint8_t v) {
+	std::vector<std::byte> lodData;
+	BufferStream writer{lodData};
+
+	writer
+		.write<uint8_t>(u)
+		.write<uint8_t>(v)
+		.write<uint16_t>(0);
+	lodData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_LOD_CONTROL_INFO, lodData);
+}
+
+void VTF::removeLODResource() {
+	this->removeResourceInternal(Resource::TYPE_LOD_CONTROL_INFO);
+}
+
+void VTF::setExtendedFlagsResource(uint32_t value) {
+	std::vector<std::byte> extendedFlagsData;
+	BufferStream writer{extendedFlagsData};
+
+	writer.write<uint32_t>(value);
+	extendedFlagsData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_EXTENDED_FLAGS, extendedFlagsData);
+}
+
+void VTF::removeExtendedFlagsResource() {
+	this->removeResourceInternal(Resource::TYPE_EXTENDED_FLAGS);
+}
+
+void VTF::setKeyValuesData(const std::string& value) {
+	std::vector<std::byte> keyValuesData;
+	BufferStream writer{keyValuesData};
+
+	writer.write<uint32_t>(value.size());
+	writer.write(value, false);
+	keyValuesData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_KEYVALUES_DATA, keyValuesData);
+}
+
+void VTF::removeKeyValuesData() {
+	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
+}
+
+uint8_t VTF::getCompressionLevel() const {
+	return this->compressionLevel;
+}
+
+void VTF::setCompressionLevel(uint8_t newCompressionLevel) {
+	this->compressionLevel = newCompressionLevel;
 }
 
 bool VTF::hasImageData() const {
@@ -396,540 +931,7 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
 }
 
-std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
-}
-
-void VTF::convertAndSaveImageDataToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	if (auto data_ = this->convertAndSaveImageDataToFile(mip, frame, face, slice); !data_.empty()) {
-		fs::writeFileBuffer(imagePath, data_);
-	}
-}
-
-bool VTF::hasThumbnailData() const {
-	return this->thumbnailFormat != ImageFormat::EMPTY && this->thumbnailWidth > 0 && this->thumbnailHeight > 0;
-}
-
-std::span<const std::byte> VTF::getThumbnailDataRaw() const {
-	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
-		return thumbnailResource->data;
-	}
-	return {};
-}
-
-std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
-	auto rawThumbnailData = this->getThumbnailDataRaw();
-	if (rawThumbnailData.empty()) {
-		return {};
-	}
-	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
-}
-
-std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
-	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
-}
-
-std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
-	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-}
-
-void VTF::convertAndSaveThumbnailDataToFile(const std::string& imagePath) const {
-	if (auto data_ = this->convertAndSaveThumbnailDataToFile(); !data_.empty()) {
-		fs::writeFileBuffer(imagePath, data_);
-	}
-}
-
-VTFWriter::VTFWriter()
-		: VTF() {
-	this->majorVersion = 7;
-	this->minorVersion = 4;
-
-	this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
-
-	this->format = ImageFormat::EMPTY;
-	this->thumbnailFormat = ImageFormat::EMPTY;
-
-	this->width = 0;
-	this->height = 0;
-	this->mipCount = 0;
-	this->frameCount = 0;
-	this->sliceCount = 0;
-
-	this->opened = true;
-}
-
-VTFWriter::VTFWriter(std::vector<std::byte>&& vtfData)
-		: VTF(std::move(vtfData)) {
-	if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
-		this->compressionLevel = static_cast<int8_t>(resource->getDataAsAuxCompressionLevel());
-		this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
-	}
-}
-
-VTFWriter::VTFWriter(const std::string& vtfPath)
-		: VTFWriter(fs::readFileBuffer(vtfPath)) {}
-
-void VTFWriter::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
-	VTFWriter writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
-	writer.addFlags(options.flags);
-	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imageData, format, width, height, options.filter);
-	if (options.initialFrameCount > 1) {
-		writer.setFrameCount(options.initialFrameCount);
-	}
-	if (options.isCubeMap) {
-		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
-	}
-	if (options.initialSliceCount > 1) {
-		writer.setSliceCount(options.initialSliceCount);
-	}
-	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
-		writer.setStartFrame(options.startFrame);
-	}
-	writer.setBumpMapScale(options.bumpMapScale);
-	if (options.createReflectivity) {
-		writer.computeReflectivity();
-	}
-	if (options.createThumbnail) {
-		writer.computeThumbnail();
-	}
-	if (options.outputFormat == FORMAT_DEFAULT) {
-		options.outputFormat = writer.getDefaultFormat();
-	}
-	if (options.createMips) {
-		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
-		writer.computeMips();
-	}
-	writer.setFormat(options.outputFormat);
-	writer.setCompressionLevel(options.compressionLevel);
-	writer.bake(vtfPath);
-}
-
-VTFWriter VTFWriter::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
-	VTFWriter writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
-	writer.addFlags(options.flags);
-	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imageData, format, width, height, options.filter);
-	if (options.initialFrameCount > 1) {
-		writer.setFrameCount(options.initialFrameCount);
-	}
-	if (options.isCubeMap) {
-		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
-	}
-	if (options.initialSliceCount > 1) {
-		writer.setSliceCount(options.initialSliceCount);
-	}
-	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
-		writer.setStartFrame(options.startFrame);
-	}
-	writer.setBumpMapScale(options.bumpMapScale);
-	if (options.createReflectivity) {
-		writer.computeReflectivity();
-	}
-	if (options.createThumbnail) {
-		writer.computeThumbnail();
-	}
-	if (options.outputFormat == FORMAT_DEFAULT) {
-		options.outputFormat = writer.getDefaultFormat();
-	}
-	if (options.createMips) {
-		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
-		writer.computeMips();
-	}
-	writer.setFormat(options.outputFormat);
-	writer.setCompressionLevel(options.compressionLevel);
-	return writer;
-}
-
-void VTFWriter::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
-	VTFWriter writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
-	writer.addFlags(options.flags);
-	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imagePath, options.filter);
-	if (options.initialFrameCount > 1) {
-		writer.setFrameCount(options.initialFrameCount);
-	}
-	if (options.isCubeMap) {
-		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
-	}
-	if (options.initialSliceCount > 1) {
-		writer.setSliceCount(options.initialSliceCount);
-	}
-	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
-		writer.setStartFrame(options.startFrame);
-	}
-	writer.setBumpMapScale(options.bumpMapScale);
-	if (options.createReflectivity) {
-		writer.computeReflectivity();
-	}
-	if (options.createThumbnail) {
-		writer.computeThumbnail();
-	}
-	if (options.outputFormat == FORMAT_DEFAULT) {
-		options.outputFormat = writer.getDefaultFormat();
-	}
-	if (options.createMips) {
-		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
-		writer.computeMips();
-	}
-	writer.setFormat(options.outputFormat);
-	writer.setCompressionLevel(options.compressionLevel);
-	writer.bake(vtfPath);
-}
-
-VTFWriter VTFWriter::create(const std::string& imagePath, CreationOptions options) {
-	VTFWriter writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
-	writer.addFlags(options.flags);
-	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imagePath, options.filter);
-	if (options.initialFrameCount > 1) {
-		writer.setFrameCount(options.initialFrameCount);
-	}
-	if (options.isCubeMap) {
-		writer.setFaceCount(options.isCubeMap, options.startFrame == VTF_SPHEREMAP_START_FRAME);
-	}
-	if (options.initialSliceCount > 1) {
-		writer.setSliceCount(options.initialSliceCount);
-	}
-	if (options.startFrame != VTF_SPHEREMAP_START_FRAME) {
-		writer.setStartFrame(options.startFrame);
-	}
-	writer.setBumpMapScale(options.bumpMapScale);
-	if (options.createReflectivity) {
-		writer.computeReflectivity();
-	}
-	if (options.createThumbnail) {
-		writer.computeThumbnail();
-	}
-	if (options.outputFormat == FORMAT_DEFAULT) {
-		options.outputFormat = writer.getDefaultFormat();
-	}
-	if (options.createMips) {
-		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
-		writer.computeMips();
-	}
-	writer.setFormat(options.outputFormat);
-	writer.setCompressionLevel(options.compressionLevel);
-	return writer;
-}
-
-void VTFWriter::setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion) {
-	this->setMajorVersion(newMajorVersion);
-	this->setMinorVersion(newMinorVersion);
-}
-
-void VTFWriter::setMajorVersion(uint32_t newMajorVersion) {
-	this->majorVersion = newMajorVersion;
-}
-
-void VTFWriter::setMinorVersion(uint32_t newMinorVersion) {
-	if (this->hasImageData()) {
-		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, newMinorVersion, this->flags, this->startFrame), this->sliceCount);
-	}
-	this->minorVersion = newMinorVersion;
-}
-
-ImageConversion::ResizeMethod VTFWriter::getImageWidthResizeMethod() const {
-	return this->imageWidthResizeMethod;
-}
-
-ImageConversion::ResizeMethod VTFWriter::getImageHeightResizeMethod() const {
-	return this->imageHeightResizeMethod;
-}
-
-void VTFWriter::setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_) {
-	this->imageWidthResizeMethod = imageWidthResizeMethod_;
-	this->imageHeightResizeMethod = imageHeightResizeMethod_;
-}
-
-void VTFWriter::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter) {
-	if (newWidth == 0 || newHeight == 0) {
-		this->format = ImageFormat::EMPTY;
-		this->width = 0;
-		this->height = 0;
-		this->removeResourceInternal(Resource::TYPE_IMAGE_DATA);
-		return;
-	}
-
-	ImageConversion::setResizedDims(newWidth, this->imageWidthResizeMethod, newHeight, this->imageHeightResizeMethod);
-	if (this->hasImageData()) {
-		if (this->width == newWidth && this->height == newHeight) {
-			return;
-		}
-		auto newMipCount = this->mipCount;
-		if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
-			newMipCount = recommendedCount;
-		}
-		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
-	} else {
-		this->format = ImageFormat::RGBA8888;
-		this->mipCount = 1;
-		this->frameCount = 1;
-		this->flags &= ~FLAG_ENVMAP;
-		this->width = newWidth;
-		this->height = newHeight;
-		this->sliceCount = 1;
-		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount)));
-	}
-}
-
-void VTFWriter::setFlags(Flags flags_) {
-	this->flags = static_cast<Flags>((this->flags & FLAG_MASK_GENERATED) | (flags_ & ~FLAG_MASK_GENERATED));
-}
-
-void VTFWriter::addFlags(Flags flags_) {
-	this->flags |= static_cast<Flags>(flags_ & ~FLAG_MASK_GENERATED);
-}
-
-void VTFWriter::removeFlags(Flags flags_) {
-	this->flags &= static_cast<Flags>(~flags_ | FLAG_MASK_GENERATED);
-}
-
-void VTFWriter::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter) {
-	if (newFormat == FORMAT_DEFAULT) {
-		newFormat = this->getDefaultFormat();
-	}
-	if (!this->hasImageData()) {
-		this->format = newFormat;
-		return;
-	}
-	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
-	} else {
-		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
-	}
-}
-
-bool VTFWriter::setMipCount(uint8_t newMipCount) {
-	if (!this->hasImageData()) {
-		return false;
-	}
-	if (auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
-		newMipCount = recommended;
-		if (newMipCount == 1) {
-			return false;
-		}
-	}
-	if (newMipCount > 1) {
-		this->flags &= ~(FLAG_NO_MIP | FLAG_NO_LOD);
-	} else {
-		this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
-	return true;
-}
-
-bool VTFWriter::setRecommendedMipCount() {
-	return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
-}
-
-void VTFWriter::computeMips(ImageConversion::ResizeFilter filter) {
-	auto* imageResource = this->getResourceInternal(Resource::TYPE_IMAGE_DATA);
-	if (!imageResource || !this->hasImageData()) {
-		return;
-	}
-
-	if (this->mipCount <= 1) {
-		if (!this->setRecommendedMipCount() || this->mipCount <= 1) {
-			return;
-		}
-	}
-
-	for (int i = 1; i < this->mipCount; i++) {
-		for (int j = 0; j < this->frameCount; j++) {
-			for (int k = 0; k < this->getFaceCount(); k++) {
-				for (int l = 0; l < this->sliceCount; l++) {
-					auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
-					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, this->getFaceCount(), this->width, this->height, l, this->sliceCount) && mip.size() == length) {
-						std::memcpy(imageResource->data.data() + offset, mip.data(), mip.size());
-					}
-				}
-			}
-		}
-	}
-}
-
-bool VTFWriter::setFrameCount(uint16_t newFrameCount) {
-	if (!this->hasImageData()) {
-		return false;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, this->getFaceCount(), this->sliceCount);
-	return true;
-}
-
-bool VTFWriter::setFaceCount(bool hasMultipleFaces, bool hasSphereMap) {
-	if (!this->hasImageData()) {
-		return false;
-	}
-	if (!hasSphereMap && this->startFrame == VTF_SPHEREMAP_START_FRAME) {
-		this->startFrame = 0;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, this->minorVersion, hasMultipleFaces ? this->flags | FLAG_ENVMAP : this->flags & ~FLAG_ENVMAP, hasSphereMap ? VTF_SPHEREMAP_START_FRAME : this->startFrame), this->sliceCount);
-	return true;
-}
-
-bool VTFWriter::setSliceCount(uint16_t newSliceCount) {
-	if (!this->hasImageData()) {
-		return false;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), newSliceCount);
-	return true;
-}
-
-bool VTFWriter::setStartFrame(uint16_t newStartFrame) {
-	if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && (this->flags & FLAG_ENVMAP) && ((this->startFrame == VTF_SPHEREMAP_START_FRAME && newStartFrame != VTF_SPHEREMAP_START_FRAME) || (this->startFrame != VTF_SPHEREMAP_START_FRAME && newStartFrame == VTF_SPHEREMAP_START_FRAME))) {
-		this->startFrame = newStartFrame;
-		return this->setFaceCount(true, this->startFrame == VTF_SPHEREMAP_START_FRAME);
-	}
-	this->startFrame = newStartFrame;
-	return true;
-}
-
-void VTFWriter::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
-	this->reflectivity = newReflectivity;
-}
-
-void VTFWriter::computeReflectivity() {
-	this->reflectivity = {};
-	for (int j = 0; j < this->frameCount; j++) {
-		math::Vec3f facesOut{};
-		for (int k = 0; k < this->getFaceCount(); k++) {
-			math::Vec3f slicesOut{};
-			for (int l = 0; l < this->sliceCount; l++) {
-				auto data = this->getImageDataAsRGBA8888(0, j, k, l);
-
-				math::Vec3f sliceOut{};
-				for (uint64_t i = 0; i < data.size(); i += 4) {
-					// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
-					math::Vec3f pixel{static_cast<float>(data[i]), static_cast<float>(data[i+1]), static_cast<float>(data[i+2])};
-					pixel /= 255.f * 0.9f;
-					pixel[0] *= pixel[0];
-					pixel[1] *= pixel[1];
-					pixel[2] *= pixel[2];
-					sliceOut += pixel;
-				}
-				sliceOut /= data.size() / 4;
-				slicesOut += sliceOut;
-			}
-			facesOut += slicesOut / this->sliceCount;
-		}
-		this->reflectivity += facesOut / this->getFaceCount();
-	}
-	this->reflectivity /= this->frameCount;
-}
-
-void VTFWriter::setBumpMapScale(float newBumpMapScale) {
-	this->bumpMapScale = newBumpMapScale;
-}
-
-void VTFWriter::computeThumbnail(ImageConversion::ResizeFilter filter) {
-	if (!this->hasImageData()) {
-		return;
-	}
-	this->thumbnailFormat = ImageFormat::DXT1;
-	this->thumbnailWidth = 16;
-	this->thumbnailHeight = 16;
-	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->flags & FLAG_SRGB, filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
-}
-
-void VTFWriter::removeThumbnail() {
-	this->thumbnailFormat = ImageFormat::EMPTY;
-	this->thumbnailWidth = 0;
-	this->thumbnailHeight = 0;
-	this->removeResourceInternal(Resource::TYPE_THUMBNAIL_DATA);
-}
-
-/*
-bool VTFWriter::computeSphereMap() {
-	if (this->getFaceCount() != 7) {
-		return false;
-	}
-	...
-	return true;
-}
-*/
-
-void VTFWriter::setParticleSheetResource(std::span<const std::byte> value) {
-	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, value);
-}
-
-void VTFWriter::removeParticleSheetResource() {
-	this->removeResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA);
-}
-
-void VTFWriter::setCRCResource(uint32_t value) {
-	std::vector<std::byte> crcData;
-	BufferStream writer{crcData};
-
-	writer.write<uint32_t>(value);
-	crcData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_CRC, crcData);
-}
-
-void VTFWriter::removeCRCResource() {
-	this->removeResourceInternal(Resource::TYPE_CRC);
-}
-
-void VTFWriter::setLODResource(uint8_t u, uint8_t v) {
-	std::vector<std::byte> lodData;
-	BufferStream writer{lodData};
-
-	writer
-		.write<uint8_t>(u)
-		.write<uint8_t>(v)
-		.write<uint16_t>(0);
-	lodData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_LOD_CONTROL_INFO, lodData);
-}
-
-void VTFWriter::removeLODResource() {
-	this->removeResourceInternal(Resource::TYPE_LOD_CONTROL_INFO);
-}
-
-void VTFWriter::setExtendedFlagsResource(uint32_t value) {
-	std::vector<std::byte> extendedFlagsData;
-	BufferStream writer{extendedFlagsData};
-
-	writer.write<uint32_t>(value);
-	extendedFlagsData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_EXTENDED_FLAGS, extendedFlagsData);
-}
-
-void VTFWriter::removeExtendedFlagsResource() {
-	this->removeResourceInternal(Resource::TYPE_EXTENDED_FLAGS);
-}
-
-void VTFWriter::setKeyValuesData(const std::string& value) {
-	std::vector<std::byte> keyValuesData;
-	BufferStream writer{keyValuesData};
-
-	writer.write<uint32_t>(value.size());
-	writer.write(value, false);
-	keyValuesData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_KEYVALUES_DATA, keyValuesData);
-}
-
-void VTFWriter::removeKeyValuesData() {
-	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
-}
-
-uint8_t VTFWriter::getCompressionLevel() const {
-	return this->compressionLevel;
-}
-
-void VTFWriter::setCompressionLevel(uint8_t newCompressionLevel) {
-	this->compressionLevel = newCompressionLevel;
-}
-
-bool VTFWriter::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
 	uint8_t mips = mip;
 
 	if (!this->hasImageData()) {
@@ -997,7 +999,7 @@ bool VTFWriter::setImage(std::span<const std::byte> imageData_, ImageFormat form
 	return true;
 }
 
-bool VTFWriter::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
 	const auto imageData_ = fs::readFileBuffer(imagePath);
 
 	stbi_convert_iphone_png_to_rgb(true);
@@ -1059,7 +1061,67 @@ bool VTFWriter::setImage(const std::string& imagePath, ImageConversion::ResizeFi
 	}
 }
 
-std::vector<std::byte> VTFWriter::bake() {
+std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+}
+
+void VTF::convertAndSaveImageDataToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	if (auto data_ = this->convertAndSaveImageDataToFile(mip, frame, face, slice); !data_.empty()) {
+		fs::writeFileBuffer(imagePath, data_);
+	}
+}
+
+bool VTF::hasThumbnailData() const {
+	return this->thumbnailFormat != ImageFormat::EMPTY && this->thumbnailWidth > 0 && this->thumbnailHeight > 0;
+}
+
+std::span<const std::byte> VTF::getThumbnailDataRaw() const {
+	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
+		return thumbnailResource->data;
+	}
+	return {};
+}
+
+std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
+	auto rawThumbnailData = this->getThumbnailDataRaw();
+	if (rawThumbnailData.empty()) {
+		return {};
+	}
+	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
+}
+
+std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
+	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
+}
+
+void VTF::computeThumbnail(ImageConversion::ResizeFilter filter) {
+	if (!this->hasImageData()) {
+		return;
+	}
+	this->thumbnailFormat = ImageFormat::DXT1;
+	this->thumbnailWidth = 16;
+	this->thumbnailHeight = 16;
+	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->flags & FLAG_SRGB, filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
+}
+
+void VTF::removeThumbnail() {
+	this->thumbnailFormat = ImageFormat::EMPTY;
+	this->thumbnailWidth = 0;
+	this->thumbnailHeight = 0;
+	this->removeResourceInternal(Resource::TYPE_THUMBNAIL_DATA);
+}
+
+std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
+	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+}
+
+void VTF::convertAndSaveThumbnailDataToFile(const std::string& imagePath) const {
+	if (auto data_ = this->convertAndSaveThumbnailDataToFile(); !data_.empty()) {
+		fs::writeFileBuffer(imagePath, data_);
+	}
+}
+
+std::vector<std::byte> VTF::bake() {
 	std::vector<std::byte> out;
 	BufferStream writer{out};
 
@@ -1174,75 +1236,6 @@ std::vector<std::byte> VTFWriter::bake() {
 	return out;
 }
 
-void VTFWriter::bake(const std::string& vtfPath) {
+void VTF::bake(const std::string& vtfPath) {
 	fs::writeFileBuffer(vtfPath, this->bake());
-}
-
-ImageFormat VTFWriter::getDefaultFormat() const {
-	if (this->format != ImageFormat::EMPTY) {
-		if (ImageFormatDetails::decompressedAlpha(this->format) > 0) {
-			if (this->majorVersion >= 7 && this->minorVersion >= 6) {
-				return ImageFormat::BC7;
-			}
-			return ImageFormat::DXT5;
-		}
-	}
-	return ImageFormat::DXT1;
-}
-
-void VTFWriter::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter) {
-	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFaceCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
-		return;
-	}
-
-	std::vector<std::byte> newImageData;
-	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
-		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFaceCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
-			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
-		} else {
-			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
-			for (int i = newMipCount - 1; i >= 0; i--) {
-				for (int j = 0; j < newFrameCount; j++) {
-					for (int k = 0; k < newFaceCount; k++) {
-						for (int l = 0; l < newSliceCount; l++) {
-							if (i < this->mipCount && j < this->frameCount && k < this->getFaceCount() && l < this->sliceCount) {
-								auto imageSpan = this->getImageDataRaw(i, j, k, l);
-								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
-								if (this->width != newWidth || this->height != newHeight) {
-									image = ImageConversion::resizeImageData(image, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, newWidth), ImageDimensions::getMipDim(i, this->height), ImageDimensions::getMipDim(i, newHeight), this->imageDataIsSRGB(), filter);
-								}
-								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newSliceCount) && image.size() == length) {
-									std::memcpy(newImageData.data() + offset, image.data(), image.size());
-								}
-							}
-						}
-					}
-				}
-			}
-			if (this->format != newFormat) {
-				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFaceCount, newFaceCount, newWidth, newHeight, newSliceCount);
-			}
-		}
-	} else {
-		newImageData.resize(ImageFormatDetails::getDataLength(newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
-	}
-
-	this->format = newFormat;
-	this->width = newWidth;
-	this->height = newHeight;
-	this->mipCount = newMipCount;
-	this->frameCount = newFrameCount;
-	if (newFaceCount > 1) {
-		this->flags |= FLAG_ENVMAP;
-		if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && newFaceCount == 7) {
-			this->startFrame = VTF_SPHEREMAP_START_FRAME;
-		} else if (this->startFrame == VTF_SPHEREMAP_START_FRAME) {
-			this->startFrame = 0;
-		}
-	} else {
-		this->flags &= ~FLAG_ENVMAP;
-	}
-	this->sliceCount = newSliceCount;
-
-	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
 }

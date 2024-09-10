@@ -467,7 +467,7 @@ TEST(vtfpp, read_fmt_uvlx8888) {
 #endif
 
 TEST(vtfpp, write_non_po2) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src_non_po2.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src_non_po2.png", {
 		.widthResizeMethod = ImageConversion::ResizeMethod::NONE,
 		.heightResizeMethod = ImageConversion::ResizeMethod::NONE,
 	});
@@ -533,7 +533,7 @@ TEST(vtfpp, read_v70) {
 }
 
 TEST(vtfpp, write_v70) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
 		.minorVersion = 0,
 	});
 	ASSERT_TRUE(vtf);
@@ -708,7 +708,7 @@ TEST(vtfpp, read_v71) {
 }
 
 TEST(vtfpp, write_v71) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
 		.minorVersion = 1,
 	});
 	ASSERT_TRUE(vtf);
@@ -883,7 +883,7 @@ TEST(vtfpp, read_v72) {
 }
 
 TEST(vtfpp, write_v72) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
 		.minorVersion = 2,
 	});
 	ASSERT_TRUE(vtf);
@@ -1071,7 +1071,7 @@ TEST(vtfpp, read_v75) {
 }
 
 TEST(vtfpp, write_v75) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
 		.minorVersion = 5,
 	});
 	ASSERT_TRUE(vtf);
@@ -1230,9 +1230,10 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.getCompressionLevel(), 9);
 
 	// Resources
-	EXPECT_EQ(vtf.getResources().size(), 3);
+	EXPECT_EQ(vtf.getResources().size(), 2);
 
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
@@ -1243,14 +1244,10 @@ TEST(vtfpp, read_v76_c9) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
-
-	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
-	ASSERT_TRUE(auxResource);
-	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
 }
 
 TEST(vtfpp, write_v76_c6) {
-	VTFWriter vtf = VTFWriter::create(ASSET_ROOT "vtfpp/src.png", {
+	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src.png", {
 		.minorVersion = 6,
 	});
 	ASSERT_TRUE(vtf);
@@ -1274,6 +1271,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.getCompressionLevel(), 6);
 }
 
 TEST(vtfpp, read_v76_nomip_c9) {
@@ -1299,9 +1297,10 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.getCompressionLevel(), 9);
 
 	// Resources
-	EXPECT_EQ(vtf.getResources().size(), 3);
+	EXPECT_EQ(vtf.getResources().size(), 2);
 
 	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
 	ASSERT_TRUE(thumbnail);
@@ -1312,8 +1311,4 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
-
-	const auto* auxResource = vtf.getResource(Resource::TYPE_AUX_COMPRESSION);
-	ASSERT_TRUE(auxResource);
-	EXPECT_EQ(auxResource->getDataAsAuxCompressionLevel(), 9);
 }
