@@ -191,7 +191,7 @@ public:
 
 	[[nodiscard]] std::string bake();
 
-	void bake(const std::string& fgdPath);
+	bool bake(const std::string& fgdPath);
 
 protected:
 	FGDWriter();
