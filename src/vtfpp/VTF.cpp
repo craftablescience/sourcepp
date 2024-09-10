@@ -503,7 +503,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
 		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
-	} else {
+	} else if (this->format != newFormat) {
 		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	}
 }
@@ -737,6 +737,9 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 	BufferStream writer{this->data};
 
 	for (auto resourceType : Resource::TYPE_ARRAY_ORDER) {
+		if (!resourceData.contains(resourceType)) {
+			continue;
+		}
 		auto& [specificResourceData, offset] = resourceData[resourceType];
 		if (resourceType == type) {
 			Resource newResource{
