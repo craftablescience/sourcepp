@@ -65,7 +65,7 @@ namespace {
 		case BC7:
 			return CMP_FORMAT_BC7;
 		case BC6H:
-			return CMP_FORMAT_BC6H;
+			return CMP_FORMAT_BC6H_SF;
 		case RGB565:
 		case IA88:
 		case A8:
