@@ -45,7 +45,7 @@ var classvtfpp_1_1VTF =
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html#a3ddf65caa464dd35a0c958f04cf20110", null ],
     [ "addFlags", "d8/df2/classvtfpp_1_1VTF.html#a6620d8c8b01c9217e5df726776e2c975", null ],
     [ "bake", "d8/df2/classvtfpp_1_1VTF.html#a08b2f6eccc5004a4f1978b1d05df4c73", null ],
-    [ "bake", "d8/df2/classvtfpp_1_1VTF.html#a46986cea157ce952e63c3d06c091fa20", null ],
+    [ "bake", "d8/df2/classvtfpp_1_1VTF.html#ab04f7d1e6485b252c130d5d1b2809e5a", null ],
     [ "computeMips", "d8/df2/classvtfpp_1_1VTF.html#a8401e2634ea8f7ed97ec1cd5ae5f85be", null ],
     [ "computeReflectivity", "d8/df2/classvtfpp_1_1VTF.html#a125bb1644b5c6c737d40efd1c753fbea", null ],
     [ "computeThumbnail", "d8/df2/classvtfpp_1_1VTF.html#aa5c5d7c04002c1f9a64421fe4b78d434", null ],

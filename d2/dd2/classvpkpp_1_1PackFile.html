@@ -279,6 +279,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ab86d38291517dbe3fe59a6e84d6ac796"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ab86d38291517dbe3fe59a6e84d6ac796">runForAllEntries</a> (const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;operation, bool includeUnbaked=true) const</td></tr>
 <tr class="memdesc:ab86d38291517dbe3fe59a6e84d6ac796"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a callback for each entry in the pack file.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ab86d38291517dbe3fe59a6e84d6ac796">More...</a><br /></td></tr>
 <tr class="separator:ab86d38291517dbe3fe59a6e84d6ac796"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee6ec492bbc9df8932ac827fd427e8c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aee6ec492bbc9df8932ac827fd427e8c5">runForAllEntries</a> (const std::string &amp;parentDir, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;operation, bool recursive=true, bool includeUnbaked=true) const</td></tr>
+<tr class="memdesc:aee6ec492bbc9df8932ac827fd427e8c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run a callback for each entry in the pack file under the parent directory.  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#aee6ec492bbc9df8932ac827fd427e8c5">More...</a><br /></td></tr>
+<tr class="separator:aee6ec492bbc9df8932ac827fd427e8c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef1a74e55c0107dab0bcc575cadca44f"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aef1a74e55c0107dab0bcc575cadca44f">getFilepath</a> () const</td></tr>
 <tr class="memdesc:aef1a74e55c0107dab0bcc575cadca44f"><td class="mdescLeft">&#160;</td><td class="mdescRight">/home/user/pak01_dir.vpk  <a href="../../d2/dd2/classvpkpp_1_1PackFile.html#aef1a74e55c0107dab0bcc575cadca44f">More...</a><br /></td></tr>
 <tr class="separator:aef1a74e55c0107dab0bcc575cadca44f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -326,6 +329,8 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a706ae4057a060449a8beb15317f77839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a818133a0eb1603d19fba7920268d04d9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a818133a0eb1603d19fba7920268d04d9">runForAllEntriesInternal</a> (const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;operation, bool includeUnbaked=true)</td></tr>
 <tr class="separator:a818133a0eb1603d19fba7920268d04d9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d565ee5195f825ce561423a081d7e68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a7d565ee5195f825ce561423a081d7e68">runForAllEntriesInternal</a> (const std::string &amp;parentDir, const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;operation, bool recursive=true, bool includeUnbaked=true)</td></tr>
+<tr class="separator:a7d565ee5195f825ce561423a081d7e68"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e7ade9f6e4a156e5868e9eaf52d84e9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a6e7ade9f6e4a156e5868e9eaf52d84e9">verifyEntryChecksumsUsingCRC32</a> () const</td></tr>
 <tr class="separator:a6e7ade9f6e4a156e5868e9eaf52d84e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a51bfbd2aec9a3a0c37d800058adf5db7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">addEntryInternal</a> (<a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;path, std::vector&lt; std::byte &gt; &amp;buffer, <a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options)=0</td></tr>
@@ -469,7 +474,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00205">205</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00210">210</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -896,7 +901,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00631">631</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00687">687</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -923,7 +928,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00640">640</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00696">696</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -953,7 +958,7 @@ template&lt;typename R &gt; </div>
 
 <p>On Windows, some characters and file names are invalid - this escapes the given entry path. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00570">570</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00626">626</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1168,7 +1173,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00594">594</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00650">650</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1211,7 +1216,7 @@ template&lt;typename R &gt; </div>
 
 <p>/home/user/pak01_dir.vpk -&gt; pak01_dir.vpk </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00545">545</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00601">601</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1232,7 +1237,7 @@ template&lt;typename R &gt; </div>
 
 <p>/home/user/pak01_dir.vpk </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00537">537</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00593">593</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1253,7 +1258,7 @@ template&lt;typename R &gt; </div>
 
 <p>/home/user/pak01_dir.vpk -&gt; pak01_dir </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00554">554</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00610">610</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1309,7 +1314,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00659">659</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00715">715</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1340,7 +1345,7 @@ template&lt;typename R &gt; </div>
 
 <p>Reimplemented in <a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#a990479fab18cb1e8c61a06cfc74f8c22">vpkpp::EXAMPLE</a>, <a class="el" href="../../da/de7/classvpkpp_1_1ZIP.html#a0ba2601d56377c7c5a8261f161e5e83f">vpkpp::ZIP</a>, <a class="el" href="../../d4/ddb/classvpkpp_1_1VPK__VTMB.html#a37fea8d5ced63fad607eeb794d99bcc3">vpkpp::VPK_VTMB</a>, <a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html#a03d454767aaf325a9fe83f20e9b12571">vpkpp::VPK</a>, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#abf9b4be11d31cf32d60f6af820ae892d">vpkpp::PCK</a>, <a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a6dfe97c298800eb70125f45eea75bea8">vpkpp::PAK</a>, <a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a7841107681ad985627624acb7895b83a">vpkpp::GMA</a>, and <a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html#ac7c384b4769d966388b20a6db967ee83">vpkpp::GCF</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00562">562</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00618">618</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1361,7 +1366,7 @@ template&lt;typename R &gt; </div>
 
 <p>/home/user/pak01_dir.vpk -&gt; pak01.vpk </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00549">549</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00605">605</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1382,7 +1387,7 @@ template&lt;typename R &gt; </div>
 
 <p>/home/user/pak01_dir.vpk -&gt; /home/user/pak01 </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00541">541</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00597">597</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1413,7 +1418,7 @@ template&lt;typename R &gt; </div>
 
 <p>Reimplemented in <a class="el" href="../../d4/ddb/classvpkpp_1_1VPK__VTMB.html#ab781e0350de1cd753b28eb15c78dddfd">vpkpp::VPK_VTMB</a>, and <a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html#ac1871511bcf3cdc30c0481ed54a91f96">vpkpp::VPK</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00558">558</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00614">614</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1667,7 +1672,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00610">610</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00666">666</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1736,7 +1741,7 @@ template&lt;typename R &gt; </div>
 
 <p>Reimplemented in <a class="el" href="../../d2/d8b/classvpkpp_1_1EXAMPLE.html#aee4f51717e7308d4cc802f787c43cb2b">vpkpp::EXAMPLE</a>, <a class="el" href="../../de/df6/classvpkpp_1_1PackFileReadOnly.html#a0055caa347cc43e4bcc5e61fea1010a6">vpkpp::PackFileReadOnly</a>, <a class="el" href="../../d5/d8b/classvpkpp_1_1VPK.html#a7c426770ce5c05057440449a3adb06a8">vpkpp::VPK</a>, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#aa75aea6a2b43e4a1811d15223fbea273">vpkpp::PCK</a>, <a class="el" href="../../d6/d2c/classvpkpp_1_1GMA.html#a9dec308262366ac77d263efcb2b0de9d">vpkpp::GMA</a>, <a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html#aba7afed5a06497f31f7e3de2c01c3b19">vpkpp::GCF</a>, and <a class="el" href="../../d2/da8/classvpkpp_1_1BSP.html#a94c1bdfc6f16506b732fba50db143d23">vpkpp::BSP</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00566">566</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00622">622</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1868,7 +1873,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00644">644</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00700">700</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -1906,7 +1911,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00664">664</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00720">720</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -2055,7 +2060,7 @@ template&lt;typename R &gt; </div>
 </div>
 </div>
 <a id="ab86d38291517dbe3fe59a6e84d6ac796"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab86d38291517dbe3fe59a6e84d6ac796">&#9670;&nbsp;</a></span>runForAllEntries()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ab86d38291517dbe3fe59a6e84d6ac796">&#9670;&nbsp;</a></span>runForAllEntries() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2086,8 +2091,52 @@ template&lt;typename R &gt; </div>
 
 </div>
 </div>
+<a id="aee6ec492bbc9df8932ac827fd427e8c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aee6ec492bbc9df8932ac827fd427e8c5">&#9670;&nbsp;</a></span>runForAllEntries() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PackFile::runForAllEntries </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>parentDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;&#160;</td>
+          <td class="paramname"><em>operation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursive</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>includeUnbaked</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Run a callback for each entry in the pack file under the parent directory. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00523">523</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a818133a0eb1603d19fba7920268d04d9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a818133a0eb1603d19fba7920268d04d9">&#9670;&nbsp;</a></span>runForAllEntriesInternal()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a818133a0eb1603d19fba7920268d04d9">&#9670;&nbsp;</a></span>runForAllEntriesInternal() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -2120,7 +2169,57 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00523">523</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00551">551</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a7d565ee5195f825ce561423a081d7e68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7d565ee5195f825ce561423a081d7e68">&#9670;&nbsp;</a></span>runForAllEntriesInternal() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PackFile::runForAllEntriesInternal </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>parentDir</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::function&lt; void(const std::string &amp;, <a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;)&gt; &amp;&#160;</td>
+          <td class="paramname"><em>operation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursive</em> = <code>true</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>includeUnbaked</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00565">565</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -2148,7 +2247,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00626">626</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00682">682</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -2206,7 +2305,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00580">580</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00636">636</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -2293,7 +2392,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00215">215</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00220">220</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -2317,7 +2416,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00211">211</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00216">216</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -2341,7 +2440,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00213">213</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00218">218</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -2365,7 +2464,7 @@ template&lt;typename R &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00216">216</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00221">221</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>

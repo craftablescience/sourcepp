@@ -41,6 +41,8 @@ var ImageFormats_8h =
     [ "blue", "d1/d2d/ImageFormats_8h.html#afdde59368c730fcecf3d3c15028f75b0", null ],
     [ "bpp", "d1/d2d/ImageFormats_8h.html#acc53a7285be1b23a4cc06d28cee7f9e2", null ],
     [ "compressed", "d1/d2d/ImageFormats_8h.html#af6d0f44d430092e96d3c955f03fcf526", null ],
+    [ "containerFormat", "d1/d2d/ImageFormats_8h.html#a4503d121954f7fc2afce661d376108de", null ],
+    [ "decimal", "d1/d2d/ImageFormats_8h.html#ac7ed5235dfaaa0f79a0315e64b26e80a", null ],
     [ "decompressedAlpha", "d1/d2d/ImageFormats_8h.html#a9d3114201ce329a024b6f05780ed8a88", null ],
     [ "decompressedBlue", "d1/d2d/ImageFormats_8h.html#a3c11bce4477d5ba879b5a1d33e1cfa3b", null ],
     [ "decompressedGreen", "d1/d2d/ImageFormats_8h.html#a0e5479b1e7fdbd64a1aae6af0a05f91d", null ],
