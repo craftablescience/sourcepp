@@ -413,7 +413,7 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 	}
 	bool noneFailed = true;
 	this->runForAllEntries([this, &outputDirPath, &noneFailed](const std::string& path, const Entry& entry) {
-		std::string entryPath = path;
+		std::string entryPath = path; // NOLINT(*-unnecessary-copy-initialization)
 #ifdef _WIN32
 		::fixFilePathForWindows(entryPath);
 #endif
@@ -520,6 +520,34 @@ void PackFile::runForAllEntries(const EntryCallback& operation, bool includeUnba
 	}
 }
 
+void PackFile::runForAllEntries(const std::string& parentDir, const EntryCallback& operation, bool recursive, bool includeUnbaked) const {
+	auto dir = this->cleanEntryPath(parentDir) + '/';
+
+	std::string key;
+	for (auto [entry, end] = this->entries.equal_prefix_range(dir); entry != end; ++entry) {
+		entry.key(key);
+		if (!recursive) {
+			auto keyView = std::string_view{key}.substr(dir.length());
+			if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+				continue;
+			}
+		}
+		operation(key, entry.value());
+	}
+	if (includeUnbaked) {
+		for (auto [entry, end] = this->unbakedEntries.equal_prefix_range(dir); entry != end; ++entry) {
+			entry.key(key);
+			if (!recursive) {
+				auto keyView = std::string_view{key}.substr(dir.length());
+				if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+					continue;
+				}
+			}
+			operation(key, entry.value());
+		}
+	}
+}
+
 void PackFile::runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked) {
 	std::string key;
 	for (auto entry = this->entries.begin(); entry != this->entries.end(); ++entry) {
@@ -529,6 +557,34 @@ void PackFile::runForAllEntriesInternal(const std::function<void(const std::stri
 	if (includeUnbaked) {
 		for (auto entry = this->unbakedEntries.begin(); entry != this->unbakedEntries.end(); ++entry) {
 			entry.key(key);
+			operation(key, entry.value());
+		}
+	}
+}
+
+void PackFile::runForAllEntriesInternal(const std::string& parentDir, const std::function<void(const std::string&, Entry&)>& operation, bool recursive, bool includeUnbaked) {
+	auto dir = this->cleanEntryPath(parentDir) + '/';
+
+	std::string key;
+	for (auto [entry, end] = this->entries.equal_prefix_range(dir); entry != end; ++entry) {
+		entry.key(key);
+		if (!recursive) {
+			auto keyView = std::string_view{key}.substr(dir.length());
+			if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+				continue;
+			}
+		}
+		operation(key, entry.value());
+	}
+	if (includeUnbaked) {
+		for (auto [entry, end] = this->unbakedEntries.equal_prefix_range(dir); entry != end; ++entry) {
+			entry.key(key);
+			if (!recursive) {
+				auto keyView = std::string_view{key}.substr(dir.length());
+				if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+					continue;
+				}
+			}
 			operation(key, entry.value());
 		}
 	}

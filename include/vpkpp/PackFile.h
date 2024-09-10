@@ -154,6 +154,9 @@ public:
 	/// Run a callback for each entry in the pack file
 	void runForAllEntries(const EntryCallback& operation, bool includeUnbaked = true) const;
 
+	/// Run a callback for each entry in the pack file under the parent directory
+	void runForAllEntries(const std::string& parentDir, const EntryCallback& operation, bool recursive = true, bool includeUnbaked = true) const;
+
 	/// /home/user/pak01_dir.vpk
 	[[nodiscard]] std::string_view getFilepath() const;
 
@@ -185,6 +188,8 @@ protected:
 	explicit PackFile(std::string fullFilePath_);
 
 	void runForAllEntriesInternal(const std::function<void(const std::string&, Entry&)>& operation, bool includeUnbaked = true);
+
+	void runForAllEntriesInternal(const std::string& parentDir, const std::function<void(const std::string&, Entry&)>& operation, bool recursive = true, bool includeUnbaked = true);
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksumsUsingCRC32() const;
 
