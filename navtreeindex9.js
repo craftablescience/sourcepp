@@ -1,5 +1,6 @@
 var NAVTREEINDEX9 =
 {
+"dd/de9/structvpkpp_1_1GCF_1_1DirectoryEntry2.html":[2,0,8,3,6],
 "dd/de9/structvpkpp_1_1GCF_1_1DirectoryEntry2.html#adeaef34371bb8f9b7a0adbd51d1756ab":[2,0,8,3,6,1],
 "dd/de9/structvpkpp_1_1GCF_1_1DirectoryEntry2.html#afaae8cc63fa2086f4ea06d05174659c2":[2,0,8,3,6,0],
 "de/d04/namespacegamepp.html":[1,3,2],
@@ -248,6 +249,5 @@ var NAVTREEINDEX9 =
 "functions_func_h.html":[2,3,1,7],
 "functions_func_i.html":[2,3,1,8],
 "functions_func_k.html":[2,3,1,9],
-"functions_func_l.html":[2,3,1,10],
-"functions_func_m.html":[2,3,1,11]
+"functions_func_l.html":[2,3,1,10]
 };

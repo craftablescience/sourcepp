@@ -168,10 +168,6 @@ Macros</h2></td></tr>
 <tr class="separator:af9b79d882b0c4660fab6f2a8a0dbfbe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add8cee2faaca8b29d732aa6d435356a4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#add8cee2faaca8b29d732aa6d435356a4">VTFPP_CASE_CONVERT_AND_BREAK</a>(InputType,  r,  g,  b,  a)&#160;&#160;&#160;		case InputType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a26f25100f223e861a73967d5117c8d20">VTFPP_CONVERT</a>(InputType, r, g, b, a); } break</td></tr>
 <tr class="separator:add8cee2faaca8b29d732aa6d435356a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a27b5d8a26575dd559dc1e5f6e07b32b9"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9">VTFPP_CONVERT_REMAP</a>(InputType,  r,  g,  b,  a)</td></tr>
-<tr class="separator:a27b5d8a26575dd559dc1e5f6e07b32b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:adf9c314ddae1dc011d1947cecba3c135"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#adf9c314ddae1dc011d1947cecba3c135">VTFPP_CASE_CONVERT_REMAP_AND_BREAK</a>(InputType,  r,  g,  b,  a)</td></tr>
-<tr class="separator:adf9c314ddae1dc011d1947cecba3c135"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad36f25671f1f3a7cb0c2f6ddcdb4849f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#ad36f25671f1f3a7cb0c2f6ddcdb4849f">VTFPP_REMAP_FROM_8</a>(value,  shift)&#160;&#160;&#160;math::remap&lt;uint8_t&gt;((value), (1 &lt;&lt; 8) - 1, (1 &lt;&lt; (shift)) - 1)</td></tr>
 <tr class="separator:ad36f25671f1f3a7cb0c2f6ddcdb4849f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26f25100f223e861a73967d5117c8d20"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a26f25100f223e861a73967d5117c8d20">VTFPP_CONVERT</a>(InputType, ...)</td></tr>
@@ -431,7 +427,7 @@ Macros</h2></td></tr>
 </div>
 </div>
 <a id="adf9c314ddae1dc011d1947cecba3c135"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf9c314ddae1dc011d1947cecba3c135">&#9670;&nbsp;</a></span>VTFPP_CASE_CONVERT_REMAP_AND_BREAK <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#adf9c314ddae1dc011d1947cecba3c135">&#9670;&nbsp;</a></span>VTFPP_CASE_CONVERT_REMAP_AND_BREAK</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -476,54 +472,6 @@ Macros</h2></td></tr>
 <b>Value:</b><div class="fragment"><div class="line">        <span class="keywordflow">case</span> InputType: { <a class="code" href="../../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9">VTFPP_CONVERT_REMAP</a>(InputType, r, g, b, a); } \</div>
 <div class="line">        break</div>
 <div class="ttc" id="aImageConversion_8cpp_html_a27b5d8a26575dd559dc1e5f6e07b32b9"><div class="ttname"><a href="../../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9">VTFPP_CONVERT_REMAP</a></div><div class="ttdeci">#define VTFPP_CONVERT_REMAP(InputType, r, g, b, a)</div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="adf9c314ddae1dc011d1947cecba3c135"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adf9c314ddae1dc011d1947cecba3c135">&#9670;&nbsp;</a></span>VTFPP_CASE_CONVERT_REMAP_AND_BREAK <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VTFPP_CASE_CONVERT_REMAP_AND_BREAK</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">InputType, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">r, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">g, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">b, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">a&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">        <span class="keywordflow">case</span> InputType: { <a class="code" href="../../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9">VTFPP_CONVERT_REMAP</a>(InputType, r, g, b, a); } \</div>
-<div class="line">        break</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -931,79 +879,7 @@ Macros</h2></td></tr>
 </div>
 </div>
 <a id="a27b5d8a26575dd559dc1e5f6e07b32b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27b5d8a26575dd559dc1e5f6e07b32b9">&#9670;&nbsp;</a></span>VTFPP_CONVERT_REMAP <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">#define VTFPP_CONVERT_REMAP</td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">InputType, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">r, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">g, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">b, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname">a&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">        <span class="keywordflow">do</span> { \</div>
-<div class="line">            if constexpr (<a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9">ImageFormatDetails::alpha</a>(ImageFormat::InputType) &gt; 1) { \</div>
-<div class="line">                VTFPP_CONVERT(InputType, \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((r), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((g), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((b), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((a), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9">ImageFormatDetails::alpha</a>(ImageFormat::InputType)))); \</div>
-<div class="line">            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> constexpr (<a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9">ImageFormatDetails::alpha</a>(ImageFormat::InputType) == 1) { \</div>
-<div class="line">                VTFPP_CONVERT(InputType, \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((r), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((g), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((b), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>((a) * 0xff)); \</div>
-<div class="line">            } <span class="keywordflow">else</span> { \</div>
-<div class="line">                VTFPP_CONVERT(InputType, \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((r), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((g), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(<a class="code" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>((b), <a class="code" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType))), \</div>
-<div class="line">                        <span class="keyword">static_cast&lt;</span>uint8_t<span class="keyword">&gt;</span>(a)); \</div>
-<div class="line">            } \</div>
-<div class="line">        } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
-<div class="ttc" id="aImageConversion_8cpp_html_ac8f1056856457e1688aab2605f2af240"><div class="ttname"><a href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a></div><div class="ttdeci">#define VTFPP_REMAP_TO_8(value, shift)</div></div>
-<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_a1758f1115310feea3dbc7c1738c994a9"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9">vtfpp::ImageFormatDetails::alpha</a></div><div class="ttdeci">constexpr int8_t alpha(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00259">ImageFormats.h:259</a></div></div>
-<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_a2dee38efbf446a2847bfef142dcded1b"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">vtfpp::ImageFormatDetails::green</a></div><div class="ttdeci">constexpr int8_t green(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00120">ImageFormats.h:120</a></div></div>
-<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_aae8552792bf4ad0d4bc182cc34eba04a"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">vtfpp::ImageFormatDetails::red</a></div><div class="ttdeci">constexpr int8_t red(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00051">ImageFormats.h:51</a></div></div>
-<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_afdde59368c730fcecf3d3c15028f75b0"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">vtfpp::ImageFormatDetails::blue</a></div><div class="ttdeci">constexpr int8_t blue(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00190">ImageFormats.h:190</a></div></div>
-</div><!-- fragment -->
-</div>
-</div>
-<a id="a27b5d8a26575dd559dc1e5f6e07b32b9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a27b5d8a26575dd559dc1e5f6e07b32b9">&#9670;&nbsp;</a></span>VTFPP_CONVERT_REMAP <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a27b5d8a26575dd559dc1e5f6e07b32b9">&#9670;&nbsp;</a></span>VTFPP_CONVERT_REMAP</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1067,6 +943,10 @@ Macros</h2></td></tr>
 <div class="line">            } \</div>
 <div class="line">        } <span class="keywordflow">while</span> (<span class="keyword">false</span>)</div>
 <div class="ttc" id="aImageConversion_8cpp_html_a40548058a64cd4c6322ff0c3a2124196"><div class="ttname"><a href="../../d4/df2/ImageConversion_8cpp.html#a40548058a64cd4c6322ff0c3a2124196">VTFPP_REMAP_TO_16</a></div><div class="ttdeci">#define VTFPP_REMAP_TO_16(value, shift)</div></div>
+<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_a1758f1115310feea3dbc7c1738c994a9"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9">vtfpp::ImageFormatDetails::alpha</a></div><div class="ttdeci">constexpr int8_t alpha(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00259">ImageFormats.h:259</a></div></div>
+<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_a2dee38efbf446a2847bfef142dcded1b"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">vtfpp::ImageFormatDetails::green</a></div><div class="ttdeci">constexpr int8_t green(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00120">ImageFormats.h:120</a></div></div>
+<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_aae8552792bf4ad0d4bc182cc34eba04a"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">vtfpp::ImageFormatDetails::red</a></div><div class="ttdeci">constexpr int8_t red(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00051">ImageFormats.h:51</a></div></div>
+<div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_afdde59368c730fcecf3d3c15028f75b0"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">vtfpp::ImageFormatDetails::blue</a></div><div class="ttdeci">constexpr int8_t blue(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00190">ImageFormats.h:190</a></div></div>
 </div><!-- fragment -->
 </div>
 </div>

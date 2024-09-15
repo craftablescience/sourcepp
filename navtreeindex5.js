@@ -1,7 +1,5 @@
 var NAVTREEINDEX5 =
 {
-"d6/d21/structsourcepp_1_1math_1_1Vec.html#a78745bd18ae9c1d020db8d089ed784b1":[2,0,5,0,4,26],
-"d6/d21/structsourcepp_1_1math_1_1Vec.html#a7ae90820d48e8fc538f3230935d3441e":[2,0,5,0,4,21],
 "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7d4059d35446104bb28906b0603d93d6":[2,0,5,0,4,28],
 "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7e38440ce33559205ecfba07deb2dc4b":[2,0,5,0,4,7],
 "d6/d21/structsourcepp_1_1math_1_1Vec.html#a8c12d543f1b0ea76606dcfacac55172b":[2,0,5,0,4,19],
@@ -249,5 +247,7 @@ var NAVTREEINDEX5 =
 "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5ff37b657463d88a53b4f778afa055a4":[1,3,5,3,1,18],
 "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a6c0b3d1a0c331d8aa4f42d5735ab2f4b":[1,3,5,3,1,13],
 "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a7d79d0d1a16505989bc22c89b50ca00c":[1,3,5,3,1,5],
-"d7/d75/namespacesourcepp_1_1parser_1_1text.html#a83da8ca60cda7974cfd8b44e17501f19":[1,3,5,3,1,11]
+"d7/d75/namespacesourcepp_1_1parser_1_1text.html#a83da8ca60cda7974cfd8b44e17501f19":[1,3,5,3,1,11],
+"d7/d75/namespacesourcepp_1_1parser_1_1text.html#a8791ac6a5228a3b7aae57017186cae9a":[1,3,5,3,1,9],
+"d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff":[1,3,5,3,1,6]
 };

@@ -277,6 +277,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a969bd3e490c7eff6ca12fbcd15b4aa4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4787f4811eab705fcd82d5ba401828b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ab4787f4811eab705fcd82d5ba401828b">setSliceCount</a> (uint16_t newSliceCount)</td></tr>
 <tr class="separator:ab4787f4811eab705fcd82d5ba401828b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd963efaa3be411af2077cfc22d03ac9"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#abd963efaa3be411af2077cfc22d03ac9">setFrameFaceAndSliceCount</a> (uint16_t newFrameCount, bool hasMultipleFaces, bool hasSphereMap=false, uint16_t newSliceCount=1)</td></tr>
+<tr class="separator:abd963efaa3be411af2077cfc22d03ac9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c0645b2b8dd4271c4a5ad0bab6b4284"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a6c0645b2b8dd4271c4a5ad0bab6b4284">getStartFrame</a> () const</td></tr>
 <tr class="separator:a6c0645b2b8dd4271c4a5ad0bab6b4284"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9b0d7712702809a51507bceb8eb807cf"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a9b0d7712702809a51507bceb8eb807cf">setStartFrame</a> (uint16_t newStartFrame)</td></tr>
@@ -379,6 +381,9 @@ Static Public Member Functions</h2></td></tr>
 Static Public Attributes</h2></td></tr>
 <tr class="memitem:abd72e6befba98d13fc49b47ff8204a89"><td class="memItemLeft" align="right" valign="top">static constexpr std::underlying_type_t&lt; <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51a">Flags</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#abd72e6befba98d13fc49b47ff8204a89">FLAG_MASK_GENERATED</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aafaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa60478e6bd53f9e88803c92965eac705e">FLAG_NO_LOD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aaae8325bd3738b0e3ee96c73288e165f4">FLAG_ONE_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa84d3ce507f9951e2d66bc68b018b49d3">FLAG_MULTI_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aaebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a></td></tr>
 <tr class="separator:abd72e6befba98d13fc49b47ff8204a89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a77df0dfc3670043c0501004c3a154b5f"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a77df0dfc3670043c0501004c3a154b5f">FORMAT_UNCHANGED</a> = static_cast&lt;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&gt;(-2)</td></tr>
+<tr class="memdesc:a77df0dfc3670043c0501004c3a154b5f"><td class="mdescLeft">&#160;</td><td class="mdescRight">This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ada0da9b148050cbb9755e811ef0203fa">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a>.  <a href="../../d8/df2/classvtfpp_1_1VTF.html#a77df0dfc3670043c0501004c3a154b5f">More...</a><br /></td></tr>
+<tr class="separator:a77df0dfc3670043c0501004c3a154b5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7d6ca398077bb5152c6473384fb97438"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7d6ca398077bb5152c6473384fb97438">FORMAT_DEFAULT</a> = static_cast&lt;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&gt;(-1)</td></tr>
 <tr class="memdesc:a7d6ca398077bb5152c6473384fb97438"><td class="mdescLeft">&#160;</td><td class="mdescRight">This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ada0da9b148050cbb9755e811ef0203fa">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a> or <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a5cd47f312eea0b7f5ee3fa8e9a8edab7">VTF::setFormat</a>.  <a href="../../d8/df2/classvtfpp_1_1VTF.html#a7d6ca398077bb5152c6473384fb97438">More...</a><br /></td></tr>
 <tr class="separator:a7d6ca398077bb5152c6473384fb97438"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -402,6 +407,8 @@ Protected Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-static-methods"></a>
 Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a87c1d812b72d708cd9efa13ec6510766"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a87c1d812b72d708cd9efa13ec6510766">createInternal</a> (<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html">VTF</a> &amp;writer, <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a> options)</td></tr>
+<tr class="separator:a87c1d812b72d708cd9efa13ec6510766"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a73d5230de85b0998b9ac70f00a6bb8b6"><td class="memItemLeft" align="right" valign="top">static uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a73d5230de85b0998b9ac70f00a6bb8b6">getFaceCountFor</a> (uint16_t <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a0471c9d679c3a402799b2609c78ea38e">width</a>, uint16_t <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#adc9bb8a8b8895f651b2fb9bebf0f0e32">height</a>, uint32_t <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a0a965e011712efeb6f5da71644d44d03">majorVersion</a>, uint32_t <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a711449358dff7c686b033a882550fe62">minorVersion</a>, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51a">Flags</a> <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a1dddc6ec9d2244c2f1809522685233f6">flags</a>, uint16_t <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a28453787b3f92fb8a01e46e53b5857cc">startFrame</a>)</td></tr>
 <tr class="separator:a73d5230de85b0998b9ac70f00a6bb8b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -711,7 +718,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00484">484</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00403">403</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -730,7 +737,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01131">1131</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01070">1070</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -750,7 +757,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01246">1246</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01185">1185</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -770,7 +777,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00542">542</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00463">463</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -789,7 +796,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00642">642</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00574">574</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -809,7 +816,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01104">1104</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01043">1043</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -857,7 +864,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01075">1075</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01014">1014</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -899,7 +906,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01071">1071</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01010">1010</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -918,7 +925,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01121">1121</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01060">1060</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -938,7 +945,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01125">1125</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01064">1064</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -982,7 +989,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00326">326</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00299">299</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1020,7 +1027,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00363">363</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00309">309</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1082,7 +1089,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00252">252</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00279">279</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1142,6 +1149,44 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a87c1d812b72d708cd9efa13ec6510766"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a87c1d812b72d708cd9efa13ec6510766">&#9670;&nbsp;</a></span>createInternal()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VTF::createInternal </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html">VTF</a> &amp;&#160;</td>
+          <td class="paramname"><em>writer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a>&#160;</td>
+          <td class="paramname"><em>options</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00252">252</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a4998bea1f7a756450f35bda657b23b8e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4998bea1f7a756450f35bda657b23b8e">&#9670;&nbsp;</a></span>getBumpMapScale()</h2>
 
@@ -1157,7 +1202,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00671">671</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00603">603</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1176,7 +1221,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00904">904</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00843">843</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1222,7 +1267,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00580">580</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00501">501</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1284,7 +1329,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00584">584</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00505">505</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1303,7 +1348,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00476">476</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00395">395</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1322,7 +1367,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00492">492</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00411">411</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1341,7 +1386,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00568">568</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00489">489</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1361,7 +1406,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00441">441</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00360">360</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1409,7 +1454,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00929">929</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00868">868</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1451,7 +1496,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00937">937</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00876">876</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1493,7 +1538,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00920">920</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00859">859</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1512,7 +1557,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00428">428</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00347">347</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1531,7 +1576,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00424">424</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00343">343</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1550,7 +1595,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00400">400</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00319">319</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1569,7 +1614,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00404">404</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00323">323</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1588,7 +1633,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00515">515</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00436">436</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1607,7 +1652,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00634">634</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00566">566</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1627,7 +1672,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00695">695</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00627">627</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1655,7 +1700,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00704">704</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00636">636</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1674,7 +1719,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00691">691</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00623">623</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1693,7 +1738,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00609">609</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00530">530</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1712,7 +1757,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00621">621</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00553">553</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1732,7 +1777,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01092">1092</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01031">1031</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1751,7 +1796,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01100">1100</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01039">1039</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1770,7 +1815,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01085">1085</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01024">1024</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1789,7 +1834,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00679">679</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00611">611</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1808,7 +1853,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00687">687</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00619">619</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1827,7 +1872,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00683">683</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00615">615</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1847,7 +1892,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00437">437</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00356">356</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1866,7 +1911,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00912">912</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00851">851</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1885,7 +1930,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01081">1081</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01020">1020</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1904,7 +1949,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00916">916</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00855">855</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2057,7 +2102,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00779">779</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00711">711</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2076,7 +2121,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00854">854</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00793">793</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2095,7 +2140,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00885">885</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00824">824</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2115,7 +2160,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00488">488</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00407">407</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2134,7 +2179,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00900">900</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00839">839</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2153,7 +2198,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00871">871</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00810">810</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2172,7 +2217,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00840">840</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00779">779</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2200,7 +2245,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00775">775</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00707">707</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2219,7 +2264,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01114">1114</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01053">1053</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2239,7 +2284,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00675">675</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00607">607</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2259,7 +2304,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00908">908</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00847">847</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2279,7 +2324,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00844">844</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00783">783</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2299,7 +2344,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00875">875</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00814">814</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2329,7 +2374,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00588">588</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00509">509</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2349,7 +2394,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00480">480</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00399">399</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2379,7 +2424,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00496">496</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00415">415</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2399,7 +2444,49 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00572">572</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00493">493</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
+<a id="abd963efaa3be411af2077cfc22d03ac9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd963efaa3be411af2077cfc22d03ac9">&#9670;&nbsp;</a></span>setFrameFaceAndSliceCount()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool VTF::setFrameFaceAndSliceCount </td>
+          <td>(</td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>newFrameCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>hasMultipleFaces</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>hasSphereMap</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>newSliceCount</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00542">542</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2453,7 +2540,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01009">1009</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00948">948</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2525,7 +2612,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00941">941</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00880">880</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2555,7 +2642,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00432">432</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00351">351</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2575,7 +2662,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00889">889</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00828">828</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2605,7 +2692,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00858">858</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00797">797</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2625,7 +2712,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00413">413</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00332">332</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2645,7 +2732,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00417">417</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00336">336</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2665,7 +2752,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00519">519</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00440">440</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2685,7 +2772,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00836">836</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00775">775</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2704,7 +2791,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00538">538</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00459">459</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2724,7 +2811,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00638">638</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00570">570</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2762,7 +2849,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00713">713</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00645">645</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2798,7 +2885,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00445">445</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00364">364</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2818,7 +2905,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00613">613</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00534">534</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2838,7 +2925,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00625">625</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00557">557</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2868,7 +2955,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00408">408</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00327">327</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2893,7 +2980,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00374">374</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00381">381</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -2917,7 +3004,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00392">392</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00399">399</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -2941,7 +3028,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00355">355</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00362">362</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -2989,7 +3076,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00365">365</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00372">372</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3013,7 +3100,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00375">375</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00382">382</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3039,6 +3126,32 @@ Protected Attributes</h2></td></tr>
 
 <p>This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ada0da9b148050cbb9755e811ef0203fa">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a> or <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a5cd47f312eea0b7f5ee3fa8e9a8edab7">VTF::setFormat</a>. </p>
 
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00171">171</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+
+</div>
+</div>
+<a id="a77df0dfc3670043c0501004c3a154b5f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a77df0dfc3670043c0501004c3a154b5f">&#9670;&nbsp;</a></span>FORMAT_UNCHANGED</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> vtfpp::VTF::FORMAT_UNCHANGED = static_cast&lt;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&gt;(-2)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ada0da9b148050cbb9755e811ef0203fa">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a>. </p>
+
 <p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00168">168</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
@@ -3063,7 +3176,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00367">367</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00374">374</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3087,7 +3200,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00361">361</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00368">368</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3111,7 +3224,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00364">364</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00371">371</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3135,7 +3248,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00394">394</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00401">401</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3159,7 +3272,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00393">393</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00400">400</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3183,7 +3296,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00358">358</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00365">365</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3207,7 +3320,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00170">170</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00173">173</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3231,7 +3344,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00359">359</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00366">366</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3255,7 +3368,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00376">376</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00383">383</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3279,7 +3392,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00353">353</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00360">360</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3303,7 +3416,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00371">371</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00378">378</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3327,7 +3440,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00388">388</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00395">395</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3351,7 +3464,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00383">383</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00390">390</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3375,7 +3488,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00172">172</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00175">175</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3399,7 +3512,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00368">368</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00375">375</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3423,7 +3536,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00378">378</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00385">385</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3447,7 +3560,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00380">380</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00387">387</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3471,7 +3584,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00379">379</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00386">386</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -3495,7 +3608,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00363">363</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00370">370</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
