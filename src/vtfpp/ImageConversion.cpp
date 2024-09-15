@@ -250,57 +250,29 @@ namespace {
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, r, g, b, a) \
 		case InputType: { VTFPP_CONVERT(InputType, r, g, b, a); } break
 
-	#define VTFPP_CONVERT_REMAP(InputType, r, g, b, a) \
-        do { \
-			if constexpr (ImageFormatDetails::alpha(ImageFormat::InputType) > 1) { \
-				VTFPP_CONVERT(InputType, \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((r), ImageFormatDetails::red(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((g), ImageFormatDetails::green(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((b), ImageFormatDetails::blue(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((a), ImageFormatDetails::alpha(ImageFormat::InputType)))); \
-			} else if constexpr (ImageFormatDetails::alpha(ImageFormat::InputType) == 1) { \
-				VTFPP_CONVERT(InputType, \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((r), ImageFormatDetails::red(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((g), ImageFormatDetails::green(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((b), ImageFormatDetails::blue(ImageFormat::InputType))), \
-						static_cast<uint8_t>((a) * 0xff)); \
-			} else { \
-				VTFPP_CONVERT(InputType, \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((r), ImageFormatDetails::red(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((g), ImageFormatDetails::green(ImageFormat::InputType))), \
-						static_cast<uint8_t>(VTFPP_REMAP_TO_8((b), ImageFormatDetails::blue(ImageFormat::InputType))), \
-						static_cast<uint8_t>(a)); \
-			} \
-		} while (false)
-	#define VTFPP_CASE_CONVERT_REMAP_AND_BREAK(InputType, r, g, b, a) \
-		case InputType: { VTFPP_CONVERT_REMAP(InputType, r, g, b, a); } \
-		break
-
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(      ABGR8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      RGB888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_AND_BREAK(      RGB888_BLUESCREEN, pixel.r, pixel.g, pixel.b, static_cast<uint8_t>((pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff));
-		VTFPP_CASE_CONVERT_AND_BREAK(      BGR888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_AND_BREAK(      BGR888_BLUESCREEN, pixel.r, pixel.g, pixel.b, static_cast<uint8_t>((pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff));
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_AND_BREAK(      P8,                pixel.p, pixel.p, pixel.p, 0xff);
-		VTFPP_CASE_CONVERT_AND_BREAK(      I8,                pixel.i, pixel.i, pixel.i, 0xff);
-		VTFPP_CASE_CONVERT_AND_BREAK(      IA88,              pixel.i, pixel.i, pixel.i, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      A8,                0,       0,       0,       pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      ARGB8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      BGRA8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      BGRX8888,          pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA5551,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRX5551,          pixel.r, pixel.g, pixel.b, 0x1);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA4444,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(      UV88,              pixel.u, pixel.v, 0,       0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(ABGR8888,          pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB888,            pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_BLUESCREEN, pixel.r, pixel.g, pixel.b, static_cast<uint8_t>((pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff));
+		VTFPP_CASE_CONVERT_AND_BREAK(BGR888,            pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN, pixel.r, pixel.g, pixel.b, static_cast<uint8_t>((pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff));
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB565,            VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 6), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(P8,                pixel.p, pixel.p, pixel.p, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(I8,                pixel.i, pixel.i, pixel.i, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(IA88,              pixel.i, pixel.i, pixel.i, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(A8,                0,       0,       0,       pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,          pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888,          pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888,          pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGR565,            VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 6), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA5551,          VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), static_cast<uint8_t>(pixel.a * 0xff));
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          VTFPP_REMAP_TO_8(pixel.r, 4), VTFPP_REMAP_TO_8(pixel.g, 4), VTFPP_REMAP_TO_8(pixel.b, 4), VTFPP_REMAP_TO_8(pixel.a, 4));
+		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
 		default: break;
 	}
 
-	#undef VTFPP_CASE_CONVERT_REMAP_AND_BREAK
-	#undef VTFPP_CONVERT_REMAP
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
 	#undef VTFPP_CONVERT
 	#undef VTFPP_CONVERT_DETAIL
@@ -553,7 +525,6 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    pixel.r,             pixel.g,             pixel.b,             1.f);
 		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          pixel.r,             pixel.r,             pixel.r,             1.f);
 		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, pixel.r.toFloat32(), pixel.g.toFloat32(), pixel.b.toFloat32(), pixel.a.toFloat32());
-		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616,  pixel.r / 65535.f,   pixel.g / 65535.f,   pixel.b / 65535.f,   pixel.a / 65535.f);
 		default: break;
 	}
 
@@ -861,9 +832,8 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 				for (int slice = 0; slice < sliceCount; slice++) {
 					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
 						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height));
-						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
-							std::memcpy(out.data() + newOffset, convertedImageData.data(), convertedImageData.size());
-							newOffset += convertedImageData.size();
+						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount) && newLength == convertedImageData.size()) {
+							std::memcpy(out.data() + newOffset, convertedImageData.data(), newLength);
 						}
 					}
 				}

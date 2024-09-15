@@ -164,6 +164,9 @@ public:
 		uint8_t compressionLevel = 6;
 	};
 
+	/// This value is only valid when passed to VTF::create through CreationOptions
+	static constexpr ImageFormat FORMAT_UNCHANGED = static_cast<ImageFormat>(-2);
+
 	/// This value is only valid when passed to VTF::create through CreationOptions or VTF::setFormat
 	static constexpr ImageFormat FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
 
@@ -250,6 +253,8 @@ public:
 	[[nodiscard]] uint16_t getSliceCount() const;
 
 	bool setSliceCount(uint16_t newSliceCount);
+
+	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool hasMultipleFaces, bool hasSphereMap = false, uint16_t newSliceCount = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
@@ -339,6 +344,8 @@ public:
 
 protected:
 	[[nodiscard]] ImageFormat getDefaultFormat() const;
+
+	static void createInternal(VTF& writer, CreationOptions options);
 
 	[[nodiscard]] static uint8_t getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame);
 
