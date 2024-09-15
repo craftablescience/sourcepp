@@ -70,7 +70,7 @@ BSP::BSP(std::string path_)
 		}
 		this->isL4D2 = i == BSP_LUMP_COUNT;
 		if (this->isL4D2) {
-			// Swap offset and version
+			// Swap fields around
 			for (i = 0; i < BSP_LUMP_COUNT; i++) {
 				std::swap(this->header.lumps[i].offset, this->header.lumps[i].version);
 				std::swap(this->header.lumps[i].offset, this->header.lumps[i].length);
@@ -146,7 +146,7 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
 }
 
 void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
-	if (this->path.empty()) {
+	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
 		return;
 	}
 
@@ -157,7 +157,7 @@ void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
 }
 
 void BSP::writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen) {
-	if (this->path.empty()) {
+	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
 		return;
 	}
 
@@ -329,7 +329,7 @@ std::vector<BSPTextureInfo> BSP::readTextureInfo() const {
 
 std::vector<BSPFace> BSP::readFaces() const {
 	return ::readLumpContents<BSPFace>(*this, BSPLump::FACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
-		if (bsp.getLumpVersion(BSPLump::FACES) == 2) {
+		if (bsp.getLumpVersion(BSPLump::FACES) > 1) {
 			stream.read(out, stream.size() / sizeof(BSPFace_v2));
 		} else {
 			::readAndUpgrade<BSPFace_v1>(stream, out);
@@ -339,7 +339,7 @@ std::vector<BSPFace> BSP::readFaces() const {
 
 std::vector<BSPEdge> BSP::readEdges() const {
 	return ::readLumpContents<BSPEdge>(*this, BSPLump::EDGES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPEdge>& out) {
-		if (bsp.getLumpVersion(BSPLump::EDGES) == 1) {
+		if (bsp.getLumpVersion(BSPLump::EDGES) > 0) {
 			stream.read(out, stream.size() / sizeof(BSPEdge_v1));
 		} else {
 			::readAndUpgrade<BSPEdge_v0>(stream, out);
@@ -358,7 +358,7 @@ std::vector<BSPBrushModel> BSP::readBrushModels() const {
 std::vector<BSPFace> BSP::readOriginalFaces() const {
 	return ::readLumpContents<BSPFace>(*this, BSPLump::ORIGINALFACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
 		// ORIGINALFACES lump version is always 0?
-		if (bsp.getLumpVersion(BSPLump::FACES) == 2) {
+		if (bsp.getLumpVersion(BSPLump::FACES) > 1) {
 			stream.read(out, stream.size() / sizeof(BSPFace_v2));
 		} else {
 			::readAndUpgrade<BSPFace_v1>(stream, out);
