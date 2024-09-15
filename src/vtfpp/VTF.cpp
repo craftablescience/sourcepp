@@ -924,7 +924,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 			return false;
 		}
 	}
-	if (this->mipCount >= mips || this->frameCount >= frame || this->getFaceCount() >= face || this->sliceCount >= slice) {
+	if (this->mipCount <= mips || this->frameCount <= frame || this->getFaceCount() <= face || this->sliceCount <= slice) {
 		return false;
 	}
 
