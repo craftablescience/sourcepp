@@ -100,8 +100,8 @@ SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
  * 2. Set FLAG_SRGB (optional, read for image resizing)    - VTF::setFlags
  * 3. Set the image resize methods (optional)              - VTF::setImageResizeMethods
  * 4. Set the base image (mip 0, frame 0, face 0, slice 0) - VTF::setImage
- * 5. Set the output format (optional)                     - VTF::setFormat
- * 6. Compute mips (optional)                              - VTF::computeMips
+ * 5. Compute mips (optional)                              - VTF::computeMips
+ * 6. Set the output format (optional)                     - VTF::setFormat
  *
  * After these methods are called, the other writer methods in the class should work as expected.
  */

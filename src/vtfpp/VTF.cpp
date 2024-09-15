@@ -251,7 +251,7 @@ ImageFormat VTF::getDefaultFormat() const {
 
 void VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.startFrame == SPHEREMAP_START_FRAME, options.initialSliceCount);
+		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME, options.initialSliceCount);
 	}
 	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
 		writer.setStartFrame(options.startFrame);
@@ -263,9 +263,9 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.createThumbnail) {
 		writer.computeThumbnail();
 	}
-	if (options.outputFormat == FORMAT_UNCHANGED) {
+	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
 		options.outputFormat = writer.getFormat();
-	} else if (options.outputFormat == FORMAT_DEFAULT) {
+	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
 		options.outputFormat = writer.getDefaultFormat();
 	}
 	if (options.createMips) {
@@ -413,9 +413,9 @@ ImageFormat VTF::getFormat() const {
 }
 
 void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter) {
-	if (newFormat == FORMAT_UNCHANGED || newFormat == this->format) {
+	if (newFormat == VTF::FORMAT_UNCHANGED || newFormat == this->format) {
 		return;
-	} else if (newFormat == FORMAT_DEFAULT) {
+	} else if (newFormat == VTF::FORMAT_DEFAULT) {
 		newFormat = this->getDefaultFormat();
 	}
 	if (!this->hasImageData()) {
