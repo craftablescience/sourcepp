@@ -198,7 +198,10 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>vtfpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6</td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6
+      <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
+    </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
