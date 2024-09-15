@@ -985,6 +985,37 @@ bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter f
 		}
 
 		return this->setImage({reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(imageFormat, width_, height_)}, imageFormat, width_, height_, filter, mip, frame, face, slice);
+	} else if (imageData_.size() >= 3 && static_cast<char>(imageData_[0]) == 'G' && static_cast<char>(imageData_[1]) == 'I' && static_cast<char>(imageData_[2]) == 'F') {
+		int frameCount_ = 0;
+		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), nullptr, &width_, &height_, &frameCount_, &channels, 0),
+			&stbi_image_free,
+		};
+		if (!stbImage || !frameCount_) {
+			return false;
+		}
+
+		ImageFormat imageFormat;
+		switch (channels) {
+			case 1: imageFormat = ImageFormat::I8;       break;
+			case 2: imageFormat = ImageFormat::UV88;     break;
+			case 3: imageFormat = ImageFormat::RGB888;   break;
+			case 4: imageFormat = ImageFormat::RGBA8888; break;
+			default: return false;
+		}
+
+		bool allSuccess = true;
+		const auto frameSize = ImageFormatDetails::getDataLength(imageFormat, width_, height_);
+		for (int currentFrame = 0; currentFrame < frameCount_; currentFrame++) {
+			if (!this->setImage({reinterpret_cast<std::byte*>(stbImage.get() + currentFrame * frameSize), reinterpret_cast<std::byte*>(stbImage.get() + currentFrame * frameSize + frameSize)}, imageFormat, width_, height_, filter, mip, frame + currentFrame, face, slice)) {
+				allSuccess = false;
+			}
+			if (currentFrame == 0 && this->frameCount < frame + frameCount_) {
+				// Call this after setting the first image, this function is a no-op if no image data is present yet
+				this->setFrameCount(frame + frameCount_);
+			}
+		}
+		return allSuccess;
 	} else {
 		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
 			stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), &width_, &height_, &channels, 0),
