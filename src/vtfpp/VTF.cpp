@@ -251,7 +251,7 @@ ImageFormat VTF::getDefaultFormat() const {
 
 void VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, false, options.initialSliceCount);
+		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.startFrame == SPHEREMAP_START_FRAME, options.initialSliceCount);
 	}
 	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
 		writer.setStartFrame(options.startFrame);
