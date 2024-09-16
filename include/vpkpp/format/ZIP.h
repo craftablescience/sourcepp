@@ -4,14 +4,14 @@
 
 namespace vpkpp {
 
-constexpr std::string_view BMZ_EXTENSION = ".bmz";
-constexpr std::string_view BZ2_EXTENSION = ".bz2";
+constexpr std::string_view BMZ_EXTENSION  = ".bmz";
+constexpr std::string_view BZ2_EXTENSION  = ".bz2";
 constexpr std::string_view GZIP_EXTENSION = ".gz";
-constexpr std::string_view PK3_EXTENSION = ".pk3";
-constexpr std::string_view PK4_EXTENSION = ".pk4";
-constexpr std::string_view XZ_EXTENSION = ".xz";
-constexpr std::string_view ZIP_EXTENSION = ".zip";
-constexpr std::string_view ZSTD_EXTENSION = ".zstd";
+constexpr std::string_view PK3_EXTENSION  = ".pk3";
+constexpr std::string_view PK4_EXTENSION  = ".pk4";
+constexpr std::string_view XZ_EXTENSION   = ".xz";
+constexpr std::string_view ZIP_EXTENSION  = ".zip";
+constexpr std::string_view ZST_EXTENSION  = ".zst";
 
 class ZIP : public PackFile {
 public:
@@ -59,14 +59,14 @@ protected:
 	bool zipOpen = false;
 
 private:
-	VPKPP_REGISTER_PACKFILE_OPEN(BMZ_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(BZ2_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(BMZ_EXTENSION,  &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(BZ2_EXTENSION,  &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(GZIP_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(PK3_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(PK4_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(XZ_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(ZIP_EXTENSION, &ZIP::open);
-	VPKPP_REGISTER_PACKFILE_OPEN(ZSTD_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(PK3_EXTENSION,  &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(PK4_EXTENSION,  &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(XZ_EXTENSION,   &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(ZIP_EXTENSION,  &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(ZST_EXTENSION,  &ZIP::open);
 };
 
 } // namespace vpkpp
