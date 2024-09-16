@@ -1,5 +1,5 @@
 add_pretty_parser(vpkpp
-        DEPS cryptopp::cryptopp MINIZIP::minizip sourcepp::bsppp sourcepp::kvpp
+        DEPS cryptopp::cryptopp libzstd_static MINIZIP::minizip sourcepp::bsppp sourcepp::kvpp
         DEPS_INTERFACE tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"

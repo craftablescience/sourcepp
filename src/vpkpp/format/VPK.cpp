@@ -5,9 +5,7 @@
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptopp/md5.h>
-
 #include <FileStream.h>
-
 #include <kvpp/kvpp.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/crypto/MD5.h>
@@ -16,6 +14,7 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 #include <vpkpp/format/FPX.h>
+#include <zstd.h>
 
 using namespace kvpp;
 using namespace sourcepp;
@@ -53,7 +52,7 @@ VPK::VPK(const std::string& fullFilePath_)
 }
 
 std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version) {
-	if (version != 1 && version != 2) {
+	if (version != 1 && version != 2 && version != 54) {
 		return nullptr;
 	}
 
@@ -66,7 +65,7 @@ std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version)
 		header1.treeSize = 1;
 		stream.write(header1);
 
-		if (version != 1) {
+		if (version == 2 || version == 54) {
 			Header2 header2{};
 			header2.fileDataSectionSize = 0;
 			header2.archiveMD5SectionSize = 0;
@@ -98,7 +97,7 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 	}
 
 	auto* vpk = new VPK{path};
-	auto packFile = std::unique_ptr<PackFile>(vpk);
+	auto packFile = std::unique_ptr<PackFile>{vpk};
 
 	FileStream reader{vpk->fullFilePath};
 	reader.seek_in(0);
@@ -107,7 +106,7 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 		// File is not a VPK
 		return nullptr;
 	}
-	if (vpk->header1.version == 2) {
+	if (vpk->hasExtendedHeader()) {
 		reader.read(vpk->header2);
 	} else if (vpk->header1.version != 1) {
 		// Apex Legends, Titanfall, etc. are not supported
@@ -161,6 +160,10 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 
+				if (vpk->hasCompression()) {
+					entry.compressedLength = reader.read<uint32_t>();
+				}
+
 				if (reader.read<uint16_t>() != VPK_ENTRY_TERM) {
 					// Invalid terminator!
 					return nullptr;
@@ -187,24 +190,28 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 	// If there are no archives, -1 will be incremented to 0
 	vpk->numArchives++;
 
-	// Read VPK2-specific data
-	if (vpk->header1.version != 2)
+	// VPK v1 has nothing else for us
+	if (!vpk->hasExtendedHeader()) {
 		return packFile;
+	}
 
 	// Skip over file data, if any
 	reader.seek_in(vpk->header2.fileDataSectionSize, std::ios::cur);
 
-	if (vpk->header2.archiveMD5SectionSize % sizeof(MD5Entry) != 0)
+	if (vpk->header2.archiveMD5SectionSize % sizeof(MD5Entry) != 0) {
 		return nullptr;
+	}
 
 	vpk->md5Entries.clear();
 	unsigned int entryNum = vpk->header2.archiveMD5SectionSize / sizeof(MD5Entry);
-	for (unsigned int i = 0; i < entryNum; i++)
+	for (unsigned int i = 0; i < entryNum; i++) {
 		vpk->md5Entries.push_back(reader.read<MD5Entry>());
+	}
 
-	if (vpk->header2.otherMD5SectionSize != 48)
+	if (vpk->header2.otherMD5SectionSize != 48) {
 		// This should always be 48
 		return packFile;
+	}
 
 	vpk->footer2.treeChecksum = reader.read_bytes<16>();
 	vpk->footer2.md5EntriesChecksum = reader.read_bytes<16>();
@@ -231,12 +238,12 @@ std::vector<std::string> VPK::verifyEntryChecksums() const {
 }
 
 bool VPK::hasPackFileChecksum() const {
-	return this->header1.version == 2;
+	return this->hasExtendedHeader();
 }
 
 bool VPK::verifyPackFileChecksum() const {
-	// File checksums are only in v2
-	if (this->header1.version != 2) {
+	// File checksums aren't in v1
+	if (!this->hasExtendedHeader()) {
 		return true;
 	}
 
@@ -261,7 +268,7 @@ bool VPK::verifyPackFileChecksum() const {
 }
 
 bool VPK::hasPackFileSignature() const {
-	if (this->header1.version != 2) {
+	if (!this->hasExtendedHeader()) {
 		return false;
 	}
 	if (this->footer2.publicKey.empty() || this->footer2.signature.empty()) {
@@ -271,8 +278,8 @@ bool VPK::hasPackFileSignature() const {
 }
 
 bool VPK::verifyPackFileSignature() const {
-	// Signatures are only in v2
-	if (this->header1.version != 2) {
+	// Signatures aren't in v1
+	if (!this->hasExtendedHeader()) {
 		return true;
 	}
 
@@ -290,6 +297,7 @@ bool VPK::verifyPackFileSignature() const {
 	return crypto::verifySHA256PublicKey(dirFileBuffer, this->footer2.publicKey, this->footer2.signature);
 }
 
+// NOLINTNEXTLINE(*-no-recursion)
 std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) const {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
@@ -300,54 +308,93 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 		return readUnbakedEntry(*entry);
 	}
 
-	std::vector output(entry->length, static_cast<std::byte>(0));
+	const auto entryLength = (this->hasCompression() && entry->compressedLength) ? entry->compressedLength : entry->length;
+	if (!entryLength) {
+		return {};
+	}
+	std::vector<std::byte> out(entryLength, static_cast<std::byte>(0));
 
 	if (!entry->extraData.empty()) {
-		std::copy(entry->extraData.begin(), entry->extraData.end(), output.begin());
+		std::copy(entry->extraData.begin(), entry->extraData.end(), out.begin());
 	}
-	if (entry->length == entry->extraData.size()) {
-		return output;
+	if (entryLength != entry->extraData.size()) {
+		if (entry->archiveIndex != VPK_DIR_INDEX) {
+			// Stored in a numbered archive
+			FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry->archiveIndex, 3) + std::string{::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION}};
+			if (!stream) {
+				return std::nullopt;
+			}
+			stream.seek_in_u(entry->offset);
+			auto bytes = stream.read_bytes(entryLength - entry->extraData.size());
+			std::copy(bytes.begin(), bytes.end(), out.begin() + static_cast<long long>(entry->extraData.size()));
+		} else {
+			// Stored in this directory VPK
+			FileStream stream{this->fullFilePath};
+			if (!stream) {
+				return std::nullopt;
+			}
+			stream.seek_in_u(this->getHeaderLength() + this->header1.treeSize + entry->offset);
+			auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
+			std::copy(bytes.begin(), bytes.end(), out.begin() + static_cast<long long>(entry->extraData.size()));
+		}
 	}
 
-	if (entry->archiveIndex != VPK_DIR_INDEX) {
-		// Stored in a numbered archive
-		FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry->archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
-		if (!stream) {
-			return std::nullopt;
-		}
-		stream.seek_in_u(entry->offset);
-		auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
-		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry->extraData.size()));
-	} else {
-		// Stored in this directory VPK
-		FileStream stream{this->fullFilePath};
-		if (!stream) {
-			return std::nullopt;
-		}
-		stream.seek_in_u(this->getHeaderLength() + this->header1.treeSize + entry->offset);
-		auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
-		std::copy(bytes.begin(), bytes.end(), output.begin() + static_cast<long long>(entry->extraData.size()));
+	if (!this->hasCompression() || !entry->compressedLength) {
+		return out;
 	}
 
-	return output;
+	const auto decompressionDict = this->readEntry(this->getTruncatedFilestem() + ".dict");
+	if (!decompressionDict) {
+		return std::nullopt;
+	}
+
+	std::unique_ptr<ZSTD_DDict, void(*)(void*)> dDict{
+		ZSTD_createDDict(decompressionDict->data(), decompressionDict->size()),
+		[](void* dDict) { ZSTD_freeDDict(reinterpret_cast<ZSTD_DDict*>(dDict)); },
+	};
+	if (!dDict) {
+		return std::nullopt;
+	}
+
+	std::unique_ptr<ZSTD_DCtx, void(*)(void*)> dCtx{
+		ZSTD_createDCtx(),
+		[](void* dCtx) { ZSTD_freeDCtx(reinterpret_cast<ZSTD_DCtx*>(dCtx)); },
+	};
+	if (!dCtx) {
+		return std::nullopt;
+	}
+
+	std::vector<std::byte> decompressedData;
+	decompressedData.resize(entry->length);
+
+	if (ZSTD_isError(ZSTD_decompress_usingDDict(dCtx.get(), decompressedData.data(), decompressedData.size(), out.data(), out.size(), dDict.get()))) {
+		return {};
+	}
+	return decompressedData;
 }
 
 void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+	if (this->hasCompression()) {
+		// I don't feel like getting this to work right now
+		options.vpk_preloadBytes = 0;
+	}
+
 	entry.crc32 = crypto::computeCRC32(buffer);
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked, assuming we're not replacing an existing chunk (when flags = 1)
+	// Compressed entries will not replace existing chunks, since their size is unknown
 	entry.flags = 0;
 	entry.offset = 0;
 	entry.archiveIndex = options.vpk_saveToDirectory ? VPK_DIR_INDEX : this->numArchives;
-	if (!options.vpk_saveToDirectory && !this->freedChunks.empty()) {
+	if (!options.vpk_saveToDirectory && !this->freedChunks.empty() && !this->hasCompression()) {
 		int64_t bestChunkIndex = -1;
 		std::size_t currentChunkGap = SIZE_MAX;
 		for (int64_t i = 0; i < this->freedChunks.size(); i++) {
 			if (
-					(bestChunkIndex < 0 && this->freedChunks[i].length >= entry.length) ||
-					(bestChunkIndex >= 0 && this->freedChunks[i].length >= entry.length && (this->freedChunks[i].length - entry.length) < currentChunkGap)
-					) {
+				(bestChunkIndex < 0 && this->freedChunks[i].length >= entry.length) ||
+				(bestChunkIndex >= 0 && this->freedChunks[i].length >= entry.length && (this->freedChunks[i].length - entry.length) < currentChunkGap)
+			) {
 				bestChunkIndex = i;
 				currentChunkGap = this->freedChunks[i].length - entry.length;
 			}
@@ -408,6 +455,33 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
+	// Store compression dictionary
+	std::optional<std::vector<std::byte>> compressionDict;
+	std::unique_ptr<ZSTD_CDict, void(*)(void*)> cDict{nullptr, nullptr};
+	std::unique_ptr<ZSTD_CCtx, void(*)(void*)> cCtx{nullptr, nullptr};
+	if (this->hasCompression()) {
+		compressionDict = this->readEntry(this->getTruncatedFilestem() + ".dict");
+		if (!compressionDict) {
+			return false;
+		}
+
+		cDict = {
+			ZSTD_createCDict(compressionDict->data(), compressionDict->size(), options.zip_compressionStrength),
+			[](void* cDict) { ZSTD_freeCDict(reinterpret_cast<ZSTD_CDict*>(cDict)); },
+		};
+		if (!cDict) {
+			return false;
+		}
+
+		cCtx = {
+			ZSTD_createCCtx(),
+			[](void* cCtx) { ZSTD_freeCCtx(reinterpret_cast<ZSTD_CCtx*>(cCtx)); },
+		};
+		if (!cCtx) {
+			return false;
+		}
+	}
+
 	// Reconstruct data so we're not looping over it a ton of times
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
 	this->runForAllEntriesInternal([&temp](const std::string& path, Entry& entry) {
@@ -451,7 +525,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Helper
 	const auto getArchiveFilename = [this](const std::string& filename_, uint32_t archiveIndex) {
-		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + (::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION).data()};
+		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + std::string{::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION}};
 		string::normalizeSlashes(out);
 		return out;
 	};
@@ -477,7 +551,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Dummy header
 	outDir.write(this->header1);
-	if (this->header1.version == 2) {
+	if (this->hasExtendedHeader()) {
 		outDir.write(this->header2);
 	}
 
@@ -495,12 +569,13 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 					if (!entryData) {
 						continue;
 					}
-					if (entry->length == entry->extraData.size()) {
+
+					if (entry->length == entry->extraData.size() && !this->hasCompression()) {
 						// Override the archive index, no need for an archive VPK
 						entry->archiveIndex = VPK_DIR_INDEX;
 						entry->offset = dirVPKEntryData.size();
 					} else if (entry->archiveIndex != VPK_DIR_INDEX && (entry->flags & VPK_FLAG_REUSING_CHUNK)) {
-						// The entry is replacing pre-existing data in a VPK archive
+						// The entry is replacing pre-existing data in a VPK archive - it's not compressed
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						FileStream stream{archiveFilename, FileStream::OPT_READ | FileStream::OPT_WRITE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 						stream.seek_out_u(entry->offset);
@@ -510,11 +585,31 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						entry->offset = std::filesystem::exists(archiveFilename) ? std::filesystem::file_size(archiveFilename) : 0;
 						FileStream stream{archiveFilename, FileStream::OPT_APPEND | FileStream::OPT_CREATE_IF_NONEXISTENT};
-						stream.write(*entryData);
+						if (!this->hasCompression() || !entry->compressedLength) {
+							stream.write(*entryData);
+						} else {
+							std::vector<std::byte> compressedData;
+							compressedData.resize(ZSTD_compressBound(entryData->size()));
+							auto compressedSize = ZSTD_compress_usingCDict(cCtx.get(), compressedData.data(), compressedData.size(), entryData->data(), entryData->size(), cDict.get());
+							if (ZSTD_isError(compressedSize) || compressedData.size() < compressedSize) {
+								return false;
+							}
+							stream.write(std::span<std::byte>{compressedData.data(), compressedSize});
+						}
 					} else {
 						// The entry will be added to the directory VPK
 						entry->offset = dirVPKEntryData.size();
-						dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
+						if (!this->hasCompression() || !entry->compressedLength) {
+							dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
+						} else {
+							std::vector<std::byte> compressedData;
+							compressedData.resize(ZSTD_compressBound(entryData->size()));
+							auto compressedSize = ZSTD_compress_usingCDict(cCtx.get(), compressedData.data(), compressedData.size(), entryData->data(), entryData->size(), cDict.get());
+							if (ZSTD_isError(compressedSize) || compressedData.size() < compressedSize) {
+								return false;
+							}
+							dirVPKEntryData.insert(dirVPKEntryData.end(), compressedData.data(), compressedData.data() + compressedSize);
+						}
 					}
 
 					// Clear flags
@@ -527,6 +622,11 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 				outDir.write<uint16_t>(entry->archiveIndex);
 				outDir.write<uint32_t>(entry->offset);
 				outDir.write<uint32_t>(entry->length - entry->extraData.size());
+
+				if (this->hasCompression()) {
+					outDir.write<uint32_t>(entry->compressedLength - entry->extraData.size());
+				}
+
 				outDir.write(VPK_ENTRY_TERM);
 
 				if (!entry->extraData.empty()) {
@@ -554,22 +654,21 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	// Calculate Header1
 	this->header1.treeSize = outDir.tell_out() - dirVPKEntryData.size() - this->getHeaderLength();
 
-	// VPK v2 stuff
-	if (this->header1.version == 2) {
+	// Non-v1 stuff
+	if (this->hasExtendedHeader()) {
 		// Calculate hashes for all entries
 		this->md5Entries.clear();
 		if (options.vpk_generateMD5Entries) {
 			this->runForAllEntries([this](const std::string& path, const Entry& entry) {
-				// Believe it or not this should be safe to call by now
 				auto binData = this->readEntry(path);
 				if (!binData) {
 					return;
 				}
 				MD5Entry md5Entry{
-						.archiveIndex = entry.archiveIndex,
-						.offset = static_cast<uint32_t>(entry.offset),
-						.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
-						.checksum = crypto::computeMD5(*binData),
+					.archiveIndex = entry.archiveIndex,
+					.offset = static_cast<uint32_t>(entry.offset),
+					.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
+					.checksum = crypto::computeMD5(*binData),
 				};
 				this->md5Entries.push_back(md5Entry);
 			}, false);
@@ -616,8 +715,8 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	outDir.seek_out(0);
 	outDir.write(this->header1);
 
-	// v2 adds the MD5 hashes and file signature
-	if (this->header1.version != 2) {
+	// MD5 hashes, file signature
+	if (!this->hasExtendedHeader()) {
 		PackFile::setFullFilePath(outputDir);
 		return true;
 	}
@@ -689,7 +788,7 @@ bool VPK::generateKeyPairFiles(const std::string& name) {
 }
 
 bool VPK::sign(const std::string& filename_) {
-	if (this->header1.version != 2 || !std::filesystem::exists(filename_) || std::filesystem::is_directory(filename_)) {
+	if (!this->hasExtendedHeader() || !std::filesystem::exists(filename_) || std::filesystem::is_directory(filename_)) {
 		return false;
 	}
 
@@ -708,18 +807,18 @@ bool VPK::sign(const std::string& filename_) {
 }
 
 bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::byte>& publicKey) {
-	if (this->header1.version != 2) {
+	if (!this->hasExtendedHeader()) {
 		return false;
 	}
 
 	this->header2.signatureSectionSize = this->footer2.publicKey.size() + this->footer2.signature.size() + sizeof(uint32_t) * 2;
 	{
-		FileStream stream{this->getFilepath().data(), FileStream::OPT_READ | FileStream::OPT_WRITE};
+		FileStream stream{std::string{this->getFilepath()}, FileStream::OPT_READ | FileStream::OPT_WRITE};
 		stream.seek_out(sizeof(Header1));
 		stream.write(this->header2);
 	}
 
-	auto dirFileBuffer = fs::readFileBuffer(this->getFilepath().data());
+	auto dirFileBuffer = fs::readFileBuffer(std::string{this->getFilepath()});
 	if (dirFileBuffer.size() <= this->header2.signatureSectionSize) {
 		return false;
 	}
@@ -730,7 +829,7 @@ bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::
 	this->footer2.signature = crypto::signDataWithSHA256PrivateKey(dirFileBuffer, privateKey);
 
 	{
-		FileStream stream{this->getFilepath().data(), FileStream::OPT_READ | FileStream::OPT_WRITE};
+		FileStream stream{std::string{this->getFilepath()}, FileStream::OPT_READ | FileStream::OPT_WRITE};
 		stream.seek_out(this->getHeaderLength() + this->header1.treeSize + this->header2.fileDataSectionSize + this->header2.archiveMD5SectionSize + this->header2.otherMD5SectionSize);
 		stream.write(static_cast<uint32_t>(this->footer2.publicKey.size()));
 		stream.write(this->footer2.publicKey);
@@ -745,7 +844,7 @@ uint32_t VPK::getVersion() const {
 }
 
 void VPK::setVersion(uint32_t version) {
-	if (version != 1 && version != 2) {
+	if (version != 1 && version != 2 && version != 54) {
 		return;
 	}
 	if (::isFPX(this) || version == this->header1.version) {
@@ -754,8 +853,8 @@ void VPK::setVersion(uint32_t version) {
 	this->header1.version = version;
 
 	// Clearing these isn't necessary, but might as well
-	this->header2 = Header2{};
-	this->footer2 = Footer2{};
+	this->header2 = {};
+	this->footer2 = {};
 	this->md5Entries.clear();
 }
 
@@ -767,8 +866,16 @@ void VPK::setChunkSize(uint32_t newChunkSize) {
 	this->chunkSize = newChunkSize;
 }
 
+bool VPK::hasExtendedHeader() const {
+	return this->header1.version == 2 || this->header1.version == 54;
+}
+
+bool VPK::hasCompression() const {
+	return this->header1.version == 54;
+}
+
 uint32_t VPK::getHeaderLength() const {
-	if (this->header1.version != 2) {
+	if (!this->hasExtendedHeader()) {
 		return sizeof(Header1);
 	}
 	return sizeof(Header1) + sizeof(Header2);

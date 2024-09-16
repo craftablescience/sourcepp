@@ -37,19 +37,27 @@ if(NOT TARGET miniz)
 endif()
 
 
+# zstd
+if(NOT TARGET zstd::libzstd)
+    set(ZSTD_BUILD_PROGRAMS OFF CACHE INTERNAL "" FORCE)
+    set(ZSTD_BUILD_TESTS    OFF CACHE INTERNAL "" FORCE)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/zstd/build/cmake")
+    # find_package hacks
+    set(ZSTD_FOUND ON CACHE INTERNAL "" FORCE)
+    set(ZSTD_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/ext/zstd/lib" CACHE INTERNAL "" FORCE)
+    set(ZSTD_LIBRARY_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/ext/zstd/lib" CACHE INTERNAL "" FORCE)
+    set(ZSTD_LIBRARIES "libzstd_static" CACHE INTERNAL "" FORCE)
+endif()
+
+
 # minizip-ng
 if(NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "" FORCE)
-    set(MZ_ZLIB             ON  CACHE INTERNAL "")
-    set(MZ_BZIP2            ON  CACHE INTERNAL "")
-    set(MZ_LZMA             ON  CACHE INTERNAL "")
-    set(MZ_ZSTD             ON  CACHE INTERNAL "")
-    set(MZ_LIBCOMP          OFF CACHE INTERNAL "")
+    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
+    set(MZ_FORCE_FETCH_LIBS OFF CACHE INTERNAL "")
     set(MZ_PKCRYPT          OFF CACHE INTERNAL "")
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
-    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
-    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "")
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/minizip-ng")
 
