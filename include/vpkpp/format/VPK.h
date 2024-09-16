@@ -129,6 +129,10 @@ protected:
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
+	[[nodiscard]] bool hasExtendedHeader() const;
+
+	[[nodiscard]] bool hasCompression() const;
+
 	[[nodiscard]] uint32_t getHeaderLength() const;
 
 	uint32_t numArchives = -1;

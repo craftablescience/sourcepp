@@ -162,7 +162,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td><a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2</td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2, v54
+      <br> &bull; <a href="https://www.counter-strike.net/cs2">Counter-Strike: 2</a> modifications
+      <br> &bull; <a href="https://clientmod.ru">Counter-Strike: Source ClientMod</a> modifications
+    </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

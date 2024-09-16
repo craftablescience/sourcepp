@@ -20,8 +20,8 @@ struct BakeOptions {
 	/// BSP/ZIP - Override compression type of all stored entries
 	EntryCompressionType zip_compressionTypeOverride = EntryCompressionType::NO_OVERRIDE;
 
-	/// BSP/ZIP - Compression strength (use -1 for the compression type's default)
-	int8_t zip_compressionStrength = -1;
+	/// BSP/VPK/ZIP - Compression strength
+	int8_t zip_compressionStrength = 0;
 
 	/// GMA - Write CRCs for files and the overall GMA file when baking
 	bool gma_writeCRCs = true;
