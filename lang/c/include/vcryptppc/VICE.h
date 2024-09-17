@@ -1,7 +1,6 @@
 #pragma once
 
 #include <sourceppc/Buffer.h>
-#include <sourceppc/String.h>
 
 #define VCRYPTPP_VICE_KNOWN_CODES_DEFAULT "x9Ke0BY7";
 

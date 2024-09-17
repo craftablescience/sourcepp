@@ -1,4 +1,4 @@
-#include <vcryptppc/vcryptpp.h>
+#include <vcryptppc/VICE.h>
 
 #include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>

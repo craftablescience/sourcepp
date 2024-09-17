@@ -115,11 +115,17 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>vcryptpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</td>
+    <td rowspan="3"><code>vcryptpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> encrypted files</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="1" align="center">C<br>C#</td>
+    <td rowspan="3" align="center">C<br>C#</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/Vfont">VFONT</a> encrypted fonts</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
