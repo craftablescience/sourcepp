@@ -8,7 +8,7 @@ var namespaces_dup =
     [ "sourcepp", "d2/deb/namespacesourcepp.html", "d2/deb/namespacesourcepp" ],
     [ "steampp", "d7/d4d/namespacesteampp.html", "d7/d4d/namespacesteampp" ],
     [ "toolpp", "d6/d4a/namespacetoolpp.html", "d6/d4a/namespacetoolpp" ],
-    [ "vicepp", "d5/ddb/namespacevicepp.html", "d5/ddb/namespacevicepp" ],
+    [ "vcryptpp", "dd/d8a/namespacevcryptpp.html", "dd/d8a/namespacevcryptpp" ],
     [ "vpkpp", "d5/d29/namespacevpkpp.html", "d5/d29/namespacevpkpp" ],
     [ "vtfpp", "de/d90/namespacevtfpp.html", "de/d90/namespacevtfpp" ]
 ];

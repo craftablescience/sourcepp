@@ -78,5 +78,5 @@ var namespacevpkpp =
     [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
     [ "XZ_EXTENSION", "d5/d29/namespacevpkpp.html#a7e1632e11552d43b6ab79fafb743c5e2", null ],
     [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ],
-    [ "ZSTD_EXTENSION", "d5/d29/namespacevpkpp.html#ac54710b943063ae2799c13469c886c55", null ]
+    [ "ZST_EXTENSION", "d5/d29/namespacevpkpp.html#ac1a65d8ce9db1ef5995adcb60b66788d", null ]
 ];
