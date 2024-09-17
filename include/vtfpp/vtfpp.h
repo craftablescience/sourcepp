@@ -7,4 +7,5 @@
 
 #include "ImageConversion.h"
 #include "ImageFormats.h"
+#include "PPL.h"
 #include "VTF.h"

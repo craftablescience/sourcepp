@@ -1,12 +1,10 @@
 #include <vtfpp/VTF.h>
 
 #include <cstring>
-#include <memory>
 #include <unordered_map>
 
 #include <BufferStream.h>
 #include <miniz.h>
-#include <stb_image.h>
 
 #include <vtfpp/ImageConversion.h>
 
@@ -916,106 +914,44 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 }
 
 bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
-	const auto imageData_ = fs::readFileBuffer(imagePath);
+	ImageFormat inputFormat;
+	int inputWidth, inputHeight, inputFrameCount;
+	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
 
-	stbi_convert_iphone_png_to_rgb(true);
-	int width_, height_, channels;
-	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()))) {
-		std::unique_ptr<float, void(*)(void*)> stbImage{
-			stbi_loadf_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), &width_, &height_, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage) {
-			return false;
-		}
-
-		ImageFormat imageFormat;
-		switch (channels) {
-			case 1: imageFormat = ImageFormat::R32F;          break;
-			case 3: imageFormat = ImageFormat::RGB323232F;    break;
-			case 4: imageFormat = ImageFormat::RGBA32323232F; break;
-			default: return false;
-		}
-
-		return this->setImage({reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(imageFormat, width_, height_)}, imageFormat, width_, height_, filter, mip, frame, face, slice);
-	} else if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()))) {
-		std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
-			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), &width_, &height_, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage) {
-			return false;
-		}
-
-		ImageFormat imageFormat;
-		if (channels == 4) {
-			imageFormat = ImageFormat::RGBA16161616;
-		} else {
-			return false;
-		}
-
-		return this->setImage({reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(imageFormat, width_, height_)}, imageFormat, width_, height_, filter, mip, frame, face, slice);
-	} else if (imageData_.size() >= 3 && static_cast<char>(imageData_[0]) == 'G' && static_cast<char>(imageData_[1]) == 'I' && static_cast<char>(imageData_[2]) == 'F') {
-		int frameCount_ = 0;
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
-			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), nullptr, &width_, &height_, &frameCount_, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage || !frameCount_) {
-			return false;
-		}
-
-		ImageFormat imageFormat;
-		switch (channels) {
-			case 1: imageFormat = ImageFormat::I8;       break;
-			case 2: imageFormat = ImageFormat::UV88;     break;
-			case 3: imageFormat = ImageFormat::RGB888;   break;
-			case 4: imageFormat = ImageFormat::RGBA8888; break;
-			default: return false;
-		}
-
-		bool allSuccess = true;
-		const auto frameSize = ImageFormatDetails::getDataLength(imageFormat, width_, height_);
-		for (int currentFrame = 0; currentFrame < frameCount_; currentFrame++) {
-			if (!this->setImage({reinterpret_cast<std::byte*>(stbImage.get() + currentFrame * frameSize), reinterpret_cast<std::byte*>(stbImage.get() + currentFrame * frameSize + frameSize)}, imageFormat, width_, height_, filter, mip, frame + currentFrame, face, slice)) {
-				allSuccess = false;
-			}
-			if (currentFrame == 0 && this->frameCount < frame + frameCount_) {
-				// Call this after setting the first image, this function is a no-op if no image data is present yet
-				this->setFrameCount(frame + frameCount_);
-			}
-		}
-		return allSuccess;
-	} else {
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
-			stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(imageData_.data()), static_cast<int>(imageData_.size()), &width_, &height_, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage) {
-			return false;
-		}
-
-		ImageFormat imageFormat;
-		switch (channels) {
-			case 1: imageFormat = ImageFormat::I8;       break;
-			case 2: imageFormat = ImageFormat::UV88;     break;
-			case 3: imageFormat = ImageFormat::RGB888;   break;
-			case 4: imageFormat = ImageFormat::RGBA8888; break;
-			default: return false;
-		}
-
-		return this->setImage({reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(imageFormat, width_, height_)}, imageFormat, width_, height_, filter, mip, frame, face, slice);
+	// Unable to decode file
+	if (inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+		return false;
 	}
+
+	// One frame (normal)
+	if (inputFrameCount == 1) {
+		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice);
+	}
+
+	// Multiple frames (GIF)
+	bool allSuccess = true;
+	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
+	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
+		if (!this->setImage({imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize}, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice)) {
+			allSuccess = false;
+		}
+		if (currentFrame == 0 && this->frameCount < frame + inputFrameCount) {
+			// Call this after setting the first image, this function is a no-op if no image data is present yet
+			this->setFrameCount(frame + inputFrameCount);
+		}
+	}
+	return allSuccess;
 }
 
-std::vector<std::byte> VTF::convertAndSaveImageDataToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+std::vector<std::byte> VTF::saveImageToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
 	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
-void VTF::convertAndSaveImageDataToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	if (auto data_ = this->convertAndSaveImageDataToFile(mip, frame, face, slice); !data_.empty()) {
-		fs::writeFileBuffer(imagePath, data_);
+bool VTF::saveImageToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	if (auto data_ = this->saveImageToFile(mip, frame, face, slice); !data_.empty()) {
+		return fs::writeFileBuffer(imagePath, data_);
 	}
+	return false;
 }
 
 bool VTF::hasThumbnailData() const {
@@ -1058,14 +994,15 @@ void VTF::removeThumbnail() {
 	this->removeResourceInternal(Resource::TYPE_THUMBNAIL_DATA);
 }
 
-std::vector<std::byte> VTF::convertAndSaveThumbnailDataToFile() const {
+std::vector<std::byte> VTF::saveThumbnailToFile() const {
 	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
 
-void VTF::convertAndSaveThumbnailDataToFile(const std::string& imagePath) const {
-	if (auto data_ = this->convertAndSaveThumbnailDataToFile(); !data_.empty()) {
-		fs::writeFileBuffer(imagePath, data_);
+bool VTF::saveThumbnailToFile(const std::string& imagePath) const {
+	if (auto data_ = this->saveThumbnailToFile(); !data_.empty()) {
+		return fs::writeFileBuffer(imagePath, data_);
 	}
+	return false;
 }
 
 std::vector<std::byte> VTF::bake() {
