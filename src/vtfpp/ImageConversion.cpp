@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <bit>
 #include <cstring>
+#include <memory>
 #include <span>
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
@@ -11,6 +12,7 @@
 
 #include <Compressonator.h>
 #include <sourcepp/math/Float.h>
+#include <stb_image.h>
 #include <stb_image_resize2.h>
 #include <stb_image_write.h>
 
@@ -862,6 +864,87 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
 	}
 	return out;
+}
+
+std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount) {
+	stbi_convert_iphone_png_to_rgb(true);
+
+	format = ImageFormat::EMPTY;
+	width = 0;
+	height = 0;
+	int channels = 0;
+	frameCount = 1;
+
+	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
+		std::unique_ptr<float, void(*)(void*)> stbImage{
+			stbi_loadf_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+			&stbi_image_free,
+		};
+		if (!stbImage) {
+			return {};
+		}
+
+		switch (channels) {
+			case 1:  format = ImageFormat::R32F;          break;
+			case 3:  format = ImageFormat::RGB323232F;    break;
+			case 4:  format = ImageFormat::RGBA32323232F; break;
+			default: return {};
+		}
+
+		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+	} else if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
+		std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
+			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+			&stbi_image_free,
+		};
+		if (!stbImage) {
+			return {};
+		}
+
+		if (channels == 4) {
+			format = ImageFormat::RGBA16161616;
+		} else {
+			return {};
+		}
+
+		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+	} else if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
+		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), nullptr, &width, &height, &frameCount, &channels, 0),
+			&stbi_image_free,
+		};
+		if (!stbImage || !frameCount) {
+			return {};
+		}
+
+		switch (channels) {
+			case 1:  format = ImageFormat::I8;       break;
+			case 2:  format = ImageFormat::UV88;     break;
+			case 3:  format = ImageFormat::RGB888;   break;
+			case 4:  format = ImageFormat::RGBA8888; break;
+			default: return {};
+		}
+
+		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get() + (ImageFormatDetails::getDataLength(format, width, height) * frameCount))};
+	} else {
+		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+			stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+			&stbi_image_free,
+		};
+		if (!stbImage) {
+			return {};
+		}
+
+		switch (channels) {
+			case 1:  format = ImageFormat::I8;       break;
+			case 2:  format = ImageFormat::UV88;     break;
+			case 3:  format = ImageFormat::RGB888;   break;
+			case 4:  format = ImageFormat::RGBA8888; break;
+			default: return {};
+		}
+
+		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+	}
 }
 
 uint16_t ImageConversion::getResizedDim(uint16_t n, ResizeMethod method) {
