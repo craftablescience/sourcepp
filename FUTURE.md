@@ -23,9 +23,7 @@
   - Add a save method to write the constituent parts of a StudioModel to disk
 - `toolpp`
   - Perhaps add the ability to parse TeamSpen's additions to the FGD format?
+- `vcryptpp`
+  - Add VFONT write support
 - `vpkpp`
   - Cache file handles so they're not constantly getting closed/opened
-- `vtfpp`
-  - Improve conversion speeds between formats that use handrolled per-pixel converters (SIMD? Compute shader?)
-  - Improve conversion between LDR/HDR
-  - Add write support
