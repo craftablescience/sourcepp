@@ -115,7 +115,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>vicepp</code></td>
+    <td rowspan="1"><code>vcryptpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> Encrypted Files</td>
     <td align="center">✅</td>
     <td align="center">✅</td>

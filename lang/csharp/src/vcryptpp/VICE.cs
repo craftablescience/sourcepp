@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace vicepp
+namespace vcryptpp
 {
     internal static unsafe partial class Extern
     {
-        [DllImport("viceppc")]
-        public static extern Buffer vicepp_decrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
+        [DllImport("vcryptppc")]
+        public static extern Buffer vcryptpp_vice_decrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
 
-        [DllImport("viceppc")]
-        public static extern Buffer vicepp_encrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
+        [DllImport("vcryptppc")]
+        public static extern Buffer vcryptpp_vice_encrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
     }
 
     public static class KnownCodes {
@@ -48,7 +48,7 @@ namespace vicepp
             {
                 fixed (byte* bufferPtr = buffer)
                 {
-                    Buffer ret = Extern.vicepp_decrypt(bufferPtr, (ulong) buffer.LongLength, code);
+                    Buffer ret = Extern.vcryptpp_vice_decrypt(bufferPtr, (ulong) buffer.LongLength, code);
                     return BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }
@@ -61,7 +61,7 @@ namespace vicepp
                 var data = buffer.ToArray();
                 fixed (byte* bufferPtr = data)
                 {
-                    Buffer ret = Extern.vicepp_decrypt(bufferPtr, (ulong) data.LongLength, code);
+                    Buffer ret = Extern.vcryptpp_vice_decrypt(bufferPtr, (ulong) data.LongLength, code);
                     return BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }
@@ -73,7 +73,7 @@ namespace vicepp
             {
                 fixed (byte* bufferPtr = buffer)
                 {
-                    Buffer ret = Extern.vicepp_encrypt(bufferPtr, (ulong) buffer.LongLength, code);
+                    Buffer ret = Extern.vcryptpp_vice_encrypt(bufferPtr, (ulong) buffer.LongLength, code);
                     return BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }
@@ -86,7 +86,7 @@ namespace vicepp
                 var data = buffer.ToArray();
                 fixed (byte* bufferPtr = data)
                 {
-                    Buffer ret = Extern.vicepp_encrypt(bufferPtr, (ulong) data.LongLength, code);
+                    Buffer ret = Extern.vcryptpp_vice_encrypt(bufferPtr, (ulong) data.LongLength, code);
                     return BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }

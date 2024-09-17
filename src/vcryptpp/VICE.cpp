@@ -1,8 +1,10 @@
-#include <vicepp/vicepp.h>
+#include <vcryptpp/VICE.h>
 
 #include <cstring>
 
 #include <IceKey.h>
+
+using namespace vcryptpp;
 
 namespace {
 
@@ -35,10 +37,10 @@ std::vector<std::byte> applyIce(std::span<const std::byte> data, std::string_vie
 
 } // namespace
 
-std::vector<std::byte> vicepp::encrypt(std::span<const std::byte> data, std::string_view code) {
+std::vector<std::byte> VICE::encrypt(std::span<const std::byte> data, std::string_view code) {
 	return ::applyIce(data, code, true);
 }
 
-std::vector<std::byte> vicepp::decrypt(std::span<const std::byte> data, std::string_view code) {
+std::vector<std::byte> VICE::decrypt(std::span<const std::byte> data, std::string_view code) {
 	return ::applyIce(data, code, false);
 }
