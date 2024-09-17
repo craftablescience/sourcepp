@@ -5,7 +5,7 @@
 #include <string_view>
 #include <vector>
 
-namespace vicepp {
+namespace vcryptpp::VICE {
 
 // https://developer.valvesoftware.com/wiki/ICE
 // https://developer.valvesoftware.com/wiki/Encrypted_Key_Values
@@ -47,4 +47,4 @@ constexpr std::string_view EKV_GPU_PORTAL_2 = "UrE66!Ap";
 
 [[nodiscard]] std::vector<std::byte> decrypt(std::span<const std::byte> data, std::string_view code = KnownCodes::DEFAULT);
 
-} // namespace vicepp
+} // namespace vcryptpp::VICE
