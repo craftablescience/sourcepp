@@ -71,12 +71,12 @@ var NAVTREEINDEX =
 "d2/dd2/classvpkpp_1_1PackFile.html#abb121b59f74e5ae117988d52a435e0b3",
 "d4/dcd/structvpkpp_1_1GCF_1_1DirectoryMapHeader.html#acd7b6f09d3d1abea950a54bc180f2bbb",
 "d5/d62/classtoolpp_1_1CmdSeq.html#ac3653329697301d4619962afcf297163",
-"d5/dd7/VICE_8h.html#a9063870a9be7a29e886f84ac0f3fbaaf",
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eaa97b2c144243b2b9d2c593ec268b62f5",
-"d8/df2/classvtfpp_1_1VTF.html#aa80c768c2c949e254f335218c2650e5a",
-"da/d9c/MDL_8h.html",
-"dd/d5e/structvtfpp_1_1ImagePixel_1_1BGRA5551.html",
-"functions_eval.html"
+"d5/dd7/VICE_8h.html#a71d6020ff8ef5f29cc99268362466316",
+"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea96f418389e6544cd3a371068dc855a56",
+"d8/df2/classvtfpp_1_1VTF.html#aa55fba650b9fce6508ce214357cb7542",
+"da/d81/dmxpp_8cpp.html",
+"dd/d5c/CmdSeq_8h.html",
+"functions_e.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
