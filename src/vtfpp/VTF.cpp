@@ -878,8 +878,6 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 }
 
 bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
-	uint8_t mips = mip;
-
 	if (!this->hasImageData()) {
 		uint16_t resizedWidth = width_, resizedHeight = height_;
 		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
@@ -887,44 +885,16 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 			resizedWidth += math::getPaddingForAlignment(4, resizedWidth);
 			resizedHeight += math::getPaddingForAlignment(4, resizedHeight);
 		}
-
-		mips = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight);
-		if (mips <= mip) {
-			return false;
+		if (auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
+			mip = newMipCount - 1;
 		}
-
-		if (resizedWidth == width_ && resizedHeight == height_) {
-			this->regenerateImageData(format_, width_, height_, mip + 1, frame + 1, face + 1, slice + 1, filter);
-			const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
-			if (!imageResource) {
-				return false;
-			}
-			if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount) && imageData_.size() == length) {
-				std::memcpy(imageResource->data.data() + offset, imageData_.data(), length);
-				return true;
-			}
-		} else {
-			auto imageDataCopy = ImageConversion::resizeImageData(imageData_, format_, width_, resizedWidth, height_, resizedHeight, this->imageDataIsSRGB(), filter);
-			this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face + 1, slice + 1, filter);
-			const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
-			if (!imageResource) {
-				return false;
-			}
-			if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount) && imageDataCopy.size() == length) {
-				std::memcpy(imageResource->data.data() + offset, imageDataCopy.data(), length);
-				return true;
-			}
+		if (auto newFaceCount = getFaceCountFor(resizedWidth, resizedHeight, this->majorVersion, this->minorVersion, face > 0 ? VTF::FLAG_ENVMAP : VTF::FLAG_NONE, face == 6 ? VTF::SPHEREMAP_START_FRAME : 0); newFaceCount <= face) {
+			face = newFaceCount - 1;
 		}
-		return false;
+		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face + 1, slice + 1);
 	}
 
-	if (mips > 0 && this->mipCount <= 1) {
-		mips = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height);
-		if (mips <= mip) {
-			return false;
-		}
-	}
-	if (this->mipCount <= mips || this->frameCount <= frame || this->getFaceCount() <= face || this->sliceCount <= slice) {
+	if (this->mipCount <= mip || this->frameCount <= frame || this->getFaceCount() <= face || this->sliceCount <= slice) {
 		return false;
 	}
 
@@ -937,8 +907,8 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		if (this->format != format_) {
 			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, this->width, this->height);
 		}
-		if (this->width != width_ || this->height != height_) {
-			image = ImageConversion::resizeImageData(image, this->format, width_, this->width, height_, this->height, this->imageDataIsSRGB(), filter);
+		if (width_ != ImageDimensions::getMipDim(mip, this->width) || height_ != ImageDimensions::getMipDim(mip, this->height)) {
+			image = ImageConversion::resizeImageData(image, this->format, width_, ImageDimensions::getMipDim(mip, this->width), height_, ImageDimensions::getMipDim(mip, this->height), this->imageDataIsSRGB(), filter);
 		}
 		std::memcpy(imageResource->data.data() + offset, image.data(), image.size());
 	}
