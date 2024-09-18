@@ -26,6 +26,14 @@ var ImageConversion_8h =
     [ "R32F", "de/da1/structvtfpp_1_1ImagePixel_1_1R32F.html", "de/da1/structvtfpp_1_1ImagePixel_1_1R32F" ],
     [ "RGB323232F", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F" ],
     [ "RGBA32323232F", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F" ],
+    [ "FileFormat", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409", [
+      [ "DEFAULT", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a5b39c8b553c821e7cddc6da64b5bd2ee", null ],
+      [ "PNG", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a55505ba281b015ec31f03ccb151b2a34", null ],
+      [ "JPEG", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a907e06a16862d82ca6907a28a68d0ad6", null ],
+      [ "BMP", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aa5d5ca1447586e23dc011f8c0cc0a6db", null ],
+      [ "TGA", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103", null ],
+      [ "HDR", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3", null ]
+    ] ],
     [ "ResizeEdge", "da/d01/ImageConversion_8h.html#a5958476a157c26336cb52c3055cffb53", [
       [ "CLAMP", "da/d01/ImageConversion_8h.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345", null ],
       [ "REFLECT", "da/d01/ImageConversion_8h.html#a5958476a157c26336cb52c3055cffb53ae4f6a05f82ed398f984f4bc1a55838df", null ],
@@ -47,7 +55,7 @@ var ImageConversion_8h =
       [ "POWER_OF_TWO_NEAREST", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35", null ]
     ] ],
     [ "convertFileToImageData", "da/d01/ImageConversion_8h.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
-    [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a180ce836d3a592d8222d9c2462a0ac1e", null ],
+    [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
     [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],
     [ "getResizedDim", "da/d01/ImageConversion_8h.html#a440840aa87de2dc367add665f674b365", null ],

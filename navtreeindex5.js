@@ -1,5 +1,12 @@
 var NAVTREEINDEX5 =
 {
+"d5/dd7/VICE_8h.html#a11552e7e0cd868b00d9d1b83875cb3e8":[3,0,1,8,2,11],
+"d5/dd7/VICE_8h.html#a1dd39d037d9fb28a35db6071001a5ff6":[3,0,1,8,2,15],
+"d5/dd7/VICE_8h.html#a216cf72e1c52c7d05dee030f7b8a7815":[3,0,1,8,2,2],
+"d5/dd7/VICE_8h.html#a2aecf24475080091821961e3c7f52b2c":[3,0,1,8,2,22],
+"d5/dd7/VICE_8h.html#a30549e518c9bc7e0e1ae962024db73cf":[3,0,1,8,2,10],
+"d5/dd7/VICE_8h.html#a3863ed23db2aa344a3c520a659d78131":[3,0,1,8,2,18],
+"d5/dd7/VICE_8h.html#a3961a797ec75bb833fbbcf4e8462cbc2":[3,0,1,8,2,7],
 "d5/dd7/VICE_8h.html#a3e01e829891fc748ca81ab0b6be33141":[3,0,1,8,2,13],
 "d5/dd7/VICE_8h.html#a3eb3e4f9ddfd12f1a1610d524131dec0":[3,0,1,8,2,6],
 "d5/dd7/VICE_8h.html#a4770355bcaecf1897eb8129905d9fbcf":[3,0,1,8,2,5],
@@ -242,12 +249,5 @@ var NAVTREEINDEX5 =
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea04bd834032febb3fda8c6936ee140949":[1,3,1,1,12,9],
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea12e92caf5a29322009f3516313bddb36":[1,3,1,1,12,1],
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea1f8152902d59bcbf7fc7f35fdfa9548e":[1,3,1,1,12,19],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea263758eeec1ef1b1e6e5672ca6833188":[1,3,1,1,12,32],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea2bee5451b604ff9f491d53eb005e6e20":[1,3,1,1,12,23],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea346ff32eaa3c09983fb2ec057816d352":[1,3,1,1,12,8],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d":[1,3,1,1,12,7],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea44d211265e86d6d510e6e3d94557e821":[1,3,1,1,12,14],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea4a042c103ad7f0bf301936f6793e303f":[1,3,1,1,12,26],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea53f93baa3057821107c750323892fa92":[1,3,1,1,12,3],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea5dea13cf7ba399de1ae68a7194c73cff":[1,3,1,1,12,12]
+"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea263758eeec1ef1b1e6e5672ca6833188":[1,3,1,1,12,32]
 };

@@ -1,16 +1,18 @@
 var searchData=
 [
-  ['unknown_2769',['UNKNOWN',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3',1,'bsppp::UNKNOWN()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3',1,'vpkpp::UNKNOWN()']]],
-  ['unused0_2770',['UNUSED0',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a',1,'bsppp']]],
-  ['unused1_2771',['UNUSED1',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4',1,'bsppp']]],
-  ['unused2_2772',['UNUSED2',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde',1,'bsppp']]],
-  ['unused3_2773',['UNUSED3',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7',1,'bsppp']]],
-  ['unused4_2774',['UNUSED4',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72',1,'bsppp']]],
-  ['unused5_2775',['UNUSED5',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71',1,'bsppp']]],
-  ['unused6_2776',['UNUSED6',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b',1,'bsppp']]],
-  ['unused7_2777',['UNUSED7',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292',1,'bsppp']]],
-  ['unused8_2778',['UNUSED8',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2',1,'bsppp']]],
-  ['uv88_2779',['UV88',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca079eb95759d2ad31254f659d63651825',1,'vtfpp']]],
-  ['uvlx8888_2780',['UVLX8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca944688f8e53226efa5e2ff7c76b3845c',1,'vtfpp']]],
-  ['uvwq8888_2781',['UVWQ8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca2415bd706c8daeabfe76e97eeada6422',1,'vtfpp']]]
+  ['s2004_5fclusterportals_2752',['S2004_CLUSTERPORTALS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8',1,'bsppp']]],
+  ['s2004_5fclusters_2753',['S2004_CLUSTERS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39',1,'bsppp']]],
+  ['s2004_5fdisp_5flightmap_5falphas_2754',['S2004_DISP_LIGHTMAP_ALPHAS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34',1,'bsppp']]],
+  ['s2004_5fphyscollidesurface_2755',['S2004_PHYSCOLLIDESURFACE',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f',1,'bsppp']]],
+  ['s2004_5fportals_2756',['S2004_PORTALS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247',1,'bsppp']]],
+  ['s2004_5fportalverts_2757',['S2004_PORTALVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27',1,'bsppp']]],
+  ['s2006_5fxbox_5flightmappageinfos_2758',['S2006_XBOX_LIGHTMAPPAGEINFOS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd',1,'bsppp']]],
+  ['s2006_5fxbox_5flightmappages_2759',['S2006_XBOX_LIGHTMAPPAGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb',1,'bsppp']]],
+  ['sl4d2_5fprop_5fblob_2760',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],
+  ['sl4d2_5fpropcollision_2761',['SL4D2_PROPCOLLISION',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15',1,'bsppp']]],
+  ['sl4d2_5fprophulls_2762',['SL4D2_PROPHULLS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e',1,'bsppp']]],
+  ['sl4d2_5fprophullverts_2763',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
+  ['sl4d2_5fproptris_2764',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
+  ['string_2765',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value']]],
+  ['surfedges_2766',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
 ];

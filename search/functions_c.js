@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['nearestpowerof2_1879',['nearestPowerOf2',['../d0/d54/namespacesourcepp_1_1math.html#a1bdf52cb659232b552995cb6940689af',1,'sourcepp::math']]],
-  ['normalizeslashes_1880',['normalizeSlashes',['../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8',1,'sourcepp::string']]]
+  ['nearestpowerof2_1886',['nearestPowerOf2',['../d0/d54/namespacesourcepp_1_1math.html#a1bdf52cb659232b552995cb6940689af',1,'sourcepp::math']]],
+  ['normalizeslashes_1887',['normalizeSlashes',['../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8',1,'sourcepp::string']]]
 ];
