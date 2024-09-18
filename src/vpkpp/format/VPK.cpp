@@ -585,7 +585,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						entry->offset = std::filesystem::exists(archiveFilename) ? std::filesystem::file_size(archiveFilename) : 0;
 						FileStream stream{archiveFilename, FileStream::OPT_APPEND | FileStream::OPT_CREATE_IF_NONEXISTENT};
-						if (!this->hasCompression() || !entry->compressedLength) {
+						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
 							stream.write(*entryData);
 						} else {
 							std::vector<std::byte> compressedData;
@@ -595,11 +595,12 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 								return false;
 							}
 							stream.write(std::span<std::byte>{compressedData.data(), compressedSize});
+							entry->compressedLength = compressedSize;
 						}
 					} else {
 						// The entry will be added to the directory VPK
 						entry->offset = dirVPKEntryData.size();
-						if (!this->hasCompression() || !entry->compressedLength) {
+						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
 							dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
 						} else {
 							std::vector<std::byte> compressedData;
@@ -609,6 +610,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 								return false;
 							}
 							dirVPKEntryData.insert(dirVPKEntryData.end(), compressedData.data(), compressedData.data() + compressedSize);
+							entry->compressedLength = compressedSize;
 						}
 					}
 
