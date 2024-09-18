@@ -53,12 +53,14 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	}
 
 	auto* pck = new PCK{path};
-	auto packFile = std::unique_ptr<PackFile>(pck);
+	auto packFile = std::unique_ptr<PackFile>{pck};
 
-	FileStream reader{pck->fullFilePath};
-	reader.seek_in(0);
+	auto& reader = (pck->readHandle = FileStream{path}).value();
+	if (!reader) {
+		return nullptr;
+	}
 
-	if (auto signature = reader.read<uint32_t>(); signature != PCK_SIGNATURE) {
+	if (auto signature = reader.seek_in(0).read<uint32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
 		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t)), std::ios::end);
 		if (auto endSignature = reader.read<uint32_t>(); endSignature != PCK_SIGNATURE) {
@@ -76,10 +78,11 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 		pck->startOffset = reader.tell_in() - sizeof(uint32_t);
 	}
 
-	reader.read(pck->header.packVersion);
-	reader.read(pck->header.godotVersionMajor);
-	reader.read(pck->header.godotVersionMinor);
-	reader.read(pck->header.godotVersionPatch);
+	reader
+		.read(pck->header.packVersion)
+		.read(pck->header.godotVersionMajor)
+		.read(pck->header.godotVersionMinor)
+		.read(pck->header.godotVersionPatch);
 
 	pck->header.flags = FLAG_NONE;
 	std::size_t extraEntryContentsOffset = 0;
@@ -131,7 +134,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	return packFile;
 }
 
-std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {
@@ -140,19 +143,16 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) c
 	if (entry->unbaked) {
 		return readUnbakedEntry(*entry);
 	}
-
-	// It's baked into the file on disk
 	if (entry->flags & FLAG_ENCRYPTED) {
 		// File is encrypted
 		return std::nullopt;
 	}
 
-	FileStream stream{this->fullFilePath};
-	if (!stream) {
+	// It's baked into the file on disk
+	if (!this->isReadHandleOpen()) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry->offset);
-	return stream.read_bytes(entry->length);
+	return this->readHandle->seek_in_u(entry->offset).read_bytes(entry->length);
 }
 
 void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
@@ -196,13 +196,11 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	// If this is an embedded pck, read the executable data first
 	std::vector<std::byte> exeData;
 	if (this->startOffset > 0) {
-		FileStream stream{this->fullFilePath};
-		if (!stream) {
-			return false;
-		}
-		stream.seek_in(0);
-		exeData = stream.read_bytes(this->startOffset);
+		exeData = this->readHandle->seek_in(0).read_bytes(this->startOffset);
 	}
+
+	// Close read handle
+	this->readHandle = std::nullopt;
 
 	// Write data
 	{
@@ -283,7 +281,10 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	// Clean up
 	this->mergeUnbakedEntries();
 	PackFile::setFullFilePath(outputDir);
-	return true;
+
+	// Reopen read handle
+	this->readHandle = FileStream{std::string{this->getFilepath()}};
+	return this->isReadHandleOpen();
 }
 
 Attribute PCK::getSupportedEntryAttributes() const {

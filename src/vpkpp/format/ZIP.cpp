@@ -53,9 +53,9 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, const EntryCallback
 	}
 
 	auto* zip = new ZIP{path};
-	auto packFile = std::unique_ptr<PackFile>(zip);
+	auto packFile = std::unique_ptr<PackFile>{zip};
 
-	if (!zip->openZIP(zip->fullFilePath)) {
+	if (!zip->openZIP(zip->getFilepath())) {
 		return nullptr;
 	}
 
@@ -87,11 +87,11 @@ std::unique_ptr<PackFile> ZIP::open(const std::string& path, const EntryCallback
 	return packFile;
 }
 
-std::vector<std::string> ZIP::verifyEntryChecksums() const {
+std::vector<std::string> ZIP::verifyEntryChecksums() {
 	return this->verifyEntryChecksumsUsingCRC32();
 }
 
-std::optional<std::vector<std::byte>> ZIP::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> ZIP::readEntry(const std::string& path_) {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {

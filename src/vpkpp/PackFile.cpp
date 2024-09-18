@@ -146,7 +146,7 @@ PackFileType PackFile::getType() const {
 	return this->type;
 }
 
-std::vector<std::string> PackFile::verifyEntryChecksums() const {
+std::vector<std::string> PackFile::verifyEntryChecksums() {
 	return {};
 }
 
@@ -154,7 +154,7 @@ bool PackFile::hasPackFileChecksum() const {
 	return false;
 }
 
-bool PackFile::verifyPackFileChecksum() const {
+bool PackFile::verifyPackFileChecksum() {
 	return true;
 }
 
@@ -162,7 +162,7 @@ bool PackFile::hasPackFileSignature() const {
 	return false;
 }
 
-bool PackFile::verifyPackFileSignature() const {
+bool PackFile::verifyPackFileSignature() {
 	return true;
 }
 
@@ -183,7 +183,7 @@ std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeU
 	return std::nullopt;
 }
 
-std::optional<std::string> PackFile::readEntryText(const std::string& path) const {
+std::optional<std::string> PackFile::readEntryText(const std::string& path) {
 	auto bytes = this->readEntry(path);
 	if (!bytes) {
 		return std::nullopt;
@@ -358,7 +358,7 @@ std::size_t PackFile::removeDirectory(const std::string& dirName_) {
 	return count;
 }
 
-bool PackFile::extractEntry(const std::string& entryPath, const std::string& filepath) const {
+bool PackFile::extractEntry(const std::string& entryPath, const std::string& filepath) {
 	if (filepath.empty()) {
 		return false;
 	}
@@ -377,7 +377,7 @@ bool PackFile::extractEntry(const std::string& entryPath, const std::string& fil
 	return true;
 }
 
-bool PackFile::extractDirectory(const std::string& dir_, const std::string& outputDir) const {
+bool PackFile::extractDirectory(const std::string& dir_, const std::string& outputDir) {
 	auto dir = this->cleanEntryPath(dir_);
 	dir += '/';
 	if (dir == "/") {
@@ -402,7 +402,7 @@ bool PackFile::extractDirectory(const std::string& dir_, const std::string& outp
 	return noneFailed;
 }
 
-bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFileDir) const {
+bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFileDir) {
 	if (outputDir.empty()) {
 		return false;
 	}
@@ -424,7 +424,7 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 	return noneFailed;
 }
 
-bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs) const {
+bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& predicate, bool stripSharedDirs) {
 	if (outputDir.empty() || !predicate) {
 		return false;
 	}
@@ -633,7 +633,11 @@ std::string PackFile::escapeEntryPathForWrite(const std::string& path) {
 #endif
 }
 
-std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() const {
+bool PackFile::isReadHandleOpen() const {
+	return this->readHandle && *this->readHandle;
+}
+
+std::vector<std::string> PackFile::verifyEntryChecksumsUsingCRC32() {
 	std::vector<std::string> out;
 	this->runForAllEntries([this, &out](const std::string& path, const Entry& entry) {
 		if (!entry.crc32) {

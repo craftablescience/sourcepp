@@ -33,12 +33,14 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 	}
 
 	auto* pak = new PAK{path};
-	auto packFile = std::unique_ptr<PackFile>(pak);
+	auto packFile = std::unique_ptr<PackFile>{pak};
 
-	FileStream reader{pak->fullFilePath};
-	reader.seek_in(0);
+	auto& reader = (pak->readHandle = FileStream{path}).value();
+	if (!reader) {
+		return nullptr;
+	}
 
-	if (auto signature = reader.read<uint32_t>(); signature != PAK_SIGNATURE) {
+	if (auto signature = reader.seek_in(0).read<uint32_t>(); signature != PAK_SIGNATURE) {
 		// File is not a PAK
 		return nullptr;
 	}
@@ -66,7 +68,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 	return packFile;
 }
 
-std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {
@@ -77,12 +79,10 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) c
 	}
 
 	// It's baked into the file on disk
-	FileStream stream{this->fullFilePath};
-	if (!stream) {
+	if (!this->isReadHandleOpen()) {
 		return std::nullopt;
 	}
-	stream.seek_in_u(entry->offset);
-	return stream.read_bytes(entry->length);
+	return this->readHandle->seek_in_u(entry->offset).read_bytes(entry->length);
 }
 
 void PAK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
@@ -116,6 +116,9 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		}
 	}
 
+	// Close read handle
+	this->readHandle = std::nullopt;
+
 	{
 		FileStream stream{outputPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		stream.seek_out(0);
@@ -147,7 +150,10 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	// Clean up
 	this->mergeUnbakedEntries();
 	PackFile::setFullFilePath(outputDir);
-	return true;
+
+	// Reopen read handle
+	this->readHandle = FileStream{std::string{this->getFilepath()}};
+	return this->isReadHandleOpen();
 }
 
 Attribute PAK::getSupportedEntryAttributes() const {

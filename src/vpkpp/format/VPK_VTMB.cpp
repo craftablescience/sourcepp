@@ -40,7 +40,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 	}
 
 	auto* vpkVTMB = new VPK_VTMB{path};
-	auto packFile = std::unique_ptr<PackFile>(vpkVTMB);
+	auto packFile = std::unique_ptr<PackFile>{vpkVTMB};
 
 	for (int i = 0; i <= 9; i++) {
 		if (!std::filesystem::exists(vpkVTMB->getTruncatedFilepath() + string::padNumber(i * 100, 3) + VPK_VTMB_EXTENSION.data())) {
@@ -96,7 +96,7 @@ void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, cons
 	}
 }
 
-std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& path_) {
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {

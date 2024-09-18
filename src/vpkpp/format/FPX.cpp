@@ -44,11 +44,14 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, const Entry
 	}
 
 	auto* fpx = new FPX{path};
-	auto packFile = std::unique_ptr<PackFile>(fpx);
+	auto packFile = std::unique_ptr<PackFile>{fpx};
 
-	FileStream reader{fpx->fullFilePath};
-	reader.seek_in(0);
-	reader.read(fpx->header1);
+	auto& reader = (fpx->readHandle = FileStream{path}).value();
+	if (!reader) {
+		return nullptr;
+	}
+
+	reader.seek_in(0).read(fpx->header1);
 	if (fpx->header1.signature != FPX_SIGNATURE) {
 		// File is not an FPX
 		return nullptr;

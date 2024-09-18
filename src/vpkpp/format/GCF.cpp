@@ -27,14 +27,16 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 
 	// Create the pack file
 	auto* gcf = new GCF{path};
-	auto packFile = std::unique_ptr<PackFile>(gcf);
+	auto packFile = std::unique_ptr<PackFile>{gcf};
 
 	// open file
-	FileStream reader(gcf->fullFilePath);
-	reader.seek_in(0);
+	auto& reader = (gcf->readHandle = FileStream{path}).value();
+	if (!reader) {
+		return nullptr;
+	}
 
 	// we read the main header here (not the block header)
-	reader.read(gcf->header);
+	reader.seek_in(0).read(gcf->header);
 
 	if (gcf->header.dummy1 != 1 && gcf->header.dummy2 != 1 && gcf->header.gcfversion != 6) {
 		/**
@@ -198,7 +200,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 	return packFile;
 }
 
-std::vector<std::string> GCF::verifyEntryChecksums() const {
+std::vector<std::string> GCF::verifyEntryChecksums() {
 	std::vector<std::string> bad;
 	this->runForAllEntries([this, &bad](const std::string& path, const Entry& entry) {
 		auto bytes = this->readEntry(path);
@@ -223,7 +225,12 @@ std::vector<std::string> GCF::verifyEntryChecksums() const {
 	return bad;
 }
 
-std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) const {
+std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) {
+	if (!this->isReadHandleOpen()) {
+		return std::nullopt;
+	}
+	auto& reader = this->readHandle.value();
+
 	auto path = this->cleanEntryPath(path_);
 	auto entry = this->findEntry(path);
 	if (!entry) {
@@ -257,22 +264,16 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 		return lhs.file_data_offset < rhs.file_data_offset;
 	});
 
-	FileStream stream{this->fullFilePath};
-	if (!stream) {
-		//printf("!stream\n");
-		return std::nullopt;
-	}
-
 	uint64_t remaining = entry->length;
 
 	for (const auto& block : toread) {
 		uint32_t currindex = block.first_data_block_index;
 		while (currindex <= this->blockheader.count) {
 			uint64_t curfilepos = static_cast<uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
-			stream.seek_in_u(curfilepos);
+			reader.seek_in_u(curfilepos);
 			//printf("off %lli block %lu toread %lli should be %llu\n", stream.tellInput(), currindex, remaining, curfilepos);
 			uint32_t toreadAmt = std::min(remaining, static_cast<uint64_t>(0x2000));
-			auto streamvec = stream.read_bytes(toreadAmt);
+			auto streamvec = reader.read_bytes(toreadAmt);
 			filedata.insert(filedata.end(), streamvec.begin(), streamvec.end());
 			remaining -= toreadAmt;
 			currindex = this->fragmap[currindex];

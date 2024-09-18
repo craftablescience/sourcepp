@@ -37,7 +37,7 @@ public:
 		return true;
 	}
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) override;
 
 	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 

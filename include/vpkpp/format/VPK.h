@@ -1,7 +1,6 @@
 #pragma once
 
 #include <array>
-#include <tuple>
 
 #include "../PackFile.h"
 
@@ -75,17 +74,17 @@ public:
 		return true;
 	}
 
-	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
+	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() override;
 
 	[[nodiscard]] bool hasPackFileChecksum() const override;
 
-	[[nodiscard]] bool verifyPackFileChecksum() const override;
+	[[nodiscard]] bool verifyPackFileChecksum() override;
 
 	[[nodiscard]] bool hasPackFileSignature() const override;
 
-	[[nodiscard]] bool verifyPackFileSignature() const override;
+	[[nodiscard]] bool verifyPackFileSignature() override;
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) override;
 
 	bool removeEntry(const std::string& filename_) override;
 
