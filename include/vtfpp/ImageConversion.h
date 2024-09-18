@@ -201,8 +201,17 @@ namespace ImageConversion {
 /// Converts several images from one format to another.
 [[nodiscard]] std::vector<std::byte> convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount);
 
+enum class FileFormat {
+	DEFAULT,
+	PNG,
+	JPEG,
+	BMP,
+	TGA,
+	HDR,
+};
+
 /// Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.
-[[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
+[[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT);
 
 [[nodiscard]] std::vector<std::byte> convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount);
 

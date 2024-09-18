@@ -943,12 +943,12 @@ bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter f
 	return allSuccess;
 }
 
-std::vector<std::byte> VTF::saveImageToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+std::vector<std::byte> VTF::saveImageToFile(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, ImageConversion::FileFormat fileFormat) const {
+	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), fileFormat);
 }
 
-bool VTF::saveImageToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	if (auto data_ = this->saveImageToFile(mip, frame, face, slice); !data_.empty()) {
+bool VTF::saveImageToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, ImageConversion::FileFormat fileFormat) const {
+	if (auto data_ = this->saveImageToFile(mip, frame, face, slice, fileFormat); !data_.empty()) {
 		return fs::writeFileBuffer(imagePath, data_);
 	}
 	return false;
@@ -994,12 +994,12 @@ void VTF::removeThumbnail() {
 	this->removeResourceInternal(Resource::TYPE_THUMBNAIL_DATA);
 }
 
-std::vector<std::byte> VTF::saveThumbnailToFile() const {
-	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+std::vector<std::byte> VTF::saveThumbnailToFile(ImageConversion::FileFormat fileFormat) const {
+	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, fileFormat);
 }
 
-bool VTF::saveThumbnailToFile(const std::string& imagePath) const {
-	if (auto data_ = this->saveThumbnailToFile(); !data_.empty()) {
+bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat) const {
+	if (auto data_ = this->saveThumbnailToFile(fileFormat); !data_.empty()) {
 		return fs::writeFileBuffer(imagePath, data_);
 	}
 	return false;

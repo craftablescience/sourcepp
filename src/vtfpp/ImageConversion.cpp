@@ -845,7 +845,7 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 	return out;
 }
 
-std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -853,15 +853,66 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	auto stbWriteFunc = [](void* out, void* data, int size) {
 		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
 	};
-	if (ImageFormatDetails::decimal(format)) {
-		auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-		stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
-	} else if (ImageFormatDetails::large(format)) {
-		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
-		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, rgba.data(), 0);
-	} else {
-		auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-		stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
+
+	if (fileFormat == FileFormat::DEFAULT) {
+		if (ImageFormatDetails::decimal(format)) {
+			fileFormat = FileFormat::HDR;
+		} else {
+			fileFormat = FileFormat::PNG;
+		}
+	}
+	switch (fileFormat) {
+		case FileFormat::PNG: {
+			if (format == ImageFormat::RGB888) {
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 0);
+			} else if (format == ImageFormat::RGBA8888) {
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data(), 0);
+			} else if (ImageFormatDetails::large(format)) {
+				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, rgba.data(), 0);
+			} else {
+				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
+			}
+			break;
+		}
+		case FileFormat::JPEG: {
+			auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+			stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 95);
+			break;
+		}
+		case FileFormat::BMP: {
+			if (format == ImageFormat::RGB888) {
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
+			} else if (format == ImageFormat::RGBA8888) {
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
+			} else {
+				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
+			}
+			break;
+		}
+		case FileFormat::TGA: {
+			if (format == ImageFormat::RGB888) {
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
+			} else if (format == ImageFormat::RGBA8888) {
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
+			} else if (ImageFormatDetails::large(format)) {
+				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, rgba.data());
+			} else {
+				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
+			}
+			break;
+		}
+		case FileFormat::HDR: {
+			auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+			stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
+			break;
+		}
+		case FileFormat::DEFAULT:
+			break;
 	}
 	return out;
 }

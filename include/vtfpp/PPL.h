@@ -59,9 +59,9 @@ public:
 
 	bool setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
-	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint32_t lod = 0) const;
+	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
-	bool saveImageToFile(const std::string& imagePath, uint32_t lod = 0) const; // NOLINT(*-use-nodiscard)
+	bool saveImageToFile(const std::string& imagePath, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] std::vector<std::byte> bake();
 

@@ -163,15 +163,15 @@ bool PPL::setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t
 	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, filter);
 }
 
-std::vector<std::byte> PPL::saveImageToFile(uint32_t lod) const {
+std::vector<std::byte> PPL::saveImageToFile(uint32_t lod, ImageConversion::FileFormat fileFormat) const {
 	if (auto image = this->getImageRaw(lod)) {
-		return ImageConversion::convertImageDataToFile(image->data, this->format, image->width, image->height);
+		return ImageConversion::convertImageDataToFile(image->data, this->format, image->width, image->height, fileFormat);
 	}
 	return {};
 }
 
-bool PPL::saveImageToFile(const std::string& imagePath, uint32_t lod) const {
-	if (auto data = this->saveImageToFile(lod); !data.empty()) {
+bool PPL::saveImageToFile(const std::string& imagePath, uint32_t lod, ImageConversion::FileFormat fileFormat) const {
+	if (auto data = this->saveImageToFile(lod, fileFormat); !data.empty()) {
 		return fs::writeFileBuffer(imagePath, data);
 	}
 	return false;
@@ -183,15 +183,14 @@ std::vector<std::byte> PPL::bake() {
 	std::vector<std::byte> out;
 	BufferStream writer{out};
 
-	static constexpr auto headerSize = sizeof(uint32_t) * 8;
+	static constexpr auto HEADER_SIZE = sizeof(uint32_t) * 8;
 	writer << this->version << this->checksum << this->format;
 	writer.write<uint32_t>(this->images.size());
 
-	const auto imageDirectorySize = this->images.size() * sizeof(uint32_t) * 8;
 	while (writer.tell() < ALIGNMENT) {
 		writer.write<uint32_t>(0);
 	}
-	writer.seek(headerSize);
+	writer.seek(HEADER_SIZE);
 
 	uint32_t currentOffset = ALIGNMENT;
 	for (const auto& [lod, image] : this->images) {

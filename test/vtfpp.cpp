@@ -41,7 +41,7 @@ TEST(vtfpp, read_write_ppl) {
 			const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA); \
 			ASSERT_TRUE(image); \
 			EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount())); \
-			fs::writeFileBuffer("fmt_" #Format ".png", vtf.convertAndSaveImageDataToFile()); \
+			fs::writeFileBuffer("fmt_" #Format ".png", vtf.saveImageToFile(0, 0, 0, 0, ImageConversion::FileFormat::PNG)); \
 		}
 
 TEST_WRITE_FMT(RGBA8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
