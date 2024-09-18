@@ -12,8 +12,21 @@
 
 #include <Compressonator.h>
 #include <sourcepp/math/Float.h>
+
+#define STB_IMAGE_IMPLEMENTATION
+#define STB_IMAGE_STATIC
+#define STBI_NO_FAILURE_STRINGS
+#define STBI_NO_STDIO
 #include <stb_image.h>
+
+#define STB_IMAGE_RESIZE_IMPLEMENTATION
+#define STB_IMAGE_RESIZE_STATIC
 #include <stb_image_resize2.h>
+
+#define STB_IMAGE_WRITE_IMPLEMENTATION
+#define STB_IMAGE_WRITE_STATIC
+// HDR write in memory is erroneously guarded by this define
+//#define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 
 using namespace sourcepp;
