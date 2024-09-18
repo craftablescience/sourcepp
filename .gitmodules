@@ -16,6 +16,3 @@
 [submodule "ext/hat-trie"]
 	path = ext/hat-trie
 	url = https://github.com/Tessil/hat-trie
-[submodule "ext/zstd"]
-	path = ext/zstd
-	url = https://github.com/facebook/zstd

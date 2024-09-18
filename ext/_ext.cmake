@@ -37,19 +37,6 @@ if(NOT TARGET miniz)
 endif()
 
 
-# zstd
-if(NOT TARGET zstd::libzstd)
-    set(ZSTD_BUILD_PROGRAMS OFF CACHE INTERNAL "" FORCE)
-    set(ZSTD_BUILD_TESTS    OFF CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/zstd/build/cmake")
-    # find_package hacks
-    set(ZSTD_FOUND ON CACHE INTERNAL "" FORCE)
-    set(ZSTD_INCLUDE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/ext/zstd/lib" CACHE INTERNAL "" FORCE)
-    set(ZSTD_LIBRARY_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/ext/zstd/lib" CACHE INTERNAL "" FORCE)
-    set(ZSTD_LIBRARIES "libzstd_static" CACHE INTERNAL "" FORCE)
-endif()
-
-
 # minizip-ng
 if(NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "" FORCE)
@@ -61,7 +48,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/minizip-ng")
 
-    if(SOURCEPP_BUILD_WIN7_COMPAT)
+    if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
                 "${CMAKE_CURRENT_LIST_DIR}/minizip-ng/mz_os_win32.c"
                 "${CMAKE_CURRENT_LIST_DIR}/minizip-ng/mz_strm_os_win32.c"
