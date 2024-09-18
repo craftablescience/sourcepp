@@ -877,8 +877,12 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			break;
 		}
 		case FileFormat::JPEG: {
-			auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-			stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 95);
+			if (format == ImageFormat::RGB888) {
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 95);
+			} else {
+				auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 95);
+			}
 			break;
 		}
 		case FileFormat::BMP: {
@@ -907,8 +911,12 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			break;
 		}
 		case FileFormat::HDR: {
-			auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-			stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
+			if (format == ImageFormat::RGBA32323232F) {
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<const float*>(imageData.data()));
+			} else {
+				auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
+			}
 			break;
 		}
 		case FileFormat::DEFAULT:
