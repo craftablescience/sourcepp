@@ -46,6 +46,7 @@ var ImageConversion_8h =
       [ "POWER_OF_TWO_SMALLER", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801", null ],
       [ "POWER_OF_TWO_NEAREST", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35", null ]
     ] ],
+    [ "convertFileToImageData", "da/d01/ImageConversion_8h.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a180ce836d3a592d8222d9c2462a0ac1e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
     [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],

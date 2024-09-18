@@ -21,6 +21,7 @@ var namespacevtfpp =
         [ "POWER_OF_TWO_SMALLER", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801", null ],
         [ "POWER_OF_TWO_NEAREST", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35", null ]
       ] ],
+      [ "convertFileToImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
       [ "convertImageDataToFile", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a180ce836d3a592d8222d9c2462a0ac1e", null ],
       [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ],
       [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93", null ],
@@ -54,6 +55,7 @@ var namespacevtfpp =
       [ "transparent", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a78ae08639944704fc3005980477e7e56", null ]
     ] ],
     [ "ImagePixel", "dd/d73/namespacevtfpp_1_1ImagePixel.html", "dd/d73/namespacevtfpp_1_1ImagePixel" ],
+    [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
     [ "ImageFormat", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c", [

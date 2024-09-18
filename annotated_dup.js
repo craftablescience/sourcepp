@@ -134,6 +134,7 @@ var annotated_dup =
         [ "RGB323232F", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F" ],
         [ "RGBA32323232F", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F" ]
       ] ],
+      [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
       [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ]
     ] ],

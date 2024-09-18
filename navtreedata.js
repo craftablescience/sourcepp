@@ -68,15 +68,15 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336ca0e07e6cd02c0f8bb03574f25ea921e62",
-"d2/dd2/classvpkpp_1_1PackFile.html#abb121b59f74e5ae117988d52a435e0b3",
-"d4/dcd/structvpkpp_1_1GCF_1_1DirectoryMapHeader.html#acd7b6f09d3d1abea950a54bc180f2bbb",
-"d5/d62/classtoolpp_1_1CmdSeq.html#ac3653329697301d4619962afcf297163",
-"d5/dd7/VICE_8h.html#a71d6020ff8ef5f29cc99268362466316",
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea96f418389e6544cd3a371068dc855a56",
-"d8/df2/classvtfpp_1_1VTF.html#aa55fba650b9fce6508ce214357cb7542",
-"da/d81/dmxpp_8cpp.html",
-"dd/d5c/CmdSeq_8h.html",
-"functions_e.html"
+"d2/dd2/classvpkpp_1_1PackFile.html#aaee6b87fa3e7657781018941a632e3a1",
+"d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html#a1f7839e1e798055d9d99227e3bc934ee",
+"d5/d61/namespacevtfpp_1_1ImageConversion.html#afcbc2ecd898c6e46a52535fa62494c8d",
+"d5/dd7/VICE_8h.html#a3e01e829891fc748ca81ab0b6be33141",
+"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949",
+"d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aacfe638c17ef077aebc1008e3b852e066",
+"da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505",
+"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315",
+"dir_3d752c4e03d2f7a332af61103ac1a8aa.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

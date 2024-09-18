@@ -1,5 +1,15 @@
 var NAVTREEINDEX8 =
 {
+"da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505":[2,0,4,1,2,3],
+"da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#afacb09652d8fabe26469cf01fc1c0b9e":[2,0,4,1,2,4],
+"da/d42/classvpkpp_1_1FPX.html":[2,0,8,2],
+"da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755":[2,0,8,2,3],
+"da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3":[2,0,8,2,2],
+"da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe":[2,0,8,2,1],
+"da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b":[2,0,8,2,0],
+"da/d60/ExamplePackFileImpl_8h.html":[3,0,2,9,0,0,1],
+"da/d60/ExamplePackFileImpl_8h.html#a5d2f9e88caa61407f218c763d0af0256":[3,0,2,9,0,0,1,1],
+"da/d60/ExamplePackFileImpl_8h_source.html":[3,0,2,9,0,0,1],
 "da/d81/dmxpp_8cpp.html":[3,0,2,1,1],
 "da/d81/dmxpp_8cpp_source.html":[3,0,2,1,1],
 "da/d9c/MDL_8h.html":[3,0,1,4,0,1],
@@ -149,8 +159,8 @@ var NAVTREEINDEX8 =
 "dd/d05/crypto_2String_8h.html":[3,0,1,5,0,4],
 "dd/d05/crypto_2String_8h.html#af0f8f739fd07fe6acd369b64dd32136f":[3,0,1,5,0,4,0],
 "dd/d05/crypto_2String_8h_source.html":[3,0,1,5,0,4],
-"dd/d09/VTF_8cpp.html":[3,0,2,10,1],
-"dd/d09/VTF_8cpp_source.html":[3,0,2,10,1],
+"dd/d09/VTF_8cpp.html":[3,0,2,10,2],
+"dd/d09/VTF_8cpp_source.html":[3,0,2,10,2],
 "dd/d11/namespacebsppp.html":[1,3,0],
 "dd/d11/namespacebsppp.html#a1a1261bb6b66ffd2d6b6f2a3a93d774e":[1,3,0,12],
 "dd/d11/namespacebsppp.html#a43b64a45a04c3808d0c3c938988cf2e0":[1,3,0,20],
@@ -239,15 +249,5 @@ var NAVTREEINDEX8 =
 "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292":[1,3,0,19,78],
 "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058":[1,3,0,19,57],
 "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af66d35c5f2a797d8cf35758854b59f78":[1,3,0,19,11],
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255":[1,3,0,19,45],
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315":[1,3,0,19,7],
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4":[1,3,0,19,14],
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a":[1,3,0,19,68],
-"dd/d11/namespacebsppp.html#ab641c01a21e113d496ce0922694f0043":[1,3,0,11],
-"dd/d11/namespacebsppp.html#abf6f8f330d082fdb8c9e62cf9e5ba58a":[1,3,0,17],
-"dd/d3b/kvpp_8h.html":[3,0,1,3,1],
-"dd/d3b/kvpp_8h_source.html":[3,0,1,3,1],
-"dd/d3e/structtoolpp_1_1FGD_1_1Entity_1_1FieldChoices_1_1Choice.html":[2,0,7,1,1,2,0],
-"dd/d3e/structtoolpp_1_1FGD_1_1Entity_1_1FieldChoices_1_1Choice.html#a33a7d44adba892f2e1e7217a2605d60f":[2,0,7,1,1,2,0,0],
-"dd/d3e/structtoolpp_1_1FGD_1_1Entity_1_1FieldChoices_1_1Choice.html#a848a80d42c0a9371b35bd5fa7aac7b5e":[2,0,7,1,1,2,0,1]
+"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255":[1,3,0,19,45]
 };
