@@ -1,5 +1,13 @@
 var NAVTREEINDEX5 =
 {
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a2fd01a79f83dd3cc41bc793098d29ffc":[2,0,4,1,7,7],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a42bfa71e1d5b0ab66ee1310f87a0f560":[2,0,4,1,7,6],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a828363379c84fa6c96346762094d1862":[2,0,4,1,7,1],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a9bcd0a38e476938ebf494b5ac62aeb7d":[2,0,4,1,7,3],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad647f2431535be4ee078cc6a5e016e99":[2,0,4,1,7,4],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#ad906bc0368b0d245b9de497b8d4d9e5a":[2,0,4,1,7,0],
+"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#af5dd6c0a837f69fa6561430ae0f29c7b":[2,0,4,1,7,2],
+"d5/dd7/VICE_8h.html":[3,0,1,8,2],
 "d5/dd7/VICE_8h.html#a11552e7e0cd868b00d9d1b83875cb3e8":[3,0,1,8,2,11],
 "d5/dd7/VICE_8h.html#a1dd39d037d9fb28a35db6071001a5ff6":[3,0,1,8,2,15],
 "d5/dd7/VICE_8h.html#a216cf72e1c52c7d05dee030f7b8a7815":[3,0,1,8,2,2],
@@ -241,13 +249,5 @@ var NAVTREEINDEX5 =
 "d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19":[1,3,1,1,11],
 "d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af":[1,3,1,1,9],
 "d7/d45/namespacedmxpp_1_1Value.html#a917fc4b2888b561a2ed19f662146f819":[1,3,1,1,5],
-"d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e":[1,3,1,1,10],
-"d7/d45/namespacedmxpp_1_1Value.html#ad9d0b3083507727eae96322fe944283a":[1,3,1,1,7],
-"d7/d45/namespacedmxpp_1_1Value.html#aeff4c37ca65c81d4ebc6b2e15720dc27":[1,3,1,1,17],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1e":[1,3,1,1,12],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea04442395c6b73c968b77ce08f905728c":[1,3,1,1,12,29],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea04bd834032febb3fda8c6936ee140949":[1,3,1,1,12,9],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea12e92caf5a29322009f3516313bddb36":[1,3,1,1,12,1],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea1f8152902d59bcbf7fc7f35fdfa9548e":[1,3,1,1,12,19],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea263758eeec1ef1b1e6e5672ca6833188":[1,3,1,1,12,32]
+"d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e":[1,3,1,1,10]
 };

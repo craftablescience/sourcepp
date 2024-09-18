@@ -164,6 +164,22 @@ Include dependency graph for ImageConversion.cpp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
+<tr class="memitem:a18372412ad2fc3ce1e3240b3cf0efe78"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a18372412ad2fc3ce1e3240b3cf0efe78">STB_IMAGE_IMPLEMENTATION</a></td></tr>
+<tr class="separator:a18372412ad2fc3ce1e3240b3cf0efe78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a733d6e1f2ca7f97f9e0be6eb3e7d08b5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a733d6e1f2ca7f97f9e0be6eb3e7d08b5">STB_IMAGE_STATIC</a></td></tr>
+<tr class="separator:a733d6e1f2ca7f97f9e0be6eb3e7d08b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4a101dadc05ceb1ad4979bdd54aa8ec4"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a4a101dadc05ceb1ad4979bdd54aa8ec4">STBI_NO_FAILURE_STRINGS</a></td></tr>
+<tr class="separator:a4a101dadc05ceb1ad4979bdd54aa8ec4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bedc54144dc3da815b9fc94226c4c98"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a9bedc54144dc3da815b9fc94226c4c98">STBI_NO_STDIO</a></td></tr>
+<tr class="separator:a9bedc54144dc3da815b9fc94226c4c98"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a7b41350a14f718b619164bc2b8fdf"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#aa6a7b41350a14f718b619164bc2b8fdf">STB_IMAGE_RESIZE_IMPLEMENTATION</a></td></tr>
+<tr class="separator:aa6a7b41350a14f718b619164bc2b8fdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a24cc5fc010a392e6e332938bf374bd6f"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a24cc5fc010a392e6e332938bf374bd6f">STB_IMAGE_RESIZE_STATIC</a></td></tr>
+<tr class="separator:a24cc5fc010a392e6e332938bf374bd6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefe397a94e8feddc652f92ef40ce9597"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#aefe397a94e8feddc652f92ef40ce9597">STB_IMAGE_WRITE_IMPLEMENTATION</a></td></tr>
+<tr class="separator:aefe397a94e8feddc652f92ef40ce9597"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af453f0874b279a4e019b538c84cc8587"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#af453f0874b279a4e019b538c84cc8587">STB_IMAGE_WRITE_STATIC</a></td></tr>
+<tr class="separator:af453f0874b279a4e019b538c84cc8587"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8f1056856457e1688aab2605f2af240"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240">VTFPP_REMAP_TO_8</a>(value,  shift)&#160;&#160;&#160;math::remap&lt;uint8_t&gt;((value), (1 &lt;&lt; (shift)) - 1, (1 &lt;&lt; 8) - 1)</td></tr>
 <tr class="separator:ac8f1056856457e1688aab2605f2af240"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2d1a570bf74c66dd41ec5336d0bba77"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#ab2d1a570bf74c66dd41ec5336d0bba77">VTFPP_CONVERT_DETAIL</a>(InputType,  r,  g,  b,  a, ...)</td></tr>
@@ -208,6 +224,134 @@ Macros</h2></td></tr>
 <tr class="separator:a67c49915eaaba45b1eb9e857b2ac1d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a id="a18372412ad2fc3ce1e3240b3cf0efe78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18372412ad2fc3ce1e3240b3cf0efe78">&#9670;&nbsp;</a></span>STB_IMAGE_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00016">16</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa6a7b41350a14f718b619164bc2b8fdf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa6a7b41350a14f718b619164bc2b8fdf">&#9670;&nbsp;</a></span>STB_IMAGE_RESIZE_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_RESIZE_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a24cc5fc010a392e6e332938bf374bd6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a24cc5fc010a392e6e332938bf374bd6f">&#9670;&nbsp;</a></span>STB_IMAGE_RESIZE_STATIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_RESIZE_STATIC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00023">23</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a733d6e1f2ca7f97f9e0be6eb3e7d08b5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a733d6e1f2ca7f97f9e0be6eb3e7d08b5">&#9670;&nbsp;</a></span>STB_IMAGE_STATIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_STATIC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00017">17</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aefe397a94e8feddc652f92ef40ce9597"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefe397a94e8feddc652f92ef40ce9597">&#9670;&nbsp;</a></span>STB_IMAGE_WRITE_IMPLEMENTATION</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_WRITE_IMPLEMENTATION</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00026">26</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="af453f0874b279a4e019b538c84cc8587"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af453f0874b279a4e019b538c84cc8587">&#9670;&nbsp;</a></span>STB_IMAGE_WRITE_STATIC</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STB_IMAGE_WRITE_STATIC</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00027">27</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4a101dadc05ceb1ad4979bdd54aa8ec4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a101dadc05ceb1ad4979bdd54aa8ec4">&#9670;&nbsp;</a></span>STBI_NO_FAILURE_STRINGS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STBI_NO_FAILURE_STRINGS</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a9bedc54144dc3da815b9fc94226c4c98"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9bedc54144dc3da815b9fc94226c4c98">&#9670;&nbsp;</a></span>STBI_NO_STDIO</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define STBI_NO_STDIO</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00019">19</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
 <a id="add8cee2faaca8b29d732aa6d435356a4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add8cee2faaca8b29d732aa6d435356a4">&#9670;&nbsp;</a></span>VTFPP_CASE_CONVERT_AND_BREAK <span class="overload">[1/6]</span></h2>
 
