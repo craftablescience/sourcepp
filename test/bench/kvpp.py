@@ -11,6 +11,7 @@ def create_plot(exe: str, data: pd.DataFrame) -> None:
 
     df['library'] = df['name'].apply(lambda x: 'kvpp' if 'kvpp' in x else 'speedykeyv')
     df['benchmark'] = df['name'].apply(lambda x: ' '.join([c.capitalize() for c in x.split('_', 2)[-1].split('_')]))
+    df['real_time'] = df['real_time'].apply(lambda x: x / 1000000)
 
     df_kvpp = df[df['library'] == 'kvpp'].set_index('benchmark')
     df_speedykeyv = df[df['library'] == 'speedykeyv'].set_index('benchmark')
@@ -19,7 +20,7 @@ def create_plot(exe: str, data: pd.DataFrame) -> None:
     df_merged.plot(kind='bar', figsize=(10, 6))
     plt.title('KVPP')
     plt.xlabel('Data Size')
-    plt.ylabel('Time (ns)')
+    plt.ylabel('Time (ms)')
     plt.xticks(rotation=45, ha='right')
     plt.legend(['kvpp', 'speedykeyv'])
     plt.tight_layout()
