@@ -28,9 +28,9 @@ function(add_sourcepp_library TARGET)
 
         # Add benchmarks
         if(OPTIONS_BENCH AND SOURCEPP_BUILD_BENCHMARKS)
-            add_executable(${TARGET}_bench "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/${TARGET}.cpp")
+            add_executable(${TARGET}_bench "${CMAKE_CURRENT_SOURCE_DIR}/bench/${TARGET}.cpp")
             target_link_libraries(${TARGET}_bench PUBLIC ${SOURCEPP_BENCH_NAME} sourcepp::${TARGET})
-            include("${CMAKE_CURRENT_SOURCE_DIR}/test/bench/${TARGET}.cmake")
+            include("${CMAKE_CURRENT_SOURCE_DIR}/bench/${TARGET}.cmake")
         endif()
 
         return(PROPAGATE ${PROPAGATE_VARS})

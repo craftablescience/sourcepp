@@ -1,8 +1,8 @@
-#include <benchmark/benchmark.h>
+#include "benchmark/benchmark.h"
 
-#include <VTFLib.h>
-#include <sourcepp/FS.h>
-#include <vtfpp/vtfpp.h>
+#include "VTFLib.h"
+#include "sourcepp/FS.h"
+#include "vtfpp/vtfpp.h"
 
 using namespace sourcepp;
 using namespace vtfpp;

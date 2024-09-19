@@ -7,12 +7,12 @@
 [submodule "ext/cryptopp"]
 	path = ext/cryptopp
 	url = https://github.com/abdes/cryptopp-cmake
+[submodule "ext/hat-trie"]
+	path = ext/hat-trie
+	url = https://github.com/Tessil/hat-trie
 [submodule "ext/miniz"]
 	path = ext/miniz
 	url = https://github.com/richgel999/miniz
 [submodule "ext/minizip-ng"]
 	path = ext/minizip-ng
 	url = https://github.com/zlib-ng/minizip-ng
-[submodule "ext/hat-trie"]
-	path = ext/hat-trie
-	url = https://github.com/Tessil/hat-trie

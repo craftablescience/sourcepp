@@ -113,7 +113,7 @@ if(SOURCEPP_BUILD_BENCHMARKS)
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "" FORCE)
     FetchContent_MakeAvailable(benchmark)
 
-    add_library(${SOURCEPP_BENCH_NAME} STATIC "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/_bench.cpp")
+    add_library(${SOURCEPP_BENCH_NAME} STATIC "${CMAKE_CURRENT_SOURCE_DIR}/bench/_bench.cpp")
     target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC benchmark::benchmark)
     target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
 endif()

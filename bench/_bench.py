@@ -5,9 +5,9 @@ import subprocess
 
 
 SEARCH_PATHS: list[str] = [
-    '../../cmake-build-release',
-    '../../cmake-build-debug',
-    '../../build',
+    '../cmake-build-release',
+    '../cmake-build-debug',
+    '../build',
 ]
 
 METRICS: list[str] = [
