@@ -7,4 +7,5 @@ set_target_properties(vtflib PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
         RUNTIME_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 
-list(APPEND ${SOURCEPP_BENCH_NAME}_DEPS vtflib)
+# I'm not distributing the benchmark program, so this should be fine
+target_link_libraries(${TARGET}_bench PUBLIC vtflib_static)

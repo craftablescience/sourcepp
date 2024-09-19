@@ -7,34 +7,25 @@
 using namespace sourcepp;
 using namespace vtfpp;
 
-// GCC
-#pragma GCC optimize("O0")
-
-// Clang
-#pragma clang optimize off
-
-// MSVC
-#pragma optimize("", off)
-
 namespace {
 
 #define BM_FORMAT(Format, VTFLibFormat) \
-	void BM_vtfpp_convert_256x256_##Format##toRGBA8888(benchmark::State& state) { \
+	void BM_vtfpp_convert_256x256_##Format##_to_RGBA8888(benchmark::State& state) { \
 		VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/fmt/" #Format ".vtf")}; \
 		for ([[maybe_unused]] auto _: state) { \
-			auto data = vtf.getImageDataAsRGBA8888(); \
+			benchmark::DoNotOptimize(vtf.getImageDataAsRGBA8888()); \
 		} \
 	} \
-	BENCHMARK(BM_vtfpp_convert_256x256_##Format##toRGBA8888); \
-	void BM_vtflib_convert_256x256_##Format##toRGBA8888(benchmark::State& state) { \
+	BENCHMARK(BM_vtfpp_convert_256x256_##Format##_to_RGBA8888); \
+	void BM_vtflib_convert_256x256_##Format##_to_RGBA8888(benchmark::State& state) { \
 		VTFLib::CVTFFile vtf; \
 		vtf.Load(ASSET_ROOT "vtfpp/fmt/" #Format ".vtf"); \
 		for ([[maybe_unused]] auto _: state) { \
 			std::vector<std::byte> data(vtf.GetWidth() * vtf.GetHeight() * sizeof(ImagePixel::RGBA8888)); \
-			VTFLib::CVTFFile::ConvertToRGBA8888(vtf.GetData(0, 0, 0, 0), reinterpret_cast<vlByte*>(data.data()), vtf.GetWidth(), vtf.GetHeight(), IMAGE_FORMAT_##VTFLibFormat); \
+			benchmark::DoNotOptimize(VTFLib::CVTFFile::ConvertToRGBA8888(vtf.GetData(0, 0, 0, 0), reinterpret_cast<vlByte*>(data.data()), vtf.GetWidth(), vtf.GetHeight(), IMAGE_FORMAT_##VTFLibFormat)); \
 		} \
 	} \
-	BENCHMARK(BM_vtflib_convert_256x256_##Format##toRGBA8888)
+	BENCHMARK(BM_vtflib_convert_256x256_##Format##_to_RGBA8888)
 
 BM_FORMAT(A8,                 A8);
 BM_FORMAT(ABGR8888,           ABGR8888);
@@ -60,18 +51,25 @@ BM_FORMAT(RGBA8888,           RGBA8888);
 BM_FORMAT(UV88,               UV88);
 BM_FORMAT(UVLX8888,           UVLX8888);
 BM_FORMAT(UVWQ8888,           UVWQ8888);
+BM_FORMAT(RGBA16161616F,      RGBA16161616F);
+BM_FORMAT(RGBA16161616,       RGBA16161616);
+BM_FORMAT(R32F,               R32F);
+BM_FORMAT(RGB323232F,         RGB323232F);
+BM_FORMAT(RGBA32323232F,      RGBA32323232F);
 
-void BM_vtfpp_createVTF(benchmark::State& state) {
+void BM_vtfpp_create_2048x2048_basic(benchmark::State& state) {
 	VTF image{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
 	auto imageData = image.getImageDataAsRGBA8888();
 
 	for ([[maybe_unused]] auto _: state) {
-		auto data = VTF::create(imageData, ImageFormat::RGBA8888, 2048, 2048, {});
+		benchmark::DoNotOptimize(VTF::create(imageData, ImageFormat::RGBA8888, 2048, 2048, {
+			.outputFormat = ImageFormat::RGBA8888,
+		}));
 	}
 }
-BENCHMARK(BM_vtfpp_createVTF);
+BENCHMARK(BM_vtfpp_create_2048x2048_basic);
 
-void BM_vtflib_createVTF(benchmark::State& state) {
+void BM_vtflib_create_2048x2048_basic(benchmark::State& state) {
 	VTF image{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
 	auto imageData = image.getImageDataAsRGBA8888();
 
@@ -79,15 +77,52 @@ void BM_vtflib_createVTF(benchmark::State& state) {
 		VTFLib::CVTFFile vtf;
 		vtf.Create(2048, 2048, reinterpret_cast<vlByte*>(imageData.data()), {
 			.uiVersion = {7, 4},
-			.ImageFormat = IMAGE_FORMAT_DXT1,
+			.ImageFormat = IMAGE_FORMAT_RGBA8888,
 			.bMipmaps = true,
 			.bThumbnail = true,
 			.bReflectivity = true,
 		});
 		std::vector<std::byte> data(vtf.GetSize());
-		vtf.Save(data.data());
+		benchmark::DoNotOptimize(vtf.Save(data.data()));
+		benchmark::DoNotOptimize(data);
 	}
 }
-BENCHMARK(BM_vtflib_createVTF);
+BENCHMARK(BM_vtflib_create_2048x2048_basic);
+
+void BM_vtfpp_create_2048x2048_compressed(benchmark::State& state) {
+	VTF image{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	auto imageData = image.getImageDataAsRGBA8888();
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(VTF::create(imageData, ImageFormat::RGBA8888, 2048, 2048, {
+			.minorVersion = 6,
+			.outputFormat = ImageFormat::RGBA8888,
+			.compressionLevel = 9,
+		}));
+	}
+}
+BENCHMARK(BM_vtfpp_create_2048x2048_compressed);
+
+void BM_vtflib_create_2048x2048_compressed(benchmark::State& state) {
+	VTF image{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	auto imageData = image.getImageDataAsRGBA8888();
+
+	for ([[maybe_unused]] auto _: state) {
+		VTFLib::CVTFFile vtf;
+		vtf.Create(2048, 2048, reinterpret_cast<vlByte*>(imageData.data()), {
+			.uiVersion = {7, 6},
+			.ImageFormat = IMAGE_FORMAT_RGBA8888,
+			.bMipmaps = true,
+			.bThumbnail = true,
+			.bReflectivity = true,
+		});
+		vtf.SetAuxCompressionLevel(9);
+		// This is the incorrect size, but I literally do not know how to use this library, and it shouldn't go over
+		std::vector<std::byte> data(vtf.GetSize());
+		benchmark::DoNotOptimize(vtf.Save(data.data()));
+		benchmark::DoNotOptimize(data);
+	}
+}
+BENCHMARK(BM_vtflib_create_2048x2048_compressed);
 
 } // namespace

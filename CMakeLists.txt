@@ -101,7 +101,7 @@ if(SOURCEPP_BUILD_TESTS)
 endif()
 
 
-# Benchmarks, part 1
+# Benchmarks
 if(SOURCEPP_BUILD_BENCHMARKS)
     set(SOURCEPP_BENCH_NAME "${PROJECT_NAME}_bench")
     include(FetchContent)
@@ -111,8 +111,10 @@ if(SOURCEPP_BUILD_BENCHMARKS)
             GIT_TAG v1.9.0)
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "" FORCE)
     FetchContent_MakeAvailable(benchmark)
-    list(APPEND ${SOURCEPP_BENCH_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/_bench.cpp")
-    list(APPEND ${SOURCEPP_BENCH_NAME}_DEPS benchmark::benchmark)
+
+    add_library(${SOURCEPP_BENCH_NAME} STATIC "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/_bench.cpp")
+    target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC benchmark::benchmark)
+    target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
 endif()
 
 
@@ -120,7 +122,7 @@ endif()
 add_sourcepp_library(bsppp             NO_TEST      ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                          ) # sourcepp::dmxpp
 add_sourcepp_library(gamepp                         ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                           ) # sourcepp::kvpp
+add_sourcepp_library(kvpp                      BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                          ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C                     ) # sourcepp::steampp
 add_sourcepp_library(toolpp                         ) # sourcepp::toolpp
@@ -136,14 +138,6 @@ if(SOURCEPP_BUILD_TESTS)
     target_compile_definitions(${SOURCEPP_TEST_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
     include(GoogleTest)
     gtest_discover_tests(${SOURCEPP_TEST_NAME})
-endif()
-
-
-# Benchmarks, part 2
-if(SOURCEPP_BUILD_BENCHMARKS)
-    add_executable(${SOURCEPP_BENCH_NAME} ${${SOURCEPP_BENCH_NAME}_SOURCES})
-    target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC ${${SOURCEPP_BENCH_NAME}_DEPS})
-    target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
 endif()
 
 

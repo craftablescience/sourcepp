@@ -21,17 +21,16 @@ function(add_sourcepp_library TARGET)
 
         # Add tests
         if(NOT OPTIONS_NO_TEST AND SOURCEPP_BUILD_TESTS)
-            list(APPEND ${SOURCEPP_TEST_NAME}_DEPS ${TARGET})
+            list(APPEND ${SOURCEPP_TEST_NAME}_DEPS sourcepp::${TARGET})
             list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/${TARGET}.cpp")
             list(APPEND PROPAGATE_VARS ${SOURCEPP_TEST_NAME}_DEPS ${SOURCEPP_TEST_NAME}_SOURCES)
         endif()
 
         # Add benchmarks
         if(OPTIONS_BENCH AND SOURCEPP_BUILD_BENCHMARKS)
+            add_executable(${TARGET}_bench "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/${TARGET}.cpp")
+            target_link_libraries(${TARGET}_bench PUBLIC ${SOURCEPP_BENCH_NAME} sourcepp::${TARGET})
             include("${CMAKE_CURRENT_SOURCE_DIR}/test/bench/${TARGET}.cmake")
-            list(APPEND ${SOURCEPP_BENCH_NAME}_DEPS ${TARGET})
-            list(APPEND ${SOURCEPP_BENCH_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/${TARGET}.cpp")
-            list(APPEND PROPAGATE_VARS ${SOURCEPP_BENCH_NAME}_DEPS ${SOURCEPP_BENCH_NAME}_SOURCES)
         endif()
 
         return(PROPAGATE ${PROPAGATE_VARS})
