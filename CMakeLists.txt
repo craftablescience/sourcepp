@@ -70,6 +70,7 @@ include(AddPrettyParser)
 include(AddSourcePPLibrary)
 include(IncludeSubdirectory)
 include(PrintOptions)
+include(TargetOptimize)
 
 
 # Include thirdparty libraries
