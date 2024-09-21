@@ -1,5 +1,6 @@
 #include <vtfpp/VTF.h>
 
+#include <algorithm>
 #include <cstring>
 #include <unordered_map>
 
