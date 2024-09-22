@@ -116,8 +116,8 @@ std::string string::toUpper(std::string_view input) {
 }
 
 std::string string::createRandom(uint16_t length, std::string_view chars) {
-	std::random_device random_device{};
-	std::mt19937 generator{random_device()};
+	static std::random_device random_device{};
+	static std::mt19937 generator{random_device()};
 	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
 
 	std::string out;
