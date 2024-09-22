@@ -152,16 +152,17 @@ public:
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR;
+		Flags flags = FLAG_NONE;
 		uint16_t initialFrameCount = 1;
-		uint16_t initialSliceCount = 1;
+		uint16_t startFrame = 0;
 		bool isCubeMap = false;
+		bool hasSphereMap = false;
+		uint16_t initialSliceCount = 1;
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
-		Flags flags = FLAG_NONE;
-		float bumpMapScale = 1.f;
-		uint16_t startFrame = 0;
 		uint8_t compressionLevel = 6;
+		float bumpMapScale = 1.f;
 	};
 
 	/// This value is only valid when passed to VTF::create through CreationOptions
@@ -171,8 +172,6 @@ public:
 	static constexpr ImageFormat FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
 
 	static constexpr int32_t MAX_RESOURCES = 32;
-
-	static constexpr uint16_t SPHEREMAP_START_FRAME = 0xffff;
 
 	VTF();
 
@@ -246,7 +245,7 @@ public:
 
 	[[nodiscard]] uint8_t getFaceCount() const;
 
-	bool setFaceCount(bool hasMultipleFaces, bool hasSphereMap = false);
+	bool setFaceCount(bool isCubemap, bool hasSphereMap = false);
 
 	//bool computeSphereMap();
 
@@ -254,11 +253,11 @@ public:
 
 	bool setSliceCount(uint16_t newSliceCount);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool hasMultipleFaces, bool hasSphereMap = false, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, bool hasSphereMap = false, uint16_t newSliceCount = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
-	bool setStartFrame(uint16_t newStartFrame);
+	void setStartFrame(uint16_t newStartFrame);
 
 	[[nodiscard]] sourcepp::math::Vec3f getReflectivity() const;
 
@@ -346,8 +345,6 @@ protected:
 	[[nodiscard]] ImageFormat getDefaultFormat() const;
 
 	static void createInternal(VTF& writer, CreationOptions options);
-
-	[[nodiscard]] static uint8_t getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame);
 
 	[[nodiscard]] Resource* getResourceInternal(Resource::Type type);
 
