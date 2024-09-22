@@ -176,13 +176,14 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
 			if (auxResource && imageResource) {
 				if (auxResource->getDataAsAuxCompressionLevel() != 0) {
-					std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount));
+					const auto faceCount = this->getFaceCount();
+					std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
 					uint32_t oldOffset = 0;
 					for (int i = this->mipCount - 1; i >= 0; i--) {
 						for (int j = 0; j < this->frameCount; j++) {
-							for (int k = 0; k < this->getFaceCount(); k++) {
-								uint32_t oldLength = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, this->getFaceCount());
-								if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, this->getFaceCount(), this->width, this->height, 0, this->getSliceCount())) {
+							for (int k = 0; k < faceCount; k++) {
+								uint32_t oldLength = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, faceCount);
+								if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getSliceCount())) {
 									// Keep in mind that slices are compressed together
 									mz_ulong decompressedImageDataSize = newLength * this->sliceCount;
 									if (mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength) != MZ_OK) {
@@ -215,7 +216,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			this->resources.push_back({
 				.type = Resource::TYPE_IMAGE_DATA,
 				.flags = Resource::FLAG_NONE,
-				.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount)),
+				.data = stream.read_span<std::byte>(stream.size() - stream.tell()),
 			});
 		}
 	}
@@ -250,11 +251,9 @@ ImageFormat VTF::getDefaultFormat() const {
 
 void VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.startFrame == VTF::SPHEREMAP_START_FRAME, options.initialSliceCount);
+		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.hasSphereMap, options.initialSliceCount);
 	}
-	if (options.startFrame != VTF::SPHEREMAP_START_FRAME) {
-		writer.setStartFrame(options.startFrame);
-	}
+	writer.setStartFrame(options.startFrame);
 	writer.setBumpMapScale(options.bumpMapScale);
 	if (options.createReflectivity) {
 		writer.computeReflectivity();
@@ -334,7 +333,11 @@ void VTF::setMajorVersion(uint32_t newMajorVersion) {
 
 void VTF::setMinorVersion(uint32_t newMinorVersion) {
 	if (this->hasImageData()) {
-		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, newMinorVersion, this->flags, this->startFrame), this->sliceCount);
+		auto faceCount = this->getFaceCount();
+		if (faceCount == 7 && (newMinorVersion < 1 || newMinorVersion > 4)) {
+			faceCount = 6;
+		}
+		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->sliceCount);
 	}
 	this->minorVersion = newMinorVersion;
 }
@@ -387,7 +390,7 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 		this->width = newWidth;
 		this->height = newHeight;
 		this->sliceCount = 1;
-		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount)));
+		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 1, this->width, this->height, this->sliceCount)));
 	}
 }
 
@@ -471,12 +474,13 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 		}
 	}
 
+	const auto faceCount = this->getFaceCount();
 	for (int i = 1; i < this->mipCount; i++) {
 		for (int j = 0; j < this->frameCount; j++) {
-			for (int k = 0; k < this->getFaceCount(); k++) {
+			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < this->sliceCount; l++) {
 					auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
-					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, this->getFaceCount(), this->width, this->height, l, this->sliceCount) && mip.size() == length) {
+					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
 						std::memcpy(imageResource->data.data() + offset, mip.data(), length);
 					}
 				}
@@ -498,27 +502,36 @@ bool VTF::setFrameCount(uint16_t newFrameCount) {
 }
 
 uint8_t VTF::getFaceCount() const {
-	return getFaceCountFor(this->width, this->height, this->majorVersion, this->minorVersion, this->flags, this->startFrame);
+	if (!this->hasImageData()) {
+		return 0;
+	}
+	const auto* image = this->getResource(Resource::TYPE_IMAGE_DATA);
+	if (!image) {
+		return 0;
+	}
+	if (!(this->flags & VTF::FLAG_ENVMAP)) {
+		return 1;
+	}
+	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->sliceCount);
+	if (this->majorVersion == 7 && this->minorVersion >= 1 && this->minorVersion <= 4 && expectedLength < image->data.size()) {
+		return 7;
+	} else if (expectedLength == image->data.size()) {
+		return 6;
+	}
+	return 1;
 }
 
-uint8_t VTF::getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame) {
-	return (width && height) ? ((flags & VTF::FLAG_ENVMAP) ? ((majorVersion == 7 && minorVersion >= 1 && minorVersion <= 4 && startFrame == VTF::SPHEREMAP_START_FRAME) ? 7 : 6) : 1) : 0;
-}
-
-bool VTF::setFaceCount(bool hasMultipleFaces, bool hasSphereMap) {
+bool VTF::setFaceCount(bool isCubemap, bool hasSphereMap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (!hasSphereMap && this->startFrame == VTF::SPHEREMAP_START_FRAME) {
-		this->startFrame = 0;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, getFaceCountFor(this->width, this->height, this->majorVersion, this->minorVersion, hasMultipleFaces ? this->flags | FLAG_ENVMAP : this->flags & ~FLAG_ENVMAP, hasSphereMap ? VTF::SPHEREMAP_START_FRAME : this->startFrame), this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4 && hasSphereMap) ? 7 : 6) : 1, this->sliceCount);
 	return true;
 }
 
 /*
 bool VTF::computeSphereMap() {
-	if (this->getFaceCount() != 7) {
+	if (this->getFaceCount() < 7) {
 		return false;
 	}
 	// compute spheremap here
@@ -538,14 +551,11 @@ bool VTF::setSliceCount(uint16_t newSliceCount) {
 	return true;
 }
 
-bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool hasMultipleFaces, bool hasSphereMap, uint16_t newSliceCount) {
+bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, bool hasSphereMap, uint16_t newSliceCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (!hasSphereMap && this->startFrame == VTF::SPHEREMAP_START_FRAME) {
-		this->startFrame = 0;
-	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, getFaceCountFor(this->width, this->height, this->majorVersion, this->minorVersion, hasMultipleFaces ? this->flags | FLAG_ENVMAP : this->flags & ~FLAG_ENVMAP, hasSphereMap ? VTF::SPHEREMAP_START_FRAME : this->startFrame), newSliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4 && hasSphereMap) ? 7 : 6) : 1, newSliceCount);
 	return true;
 }
 
@@ -553,13 +563,8 @@ uint16_t VTF::getStartFrame() const {
 	return this->startFrame;
 }
 
-bool VTF::setStartFrame(uint16_t newStartFrame) {
-	if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && (this->flags & FLAG_ENVMAP) && ((this->startFrame == VTF::SPHEREMAP_START_FRAME && newStartFrame != VTF::SPHEREMAP_START_FRAME) || (this->startFrame != VTF::SPHEREMAP_START_FRAME && newStartFrame == VTF::SPHEREMAP_START_FRAME))) {
-		this->startFrame = newStartFrame;
-		return this->setFaceCount(true, this->startFrame == VTF::SPHEREMAP_START_FRAME);
-	}
+void VTF::setStartFrame(uint16_t newStartFrame) {
 	this->startFrame = newStartFrame;
-	return true;
 }
 
 math::Vec3f VTF::getReflectivity() const {
@@ -571,10 +576,11 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 }
 
 void VTF::computeReflectivity() {
+	const auto faceCount = this->getFaceCount();
 	this->reflectivity = {};
 	for (int j = 0; j < this->frameCount; j++) {
 		math::Vec3f facesOut{};
-		for (int k = 0; k < this->getFaceCount(); k++) {
+		for (int k = 0; k < faceCount; k++) {
 			math::Vec3f slicesOut{};
 			for (int l = 0; l < this->sliceCount; l++) {
 				auto rgba8888Data = this->getImageDataAsRGBA8888(0, j, k, l);
@@ -594,7 +600,7 @@ void VTF::computeReflectivity() {
 			}
 			facesOut += slicesOut / this->sliceCount;
 		}
-		this->reflectivity += facesOut / this->getFaceCount();
+		this->reflectivity += facesOut / faceCount;
 	}
 	this->reflectivity /= this->frameCount;
 }
@@ -715,21 +721,22 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	if (!newFaceCount)  { newFaceCount  = 1; }
 	if (!newSliceCount) { newSliceCount = 1; }
 
-	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
+	const auto faceCount = this->getFaceCount();
+	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
 		return;
 	}
 
 	std::vector<std::byte> newImageData;
 	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
-		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && this->getFaceCount() == newFaceCount && this->sliceCount == newSliceCount) {
-			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount);
+		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
+			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
 		} else {
 			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
 			for (int i = newMipCount - 1; i >= 0; i--) {
 				for (int j = 0; j < newFrameCount; j++) {
 					for (int k = 0; k < newFaceCount; k++) {
 						for (int l = 0; l < newSliceCount; l++) {
-							if (i < this->mipCount && j < this->frameCount && k < this->getFaceCount() && l < this->sliceCount) {
+							if (i < this->mipCount && j < this->frameCount && k < faceCount && l < this->sliceCount) {
 								auto imageSpan = this->getImageDataRaw(i, j, k, l);
 								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
 								if (this->width != newWidth || this->height != newHeight) {
@@ -758,11 +765,6 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->frameCount = newFrameCount;
 	if (newFaceCount > 1) {
 		this->flags |= FLAG_ENVMAP;
-		if (this->majorVersion == 7 && (this->minorVersion >= 1 && this->minorVersion <= 4) && newFaceCount == 7) {
-			this->startFrame = VTF::SPHEREMAP_START_FRAME;
-		} else if (this->startFrame == VTF::SPHEREMAP_START_FRAME) {
-			this->startFrame = 0;
-		}
 	} else {
 		this->flags &= ~FLAG_ENVMAP;
 	}
@@ -856,8 +858,8 @@ bool VTF::imageDataIsSRGB() const {
 }
 
 std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
-		if (auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+	if (auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
 			return imageResource->data.subspan(offset, length);
 		}
 	}
@@ -887,13 +889,14 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		if (auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
-		if (auto newFaceCount = getFaceCountFor(resizedWidth, resizedHeight, this->majorVersion, this->minorVersion, face > 0 ? VTF::FLAG_ENVMAP : VTF::FLAG_NONE, face == 6 ? VTF::SPHEREMAP_START_FRAME : 0); newFaceCount <= face) {
-			face = newFaceCount - 1;
+		if (face > 6 || (face == 6 && (this->minorVersion < 1 || this->minorVersion > 4))) {
+			return false;
 		}
-		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face + 1, slice + 1);
+		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face ? (face < 5 ? 5 : face) : 0, slice + 1);
 	}
 
-	if (this->mipCount <= mip || this->frameCount <= frame || this->getFaceCount() <= face || this->sliceCount <= slice) {
+	const auto faceCount = this->getFaceCount();
+	if (this->mipCount <= mip || this->frameCount <= frame || faceCount <= face || this->sliceCount <= slice) {
 		return false;
 	}
 
@@ -901,7 +904,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	if (!imageResource) {
 		return false;
 	}
-	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
+	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->sliceCount)) {
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
 		if (this->format != format_) {
 			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, this->width, this->height);
@@ -1055,7 +1058,8 @@ std::vector<std::byte> VTF::bake() {
 		if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 			hasAuxCompression = this->minorVersion >= 6 && this->compressionLevel != 0;
 			if (hasAuxCompression) {
-				auxCompressionResourceData.resize((this->mipCount * this->frameCount * this->getFaceCount() + 2) * sizeof(uint32_t));
+				const auto faceCount = this->getFaceCount();
+				auxCompressionResourceData.resize((this->mipCount * this->frameCount * faceCount + 2) * sizeof(uint32_t));
 				BufferStream auxWriter{auxCompressionResourceData, false};
 
 				// Format of aux resource is as follows, with each item being a 4 byte integer:
@@ -1068,8 +1072,8 @@ std::vector<std::byte> VTF::bake() {
 
 				for (int i = this->mipCount - 1; i >= 0; i--) {
 					for (int j = 0; j < this->frameCount; j++) {
-						for (int k = 0; k < this->getFaceCount(); k++) {
-							if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, this->getFaceCount(), this->width, this->height, 0, this->sliceCount)) {
+						for (int k = 0; k < faceCount; k++) {
+							if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
 								auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel);
 								compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 								auxWriter.write<uint32_t>(compressedData.size());
