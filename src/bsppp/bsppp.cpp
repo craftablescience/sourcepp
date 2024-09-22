@@ -6,6 +6,7 @@
 
 #include <FileStream.h>
 
+#include <third_party/liblzma/src/liblzma/api/lzma.h> //should maybe make this a submodule but minizip already downloads it for us
 using namespace bsppp;
 
 namespace {
@@ -123,6 +124,12 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
 }
 
+std::optional<bool> BSP::isLumpCompressed(BSPLump lumpIndex) const {
+    if (this->hasLump(lumpIndex))
+        return this->header.lumps[static_cast<int32_t>(lumpIndex)].fourCC > 0;
+    return std::nullopt;
+}
+
 int32_t BSP::getLumpVersion(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return 0;
@@ -135,14 +142,86 @@ void BSP::setLumpVersion(BSPLump lumpIndex, int32_t version) {
 	this->writeHeader();
 }
 
-std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
-	if (this->path.empty() || !this->hasLump(lump)) {
+std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool readRaw) const {
+    if (this->path.empty() || !this->hasLump(lumpIndex)) {
 		return std::nullopt;
 	}
 	FileStream reader{this->path};
-	return reader
-		.seek_in(this->header.lumps[static_cast<int32_t>(lump)].offset)
-		.read_bytes(this->header.lumps[static_cast<int32_t>(lump)].length);
+    std::vector<std::byte> lumpBytes = reader
+            .seek_in(this->header.lumps[static_cast<int32_t>(lumpIndex)].offset)
+            .read_bytes(this->header.lumps[static_cast<int32_t>(lumpIndex)].length);
+    if (!this->isLumpCompressed(lumpIndex) || readRaw ){
+        // Not Compressed and we dont need to do anything
+        return lumpBytes;
+    }
+    else {
+        int32_t uncompressedSize = this->header.lumps[static_cast<int32_t>(lumpIndex)].fourCC;
+
+        // make this less ass?
+        lzma_header_bsp *headerBSP = (lzma_header_bsp*)(lumpBytes.data());
+        lzma_header_standard headerStandard;
+        headerStandard.actualSize = headerBSP->actualSize;
+        headerStandard.properties[0] = headerBSP->properties[0];
+        headerStandard.properties[1] = headerBSP->properties[1];
+        headerStandard.properties[2] = headerBSP->properties[2];
+        headerStandard.properties[3] = headerBSP->properties[3];
+        headerStandard.properties[4] = headerBSP->properties[4];
+        //printf("decoding\nfourcc: %i\nlength: %i\n", uncompressedSize, headerStandard.actualSize);
+
+        uint64_t memlimit = 100000000000000;//idk
+
+        // replace header with a normal one
+        lumpBytes.erase(lumpBytes.begin(), lumpBytes.begin() + sizeof(lzma_header_bsp));
+        lumpBytes.insert(lumpBytes.begin(), (std::byte*)&headerStandard, ((std::byte*)&headerStandard) + sizeof(headerStandard));
+
+        // lzma_ret error = lzma_stream_buffer_decode(&memlimit, 0, NULL, reinterpret_cast<uint8_t*>(lumpBytes.data()), &in, lumpBytes.size(),
+        //                                             reinterpret_cast<uint8_t*>(decodedLump.data()), &out, outSize);
+
+        uint8_t decodedLump[uncompressedSize];
+        lzma_stream stream = LZMA_STREAM_INIT;
+        stream.next_in = (uint8_t*)lumpBytes.data();
+        stream.avail_in = lumpBytes.size();
+        stream.next_out = decodedLump;
+        stream.avail_out = uncompressedSize;
+        lzma_ret autoerror = lzma_auto_decoder(&stream, memlimit, 0);
+
+
+        if (autoerror)
+        {
+            //printf("init error %i\n", autoerror);
+            return std::nullopt;
+        }
+
+        // while (true)
+        // {
+        //     if (stream.total_in < headerStandard.actualSize )
+        //         stream.avail_in = 1;
+
+        //     lzma_ret ret = lzma_code(&stream, LZMA_RUN);
+        //     if (ret == LZMA_STREAM_END)
+        //     {
+        //         lzma_end(&stream);
+        //         break;
+        //     }
+
+        //     if (stream.total_out < headerStandard.actualSize)
+        //         stream.avail_out = 1;
+        // }
+
+        lzma_ret error = lzma_code(&stream, LZMA_RUN);
+
+        if (error != LZMA_STREAM_END)
+        {
+            //printf("err %i\n", error);
+            return std::nullopt;
+        }
+        lzma_end(&stream);
+        std::vector<std::byte> decodedLumpVec;
+        decodedLumpVec.insert(decodedLumpVec.begin(), (std::byte*)decodedLump, (std::byte*)(decodedLump + headerStandard.actualSize));
+        return decodedLumpVec;
+        //return lumpBytes;
+    }
+
 }
 
 void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {

@@ -14,6 +14,23 @@ namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
 
+#pragma pack(push)
+#pragma pack(1)
+struct lzma_header_bsp // Lump compression uses it own header to be special
+{
+    unsigned int    id;
+    unsigned int    actualSize;         // always little endian
+    unsigned int    lzmaSize;           // always little endian
+    unsigned char   properties[5];
+};
+
+struct lzma_header_standard
+{
+    unsigned char   properties[5];
+    unsigned long   actualSize;
+};
+#pragma pack(pop)
+
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
 	ENTITIES = 0,
@@ -141,14 +158,17 @@ public:
 
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
+    [[nodiscard]] std::optional<bool> isLumpCompressed(BSPLump lumpIndex) const;
+
 	[[nodiscard]] int32_t getLumpVersion(BSPLump lumpIndex) const;
 
 	void setLumpVersion(BSPLump lumpIndex, int32_t version);
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
+    [[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex, bool readRaw = false) const;
 
-	template<BSPLump Lump>
-	[[nodiscard]] auto readLump() const {
+
+    template<BSPLump Lump>
+    [[nodiscard]] auto readLump() const {
 		if constexpr (Lump == BSPLump::PLANES) {
 			return this->readPlanes();
 		} else if constexpr (Lump == BSPLump::TEXDATA) {
