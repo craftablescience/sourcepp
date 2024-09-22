@@ -237,8 +237,8 @@ $(document).ready(function(){initNavTree('d7/db3/String_8cpp_source.html','../..
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
 <div class="line"><a name="l00118"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">  118</a></span>&#160;std::string <a class="code" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">string::createRandom</a>(uint16_t length, std::string_view chars) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    std::random_device random_device{};</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    std::mt19937 generator{random_device()};</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">static</span> std::random_device random_device{};</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keyword">static</span> std::mt19937 generator{random_device()};</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    std::uniform_int_distribution&lt;&gt; distribution{0, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(chars.length() - 1)};</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    std::string out;</div>
