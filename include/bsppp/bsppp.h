@@ -6,6 +6,7 @@
 #include <span>
 #include <string>
 #include <vector>
+#include <map>
 
 #include <sourcepp/parser/Binary.h>
 
@@ -15,6 +16,9 @@
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
+constexpr auto BSP_LZMA_ID       = sourcepp::parser::binary::makeFourCC("LZMA");
+
+typedef std::map<std::string, std::string> BSPEntity;
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
@@ -103,8 +107,18 @@ enum class BSPLump : int32_t {
 };
 static_assert(static_cast<int32_t>(BSPLump::COUNT) == 64, "Incorrect lump count!");
 
+enum BSPGameLumpID
+{
+	STATIC_PROPS = sourcepp::parser::binary::makeFourCC("sprp"),
+	DETAIL_PROPS = sourcepp::parser::binary::makeFourCC("dprp"),
+	DETAIL_PROP_LIGHTING_LDR = sourcepp::parser::binary::makeFourCC("dplt"),
+	DETAIL_PROP_LIGHTING_HDR = sourcepp::parser::binary::makeFourCC("dplh"),
+
+};
+
 constexpr auto BSP_LUMP_COUNT = static_cast<int32_t>(BSPLump::COUNT);
 
+/// Changes made are batched until writeChangesToDisk() is called
 class BSP {
 	struct Lump {
 		/// Byte offset into file
@@ -143,15 +157,20 @@ public:
 
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
+    [[nodiscard]] bool isLumpCompressed(BSPLump lumpIndex) const;
+
 	[[nodiscard]] int32_t getLumpVersion(BSPLump lumpIndex) const;
 
 	void setLumpVersion(BSPLump lumpIndex, int32_t version);
 
-	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex) const;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex, bool readRaw = false, bool readStagedVersion = false) const;
 
-	template<BSPLump Lump>
-	[[nodiscard]] auto readLump() const {
-		if constexpr (Lump == BSPLump::PLANES) {
+
+    template<BSPLump Lump>
+    [[nodiscard]] auto readLump() const {
+        if constexpr (Lump == BSPLump::ENTITIES){
+            return this->parseEntities();
+        } else if constexpr (Lump == BSPLump::PLANES) {
 			return this->readPlanes();
 		} else if constexpr (Lump == BSPLump::TEXDATA) {
 			return this->readTextureData();
@@ -169,19 +188,35 @@ public:
 			return this->readBrushModels();
 		} else if constexpr (Lump == BSPLump::ORIGINALFACES) {
 			return this->readOriginalFaces();
+		} else if constexpr (Lump == BSPLump::GAME_LUMP) {
+			return this->readGameLumps();
 		} else {
 			return this->readLump(Lump);
 		}
 	}
 
-	void writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true);
+    /// stageGameLump Should be used for writing game lumps as they need special handling
+    /// PAKLUMP can be written here but you should probably use vpkpp for that
+    /// Valid compressLevel range is 0 to 9, 0 is considered off, 9 the slowest and most compressiest
+    bool stageLump(BSPLump lumpIndex, std::span<const std::byte> data, uint8_t compressLevel = 0);
+    bool stageLump(std::span<BSPEntity>, uint8_t compressLevel = 0);
 
-	bool applyLumpPatchFile(const std::string& lumpFilePath);
+    /// Write all changes made to header and lumps to file
+    void writeChangesToDisk();
+    /// Reset changes made to a lump to how it is on disk currently, not specicfying one resets all
+    void flushChanges(BSPLump lumpIndex = BSPLump::UNKNOWN);
+
+    bool stageLumpPatchFile(const std::string& lumpFilePath);
 
 	void createLumpPatchFile(BSPLump lumpIndex) const;
 
+	bool stageGameLump(char id[4], uint16_t flags, uint16_t version, std::span<const std::byte> data, uint8_t compressLevel);
+	bool stageGameLump(int32_t id, uint16_t flags, uint16_t version, std::span<const std::byte> data, uint8_t compressLevel);
+
 protected:
 	void writeHeader() const;
+
+	[[nodiscard]] std::vector<BSPEntity> parseEntities() const;
 
 	[[nodiscard]] std::vector<BSPPlane> readPlanes() const;
 
@@ -201,8 +236,18 @@ protected:
 
 	[[nodiscard]] std::vector<BSPFace> readOriginalFaces() const;
 
+	[[nodiscard]] std::vector<BSPGameLump> readGameLumps() const;
+
+	[[nodiscard]] static std::optional<std::vector<std::byte>>	compressLumpData(const std::span<const std::byte> data, uint8_t compressLevel = 6);
+
+	[[nodiscard]] static std::optional<std::vector<std::byte>>	decompressLumpData(const std::span<const std::byte> data);
+
 	std::string path;
 	Header header{};
+	Header stagedHeader{};
+
+    std::array<std::vector<std::byte>, BSP_LUMP_COUNT> stagedLumps;
+    std::vector<BSPGameLump> stagedGameLumps;
 
 	// Slightly different header just to be quirky and special
 	bool isL4D2 = false;

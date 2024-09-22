@@ -1,8 +1,29 @@
 #pragma once
 
+#include <vector>
+
 #include <sourcepp/Math.h>
 
 namespace bsppp {
+
+#pragma pack(push)
+#pragma pack(1)
+// Compressed lumps use their own header to annoy programmers 20 years later
+// https://developer.valvesoftware.com/wiki/BSP_(Source)#Lump_compression
+struct lzma_header_bsplump
+{
+    unsigned int    id;
+    unsigned int    actualSize;         // always little endian
+    unsigned int    lzmaSize;           // always little endian
+    unsigned char   properties[5];
+};
+
+struct lzma_header_alone // .LZMA format header
+{
+    unsigned char   properties[5];
+    unsigned long   actualSize;         // always little endian
+};
+#pragma pack(pop)
 
 //region Lump 1 (Planes)
 
@@ -177,4 +198,18 @@ using BSPBrushModel = BSPBrushModel_v0;
 
 //endregion
 
+//region Lump 35 (Game Lump)
+struct BSPGameLump {
+	int32_t		id;
+	uint16_t	flags;
+	uint16_t	version;
+	int32_t		fileoffset;// offset from begining of file, not lump
+	int32_t		length; // (Decompressed) size, compressed size is determined by subtracting the next entry's offset with this one
+
+
+	// This being in the struct is not acurate to how it is written to disk, only to manage it here better
+	std::vector<std::byte> data;
+};
+
+//endregion
 } // namespace bsppp
