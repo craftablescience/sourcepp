@@ -6,6 +6,7 @@
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 #include <future>
+#include <thread>
 #endif
 
 #include <BufferStream.h>
@@ -537,6 +538,12 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 					}
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 				}));
+				if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+					for (auto& future : futures) {
+						future.get();
+					}
+					futures.clear();
+				}
 #endif
 			}
 		}
@@ -660,38 +667,41 @@ void VTF::computeReflectivity() {
 	if (this->frameCount > 1 || faceCount > 1 || this->sliceCount > 1) {
 		std::vector<std::future<math::Vec3f>> futures;
 		futures.reserve(this->frameCount * faceCount * this->sliceCount);
+
+		this->reflectivity = {};
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < this->sliceCount; l++) {
 					futures.push_back(std::async(std::launch::async, [this, j, k, faceCount, l] {
 						return getReflectivityForImage(*this, j, k, faceCount, l);
 					}));
+					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+						for (auto& future : futures) {
+							this->reflectivity += future.get();
+						}
+						futures.clear();
+					}
 				}
 			}
 		}
 
-		this->reflectivity = {};
 		for (auto& future : futures) {
 			this->reflectivity += future.get();
 		}
-		this->reflectivity /= futures.size();
+		this->reflectivity /= this->frameCount * faceCount * this->sliceCount;
 	} else {
 		this->reflectivity = getReflectivityForImage(*this, 0, 0, 1, 0);
 	}
 #else
 	this->reflectivity = {};
 	for (int j = 0; j < this->frameCount; j++) {
-		math::Vec3f facesRef{};
 		for (int k = 0; k < faceCount; k++) {
-			math::Vec3f slicesRef{};
 			for (int l = 0; l < this->sliceCount; l++) {
-				slicesRef += getReflectivityForImage(*this, j, k, faceCount, l);
+				this->reflectivity += getReflectivityForImage(*this, j, k, faceCount, l);
 			}
-			facesRef += slicesRef / this->sliceCount;
 		}
-		this->reflectivity += facesRef / faceCount;
 	}
-	this->reflectivity /= this->frameCount;
+	this->reflectivity /= this->frameCount * faceCount * this->sliceCount;
 #endif
 }
 
