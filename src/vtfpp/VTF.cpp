@@ -618,7 +618,7 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 }
 
 void VTF::computeReflectivity() {
-	static constexpr auto getReflectivityForFrame = [](VTF& vtf, uint16_t frame, uint8_t faceCount) {
+	static constexpr auto getReflectivityForImage = [](VTF& vtf, uint16_t frame, uint8_t face, uint8_t faceCount, uint16_t slice) {
 		static constexpr auto getReflectivityForPixel = [](ImagePixel::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
 			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
@@ -629,46 +629,50 @@ void VTF::computeReflectivity() {
 			return ref;
 		};
 
-		math::Vec3f facesOut{};
-		for (int k = 0; k < faceCount; k++) {
-			math::Vec3f slicesOut{};
-			for (int l = 0; l < vtf.getSliceCount(); l++) {
-				auto rgba8888Data = vtf.getImageDataAsRGBA8888(0, frame, k, l);
-				math::Vec3f sliceOut{};
-				for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
-					sliceOut += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
-				}
-				sliceOut /= rgba8888Data.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8);
-				slicesOut += sliceOut;
-			}
-			facesOut += slicesOut / vtf.getSliceCount();
+		auto rgba8888Data = vtf.getImageDataAsRGBA8888(0, frame, face, slice);
+		math::Vec3f out{};
+		for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
+			out += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
 		}
-		return facesOut / faceCount;
+		return out / (rgba8888Data.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
 	};
 
 	const auto faceCount = this->getFaceCount();
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
-	if (this->frameCount > 1) {
-		this->reflectivity = {};
+	if (this->frameCount > 1 || faceCount > 1 || this->sliceCount > 1) {
 		std::vector<std::future<math::Vec3f>> futures;
-		futures.reserve(this->frameCount);
-		for (int i = 0; i < this->frameCount; i++) {
-			futures.push_back(std::async(std::launch::async, [this, i, faceCount] {
-				return getReflectivityForFrame(*this, i, faceCount);
-			}));
+		futures.reserve(this->frameCount * faceCount * this->sliceCount);
+		for (int j = 0; j < this->frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				for (int l = 0; l < this->sliceCount; l++) {
+					futures.push_back(std::async(std::launch::async, [this, j, k, faceCount, l] {
+						return getReflectivityForImage(*this, j, k, faceCount, l);
+					}));
+				}
+			}
 		}
+
+		this->reflectivity = {};
 		for (auto& future : futures) {
 			this->reflectivity += future.get();
 		}
-		this->reflectivity /= this->frameCount;
+		this->reflectivity /= futures.size();
 	} else {
-		this->reflectivity = getReflectivityForFrame(*this, 0, faceCount) / this->frameCount;
+		this->reflectivity = getReflectivityForImage(*this, 0, 0, 1, 0);
 	}
 #else
 	this->reflectivity = {};
-	for (int i = 0; i < this->frameCount; i++) {
-		this->reflectivity += getReflectivityForFrame(*this, i, faceCount);
+	for (int j = 0; j < this->frameCount; j++) {
+		math::Vec3f facesRef{};
+		for (int k = 0; k < faceCount; k++) {
+			math::Vec3f slicesRef{};
+			for (int l = 0; l < this->sliceCount; l++) {
+				slicesRef += getReflectivityForImage(*this, j, k, faceCount, l);
+			}
+			facesRef += slicesRef / this->sliceCount;
+		}
+		this->reflectivity += facesRef / faceCount;
 	}
 	this->reflectivity /= this->frameCount;
 #endif
