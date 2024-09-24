@@ -339,9 +339,9 @@ public:
 
 	bool saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
-	[[nodiscard]] std::vector<std::byte> bake();
+	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& vtfPath);
+	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	[[nodiscard]] ImageFormat getDefaultFormat() const;
@@ -363,8 +363,7 @@ protected:
 	//uint32_t signature;
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
-
-	uint32_t headerSize{};
+	//uint32_t headerSize;
 
 	uint16_t width{};
 	uint16_t height{};

@@ -94,9 +94,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	if (this->majorVersion != 7 || this->minorVersion > 6) {
 		return;
 	}
+	const auto headerSize = stream.read<uint32_t>();
 
 	stream
-		.read(this->headerSize)
 		.read(this->width)
 		.read(this->height)
 		.read(this->flags)
@@ -169,7 +169,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			stream.seek(static_cast<int64_t>(curPos));
 		}
 
-		this->opened = stream.tell() == this->headerSize;
+		this->opened = stream.tell() == headerSize;
 
 		if (this->opened && this->minorVersion >= 6) {
 			const auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
@@ -201,7 +201,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	} else {
 		stream.skip(math::getPaddingForAlignment(16, stream.tell()));
-		this->opened = stream.tell() == this->headerSize;
+		this->opened = stream.tell() == headerSize;
 
 		this->resources.reserve(2);
 
@@ -242,7 +242,6 @@ VTF& VTF::operator=(const VTF& other) {
 	this->data = other.data;
 	this->majorVersion = other.majorVersion;
 	this->minorVersion = other.minorVersion;
-	this->headerSize = other.headerSize;
 	this->width = other.width;
 	this->height = other.height;
 	this->flags = other.flags;
@@ -709,11 +708,7 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 	}
 
 	// Save the data
-	if (this->headerSize != 0) {
-		this->data.resize(this->headerSize);
-	} else {
-		this->data.clear();
-	}
+	this->data.clear();
 	BufferStream writer{this->data};
 
 	for (auto resourceType : Resource::TYPE_ARRAY_ORDER) {
@@ -1048,7 +1043,7 @@ bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::Fil
 	return false;
 }
 
-std::vector<std::byte> VTF::bake() {
+std::vector<std::byte> VTF::bake() const {
 	std::vector<std::byte> out;
 	BufferStream writer{out};
 
@@ -1081,8 +1076,8 @@ std::vector<std::byte> VTF::bake() {
 		for (uint16_t i = 0; i < headerAlignment; i++) {
 			writer.write<std::byte>({});
 		}
-		this->headerSize = writer.tell();
-		writer.seek_u(headerLengthPos).write<uint32_t>(this->headerSize).seek_u(this->headerSize);
+		const auto headerSize = writer.tell();
+		writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(headerSize);
 
 		if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
 			writer.write(thumbnailResource->data);
@@ -1129,9 +1124,9 @@ std::vector<std::byte> VTF::bake() {
 			.write<uint64_t>(0); // padding
 
 		const auto resourceStart = writer.tell();
-		this->headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
-		writer.seek_u(headerLengthPos).write<uint32_t>(this->headerSize).seek_u(resourceStart);
-		while (writer.tell() < this->headerSize) {
+		const auto headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
+		writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
+		while (writer.tell() < headerSize) {
 			writer.write<uint64_t>(0);
 		}
 		writer.seek_u(resourceStart);
@@ -1164,6 +1159,6 @@ std::vector<std::byte> VTF::bake() {
 	return out;
 }
 
-bool VTF::bake(const std::string& vtfPath) {
+bool VTF::bake(const std::string& vtfPath) const {
 	return fs::writeFileBuffer(vtfPath, this->bake());
 }
