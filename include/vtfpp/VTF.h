@@ -181,10 +181,12 @@ public:
 
 	explicit VTF(const std::string& vtfPath, bool parseHeaderOnly = false);
 
-	VTF(const VTF&) = delete;
-	VTF& operator=(const VTF&) = delete;
+	VTF(const VTF& other);
+
+	VTF& operator=(const VTF& other);
 
 	VTF(VTF&&) noexcept = default;
+
 	VTF& operator=(VTF&&) noexcept = default;
 
 	[[nodiscard]] explicit operator bool() const;

@@ -233,6 +233,45 @@ VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly)
 VTF::VTF(const std::string& vtfPath, bool parseHeaderOnly)
 		: VTF(fs::readFileBuffer(vtfPath), parseHeaderOnly) {}
 
+VTF::VTF(const VTF& other) {
+	*this = other;
+}
+
+VTF& VTF::operator=(const VTF& other) {
+	this->opened = other.opened;
+	this->data = other.data;
+	this->majorVersion = other.majorVersion;
+	this->minorVersion = other.minorVersion;
+	this->headerSize = other.headerSize;
+	this->width = other.width;
+	this->height = other.height;
+	this->flags = other.flags;
+	this->frameCount = other.frameCount;
+	this->startFrame = other.startFrame;
+	this->reflectivity = other.reflectivity;
+	this->bumpMapScale = other.bumpMapScale;
+	this->format = other.format;
+	this->mipCount = other.mipCount;
+	this->thumbnailFormat = other.thumbnailFormat;
+	this->thumbnailWidth = other.thumbnailWidth;
+	this->thumbnailHeight = other.thumbnailHeight;
+	this->sliceCount = other.sliceCount;
+
+	this->resources.clear();
+	for (const auto& otherResource : other.resources) {
+		auto& resource = this->resources.emplace_back();
+		resource.type = otherResource.type;
+		resource.flags = otherResource.flags;
+		resource.data = {this->data.data() + (otherResource.data.data() - other.data.data()), otherResource.data.size()};
+	}
+
+	this->compressionLevel = other.compressionLevel;
+	this->imageWidthResizeMethod = other.imageWidthResizeMethod;
+	this->imageHeightResizeMethod = other.imageHeightResizeMethod;
+
+	return *this;
+}
+
 VTF::operator bool() const {
 	return this->opened;
 }
