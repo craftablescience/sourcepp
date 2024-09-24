@@ -16,7 +16,9 @@ constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
 
 #pragma pack(push)
 #pragma pack(1)
-struct lzma_header_bsp // Lump compression uses it own header to be special
+// Compressed lumps use their own header to annoy programmers 20 years later
+// https://developer.valvesoftware.com/wiki/BSP_(Source)#Lump_compression
+struct lzma_header_bsplump
 {
     unsigned int    id;
     unsigned int    actualSize;         // always little endian
@@ -24,10 +26,10 @@ struct lzma_header_bsp // Lump compression uses it own header to be special
     unsigned char   properties[5];
 };
 
-struct lzma_header_standard
+struct lzma_header_standard // legacy .LZMA format header
 {
     unsigned char   properties[5];
-    unsigned long   actualSize;
+    unsigned long   actualSize;         // always little endian
 };
 #pragma pack(pop)
 
@@ -158,7 +160,7 @@ public:
 
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
-    [[nodiscard]] std::optional<bool> isLumpCompressed(BSPLump lumpIndex) const;
+    [[nodiscard]] bool isLumpCompressed(BSPLump lumpIndex) const;
 
 	[[nodiscard]] int32_t getLumpVersion(BSPLump lumpIndex) const;
 
