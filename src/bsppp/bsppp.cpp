@@ -168,7 +168,7 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
         uint8_t decodedLump[uncompressedSize];
 
-        uint64_t memlimit = 2U << 20;//idk
+        uint64_t memlimit = 1074000000; // 1 GB should be more than enough
         lzma_stream stream = LZMA_STREAM_INIT;
         stream.next_in = (uint8_t*)lumpBytes.data();
         stream.avail_in = lumpBytes.size();
@@ -179,7 +179,7 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
         if (autoerror)
         {
-            //printf("init error %i\n", autoerror);
+            printf("init error %i\n", autoerror);
             return std::nullopt;
         }
 
@@ -187,7 +187,7 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
         if (error != LZMA_STREAM_END)
         {
-            //printf("err %i\n", error);
+            printf("err %i\n", error);
             return std::nullopt;
         }
         lzma_end(&stream);
