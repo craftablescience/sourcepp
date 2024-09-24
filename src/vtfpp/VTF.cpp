@@ -516,21 +516,24 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 		}
 	}
 
+	auto* outputDataPtr = imageResource->data.data();
+	const auto faceCount = this->getFaceCount();
+
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 	std::vector<std::future<void>> futures;
+	futures.reserve((this->mipCount - 1) * this->frameCount * faceCount * this->sliceCount);
 #endif
-	const auto faceCount = this->getFaceCount();
 	for (int i = 1; i < this->mipCount; i++) {
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < this->sliceCount; l++) {
-					auto imageData = this->getImageDataRaw(i - 1, j, k, l);
+					auto baseMipData = this->getImageDataRaw(i - 1, j, k, l);
 #ifdef SOURCEPP_BUILD_WITH_THREADS
-					futures.push_back(std::async(std::launch::async, [this, filter, &imageResource, faceCount, i, j, k, l, imageData] {
+					futures.push_back(std::async(std::launch::async, [this, filter, outputDataPtr, faceCount, i, j, k, l, baseMipData] {
 #endif
-						auto mip = ImageConversion::resizeImageData(imageData, this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
+						auto mip = ImageConversion::resizeImageData(baseMipData, this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
 						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
-							std::memcpy(imageResource->data.data() + offset, mip.data(), length);
+							std::memcpy(outputDataPtr + offset, mip.data(), length);
 						}
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 					}));
