@@ -516,19 +516,33 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 		}
 	}
 
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+	std::vector<std::future<void>> futures;
+#endif
 	const auto faceCount = this->getFaceCount();
 	for (int i = 1; i < this->mipCount; i++) {
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < this->sliceCount; l++) {
-					auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
-					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
-						std::memcpy(imageResource->data.data() + offset, mip.data(), length);
-					}
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+					futures.push_back(std::async(std::launch::async, [this, filter, imageResource, faceCount, i, j, k, l] {
+#endif
+						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
+						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
+							std::memcpy(imageResource->data.data() + offset, mip.data(), length);
+						}
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+					}));
+#endif
 				}
 			}
 		}
 	}
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+	for (auto& future : futures) {
+		future.get();
+	}
+#endif
 }
 
 uint16_t VTF::getFrameCount() const {

@@ -182,4 +182,66 @@ void BM_vtflib_compute_reflectivity_2048x2048_64(benchmark::State& state) {
 }
 BENCHMARK(BM_vtflib_compute_reflectivity_2048x2048_64);
 
+void BM_vtfpp_compute_mips_2048x2048_1(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeMips(ImageConversion::ResizeFilter::MITCHELL);
+	}
+}
+BENCHMARK(BM_vtfpp_compute_mips_2048x2048_1);
+
+void BM_vtflib_compute_mips_2048x2048_1(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 1, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.GenerateMipmaps(VTFMipmapFilter::MIPMAP_FILTER_MITCHELL, false));
+	}
+}
+BENCHMARK(BM_vtflib_compute_mips_2048x2048_1);
+
+void BM_vtfpp_compute_mips_2048x2048_4(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setFrameCount(4);
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeMips(ImageConversion::ResizeFilter::MITCHELL);
+	}
+}
+BENCHMARK(BM_vtfpp_compute_mips_2048x2048_4);
+
+void BM_vtflib_compute_mips_2048x2048_4(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 4, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.GenerateMipmaps(VTFMipmapFilter::MIPMAP_FILTER_MITCHELL, false));
+	}
+}
+BENCHMARK(BM_vtflib_compute_mips_2048x2048_4);
+
+void BM_vtfpp_compute_mips_2048x2048_16(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setFrameCount(16);
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeMips(ImageConversion::ResizeFilter::MITCHELL);
+	}
+}
+BENCHMARK(BM_vtfpp_compute_mips_2048x2048_16);
+
+void BM_vtflib_compute_mips_2048x2048_16(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 16, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.GenerateMipmaps(VTFMipmapFilter::MIPMAP_FILTER_MITCHELL, false));
+	}
+}
+BENCHMARK(BM_vtflib_compute_mips_2048x2048_16);
+
 } // namespace

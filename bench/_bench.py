@@ -23,7 +23,7 @@ def get_lib_name(filename) -> str:
     return pathlib.Path(filename).stem
 
 
-def find_bench_executable(filename) -> str | None:
+def find_bench_executable(filename) -> str:
     for search_path in SEARCH_PATHS:
         path = search_path + '/' + get_lib_name(filename) + '_bench'
         if os.path.isfile(path):
@@ -31,6 +31,8 @@ def find_bench_executable(filename) -> str | None:
         path = search_path + '/' + get_lib_name(filename) + '_bench.exe'
         if os.path.isfile(path):
             return path
+    print("Unable to find benchmark executable!")
+    exit(1)
 
 
 def create_data(exe: str, filename: str) -> str:

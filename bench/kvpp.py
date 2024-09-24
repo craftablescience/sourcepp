@@ -30,8 +30,6 @@ def create_plot(exe: str, data: pd.DataFrame) -> None:
 
 def main() -> None:
     exe = find_bench_executable(__file__)
-    if not exe:
-        exit(1)
     data = read_data(exe, __file__)
 
     create_plot(exe, data)
