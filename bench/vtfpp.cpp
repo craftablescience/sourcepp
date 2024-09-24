@@ -120,4 +120,66 @@ void BM_vtflib_create_2048x2048_compressed(benchmark::State& state) {
 }
 BENCHMARK(BM_vtflib_create_2048x2048_compressed);
 
+void BM_vtfpp_compute_reflectivity_2048x2048_1(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeReflectivity();
+	}
+}
+BENCHMARK(BM_vtfpp_compute_reflectivity_2048x2048_1);
+
+void BM_vtflib_compute_reflectivity_2048x2048_1(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 1, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.ComputeReflectivity());
+	}
+}
+BENCHMARK(BM_vtflib_compute_reflectivity_2048x2048_1);
+
+void BM_vtfpp_compute_reflectivity_2048x2048_8(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setFrameCount(8);
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeReflectivity();
+	}
+}
+BENCHMARK(BM_vtfpp_compute_reflectivity_2048x2048_8);
+
+void BM_vtflib_compute_reflectivity_2048x2048_8(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 8, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.ComputeReflectivity());
+	}
+}
+BENCHMARK(BM_vtflib_compute_reflectivity_2048x2048_8);
+
+void BM_vtfpp_compute_reflectivity_2048x2048_64(benchmark::State& state) {
+	VTF vtf{ASSET_ROOT "vtfpp/fmt/RGBA8888.vtf"};
+	vtf.setFrameCount(64);
+	vtf.setSize(2048, 2048, ImageConversion::ResizeFilter::BILINEAR);
+
+	for ([[maybe_unused]] auto _ : state) {
+		vtf.computeReflectivity();
+	}
+}
+BENCHMARK(BM_vtfpp_compute_reflectivity_2048x2048_64);
+
+void BM_vtflib_compute_reflectivity_2048x2048_64(benchmark::State& state) {
+	VTFLib::CVTFFile vtf;
+	vtf.Create(2048, 2048, 64, 1, 1, IMAGE_FORMAT_RGBA8888, true, true, true);
+
+	for ([[maybe_unused]] auto _: state) {
+		benchmark::DoNotOptimize(vtf.ComputeReflectivity());
+	}
+}
+BENCHMARK(BM_vtflib_compute_reflectivity_2048x2048_64);
+
 } // namespace
