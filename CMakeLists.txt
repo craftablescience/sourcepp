@@ -30,7 +30,7 @@ option(SOURCEPP_BUILD_BENCHMARKS   "Build benchmarks for supported libraries" OF
 option(SOURCEPP_BUILD_C_WRAPPERS   "Build C wrappers for supported libraries" OFF)
 option(SOURCEPP_BUILD_WITH_OPENCL  "Build with support for GPU compute"       OFF)
 option(SOURCEPP_BUILD_WITH_TBB     "Build with support for std::execution"    OFF)
-option(SOURCEPP_BUILD_WITH_THREADS "Build with support for std::thread"        ON)
+option(SOURCEPP_BUILD_WITH_THREADS "Build with support for threading"          ON)
 option(SOURCEPP_BUILD_TESTS        "Build tests for supported libraries"      OFF)
 option(SOURCEPP_BUILD_WIN7_COMPAT  "Build with Windows 7 compatibility"       OFF)
 
@@ -94,12 +94,25 @@ if(SOURCEPP_BUILD_TESTS)
     include(FetchContent)
     FetchContent_Declare(
             googletest
-            GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG v1.15.2)
+            GIT_REPOSITORY "https://github.com/google/googletest.git"
+            GIT_TAG "v1.15.2")
     FetchContent_MakeAvailable(googletest)
     enable_testing()
     set(${SOURCEPP_TEST_NAME}_SOURCES "")
     list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
+
+    # Download assets
+    FetchContent_Declare(
+            ${PROJECT_NAME}_assets
+            GIT_REPOSITORY "https://github.com/craftablescience/sourcepp_assets.git"
+            GIT_TAG "origin/main"
+            GIT_SHALLOW ON
+            SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/res"
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND ""
+            INSTALL_COMMAND ""
+            TEST_COMMAND "")
+    FetchContent_MakeAvailable(${PROJECT_NAME}_assets)
 endif()
 
 

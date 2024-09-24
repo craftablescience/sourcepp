@@ -11,4 +11,5 @@ out/
 
 # Generated
 docs/html/
+test/res/
 test/Helpers.h
