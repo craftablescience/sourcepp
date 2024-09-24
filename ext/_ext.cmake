@@ -87,3 +87,21 @@ function(sourcepp_add_tbb TARGET)
         endif()
     endif()
 endfunction()
+
+
+# Threads
+if(SOURCEPP_BUILD_WITH_THREADS)
+    set(CMAKE_THREAD_PREFER_PTHREAD ON)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads)
+    if(NOT Threads_FOUND)
+        set(SOURCEPP_BUILD_WITH_THREADS OFF CACHE INTERNAL "" FORCE)
+    endif()
+endif()
+
+function(sourcepp_add_threads TARGET)
+    if(SOURCEPP_BUILD_WITH_THREADS)
+        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_THREADS)
+        target_link_libraries(${TARGET} PRIVATE Threads::Threads)
+    endif()
+endfunction()
