@@ -4,6 +4,10 @@
 #include <cstring>
 #include <unordered_map>
 
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+#include <future>
+#endif
+
 #include <BufferStream.h>
 #include <miniz.h>
 
@@ -614,33 +618,60 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 }
 
 void VTF::computeReflectivity() {
-	const auto faceCount = this->getFaceCount();
-	this->reflectivity = {};
-	for (int j = 0; j < this->frameCount; j++) {
+	static constexpr auto getReflectivityForFrame = [](VTF& vtf, uint16_t frame, uint8_t faceCount) {
+		static constexpr auto getReflectivityForPixel = [](ImagePixel::RGBA8888* pixel) -> math::Vec3f {
+			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
+			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
+			ref /= 255.f * 0.9f;
+			ref[0] *= ref[0];
+			ref[1] *= ref[1];
+			ref[2] *= ref[2];
+			return ref;
+		};
+
 		math::Vec3f facesOut{};
 		for (int k = 0; k < faceCount; k++) {
 			math::Vec3f slicesOut{};
-			for (int l = 0; l < this->sliceCount; l++) {
-				auto rgba8888Data = this->getImageDataAsRGBA8888(0, j, k, l);
-
+			for (int l = 0; l < vtf.getSliceCount(); l++) {
+				auto rgba8888Data = vtf.getImageDataAsRGBA8888(0, frame, k, l);
 				math::Vec3f sliceOut{};
 				for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
-					// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
-					math::Vec3f pixel{static_cast<float>(rgba8888Data[i]), static_cast<float>(rgba8888Data[i+1]), static_cast<float>(rgba8888Data[i+2])};
-					pixel /= 255.f * 0.9f;
-					pixel[0] *= pixel[0];
-					pixel[1] *= pixel[1];
-					pixel[2] *= pixel[2];
-					sliceOut += pixel;
+					sliceOut += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
 				}
 				sliceOut /= rgba8888Data.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8);
 				slicesOut += sliceOut;
 			}
-			facesOut += slicesOut / this->sliceCount;
+			facesOut += slicesOut / vtf.getSliceCount();
 		}
-		this->reflectivity += facesOut / faceCount;
+		return facesOut / faceCount;
+	};
+
+	const auto faceCount = this->getFaceCount();
+
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+	if (this->frameCount > 1) {
+		this->reflectivity = {};
+		std::vector<std::future<math::Vec3f>> futures;
+		futures.reserve(this->frameCount);
+		for (int i = 0; i < this->frameCount; i++) {
+			futures.push_back(std::async(std::launch::async, [this, i, faceCount] {
+				return getReflectivityForFrame(*this, i, faceCount);
+			}));
+		}
+		for (auto& future : futures) {
+			this->reflectivity += future.get();
+		}
+		this->reflectivity /= this->frameCount;
+	} else {
+		this->reflectivity = getReflectivityForFrame(*this, 0, faceCount) / this->frameCount;
+	}
+#else
+	this->reflectivity = {};
+	for (int i = 0; i < this->frameCount; i++) {
+		this->reflectivity += getReflectivityForFrame(*this, i, faceCount);
 	}
 	this->reflectivity /= this->frameCount;
+#endif
 }
 
 float VTF::getBumpMapScale() const {
