@@ -37,11 +37,11 @@ if(NOT TARGET miniz)
 endif()
 
 
-# minizip-ng
-if(NOT TARGET MINIZIP::minizip)
+# minizip-ng (guard this behind vpkpp because this is a big dependency)
+if(SOURCEPP_USE_VPKPP AND NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
-    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "")
-    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "")
+    set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "" FORCE)
+    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "" FORCE)
     set(MZ_PKCRYPT          OFF CACHE INTERNAL "")
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
