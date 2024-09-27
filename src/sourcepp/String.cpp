@@ -5,6 +5,16 @@
 #include <random>
 #include <sstream>
 
+namespace {
+
+std::mt19937& getRandomGenerator() {
+	static std::random_device random_device{};
+	static std::mt19937 generator{random_device()};
+	return generator;
+}
+
+} // namespace
+
 using namespace sourcepp;
 
 bool string::contains(std::string_view s, char c) {
@@ -116,8 +126,7 @@ std::string string::toUpper(std::string_view input) {
 }
 
 std::string string::createRandom(uint16_t length, std::string_view chars) {
-	static std::random_device random_device{};
-	static std::mt19937 generator{random_device()};
+	auto& generator = ::getRandomGenerator();
 	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
 
 	std::string out;
@@ -131,8 +140,7 @@ std::string string::createRandom(uint16_t length, std::string_view chars) {
 std::string string::generateUUIDv4() {
 	static constexpr std::string_view chars = "0123456789abcdef";
 
-	std::random_device random_device{};
-	std::mt19937 generator{random_device()};
+	auto& generator = ::getRandomGenerator();
 	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
 
 	std::string out;
