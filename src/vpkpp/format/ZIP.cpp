@@ -190,6 +190,7 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 		fileInfo.filename = path.c_str();
 		fileInfo.filename_size = path.length();
 		fileInfo.version_madeby = MZ_VERSION_MADEBY;
+		fileInfo.creation_date = time;
 		fileInfo.modified_date = time;
 		fileInfo.compression_method = overrideCompression ? static_cast<uint16_t>(options.zip_compressionTypeOverride) : entry.flags;
 		fileInfo.flag = MZ_ZIP_FLAG_DATA_DESCRIPTOR | MZ_ZIP_FLAG_UTF8;
