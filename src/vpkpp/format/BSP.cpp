@@ -4,10 +4,7 @@
 
 #include <FileStream.h>
 #include <mz.h>
-#include <mz_strm.h>
-#include <mz_strm_os.h>
 #include <mz_zip.h>
-#include <mz_zip_rw.h>
 
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
@@ -22,6 +19,12 @@ BSP::BSP(const std::string& fullFilePath_)
 		, bsppp::BSP(fullFilePath_)
 		, tempBSPPakLumpPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::BSP;
+}
+
+BSP::~BSP() {
+	// Pull this in from the ZIP dtor, have to do it before deleting the file
+	this->closeZIP();
+	std::filesystem::remove(this->tempBSPPakLumpPath);
 }
 
 std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback& callback) {
@@ -44,22 +47,9 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 		writer.write(*pakFileLump);
 	} else {
 		// No paklump, create an empty zip
-		void* writeStreamHandle = mz_stream_os_create();
-		if (mz_stream_os_open(writeStreamHandle, bsp->tempBSPPakLumpPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
+		if (!ZIP::create(bsp->tempBSPPakLumpPath)) {
 			return nullptr;
 		}
-		void* writeZipHandle = mz_zip_writer_create();
-		if (mz_zip_writer_open(writeZipHandle, writeStreamHandle, 0)) {
-			return nullptr;
-		}
-		if (mz_zip_writer_close(writeZipHandle)) {
-			return nullptr;
-		}
-		mz_zip_writer_delete(&writeZipHandle);
-		if (mz_stream_os_close(writeStreamHandle)) {
-			return nullptr;
-		}
-		mz_stream_os_delete(&writeStreamHandle);
 	}
 
 	if (!bsp->openZIP(bsp->tempBSPPakLumpPath)) {

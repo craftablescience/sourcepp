@@ -13,6 +13,8 @@ constexpr std::string_view BSP_EXTENSION = ".bsp";
 
 class BSP : public ZIP, private bsppp::BSP {
 public:
+	~BSP() override;
+
 	/// Open a BSP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
