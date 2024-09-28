@@ -129,15 +129,6 @@ $(document).ready(function(){initNavTree('d5/dba/classbsppp_1_1BSP.html','../../
 
 <p><code>#include &lt;<a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>&gt;</code></p>
 <div class="dynheader">
-Inheritance diagram for bsppp::BSP:</div>
-<div class="dyncontent">
-<div class="center"><img src="../../d8/dbb/classbsppp_1_1BSP__inherit__graph.png" border="0" usemap="#absppp_1_1BSP_inherit__map" alt="Inheritance graph"/></div>
-<map name="absppp_1_1BSP_inherit__map" id="absppp_1_1BSP_inherit__map">
-<area shape="rect" title=" " alt="" coords="5,5,100,32"/>
-<area shape="rect" href="../../d2/da8/classvpkpp_1_1BSP.html" title=" " alt="" coords="5,80,100,107"/>
-</map>
-<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
-<div class="dynheader">
 Collaboration diagram for bsppp::BSP:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/dea/classbsppp_1_1BSP__coll__graph.png" border="0" usemap="#absppp_1_1BSP_coll__map" alt="Collaboration graph"/></div>
@@ -177,10 +168,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a169a4384bdab5405fab0263fc57a3f21"><td class="memTemplParams" colspan="2">template&lt;BSPLump Lump&gt; </td></tr>
 <tr class="memitem:a169a4384bdab5405fab0263fc57a3f21"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a169a4384bdab5405fab0263fc57a3f21">readLump</a> () const</td></tr>
 <tr class="separator:a169a4384bdab5405fab0263fc57a3f21"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2518d5d9da2d920bf0f3bad49677b345"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345">writeLump</a> (<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, const std::vector&lt; std::byte &gt; &amp;data)</td></tr>
-<tr class="separator:a2518d5d9da2d920bf0f3bad49677b345"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1bf97b6aa492a10c306d78a689b3c9f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#ae1bf97b6aa492a10c306d78a689b3c9f">writeLump</a> (<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, const std::byte *buffer, uint64_t bufferLen)</td></tr>
-<tr class="separator:ae1bf97b6aa492a10c306d78a689b3c9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba6a95e9ea4fef644d440962f30a67ff"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#aba6a95e9ea4fef644d440962f30a67ff">writeLump</a> (<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, std::span&lt; const std::byte &gt; data)</td></tr>
+<tr class="separator:aba6a95e9ea4fef644d440962f30a67ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab092e93ffdebb2cc1226f13791d7771b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#ab092e93ffdebb2cc1226f13791d7771b">applyLumpPatchFile</a> (const std::string &amp;lumpFilePath)</td></tr>
 <tr class="separator:ab092e93ffdebb2cc1226f13791d7771b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa2bd3d2880f264fa2317fed4e0f43dce"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#aa2bd3d2880f264fa2317fed4e0f43dce">createLumpPatchFile</a> (<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex) const</td></tr>
@@ -195,9 +184,6 @@ Static Public Member Functions</h2></td></tr>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2e7dd5910f41b7cb213c82624b67e802"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a2e7dd5910f41b7cb213c82624b67e802">writeHeader</a> () const</td></tr>
 <tr class="separator:a2e7dd5910f41b7cb213c82624b67e802"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c8b6d958d10657ecd2571e9beb1a99d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a0c8b6d958d10657ecd2571e9beb1a99d">moveLumpToWritableSpace</a> (<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a> lumpIndex, int32_t newSize)</td></tr>
-<tr class="memdesc:a0c8b6d958d10657ecd2571e9beb1a99d"><td class="mdescLeft">&#160;</td><td class="mdescRight">If the lump is too big where it is, shift it to the end of the file, otherwise its fine.  <a href="../../d5/dba/classbsppp_1_1BSP.html#a0c8b6d958d10657ecd2571e9beb1a99d">More...</a><br /></td></tr>
-<tr class="separator:a0c8b6d958d10657ecd2571e9beb1a99d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08ba76ed578a2a90bc58c8fa8b8a123f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dd/d11/namespacebsppp.html#a998c6009548d7f71bd30b34daf791a62">BSPPlane</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a08ba76ed578a2a90bc58c8fa8b8a123f">readPlanes</a> () const</td></tr>
 <tr class="separator:a08ba76ed578a2a90bc58c8fa8b8a123f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba5f71815675cfdb2f8ef3e49329bea5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../dd/d11/namespacebsppp.html#a685379b9ab1fdb2ec9f51b59dc660dea">BSPTextureData</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#aba5f71815675cfdb2f8ef3e49329bea5">readTextureData</a> () const</td></tr>
@@ -228,7 +214,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00106">106</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00107">107</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a8778ef34f23c187e5ab332bf81223c6a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8778ef34f23c187e5ab332bf81223c6a">&#9670;&nbsp;</a></span>BSP()</h2>
@@ -275,7 +261,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00170">170</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00237">237</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -339,7 +325,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00193">193</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00260">260</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -421,46 +407,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a0c8b6d958d10657ecd2571e9beb1a99d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c8b6d958d10657ecd2571e9beb1a99d">&#9670;&nbsp;</a></span>moveLumpToWritableSpace()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BSP::moveLumpToWritableSpace </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a>&#160;</td>
-          <td class="paramname"><em>lumpIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">int32_t&#160;</td>
-          <td class="paramname"><em>newSize</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>If the lump is too big where it is, shift it to the end of the file, otherwise its fine. </p>
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00241">241</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
-
-</div>
-</div>
 <a id="a69f93aae257f78a72b36ec66c1d67b0c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a69f93aae257f78a72b36ec66c1d67b0c">&#9670;&nbsp;</a></span>operator bool()</h2>
 
@@ -511,7 +457,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00354">354</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00348">348</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -538,7 +484,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00340">340</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00334">334</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -565,7 +511,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00330">330</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00324">324</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -594,7 +540,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00151">151</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00152">152</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>
@@ -641,7 +587,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00358">358</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00352">352</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -668,7 +614,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00314">314</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00308">308</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -695,7 +641,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00350">350</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00344">344</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -722,7 +668,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00318">318</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00312">312</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -749,7 +695,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00326">326</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00320">320</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -776,7 +722,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00322">322</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00316">316</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
@@ -873,12 +819,12 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00221">221</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00288">288</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ae1bf97b6aa492a10c306d78a689b3c9f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae1bf97b6aa492a10c306d78a689b3c9f">&#9670;&nbsp;</a></span>writeLump() <span class="overload">[1/2]</span></h2>
+<a id="aba6a95e9ea4fef644d440962f30a67ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba6a95e9ea4fef644d440962f30a67ff">&#9670;&nbsp;</a></span>writeLump()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -892,43 +838,7 @@ template&lt;BSPLump Lump&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::byte *&#160;</td>
-          <td class="paramname"><em>buffer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint64_t&#160;</td>
-          <td class="paramname"><em>bufferLen</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d3/d79/bsppp_8cpp_source.html#l00159">159</a> of file <a class="el" href="../../d3/d79/bsppp_8cpp_source.html">bsppp.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a2518d5d9da2d920bf0f3bad49677b345"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2518d5d9da2d920bf0f3bad49677b345">&#9670;&nbsp;</a></span>writeLump() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void BSP::writeLump </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">BSPLump</a>&#160;</td>
-          <td class="paramname"><em>lumpIndex</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::vector&lt; std::byte &gt; &amp;&#160;</td>
+          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
           <td class="paramname"><em>data</em>&#160;</td>
         </tr>
         <tr>
@@ -964,7 +874,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00208">208</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00204">204</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>
@@ -988,7 +898,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00211">211</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00207">207</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>
@@ -1012,7 +922,7 @@ template&lt;BSPLump Lump&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00207">207</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00203">203</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>

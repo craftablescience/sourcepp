@@ -5,5 +5,5 @@ var searchData=
   ['writefilebuffer_2041',['writeFileBuffer',['../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf',1,'sourcepp::fs']]],
   ['writefiletext_2042',['writeFileText',['../d9/dd6/namespacesourcepp_1_1fs.html#ab41ce0a38aed111d34806b0e77640e33',1,'sourcepp::fs']]],
   ['writeheader_2043',['writeHeader',['../d5/dba/classbsppp_1_1BSP.html#a2e7dd5910f41b7cb213c82624b67e802',1,'bsppp::BSP']]],
-  ['writelump_2044',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345',1,'bsppp::BSP::writeLump(BSPLump lumpIndex, const std::vector&lt; std::byte &gt; &amp;data)'],['../d5/dba/classbsppp_1_1BSP.html#ae1bf97b6aa492a10c306d78a689b3c9f',1,'bsppp::BSP::writeLump(BSPLump lumpIndex, const std::byte *buffer, uint64_t bufferLen)']]]
+  ['writelump_2044',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#aba6a95e9ea4fef644d440962f30a67ff',1,'bsppp::BSP']]]
 ];

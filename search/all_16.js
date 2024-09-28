@@ -8,7 +8,7 @@ var searchData=
   ['wholefilechecksum_1356',['wholeFileChecksum',['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#a48d5a49102e62e02e2e658cf7dc179c8',1,'vpkpp::VPK::Footer2']]],
   ['width_1357',['width',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a51e7955b91f78dd821ae5a755516f091',1,'bsppp::BSPTextureData_v0::width()'],['../d1/dc9/structvtfpp_1_1PPL_1_1Image.html#a35023f656b651ada5074dc8a24cb954a',1,'vtfpp::PPL::Image::width()'],['../d8/df2/classvtfpp_1_1VTF.html#a0471c9d679c3a402799b2609c78ea38e',1,'vtfpp::VTF::width()']]],
   ['widthresizemethod_1358',['widthResizeMethod',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339',1,'vtfpp::VTF::CreationOptions']]],
-  ['wn_1359',['wn',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#ac3c31f6a1f8f33cc2c95a2f315d0ef60',1,'sourcepp::math::QuatCompressed48::wn()'],['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#a6e0eb178e612ee071e6ec8d3c1ae8769',1,'sourcepp::math::QuatCompressed64::wn()']]],
+  ['wn_1359',['wn',['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#a6e0eb178e612ee071e6ec8d3c1ae8769',1,'sourcepp::math::QuatCompressed64::wn()'],['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#ac3c31f6a1f8f33cc2c95a2f315d0ef60',1,'sourcepp::math::QuatCompressed48::wn()']]],
   ['worldlights_1360',['WORLDLIGHTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0',1,'bsppp']]],
   ['worldlights_5fhdr_1361',['WORLDLIGHTS_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a',1,'bsppp']]],
   ['wrap_1362',['WRAP',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0',1,'vtfpp::ImageConversion']]],
@@ -16,6 +16,6 @@ var searchData=
   ['writefilebuffer_1364',['writeFileBuffer',['../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf',1,'sourcepp::fs']]],
   ['writefiletext_1365',['writeFileText',['../d9/dd6/namespacesourcepp_1_1fs.html#ab41ce0a38aed111d34806b0e77640e33',1,'sourcepp::fs']]],
   ['writeheader_1366',['writeHeader',['../d5/dba/classbsppp_1_1BSP.html#a2e7dd5910f41b7cb213c82624b67e802',1,'bsppp::BSP']]],
-  ['writelump_1367',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#ae1bf97b6aa492a10c306d78a689b3c9f',1,'bsppp::BSP::writeLump(BSPLump lumpIndex, const std::byte *buffer, uint64_t bufferLen)'],['../d5/dba/classbsppp_1_1BSP.html#a2518d5d9da2d920bf0f3bad49677b345',1,'bsppp::BSP::writeLump(BSPLump lumpIndex, const std::vector&lt; std::byte &gt; &amp;data)']]],
+  ['writelump_1367',['writeLump',['../d5/dba/classbsppp_1_1BSP.html#aba6a95e9ea4fef644d440962f30a67ff',1,'bsppp::BSP']]],
   ['writer_1368',['writer',['../d5/d25/classtoolpp_1_1FGDWriter.html#a334eae0ac8a9ecf35775a6f4337bef3a',1,'toolpp::FGDWriter']]]
 ];
