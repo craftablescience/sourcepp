@@ -1,5 +1,5 @@
 add_pretty_parser(vpkpp
-        DEPS cryptopp::cryptopp libzstd_static MINIZIP::minizip sourcepp::bsppp sourcepp::kvpp
+        DEPS cryptopp::cryptopp MINIZIP::minizip sourcepp::bsppp sourcepp::kvpp
         DEPS_INTERFACE tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"
@@ -30,3 +30,8 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/PackFile.cpp")
 
 target_include_directories(vpkpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/hat-trie/include")
+
+if(SOURCEPP_VPKPP_SUPPORT_VPK_V54)
+    target_link_libraries(vpkpp PRIVATE libzstd_static)
+    target_compile_definitions(vpkpp PRIVATE VPKPP_SUPPORT_VPK_V54)
+endif()
