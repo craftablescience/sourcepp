@@ -185,7 +185,7 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 			mz_zip_writer_set_compress_method(writeStreamHandle, entry.flags);
 		}
 
-		mz_zip_file fileInfo;
+		mz_zip_entry fileInfo;
 		std::memset(&fileInfo, 0, sizeof(mz_zip_entry));
 		fileInfo.filename = path.c_str();
 		fileInfo.filename_size = path.length();
