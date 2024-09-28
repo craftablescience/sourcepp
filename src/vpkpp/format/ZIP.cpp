@@ -167,6 +167,8 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 		return false;
 	}
 
+	mz_zip_set_version_madeby(writeZipHandle, MZ_VERSION_MADEBY);
+
 	const auto time = std::time(nullptr);
 
 	const bool overrideCompression = options.zip_compressionTypeOverride != EntryCompressionType::NO_OVERRIDE;

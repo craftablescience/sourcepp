@@ -3,6 +3,7 @@
 #include <array>
 #include <cstddef>
 #include <optional>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -172,9 +173,7 @@ public:
 		}
 	}
 
-	void writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data);
-
-	void writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen);
+	void writeLump(BSPLump lumpIndex, std::span<const std::byte> data);
 
 	bool applyLumpPatchFile(const std::string& lumpFilePath);
 
@@ -182,9 +181,6 @@ public:
 
 protected:
 	void writeHeader() const;
-
-	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
-	void moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize);
 
 	[[nodiscard]] std::vector<BSPPlane> readPlanes() const;
 
