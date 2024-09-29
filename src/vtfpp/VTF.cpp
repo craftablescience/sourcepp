@@ -327,6 +327,12 @@ void VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	writer.bake(vtfPath);
 }
 
+void VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+	std::vector<std::byte> imageData;
+	imageData.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+	create(imageData, format, width, height, vtfPath, options);
+}
+
 VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
 	VTF writer;
 	writer.setVersion(options.majorVersion, options.minorVersion);
@@ -335,6 +341,12 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	writer.setImage(imageData, format, width, height, options.filter);
 	createInternal(writer, options);
 	return writer;
+}
+
+VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
+	std::vector<std::byte> imageData;
+	imageData.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+	return create(imageData, format, width, height, options);
 }
 
 void VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
