@@ -51,6 +51,8 @@ var classvtfpp_1_1VTF =
     [ "computeThumbnail", "d8/df2/classvtfpp_1_1VTF.html#aa5c5d7c04002c1f9a64421fe4b78d434", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#accc710945347474ff2708be41775dedc", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#a1ac3438dd8695017f55ca2793ef7942a", null ],
+    [ "create", "d8/df2/classvtfpp_1_1VTF.html#a35f66647a111e35be0c28086f47d77a0", null ],
+    [ "create", "d8/df2/classvtfpp_1_1VTF.html#a9f9d89f89dfa786b7753560e60e2418f", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#ada0da9b148050cbb9755e811ef0203fa", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#a03a484b820cdd9b605c97cac35a5b166", null ],
     [ "createInternal", "d8/df2/classvtfpp_1_1VTF.html#a87c1d812b72d708cd9efa13ec6510766", null ],
