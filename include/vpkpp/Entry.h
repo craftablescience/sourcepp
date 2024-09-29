@@ -15,7 +15,7 @@ class Entry {
 	friend class PackFile;
 
 public:
-	/// Format-specific flags (PCK: File flags, VPK: Internal parser state)
+	/// Format-specific flags (PCK: File flags, VPK: Internal parser state, ZIP: Compression method / strength)
 	uint32_t flags = 0;
 
 	/// Which external archive this entry is in.
