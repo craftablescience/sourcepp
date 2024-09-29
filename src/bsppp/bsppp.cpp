@@ -199,8 +199,10 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 				continue;
 			}
 
-			if (!currentOffset && lumps[i].offset && lumps[i].length) {
-				currentOffset = lumps[i].offset + lumps[i].length;
+			if (!currentOffset) {
+				if (lumps[i].offset && lumps[i].length) {
+					currentOffset = lumps[i].offset + lumps[i].length;
+				}
 				continue;
 			}
 
