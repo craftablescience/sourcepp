@@ -169,48 +169,32 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 		}
 		this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
 	} else {
-		// Organize lumps into more workable data structure
-		struct TempLump {
-			int32_t id;
-			int32_t offset;
-			int32_t length;
-		};
-		std::array<TempLump, 64> lumps{};
-		for (int32_t i = 0; i < this->header.lumps.size(); i++) {
-			lumps[i].id = i;
-			if (!this->hasLump(static_cast<BSPLump>(i))) {
-				lumps[i].offset = 0;
-				lumps[i].length = 0;
-			} else {
-				lumps[i].offset = this->header.lumps[i].offset;
-				lumps[i].length = this->header.lumps[i].length;
-			}
+		// Sort lumps by file position
+		std::array<int, 64> lumpIDs{};
+		for (int i = 0; i < lumpIDs.size(); i++) {
+			lumpIDs[i] = i;
 		}
-		std::sort(lumps.begin(), lumps.end(), [](const TempLump& lhs, const TempLump& rhs) {
-			return lhs.offset < rhs.offset;
+		std::sort(lumpIDs.begin(), lumpIDs.end(), [this](int lhs, int rhs) {
+			return this->header.lumps[lhs].offset < this->header.lumps[rhs].offset;
 		});
 
-		// Condense the lumps while moving the new lump to the end
+		// Condense the lumps in the order they appear in the file, and move the new lump to the end
 		FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-
 		int32_t currentOffset = 0;
-		for (int32_t i = 0; i < lumps.size(); i++) {
-			if (i == lumpToMove) {
+		for (int lumpID : lumpIDs) {
+			if (lumpID == lumpToMove) {
 				continue;
 			}
-
 			if (!currentOffset) {
-				if (lumps[i].offset && lumps[i].length) {
-					currentOffset = lumps[i].offset + lumps[i].length;
-				}
+				currentOffset = this->header.lumps[lumpID].offset + this->header.lumps[lumpID].length;
 				continue;
 			}
 
-			auto lumpsData = bsp.seek_in(this->header.lumps[i].offset).read_bytes(this->header.lumps[i].length);
+			auto lumpsData = bsp.seek_in(this->header.lumps[lumpID].offset).read_bytes(this->header.lumps[lumpID].length);
 			bsp.seek_out(currentOffset).write(lumpsData);
 
-			this->header.lumps[i].offset = currentOffset;
-			currentOffset += this->header.lumps[i].length;
+			this->header.lumps[lumpID].offset = currentOffset;
+			currentOffset += this->header.lumps[lumpID].length;
 		}
 
 		this->header.lumps[lumpToMove].offset = currentOffset;
