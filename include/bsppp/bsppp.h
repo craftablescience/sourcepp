@@ -173,7 +173,7 @@ public:
 		}
 	}
 
-	void writeLump(BSPLump lumpIndex, std::span<const std::byte> data);
+	void writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true);
 
 	bool applyLumpPatchFile(const std::string& lumpFilePath);
 

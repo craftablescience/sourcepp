@@ -145,15 +145,15 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
 		.read_bytes(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lump)].length);
 }
 
-void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data) {
+void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile) {
 	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
 		return;
 	}
 
 	auto lumpToMove = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 
-	if (!this->hasLump(lumpIndex)) {
-		// If the lump doesn't exist, put it at the end of the file
+	if (!this->hasLump(lumpIndex) || !condenseFile) {
+		// Put the lump at the end of the file
 		int32_t lastLumpOffset = 0, lastLumpLength = 0;
 		for (const Lump& lump : this->header.lumps) {
 			if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
@@ -168,40 +168,29 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data) {
 			this->header.lumps[lumpToMove].offset = lastLumpOffset + lastLumpLength;
 		}
 		this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
-
-		this->writeHeader();
-		return;
-	} else if (this->header.lumps[lumpToMove].length >= data.size()) {
-		// The lump exists, but it doesn't need to be moved
-		this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
-
-		this->writeHeader();
-		return;
-	}
-
-	// Organize lumps into more workable data structure
-	struct TempLump {
-		int32_t id;
-		int32_t offset;
-		int32_t length;
-	};
-	std::array<TempLump, 64> lumps{};
-	for (int32_t i = 0; i < this->header.lumps.size(); i++) {
-		lumps[i].id = i;
-		if (!this->hasLump(static_cast<BSPLump>(i))) {
-			lumps[i].offset = 0;
-			lumps[i].length = 0;
-		} else {
-			lumps[i].offset = this->header.lumps[i].offset;
-			lumps[i].length = this->header.lumps[i].length;
+	} else {
+		// Organize lumps into more workable data structure
+		struct TempLump {
+			int32_t id;
+			int32_t offset;
+			int32_t length;
+		};
+		std::array<TempLump, 64> lumps{};
+		for (int32_t i = 0; i < this->header.lumps.size(); i++) {
+			lumps[i].id = i;
+			if (!this->hasLump(static_cast<BSPLump>(i))) {
+				lumps[i].offset = 0;
+				lumps[i].length = 0;
+			} else {
+				lumps[i].offset = this->header.lumps[i].offset;
+				lumps[i].length = this->header.lumps[i].length;
+			}
 		}
-	}
-	std::sort(lumps.begin(), lumps.end(), [](const TempLump& lhs, const TempLump& rhs) {
-		return lhs.offset < rhs.offset;
-	});
+		std::sort(lumps.begin(), lumps.end(), [](const TempLump& lhs, const TempLump& rhs) {
+			return lhs.offset < rhs.offset;
+		});
 
-	// Condense the lumps while moving the new lump to the end
-	{
+		// Condense the lumps while moving the new lump to the end
 		FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 
 		int32_t currentOffset = 0;
@@ -224,14 +213,26 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data) {
 
 		this->header.lumps[lumpToMove].offset = currentOffset;
 		this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
-		bsp.seek_out(currentOffset).write(data);
 	}
 
-	// Write modified header
+	// Write modified header and lump
 	this->writeHeader();
+	{
+		FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
+		writer.seek_out(this->header.lumps[lumpToMove].offset).write(data);
+	}
 
-	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	writer.seek_out(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lumpIndex)].offset).write(data);
+	// Resize file if it shrank
+	int32_t lastLumpOffset = 0, lastLumpLength = 0;
+	for (const Lump& lump : this->header.lumps) {
+		if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
+			lastLumpOffset = lump.offset;
+			lastLumpLength = lump.length;
+		}
+	}
+	if (std::filesystem::file_size(this->path) > lastLumpOffset + lastLumpLength) {
+		std::filesystem::resize_file(this->path, lastLumpOffset + lastLumpLength);
+	}
 }
 
 bool BSP::applyLumpPatchFile(const std::string& lumpFilePath) {
