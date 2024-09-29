@@ -7,6 +7,7 @@
 #include <FileStream.h>
 
 using namespace bsppp;
+using namespace sourcepp;
 
 namespace {
 
@@ -170,7 +171,7 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 		this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
 	} else {
 		// Sort lumps by file position
-		std::array<int, 64> lumpIDs{};
+		std::array<int, BSP_LUMP_COUNT> lumpIDs{};
 		for (int i = 0; i < lumpIDs.size(); i++) {
 			lumpIDs[i] = i;
 		}
@@ -181,7 +182,9 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 		// Condense the lumps in the order they appear in the file, and move the new lump to the end
 		FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 		int32_t currentOffset = 0;
-		for (int lumpID : lumpIDs) {
+		for (int i = 0; i < lumpIDs.size(); i++) {
+			auto lumpID = lumpIDs[i];
+
 			if (lumpID == lumpToMove) {
 				continue;
 			}
@@ -195,6 +198,13 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 
 			this->header.lumps[lumpID].offset = currentOffset;
 			currentOffset += this->header.lumps[lumpID].length;
+
+			// If we have the space to add padding (we should), then do so
+			// This should never fail for well-constructed BSP files
+			auto padding = math::getPaddingForAlignment(4, currentOffset);
+			if (padding && i < lumpIDs.size() - 1 && currentOffset + padding <= this->header.lumps[lumpIDs[i + 1]].offset) {
+				currentOffset += padding;
+			}
 		}
 
 		this->header.lumps[lumpToMove].offset = currentOffset;
