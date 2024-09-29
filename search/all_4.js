@@ -39,7 +39,7 @@ var searchData=
   ['entry_5ftype_335',['entry_type',['../d4/d3e/structvpkpp_1_1GCF_1_1Block.html#a52e67731b3593b772c9f5ff77265e539',1,'vpkpp::GCF::Block']]],
   ['entrycallback_336',['EntryCallback',['../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808',1,'vpkpp::PackFile']]],
   ['entrycallbackbase_337',['EntryCallbackBase',['../d2/dd2/classvpkpp_1_1PackFile.html#af2e5befebf853fd4fa706c67d5f346af',1,'vpkpp::PackFile']]],
-  ['entrycompressiontype_338',['EntryCompressionType',['../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcd',1,'vpkpp']]],
+  ['entrycompressiontype_338',['EntryCompressionType',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182',1,'vpkpp']]],
   ['entrycreation_339',['EntryCreation',['../d2/dd2/classvpkpp_1_1PackFile.html#aca21344fcb650171035fda97c72739d0',1,'vpkpp::PackFile']]],
   ['entryoptions_340',['EntryOptions',['../d6/d5b/structvpkpp_1_1EntryOptions.html',1,'vpkpp']]],
   ['entrypredicate_341',['EntryPredicate',['../d2/dd2/classvpkpp_1_1PackFile.html#a75fd607ebaa48ee2778d96348fd8e4cc',1,'vpkpp::PackFile']]],

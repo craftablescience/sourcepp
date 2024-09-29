@@ -129,9 +129,10 @@ var NAVTREEINDEX5 =
 "d6/d3f/namespacemdlpp_1_1MDL.html":[1,3,4,0],
 "d6/d4a/namespacetoolpp.html":[1,3,7],
 "d6/d5b/structvpkpp_1_1EntryOptions.html":[2,0,8,11],
-"d6/d5b/structvpkpp_1_1EntryOptions.html#ad4fa6d5fd900bc82c807bd0996597507":[2,0,8,11,2],
+"d6/d5b/structvpkpp_1_1EntryOptions.html#ad4fa6d5fd900bc82c807bd0996597507":[2,0,8,11,3],
 "d6/d5b/structvpkpp_1_1EntryOptions.html#aef95a3fcfa8a12315bd3adf95f2bb8ea":[2,0,8,11,1],
 "d6/d5b/structvpkpp_1_1EntryOptions.html#af600f1840b79dc26450bf2261232c5d8":[2,0,8,11,0],
+"d6/d5b/structvpkpp_1_1EntryOptions.html#afe147cd4ba3789b9c10d7b0f9448f620":[2,0,8,11,2],
 "d6/d66/ZIP_8h.html":[3,0,1,9,0,8],
 "d6/d66/ZIP_8h.html#a3c1173f45242d97f79fbb0aa1468da12":[3,0,1,9,0,8,3],
 "d6/d66/ZIP_8h.html#a50c90d61c3ce05d48a2e0e5fb3cbab21":[3,0,1,9,0,8,7],
@@ -248,6 +249,5 @@ var NAVTREEINDEX5 =
 "d7/d45/namespacedmxpp_1_1Value.html#a49ae5bbbb80e170d8da45e97618225d6":[1,3,1,1,8],
 "d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71":[1,3,1,1,4],
 "d7/d45/namespacedmxpp_1_1Value.html#a58d79617379600643b396723962db657":[1,3,1,1,6],
-"d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19":[1,3,1,1,11],
-"d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af":[1,3,1,1,9]
+"d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19":[1,3,1,1,11]
 };

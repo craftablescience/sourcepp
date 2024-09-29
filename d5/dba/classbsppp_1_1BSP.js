@@ -24,7 +24,7 @@ var classbsppp_1_1BSP =
     [ "setMapRevision", "d5/dba/classbsppp_1_1BSP.html#a3d2ca2be2c511572b10e390a43edc7cc", null ],
     [ "setVersion", "d5/dba/classbsppp_1_1BSP.html#ad994ee49eb6a294bb84a1bb78586ad34", null ],
     [ "writeHeader", "d5/dba/classbsppp_1_1BSP.html#a2e7dd5910f41b7cb213c82624b67e802", null ],
-    [ "writeLump", "d5/dba/classbsppp_1_1BSP.html#aba6a95e9ea4fef644d440962f30a67ff", null ],
+    [ "writeLump", "d5/dba/classbsppp_1_1BSP.html#a85f0bc86a1a0c130c8d2964057ec55ef", null ],
     [ "header", "d5/dba/classbsppp_1_1BSP.html#a066055df2ca9e0d28fd65146b6b59511", null ],
     [ "isL4D2", "d5/dba/classbsppp_1_1BSP.html#a36ac4412515d1b23483e6d96f82dc3af", null ],
     [ "path", "d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440", null ]

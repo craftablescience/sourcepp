@@ -90,5 +90,5 @@ var searchData=
   ['bytes_145',['bytes',['../d9/d80/structuint24__t.html#aca757902976dca263616427cdf4d7cab',1,'uint24_t']]],
   ['bytetoid_146',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]],
   ['bz2_5fextension_147',['BZ2_EXTENSION',['../d5/d29/namespacevpkpp.html#a7d2810cb43690ba5cbbf97106a511aec',1,'vpkpp']]],
-  ['bzip2_148',['BZIP2',['../d5/d29/namespacevpkpp.html#a083b65420715cbcfde081903f00addcda800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
+  ['bzip2_148',['BZIP2',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
 ];
