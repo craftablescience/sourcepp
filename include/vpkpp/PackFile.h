@@ -184,6 +184,84 @@ public:
 	/// On Windows, some characters and file names are invalid - this escapes the given entry path
 	[[nodiscard]] static std::string escapeEntryPathForWrite(const std::string& path);
 
+
+	// Iterator to iterate over all entries in pack
+	class PackIterator {
+	public:
+		// Iterator operators
+
+		PackIterator &operator*() {
+			return *this;
+		}
+
+		PackIterator &operator++() {
+			inc();
+			return *this;
+		}
+
+		PackIterator operator++(int) {
+			PackIterator old = *this;
+			inc();
+			return old;
+		}
+
+		bool operator==(const PackIterator &other) const {
+			return this->pack == other.pack && this->entry == other.entry && this->entryIsUnbacked == other.entryIsUnbacked && this->includeUnbaked == other.includeUnbaked;
+		}
+
+		void inc() {
+			if (entry != pack->unbakedEntries.end())
+				entry++;
+
+			// Check if at end of baked
+			if (!entryIsUnbacked && entry == pack->entries.end()) {
+				if ( includeUnbaked ) {
+					// Reset counter and start indexing unbaked
+					entry = pack->unbakedEntries.begin();
+				}
+				else {
+					// Go straight to the end of unbaked!
+					entry = pack->unbakedEntries.end();
+				}
+				entryIsUnbacked = true;
+			}
+		}
+
+		// Structured Binding operator
+		template <int N>
+			requires(N == 0 || N == 1)
+		auto get() const
+		{
+			if constexpr (N == 0)
+				return entry.key(); // Note: This is an allocation! Maybe there's a better way to do this?
+			if constexpr (N == 1)
+				return &entry.value();
+		}
+
+		PackIterator( PackFile* _pack, EntryTrie::iterator _entry, bool _entryIsUnbacked, bool _includeUnbaked ) :
+			pack(_pack), entry(_entry), entryIsUnbacked(_entryIsUnbacked), includeUnbaked(_includeUnbaked) {}
+	private:
+		PackFile* pack;
+		EntryTrie::iterator entry;
+		bool entryIsUnbacked; // If the current entry is indexing the unbaked list or the baked list
+		bool includeUnbaked;
+	};
+
+	struct PackIteratorSet {
+		PackFile *pack;
+		bool includeUnbaked;
+		PackIterator begin() const {
+			if (pack->entries.begin() != pack->entries.end())
+				return PackIterator{pack, pack->entries.begin(), false, includeUnbaked};
+			return PackIterator{pack, pack->unbakedEntries.begin(), true, includeUnbaked};
+		}
+		PackIterator end() const {
+			return PackIterator{pack, pack->unbakedEntries.end(), true, includeUnbaked};
+		}
+	};
+
+	PackIteratorSet iterate(bool includeUnbaked = true) { return PackIteratorSet{this, includeUnbaked}; }
+
 protected:
 	explicit PackFile(std::string fullFilePath_);
 
@@ -246,3 +324,19 @@ protected:
 	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION0, function); \
 	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION1, function); \
 	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function)
+
+
+// Needed for structured bindings for iterating over entries in a packfile
+namespace std
+{
+	template <>
+	struct tuple_size<vpkpp::PackFile::PackIterator> : std::integral_constant<std::size_t, 2>
+	{
+	};
+
+	template <std::size_t Index>
+	struct tuple_element<Index, vpkpp::PackFile::PackIterator>
+	{
+		using type = std::conditional_t<Index == 0, std::string, vpkpp::Entry*>;
+	};
+}
