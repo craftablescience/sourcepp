@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <type_traits>
 #include <utility>
+#include <algorithm>
 
 #include <FileStream.h>
 
