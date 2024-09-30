@@ -152,47 +152,43 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
             .seek_in(this->header.lumps[static_cast<int32_t>(lumpIndex)].offset)
             .read_bytes(this->header.lumps[static_cast<int32_t>(lumpIndex)].length);
 
-    printf("fourcc: %i\nlength: %i\n\n", this->header.lumps[static_cast<int32_t>(lumpIndex)].fourCC, this->header.lumps[static_cast<int32_t>(lumpIndex)].length);
-
     if ( this->isLumpCompressed(lumpIndex) && !readRaw) {
-        printf("Decoding.\n");
-        // replace header with a normal one
+        // Transplant Valve header with a normal one
         lzma_header_bsplump *headerBSP = (lzma_header_bsplump*)(lumpBytes.data());
-        lzma_header_standard headerStandard;
-        headerStandard.actualSize = headerBSP->actualSize;
-        std::copy(headerBSP->properties, headerBSP->properties + sizeof(headerBSP->properties), headerStandard.properties);
-        int32_t uncompressedSize = headerStandard.actualSize;
+        lzma_header_alone headerAlone;
+        headerAlone.actualSize = headerBSP->actualSize;
+        std::copy(headerBSP->properties, headerBSP->properties + sizeof(headerBSP->properties), headerAlone.properties);
+        int32_t uncompressedSize = headerAlone.actualSize;
 
         lumpBytes.erase(lumpBytes.begin(), lumpBytes.begin() + sizeof(lzma_header_bsplump));
-        lumpBytes.insert(lumpBytes.begin(), (std::byte*)&headerStandard, ((std::byte*)&headerStandard) + sizeof(headerStandard));
+        lumpBytes.insert(lumpBytes.begin(), (std::byte*)&headerAlone, ((std::byte*)&headerAlone) + sizeof(lzma_header_alone));
 
-        uint8_t decodedLump[uncompressedSize];
+        std::byte decodedLump[uncompressedSize];
 
         uint64_t memlimit = 1074000000; // 1 GB should be more than enough
         lzma_stream stream = LZMA_STREAM_INIT;
         stream.next_in = (uint8_t*)lumpBytes.data();
         stream.avail_in = lumpBytes.size();
-        stream.next_out = decodedLump;
+        stream.next_out = (uint8_t*)decodedLump;
         stream.avail_out = uncompressedSize;
-        lzma_ret autoerror = lzma_auto_decoder(&stream, memlimit, LZMA_FAIL_FAST);
+        lzma_ret initError = lzma_alone_decoder(&stream, memlimit);
 
-
-        if (autoerror)
-        {
-            printf("init error %i\n", autoerror);
+        if (initError) {
+            lzma_end(&stream);
             return std::nullopt;
         }
 
-        lzma_ret error = lzma_code(&stream, LZMA_RUN);
+        printf("hucs: %i, lhucs: %i, len: %i\n", uncompressedSize, this->header.lumps[static_cast<int32_t>(lumpIndex)].fourCC, this->header.lumps[static_cast<int32_t>(lumpIndex)].length);
+        lzma_ret decompressError = lzma_code(&stream, LZMA_RUN);
 
-        if (error != LZMA_STREAM_END)
-        {
-            printf("err %i\n", error);
-            return std::nullopt;
-        }
         lzma_end(&stream);
+        if (decompressError != LZMA_STREAM_END && decompressError != LZMA_OK) {
+            printf("decompressError: %i\n", decompressError);
+            return std::nullopt;
+        }
+
         std::vector<std::byte> decodedLumpVec;
-        decodedLumpVec.insert(decodedLumpVec.begin(), (std::byte*)decodedLump, (std::byte*)(decodedLump + uncompressedSize));
+        decodedLumpVec.insert(decodedLumpVec.begin(), decodedLump, decodedLump + uncompressedSize);
         return decodedLumpVec;
     }
     else {
@@ -202,26 +198,90 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
 }
 
-void BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data) {
+bool BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool compress, uint32_t compressLevel) {
 	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
-		return;
+        return false;
 	}
+    FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 
-	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(data.size()));
+    if (compress) {
+        std::byte compressedData[data.size() + sizeof(lzma_header_alone)];// If we somehow get a 0% ratio
+        lzma_stream stream = LZMA_STREAM_INIT;
 
-	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
+        stream.next_in = (uint8_t*)data.data();
+        stream.avail_in = data.size();
+        stream.next_out = (uint8_t*)compressedData;
+        stream.avail_out = sizeof(compressedData);
+
+
+        lzma_options_lzma options;
+        if ( 9 < compressLevel || compressLevel < 0 )// Out of allowed range
+            compressLevel = 6;
+        lzma_lzma_preset(&options, compressLevel);
+        lzma_ret initError = lzma_alone_encoder(&stream, &options);
+
+        if (initError) {
+            lzma_end(&stream);
+            printf("init %i", initError);
+            return false;
+        }
+
+        lzma_ret compressError = LZMA_OK;
+//        while (compressError == LZMA_OK) {
+            compressError = lzma_code(&stream, LZMA_RUN);
+        //     if (stream.total_in >= data.size()) {
+        //         break;
+        //     }
+        // }
+        if (compressError == LZMA_STREAM_END) {
+            compressError = lzma_code(&stream, LZMA_FINISH);
+            lzma_end(&stream);
+        }
+
+        if (compressError != LZMA_OK) {
+            printf("compress %i\n", compressError);
+            lzma_end(&stream);
+            return false;
+        }
+
+        std::vector<std::byte> newLump;
+        newLump.insert(newLump.begin(), compressedData, compressedData + stream.total_out);
+
+        // Transplant header with Valve's
+        lzma_header_bsplump headerBSP;
+        lzma_header_alone *headerAlone = (lzma_header_alone*)compressedData;
+        headerBSP.id = LZMA_ID;
+        headerBSP.actualSize = data.size();
+        printf("actual: %u\nbsp: %i\nvec: %i", headerAlone->actualSize, headerBSP.actualSize, data.size());
+        headerBSP.lzmaSize = stream.total_out /*- sizeof(lzma_header_alone) + sizeof(lzma_header_bsplump)*/;
+        std::copy(headerAlone->properties, headerAlone->properties + sizeof(headerAlone->properties), headerBSP.properties);
+
+        newLump.erase(newLump.begin(), newLump.begin() + sizeof(lzma_header_alone));
+        newLump.insert(newLump.begin(), (std::byte*)&headerBSP, ((std::byte*)&headerBSP) + sizeof(lzma_header_bsplump));
+
+
+        this->moveLumpToWritableSpace(lumpIndex, newLump.size());
+        this->header.lumps[static_cast<uint32_t>(lumpIndex)].fourCC = data.size();
+        writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(newLump);
+    }
+    else {
+        this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(data.size()));
+        writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
+    }
+
+    return true;
 }
 
-void BSP::writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen) {
+bool BSP::writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen, bool compress, uint32_t compressLevel) {
 	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
-		return;
+        return false;
 	}
 
 	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(bufferLen));
 
 	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(buffer, bufferLen);
+    return true;
 }
 
 bool BSP::applyLumpPatchFile(const std::string& lumpFilePath) {
