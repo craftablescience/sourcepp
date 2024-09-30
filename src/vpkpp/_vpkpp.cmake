@@ -10,6 +10,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PCK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK_VTMB.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/WAD3.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/ZIP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/Attribute.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/Entry.h"
@@ -26,6 +27,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/format/PCK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK_VTMB.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/format/WAD3.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/ZIP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PackFile.cpp")
 
