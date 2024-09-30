@@ -765,9 +765,6 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 		return;
 	}
 
-	BufferStream stream{this->data};
-	stream.seek(0);
-
 	// Store resource data
 	std::unordered_map<Resource::Type, std::pair<std::vector<std::byte>, uint64_t>> resourceData;
 	for (const auto& resource : this->resources) {
