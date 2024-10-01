@@ -45,7 +45,7 @@ constexpr std::string_view k_FileTypeNames[] = {
 	"palette",
 	"colormap",
 	"qpic",
-	"miptex",
+	"mip", // miptex
 	"raw",
 	"colormap2",
 	"font",
