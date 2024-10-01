@@ -129,11 +129,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="23"><code>vpkpp</code></td>
+    <td rowspan="25"><code>vpkpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="23" align="center">C<br>C#</td>
+    <td rowspan="25" align="center">C<br>C#</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -196,6 +196,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>VPK (Vampire: The Masquerade - Bloodlines)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>WAD v3</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

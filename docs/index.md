@@ -115,11 +115,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
   </tr>
   <tr>
-    <td rowspan="12"><code>vpkpp</code></td>
+    <td rowspan="13"><code>vpkpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="12" align="center">C<br>C#</td>
+    <td rowspan="13" align="center">C<br>C#</td>
   </tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
@@ -172,6 +172,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td>VPK (Vampire: The Masquerade - Bloodlines)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>WAD v3</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
