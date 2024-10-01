@@ -58,6 +58,8 @@ var NAVTREE =
       [ "File Members", "globals.html", [
         [ "All", "globals.html", null ],
         [ "Variables", "globals_vars.html", null ],
+        [ "Enumerations", "globals_enum.html", null ],
+        [ "Enumerator", "globals_eval.html", null ],
         [ "Macros", "globals_defs.html", null ]
       ] ]
     ] ]
@@ -68,15 +70,15 @@ var NAVTREEINDEX =
 [
 "annotated.html",
 "d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336ca0e07e6cd02c0f8bb03574f25ea921e62",
-"d2/dd2/classvpkpp_1_1PackFile.html#a97fc43757442e6020f9c9721f5978196",
-"d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#aaea35c5709bee90f5df0bb78e5b06a80",
-"d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d",
-"d5/dd3/structmdlpp_1_1VTX_1_1VTX.html",
-"d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af",
-"d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa60478e6bd53f9e88803c92965eac705e",
-"da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103",
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39",
-"df/d6a/Generic_8h_source.html"
+"d2/dd2/classvpkpp_1_1PackFile.html#a75fd607ebaa48ee2778d96348fd8e4cc",
+"d4/da2/classtoolpp_1_1FGDWriter_1_1EntityWriter.html#a507ca552728c30b5e31761895b4d5aee",
+"d5/d61/namespacevtfpp_1_1ImageConversion.html#a0e35b062eaaf17c3235b7fb03b05e9bf",
+"d5/dba/classbsppp_1_1BSP.html#aba5f71815675cfdb2f8ef3e49329bea5",
+"d6/dd0/structvtfpp_1_1ImagePixel_1_1ARGB8888.html#ada7235345a63f5e35f7320059aaa8639",
+"d8/df2/classvtfpp_1_1VTF.html#a79237fa1b82e36638510eab26d78802d",
+"da/d01/ImageConversion_8h.html",
+"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8",
+"df/d32/classvtfpp_1_1PPL.html#a057f970bd153a1749165367764e51bba"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

@@ -10,6 +10,7 @@ var PackFileType_8h =
       [ "PCK", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926abed028f19aa93adb7f45e064155e5278", null ],
       [ "VPK", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850", null ],
       [ "VPK_VTMB", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a895f95fda6944a0f9ee77b020d2854f8", null ],
+      [ "WAD3", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a4bced2938402aa3454b4d019e09b1e0a", null ],
       [ "ZIP", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a4348f938bbddd8475e967ccb47ecb234", null ]
     ] ]
 ];

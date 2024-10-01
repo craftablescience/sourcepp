@@ -9,6 +9,7 @@ var namespacevpkpp =
     [ "PCK", "d5/db5/classvpkpp_1_1PCK.html", "d5/db5/classvpkpp_1_1PCK" ],
     [ "VPK", "d5/d8b/classvpkpp_1_1VPK.html", "d5/d8b/classvpkpp_1_1VPK" ],
     [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", "d4/ddb/classvpkpp_1_1VPK__VTMB" ],
+    [ "WAD3", "d1/da5/classvpkpp_1_1WAD3.html", "d1/da5/classvpkpp_1_1WAD3" ],
     [ "ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ],
     [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
     [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
@@ -42,6 +43,7 @@ var namespacevpkpp =
       [ "PCK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926abed028f19aa93adb7f45e064155e5278", null ],
       [ "VPK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850", null ],
       [ "VPK_VTMB", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a895f95fda6944a0f9ee77b020d2854f8", null ],
+      [ "WAD3", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4bced2938402aa3454b4d019e09b1e0a", null ],
       [ "ZIP", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4348f938bbddd8475e967ccb47ecb234", null ]
     ] ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
@@ -76,6 +78,9 @@ var namespacevpkpp =
     [ "VPK_MAX_PRELOAD_BYTES", "d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2", null ],
     [ "VPK_SIGNATURE", "d5/d29/namespacevpkpp.html#a232e225c110d56abf39101bd1259fd35", null ],
     [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
+    [ "WAD3_EXTENSION", "d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2", null ],
+    [ "WAD3_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a3f54913e752f9a3a56fde4d6275088ad", null ],
+    [ "WAD3_SIGNATURE", "d5/d29/namespacevpkpp.html#a5a2508634eaac01ad4202913a7fb95c6", null ],
     [ "XZ_EXTENSION", "d5/d29/namespacevpkpp.html#a7e1632e11552d43b6ab79fafb743c5e2", null ],
     [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ],
     [ "ZST_EXTENSION", "d5/d29/namespacevpkpp.html#ac1a65d8ce9db1ef5995adcb60b66788d", null ]

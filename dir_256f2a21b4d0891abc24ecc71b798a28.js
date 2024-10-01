@@ -9,5 +9,6 @@ var dir_256f2a21b4d0891abc24ecc71b798a28 =
     [ "PCK.cpp", "d8/d7e/PCK_8cpp.html", "d8/d7e/PCK_8cpp" ],
     [ "VPK.cpp", "d1/da7/VPK_8cpp.html", "d1/da7/VPK_8cpp" ],
     [ "VPK_VTMB.cpp", "d0/ded/VPK__VTMB_8cpp.html", null ],
+    [ "WAD3.cpp", "d8/d40/WAD3_8cpp.html", "d8/d40/WAD3_8cpp" ],
     [ "ZIP.cpp", "d9/d2a/ZIP_8cpp.html", null ]
 ];

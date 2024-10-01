@@ -1,5 +1,5 @@
 <map id="vpkpp::PackFile" name="vpkpp::PackFile">
-<area shape="rect" id="node1" title=" " alt="" coords="5,183,128,209"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,208,128,235"/>
 <area shape="rect" id="node2" href="$d2/d8b/classvpkpp_1_1EXAMPLE.html" title=" " alt="" coords="204,5,335,32"/>
 <area shape="rect" id="node3" href="$d6/d2c/classvpkpp_1_1GMA.html" title=" " alt="" coords="219,56,320,83"/>
 <area shape="rect" id="node4" href="$d9/daf/classvpkpp_1_1PAK.html" title=" " alt="" coords="222,107,317,133"/>
@@ -7,8 +7,9 @@
 <area shape="rect" id="node6" href="$de/df6/classvpkpp_1_1PackFileReadOnly.html" title=" " alt="" coords="176,208,363,235"/>
 <area shape="rect" id="node8" href="$d5/d8b/classvpkpp_1_1VPK.html" title=" " alt="" coords="221,259,317,285"/>
 <area shape="rect" id="node10" href="$d4/ddb/classvpkpp_1_1VPK__VTMB.html" title=" " alt="" coords="199,309,340,336"/>
-<area shape="rect" id="node11" href="$da/de7/classvpkpp_1_1ZIP.html" title=" " alt="" coords="224,360,315,387"/>
+<area shape="rect" id="node11" href="$d1/da5/classvpkpp_1_1WAD3.html" title="Valve GoldSrc WAD3 file." alt="" coords="215,360,324,387"/>
+<area shape="rect" id="node12" href="$da/de7/classvpkpp_1_1ZIP.html" title=" " alt="" coords="224,411,315,437"/>
 <area shape="rect" id="node7" href="$d1/d01/classvpkpp_1_1GCF.html" title=" " alt="" coords="411,208,508,235"/>
 <area shape="rect" id="node9" href="$da/d42/classvpkpp_1_1FPX.html" title=" " alt="" coords="412,259,507,285"/>
-<area shape="rect" id="node12" href="$d2/da8/classvpkpp_1_1BSP.html" title=" " alt="" coords="412,360,507,387"/>
+<area shape="rect" id="node13" href="$d2/da8/classvpkpp_1_1BSP.html" title=" " alt="" coords="412,411,507,437"/>
 </map>
