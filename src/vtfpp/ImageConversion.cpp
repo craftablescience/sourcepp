@@ -29,6 +29,10 @@
 //#define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 
+#define TINYEXR_IMPLEMENTATION 1
+#define TINYEXR_USE_THREAD 1
+#include "tinyexr.h"
+
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -946,6 +950,26 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	height = 0;
 	int channels = 0;
 	frameCount = 1;
+
+    if(IsEXRFromMemory(reinterpret_cast<const unsigned char *>(fileData.data()), fileData.size()))
+    {
+        float* tinyEXRtmp;
+        const char* err = nullptr;
+        int ret = LoadEXRFromMemory(&tinyEXRtmp,&width,&height, reinterpret_cast<const unsigned char *>(fileData.data()), fileData.size(), &err);
+        if(ret != TINYEXR_SUCCESS)
+        {
+            width = 0;
+            height = 0;
+            format = ImageFormat::EMPTY;
+            //Maybe display err message?
+            FreeEXRErrorMessage(err);
+            return {};
+        }
+        //Bit of a weird pointer setup because idk how to do this otherwise.
+        std::unique_ptr<float, void(*)(void*)> tinyEXR{tinyEXRtmp, std::free};
+        format = ImageFormat::RGBA32323232F; //I am assuming it gives RGBA
+        return {reinterpret_cast<std::byte*>(tinyEXR.get()), reinterpret_cast<std::byte*>(tinyEXR.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+    }
 
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
 		std::unique_ptr<float, void(*)(void*)> stbImage{

@@ -1,6 +1,6 @@
 add_pretty_parser(vtfpp
         DEPS miniz
-        DEPS_INTERFACE sourcepp_stb
+        DEPS_INTERFACE sourcepp_stb sourcepp_tinyexr
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
@@ -13,6 +13,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_LIST_DIR}/VTF.cpp")
 
 target_include_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/stb/include")
+target_include_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/tinyexr/include")
 
 sourcepp_add_tbb(vtfpp)
 sourcepp_add_threads(vtfpp)
