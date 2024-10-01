@@ -6,7 +6,9 @@
 #include <cstdint>
 #include <type_traits>
 
-// Integer types are intentionally outside the sourcepp namespace
+#include <half.hpp>
+
+// Numeric types are intentionally outside the sourcepp namespace
 using std::int8_t;
 using std::int16_t;
 using std::int32_t;
@@ -15,49 +17,12 @@ using std::uint8_t;
 using std::uint16_t;
 using std::uint32_t;
 using std::uint64_t;
+using half_float::half;
 
 namespace sourcepp::math {
 
-// https://stackoverflow.com/a/60047308
-class FloatCompressed16 {
-public:
-	constexpr FloatCompressed16() = default;
-
-	// NOLINTNEXTLINE(*-explicit-constructor)
-	constexpr FloatCompressed16(uint16_t in)
-			: data(in) {}
-
-	// NOLINTNEXTLINE(*-explicit-constructor)
-	constexpr FloatCompressed16(float in) { // IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
-		const auto b = *reinterpret_cast<uint32_t*>(&in) + 0x00001000; // round-to-nearest-even: add last bit after truncated mantissa
-		const auto e = (b & 0x7F800000) >> 23; // exponent
-		const auto m = b & 0x007FFFFF; // mantissa; in line below: 0x007FF000 = 0x00800000-0x00001000 = decimal indicator flag - initial rounding
-		this->data = (b & 0x80000000) >> 16 | (e > 112) * ((((e - 112) << 10) & 0x7C00) | m >> 13) | ((e < 113) & (e > 101)) * ((((0x007FF000 + m) >> (125 - e)) + 1) >> 1) | (e > 143) * 0x7FFF; // sign : normalized : denormalized : saturate
-	}
-
-	[[nodiscard]] constexpr uint16_t toFloat16() const {
-		return this->data;
-	}
-
-	[[nodiscard]] constexpr float toFloat32() const { // IEEE-754 16-bit floating-point format (without infinity): 1-5-10, exp-15, +-131008.0, +-6.1035156E-5, +-5.9604645E-8, 3.311 digits
-		const uint32_t e = (this->data & 0x7C00) >> 10; // exponent
-		const uint32_t m = (this->data & 0x03FF) << 13; // mantissa
-		const auto mf = static_cast<float>(m);
-		const uint32_t v = *reinterpret_cast<const uint32_t*>(&mf) >> 23; // evil log2 bit hack to count leading zeros in denormalized format
-		const uint32_t vu = (this->data & 0x8000) << 16 | (e != 0) * ((e + 112) << 23 | m) | ((e == 0) & (m != 0)) * ((v - 37) << 23 | ((m << (150 - v)) & 0x007FE000)); // sign : normalized : denormalized
-		return *reinterpret_cast<const float*>(&vu);
-	}
-
-	[[nodiscard]] constexpr float operator*() const {
-		return this->toFloat32();
-	}
-
-private:
-	uint16_t data;
-};
-
 template<typename T>
-concept Arithmetic = std::is_arithmetic_v<T> || std::same_as<T, FloatCompressed16>;
+concept Arithmetic = std::is_arithmetic_v<T> || std::same_as<T, half>;
 
 template<Arithmetic T>
 [[nodiscard]] constexpr T remap(T value, T l1, T h1, T l2, T h2) {
@@ -343,7 +308,7 @@ static_assert(std::is_trivially_copyable_v<Vec<2, float>>);
 	using Vec##S##ui32 = Vec##S<uint32_t>; \
 	using Vec##S##ui64 = Vec##S<uint64_t>; \
 	using Vec##S##ui   = Vec##S##ui32; \
-	using Vec##S##f16  = Vec##S<FloatCompressed16>; \
+	using Vec##S##f16  = Vec##S<half>; \
 	using Vec##S##f32  = Vec##S<float>; \
 	using Vec##S##f64  = Vec##S<double>; \
 	using Vec##S##f    = Vec##S##f32
@@ -438,20 +403,20 @@ static_assert(std::is_trivially_copyable_v<Mat<2, 2, float>>);
 	using Mat##M##x##N##ui32 = Mat##M##x##N<uint32_t>; \
 	using Mat##M##x##N##ui64 = Mat##M##x##N<uint64_t>; \
 	using Mat##M##x##N##ui   = Mat##M##x##N##ui32; \
-	using Mat##M##x##N##f16  = Mat##M##x##N<FloatCompressed16>; \
+	using Mat##M##x##N##f16  = Mat##M##x##N<half>; \
 	using Mat##M##x##N##f32  = Mat##M##x##N<float>; \
 	using Mat##M##x##N##f64  = Mat##M##x##N<double>; \
 	using Mat##M##x##N##f    = Mat##M##x##N##f32
 
 SOURCEPP_MAT_DEFINE(2, 2);
-SOURCEPP_MAT_DEFINE(2, 3);
-SOURCEPP_MAT_DEFINE(2, 4);
-SOURCEPP_MAT_DEFINE(3, 2);
-SOURCEPP_MAT_DEFINE(4, 2);
 SOURCEPP_MAT_DEFINE(3, 3);
+SOURCEPP_MAT_DEFINE(4, 4);
+SOURCEPP_MAT_DEFINE(2, 3);
+SOURCEPP_MAT_DEFINE(3, 2);
+SOURCEPP_MAT_DEFINE(2, 4);
+SOURCEPP_MAT_DEFINE(4, 2);
 SOURCEPP_MAT_DEFINE(3, 4);
 SOURCEPP_MAT_DEFINE(4, 3);
-SOURCEPP_MAT_DEFINE(4, 4);
 
 #undef SOURCEPP_MAT_DEFINE
 

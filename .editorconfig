@@ -37,6 +37,7 @@ ij_yaml_spaces_within_braces = true
 ij_yaml_spaces_within_brackets = true
 
 [{*.cmake,CMakeLists.txt}]
+indent_style = space
 ij_cmake_align_command_call_r_par = false
 ij_cmake_align_control_flow_r_par = false
 ij_cmake_align_multiline_parameters_in_calls = false

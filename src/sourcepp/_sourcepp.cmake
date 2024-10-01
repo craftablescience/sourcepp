@@ -25,6 +25,6 @@ add_library(${PROJECT_NAME} STATIC
 
 target_precompile_headers(${PROJECT_NAME} PUBLIC ${${PROJECT_NAME}_HEADERS})
 
-target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp)
+target_link_libraries(${PROJECT_NAME} PUBLIC bufferstream cryptopp::cryptopp sourcepp_half)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")

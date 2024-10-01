@@ -21,6 +21,10 @@ if(NOT TARGET cryptopp::cryptopp)
 endif()
 
 
+# half
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
+
+
 # hat-trie
 if(NOT TARGET tsl::hat_trie)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/hat-trie")
@@ -83,7 +87,11 @@ endfunction()
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
 
 
-# TBB
+# tinyexr
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+
+
+# tbb
 function(sourcepp_add_tbb TARGET)
     if(SOURCEPP_BUILD_WITH_TBB)
         target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_TBB)

@@ -170,10 +170,10 @@ VTFPP_CHECK_SIZE(UVWQ8888);
 
 struct RGBA16161616F {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
-	sourcepp::math::FloatCompressed16 r;
-	sourcepp::math::FloatCompressed16 g;
-	sourcepp::math::FloatCompressed16 b;
-	sourcepp::math::FloatCompressed16 a;
+	half r;
+	half g;
+	half b;
+	half a;
 };
 VTFPP_CHECK_SIZE(RGBA16161616F);
 
@@ -220,8 +220,8 @@ VTFPP_CHECK_SIZE(RGBA32323232F);
 
 struct RG1616F {
 	static constexpr auto FORMAT = ImageFormat::RG1616F;
-	sourcepp::math::FloatCompressed16 r;
-	sourcepp::math::FloatCompressed16 g;
+	half r;
+	half g;
 };
 VTFPP_CHECK_SIZE(RG1616F);
 
@@ -261,7 +261,7 @@ VTFPP_CHECK_SIZE(BGRA1010102);
 
 struct R16F {
 	static constexpr auto FORMAT = ImageFormat::R16F;
-	sourcepp::math::FloatCompressed16 r;
+	half r;
 };
 VTFPP_CHECK_SIZE(R16F);
 
@@ -290,9 +290,13 @@ enum class FileFormat {
 	BMP,
 	TGA,
 	HDR,
+	EXR,
 };
 
-/// Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.
+/// PNG for integer formats, EXR for floating point formats
+[[nodiscard]] FileFormat getDefaultFileFormatForImageFormat(ImageFormat format);
+
+/// Converts image data to a PNG or EXR file. EXR format will be used for floating-point image formats.
 [[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT);
 
 [[nodiscard]] std::vector<std::byte> convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount);
