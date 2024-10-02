@@ -39,6 +39,14 @@ public:
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
+	[[nodiscard]] EntryCompressionType getEntryCompressionType(const std::string& path_) const;
+
+	void setEntryCompressionType(const std::string& path_, EntryCompressionType type);
+
+	[[nodiscard]] uint16_t getEntryCompressionStrength(const std::string& path_) const;
+
+	void setEntryCompressionStrength(const std::string& path_, uint16_t strength);
+
 protected:
 	explicit ZIP(const std::string& fullFilePath_);
 

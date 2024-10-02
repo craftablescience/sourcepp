@@ -1040,10 +1040,11 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 	}
 	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format);
 	if (pixelLayout == -1) {
-		const auto in = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-		std::vector<std::byte> intermediary(ImageFormatDetails::getDataLength(ImageFormat::RGBA8888, newWidth, newHeight));
-		stbir_resize(in.data(), width, height, 4, intermediary.data(), newWidth, newHeight, 4, STBIR_RGBA, STBIR_TYPE_UINT8, STBIR_EDGE_CLAMP, static_cast<stbir_filter>(filter));
-		return convertImageDataToFormat(intermediary, ImageFormat::RGBA8888, format, newWidth, newHeight);
+		const auto containerFormat = ImageFormatDetails::containerFormat(format);
+		const auto in = convertImageDataToFormat(imageData, format, containerFormat, width, height);
+		std::vector<std::byte> intermediary(ImageFormatDetails::getDataLength(containerFormat, newWidth, newHeight));
+		stbir_resize(in.data(), width, height, ImageFormatDetails::bpp(containerFormat) / 8 * width, intermediary.data(), newWidth, newHeight, ImageFormatDetails::bpp(containerFormat) / 8 * newWidth, static_cast<stbir_pixel_layout>(::imageFormatToSTBIRPixelLayout(containerFormat)), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(containerFormat, srgb)), STBIR_EDGE_CLAMP, static_cast<stbir_filter>(filter));
+		return convertImageDataToFormat(intermediary, containerFormat, format, newWidth, newHeight);
 	}
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, newWidth, newHeight));
 	stbir_resize(imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8 * width, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8 * newWidth, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)), static_cast<stbir_edge>(edge), static_cast<stbir_filter>(filter));

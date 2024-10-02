@@ -2,17 +2,16 @@
 
 #include <array>
 
-#include <bsppp/bsppp.h>
-
 #include "ZIP.h"
 
 namespace vpkpp {
 
-using bsppp::BSP_SIGNATURE;
 constexpr std::string_view BSP_EXTENSION = ".bsp";
 
-class BSP : public ZIP, private bsppp::BSP {
+class BSP : public ZIP {
 public:
+	~BSP() override;
+
 	/// Open a BSP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
@@ -27,10 +26,9 @@ public:
 protected:
 	explicit BSP(const std::string& fullFilePath_);
 
-	const std::string tempBSPPakLumpPath;
-
-private:
-	using bsppp::BSP::operator bool;
+	const std::string tempPakLumpPath;
+	uint32_t version{};
+	uint32_t mapRevision{};
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(BSP_EXTENSION, &BSP::open);

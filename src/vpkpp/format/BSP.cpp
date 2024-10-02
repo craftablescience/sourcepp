@@ -4,11 +4,9 @@
 
 #include <FileStream.h>
 #include <mz.h>
-#include <mz_strm.h>
-#include <mz_strm_os.h>
 #include <mz_zip.h>
-#include <mz_zip_rw.h>
 
+#include <bsppp/bsppp.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
@@ -19,9 +17,14 @@ using bsppp::BSPLump;
 
 BSP::BSP(const std::string& fullFilePath_)
 		: ZIP(fullFilePath_)
-		, bsppp::BSP(fullFilePath_)
-		, tempBSPPakLumpPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
+		, tempPakLumpPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
 	this->type = PackFileType::BSP;
+}
+
+BSP::~BSP() {
+	// Pull this in from the ZIP dtor, have to do it before deleting the file
+	this->closeZIP();
+	std::filesystem::remove(this->tempPakLumpPath);
 }
 
 std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback& callback) {
@@ -33,36 +36,29 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 	auto* bsp = new BSP{path};
 	auto packFile = std::unique_ptr<PackFile>(bsp);
 
-	if (!(*bsp)) {
-		// File failed to load, or has an invalid signature
-		return nullptr;
+	{
+		bsppp::BSP reader{path};
+		if (!reader) {
+			// File failed to load, or has an invalid signature
+			return nullptr;
+		}
+
+		bsp->version = reader.getVersion();
+		bsp->mapRevision = reader.getMapRevision();
+
+		if (auto pakFileLump = reader.readLump(BSPLump::PAKFILE)) {
+			// Extract the paklump to a temp file
+			FileStream writer{bsp->tempPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+			writer.write(*pakFileLump);
+		} else {
+			// No paklump, create an empty zip
+			if (!ZIP::create(bsp->tempPakLumpPath)) {
+				return nullptr;
+			}
+		}
 	}
 
-	if (auto pakFileLump = bsp->readLump(BSPLump::PAKFILE)) {
-		// Extract the paklump to a temp file
-		FileStream writer{bsp->tempBSPPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
-		writer.write(*pakFileLump);
-	} else {
-		// No paklump, create an empty zip
-		void* writeStreamHandle = mz_stream_os_create();
-		if (mz_stream_os_open(writeStreamHandle, bsp->tempBSPPakLumpPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
-			return nullptr;
-		}
-		void* writeZipHandle = mz_zip_writer_create();
-		if (mz_zip_writer_open(writeZipHandle, writeStreamHandle, 0)) {
-			return nullptr;
-		}
-		if (mz_zip_writer_close(writeZipHandle)) {
-			return nullptr;
-		}
-		mz_zip_writer_delete(&writeZipHandle);
-		if (mz_stream_os_close(writeStreamHandle)) {
-			return nullptr;
-		}
-		mz_stream_os_delete(&writeStreamHandle);
-	}
-
-	if (!bsp->openZIP(bsp->tempBSPPakLumpPath)) {
+	if (!bsp->openZIP(bsp->tempPakLumpPath)) {
 		return nullptr;
 	}
 
@@ -81,7 +77,6 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 		entry.flags = fileInfo->compression_method;
 		entry.length = fileInfo->uncompressed_size;
 		entry.compressedLength = fileInfo->compressed_size;
-		entry.crc32 = fileInfo->crc;
 
 		bsp->entries.emplace(entryPath, entry);
 
@@ -98,6 +93,12 @@ bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
+	// If the output path is different, copy the entire BSP there
+	if (outputPath != this->fullFilePath) {
+		std::filesystem::copy_file(this->fullFilePath, outputPath, std::filesystem::copy_options::overwrite_existing);
+		PackFile::setFullFilePath(outputDir);
+	}
+
 	// Use temp folder so we can read from the current ZIP
 	if (!this->bakeTempZip(this->tempZIPPath, options, callback)) {
 		return false;
@@ -107,26 +108,22 @@ bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	// Close the ZIP
 	this->closeZIP();
 
-	// Write the pakfile lump
-	this->writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath));
-
-	// If the output path is different, copy the entire BSP there
-	if (outputPath != this->fullFilePath) {
-		std::filesystem::copy_file(this->fullFilePath, outputPath, std::filesystem::copy_options::overwrite_existing);
+	// Write the new lump
+	{
+		bsppp::BSP writer{this->fullFilePath};
+		if (!writer) {
+			return false;
+		}
+		writer.writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath));
 	}
 
 	// Rename and reopen the ZIP
-	std::filesystem::rename(this->tempZIPPath, this->tempBSPPakLumpPath);
-	if (!this->openZIP(this->tempBSPPakLumpPath)) {
-		return false;
-	}
-	PackFile::setFullFilePath(outputDir);
-	this->path = this->fullFilePath;
-	return true;
+	std::filesystem::rename(this->tempZIPPath, this->tempPakLumpPath);
+	return this->openZIP(this->tempPakLumpPath);
 }
 
 BSP::operator std::string() const {
 	return PackFile::operator std::string() +
-	       " | Version v" + std::to_string(this->header.version) +
-	       " | Map Revision " + std::to_string(this->header.mapRevision);
+	       " | Version v" + std::to_string(this->version) +
+	       " | Map Revision " + std::to_string(this->mapRevision);
 }

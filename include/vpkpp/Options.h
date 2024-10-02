@@ -4,7 +4,7 @@
 
 namespace vpkpp {
 
-enum class EntryCompressionType : int8_t {
+enum class EntryCompressionType : int16_t {
 	NO_OVERRIDE = -1,
 
 	// Matches MZ_COMPRESS_METHOD_<type> defines
@@ -21,7 +21,7 @@ struct BakeOptions {
 	EntryCompressionType zip_compressionTypeOverride = EntryCompressionType::NO_OVERRIDE;
 
 	/// BSP/VPK/ZIP - Compression strength
-	int8_t zip_compressionStrength = 0;
+	int16_t zip_compressionStrength = 5;
 
 	/// GMA - Write CRCs for files and the overall GMA file when baking
 	bool gma_writeCRCs = true;
@@ -33,6 +33,9 @@ struct BakeOptions {
 struct EntryOptions {
 	/// BSP/ZIP - The compression format
 	EntryCompressionType zip_compressionType = EntryCompressionType::NO_COMPRESS;
+
+	/// BSP/ZIP - The compression strength
+	int16_t zip_compressionStrength = 5;
 
 	/// VPK - Save this entry to the directory VPK
 	bool vpk_saveToDirectory = false;

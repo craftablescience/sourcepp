@@ -3,6 +3,7 @@
 #include <array>
 #include <cstddef>
 #include <optional>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -196,9 +197,7 @@ public:
 	}
 
     /// Valid compressLevel range is 0 to 9, 9 being the slowest and most compressiest
-    bool writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool compress = false, uint32_t compressLevel = 6);
-
-    bool writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen, bool compress = false, uint32_t compressLevel = 6);
+    void writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true, bool compress = false, uint32_t compressLevel = 6);
 
 	bool applyLumpPatchFile(const std::string& lumpFilePath);
 
@@ -206,9 +205,6 @@ public:
 
 protected:
 	void writeHeader() const;
-
-	/// If the lump is too big where it is, shift it to the end of the file, otherwise its fine
-	void moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize);
 
 	[[nodiscard]] std::vector<BSPPlane> readPlanes() const;
 

@@ -15,4 +15,5 @@ add_pretty_parser(vtfpp
 target_include_directories(vtfpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/stb/include")
 
 sourcepp_add_tbb(vtfpp)
+sourcepp_add_threads(vtfpp)
 target_link_compressonator(vtfpp)

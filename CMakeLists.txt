@@ -26,14 +26,19 @@ option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURC
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 
-option(SOURCEPP_BUILD_BENCHMARKS  "Build benchmarks for supported libraries" OFF)
-option(SOURCEPP_BUILD_C_WRAPPERS  "Build C wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_WITH_OPENCL "Build with support for GPU compute"       OFF)
-option(SOURCEPP_BUILD_WITH_TBB    "Build with support for std::execution"    OFF)
-option(SOURCEPP_BUILD_TESTS       "Build tests for supported libraries"      OFF)
-option(SOURCEPP_BUILD_WIN7_COMPAT "Build with Windows 7 compatibility"       OFF)
+option(SOURCEPP_BUILD_BENCHMARKS   "Build benchmarks for supported libraries" OFF)
+option(SOURCEPP_BUILD_C_WRAPPERS   "Build C wrappers for supported libraries" OFF)
+option(SOURCEPP_BUILD_WITH_OPENCL  "Build with support for GPU compute"       OFF)
+option(SOURCEPP_BUILD_WITH_TBB     "Build with support for std::execution"    OFF)
+option(SOURCEPP_BUILD_WITH_THREADS "Build with support for threading"          ON)
+option(SOURCEPP_BUILD_TESTS        "Build tests for supported libraries"      OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT  "Build with Windows 7 compatibility"       OFF)
 
 option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
+
+
+# Options (library-specific)
+option(SOURCEPP_VPKPP_SUPPORT_VPK_V54 "Support compressed v54 VPKs" ON)
 
 
 # Option overrides
@@ -70,6 +75,7 @@ include(AddPrettyParser)
 include(AddSourcePPLibrary)
 include(IncludeSubdirectory)
 include(PrintOptions)
+include(TargetOptimize)
 
 
 # Include thirdparty libraries
@@ -92,16 +98,29 @@ if(SOURCEPP_BUILD_TESTS)
     include(FetchContent)
     FetchContent_Declare(
             googletest
-            GIT_REPOSITORY https://github.com/google/googletest.git
-            GIT_TAG v1.15.2)
+            GIT_REPOSITORY "https://github.com/google/googletest.git"
+            GIT_TAG "v1.15.2")
     FetchContent_MakeAvailable(googletest)
     enable_testing()
     set(${SOURCEPP_TEST_NAME}_SOURCES "")
     list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
+
+    # Download assets
+    FetchContent_Declare(
+            ${PROJECT_NAME}_assets
+            GIT_REPOSITORY "https://github.com/craftablescience/sourcepp_assets.git"
+            GIT_TAG "origin/main"
+            GIT_SHALLOW ON
+            SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/res"
+            CONFIGURE_COMMAND ""
+            BUILD_COMMAND ""
+            INSTALL_COMMAND ""
+            TEST_COMMAND "")
+    FetchContent_MakeAvailable(${PROJECT_NAME}_assets)
 endif()
 
 
-# Benchmarks, part 1
+# Benchmarks
 if(SOURCEPP_BUILD_BENCHMARKS)
     set(SOURCEPP_BENCH_NAME "${PROJECT_NAME}_bench")
     include(FetchContent)
@@ -111,8 +130,10 @@ if(SOURCEPP_BUILD_BENCHMARKS)
             GIT_TAG v1.9.0)
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "" FORCE)
     FetchContent_MakeAvailable(benchmark)
-    list(APPEND ${SOURCEPP_BENCH_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/bench/_bench.cpp")
-    list(APPEND ${SOURCEPP_BENCH_NAME}_DEPS benchmark::benchmark)
+
+    add_library(${SOURCEPP_BENCH_NAME} STATIC "${CMAKE_CURRENT_SOURCE_DIR}/bench/_bench.cpp")
+    target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC benchmark::benchmark)
+    target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
 endif()
 
 
@@ -120,7 +141,7 @@ endif()
 add_sourcepp_library(bsppp             NO_TEST      ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                          ) # sourcepp::dmxpp
 add_sourcepp_library(gamepp                         ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                           ) # sourcepp::kvpp
+add_sourcepp_library(kvpp                      BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                          ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C                     ) # sourcepp::steampp
 add_sourcepp_library(toolpp                         ) # sourcepp::toolpp
@@ -139,16 +160,9 @@ if(SOURCEPP_BUILD_TESTS)
 endif()
 
 
-# Benchmarks, part 2
-if(SOURCEPP_BUILD_BENCHMARKS)
-    add_executable(${SOURCEPP_BENCH_NAME} ${${SOURCEPP_BENCH_NAME}_SOURCES})
-    target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC ${${SOURCEPP_BENCH_NAME}_DEPS})
-    target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
-endif()
-
-
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_TESTS BUILD_WIN7_COMPAT
-        LINK_STATIC_MSVC_RUNTIME)
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
+        LINK_STATIC_MSVC_RUNTIME
+        VPKPP_SUPPORT_VPK_V54)

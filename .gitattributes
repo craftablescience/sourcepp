@@ -10,24 +10,3 @@
 # Compressonator
 *.a   binary
 *.lib binary
-
-# dmxpp
-*.dmx binary
-
-# mdlpp
-*.mdl binary
-*.vtx binary
-*.vvd binary
-*.ani binary
-*.phy binary
-*.vta binary
-
-# toolpp
-*.wc  binary
-
-# vicepp
-*.dec binary
-*.enc binary
-
-# vtfpp
-*.vtf binary

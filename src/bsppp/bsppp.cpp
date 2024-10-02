@@ -1,13 +1,15 @@
 #include <bsppp/bsppp.h>
 
 #include <filesystem>
-#include <limits>
+#include <type_traits>
 #include <utility>
+#include <algorithm>
 
 #include <FileStream.h>
 
 #include <third_party/liblzma/src/liblzma/api/lzma.h> //should maybe make this a submodule but minizip already downloads it for us
 using namespace bsppp;
+using namespace sourcepp;
 
 namespace {
 
@@ -120,7 +122,7 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return false;
 	}
-	auto lump = static_cast<int32_t>(lumpIndex);
+	auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
 }
 
@@ -135,11 +137,11 @@ int32_t BSP::getLumpVersion(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return 0;
 	}
-	return this->header.lumps[static_cast<int32_t>(lumpIndex)].version;
+	return this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lumpIndex)].version;
 }
 
 void BSP::setLumpVersion(BSPLump lumpIndex, int32_t version) {
-	this->header.lumps[static_cast<int32_t>(lumpIndex)].version = version;
+	this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lumpIndex)].version = version;
 	this->writeHeader();
 }
 
@@ -198,12 +200,76 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
 }
 
-bool BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool compress, uint32_t compressLevel) {
+bool BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool condenseFile, bool compress, uint32_t compressLevel) {
+
 	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
         return false;
 	}
-    FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
 
+    auto lumpToMove = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+
+    if (!this->hasLump(lumpIndex) || !condenseFile) {
+        // Put the lump at the end of the file
+        int32_t lastLumpOffset = 0, lastLumpLength = 0;
+        for (const Lump& lump : this->header.lumps) {
+            if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
+                lastLumpOffset = lump.offset;
+                lastLumpLength = lump.length;
+            }
+        }
+        if (lastLumpOffset == 0) {
+            // Whole file is full of empty lumps
+            this->header.lumps[lumpToMove].offset = sizeof(Header);
+        } else {
+            this->header.lumps[lumpToMove].offset = lastLumpOffset + lastLumpLength;
+        }
+        this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
+    }
+    else {
+        // Sort lumps by file position
+        std::array<int, BSP_LUMP_COUNT> lumpIDs{};
+        for (int i = 0; i < lumpIDs.size(); i++) {
+            lumpIDs[i] = i;
+        }
+        std::sort(lumpIDs.begin(), lumpIDs.end(), [this](int lhs, int rhs) {
+            return this->header.lumps[lhs].offset < this->header.lumps[rhs].offset;
+        });
+
+        // Condense the lumps in the order they appear in the file, and move the new lump to the end
+        FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
+        int32_t currentOffset = 0;
+        for (int i = 0; i < lumpIDs.size(); i++) {
+            auto lumpID = lumpIDs[i];
+
+            if (lumpID == lumpToMove) {
+                continue;
+            }
+            if (!currentOffset) {
+                currentOffset = this->header.lumps[lumpID].offset + this->header.lumps[lumpID].length;
+                continue;
+            }
+
+            auto lumpsData = bsp.seek_in(this->header.lumps[lumpID].offset).read_bytes(this->header.lumps[lumpID].length);
+            bsp.seek_out(currentOffset).write(lumpsData);
+
+            this->header.lumps[lumpID].offset = currentOffset;
+            currentOffset += this->header.lumps[lumpID].length;
+
+            // If we have the space to add padding (we should), then do so
+            // This should never fail for well-constructed BSP files
+            auto padding = math::getPaddingForAlignment(4, currentOffset);
+            if (padding && i < lumpIDs.size() - 1 && currentOffset + padding <= this->header.lumps[lumpIDs[i + 1]].offset) {
+                currentOffset += padding;
+            }
+        }
+
+        this->header.lumps[lumpToMove].offset = currentOffset;
+        this->header.lumps[lumpToMove].length = static_cast<int32_t>(data.size());
+    }
+
+    // Write modified header and lump
+    this->writeHeader();
+    FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
     if (compress) {
         std::byte compressedData[data.size() + sizeof(lzma_header_alone)];// If we somehow get a 0% ratio
         lzma_stream stream = LZMA_STREAM_INIT;
@@ -260,27 +326,25 @@ bool BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool 
         newLump.insert(newLump.begin(), (std::byte*)&headerBSP, ((std::byte*)&headerBSP) + sizeof(lzma_header_bsplump));
 
 
-        this->moveLumpToWritableSpace(lumpIndex, newLump.size());
         this->header.lumps[static_cast<uint32_t>(lumpIndex)].fourCC = data.size();
         writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(newLump);
     }
     else {
-        this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(data.size()));
         writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(data);
     }
 
-    return true;
-}
+    // Resize file if it shrank
+    int32_t lastLumpOffset = 0, lastLumpLength = 0;
+    for (const Lump& lump : this->header.lumps) {
+        if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
+            lastLumpOffset = lump.offset;
+            lastLumpLength = lump.length;
+        }
+    }
+    if (std::filesystem::file_size(this->path) > lastLumpOffset + lastLumpLength) {
+        std::filesystem::resize_file(this->path, lastLumpOffset + lastLumpLength);
+    }
 
-bool BSP::writeLump(BSPLump lumpIndex, const std::byte* buffer, uint64_t bufferLen, bool compress, uint32_t compressLevel) {
-	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
-        return false;
-	}
-
-	this->moveLumpToWritableSpace(lumpIndex, static_cast<int>(bufferLen));
-
-	FileStream writer{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-	writer.seek_out(this->header.lumps[static_cast<uint32_t>(lumpIndex)].offset).write(buffer, bufferLen);
     return true;
 }
 
@@ -313,7 +377,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		return;
 	}
 
-	auto& lump = this->header.lumps.at(static_cast<int32_t>(lumpIndex));
+	auto& lump = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
 
 	const auto fsPath = std::filesystem::path{this->path};
 	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
@@ -347,85 +411,12 @@ void BSP::writeHeader() const {
 	if (!this->isL4D2) {
 		writer << this->header.lumps;
 	} else {
-		for (int i = 0; i < static_cast<int32_t>(BSPLump::COUNT); i++) {
+		for (int i = 0; i < static_cast<std::underlying_type_t<BSPLump>>(BSPLump::COUNT); i++) {
 			writer << this->header.lumps[i].version << this->header.lumps[i].offset << this->header.lumps[i].length << this->header.lumps[i].fourCC;
 		}
 	}
 
 	writer << this->header.mapRevision;
-}
-
-void BSP::moveLumpToWritableSpace(BSPLump lumpIndex, int32_t newSize) {
-	auto lumpToMove = static_cast<uint32_t>(lumpIndex);
-	this->header.lumps[lumpToMove].length = newSize;
-
-	// If the lump doesn't exist, put it at the end of the file
-	if (!this->hasLump(lumpIndex)) {
-		int lastLumpOffset = 0, lastLumpLength = 0;
-		for (const Lump& lump : this->header.lumps) {
-			if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
-				lastLumpOffset = lump.offset;
-				lastLumpLength = lump.length;
-			}
-		}
-		if (lastLumpOffset == 0) {
-			// Whole file is full of empty lumps
-			this->header.lumps[lumpToMove].offset = sizeof(Header);
-		} else {
-			this->header.lumps[lumpToMove].offset = lastLumpOffset + lastLumpLength;
-		}
-		this->header.lumps[lumpToMove].length = newSize;
-
-		this->writeHeader();
-		return;
-	}
-
-	// If the moving lump is at the end of the file we just overwrite it, otherwise we have to shift some lumps over
-	std::vector<int> lumpsAfterMovingLumpIndices;
-	for (int i = 0; i < BSP_LUMP_COUNT; i++) {
-		if (this->header.lumps[i].offset > this->header.lumps[lumpToMove].offset) {
-			lumpsAfterMovingLumpIndices.push_back(i);
-		}
-	}
-	if (lumpsAfterMovingLumpIndices.empty()) {
-		return;
-	}
-
-	// Get the exact area to move
-	int moveOffsetStart = std::numeric_limits<int>::max(), moveOffsetEnd = 0;
-	for (int lumpsAfterMovingLumpIndex : lumpsAfterMovingLumpIndices) {
-		if (this->header.lumps[lumpsAfterMovingLumpIndex].offset < moveOffsetStart) {
-			moveOffsetStart = this->header.lumps[lumpsAfterMovingLumpIndex].offset;
-		}
-		if (auto offsetAndLength = this->header.lumps[lumpsAfterMovingLumpIndex].offset + this->header.lumps[lumpsAfterMovingLumpIndex].length; offsetAndLength > moveOffsetEnd) {
-			moveOffsetEnd = offsetAndLength;
-		}
-	}
-
-	// Get where to move it
-	int lastLumpBeforeMovingLumpOffset = 0, lastLumpBeforeMovingLumpLength = 0;
-	for (const Lump& lump : this->header.lumps) {
-		if (lump.offset < this->header.lumps[lumpToMove].offset && lump.offset > lastLumpBeforeMovingLumpOffset) {
-			lastLumpBeforeMovingLumpOffset = lump.offset;
-			lastLumpBeforeMovingLumpLength = lump.length;
-		}
-	}
-
-	// Move all the lumps after paklump back
-	{
-		FileStream bsp{this->path, FileStream::OPT_READ | FileStream::OPT_WRITE};
-		auto lumpsData = bsp.seek_in(moveOffsetStart).read_bytes(moveOffsetEnd - moveOffsetStart);
-		bsp.seek_out(lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength).write(lumpsData);
-
-		// Fix the offsets
-		for (int lumpsAfterMovingLumpIndex : lumpsAfterMovingLumpIndices) {
-			this->header.lumps[lumpsAfterMovingLumpIndex].offset -= newSize;
-		}
-		this->header.lumps[lumpToMove].offset = lastLumpBeforeMovingLumpOffset + lastLumpBeforeMovingLumpLength + static_cast<int>(lumpsData.size());
-	}
-
-	// Write modified header
-	this->writeHeader();
 }
 
 std::vector<BSPPlane> BSP::readPlanes() const {

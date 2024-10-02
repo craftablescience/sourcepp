@@ -152,16 +152,17 @@ public:
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR;
+		Flags flags = FLAG_NONE;
 		uint16_t initialFrameCount = 1;
-		uint16_t initialSliceCount = 1;
+		uint16_t startFrame = 0;
 		bool isCubeMap = false;
+		bool hasSphereMap = false;
+		uint16_t initialSliceCount = 1;
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
-		Flags flags = FLAG_NONE;
-		float bumpMapScale = 1.f;
-		uint16_t startFrame = 0;
 		uint8_t compressionLevel = 6;
+		float bumpMapScale = 1.f;
 	};
 
 	/// This value is only valid when passed to VTF::create through CreationOptions
@@ -172,8 +173,6 @@ public:
 
 	static constexpr int32_t MAX_RESOURCES = 32;
 
-	static constexpr uint16_t SPHEREMAP_START_FRAME = 0xffff;
-
 	VTF();
 
 	explicit VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly = false);
@@ -182,17 +181,23 @@ public:
 
 	explicit VTF(const std::string& vtfPath, bool parseHeaderOnly = false);
 
-	VTF(const VTF&) = delete;
-	VTF& operator=(const VTF&) = delete;
+	VTF(const VTF& other);
+
+	VTF& operator=(const VTF& other);
 
 	VTF(VTF&&) noexcept = default;
+
 	VTF& operator=(VTF&&) noexcept = default;
 
 	[[nodiscard]] explicit operator bool() const;
 
 	static void create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
 
+	static void create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+
 	[[nodiscard]] static VTF create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
+
+	[[nodiscard]] static VTF create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
 
 	static void create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
 
@@ -246,7 +251,7 @@ public:
 
 	[[nodiscard]] uint8_t getFaceCount() const;
 
-	bool setFaceCount(bool hasMultipleFaces, bool hasSphereMap = false);
+	bool setFaceCount(bool isCubemap, bool hasSphereMap = false);
 
 	//bool computeSphereMap();
 
@@ -254,11 +259,11 @@ public:
 
 	bool setSliceCount(uint16_t newSliceCount);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool hasMultipleFaces, bool hasSphereMap = false, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, bool hasSphereMap = false, uint16_t newSliceCount = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
-	bool setStartFrame(uint16_t newStartFrame);
+	void setStartFrame(uint16_t newStartFrame);
 
 	[[nodiscard]] sourcepp::math::Vec3f getReflectivity() const;
 
@@ -338,16 +343,14 @@ public:
 
 	bool saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
-	[[nodiscard]] std::vector<std::byte> bake();
+	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& vtfPath);
+	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	[[nodiscard]] ImageFormat getDefaultFormat() const;
 
 	static void createInternal(VTF& writer, CreationOptions options);
-
-	[[nodiscard]] static uint8_t getFaceCountFor(uint16_t width, uint16_t height, uint32_t majorVersion, uint32_t minorVersion, Flags flags, uint16_t startFrame);
 
 	[[nodiscard]] Resource* getResourceInternal(Resource::Type type);
 
@@ -364,8 +367,7 @@ protected:
 	//uint32_t signature;
 	uint32_t majorVersion{};
 	uint32_t minorVersion{};
-
-	uint32_t headerSize{};
+	//uint32_t headerSize;
 
 	uint16_t width{};
 	uint16_t height{};

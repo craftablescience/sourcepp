@@ -14,7 +14,10 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 #include <vpkpp/format/FPX.h>
+
+#ifdef VPKPP_SUPPORT_VPK_V54
 #include <zstd.h>
+#endif
 
 using namespace kvpp;
 using namespace sourcepp;
@@ -339,6 +342,9 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 		}
 	}
 
+#ifndef VPKPP_SUPPORT_VPK_V54
+	return out;
+#else
 	if (!this->hasCompression() || !entry->compressedLength) {
 		return out;
 	}
@@ -371,6 +377,7 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 		return {};
 	}
 	return decompressedData;
+#endif
 }
 
 void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
@@ -455,6 +462,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::string outputDir = this->getBakeOutputDir(outputDir_);
 	std::string outputPath = outputDir + '/' + this->getFilename();
 
+#ifdef VPKPP_SUPPORT_VPK_V54
 	// Store compression dictionary
 	std::optional<std::vector<std::byte>> compressionDict;
 	std::unique_ptr<ZSTD_CDict, void(*)(void*)> cDict{nullptr, nullptr};
@@ -481,6 +489,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			return false;
 		}
 	}
+#endif
 
 	// Reconstruct data so we're not looping over it a ton of times
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
@@ -585,6 +594,9 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
 						entry->offset = std::filesystem::exists(archiveFilename) ? std::filesystem::file_size(archiveFilename) : 0;
 						FileStream stream{archiveFilename, FileStream::OPT_APPEND | FileStream::OPT_CREATE_IF_NONEXISTENT};
+#ifndef VPKPP_SUPPORT_VPK_V54
+						stream.write(*entryData);
+#else
 						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
 							stream.write(*entryData);
 						} else {
@@ -597,9 +609,13 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 							stream.write(std::span<std::byte>{compressedData.data(), compressedSize});
 							entry->compressedLength = compressedSize;
 						}
+#endif
 					} else {
 						// The entry will be added to the directory VPK
 						entry->offset = dirVPKEntryData.size();
+#ifndef VPKPP_SUPPORT_VPK_V54
+						dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
+#else
 						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
 							dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
 						} else {
@@ -612,6 +628,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 							dirVPKEntryData.insert(dirVPKEntryData.end(), compressedData.data(), compressedData.data() + compressedSize);
 							entry->compressedLength = compressedSize;
 						}
+#endif
 					}
 
 					// Clear flags
