@@ -200,7 +200,7 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
 
 }
 
-bool BSP::writeLump(BSPLump lumpIndex, const std::vector<std::byte>& data, bool condenseFile, bool compress, uint32_t compressLevel) {
+bool BSP::writeLump(BSPLump lumpIndex, const std::span<const std::byte> data, bool condenseFile, bool compress, uint32_t compressLevel) {
 
 	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
         return false;

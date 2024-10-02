@@ -197,7 +197,7 @@ public:
 	}
 
     /// Valid compressLevel range is 0 to 9, 9 being the slowest and most compressiest
-    void writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true, bool compress = false, uint32_t compressLevel = 6);
+    bool writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true, bool compress = false, uint32_t compressLevel = 6);
 
 	bool applyLumpPatchFile(const std::string& lumpFilePath);
 
