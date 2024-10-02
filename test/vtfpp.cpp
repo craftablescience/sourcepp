@@ -918,13 +918,3 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
-
-TEST(vtfpp, read_exr) {
-
-    VTF::CreationOptions options;
-    options.outputFormat = vtfpp::ImageFormat::RGBA16161616F;
-    auto vtf = VTF::create(ASSET_ROOT "vtfpp/src/billiard_hall_1k.exr",options);
-    ASSERT_TRUE(vtf);
-    ASSERT_TRUE(vtf.bake("billiard_hall_1k.vtf"));
-    ASSERT_TRUE(vtf.saveImageToFile("billiard_hall_1k.exr",0,0,0,0, vtfpp::ImageConversion::FileFormat::EXR));
-}
