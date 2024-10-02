@@ -208,6 +208,7 @@ enum class FileFormat {
 	BMP,
 	TGA,
 	HDR,
+    EXR,
 };
 
 /// Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.

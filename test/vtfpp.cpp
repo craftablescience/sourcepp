@@ -925,6 +925,6 @@ TEST(vtfpp, read_exr) {
     options.outputFormat = vtfpp::ImageFormat::RGBA16161616F;
     auto vtf = VTF::create(ASSET_ROOT "vtfpp/src/billiard_hall_1k.exr",options);
     ASSERT_TRUE(vtf);
-    vtf.bake("billiard_hall_1k.vtf");
-    vtf.saveImageToFile("billiard_hall_1k.hdr",0,0,0,0, vtfpp::ImageConversion::FileFormat::HDR);
+    ASSERT_TRUE(vtf.bake("billiard_hall_1k.vtf"));
+    ASSERT_TRUE(vtf.saveImageToFile("billiard_hall_1k.exr",0,0,0,0, vtfpp::ImageConversion::FileFormat::EXR));
 }
