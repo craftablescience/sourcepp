@@ -513,6 +513,7 @@ namespace ImageFormatDetails {
 			return true;
 		case BGRX8888:
 		case BGRX5551:
+		case UVLX8888:
 		case RGBX8888:
 			return false;
 		default:

@@ -38,9 +38,7 @@ namespace {
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
-		case RGBX8888:
 		case UVWQ8888:
-		case UVLX8888:
 			return CMP_FORMAT_RGBA_8888;
 		case ABGR8888:
 			return CMP_FORMAT_ABGR_8888;
@@ -102,8 +100,10 @@ namespace {
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
+		case UVLX8888:
 		case EMPTY:
 		case BGRA1010102:
+		case RGBX8888:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
@@ -114,7 +114,6 @@ namespace {
 		using enum ImageFormat;
 		case RGBA8888:
 		case UVWQ8888:
-		case UVLX8888:
 		case RGBA16161616:
 		case RGBA16161616F:
 		case RGBA32323232F:
@@ -161,6 +160,7 @@ namespace {
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
+		case UVLX8888:
 		case EMPTY:
 		case RGBA1010102:
 		case BGRA1010102:
@@ -268,7 +268,7 @@ namespace {
 		return {};
 	}
 
-	if (format == ImageFormat::RGBA8888 || format == ImageFormat::UVWQ8888 || format == ImageFormat::UVLX8888) {
+	if (format == ImageFormat::RGBA8888 || format == ImageFormat::UVWQ8888) {
 		return {imageData.begin(), imageData.end()};
 	}
 
@@ -311,6 +311,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          VTFPP_REMAP_TO_8(pixel.r, 4), VTFPP_REMAP_TO_8(pixel.g, 4), VTFPP_REMAP_TO_8(pixel.b, 4), VTFPP_REMAP_TO_8(pixel.a, 4));
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(UVLX8888,          pixel.u, pixel.v, pixel.l, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          pixel.r, pixel.g, pixel.b, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(R8,                pixel.r, 0,       0,       0xff);
 		default: SOURCEPP_DEBUG_BREAK; break;
@@ -377,6 +378,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          {VTFPP_REMAP_FROM_8(pixel.b, 5), VTFPP_REMAP_FROM_8(pixel.g, 5), VTFPP_REMAP_FROM_8(pixel.r, 5), 0x1});
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          {VTFPP_REMAP_FROM_8(pixel.b, 4), VTFPP_REMAP_FROM_8(pixel.g, 4), VTFPP_REMAP_FROM_8(pixel.r, 4), VTFPP_REMAP_FROM_8(pixel.a, 4)});
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              {pixel.r, pixel.g});
+		VTFPP_CASE_CONVERT_AND_BREAK(UVLX8888,          {pixel.r, pixel.g, pixel.b});
 		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          {pixel.r, pixel.g, pixel.b, 0xff});
 		VTFPP_CASE_CONVERT_AND_BREAK(R8,                {pixel.r});
 		default: SOURCEPP_DEBUG_BREAK; break;
