@@ -25,8 +25,7 @@
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_STATIC
-// HDR write in memory is erroneously guarded by this define
-//#define STBI_WRITE_NO_STDIO
+#define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 
 using namespace sourcepp;
