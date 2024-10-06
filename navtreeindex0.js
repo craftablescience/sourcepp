@@ -182,6 +182,12 @@ var NAVTREEINDEX0 =
 "d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html":[2,0,4,0,2],
 "d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html#a293512dd013e4d8d4fc13d921a69f6ef":[2,0,4,0,2,1],
 "d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html#a6a682571420dc92f8a551e6852f5eba1":[2,0,4,0,2,0],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html":[2,0,9,0,28],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html#a0bdf5d4b43590b7f7db05653bd5af29b":[2,0,9,0,28,3],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html#a4619434226c2e7f7361476dafbe86bd4":[2,0,9,0,28,0],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html#a5af01d55152e03c1fe1e2790659ef7ba":[2,0,9,0,28,4],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html#a791ef6879c5b1df1a9dd6a81cff2ba59":[2,0,9,0,28,1],
+"d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html#aed292cbd0dd4a3bf62ca75683e2261c2":[2,0,9,0,28,2],
 "d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html":[2,0,7,1,0],
 "d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html#a09a0acb11e6762721882e5bc3155a494":[2,0,7,1,0,0],
 "d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html#a912351343460c9f6ad4feb7a0fb4d073":[2,0,7,1,0,1],
@@ -243,11 +249,5 @@ var NAVTREEINDEX0 =
 "d1/d2d/ImageFormats_8h.html#aa00fc65d120a4ed1710f96e3965aaff1":[3,0,1,10,1,13],
 "d1/d2d/ImageFormats_8h.html#aae8552792bf4ad0d4bc182cc34eba04a":[3,0,1,10,1,19],
 "d1/d2d/ImageFormats_8h.html#ac43c99ecb4fb3b6970bc87890d98c8ad":[3,0,1,10,1,12],
-"d1/d2d/ImageFormats_8h.html#ac7ed5235dfaaa0f79a0315e64b26e80a":[3,0,1,10,1,6],
-"d1/d2d/ImageFormats_8h.html#acc53a7285be1b23a4cc06d28cee7f9e2":[3,0,1,10,1,3],
-"d1/d2d/ImageFormats_8h.html#acef2e68e33078497b3669fa1c07bb954":[3,0,1,10,1,15],
-"d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336c":[3,0,1,10,1,0],
-"d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336ca079e24d047a312c0c419e038e93bc7d6":[3,0,1,10,1,0,10],
-"d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336ca079eb95759d2ad31254f659d63651825":[3,0,1,10,1,0,22],
-"d1/d2d/ImageFormats_8h.html#aec3345feb8c8d1832efd60bd78ba336ca08355da49fbd688e23266ebb09afdffd":[3,0,1,10,1,0,14]
+"d1/d2d/ImageFormats_8h.html#ac7ed5235dfaaa0f79a0315e64b26e80a":[3,0,1,10,1,6]
 };

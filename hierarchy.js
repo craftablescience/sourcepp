@@ -133,6 +133,7 @@ var hierarchy =
     [ "vtfpp::ImagePixel::BGR888", "d8/d63/structvtfpp_1_1ImagePixel_1_1BGR888.html", [
       [ "vtfpp::ImagePixel::BGR888_BLUESCREEN", "d2/dd2/structvtfpp_1_1ImagePixel_1_1BGR888__BLUESCREEN.html", null ]
     ] ],
+    [ "vtfpp::ImagePixel::BGRA1010102", "de/d7c/structvtfpp_1_1ImagePixel_1_1BGRA1010102.html", null ],
     [ "vtfpp::ImagePixel::BGRA4444", "d0/d1c/structvtfpp_1_1ImagePixel_1_1BGRA4444.html", null ],
     [ "vtfpp::ImagePixel::BGRA5551", "dd/d5e/structvtfpp_1_1ImagePixel_1_1BGRA5551.html", null ],
     [ "vtfpp::ImagePixel::BGRA8888", "d5/d7f/structvtfpp_1_1ImagePixel_1_1BGRA8888.html", null ],
@@ -141,16 +142,22 @@ var hierarchy =
     [ "vtfpp::ImagePixel::I8", "d2/d77/structvtfpp_1_1ImagePixel_1_1I8.html", null ],
     [ "vtfpp::ImagePixel::IA88", "da/d07/structvtfpp_1_1ImagePixel_1_1IA88.html", null ],
     [ "vtfpp::ImagePixel::P8", "d9/d3a/structvtfpp_1_1ImagePixel_1_1P8.html", null ],
+    [ "vtfpp::ImagePixel::R16F", "dc/d23/structvtfpp_1_1ImagePixel_1_1R16F.html", null ],
     [ "vtfpp::ImagePixel::R32F", "de/da1/structvtfpp_1_1ImagePixel_1_1R32F.html", null ],
+    [ "vtfpp::ImagePixel::R8", "d8/d14/structvtfpp_1_1ImagePixel_1_1R8.html", null ],
+    [ "vtfpp::ImagePixel::RG1616F", "d6/d4c/structvtfpp_1_1ImagePixel_1_1RG1616F.html", null ],
+    [ "vtfpp::ImagePixel::RG3232F", "db/d93/structvtfpp_1_1ImagePixel_1_1RG3232F.html", null ],
     [ "vtfpp::ImagePixel::RGB323232F", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html", null ],
     [ "vtfpp::ImagePixel::RGB565", "d0/d92/structvtfpp_1_1ImagePixel_1_1RGB565.html", null ],
     [ "vtfpp::ImagePixel::RGB888", "d0/d24/structvtfpp_1_1ImagePixel_1_1RGB888.html", [
       [ "vtfpp::ImagePixel::RGB888_BLUESCREEN", "d1/d7e/structvtfpp_1_1ImagePixel_1_1RGB888__BLUESCREEN.html", null ]
     ] ],
+    [ "vtfpp::ImagePixel::RGBA1010102", "d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102.html", null ],
     [ "vtfpp::ImagePixel::RGBA16161616", "d9/d32/structvtfpp_1_1ImagePixel_1_1RGBA16161616.html", null ],
     [ "vtfpp::ImagePixel::RGBA16161616F", "d0/de9/structvtfpp_1_1ImagePixel_1_1RGBA16161616F.html", null ],
     [ "vtfpp::ImagePixel::RGBA32323232F", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html", null ],
     [ "vtfpp::ImagePixel::RGBA8888", "de/d5a/structvtfpp_1_1ImagePixel_1_1RGBA8888.html", null ],
+    [ "vtfpp::ImagePixel::RGBX8888", "d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html", null ],
     [ "vtfpp::ImagePixel::UV88", "dd/d67/structvtfpp_1_1ImagePixel_1_1UV88.html", null ],
     [ "vtfpp::ImagePixel::UVLX8888", "d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888.html", null ],
     [ "vtfpp::ImagePixel::UVWQ8888", "dd/d9f/structvtfpp_1_1ImagePixel_1_1UVWQ8888.html", null ],

@@ -133,7 +133,14 @@ var annotated_dup =
         [ "UVLX8888", "d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888.html", "d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888" ],
         [ "R32F", "de/da1/structvtfpp_1_1ImagePixel_1_1R32F.html", "de/da1/structvtfpp_1_1ImagePixel_1_1R32F" ],
         [ "RGB323232F", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F" ],
-        [ "RGBA32323232F", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F" ]
+        [ "RGBA32323232F", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html", "d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F" ],
+        [ "RG1616F", "d6/d4c/structvtfpp_1_1ImagePixel_1_1RG1616F.html", "d6/d4c/structvtfpp_1_1ImagePixel_1_1RG1616F" ],
+        [ "RG3232F", "db/d93/structvtfpp_1_1ImagePixel_1_1RG3232F.html", "db/d93/structvtfpp_1_1ImagePixel_1_1RG3232F" ],
+        [ "RGBX8888", "d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html", "d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888" ],
+        [ "RGBA1010102", "d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102.html", "d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102" ],
+        [ "BGRA1010102", "de/d7c/structvtfpp_1_1ImagePixel_1_1BGRA1010102.html", "de/d7c/structvtfpp_1_1ImagePixel_1_1BGRA1010102" ],
+        [ "R16F", "dc/d23/structvtfpp_1_1ImagePixel_1_1R16F.html", "dc/d23/structvtfpp_1_1ImagePixel_1_1R16F" ],
+        [ "R8", "d8/d14/structvtfpp_1_1ImagePixel_1_1R8.html", "d8/d14/structvtfpp_1_1ImagePixel_1_1R8" ]
       ] ],
       [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],

@@ -8,6 +8,7 @@ var ImageConversion_8cpp =
     [ "STB_IMAGE_WRITE_STATIC", "d4/df2/ImageConversion_8cpp.html#af453f0874b279a4e019b538c84cc8587", null ],
     [ "STBI_NO_FAILURE_STRINGS", "d4/df2/ImageConversion_8cpp.html#a4a101dadc05ceb1ad4979bdd54aa8ec4", null ],
     [ "STBI_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a9bedc54144dc3da815b9fc94226c4c98", null ],
+    [ "STBI_WRITE_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a2845aeca338cef21cd8b02e0970970bb", null ],
     [ "VTFPP_CASE_CONVERT_AND_BREAK", "d4/df2/ImageConversion_8cpp.html#add8cee2faaca8b29d732aa6d435356a4", null ],
     [ "VTFPP_CASE_CONVERT_AND_BREAK", "d4/df2/ImageConversion_8cpp.html#add8cee2faaca8b29d732aa6d435356a4", null ],
     [ "VTFPP_CASE_CONVERT_AND_BREAK", "d4/df2/ImageConversion_8cpp.html#add8cee2faaca8b29d732aa6d435356a4", null ],
