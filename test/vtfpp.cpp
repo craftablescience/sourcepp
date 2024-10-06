@@ -2,6 +2,7 @@
 
 #include <sourcepp/FS.h>
 #include <vtfpp/vtfpp.h>
+#include "../ext/tinyexr/include/tinyexr.h"
 
 using namespace sourcepp;
 using namespace vtfpp;

@@ -82,6 +82,9 @@ endfunction()
 # stb
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
 
+# tinyexr
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+
 
 # TBB
 function(sourcepp_add_tbb TARGET)

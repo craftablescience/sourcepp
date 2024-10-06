@@ -29,6 +29,10 @@
 #define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 
+#define TINYEXR_IMPLEMENTATION 1
+#define TINYEXR_USE_THREAD 1
+#include "tinyexr.h"
+
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -938,6 +942,81 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 			break;
 		}
+        case FileFormat::EXR: {
+
+            //Done according to https://github.com/syoyo/tinyexr?tab=readme-ov-file#loading-multipart-exr-from-a-file
+            std::vector<float> badata;
+            if(format == ImageFormat::RGBA32323232F) {
+                badata.assign(reinterpret_cast<const float*>(imageData.data()), reinterpret_cast<const float*>(imageData.data() + imageData.size()));
+            } else {
+                auto oldIt = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+                badata.assign(reinterpret_cast<float*>(oldIt.data()), reinterpret_cast<float*>(oldIt.data() + oldIt.size()));
+            }
+
+            EXRHeader header;
+            InitEXRHeader(&header);
+            header.num_channels = 4;
+            header.channels = (EXRChannelInfo *)malloc(sizeof(EXRChannelInfo) * header.num_channels);
+
+            // Must be (A)BGR order, since most of EXR viewers expect this channel order.
+            strncpy(header.channels[0].name, "A", 255); header.channels[0].name[strlen("A")] = '\0';
+            strncpy(header.channels[1].name, "B", 255); header.channels[1].name[strlen("B")] = '\0';
+            strncpy(header.channels[2].name, "G", 255); header.channels[2].name[strlen("G")] = '\0';
+            strncpy(header.channels[3].name, "R", 255); header.channels[3].name[strlen("R")] = '\0';
+
+            header.pixel_types = (int32_t *)malloc(sizeof(int32_t) * header.num_channels);
+            header.requested_pixel_types = (int32_t *)malloc(sizeof(int32_t) * header.num_channels);
+            for (int i = 0; i < header.num_channels; i++) {
+                header.pixel_types[i] = TINYEXR_PIXELTYPE_FLOAT; // pixel type of input image
+                header.requested_pixel_types[i] = TINYEXR_PIXELTYPE_FLOAT; // pixel type of output image to be stored in .EXR
+            }
+
+            std::vector<float> images[4];
+            images[0].resize(width * height);
+            images[1].resize(width * height);
+            images[2].resize(width * height);
+            images[3].resize(width * height);
+
+            //Turning RGBA into ABGR which is what most EXR viewers expect.
+            for (int i = 0; i < width * height; i++) {
+                images[0][i] = badata[4*i+3];
+                images[1][i] = badata[4*i+2];
+                images[2][i] = badata[4*i+1];
+                images[3][i] = badata[4*i+0];
+            }
+
+            float* image_ptr[4];
+            image_ptr[0] = &(images[0].at(0)); // A
+            image_ptr[1] = &(images[1].at(0)); // B
+            image_ptr[2] = &(images[2].at(0)); // G
+            image_ptr[3] = &(images[3].at(0)); // R
+
+            EXRImage image;
+            InitEXRImage(&image);
+            image.width = width;
+            image.height = height;
+            image.images = reinterpret_cast<unsigned char **>(image_ptr);
+            image.num_channels = 4;
+
+            unsigned char* data;
+            const char* err;
+
+            size_t size = SaveEXRImageToMemory(&image, &header, &data, &err);
+
+            out = {reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size};
+
+            if(err)
+            {
+                FreeEXRErrorMessage(err);
+                return {};
+            }
+
+            free(data);
+            free(header.channels);
+            free(header.pixel_types);
+            free(header.requested_pixel_types);
+
+        }
 		case FileFormat::DEFAULT:
 			break;
 	}
@@ -952,6 +1031,26 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	height = 0;
 	int channels = 0;
 	frameCount = 1;
+
+    if(IsEXRFromMemory(reinterpret_cast<const unsigned char *>(fileData.data()), fileData.size()) == TINYEXR_SUCCESS)
+    {
+        float* tinyEXRtmp;
+        const char* err = nullptr;
+        int ret = LoadEXRFromMemory(&tinyEXRtmp,&width,&height, reinterpret_cast<const unsigned char *>(fileData.data()), fileData.size(), &err);
+        if(ret != TINYEXR_SUCCESS)
+        {
+            width = 0;
+            height = 0;
+            format = ImageFormat::EMPTY;
+            //Maybe display err message?
+            FreeEXRErrorMessage(err);
+            return {};
+        }
+        //Bit of a weird pointer setup because idk how to do this otherwise.
+        std::unique_ptr<float, void(*)(void*)> tinyEXR{tinyEXRtmp, std::free};
+        format = ImageFormat::RGBA32323232F; //I am assuming it gives RGBA
+        return {reinterpret_cast<std::byte*>(tinyEXR.get()), reinterpret_cast<std::byte*>(tinyEXR.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+    }
 
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
 		std::unique_ptr<float, void(*)(void*)> stbImage{
