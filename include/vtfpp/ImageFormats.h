@@ -37,12 +37,18 @@ enum class ImageFormat : int32_t {
 	R32F,
 	RGB323232F,
 	RGBA32323232F,
-
-	EMPTY = 33,
+	RG1616F,
+	RG3232F,
+	RGBX8888,
+	EMPTY,
 	ATI2N,
 	ATI1N,
+	RGBA1010102,
+	BGRA1010102,
+	R16F,
 
-	BC7 = 70,
+	R8 = 69,
+	BC7,
 	BC6H,
 };
 
@@ -52,12 +58,18 @@ namespace ImageFormatDetails {
 	switch (format) {
 		using enum ImageFormat;
 		case R32F:
+		case RG3232F:
 		case RGB323232F:
 		case RGBA32323232F:
 			return 32;
+		case R16F:
+		case RG1616F:
 		case RGBA16161616F:
 		case RGBA16161616:
 			return 16;
+		case RGBA1010102:
+		case BGRA1010102:
+			return 10;
 		case RGBA8888:
 		case ABGR8888:
 		case RGB888:
@@ -73,6 +85,8 @@ namespace ImageFormatDetails {
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
+		case R8:
 			return 8;
 		case RGB565:
 		case BGR565:
@@ -120,12 +134,17 @@ namespace ImageFormatDetails {
 [[nodiscard]] constexpr int8_t green(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
+		case RG3232F:
 		case RGB323232F:
 		case RGBA32323232F:
 			return 32;
+		case RG1616F:
 		case RGBA16161616F:
 		case RGBA16161616:
 			return 16;
+		case RGBA1010102:
+		case BGRA1010102:
+			return 10;
 		case RGBA8888:
 		case ABGR8888:
 		case RGB888:
@@ -138,6 +157,7 @@ namespace ImageFormatDetails {
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
 			return 8;
 		case RGB565:
 		case BGR565:
@@ -153,6 +173,8 @@ namespace ImageFormatDetails {
 		case R32F:
 		case A8:
 		case EMPTY:
+		case R16F:
+		case R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -196,6 +218,9 @@ namespace ImageFormatDetails {
 		case RGBA16161616F:
 		case RGBA16161616:
 			return 16;
+		case RGBA1010102:
+		case BGRA1010102:
+			return 10;
 		case RGBA8888:
 		case ABGR8888:
 		case RGB888:
@@ -207,6 +232,7 @@ namespace ImageFormatDetails {
 		case BGRX8888:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
 			return 8;
 		case RGB565:
 		case BGR565:
@@ -222,6 +248,10 @@ namespace ImageFormatDetails {
 		case R32F:
 		case A8:
 		case EMPTY:
+		case RG3232F:
+		case RG1616F:
+		case R16F:
+		case R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -272,9 +302,13 @@ namespace ImageFormatDetails {
 		case BGRX8888:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
 			return 8;
 		case BGRA4444:
 			return 4;
+		case RGBA1010102:
+		case BGRA1010102:
+			return 2;
 		case BGRX5551:
 		case BGRA5551:
 			return 1;
@@ -291,6 +325,10 @@ namespace ImageFormatDetails {
 		case RGB323232F:
 		case A8:
 		case EMPTY:
+		case RG3232F:
+		case RG1616F:
+		case R16F:
+		case R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -336,6 +374,7 @@ namespace ImageFormatDetails {
 			return 96;
 		case RGBA16161616F:
 		case RGBA16161616:
+		case RG3232F:
 			return 64;
 		case RGBA8888:
 		case ABGR8888:
@@ -345,6 +384,10 @@ namespace ImageFormatDetails {
 		case UVLX8888:
 		case R32F:
 		case UVWQ8888:
+		case RGBX8888:
+		case RGBA1010102:
+		case BGRA1010102:
+		case RG1616F:
 			return 32;
 		case RGB888:
 		case BGR888:
@@ -358,6 +401,7 @@ namespace ImageFormatDetails {
 		case BGRA4444:
 		case BGRA5551:
 		case UV88:
+		case R16F:
 			return 16;
 		case I8:
 		case P8:
@@ -367,6 +411,7 @@ namespace ImageFormatDetails {
 		case BC7:
 		case BC6H:
 		case ATI2N:
+		case R8:
 			return 8;
 		case ATI1N:
 		case DXT1:
@@ -378,64 +423,21 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
-[[nodiscard]] constexpr bool compressed(ImageFormat format) {
-	return red(format) == -1;
-}
-
-[[nodiscard]] constexpr bool large(ImageFormat format) {
-	return red(format) > 8 || bpp(format) > 32;
-}
-
-[[nodiscard]] constexpr bool decimal(ImageFormat format) {
-	return large(format) && format != ImageFormat::RGBA16161616;
-}
-
-[[nodiscard]] constexpr bool transparent(ImageFormat format) {
-	const auto a = alpha(format);
-	if (a < 0) {
-		switch (format) {
-			using enum ImageFormat;
-			case DXT3:
-			case DXT5:
-			case DXT1_ONE_BIT_ALPHA:
-			case ATI2N:
-			case ATI1N:
-			case BC7:
-			case BC6H:
-				return true;
-			default:
-				break;
-		}
-		return false;
-	}
-	switch (format) {
-		using enum ImageFormat;
-		case RGB888_BLUESCREEN:
-		case BGR888_BLUESCREEN:
-			return true;
-		case BGRX8888:
-		case BGRX5551:
-			return false;
-		default:
-			break;
-	}
-	return a != 0;
-}
-
-[[nodiscard]] constexpr bool opaque(ImageFormat format) {
-	return !transparent(format);
-}
-
 [[nodiscard]] constexpr ImageFormat containerFormat(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
 		case R32F:
+		case RG3232F:
 		case RGB323232F:
+		case R16F:
+		case RG1616F:
 		case RGBA16161616F:
 		case RGBA32323232F:
 		case BC6H:
 			return RGBA32323232F;
 		case RGBA16161616:
+		case RGBA1010102:
+		case BGRA1010102:
 			return RGBA16161616;
 		case RGBA8888:
 		case ABGR8888:
@@ -464,12 +466,63 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
+		case RGBX8888:
+		case R8:
 		case BC7:
 			return RGBA8888;
 		case EMPTY:
 			break;
 	}
 	return ImageFormat::EMPTY;
+}
+
+[[nodiscard]] constexpr bool large(ImageFormat format) {
+	return containerFormat(format) != ImageFormat::RGBA8888 && containerFormat(format) != ImageFormat::EMPTY;
+}
+
+[[nodiscard]] constexpr bool decimal(ImageFormat format) {
+	return containerFormat(format) == ImageFormat::RGBA32323232F;
+}
+
+[[nodiscard]] constexpr bool compressed(ImageFormat format) {
+	return red(format) == -1;
+}
+
+[[nodiscard]] constexpr bool transparent(ImageFormat format) {
+	const auto a = alpha(format);
+	if (a < 0) {
+		switch (format) {
+			using enum ImageFormat;
+			case DXT3:
+			case DXT5:
+			case DXT1_ONE_BIT_ALPHA:
+			case ATI2N:
+			case ATI1N:
+			case BC7:
+			case BC6H:
+				return true;
+			default:
+				break;
+		}
+		return false;
+	}
+	switch (format) {
+		using enum ImageFormat;
+		case RGB888_BLUESCREEN:
+		case BGR888_BLUESCREEN:
+			return true;
+		case BGRX8888:
+		case BGRX5551:
+		case RGBX8888:
+			return false;
+		default:
+			break;
+	}
+	return a != 0;
+}
+
+[[nodiscard]] constexpr bool opaque(ImageFormat format) {
+	return !transparent(format);
 }
 
 } // namespace ImageFormatDetails

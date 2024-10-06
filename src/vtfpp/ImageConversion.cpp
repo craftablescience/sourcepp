@@ -12,6 +12,7 @@
 
 #include <Compressonator.h>
 #include <sourcepp/math/Float.h>
+#include <sourcepp/Macros.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC
@@ -37,6 +38,7 @@ namespace {
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
+		case RGBX8888:
 		case UVWQ8888:
 		case UVLX8888:
 			return CMP_FORMAT_RGBA_8888;
@@ -62,12 +64,18 @@ namespace {
 			return CMP_FORMAT_DXT5;
 		case UV88:
 			return CMP_FORMAT_RG_8;
+		case R16F:
+			return CMP_FORMAT_R_16F;
+		case RG1616F:
+			return CMP_FORMAT_RG_16F;
 		case RGBA16161616F:
 			return CMP_FORMAT_RGBA_16F;
 		case RGBA16161616:
 			return CMP_FORMAT_RGBA_16;
 		case R32F:
 			return CMP_FORMAT_R_32F;
+		case RG3232F:
+			return CMP_FORMAT_RG_32F;
 		case RGB323232F:
 			return CMP_FORMAT_RGB_32F;
 		case RGBA32323232F:
@@ -76,6 +84,10 @@ namespace {
 			return CMP_FORMAT_ATI2N;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
+		case RGBA1010102:
+			return CMP_FORMAT_RGBA_1010102;
+		case R8:
+			return CMP_FORMAT_R_8;
 		case BC7:
 			return CMP_FORMAT_BC7;
 		case BC6H:
@@ -91,6 +103,7 @@ namespace {
 		case BGRA4444:
 		case BGRA5551:
 		case EMPTY:
+		case BGRA1010102:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
@@ -116,16 +129,20 @@ namespace {
 		case I8:
 		case P8:
 		case R32F:
+		case R16F:
+		case R8:
 			return STBIR_1CHANNEL;
 		case ARGB8888:
 			return STBIR_ARGB;
 		case BGRA8888:
 			return STBIR_BGRA;
 		case UV88:
+		case RG1616F:
+		case RG3232F:
 			return STBIR_2CHANNEL;
 		case IA88:
 			return STBIR_RA;
-		// We want these to get converted to RGBA8888 before resize
+		// We want these to get converted to their respective container format before resize
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
 		case DXT3:
@@ -138,12 +155,15 @@ namespace {
 		case A8:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
+		case RGBX8888:
 		case BGRX8888:
 		case BGR565:
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
 		case EMPTY:
+		case RGBA1010102:
+		case BGRA1010102:
 			break;
 	}
 	return -1;
@@ -168,12 +188,17 @@ namespace {
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
+		case R8:
 			return srgb ? STBIR_TYPE_UINT8_SRGB : STBIR_TYPE_UINT8;
+		case R16F:
+		case RG1616F:
 		case RGBA16161616F:
 			return STBIR_TYPE_HALF_FLOAT;
 		case RGBA16161616:
 			return STBIR_TYPE_UINT16;
 		case R32F:
+		case RG3232F:
 		case RGB323232F:
 		case RGBA32323232F:
 			return STBIR_TYPE_FLOAT;
@@ -189,6 +214,8 @@ namespace {
 		case EMPTY:
 		case ATI2N:
 		case ATI1N:
+		case RGBA1010102:
+		case BGRA1010102:
 		case BC7:
 		case BC6H:
 			break;
@@ -284,7 +311,9 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          VTFPP_REMAP_TO_8(pixel.r, 4), VTFPP_REMAP_TO_8(pixel.g, 4), VTFPP_REMAP_TO_8(pixel.b, 4), VTFPP_REMAP_TO_8(pixel.a, 4));
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(R8,                pixel.r, 0,       0,       0xff);
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -348,7 +377,9 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          {VTFPP_REMAP_FROM_8(pixel.b, 5), VTFPP_REMAP_FROM_8(pixel.g, 5), VTFPP_REMAP_FROM_8(pixel.r, 5), 0x1});
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          {VTFPP_REMAP_FROM_8(pixel.b, 4), VTFPP_REMAP_FROM_8(pixel.g, 4), VTFPP_REMAP_FROM_8(pixel.r, 4), VTFPP_REMAP_FROM_8(pixel.a, 4)});
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              {pixel.r, pixel.g});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          {pixel.r, pixel.g, pixel.b, 0xff});
+		VTFPP_CASE_CONVERT_AND_BREAK(R8,                {pixel.r});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -416,25 +447,9 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(ABGR8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB888_BLUESCREEN, pixel.r, pixel.g, pixel.b, (pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR888_BLUESCREEN, pixel.r, pixel.g, pixel.b, (pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(P8,                pixel.p, pixel.p, pixel.p, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(I8,                pixel.i, pixel.i, pixel.i, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(IA88,              pixel.i, pixel.i, pixel.i, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(A8,                0,       0,       0,       pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(ARGB8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRX8888,          pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA5551,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRX5551,          pixel.r, pixel.g, pixel.b, 1);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA4444,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
-		default: break;
+		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGBA1010102, pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA1010102, pixel.r, pixel.g, pixel.b, pixel.a);
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_REMAP_AND_BREAK
@@ -482,25 +497,9 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(ABGR8888,          {VTFPP_REMAP_FROM_16(pixel.a, 8), VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB888,            {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_BLUESCREEN, pixel.a < 0xffff ? ImagePixel::RGB888_BLUESCREEN{VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)} : ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR888,            {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN, pixel.a < 0xffff ? ImagePixel::BGR888_BLUESCREEN{VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)} : ImagePixel::BGR888_BLUESCREEN{0xff, 0, 0});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB565,            {VTFPP_REMAP_FROM_16(pixel.r, 5), VTFPP_REMAP_FROM_16(pixel.g, 6), VTFPP_REMAP_FROM_16(pixel.b, 5)});
-		VTFPP_CASE_CONVERT_AND_BREAK(P8,                {VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(I8,                {VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(IA88,              {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(A8,                {VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,          {VTFPP_REMAP_FROM_16(pixel.a, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888,          {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888,          {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), 0xff});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR565,            {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 6), VTFPP_REMAP_FROM_16(pixel.r, 5)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA5551,          {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 5), VTFPP_REMAP_FROM_16(pixel.r, 5), static_cast<uint8_t>(pixel.a < 0xffff ? 1 : 0)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 5), VTFPP_REMAP_FROM_16(pixel.r, 5), 0x1});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          {VTFPP_REMAP_FROM_16(pixel.b, 4), VTFPP_REMAP_FROM_16(pixel.g, 4), VTFPP_REMAP_FROM_16(pixel.r, 4), VTFPP_REMAP_FROM_16(pixel.a, 4)});
-		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8)});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA1010102, {VTFPP_REMAP_FROM_16(pixel.r, 10), VTFPP_REMAP_FROM_16(pixel.g, 10), VTFPP_REMAP_FROM_16(pixel.b, 10), VTFPP_REMAP_FROM_16(pixel.a, 2)});
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA1010102, {VTFPP_REMAP_FROM_16(pixel.b, 10), VTFPP_REMAP_FROM_16(pixel.g, 10), VTFPP_REMAP_FROM_16(pixel.r, 10), VTFPP_REMAP_FROM_16(pixel.a, 2)});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -536,10 +535,13 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
+		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          pixel.r,             0.f,                 0.f,                 1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RG3232F,       pixel.r,             pixel.g,             0.f,                 1.f);
 		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    pixel.r,             pixel.g,             pixel.b,             1.f);
-		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          pixel.r,             pixel.r,             pixel.r,             1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(R16F,          pixel.r.toFloat32(), 0.f,                 0.f,                 1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RG1616F,       pixel.r.toFloat32(), pixel.g.toFloat32(), 0.f,                 1.f);
 		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, pixel.r.toFloat32(), pixel.g.toFloat32(), pixel.b.toFloat32(), pixel.a.toFloat32());
-		default: break;
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -582,10 +584,13 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    {pixel.r, pixel.g, pixel.b});
 		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          {pixel.r});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, {math::FloatCompressed16{pixel.r}, math::FloatCompressed16{pixel.g}, math::FloatCompressed16{pixel.b}, math::FloatCompressed16{pixel.a}});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RG3232F,       {pixel.r, pixel.g});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    {pixel.r, pixel.g, pixel.b});
+		VTFPP_CASE_CONVERT_AND_BREAK(R16F,          {pixel.r});
+		VTFPP_CASE_CONVERT_AND_BREAK(RG1616F,       {pixel.r, pixel.g});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, {pixel.r, pixel.g, pixel.b, pixel.a});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
