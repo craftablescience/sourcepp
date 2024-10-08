@@ -274,7 +274,7 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
 	#define VTFPP_REMAP_TO_8(value, shift) math::remap<uint8_t>((value), (1 << (shift)) - 1, (1 << 8) - 1)
 
@@ -336,7 +336,7 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
@@ -404,7 +404,7 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
 	#define VTFPP_REMAP_TO_16(value, shift) math::remap<uint16_t>((value), (1 << (shift)) - 1, (1 << 16) - 1)
 
@@ -475,7 +475,7 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
@@ -522,7 +522,7 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
 	#define VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, ...) \
 		std::span<const ImagePixel::InputType> imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
@@ -564,7 +564,7 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
@@ -608,9 +608,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -634,9 +634,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -660,9 +660,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -686,9 +686,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -712,9 +712,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -738,9 +738,9 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 			std::execution::unseq,
@@ -770,7 +770,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	std::vector<std::byte> newData;
 
-	ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
+	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
 	if (ImageFormatDetails::compressed(oldFormat)) {
 		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height);
 	} else if (intermediaryOldFormat == ImageFormat::RGBA8888) {
@@ -787,7 +787,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		return newData;
 	}
 
-	ImageFormat intermediaryNewFormat = ImageFormatDetails::containerFormat(newFormat);
+	const ImageFormat intermediaryNewFormat = ImageFormatDetails::containerFormat(newFormat);
 	if (intermediaryOldFormat != intermediaryNewFormat) {
 		if (intermediaryOldFormat == ImageFormat::RGBA8888) {
 			if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
@@ -869,8 +869,8 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		return {};
 	}
 	std::vector<std::byte> out;
-	auto stbWriteFunc = [](void* out, void* data, int size) {
-		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
+	auto stbWriteFunc = [](void* out_, void* data, int size) {
+		std::copy_n(static_cast<std::byte*>(data), size, std::back_inserter(*static_cast<std::vector<std::byte>*>(out_)));
 	};
 
 	if (fileFormat == FileFormat::DEFAULT) {
@@ -887,10 +887,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data(), 0);
 			} else if (ImageFormatDetails::large(format)) {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / (8 * sizeof(uint16_t)), rgba.data(), 0);
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
 			}
 			break;
@@ -899,7 +899,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			if (format == ImageFormat::RGB888) {
 				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 95);
 			} else {
-				auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
 				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 95);
 			}
 			break;
@@ -910,7 +910,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
 			}
 			break;
@@ -921,10 +921,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
 			} else if (ImageFormatDetails::large(format)) {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / (8 * sizeof(uint16_t)), rgba.data());
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
 			}
 			break;
@@ -953,8 +953,9 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	int channels = 0;
 	frameCount = 1;
 
+	// Floating point single frame image
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		std::unique_ptr<float, void(*)(void*)> stbImage{
+		const std::unique_ptr<float, void(*)(void*)> stbImage{
 			stbi_loadf_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
@@ -970,8 +971,11 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
-	} else if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
+	}
+
+	// 16-bit single-frame image
+	if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
+		const std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
 			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
@@ -986,8 +990,11 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
-	} else if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+	}
+
+	// 8-bit or less multi-frame image
+	if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
+		const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
 			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), nullptr, &width, &height, &frameCount, &channels, 0),
 			&stbi_image_free,
 		};
@@ -1004,25 +1011,26 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get() + (ImageFormatDetails::getDataLength(format, width, height) * frameCount))};
-	} else {
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
-			stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage) {
-			return {};
-		}
-
-		switch (channels) {
-			case 1:  format = ImageFormat::I8;       break;
-			case 2:  format = ImageFormat::UV88;     break;
-			case 3:  format = ImageFormat::RGB888;   break;
-			case 4:  format = ImageFormat::RGBA8888; break;
-			default: return {};
-		}
-
-		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
+
+	// 8-bit or less single frame image
+	const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+		stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+		&stbi_image_free,
+	};
+	if (!stbImage) {
+		return {};
+	}
+
+	switch (channels) {
+		case 1:  format = ImageFormat::I8;       break;
+		case 2:  format = ImageFormat::UV88;     break;
+		case 3:  format = ImageFormat::RGB888;   break;
+		case 4:  format = ImageFormat::RGBA8888; break;
+		default: return {};
+	}
+
+	return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 }
 
 uint16_t ImageConversion::getResizedDim(uint16_t n, ResizeMethod method) {

@@ -4,8 +4,6 @@
 
 #include <FileStream.h>
 
-#include <sourcepp/math/Integer.h>
-
 using namespace sourcepp;
 
 std::vector<std::byte> fs::readFileBuffer(const std::string& filepath, std::size_t startOffset) {

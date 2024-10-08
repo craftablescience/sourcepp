@@ -62,7 +62,7 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
 				return {};
 			}
-			return std::span<uint32_t>{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
+			return std::span{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
 		default:
 			break;
 	}
@@ -146,17 +146,17 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
-			auto& resource = this->resources.emplace_back();
+			auto& [type, flags, data] = this->resources.emplace_back();
 
 			auto typeAndFlags = stream.read<uint32_t>();
-			resource.type = static_cast<Resource::Type>(typeAndFlags & 0xffffff); // last 3 bytes
-			resource.flags = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
-			resource.data = stream.read_span<std::byte>(4);
+			type = static_cast<Resource::Type>(typeAndFlags & 0xffffff); // last 3 bytes
+			flags = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
+			data = stream.read_span<std::byte>(4);
 
-			if (!(resource.flags & Resource::FLAG_LOCAL_DATA)) {
+			if (!(flags & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
+					auto currentOffset = *reinterpret_cast<uint32_t*>(data.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
@@ -262,11 +262,11 @@ VTF& VTF::operator=(const VTF& other) {
 	this->sliceCount = other.sliceCount;
 
 	this->resources.clear();
-	for (const auto& otherResource : other.resources) {
-		auto& resource = this->resources.emplace_back();
-		resource.type = otherResource.type;
-		resource.flags = otherResource.flags;
-		resource.data = {this->data.data() + (otherResource.data.data() - other.data.data()), otherResource.data.size()};
+	for (const auto& [otherType, otherFlags, otherData] : other.resources) {
+		auto& [type, flags, data] = this->resources.emplace_back();
+		type = otherType;
+		flags = otherFlags;
+		data = {this->data.data() + (otherData.data() - other.data.data()), otherData.size()};
 	}
 
 	this->compressionLevel = other.compressionLevel;
@@ -433,7 +433,7 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 			return;
 		}
 		auto newMipCount = this->mipCount;
-		if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
+		if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
 			newMipCount = recommendedCount;
 		}
 		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
@@ -472,7 +472,8 @@ ImageFormat VTF::getFormat() const {
 void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter) {
 	if (newFormat == VTF::FORMAT_UNCHANGED || newFormat == this->format) {
 		return;
-	} else if (newFormat == VTF::FORMAT_DEFAULT) {
+	}
+	if (newFormat == VTF::FORMAT_DEFAULT) {
 		newFormat = this->getDefaultFormat();
 	}
 	if (!this->hasImageData()) {
@@ -480,7 +481,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		return;
 	}
 	auto newMipCount = this->mipCount;
-	if (auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(newFormat, this->width, this->height); newMipCount > recommendedCount) {
+	if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(newFormat, this->width, this->height); newMipCount > recommendedCount) {
 		newMipCount = recommendedCount;
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
@@ -498,7 +499,7 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
+	if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
 		newMipCount = recommended;
 		if (newMipCount == 1) {
 			return false;
@@ -593,7 +594,8 @@ uint8_t VTF::getFaceCount() const {
 	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->sliceCount);
 	if (this->majorVersion == 7 && this->minorVersion >= 1 && this->minorVersion <= 4 && expectedLength < image->data.size()) {
 		return 7;
-	} else if (expectedLength == image->data.size()) {
+	}
+	if (expectedLength == image->data.size()) {
 		return 6;
 	}
 	return 1;
@@ -654,8 +656,8 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 }
 
 void VTF::computeReflectivity() {
-	static constexpr auto getReflectivityForImage = [](VTF& vtf, uint16_t frame, uint8_t face, uint8_t faceCount, uint16_t slice) {
-		static constexpr auto getReflectivityForPixel = [](ImagePixel::RGBA8888* pixel) -> math::Vec3f {
+	static constexpr auto getReflectivityForImage = [](const VTF& vtf, uint16_t frame, uint8_t face, uint16_t slice) {
+		static constexpr auto getReflectivityForPixel = [](const ImagePixel::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
 			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
 			ref /= 255.f * 0.9f;
@@ -684,8 +686,8 @@ void VTF::computeReflectivity() {
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < this->sliceCount; l++) {
-					futures.push_back(std::async(std::launch::async, [this, j, k, faceCount, l] {
-						return getReflectivityForImage(*this, j, k, faceCount, l);
+					futures.push_back(std::async(std::launch::async, [this, j, k, l] {
+						return getReflectivityForImage(*this, j, k, l);
 					}));
 					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
 						for (auto& future : futures) {
@@ -702,14 +704,14 @@ void VTF::computeReflectivity() {
 		}
 		this->reflectivity /= this->frameCount * faceCount * this->sliceCount;
 	} else {
-		this->reflectivity = getReflectivityForImage(*this, 0, 0, 1, 0);
+		this->reflectivity = getReflectivityForImage(*this, 0, 0, 0);
 	}
 #else
 	this->reflectivity = {};
 	for (int j = 0; j < this->frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
 			for (int l = 0; l < this->sliceCount; l++) {
-				this->reflectivity += getReflectivityForImage(*this, j, k, faceCount, l);
+				this->reflectivity += getReflectivityForImage(*this, j, k, l);
 			}
 		}
 	}
@@ -767,8 +769,8 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 
 	// Store resource data
 	std::unordered_map<Resource::Type, std::pair<std::vector<std::byte>, uint64_t>> resourceData;
-	for (const auto& resource : this->resources) {
-		resourceData[resource.type] = {std::vector<std::byte>{resource.data.begin(), resource.data.end()}, 0};
+	for (const auto& [type, flags, data] : this->resources) {
+		resourceData[type] = {std::vector<std::byte>{data.begin(), data.end()}, 0};
 	}
 
 	// Set new resource
@@ -806,16 +808,16 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 	}
 	this->data.resize(writer.size());
 
-	for (auto& resource : this->resources) {
-		if (resourceData.contains(resource.type)) {
-			const auto& [specificResourceData, offset] = resourceData[resource.type];
-			resource.data = {this->data.data() + offset, specificResourceData.size()};
+	for (auto& [type, flags, data] : this->resources) {
+		if (resourceData.contains(type)) {
+			const auto& [specificResourceData, offset] = resourceData[type];
+			data = {this->data.data() + offset, specificResourceData.size()};
 		}
 	}
 }
 
 void VTF::removeResourceInternal(Resource::Type type) {
-	this->resources.erase(std::remove_if(this->resources.begin(), this->resources.end(), [type](const Resource& resource) { return resource.type == type; }), this->resources.end());
+	std::erase_if(this->resources, [type](const Resource& resource) { return resource.type == type; });
 }
 
 void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter) {
@@ -963,7 +965,7 @@ bool VTF::imageDataIsSRGB() const {
 }
 
 std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	if (auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+	if (const auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
 			return imageResource->data.subspan(offset, length);
 		}
@@ -972,7 +974,7 @@ std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uin
 }
 
 std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	auto rawImageData = this->getImageDataRaw(mip, frame, face, slice);
+	const auto rawImageData = this->getImageDataRaw(mip, frame, face, slice);
 	if (rawImageData.empty()) {
 		return {};
 	}
@@ -991,7 +993,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 			resizedWidth += math::getPaddingForAlignment(4, resizedWidth);
 			resizedHeight += math::getPaddingForAlignment(4, resizedHeight);
 		}
-		if (auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
+		if (const auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
 		if (face > 6 || (face == 6 && (this->minorVersion < 1 || this->minorVersion > 4))) {
@@ -1068,14 +1070,14 @@ bool VTF::hasThumbnailData() const {
 }
 
 std::span<const std::byte> VTF::getThumbnailDataRaw() const {
-	if (auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
+	if (const auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
 		return thumbnailResource->data;
 	}
 	return {};
 }
 
 std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
-	auto rawThumbnailData = this->getThumbnailDataRaw();
+	const auto rawThumbnailData = this->getThumbnailDataRaw();
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
@@ -1119,7 +1121,7 @@ std::vector<std::byte> VTF::bake() const {
 	BufferStream writer{out};
 
 	writer << VTF_SIGNATURE << this->majorVersion << this->minorVersion;
-	auto headerLengthPos = writer.tell();
+	const auto headerLengthPos = writer.tell();
 	writer.write<uint32_t>(0);
 
 	writer
@@ -1202,15 +1204,15 @@ std::vector<std::byte> VTF::bake() const {
 		}
 		writer.seek_u(resourceStart);
 
-		static constexpr auto writeNonLocalResource = [](BufferStream& writer, Resource::Type type, std::span<const std::byte> data) {
-			writer.write<uint32_t>(type);
-			auto resourceOffsetPos = writer.tell();
-			writer.seek(0, std::ios::end);
-			auto resourceOffsetValue = writer.tell();
-			writer.write(data);
-			writer.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
+		static constexpr auto writeNonLocalResource = [](BufferStream& writer_, Resource::Type type, std::span<const std::byte> data) {
+			writer_.write<uint32_t>(type);
+			const auto resourceOffsetPos = writer_.tell();
+			writer_.seek(0, std::ios::end);
+			const auto resourceOffsetValue = writer_.tell();
+			writer_.write(data);
+			writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
 		};
-		for (auto resourceType : Resource::TYPE_ARRAY_ORDER) {
+		for (const auto resourceType : Resource::TYPE_ARRAY_ORDER) {
 			if (hasAuxCompression && resourceType == Resource::TYPE_AUX_COMPRESSION) {
 				writeNonLocalResource(writer, resourceType, auxCompressionResourceData);
 			} else if (hasAuxCompression && resourceType == Resource::TYPE_IMAGE_DATA) {

@@ -3,7 +3,6 @@
 #include <filesystem>
 
 #include <FileStream.h>
-
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/FS.h>
 
@@ -83,7 +82,7 @@ bool GMA::verifyPackFileChecksum() const {
 		return true;
 	}
 
-	auto checksum = *(reinterpret_cast<uint32_t*>(data.data() + data.size()) - 1);
+	const auto checksum = *(reinterpret_cast<uint32_t*>(data.data() + data.size()) - 1);
 	data.pop_back();
 	data.pop_back();
 	data.pop_back();

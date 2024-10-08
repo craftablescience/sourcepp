@@ -127,7 +127,7 @@ std::string string::toUpper(std::string_view input) {
 
 std::string string::createRandom(uint16_t length, std::string_view chars) {
 	auto& generator = ::getRandomGenerator();
-	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
+	std::uniform_int_distribution distribution{0, static_cast<int>(chars.length() - 1)};
 
 	std::string out;
 	for (uint16_t i = 0; i < length; i++) {
@@ -141,7 +141,7 @@ std::string string::generateUUIDv4() {
 	static constexpr std::string_view chars = "0123456789abcdef";
 
 	auto& generator = ::getRandomGenerator();
-	std::uniform_int_distribution<> distribution{0, static_cast<int>(chars.length() - 1)};
+	std::uniform_int_distribution distribution{0, static_cast<int>(chars.length() - 1)};
 
 	std::string out;
 	for (uint16_t i = 0; i < 8; i++) {
@@ -162,7 +162,7 @@ std::string string::generateUUIDv4() {
 }
 
 std::string string::padNumber(int64_t number, int width, char pad) {
-	auto numStr = std::to_string(number);
+	const auto numStr = std::to_string(number);
 	return std::string(width - std::min<std::string::size_type>(width, numStr.length()), pad) + numStr;
 }
 
@@ -188,7 +188,7 @@ void string::denormalizeSlashes(std::string& path, bool stripSlashPrefix, bool s
 
 std::from_chars_result string::toBool(std::string_view number, bool& out, int base) {
 	uint8_t tmp;
-	auto result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
+	const auto result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
 	out = tmp;
 	return result;
 }

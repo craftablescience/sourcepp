@@ -4,9 +4,6 @@
 
 #include <FileStream.h>
 
-#include <sourcepp/FS.h>
-#include <sourcepp/String.h>
-
 using namespace sourcepp;
 using namespace vpkpp;
 
@@ -124,15 +121,15 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		stream.write(PAK_SIGNATURE);
 
 		// Index and size of directory
-		const uint32_t directoryIndex = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
-		stream.write(directoryIndex);
+		static constexpr uint32_t DIRECTORY_INDEX = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
+		stream.write(DIRECTORY_INDEX);
 		const uint32_t directorySize = entriesToBake.size() * 64;
 		stream.write(directorySize);
 
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
 			stream.write(path, false, PAK_FILENAME_MAX_SIZE);
-			stream.write(static_cast<uint32_t>(entry->offset + directoryIndex + directorySize));
+			stream.write(static_cast<uint32_t>(entry->offset + DIRECTORY_INDEX + directorySize));
 			stream.write(static_cast<uint32_t>(entry->length));
 
 			if (callback) {

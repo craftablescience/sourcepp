@@ -52,7 +52,7 @@ protected:
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
-	bool bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback);
+	bool bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback) const; // NOLINT(*-use-nodiscard)
 
 	bool openZIP(std::string_view path);
 

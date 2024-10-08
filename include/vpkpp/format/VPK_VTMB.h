@@ -1,8 +1,5 @@
 #pragma once
 
-#include <array>
-#include <tuple>
-
 #include "../PackFile.h"
 
 namespace vpkpp {

@@ -4,7 +4,6 @@
 #include <cstddef>
 #include <span>
 #include <string>
-#include <string_view>
 #include <tuple>
 #include <utility>
 #include <variant>
@@ -166,10 +165,10 @@ public:
 	};
 
 	/// This value is only valid when passed to VTF::create through CreationOptions
-	static constexpr ImageFormat FORMAT_UNCHANGED = static_cast<ImageFormat>(-2);
+	static constexpr auto FORMAT_UNCHANGED = static_cast<ImageFormat>(-2);
 
 	/// This value is only valid when passed to VTF::create through CreationOptions or VTF::setFormat
-	static constexpr ImageFormat FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
+	static constexpr auto FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
 
 	static constexpr int32_t MAX_RESOURCES = 32;
 

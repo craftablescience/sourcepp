@@ -42,28 +42,28 @@ public:
 	 * @param command The command to run.
 	 * @return This GameInstance.
 	 */
-	const GameInstance& command(std::string_view command) const;
+	const GameInstance& command(std::string_view command) const; // NOLINT(*-use-nodiscard)
 
 	/**
 	 * Begin "pressing" an input such as forward or left.
-	 * @param command The input to run (without the plus sign prefix).
+	 * @param input The input to run (without the plus sign prefix).
 	 * @return This GameInstance.
 	 */
-	const GameInstance& inputBegin(std::string_view input) const;
+	const GameInstance& inputBegin(std::string_view input) const; // NOLINT(*-use-nodiscard)
 
 	/**
 	 * End "pressing" an input such as forward or left.
-	 * @param command The input to run (without the minus sign prefix).
+	 * @param input The input to run (without the minus sign prefix).
 	 * @return This GameInstance.
 	 */
-	const GameInstance& inputEnd(std::string_view input) const;
+	const GameInstance& inputEnd(std::string_view input) const; // NOLINT(*-use-nodiscard)
 
 	/**
 	 * Begin and end "pressing" an input in one tick, like tapping the use key.
-	 * @param command The input to run (without any prefix).
+	 * @param input The input to run (without any prefix).
 	 * @return This GameInstance.
 	 */
-	const GameInstance& inputOnce(std::string_view input) const;
+	const GameInstance& inputOnce(std::string_view input) const; // NOLINT(*-use-nodiscard)
 
 	/**
 	 * Begin and end "pressing" an input in the given timespan, like holding the use key.
@@ -71,14 +71,14 @@ public:
 	 * @param sec The time to hold the input for.
 	 * @return This GameInstance.
 	 */
-	const GameInstance& inputHold(std::string_view input, double sec) const;
+	const GameInstance& inputHold(std::string_view input, double sec) const; // NOLINT(*-use-nodiscard)
 
 	/**
 	 * Sleep on the current thread for the given number of seconds.
 	 * @param sec The number of seconds.
 	 * @return This GameInstance.
 	 */
-	const GameInstance& wait(double sec) const;
+	const GameInstance& wait(double sec) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	GameInstance() = default;

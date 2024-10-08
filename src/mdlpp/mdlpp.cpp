@@ -60,11 +60,11 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 	if (this->vvd.fixups.empty()) {
 		std::transform(this->vvd.vertices.begin(), this->vvd.vertices.end(), std::back_inserter(model.vertices), convertVertex);
 	} else {
-		for (const auto& fixup : this->vvd.fixups) {
-			if (fixup.LOD < currentLOD) {
+		for (const auto& [LOD, sourceVertexID, vertexCount] : this->vvd.fixups) {
+			if (LOD < currentLOD) {
 				continue;
 			}
-			std::span<const VVD::Vertex> fixupVertices{this->vvd.vertices.begin() + fixup.sourceVertexID, static_cast<std::span<const VVD::Vertex>::size_type>(fixup.vertexCount)};
+			std::span fixupVertices{this->vvd.vertices.begin() + sourceVertexID, static_cast<std::span<const VVD::Vertex>::size_type>(vertexCount)};
 			std::transform(fixupVertices.begin(), fixupVertices.end(), std::back_inserter(model.vertices), convertVertex);
 		}
 	}

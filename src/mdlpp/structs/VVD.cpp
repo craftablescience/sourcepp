@@ -26,28 +26,28 @@ bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 		.read(this->numLODs)
 		.read(this->numVerticesInLOD);
 
-	auto fixupsCount = stream.read<int32_t>();
-	auto fixupsOffset = stream.read<int32_t>();
-	auto verticesOffset = stream.read<int32_t>();
-	auto tangentsOffset = stream.read<int32_t>();
+	const auto fixupsCount = stream.read<int32_t>();
+	const auto fixupsOffset = stream.read<int32_t>();
+	const auto verticesOffset = stream.read<int32_t>();
+	const auto tangentsOffset = stream.read<int32_t>();
 
 	stream.seek(verticesOffset);
 	for (int i = 0; i < this->numVerticesInLOD[0]; i++) {
-		auto& vertex = this->vertices.emplace_back();
+		auto& [boneWeight, position, normal, uv, tangent] = this->vertices.emplace_back();
 
-		stream.read(vertex.boneWeight.weight);
+		stream.read(boneWeight.weight);
 
 		std::array<int8_t, MAX_BONES_PER_VERTEX> bones{};
 		stream.read(bones);
-		auto boneCount = stream.read<int8_t>();
+		const auto boneCount = stream.read<int8_t>();
 		for (int8_t j = 0; j < boneCount && j < MAX_BONES_PER_VERTEX; j++) {
-			vertex.boneWeight.bones.push_back(bones[j]);
+			boneWeight.bones.push_back(bones[j]);
 		}
 
 		stream
-			.read(vertex.position)
-			.read(vertex.normal)
-			.read(vertex.uv);
+			.read(position)
+			.read(normal)
+			.read(uv);
 		// tangents are assigned below
 	}
 
@@ -58,12 +58,8 @@ bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 	stream.seek(fixupsOffset);
 	for (int i = 0; i < fixupsCount; i++) {
-		auto& fixup = this->fixups.emplace_back();
-
-		stream
-			.read(fixup.LOD)
-			.read(fixup.sourceVertexID)
-			.read(fixup.vertexCount);
+		auto& [LOD, sourceVertexID, vertexCount] = this->fixups.emplace_back();
+		stream >> LOD >> sourceVertexID >> vertexCount;
 	}
 
 	return true;
