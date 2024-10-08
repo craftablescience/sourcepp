@@ -1,9 +1,8 @@
 <map id="include/vtfpp/ImageFormats.h" name="include/vtfpp/ImageFormats.h">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,223,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="12,80,72,107"/>
-<area shape="rect" id="node3" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="96,80,276,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="33,155,72,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="97,155,177,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="201,155,267,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="292,155,384,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="48,5,265,32"/>
+<area shape="rect" id="node2" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="67,80,247,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,44,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="69,155,149,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="173,155,239,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="264,155,356,181"/>
 </map>

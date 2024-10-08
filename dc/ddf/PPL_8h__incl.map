@@ -1,18 +1,17 @@
 <map id="include/vtfpp/PPL.h" name="include/vtfpp/PPL.h">
-<area shape="rect" id="node1" title=" " alt="" coords="195,5,342,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="510,5,657,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,155,76,181"/>
-<area shape="rect" id="node3" title=" " alt="" coords="33,80,107,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="131,155,185,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="182,80,241,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="265,80,389,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="568,155,631,181"/>
-<area shape="rect" id="node8" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="369,229,549,256"/>
-<area shape="rect" id="node13" href="$da/d01/ImageConversion_8h.html" title=" " alt="" coords="413,80,561,107"/>
-<area shape="rect" id="node9" title=" " alt="" coords="308,304,347,331"/>
-<area shape="rect" id="node10" title=" " alt="" coords="371,304,451,331"/>
-<area shape="rect" id="node11" title=" " alt="" coords="475,304,542,331"/>
-<area shape="rect" id="node12" title=" " alt="" coords="567,304,659,331"/>
-<area shape="rect" id="node14" href="$d4/d93/Float_8h.html" title=" " alt="" coords="375,155,543,181"/>
-<area shape="rect" id="node15" href="$d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="223,155,351,181"/>
-<area shape="rect" id="node16" title=" " alt="" coords="257,229,317,256"/>
+<area shape="rect" id="node3" title=" " alt="" coords="655,80,730,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="101,155,154,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="754,80,813,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="837,80,961,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="523,155,585,181"/>
+<area shape="rect" id="node8" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="344,229,524,256"/>
+<area shape="rect" id="node13" href="$da/d01/ImageConversion_8h.html" title=" " alt="" coords="273,80,421,107"/>
+<area shape="rect" id="node9" title=" " alt="" coords="283,304,321,331"/>
+<area shape="rect" id="node10" title=" " alt="" coords="346,304,426,331"/>
+<area shape="rect" id="node11" title=" " alt="" coords="450,304,517,331"/>
+<area shape="rect" id="node12" title=" " alt="" coords="541,304,633,331"/>
+<area shape="rect" id="node14" href="$d4/d93/Float_8h.html" title=" " alt="" coords="178,155,346,181"/>
+<area shape="rect" id="node15" href="$d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="370,155,498,181"/>
 </map>

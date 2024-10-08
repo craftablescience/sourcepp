@@ -122,138 +122,137 @@ $(document).ready(function(){initNavTree('d3/d9d/FPX_8cpp_source.html','../../')
 <a href="../../d3/d9d/FPX_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="../../dd/d63/FPX_8h.html">vpkpp/format/FPX.h</a>&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;filesystem&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160; </div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;FileStream.h&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d5/d29/namespacevpkpp.html">vpkpp</a>;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">    9</a></span>&#160;<a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">FPX::FPX</a>(<span class="keyword">const</span> std::string&amp; fullFilePath_)</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        : <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a>(fullFilePath_) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    this-&gt;<a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">type</a> = <a class="code" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861">PackFileType::FPX</a>;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">   14</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">FPX::create</a>(<span class="keyword">const</span> std::string&amp; path) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html">Header1</a> <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>{};</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac">signature</a> = <a class="code" href="../../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e">FPX_SIGNATURE</a>;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#af78f495e31642dcaadfa4aa7a0bd4d46">version</a> = 10;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#a6eb13f3eb712148a041ca6752db64351">treeSize</a> = 1;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        stream.write(<a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        stream.write(<span class="charliteral">&#39;\0&#39;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">FPX::open</a>(path);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">   29</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">FPX::open</a>(<span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a>&amp; callback) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">auto</span> fpx = <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(path, callback);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (!fpx &amp;&amp; path.length() &gt; 8) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">// If it just tried to load a numbered archive, let&#39;s try to load the directory FPX</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">auto</span> dirPath = path.substr(0, path.length() - 8) + <a class="code" href="../../d5/d29/namespacevpkpp.html#a7f9a7752945a1d999a623a53dd8a437d">FPX_DIR_SUFFIX</a>.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            fpx = <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(dirPath, callback);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> fpx;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">   40</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(<span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a>&amp; callback) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (!std::filesystem::exists(path)) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">// File does not exist</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">auto</span>* fpx = <span class="keyword">new</span> <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html">FPX</a>{path};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">auto</span> packFile = std::unique_ptr&lt;PackFile&gt;(fpx);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    FileStream reader{fpx-&gt;fullFilePath};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    reader.seek_in(0);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    reader.read(fpx-&gt;header1);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (fpx-&gt;header1.signature != <a class="code" href="../../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e">FPX_SIGNATURE</a>) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// File is not an FPX</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (fpx-&gt;header1.version != 10) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// Only support v10 FPX files</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="comment">// Extensions</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        std::string extension;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        reader.read(extension);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (extension.empty())</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="comment">// Directories</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            std::string directory;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            reader.read(directory);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">if</span> (directory.empty())</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            std::string fullDir;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">if</span> (directory == <span class="stringliteral">&quot; &quot;</span>) {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                fullDir = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                fullDir = directory;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="comment">// Files</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                std::string entryName;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                reader.read(entryName);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <span class="keywordflow">if</span> (entryName.empty())</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> entry = <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504">createNewEntry</a>();</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                std::string entryPath;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <span class="keywordflow">if</span> (extension == <span class="stringliteral">&quot; &quot;</span>) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    entryPath = fullDir.empty() ? <span class="stringliteral">&quot;&quot;</span> : fullDir + <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    entryPath += entryName;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    entryPath = fullDir.empty() ? <span class="stringliteral">&quot;&quot;</span> : fullDir + <span class="charliteral">&#39;/&#39;</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    entryPath += entryName + <span class="charliteral">&#39;.&#39;</span>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                    entryPath += extension;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                entryPath = fpx-&gt;cleanEntryPath(entryPath);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                reader.read(entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a6918177f2e8852cf5659af6397741e43">crc32</a>);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keyword">auto</span> preloadedDataSize = reader.read&lt;uint16_t&gt;();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> = reader.read&lt;uint16_t&gt;();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a1782a952a397dad8083a7f7ae9ba6c5e">offset</a> = reader.read&lt;uint32_t&gt;();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">length</a> = reader.read&lt;uint32_t&gt;();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">if</span> (reader.read&lt;uint16_t&gt;() != <a class="code" href="../../d5/d29/namespacevpkpp.html#a685343cfa416a48472a5aafbf1c4a784">VPK_ENTRY_TERM</a>) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    <span class="comment">// Invalid terminator!</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">if</span> (preloadedDataSize &gt; 0) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df">extraData</a> = reader.read_bytes(preloadedDataSize);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                    entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">length</a> += preloadedDataSize;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                <span class="keywordflow">if</span> (entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> != <a class="code" href="../../d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078">VPK_DIR_INDEX</a> &amp;&amp; entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> &gt; fpx-&gt;numArchives) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    fpx-&gt;numArchives = entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                fpx-&gt;entries.emplace(entryPath, entry);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keywordflow">if</span> (callback) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    callback(entryPath, entry);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            }</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// If there are no archives, -1 will be incremented to 0</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    fpx-&gt;numArchives++;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160; </div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">return</span> packFile;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;FileStream.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span><a class="code" href="../../d5/d29/namespacevpkpp.html">vpkpp</a>;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
+<div class="line"><a name="l00008"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">    8</a></span>&#160;<a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">FPX::FPX</a>(<span class="keyword">const</span> std::string&amp; fullFilePath_)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        : <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html">VPK</a>(fullFilePath_) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    this-&gt;<a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">type</a> = <a class="code" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861">PackFileType::FPX</a>;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">   13</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">FPX::create</a>(<span class="keyword">const</span> std::string&amp; path) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html">Header1</a> <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>{};</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac">signature</a> = <a class="code" href="../../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e">FPX_SIGNATURE</a>;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#af78f495e31642dcaadfa4aa7a0bd4d46">version</a> = 10;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>.<a class="code" href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#a6eb13f3eb712148a041ca6752db64351">treeSize</a> = 1;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        stream.write(<a class="code" href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">header1</a>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        stream.write(<span class="charliteral">&#39;\0&#39;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">FPX::open</a>(path);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">   28</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">FPX::open</a>(<span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a>&amp; callback) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">auto</span> fpx = <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(path, callback);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (!fpx &amp;&amp; path.length() &gt; 8) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">// If it just tried to load a numbered archive, let&#39;s try to load the directory FPX</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> dirPath = path.substr(0, path.length() - 8) + <a class="code" href="../../d5/d29/namespacevpkpp.html#a7f9a7752945a1d999a623a53dd8a437d">FPX_DIR_SUFFIX</a>.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            fpx = <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(dirPath, callback);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">return</span> fpx;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">   39</a></span>&#160;std::unique_ptr&lt;PackFile&gt; <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">FPX::openInternal</a>(<span class="keyword">const</span> std::string&amp; path, <span class="keyword">const</span> <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a>&amp; callback) {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (!std::filesystem::exists(path)) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// File does not exist</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">auto</span>* fpx = <span class="keyword">new</span> <a class="code" href="../../da/d42/classvpkpp_1_1FPX.html">FPX</a>{path};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">auto</span> packFile = std::unique_ptr&lt;PackFile&gt;(fpx);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    FileStream reader{fpx-&gt;fullFilePath};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    reader.seek_in(0);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    reader.read(fpx-&gt;header1);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">if</span> (fpx-&gt;header1.signature != <a class="code" href="../../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e">FPX_SIGNATURE</a>) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// File is not an FPX</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (fpx-&gt;header1.version != 10) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">// Only support v10 FPX files</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">// Extensions</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        std::string extension;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        reader.read(extension);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> (extension.empty())</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">// Directories</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            std::string directory;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            reader.read(directory);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span> (directory.empty())</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            std::string fullDir;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            <span class="keywordflow">if</span> (directory == <span class="stringliteral">&quot; &quot;</span>) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                fullDir = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                fullDir = directory;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="comment">// Files</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                std::string entryName;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                reader.read(entryName);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">if</span> (entryName.empty())</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                <a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> entry = <a class="code" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504">createNewEntry</a>();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                std::string entryPath;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                <span class="keywordflow">if</span> (extension == <span class="stringliteral">&quot; &quot;</span>) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                    entryPath = fullDir.empty() ? <span class="stringliteral">&quot;&quot;</span> : fullDir + <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                    entryPath += entryName;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    entryPath = fullDir.empty() ? <span class="stringliteral">&quot;&quot;</span> : fullDir + <span class="charliteral">&#39;/&#39;</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    entryPath += entryName + <span class="charliteral">&#39;.&#39;</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    entryPath += extension;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                entryPath = fpx-&gt;cleanEntryPath(entryPath);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                reader.read(entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a6918177f2e8852cf5659af6397741e43">crc32</a>);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keyword">auto</span> preloadedDataSize = reader.read&lt;uint16_t&gt;();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> = reader.read&lt;uint16_t&gt;();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a1782a952a397dad8083a7f7ae9ba6c5e">offset</a> = reader.read&lt;uint32_t&gt;();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">length</a> = reader.read&lt;uint32_t&gt;();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">if</span> (reader.read&lt;uint16_t&gt;() != <a class="code" href="../../d5/d29/namespacevpkpp.html#a685343cfa416a48472a5aafbf1c4a784">VPK_ENTRY_TERM</a>) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                    <span class="comment">// Invalid terminator!</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                <span class="keywordflow">if</span> (preloadedDataSize &gt; 0) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df">extraData</a> = reader.read_bytes(preloadedDataSize);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">length</a> += preloadedDataSize;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keywordflow">if</span> (entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> != <a class="code" href="../../d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078">VPK_DIR_INDEX</a> &amp;&amp; entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a> &gt; fpx-&gt;numArchives) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    fpx-&gt;numArchives = entry.<a class="code" href="../../d9/d6b/classvpkpp_1_1Entry.html#a65fece2a59b75cf986f1e508c6845d1f">archiveIndex</a>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                fpx-&gt;entries.emplace(entryPath, entry);</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">if</span> (callback) {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                    callback(entryPath, entry);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">// If there are no archives, -1 will be incremented to 0</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    fpx-&gt;numArchives++;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160; </div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">return</span> packFile;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;}</div>
 <div class="ttc" id="aFPX_8h_html"><div class="ttname"><a href="../../dd/d63/FPX_8h.html">FPX.h</a></div></div>
 <div class="ttc" id="aclassvpkpp_1_1Entry_html"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html">vpkpp::Entry</a></div><div class="ttdoc">This class represents the metadata that a file has inside a PackFile.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00014">Entry.h:14</a></div></div>
 <div class="ttc" id="aclassvpkpp_1_1Entry_html_a1782a952a397dad8083a7f7ae9ba6c5e"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html#a1782a952a397dad8083a7f7ae9ba6c5e">vpkpp::Entry::offset</a></div><div class="ttdeci">uint64_t offset</div><div class="ttdoc">Offset, format-specific meaning - 0 if unused, or if the offset genuinely is 0.</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00033">Entry.h:33</a></div></div>
@@ -262,25 +261,25 @@ $(document).ready(function(){initNavTree('d3/d9d/FPX_8cpp_source.html','../../')
 <div class="ttc" id="aclassvpkpp_1_1Entry_html_a8e30bb526350eb9411f805df99d546e9"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9">vpkpp::Entry::length</a></div><div class="ttdeci">uint64_t length</div><div class="ttdoc">Length in bytes (in formats with compression, this is the uncompressed length)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00026">Entry.h:26</a></div></div>
 <div class="ttc" id="aclassvpkpp_1_1Entry_html_a9803d648446058ede8b2c9f8a34786df"><div class="ttname"><a href="../../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df">vpkpp::Entry::extraData</a></div><div class="ttdeci">std::vector&lt; std::byte &gt; extraData</div><div class="ttdoc">Format-specific (PCK: MD5 hash, VPK: Preloaded data)</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d42/Entry_8h_source.html#l00036">Entry.h:36</a></div></div>
 <div class="ttc" id="aclassvpkpp_1_1FPX_html"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html">vpkpp::FPX</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/FPX_8h_source.html#l00011">FPX.h:11</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1FPX_html_a22d40a53f1b50226d2b89609d98d2755"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">vpkpp::FPX::openInternal</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; openInternal(const std::string &amp;path, const EntryCallback &amp;callback=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00040">FPX.cpp:40</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1FPX_html_a69b2f12bf1ff7a5aad1461bf837ec3c3"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">vpkpp::FPX::open</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; open(const std::string &amp;path, const EntryCallback &amp;callback=nullptr)</div><div class="ttdoc">Open an FPX file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00029">FPX.cpp:29</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1FPX_html_a9e637fad4c97dfd493e30c501bc547fe"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">vpkpp::FPX::create</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; create(const std::string &amp;path)</div><div class="ttdoc">Create a new directory FPX file - should end in &quot;_dir.fpx&quot;! This is not enforced but STRONGLY recomme...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00014">FPX.cpp:14</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1FPX_html_ae777a2560419d481ae0de956d38a001b"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">vpkpp::FPX::FPX</a></div><div class="ttdeci">FPX(const std::string &amp;fullFilePath_)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00009">FPX.cpp:9</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a25d1980a1a4a2bb4ed5c516c5b72f808"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">vpkpp::PackFile::EntryCallback</a></div><div class="ttdeci">EntryCallbackBase&lt; void &gt; EntryCallback</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00034">PackFile.h:34</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a2df5acc30e128b3ad9c88d8d07d51aec"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">vpkpp::PackFile::type</a></div><div class="ttdeci">PackFileType type</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00218">PackFile.h:218</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1FPX_html_a22d40a53f1b50226d2b89609d98d2755"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755">vpkpp::FPX::openInternal</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; openInternal(const std::string &amp;path, const EntryCallback &amp;callback=nullptr)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00039">FPX.cpp:39</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1FPX_html_a69b2f12bf1ff7a5aad1461bf837ec3c3"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3">vpkpp::FPX::open</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; open(const std::string &amp;path, const EntryCallback &amp;callback=nullptr)</div><div class="ttdoc">Open an FPX file.</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00028">FPX.cpp:28</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1FPX_html_a9e637fad4c97dfd493e30c501bc547fe"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#a9e637fad4c97dfd493e30c501bc547fe">vpkpp::FPX::create</a></div><div class="ttdeci">static std::unique_ptr&lt; PackFile &gt; create(const std::string &amp;path)</div><div class="ttdoc">Create a new directory FPX file - should end in &quot;_dir.fpx&quot;! This is not enforced but STRONGLY recomme...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00013">FPX.cpp:13</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1FPX_html_ae777a2560419d481ae0de956d38a001b"><div class="ttname"><a href="../../da/d42/classvpkpp_1_1FPX.html#ae777a2560419d481ae0de956d38a001b">vpkpp::FPX::FPX</a></div><div class="ttdeci">FPX(const std::string &amp;fullFilePath_)</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d9d/FPX_8cpp_source.html#l00008">FPX.cpp:8</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a25d1980a1a4a2bb4ed5c516c5b72f808"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">vpkpp::PackFile::EntryCallback</a></div><div class="ttdeci">EntryCallbackBase&lt; void &gt; EntryCallback</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00031">PackFile.h:31</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1PackFile_html_a2df5acc30e128b3ad9c88d8d07d51aec"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">vpkpp::PackFile::type</a></div><div class="ttdeci">PackFileType type</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/df4/PackFile_8h_source.html#l00215">PackFile.h:215</a></div></div>
 <div class="ttc" id="aclassvpkpp_1_1PackFile_html_ae3f2940fa07872e72e9e9982dcd77504"><div class="ttname"><a href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504">vpkpp::PackFile::createNewEntry</a></div><div class="ttdeci">static Entry createNewEntry()</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d75/PackFile_8cpp_source.html#l00696">PackFile.cpp:696</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1VPK_html"><div class="ttname"><a href="../../d5/d8b/classvpkpp_1_1VPK.html">vpkpp::VPK</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00025">VPK.h:25</a></div></div>
-<div class="ttc" id="aclassvpkpp_1_1VPK_html_afab12f6ed154cdb5ad3d3b51dcd915c8"><div class="ttname"><a href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">vpkpp::VPK::header1</a></div><div class="ttdeci">Header1 header1</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00144">VPK.h:144</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1VPK_html"><div class="ttname"><a href="../../d5/d8b/classvpkpp_1_1VPK.html">vpkpp::VPK</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00024">VPK.h:24</a></div></div>
+<div class="ttc" id="aclassvpkpp_1_1VPK_html_afab12f6ed154cdb5ad3d3b51dcd915c8"><div class="ttname"><a href="../../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8">vpkpp::VPK::header1</a></div><div class="ttdeci">Header1 header1</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00143">VPK.h:143</a></div></div>
 <div class="ttc" id="anamespacevpkpp_html"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html">vpkpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/Attribute_8h_source.html#l00005">Attribute.h:5</a></div></div>
-<div class="ttc" id="anamespacevpkpp_html_a685343cfa416a48472a5aafbf1c4a784"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a685343cfa416a48472a5aafbf1c4a784">vpkpp::VPK_ENTRY_TERM</a></div><div class="ttdeci">constexpr uint16_t VPK_ENTRY_TERM</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00012">VPK.h:12</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_a685343cfa416a48472a5aafbf1c4a784"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a685343cfa416a48472a5aafbf1c4a784">vpkpp::VPK_ENTRY_TERM</a></div><div class="ttdeci">constexpr uint16_t VPK_ENTRY_TERM</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00011">VPK.h:11</a></div></div>
 <div class="ttc" id="anamespacevpkpp_html_a6d80296a8530736c6a73fa8f9a01d18e"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e">vpkpp::FPX_SIGNATURE</a></div><div class="ttdeci">constexpr uint32_t FPX_SIGNATURE</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/FPX_8h_source.html#l00007">FPX.h:7</a></div></div>
 <div class="ttc" id="anamespacevpkpp_html_a7f9a7752945a1d999a623a53dd8a437d"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#a7f9a7752945a1d999a623a53dd8a437d">vpkpp::FPX_DIR_SUFFIX</a></div><div class="ttdeci">constexpr std::string_view FPX_DIR_SUFFIX</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/FPX_8h_source.html#l00008">FPX.h:8</a></div></div>
 <div class="ttc" id="anamespacevpkpp_html_aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861">vpkpp::PackFileType::FPX</a></div><div class="ttdeci">@ FPX</div></div>
-<div class="ttc" id="anamespacevpkpp_html_ae106f3654acbc26d2c3cbc241c567078"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078">vpkpp::VPK_DIR_INDEX</a></div><div class="ttdeci">constexpr uint16_t VPK_DIR_INDEX</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00011">VPK.h:11</a></div></div>
-<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html">vpkpp::VPK::Header1</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00028">VPK.h:28</a></div></div>
-<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_a6eb13f3eb712148a041ca6752db64351"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#a6eb13f3eb712148a041ca6752db64351">vpkpp::VPK::Header1::treeSize</a></div><div class="ttdeci">uint32_t treeSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00031">VPK.h:31</a></div></div>
-<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_aa8a035ffd664f66885a59077becec5ac"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac">vpkpp::VPK::Header1::signature</a></div><div class="ttdeci">uint32_t signature</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00029">VPK.h:29</a></div></div>
-<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_af78f495e31642dcaadfa4aa7a0bd4d46"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#af78f495e31642dcaadfa4aa7a0bd4d46">vpkpp::VPK::Header1::version</a></div><div class="ttdeci">uint32_t version</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00030">VPK.h:30</a></div></div>
+<div class="ttc" id="anamespacevpkpp_html_ae106f3654acbc26d2c3cbc241c567078"><div class="ttname"><a href="../../d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078">vpkpp::VPK_DIR_INDEX</a></div><div class="ttdeci">constexpr uint16_t VPK_DIR_INDEX</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00010">VPK.h:10</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html">vpkpp::VPK::Header1</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00027">VPK.h:27</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_a6eb13f3eb712148a041ca6752db64351"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#a6eb13f3eb712148a041ca6752db64351">vpkpp::VPK::Header1::treeSize</a></div><div class="ttdeci">uint32_t treeSize</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00030">VPK.h:30</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_aa8a035ffd664f66885a59077becec5ac"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac">vpkpp::VPK::Header1::signature</a></div><div class="ttdeci">uint32_t signature</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00028">VPK.h:28</a></div></div>
+<div class="ttc" id="astructvpkpp_1_1VPK_1_1Header1_html_af78f495e31642dcaadfa4aa7a0bd4d46"><div class="ttname"><a href="../../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#af78f495e31642dcaadfa4aa7a0bd4d46">vpkpp::VPK::Header1::version</a></div><div class="ttdeci">uint32_t version</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5a/VPK_8h_source.html#l00029">VPK.h:29</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

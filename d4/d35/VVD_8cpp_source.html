@@ -147,28 +147,28 @@ $(document).ready(function(){initNavTree('d4/d35/VVD_8cpp_source.html','../../')
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        .read(this-&gt;numLODs)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        .read(this-&gt;numVerticesInLOD);</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">auto</span> fixupsCount = stream.read&lt;int32_t&gt;();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">auto</span> fixupsOffset = stream.read&lt;int32_t&gt;();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> verticesOffset = stream.read&lt;int32_t&gt;();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">auto</span> tangentsOffset = stream.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> fixupsCount = stream.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> fixupsOffset = stream.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> verticesOffset = stream.read&lt;int32_t&gt;();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">const</span> <span class="keyword">auto</span> tangentsOffset = stream.read&lt;int32_t&gt;();</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    stream.seek(verticesOffset);</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; this-&gt;numVerticesInLOD[0]; i++) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">auto</span>&amp; vertex = this-&gt;vertices.emplace_back();</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">auto</span>&amp; [boneWeight, position, normal, uv, tangent] = this-&gt;vertices.emplace_back();</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        stream.read(vertex.boneWeight.weight);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        stream.read(boneWeight.weight);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        std::array&lt;int8_t, MAX_BONES_PER_VERTEX&gt; bones{};</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        stream.read(bones);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">auto</span> boneCount = stream.read&lt;int8_t&gt;();</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keyword">const</span> <span class="keyword">auto</span> boneCount = stream.read&lt;int8_t&gt;();</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> (int8_t j = 0; j &lt; boneCount &amp;&amp; j &lt; <a class="code" href="../../d1/d8e/namespacemdlpp.html#adfd642b2eeafc61fa613ed93ef03deb1">MAX_BONES_PER_VERTEX</a>; j++) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            vertex.boneWeight.bones.push_back(bones[j]);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            boneWeight.bones.push_back(bones[j]);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        stream</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            .read(vertex.position)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            .read(vertex.normal)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            .read(vertex.uv);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            .read(position)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            .read(normal)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            .read(uv);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">// tangents are assigned below</span></div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
@@ -179,16 +179,12 @@ $(document).ready(function(){initNavTree('d4/d35/VVD_8cpp_source.html','../../')
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    stream.seek(fixupsOffset);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; fixupsCount; i++) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">auto</span>&amp; fixup = this-&gt;fixups.emplace_back();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        stream</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            .read(fixup.LOD)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            .read(fixup.sourceVertexID)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            .read(fixup.vertexCount);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keyword">auto</span>&amp; [LOD, sourceVertexID, vertexCount] = this-&gt;fixups.emplace_back();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        stream &gt;&gt; LOD &gt;&gt; sourceVertexID &gt;&gt; vertexCount;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
 <div class="ttc" id="aVVD_8cpp_html_ae5ad1bf6bb2dedb149bda20eedeee9ed"><div class="ttname"><a href="../../d4/d35/VVD_8cpp.html#ae5ad1bf6bb2dedb149bda20eedeee9ed">VVD_ID</a></div><div class="ttdeci">constexpr int32_t VVD_ID</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d35/VVD_8cpp_source.html#l00008">VVD.cpp:8</a></div></div>
 <div class="ttc" id="aVVD_8h_html"><div class="ttname"><a href="../../db/d47/VVD_8h.html">VVD.h</a></div></div>
 <div class="ttc" id="anamespacemdlpp_1_1VVD_html"><div class="ttname"><a href="../../d5/ddd/namespacemdlpp_1_1VVD.html">mdlpp::VVD</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/d47/VVD_8h_source.html#l00010">VVD.h:10</a></div></div>
