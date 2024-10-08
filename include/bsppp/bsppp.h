@@ -14,12 +14,12 @@
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
+constexpr auto LZMA_ID       = sourcepp::parser::binary::makeFourCC("LZMA");
 
 #pragma pack(push)
 #pragma pack(1)
 // Compressed lumps use their own header to annoy programmers 20 years later
 // https://developer.valvesoftware.com/wiki/BSP_(Source)#Lump_compression
-#define LZMA_ID	(('A'<<24)|('M'<<16)|('Z'<<8)|('L'))
 struct lzma_header_bsplump
 {
     unsigned int    id;
@@ -168,7 +168,7 @@ public:
 
 	void setLumpVersion(BSPLump lumpIndex, int32_t version);
 
-    [[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex, bool readRaw = false) const;
+	[[nodiscard]] std::optional<std::vector<std::byte>> readLump(BSPLump lumpIndex, bool readRaw = false, bool readStagedVersion = false) const;
 
 
     template<BSPLump Lump>
@@ -196,10 +196,13 @@ public:
 		}
 	}
 
-    /// Valid compressLevel range is 0 to 9, 9 being the slowest and most compressiest
-    bool writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile = true, bool compress = false, uint32_t compressLevel = 6);
+    /// Valid compressLevel range is 0 to 9, 0 is considered off, 9 the slowest and most compressiest
+    bool stageLump(BSPLump lumpIndex, std::span<const std::byte> data, uint32_t compressLevel = 0);
 
-	bool applyLumpPatchFile(const std::string& lumpFilePath);
+    /// Write all changes made to header and lumps to file
+    void writeChangesToDisk();
+
+    bool stageLumpPatchFile(const std::string& lumpFilePath);
 
 	void createLumpPatchFile(BSPLump lumpIndex) const;
 
@@ -226,6 +229,8 @@ protected:
 
 	std::string path;
 	Header header{};
+
+    std::array<std::vector<std::byte>, BSP_LUMP_COUNT> stagedLumps;
 
 	// Slightly different header just to be quirky and special
 	bool isL4D2 = false;
