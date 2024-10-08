@@ -590,7 +590,7 @@ STBIDEF int   stbi_zlib_decode_noheader_buffer(char *obuffer, int olen, const ch
 #include <limits.h>
 
 #if !defined(STBI_NO_LINEAR) || !defined(STBI_NO_HDR)
-#include <math.h>  // ldexp, pow
+#include <math.h>  // pow
 #endif
 
 #ifndef STBI_NO_STDIO
@@ -3436,7 +3436,7 @@ static int stbi__decode_jpeg_image(stbi__jpeg *j)
          if (NL != j->s->img_y) return stbi__err("bad DNL height", "Corrupt JPEG");
          m = stbi__get_marker(j);
       } else {
-         if (!stbi__process_marker(j, m)) return 1;
+         if (!stbi__process_marker(j, m)) return stbi__err("bad marker", "Corrupt JPEG");
          m = stbi__get_marker(j);
       }
    }
@@ -5553,7 +5553,7 @@ static void *stbi__bmp_load(stbi__context *s, int *x, int *y, int *comp, int req
 
    if (info.hsz == 12) {
       if (info.bpp < 24)
-         psize = (info.offset - info.extra_read - 24) / 3;
+         psize = (info.offset - info.extra_read - info.hsz) / 3;
    } else {
       if (info.bpp < 16)
          psize = (info.offset - info.extra_read - info.hsz) >> 2;
@@ -7017,7 +7017,7 @@ static void *stbi__load_gif_main(stbi__context *s, int **delays, int *x, int *y,
             }
             memcpy( out + ((layers - 1) * stride), u, stride );
             if (layers >= 2) {
-               two_back = out - 2 * stride;
+	            two_back = out + ((layers - 2) * stride);
             }
 
             if (delays) {
@@ -7128,9 +7128,11 @@ static char *stbi__hdr_gettoken(stbi__context *z, char *buffer)
 static void stbi__hdr_convert(float *output, stbi_uc *input, int req_comp)
 {
    if ( input[3] != 0 ) {
+	  int x;
       float f1;
       // Exponent
-      f1 = (float) ldexp(1.0f, input[3] - (int)(128 + 8));
+	  x = (input[3] > 9 ? (input[3] - 9) << 23 : 0);
+	  memcpy(&f1, &x, sizeof(x));
       if (req_comp <= 2)
          output[0] = (input[0] + input[1] + input[2]) * f1 / 3;
       else {
