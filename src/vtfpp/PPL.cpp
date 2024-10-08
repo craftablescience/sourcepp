@@ -16,14 +16,14 @@ PPL::PPL(std::span<const std::byte> pplData) {
 	BufferStreamReadOnly reader{pplData.data(), pplData.size()};
 	reader >> this->version >> this->checksum >> this->format;
 
-	auto imageCount = reader.read<uint32_t>();
+	const auto imageCount = reader.read<uint32_t>();
 	reader.skip<uint32_t>(4);
 	for (uint32_t i = 0; i < imageCount; i++) {
-		auto lod = reader.read<uint32_t>();
-		auto offset = reader.read<uint32_t>();
-		auto length = reader.read<uint32_t>();
-		auto width = reader.read<uint32_t>();
-		auto height = reader.read<uint32_t>();
+		const auto lod = reader.read<uint32_t>();
+		const auto offset = reader.read<uint32_t>();
+		const auto length = reader.read<uint32_t>();
+		const auto width = reader.read<uint32_t>();
+		const auto height = reader.read<uint32_t>();
 		reader.skip<uint32_t>(3);
 
 		this->images[lod] = {
@@ -88,11 +88,11 @@ std::optional<PPL::Image> PPL::getImageAs(ImageFormat newFormat, uint32_t lod) c
 	if (!this->hasImageForLOD(lod)) {
 		return std::nullopt;
 	}
-	const auto& image = this->images.at(lod);
+	const auto& [width, height, data] = this->images.at(lod);
 	return Image{
-		.width = image.width,
-		.height = image.height,
-		.data = ImageConversion::convertImageDataToFormat(image.data, this->format, newFormat, image.width, image.height),
+		.width = width,
+		.height = height,
+		.data = ImageConversion::convertImageDataToFormat(data, this->format, newFormat, width, height),
 	};
 }
 
@@ -164,7 +164,7 @@ bool PPL::setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t
 }
 
 std::vector<std::byte> PPL::saveImageToFile(uint32_t lod, ImageConversion::FileFormat fileFormat) const {
-	if (auto image = this->getImageRaw(lod)) {
+	if (const auto image = this->getImageRaw(lod)) {
 		return ImageConversion::convertImageDataToFile(image->data, this->format, image->width, image->height, fileFormat);
 	}
 	return {};
@@ -198,7 +198,7 @@ std::vector<std::byte> PPL::bake() {
 		for (int i = 0; i < 3; i++) {
 			writer.write<uint32_t>(0);
 		}
-		auto seekPoint = writer.tell();
+		const auto seekPoint = writer.tell();
 		writer.seek_u(currentOffset).write(image.data);
 		const auto alignment = math::getPaddingForAlignment(ALIGNMENT, writer.tell());
 		for (int i = 0; i < alignment; i++) {

@@ -13,7 +13,6 @@
 
 #include <FileStream.h>
 #include <sourcepp/crypto/CRC32.h>
-#include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
@@ -92,8 +91,8 @@ std::vector<std::string> ZIP::verifyEntryChecksums() const {
 }
 
 std::optional<std::vector<std::byte>> ZIP::readEntry(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
-	auto entry = this->findEntry(path);
+	const auto path = this->cleanEntryPath(path_);
+	const auto entry = this->findEntry(path);
 	if (!entry) {
 		return std::nullopt;
 	}
@@ -127,8 +126,8 @@ void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 
 bool ZIP::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
-	std::string outputDir = this->getBakeOutputDir(outputDir_);
-	std::string outputPath = outputDir + '/' + this->getFilename();
+	const std::string outputDir = this->getBakeOutputDir(outputDir_);
+	const std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Use temp folder so we can read from the current ZIP
 	if (!this->bakeTempZip(this->tempZIPPath, options, callback)) {
@@ -152,7 +151,7 @@ Attribute ZIP::getSupportedEntryAttributes() const {
 }
 
 EntryCompressionType ZIP::getEntryCompressionType(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
+	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
 		return static_cast<EntryCompressionType>(this->entries.at(path).flags >> 16);
 	}
@@ -160,14 +159,14 @@ EntryCompressionType ZIP::getEntryCompressionType(const std::string& path_) cons
 }
 
 void ZIP::setEntryCompressionType(const std::string& path_, EntryCompressionType type) {
-	auto path = this->cleanEntryPath(path_);
+	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
 		this->entries.at(path).flags = (static_cast<uint32_t>(type) << 16) | (this->entries.at(path).flags & 0xffff);
 	}
 }
 
 uint16_t ZIP::getEntryCompressionStrength(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
+	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
 		return static_cast<uint16_t>(this->entries.at(path).flags & 0xffff);
 	}
@@ -175,13 +174,13 @@ uint16_t ZIP::getEntryCompressionStrength(const std::string& path_) const {
 }
 
 void ZIP::setEntryCompressionStrength(const std::string& path_, uint16_t strength) {
-	auto path = this->cleanEntryPath(path_);
+	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
 		this->entries.at(path).flags = (this->entries.at(path).flags & 0xffff0000) | strength;
 	}
 }
 
-bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback) {
+bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, const EntryCallback& callback) const {
 	void* writeStreamHandle = mz_stream_os_create();
 	if (mz_stream_open(writeStreamHandle, writeZipPath.c_str(), MZ_OPEN_MODE_CREATE | MZ_OPEN_MODE_WRITE)) {
 		return false;
@@ -213,8 +212,7 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 			mz_zip_writer_set_compress_level(writeZipHandle, (entry.flags & 0xffff) > 0 ? static_cast<int16_t>(entry.flags & 0xffff) : options.zip_compressionStrength);
 		}
 
-		mz_zip_entry fileInfo;
-		std::memset(&fileInfo, 0, sizeof(mz_zip_entry));
+		mz_zip_entry fileInfo{};
 		fileInfo.filename = path.c_str();
 		fileInfo.filename_size = path.length();
 		fileInfo.version_madeby = MZ_VERSION_MADEBY;

@@ -2,11 +2,10 @@
 
 #include <filesystem>
 
+#include <bsppp/bsppp.h>
 #include <FileStream.h>
 #include <mz.h>
 #include <mz_zip.h>
-
-#include <bsppp/bsppp.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
@@ -90,8 +89,8 @@ std::unique_ptr<PackFile> BSP::open(const std::string& path, const EntryCallback
 
 bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
 	// Get the proper file output folder
-	std::string outputDir = this->getBakeOutputDir(outputDir_);
-	std::string outputPath = outputDir + '/' + this->getFilename();
+	const std::string outputDir = this->getBakeOutputDir(outputDir_);
+	const std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// If the output path is different, copy the entire BSP there
 	if (outputPath != this->fullFilePath) {

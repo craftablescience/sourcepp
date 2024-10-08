@@ -4,10 +4,8 @@
 #include <filesystem>
 
 #include <FileStream.h>
-
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
-#include <sourcepp/FS.h>
 
 using namespace sourcepp;
 using namespace vpkpp;

@@ -1,7 +1,5 @@
 #pragma once
 
-#include <utility>
-
 #include <sourcepp/math/Integer.h>
 
 namespace vtfpp {
@@ -584,8 +582,7 @@ namespace ImageFormatDetails {
 		default:
 			break;
 	}
-	uint32_t out = width * height * sliceCount * bpp(format) / 8;
-	return out;
+	return width * height * sliceCount * (bpp(format) / 8);
 }
 
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
@@ -603,7 +600,7 @@ namespace ImageFormatDetails {
 		for (int j = 0; j < frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < sliceCount; l++) {
-					auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
+					const auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
 					if (i == mip && j == frame && k == face && l == slice) {
 						length = imageSize;
 						return true;
