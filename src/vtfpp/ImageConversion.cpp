@@ -1090,6 +1090,6 @@ std::vector<std::byte> ImageConversion::cropImageData(const std::span<const std:
         }
     }
 
-    return std::move(out);
+    return out;
 
 }

@@ -1268,7 +1268,5 @@ VTF::getSpritesheetFrame( uint32_t &spriteWidth, uint32_t &spriteHeight, uint32_
     spriteWidth = (right - left);
     spriteHeight = (bottom - top);
 
-    return std::move(ImageConversion::convertImageDataToFormat(std::move(
-            ImageConversion::cropImageData(this->getImageDataAsRGBA8888(), this->width, this->height, 4, left,
-                                           top, spriteWidth, spriteHeight)), ImageFormat::RGBA8888, this->format, spriteWidth, spriteHeight));
+    return ImageConversion::convertImageDataToFormat(ImageConversion::cropImageData(this->getImageDataAsRGBA8888(), this->width, this->height, 4, left,top, spriteWidth, spriteHeight), ImageFormat::RGBA8888, this->format, spriteWidth, spriteHeight);
 }
