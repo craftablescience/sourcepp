@@ -387,6 +387,9 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 /// Resize given image data to the new dimensions, where the new width and height are governed by the resize methods
 [[nodiscard]] std::vector<std::byte> resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP);
 
+/// Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning
+[[nodiscard]] std::vector<std::byte> cropImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset);
+
 /// Extracts a single channel from the given image data.
 /// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
 /// Data is packed according to pixel channel C++ type size

@@ -8,4 +8,5 @@
 #include "ImageConversion.h"
 #include "ImageFormats.h"
 #include "PPL.h"
+#include "SHT.h"
 #include "VTF.h"

@@ -13,6 +13,7 @@
 #include <sourcepp/Macros.h>
 
 #include "ImageConversion.h"
+#include "SHT.h"
 
 namespace vtfpp {
 
@@ -48,12 +49,17 @@ struct Resource {
 
 	using ConvertedData = std::variant<
 		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
+		SHT, // Particle Sheet
 		uint32_t, // CRC, TSO
 		std::pair<uint8_t, uint8_t>, // LOD
 		std::string, // KVD
 		std::span<uint32_t> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
+
+	[[nodiscard]] SHT getDataAsParticleSheet() const {
+		return std::get<SHT>(this->convertData());
+	}
 
 	[[nodiscard]] uint32_t getDataAsCRC() const {
 		return std::get<uint32_t>(this->convertData());
@@ -296,7 +302,16 @@ public:
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
-	void setParticleSheetResource(std::span<const std::byte> value);
+	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+
+	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+
+	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+
+	void setParticleSheetResource(const SHT& value);
 
 	void removeParticleSheetResource();
 
