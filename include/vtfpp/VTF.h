@@ -15,6 +15,7 @@
 #include <sourcepp/Macros.h>
 
 #include "ImageConversion.h"
+#include "SHT.h"
 
 namespace vtfpp {
 
@@ -80,6 +81,10 @@ struct Resource {
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
 		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
+
+    [[nodiscard]] SpriteSheet getSpriteSheet() const {
+        return {reinterpret_cast<const unsigned char *>(data.data()), static_cast<uint32_t>(data.size()), true};
+    }
 };
 SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
 
