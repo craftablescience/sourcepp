@@ -182,7 +182,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
-			const auto padding = math::getPaddingForAlignment(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
+			const auto padding = math::paddingForAlignment(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
 			for (int i = 0; i < padding; i++) {
 				fileData.push_back(static_cast<std::byte>(0));
 			}
@@ -236,7 +236,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		this->dataOffset = stream.tell_out();
 		for (const auto& path : std::views::keys(entriesToBake)) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::paddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=
 					sizeof(uint32_t) +             // Path length
 					entryPath.length() + padding + // Path
@@ -251,7 +251,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::paddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, false, entryPath.length() + padding);
 

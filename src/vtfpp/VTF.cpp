@@ -205,7 +205,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 		}
 	} else {
-		stream.skip(math::getPaddingForAlignment(16, stream.tell()));
+		stream.skip(math::paddingForAlignment(16, stream.tell()));
 		this->opened = stream.tell() == headerSize;
 
 		this->resources.reserve(2);
@@ -485,7 +485,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		newMipCount = recommendedCount;
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else {
 		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	}
@@ -990,8 +990,8 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		uint16_t resizedWidth = width_, resizedHeight = height_;
 		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
 		if (ImageFormatDetails::compressed(format_)) {
-			resizedWidth += math::getPaddingForAlignment(4, resizedWidth);
-			resizedHeight += math::getPaddingForAlignment(4, resizedHeight);
+			resizedWidth += math::paddingForAlignment(4, resizedWidth);
+			resizedHeight += math::paddingForAlignment(4, resizedHeight);
 		}
 		if (const auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
 			mip = newMipCount - 1;
@@ -1145,7 +1145,7 @@ std::vector<std::byte> VTF::bake() const {
 	}
 
 	if (this->minorVersion < 3) {
-		const auto headerAlignment = math::getPaddingForAlignment(16, writer.tell());
+		const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
 		for (uint16_t i = 0; i < headerAlignment; i++) {
 			writer.write<std::byte>({});
 		}
