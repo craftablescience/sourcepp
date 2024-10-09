@@ -324,6 +324,9 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
+    [[nodiscard]] std::vector<std::byte>
+    getSpritesheetFrame( uint32_t &spriteWidth, uint32_t &spriteHeight, uint32_t sequence = 0, uint32_t frame = 0, uint8_t sheetImage = 0) const;
+
 	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
 
 	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);

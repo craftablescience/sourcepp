@@ -160,6 +160,11 @@ namespace vtfpp {
         {
             this->frames.erase(this->frames.begin() + fra);
         }
+
+        [[nodiscard]] const std::vector<SpriteFrame>& getFrames() const
+        {
+            return this->frames;
+        }
     };
 
     class SpriteSheet {

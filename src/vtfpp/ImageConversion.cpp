@@ -1065,3 +1065,31 @@ std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const st
 	heightOut = getResizedDim(newHeight, heightResize);
 	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, filter, edge);
 }
+
+std::vector<std::byte> ImageConversion::cropImageData(const std::span<const std::byte> full_image, uint16_t full_width, uint16_t full_height, uint16_t channels,
+                                                      uint16_t x, uint16_t y, uint16_t subrect_width, uint16_t subrect_height)
+{
+    if ( x + subrect_width > full_width || y + subrect_height > full_height ) {
+
+        return {};
+    }
+
+    std::vector<std::byte> out;
+    out.resize(subrect_width * subrect_height * channels);
+
+    for (int row = 0; row < subrect_height; ++row) {
+        for (int col = 0; col < subrect_width; ++col) {
+
+            int imagePosition = (((y + row) * full_width) + (x + col)) * channels;
+            int outImagePosition = ((row * subrect_width) + col) * channels;
+
+            // Copy the pixel (channels may vary, so copy per channel)
+            for (int c = 0; c < channels; ++c) {
+                out[outImagePosition + c] = full_image[imagePosition + c];
+            }
+        }
+    }
+
+    return std::move(out);
+
+}
