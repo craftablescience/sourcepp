@@ -82,6 +82,11 @@ const std::array<Resource::Type, 8>& Resource::getOrder() {
 
 Resource::ConvertedData Resource::convertData() const {
 	switch (this->type) {
+		case TYPE_PARTICLE_SHEET_DATA:
+			if (this->data.size() <= sizeof(uint32_t)) {
+				return {};
+			}
+			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
 			if (this->data.size() != sizeof(uint32_t)) {
@@ -944,8 +949,60 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
 }
 
-void VTF::setParticleSheetResource(std::span<const std::byte> value) {
-	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, value);
+std::vector<std::byte> VTF::getParticleSheetFrameRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	spriteWidth = 0;
+	spriteHeight = 0;
+
+	auto shtResource = this->getResource(Resource::TYPE_PARTICLE_SHEET_DATA);
+	if (!shtResource) {
+		return {};
+	}
+
+	auto sht = shtResource->getDataAsParticleSheet();
+	const auto* sequence = sht.getSequenceFromID(shtSequenceID);
+	if (!sequence || sequence->frames.size() <= shtFrame || shtBounds >= sht.getFrameBoundsCount()) {
+		return {};
+	}
+
+	// These values are likely slightly too large thanks to float magic, use a
+	// shader that scales UVs instead of this function if precision is a concern
+	// This will also break if any of the bounds are above 1 or below 0, but that
+	// hasn't been observed in official textures
+	const auto& bounds = sequence->frames[shtFrame].bounds[shtBounds];
+	uint16_t left = std::floor(bounds.left * static_cast<float>(this->getWidth(mip)));
+	uint16_t bottom = std::ceil(bounds.bottom * static_cast<float>(this->getHeight(mip)));
+	uint16_t right = std::ceil(bounds.right * static_cast<float>(this->getWidth(mip)));
+	uint16_t top = std::floor(bounds.top * static_cast<float>(this->getHeight(mip)));
+
+	spriteWidth = (right - left);
+	spriteHeight = (bottom - top);
+
+	const auto out = ImageConversion::cropImageData(this->getImageDataRaw(mip, frame, face, slice), this->getFormat(), this->getWidth(mip), spriteWidth, left, this->getHeight(mip), spriteHeight, top);
+	if (out.empty()) {
+		spriteWidth = 0;
+		spriteHeight = 0;
+	}
+	return out;
+}
+
+std::vector<std::byte> VTF::getParticleSheetFrameAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	return ImageConversion::convertImageDataToFormat(this->getParticleSheetFrameRaw(spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice), this->getFormat(), newFormat, spriteWidth, spriteHeight);
+}
+
+std::vector<std::byte> VTF::getParticleSheetFrameAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	return this->getParticleSheetFrameAs(ImageFormat::RGBA8888, spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice);
+}
+
+void VTF::setParticleSheetResource(const SHT& value) {
+	std::vector<std::byte> particleSheetData;
+	BufferStream writer{particleSheetData};
+
+	auto bakedSheet = value.bake();
+	writer.write<uint32_t>(bakedSheet.size());
+	writer.write(bakedSheet);
+	particleSheetData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, particleSheetData);
 }
 
 void VTF::removeParticleSheetResource() {

@@ -1804,3 +1804,21 @@ std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const st
 	heightOut = getResizedDim(newHeight, heightResize);
 	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, filter, edge);
 }
+
+std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {
+	if (imageData.empty() || format == ImageFormat::EMPTY || xOffset + newWidth >= width || yOffset + newHeight >= height) {
+		return {};
+	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do? Don't crop compressed formats! Don't do it!
+		const auto container = ImageFormatDetails::containerFormat(format);
+		return convertImageDataToFormat(cropImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, newWidth, xOffset, height, newHeight, yOffset), container, format, newWidth, newHeight);
+	}
+
+	const auto pixelSize = ImageFormatDetails::bpp(format) / 8;
+	std::vector<std::byte> out(pixelSize * newWidth * newHeight);
+	for (uint16_t y = yOffset; y < yOffset + newHeight; y++) {
+		std::memcpy(out.data() + (((y - yOffset) * newWidth) * pixelSize), imageData.data() + (((y * width) + xOffset) * pixelSize), newWidth * pixelSize);
+	}
+	return out;
+}
