@@ -1,11 +1,10 @@
 #include <vpkpp/format/PCK.h>
 
 #include <filesystem>
+#include <ranges>
 
 #include <FileStream.h>
-
 #include <sourcepp/crypto/MD5.h>
-#include <sourcepp/FS.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -235,7 +234,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 		// Dry-run to get the length of the directory section
 		this->dataOffset = stream.tell_out();
-		for (const auto& [path, entry] : entriesToBake) {
+		for (const auto& path : std::views::keys(entriesToBake)) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
 			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=

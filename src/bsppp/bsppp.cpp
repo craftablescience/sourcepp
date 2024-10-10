@@ -121,7 +121,7 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return false;
 	}
-	auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
 }
 
@@ -137,14 +137,14 @@ void BSP::setLumpVersion(BSPLump lumpIndex, int32_t version) {
 	this->writeHeader();
 }
 
-std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lump) const {
-	if (this->path.empty() || !this->hasLump(lump)) {
+std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex) const {
+	if (this->path.empty() || !this->hasLump(lumpIndex)) {
 		return std::nullopt;
 	}
 	FileStream reader{this->path};
 	return reader
-		.seek_in(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lump)].offset)
-		.read_bytes(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lump)].length);
+		.seek_in(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lumpIndex)].offset)
+		.read_bytes(this->header.lumps[static_cast<std::underlying_type_t<BSPLump>>(lumpIndex)].length);
 }
 
 void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool condenseFile) {
@@ -157,10 +157,10 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 	if (!this->hasLump(lumpIndex) || !condenseFile) {
 		// Put the lump at the end of the file
 		int32_t lastLumpOffset = 0, lastLumpLength = 0;
-		for (const Lump& lump : this->header.lumps) {
+		for (const auto& [lumpOffset, lumpLength, lumpVersion, lumpFourCC] : this->header.lumps) {
 			if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
-				lastLumpOffset = lump.offset;
-				lastLumpLength = lump.length;
+				lastLumpOffset = lumpOffset;
+				lastLumpLength = lumpLength;
 			}
 		}
 		if (lastLumpOffset == 0) {
@@ -221,10 +221,10 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 
 	// Resize file if it shrank
 	int32_t lastLumpOffset = 0, lastLumpLength = 0;
-	for (const Lump& lump : this->header.lumps) {
+	for (const auto& [lumpOffset, lumpLength, lumpVersion, lumpFourCC] : this->header.lumps) {
 		if (lastLumpOffset < this->header.lumps[lumpToMove].offset) {
-			lastLumpOffset = lump.offset;
-			lastLumpLength = lump.length;
+			lastLumpOffset = lumpOffset;
+			lastLumpLength = lumpLength;
 		}
 	}
 	if (std::filesystem::file_size(this->path) > lastLumpOffset + lastLumpLength) {
@@ -242,10 +242,10 @@ bool BSP::applyLumpPatchFile(const std::string& lumpFilePath) {
 		return false;
 	}
 
-	auto offset = reader.read<int32_t>();
-	auto index = reader.read<int32_t>();
-	auto version = reader.read<int32_t>();
-	auto length = reader.read<int32_t>();
+	const auto offset = reader.read<int32_t>();
+	const auto index = reader.read<int32_t>();
+	const auto version = reader.read<int32_t>();
+	const auto length = reader.read<int32_t>();
 	if (index < 0 || index > BSP_LUMP_COUNT || offset <= 0 || length <= 0) {
 		return false;
 	}
@@ -261,7 +261,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		return;
 	}
 
-	auto& lump = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
+	const auto& [lumpOffset, lumpLength, lumpVersion, lumpFourCC] = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
 
 	const auto fsPath = std::filesystem::path{this->path};
 	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
@@ -277,8 +277,8 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		.seek_out(0)
 		.write<int32_t>(sizeof(int32_t) * 5)
 		.write(lumpIndex)
-		.write(lump.version)
-		.write(lump.length)
+		.write(lumpVersion)
+		.write(lumpLength)
 		.write(this->header.mapRevision)
 		.write(*lumpData);
 }

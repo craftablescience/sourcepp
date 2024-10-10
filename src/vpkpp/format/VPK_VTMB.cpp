@@ -3,9 +3,7 @@
 #include <filesystem>
 
 #include <FileStream.h>
-
 #include <sourcepp/parser/Text.h>
-#include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
@@ -34,7 +32,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 	}
 
 	// Extra check to make sure this is a VTMB VPK path
-	auto stem = std::filesystem::path{path}.stem().string();
+	const auto stem = std::filesystem::path{path}.stem().string();
 	if (stem.length() != 7 || !stem.starts_with("pack") || !parser::text::isNumber(stem.substr(4))) {
 		return nullptr;
 	}

@@ -19,8 +19,6 @@
 #include <filesystem>
 
 #include <FileStream.h>
-
-#include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
@@ -193,9 +191,9 @@ bool WAD3::bake(const std::string& outputDir_, BakeOptions options, const EntryC
 
 		// Convert the extension back into the type
 		int type = 0;
-		std::size_t pos = path.find_last_of('.');
+		const std::size_t pos = path.find_last_of('.');
 		if (pos > 0) {
-			std::string_view ext = path.c_str() + pos + 1;
+			const std::string_view ext = path.c_str() + pos + 1;
 			for (int i = WFT_FIRST; i < WFT_COUNT; i++) {
 				if (string::iequals(ext, k_FileTypeNames[i - WFT_FIRST])) {
 					type = i;

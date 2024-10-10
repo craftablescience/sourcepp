@@ -120,9 +120,8 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 			eatSingleLineComment(stream);
 			eatWhitespaceAndComments(stream, singleLineCommentStart, multiLineCommentStart);
 			return;
-		} else {
-			stream.seek(-static_cast<int64_t>(singleLineCommentStart.length()), std::ios::cur);
 		}
+		stream.seek(-static_cast<int64_t>(singleLineCommentStart.length()), std::ios::cur);
 	}
 
 	if (!multiLineCommentStart.empty()) {
@@ -130,9 +129,8 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 			eatMultiLineComment(stream);
 			eatWhitespaceAndComments(stream, singleLineCommentStart, multiLineCommentStart);
 			return;
-		} else {
-			stream.seek(-static_cast<int64_t>(multiLineCommentStart.length()), std::ios::cur);
 		}
+		stream.seek(-static_cast<int64_t>(multiLineCommentStart.length()), std::ios::cur);
 	}
 }
 
@@ -145,7 +143,7 @@ bool parser::text::tryToEatChar(BufferStream& stream, char c) {
 }
 
 std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start, std::string_view end, const EscapeSequenceMap& escapeSequences) {
-	auto startSpan = backing.tell();
+	const auto startSpan = backing.tell();
 
 	bool stopAtWhitespace = true;
 	char c = stream.read<char>();
@@ -182,7 +180,7 @@ std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, 
 }
 
 std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences) {
-	auto startSpan = backing.tell();
+	const auto startSpan = backing.tell();
 
 	for (char c = stream.read<char>(); !isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
 		if (!escapeSequences.empty() && c == '\\') {

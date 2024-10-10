@@ -21,24 +21,24 @@ std::vector<std::byte> bakeBinary(const CmdSeq& cmdSeq) {
 		.write<float>(cmdSeq.getVersion())
 		.write<uint32_t>(cmdSeq.getSequences().size());
 
-	for (const auto& sequence : cmdSeq.getSequences()) {
+	for (const auto& [seqName, seqCommands] : cmdSeq.getSequences()) {
 		writer
-			.write(sequence.name, true, 128)
-			.write<uint32_t>(sequence.commands.size());
+			.write(seqName, true, 128)
+			.write<uint32_t>(seqCommands.size());
 
-		for (const auto& command : sequence.commands) {
+		for (const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] : seqCommands) {
 			writer
-				.write<uint32_t>(command.enabled)
-				.write(command.special)
-				.write(command.executable, true, 260)
-				.write(command.arguments, true, 260)
+				.write<uint32_t>(enabled)
+				.write(special)
+				.write(executable, true, 260)
+				.write(arguments, true, 260)
 				.write<uint32_t>(true)
-				.write<uint32_t>(command.ensureFileExists)
-				.write(command.pathToTheoreticallyExistingFile, true, 260)
-				.write<uint32_t>(command.useProcessWindow);
+				.write<uint32_t>(ensureFileExists)
+				.write(pathToTheoreticallyExistingFile, true, 260)
+				.write<uint32_t>(useProcessWindow);
 
 			if (cmdSeq.getVersion() > 0.15f) {
-				writer.write<uint32_t>(command.waitForKeypress);
+				writer.write<uint32_t>(waitForKeypress);
 			}
 		}
 	}
@@ -50,19 +50,19 @@ std::vector<std::byte> bakeBinary(const CmdSeq& cmdSeq) {
 std::vector<std::byte> bakeKeyValues(const CmdSeq& cmdSeq) {
 	KV1Writer kv;
 	auto& kvFile = kv.addChild("Command Sequences");
-	for (const auto& sequence : cmdSeq.getSequences()) {
-		auto& kvSequence = kvFile.addChild(sequence.name);
-		for (int i = 1; i <= sequence.commands.size(); i++) {
-			const auto& command = sequence.commands[i - 1];
+	for (const auto& [seqName, seqCommands] : cmdSeq.getSequences()) {
+		auto& kvSequence = kvFile.addChild(seqName);
+		for (int i = 1; i <= seqCommands.size(); i++) {
+			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
 			auto& kvCommand = kvSequence.addChild(std::to_string(i));
-			kvCommand["enabled"] = command.enabled;
-			kvCommand["special_cmd"] = static_cast<int>(command.special);
-			kvCommand["run"] = command.executable;
-			kvCommand["params"] = command.arguments;
-			kvCommand["ensure_check"] = command.ensureFileExists;
-			kvCommand["ensure_fn"] = command.pathToTheoreticallyExistingFile;
-			kvCommand["use_process_wnd"] = command.useProcessWindow;
-			kvCommand["no_wait"] = command.waitForKeypress;
+			kvCommand["enabled"] = enabled;
+			kvCommand["special_cmd"] = static_cast<int>(special);
+			kvCommand["run"] = executable;
+			kvCommand["params"] = arguments;
+			kvCommand["ensure_check"] = ensureFileExists;
+			kvCommand["ensure_fn"] = pathToTheoreticallyExistingFile;
+			kvCommand["use_process_wnd"] = useProcessWindow;
+			kvCommand["no_wait"] = waitForKeypress;
 		}
 	}
 
@@ -114,55 +114,55 @@ void CmdSeq::setVersion(bool isV02) {
 	}
 }
 
-void CmdSeq::parseBinary(const std::string& path_) {
-	FileStream reader{path_};
+void CmdSeq::parseBinary(const std::string& path) {
+	FileStream reader{path};
 	if (!reader) {
 		return;
 	}
 
 	reader.seek_in(31).read(this->version);
 
-	auto sequenceCount = reader.read<uint32_t>();
+	const auto sequenceCount = reader.read<uint32_t>();
 	for (uint32_t s = 0; s < sequenceCount; s++) {
-		auto& sequence = this->sequences.emplace_back();
-		sequence.name = reader.read_string(128);
+		auto& [seqName, seqCommands] = this->sequences.emplace_back();
+		seqName = reader.read_string(128);
 
-		auto commandCount = reader.read<uint32_t>();
+		const auto commandCount = reader.read<uint32_t>();
 		for (uint32_t c = 0; c < commandCount; c++) {
-			auto& command = sequence.commands.emplace_back();
-			command.enabled = reader.read<int32_t>() & 0xFF;
-			command.special = reader.read<Command::Special>();
-			command.executable = reader.read_string(260);
-			command.arguments = reader.read_string(260);
+			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
+			enabled = reader.read<int32_t>() & 0xFF;
+			special = reader.read<Command::Special>();
+			executable = reader.read_string(260);
+			arguments = reader.read_string(260);
 			reader.skip_in<int32_t>();
-			command.ensureFileExists = reader.read<int32_t>();
-			command.pathToTheoreticallyExistingFile = reader.read_string(260);
-			command.useProcessWindow = reader.read<int32_t>();
+			ensureFileExists = reader.read<int32_t>();
+			pathToTheoreticallyExistingFile = reader.read_string(260);
+			useProcessWindow = reader.read<int32_t>();
 			if (version > 0.15f) {
-				command.waitForKeypress = reader.read<int32_t>();
+				waitForKeypress = reader.read<int32_t>();
 			}
 		}
 	}
 }
 
-void CmdSeq::parseKeyValues(const std::string& path_) {
+void CmdSeq::parseKeyValues(const std::string& path) {
 	this->version = 0.2f;
 
-	KV1 cmdSeq{fs::readFileText(path_)};
+	const KV1 cmdSeq{fs::readFileText(path)};
 	for (const auto& kvSequence : cmdSeq["Command Sequences"].getChildren()) {
-		auto& sequence = this->sequences.emplace_back();
-		sequence.name = kvSequence.getKey();
+		auto& [seqName, seqCommands] = this->sequences.emplace_back();
+		seqName = kvSequence.getKey();
 
 		for (const auto& kvCommand : kvSequence.getChildren()) {
-			auto& command = sequence.commands.emplace_back();
-			string::toBool(kvCommand["enabled"].getValue(), command.enabled);
-			string::toInt(kvCommand["special_cmd"].getValue(), reinterpret_cast<std::underlying_type_t<Command::Special>&>(command.special));
-			command.executable = kvCommand["run"].getValue();
-			command.arguments = kvCommand["params"].getValue();
-			string::toBool(kvCommand["ensure_check"].getValue(), command.ensureFileExists);
-			command.pathToTheoreticallyExistingFile = kvCommand["ensure_fn"].getValue();
-			string::toBool(kvCommand["use_process_wnd"].getValue(), command.useProcessWindow);
-			string::toBool(kvCommand["no_wait"].getValue(), command.waitForKeypress);
+			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
+			string::toBool(kvCommand["enabled"].getValue(), enabled);
+			string::toInt(kvCommand["special_cmd"].getValue(), reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+			executable = kvCommand["run"].getValue();
+			arguments = kvCommand["params"].getValue();
+			string::toBool(kvCommand["ensure_check"].getValue(), ensureFileExists);
+			pathToTheoreticallyExistingFile = kvCommand["ensure_fn"].getValue();
+			string::toBool(kvCommand["use_process_wnd"].getValue(), useProcessWindow);
+			string::toBool(kvCommand["no_wait"].getValue(), waitForKeypress);
 		}
 	}
 }

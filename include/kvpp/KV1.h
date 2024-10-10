@@ -278,10 +278,10 @@ protected:
 				stream_.write('\t');
 			}
 		};
-		constexpr auto writeQuotedString = [](BufferStream& stream_, std::string_view str, const parser::text::EscapeSequenceMap& escapeSequences, char quoteStart = '\"', char quoteEnd = '\"') {
+		constexpr auto writeQuotedString = [](BufferStream& stream_, std::string_view str, const parser::text::EscapeSequenceMap& escapeSequences_, char quoteStart = '\"', char quoteEnd = '\"') {
 			stream_.write(quoteStart);
 			if (!str.empty()) {
-				stream_.write(parser::text::convertSpecialCharsToEscapes(str, escapeSequences), false);
+				stream_.write(parser::text::convertSpecialCharsToEscapes(str, escapeSequences_), false);
 			}
 			stream_.write(quoteEnd);
 		};
