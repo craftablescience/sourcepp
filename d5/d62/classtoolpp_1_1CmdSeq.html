@@ -117,6 +117,7 @@ $(document).ready(function(){initNavTree('d5/d62/classtoolpp_1_1CmdSeq.html','..
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
@@ -149,6 +150,14 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d0f/structtoolpp_1_1CmdSeq_1_1Sequence.html">Sequence</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a61c9b69b3fef4264e3f8698f575c2655"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a> { <a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655accc0377a8afbf50e7094f5c23a8af223">INVALID</a>
+, <a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655a98ad0e8750ae10ad556ed7a62affb452">BINARY</a>
+, <a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655a9561314eb8ccfc7cb31d6ea7d8360ba9">KEYVALUES_STRATA</a>
+ }</td></tr>
+<tr class="separator:a61c9b69b3fef4264e3f8698f575c2655"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a9c0e33707fb51d9d07c58864f1fe8810"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a9c0e33707fb51d9d07c58864f1fe8810">CmdSeq</a> (std::string path_)</td></tr>
@@ -163,24 +172,28 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a24db07d3dd4c9ed9de1d97d443f2273b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a05da4d63bc6c4d8b74eb999ab56998da"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a05da4d63bc6c4d8b74eb999ab56998da">bake</a> () const</td></tr>
 <tr class="separator:a05da4d63bc6c4d8b74eb999ab56998da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:addf46108e383c83c3cd152aec0c8c2b0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#addf46108e383c83c3cd152aec0c8c2b0">bake</a> (bool overrideUsingKeyValues) const</td></tr>
-<tr class="separator:addf46108e383c83c3cd152aec0c8c2b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dc8773a0dbd31a351d7e611478253b3"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a3dc8773a0dbd31a351d7e611478253b3">bake</a> (<a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a> typeOverride) const</td></tr>
+<tr class="separator:a3dc8773a0dbd31a351d7e611478253b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af90e9408a871f2c94ed9e2ed855816a7"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af90e9408a871f2c94ed9e2ed855816a7">bake</a> (const std::string &amp;path_)</td></tr>
 <tr class="separator:af90e9408a871f2c94ed9e2ed855816a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad636f43ad90e0b8f35a2e68941b36393"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ad636f43ad90e0b8f35a2e68941b36393">bake</a> (const std::string &amp;path_, bool overrideUsingKeyValues)</td></tr>
-<tr class="separator:ad636f43ad90e0b8f35a2e68941b36393"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae67fcfb506bedfb8eb3dbeabbf6db197"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae67fcfb506bedfb8eb3dbeabbf6db197">bake</a> (const std::string &amp;path_, <a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a> typeOverride)</td></tr>
+<tr class="separator:ae67fcfb506bedfb8eb3dbeabbf6db197"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a92b3c4c8f9f39ed28a87ddad9ec63080"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a92b3c4c8f9f39ed28a87ddad9ec63080">parseBinary</a> (const std::string &amp;<a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>)</td></tr>
 <tr class="separator:a92b3c4c8f9f39ed28a87ddad9ec63080"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae6c401bf9fbb26e6c326b6912dbc025d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae6c401bf9fbb26e6c326b6912dbc025d">parseKeyValues</a> (const std::string &amp;<a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>)</td></tr>
-<tr class="separator:ae6c401bf9fbb26e6c326b6912dbc025d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a746305b91822f63efd8aa6b9e08c7a15"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a746305b91822f63efd8aa6b9e08c7a15">parseKeyValuesStrata</a> (const std::string &amp;<a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a>)</td></tr>
+<tr class="separator:a746305b91822f63efd8aa6b9e08c7a15"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb37d1e27e20680c0bf70cffa6f1f4aa"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#afb37d1e27e20680c0bf70cffa6f1f4aa">bakeBinary</a> () const</td></tr>
+<tr class="separator:afb37d1e27e20680c0bf70cffa6f1f4aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab347c003bb47bec4efae8410f4cab474"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ab347c003bb47bec4efae8410f4cab474">bakeKeyValuesStrata</a> () const</td></tr>
+<tr class="separator:ab347c003bb47bec4efae8410f4cab474"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:af55350b195664e398000d8ae6a076431"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#af55350b195664e398000d8ae6a076431">usingKeyValues</a> = false</td></tr>
-<tr class="separator:af55350b195664e398000d8ae6a076431"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2686088883668788c765bb85cd37934"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#ae2686088883668788c765bb85cd37934">type</a></td></tr>
+<tr class="separator:ae2686088883668788c765bb85cd37934"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef92c331fd5db9f6958a27da33cb17e8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aef92c331fd5db9f6958a27da33cb17e8">version</a></td></tr>
 <tr class="separator:aef92c331fd5db9f6958a27da33cb17e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aea08f6170aaff51ae0fcd1dafe8b358f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f">path</a></td></tr>
@@ -190,8 +203,38 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00012">12</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00011">11</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+</div><h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="a61c9b69b3fef4264e3f8698f575c2655"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a61c9b69b3fef4264e3f8698f575c2655">&#9670;&nbsp;</a></span>Type</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">toolpp::CmdSeq::Type</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a61c9b69b3fef4264e3f8698f575c2655accc0377a8afbf50e7094f5c23a8af223"></a>INVALID&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a61c9b69b3fef4264e3f8698f575c2655a98ad0e8750ae10ad556ed7a62affb452"></a>BINARY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a61c9b69b3fef4264e3f8698f575c2655a9561314eb8ccfc7cb31d6ea7d8360ba9"></a>KEYVALUES_STRATA&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00044">44</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a9c0e33707fb51d9d07c58864f1fe8810"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9c0e33707fb51d9d07c58864f1fe8810">&#9670;&nbsp;</a></span>CmdSeq()</h2>
 
@@ -216,7 +259,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00078">78</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00037">37</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -236,32 +279,12 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00178">178</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
-
-</div>
-</div>
-<a id="addf46108e383c83c3cd152aec0c8c2b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#addf46108e383c83c3cd152aec0c8c2b0">&#9670;&nbsp;</a></span>bake() <span class="overload">[2/4]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::vector&lt; std::byte &gt; CmdSeq::bake </td>
-          <td>(</td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>overrideUsingKeyValues</em></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00182">182</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00216">216</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
 <a id="af90e9408a871f2c94ed9e2ed855816a7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af90e9408a871f2c94ed9e2ed855816a7">&#9670;&nbsp;</a></span>bake() <span class="overload">[3/4]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af90e9408a871f2c94ed9e2ed855816a7">&#9670;&nbsp;</a></span>bake() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -276,12 +299,12 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00189">189</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00233">233</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ad636f43ad90e0b8f35a2e68941b36393"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad636f43ad90e0b8f35a2e68941b36393">&#9670;&nbsp;</a></span>bake() <span class="overload">[4/4]</span></h2>
+<a id="ae67fcfb506bedfb8eb3dbeabbf6db197"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae67fcfb506bedfb8eb3dbeabbf6db197">&#9670;&nbsp;</a></span>bake() <span class="overload">[3/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -295,8 +318,8 @@ Protected Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>overrideUsingKeyValues</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a>&#160;</td>
+          <td class="paramname"><em>typeOverride</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -306,7 +329,81 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00193">193</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00237">237</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a3dc8773a0dbd31a351d7e611478253b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dc8773a0dbd31a351d7e611478253b3">&#9670;&nbsp;</a></span>bake() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; CmdSeq::bake </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a>&#160;</td>
+          <td class="paramname"><em>typeOverride</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00220">220</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afb37d1e27e20680c0bf70cffa6f1f4aa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afb37d1e27e20680c0bf70cffa6f1f4aa">&#9670;&nbsp;</a></span>bakeBinary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; CmdSeq::bakeBinary </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00155">155</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab347c003bb47bec4efae8410f4cab474"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab347c003bb47bec4efae8410f4cab474">&#9670;&nbsp;</a></span>bakeKeyValuesStrata()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; CmdSeq::bakeKeyValuesStrata </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00190">190</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -325,7 +422,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00170">170</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00147">147</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -344,7 +441,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00174">174</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00151">151</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -363,7 +460,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00105">105</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00071">71</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -391,12 +488,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00083">83</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
-<a id="ae6c401bf9fbb26e6c326b6912dbc025d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae6c401bf9fbb26e6c326b6912dbc025d">&#9670;&nbsp;</a></span>parseKeyValues()</h2>
+<a id="a746305b91822f63efd8aa6b9e08c7a15"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a746305b91822f63efd8aa6b9e08c7a15">&#9670;&nbsp;</a></span>parseKeyValuesStrata()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -405,7 +502,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void CmdSeq::parseKeyValues </td>
+          <td class="memname">void CmdSeq::parseKeyValuesStrata </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
           <td class="paramname"><em>path</em></td><td>)</td>
@@ -419,7 +516,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00148">148</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -439,7 +536,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html#l00075">75</a> of file <a class="el" href="../../da/db7/CmdSeq_8cpp_source.html">CmdSeq.cpp</a>.</p>
 
 </div>
 </div>
@@ -464,7 +561,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00067">67</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00079">79</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
 
 </div>
 </div>
@@ -488,12 +585,12 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00068">68</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00080">80</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
 
 </div>
 </div>
-<a id="af55350b195664e398000d8ae6a076431"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af55350b195664e398000d8ae6a076431">&#9670;&nbsp;</a></span>usingKeyValues</h2>
+<a id="ae2686088883668788c765bb85cd37934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2686088883668788c765bb85cd37934">&#9670;&nbsp;</a></span>type</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -502,7 +599,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool toolpp::CmdSeq::usingKeyValues = false</td>
+          <td class="memname"><a class="el" href="../../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655">Type</a> toolpp::CmdSeq::type</td>
         </tr>
       </table>
   </td>
@@ -512,7 +609,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00065">65</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00077">77</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
 
 </div>
 </div>
@@ -536,7 +633,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00066">66</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html#l00078">78</a> of file <a class="el" href="../../dd/d5c/CmdSeq_8h_source.html">CmdSeq.h</a>.</p>
 
 </div>
 </div>

@@ -1,16 +1,18 @@
 var searchData=
 [
-  ['unknown_2847',['UNKNOWN',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3',1,'bsppp::UNKNOWN()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3',1,'vpkpp::UNKNOWN()']]],
-  ['unused0_2848',['UNUSED0',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a',1,'bsppp']]],
-  ['unused1_2849',['UNUSED1',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4',1,'bsppp']]],
-  ['unused2_2850',['UNUSED2',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde',1,'bsppp']]],
-  ['unused3_2851',['UNUSED3',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7',1,'bsppp']]],
-  ['unused4_2852',['UNUSED4',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72',1,'bsppp']]],
-  ['unused5_2853',['UNUSED5',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71',1,'bsppp']]],
-  ['unused6_2854',['UNUSED6',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b',1,'bsppp']]],
-  ['unused7_2855',['UNUSED7',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292',1,'bsppp']]],
-  ['unused8_2856',['UNUSED8',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2',1,'bsppp']]],
-  ['uv88_2857',['UV88',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca079eb95759d2ad31254f659d63651825',1,'vtfpp']]],
-  ['uvlx8888_2858',['UVLX8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca944688f8e53226efa5e2ff7c76b3845c',1,'vtfpp']]],
-  ['uvwq8888_2859',['UVWQ8888',['../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca2415bd706c8daeabfe76e97eeada6422',1,'vtfpp']]]
+  ['texdata_2837',['TEXDATA',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab59e93e2fa8f8c61636c76c24fdc2326',1,'bsppp']]],
+  ['texdata_5fstring_5fdata_2838',['TEXDATA_STRING_DATA',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2fb3930053508f33b70d1efbe301166d',1,'bsppp']]],
+  ['texdata_5fstring_5ftable_2839',['TEXDATA_STRING_TABLE',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b',1,'bsppp']]],
+  ['texinfo_2840',['TEXINFO',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315',1,'bsppp']]],
+  ['tga_2841',['TGA',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103',1,'vtfpp::ImageConversion']]],
+  ['time_2842',['TIME',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea346ff32eaa3c09983fb2ec057816d352',1,'dmxpp::Value']]],
+  ['type_5faux_5fcompression_2843',['TYPE_AUX_COMPRESSION',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27',1,'vtfpp::Resource']]],
+  ['type_5fcrc_2844',['TYPE_CRC',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd',1,'vtfpp::Resource']]],
+  ['type_5fextended_5fflags_2845',['TYPE_EXTENDED_FLAGS',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0',1,'vtfpp::Resource']]],
+  ['type_5fimage_5fdata_2846',['TYPE_IMAGE_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd',1,'vtfpp::Resource']]],
+  ['type_5fkeyvalues_5fdata_2847',['TYPE_KEYVALUES_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54',1,'vtfpp::Resource']]],
+  ['type_5flod_5fcontrol_5finfo_2848',['TYPE_LOD_CONTROL_INFO',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f',1,'vtfpp::Resource']]],
+  ['type_5fparticle_5fsheet_5fdata_2849',['TYPE_PARTICLE_SHEET_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561',1,'vtfpp::Resource']]],
+  ['type_5fthumbnail_5fdata_2850',['TYPE_THUMBNAIL_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e',1,'vtfpp::Resource']]],
+  ['type_5funknown_2851',['TYPE_UNKNOWN',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e',1,'vtfpp::Resource']]]
 ];
