@@ -49,6 +49,12 @@ public:
 
 	explicit CmdSeq(std::string path_);
 
+	[[nodiscard]] explicit operator bool() const;
+
+	[[nodiscard]] Type getType() const;
+
+	void setVersion(Type type_);
+
 	[[nodiscard]] float getVersion() const;
 
 	void setVersion(bool isV02);
@@ -59,11 +65,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	[[nodiscard]] std::vector<std::byte> bake(Type typeOverride) const;
-
 	bool bake(const std::string& path_);
-
-	bool bake(const std::string& path_, Type typeOverride);
 
 protected:
 	void parseBinary(const std::string& path);

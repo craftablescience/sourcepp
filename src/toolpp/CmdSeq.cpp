@@ -68,6 +68,18 @@ CmdSeq::CmdSeq(std::string path_)
 	}
 }
 
+CmdSeq::operator bool() const {
+	return this->type != Type::INVALID;
+}
+
+CmdSeq::Type CmdSeq::getType() const {
+	return this->type;
+}
+
+void CmdSeq::setVersion(Type type_) {
+	this->type = type_;
+}
+
 float CmdSeq::getVersion() const {
 	return this->version;
 }
@@ -214,11 +226,7 @@ std::vector<std::byte> CmdSeq::bakeKeyValuesStrata() const {
 }
 
 std::vector<std::byte> CmdSeq::bake() const {
-	return this->bake(this->type);
-}
-
-std::vector<std::byte> CmdSeq::bake(Type typeOverride) const {
-	switch (typeOverride) {
+	switch (this->type) {
 		using enum Type;
 		case INVALID:
 			return {};
@@ -231,15 +239,11 @@ std::vector<std::byte> CmdSeq::bake(Type typeOverride) const {
 }
 
 bool CmdSeq::bake(const std::string& path_) {
-	return this->bake(path_, this->type);
-}
-
-bool CmdSeq::bake(const std::string& path_, Type typeOverride) {
 	FileStream writer{path_};
 	if (!writer) {
 		return false;
 	}
 	this->path = path_;
-	writer.seek_out(0).write(this->bake(typeOverride));
+	writer.seek_out(0).write(this->bake());
 	return true;
 }

@@ -8,16 +8,22 @@ using namespace toolpp;
 
 TEST(toolpp, cmdSeqOpenBinary) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/binary.wc"};
+	ASSERT_TRUE(cmdSeq);
+	ASSERT_EQ(cmdSeq.getType(), CmdSeq::Type::BINARY);
 	ASSERT_EQ(cmdSeq.getSequences().size(), 8);
 }
 
 TEST(toolpp, cmdSeqOpenKeyValuesStrata) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
+	ASSERT_TRUE(cmdSeq);
+	ASSERT_EQ(cmdSeq.getType(), CmdSeq::Type::KEYVALUES_STRATA);
 	ASSERT_EQ(cmdSeq.getSequences().size(), 4);
 }
 
 TEST(toolpp, cmdSeqBakeBinary) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/binary.wc"};
+	ASSERT_TRUE(cmdSeq);
+	ASSERT_EQ(cmdSeq.getType(), CmdSeq::Type::BINARY);
 	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/binary.wc");
 	auto bakedData = cmdSeq.bake();
 	ASSERT_EQ(existingData, bakedData);
@@ -25,6 +31,8 @@ TEST(toolpp, cmdSeqBakeBinary) {
 
 TEST(toolpp, cmdSeqBakeKeyValuesStrata) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
+	ASSERT_TRUE(cmdSeq);
+	ASSERT_EQ(cmdSeq.getType(), CmdSeq::Type::KEYVALUES_STRATA);
 	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/keyvalues.wc");
 	auto bakedData = cmdSeq.bake();
 	ASSERT_EQ(existingData, bakedData);
