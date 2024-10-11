@@ -34,6 +34,10 @@ public:
 		bool useProcessWindow;
 
 		bool waitForKeypress;
+
+		[[nodiscard]] static std::string getSpecialDisplayNameFor(Special special);
+
+		[[nodiscard]] std::string getExecutableDisplayName() const;
 	};
 
 	struct Sequence {

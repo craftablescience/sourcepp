@@ -34,6 +34,31 @@ CmdSeq::Command::Special specialCmdFromString(std::string_view specialCmd) {
 
 } // namespace
 
+std::string CmdSeq::Command::getSpecialDisplayNameFor(Special special) {
+	switch (special) {
+		case Special::NONE:
+			break;
+		case Special::CHANGE_DIRECTORY:
+			return "Change Directory";
+		case Special::COPY_FILE:
+			return "Copy File";
+		case Special::DELETE_FILE:
+			return "Delete File";
+		case Special::RENAME_FILE:
+			return "Rename File";
+		case Special::COPY_FILE_IF_EXISTS:
+			return "Copy File If It Exists";
+	}
+	return "None";
+}
+
+std::string CmdSeq::Command::getExecutableDisplayName() const {
+	if (this->special != Command::Special::NONE) {
+		return getSpecialDisplayNameFor(this->special);
+	}
+	return this->executable;
+}
+
 CmdSeq::CmdSeq(std::string path_)
 		: type(Type::INVALID)
 		, version(0.f)
