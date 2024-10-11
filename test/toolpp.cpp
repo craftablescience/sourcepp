@@ -11,7 +11,7 @@ TEST(toolpp, cmdSeqOpenBinary) {
 	ASSERT_EQ(cmdSeq.getSequences().size(), 8);
 }
 
-TEST(toolpp, cmdSeqOpenKeyValues) {
+TEST(toolpp, cmdSeqOpenKeyValuesStrata) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
 	ASSERT_EQ(cmdSeq.getSequences().size(), 4);
 }
@@ -23,7 +23,7 @@ TEST(toolpp, cmdSeqBakeBinary) {
 	ASSERT_EQ(existingData, bakedData);
 }
 
-TEST(toolpp, cmdSeqBakeKeyValues) {
+TEST(toolpp, cmdSeqBakeKeyValuesStrata) {
 	CmdSeq cmdSeq{ASSET_ROOT "toolpp/cmdseq/keyvalues.wc"};
 	auto existingData = fs::readFileBuffer(ASSET_ROOT "toolpp/cmdseq/keyvalues.wc");
 	auto bakedData = cmdSeq.bake();

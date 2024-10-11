@@ -12,71 +12,31 @@ using namespace toolpp;
 
 namespace {
 
-std::vector<std::byte> bakeBinary(const CmdSeq& cmdSeq) {
-	std::vector<std::byte> out;
-	BufferStream writer{out};
-
-	writer
-		.write("Worldcraft Command Sequences\r\n\x1a", 31)
-		.write<float>(cmdSeq.getVersion())
-		.write<uint32_t>(cmdSeq.getSequences().size());
-
-	for (const auto& [seqName, seqCommands] : cmdSeq.getSequences()) {
-		writer
-			.write(seqName, true, 128)
-			.write<uint32_t>(seqCommands.size());
-
-		for (const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] : seqCommands) {
-			writer
-				.write<uint32_t>(enabled)
-				.write(special)
-				.write(executable, true, 260)
-				.write(arguments, true, 260)
-				.write<uint32_t>(true)
-				.write<uint32_t>(ensureFileExists)
-				.write(pathToTheoreticallyExistingFile, true, 260)
-				.write<uint32_t>(useProcessWindow);
-
-			if (cmdSeq.getVersion() > 0.15f) {
-				writer.write<uint32_t>(waitForKeypress);
-			}
-		}
+CmdSeq::Command::Special specialCmdFromString(std::string_view specialCmd) {
+	using enum CmdSeq::Command::Special;
+	if (string::iequals(specialCmd, "change_dir")) {
+		return CHANGE_DIRECTORY;
 	}
-
-	out.resize(writer.size());
-	return out;
-}
-
-std::vector<std::byte> bakeKeyValues(const CmdSeq& cmdSeq) {
-	KV1Writer kv;
-	auto& kvFile = kv.addChild("Command Sequences");
-	for (const auto& [seqName, seqCommands] : cmdSeq.getSequences()) {
-		auto& kvSequence = kvFile.addChild(seqName);
-		for (int i = 1; i <= seqCommands.size(); i++) {
-			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
-			auto& kvCommand = kvSequence.addChild(std::to_string(i));
-			kvCommand["enabled"] = enabled;
-			kvCommand["special_cmd"] = static_cast<int>(special);
-			kvCommand["run"] = executable;
-			kvCommand["params"] = arguments;
-			kvCommand["ensure_check"] = ensureFileExists;
-			kvCommand["ensure_fn"] = pathToTheoreticallyExistingFile;
-			kvCommand["use_process_wnd"] = useProcessWindow;
-			kvCommand["no_wait"] = waitForKeypress;
-		}
+	if (string::iequals(specialCmd, "copy_file")) {
+		return COPY_FILE;
 	}
-
-	const auto kvStr = kv.bake();
-	std::vector<std::byte> out;
-	out.resize(kvStr.length());
-	std::memcpy(out.data(), kvStr.data(), kvStr.length());
-	return out;
+	if (string::iequals(specialCmd, "delete_file")) {
+		return DELETE_FILE;
+	}
+	if (string::iequals(specialCmd, "rename_file")) {
+		return RENAME_FILE;
+	}
+	if (string::iequals(specialCmd, "copy_file_if_exists")) {
+		return COPY_FILE_IF_EXISTS;
+	}
+	return NONE;
 }
 
 } // namespace
 
 CmdSeq::CmdSeq(std::string path_)
-		: version(0.f)
+		: type(Type::INVALID)
+		, version(0.f)
 		, path(std::move(path_)) {
 	{
 		FileStream reader{path};
@@ -84,21 +44,27 @@ CmdSeq::CmdSeq(std::string path_)
 			return;
 		}
 		if (auto binStr = reader.seek_in(0).read_string(10); binStr == "Worldcraft") {
-			this->usingKeyValues = false;
+			this->type = Type::BINARY;
 		} else {
 			auto kvStr = reader.seek_in(0).read_string(19);
 			string::toLower(kvStr);
 			if (kvStr == "\"command sequences\"") {
-				this->usingKeyValues = true;
+				this->type = Type::KEYVALUES_STRATA;
 			} else {
 				return;
 			}
 		}
 	}
-	if (this->usingKeyValues) {
-		this->parseKeyValues(path);
-	} else {
-		this->parseBinary(path);
+	switch (this->type) {
+		using enum Type;
+		case INVALID:
+			break;
+		case BINARY:
+			this->parseBinary(path);
+			break;
+		case KEYVALUES_STRATA:
+			this->parseKeyValuesStrata(path);
+			break;
 	}
 }
 
@@ -132,6 +98,9 @@ void CmdSeq::parseBinary(const std::string& path) {
 			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
 			enabled = reader.read<int32_t>() & 0xFF;
 			special = reader.read<Command::Special>();
+			if (special == static_cast<Command::Special>(Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS)) {
+				special = Command::Special::COPY_FILE_IF_EXISTS;
+			}
 			executable = reader.read_string(260);
 			arguments = reader.read_string(260);
 			reader.skip_in<int32_t>();
@@ -145,7 +114,7 @@ void CmdSeq::parseBinary(const std::string& path) {
 	}
 }
 
-void CmdSeq::parseKeyValues(const std::string& path) {
+void CmdSeq::parseKeyValuesStrata(const std::string& path) {
 	this->version = 0.2f;
 
 	const KV1 cmdSeq{fs::readFileText(path)};
@@ -156,7 +125,15 @@ void CmdSeq::parseKeyValues(const std::string& path) {
 		for (const auto& kvCommand : kvSequence.getChildren()) {
 			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
 			string::toBool(kvCommand["enabled"].getValue(), enabled);
-			string::toInt(kvCommand["special_cmd"].getValue(), reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+			const auto specialCmd = kvCommand["special_cmd"].getValue();
+			if (parser::text::isNumber(specialCmd)) {
+				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+				if (special == Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS) {
+					special = Command::Special::COPY_FILE_IF_EXISTS;
+				}
+			} else {
+				special = ::specialCmdFromString(specialCmd);
+			}
 			executable = kvCommand["run"].getValue();
 			arguments = kvCommand["params"].getValue();
 			string::toBool(kvCommand["ensure_check"].getValue(), ensureFileExists);
@@ -175,33 +152,94 @@ const std::vector<CmdSeq::Sequence>& CmdSeq::getSequences() const {
 	return this->sequences;
 }
 
-std::vector<std::byte> CmdSeq::bake() const {
-	return this->bake(this->usingKeyValues);
+std::vector<std::byte> CmdSeq::bakeBinary() const {
+	std::vector<std::byte> out;
+	BufferStream writer{out};
+
+	writer
+		.write("Worldcraft Command Sequences\r\n\x1a", 31)
+		.write<float>(this->getVersion())
+		.write<uint32_t>(this->getSequences().size());
+
+	for (const auto& [seqName, seqCommands] : this->getSequences()) {
+		writer
+			.write(seqName, true, 128)
+			.write<uint32_t>(seqCommands.size());
+
+		for (const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] : seqCommands) {
+			writer
+				.write<uint32_t>(enabled)
+				.write(special)
+				.write(executable, true, 260)
+				.write(arguments, true, 260)
+				.write<uint32_t>(true)
+				.write<uint32_t>(ensureFileExists)
+				.write(pathToTheoreticallyExistingFile, true, 260)
+				.write<uint32_t>(useProcessWindow);
+
+			if (this->getVersion() > 0.15f) {
+				writer.write<uint32_t>(waitForKeypress);
+			}
+		}
+	}
+
+	out.resize(writer.size());
+	return out;
 }
 
-std::vector<std::byte> CmdSeq::bake(bool overrideUsingKeyValues) const {
-	if (overrideUsingKeyValues) {
-		return ::bakeKeyValues(*this);
+std::vector<std::byte> CmdSeq::bakeKeyValuesStrata() const {
+	KV1Writer kv;
+	auto& kvFile = kv.addChild("Command Sequences");
+	for (const auto& [seqName, seqCommands] : this->getSequences()) {
+		auto& kvSequence = kvFile.addChild(seqName);
+		for (int i = 1; i <= seqCommands.size(); i++) {
+			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
+			auto& kvCommand = kvSequence.addChild(std::to_string(i));
+			kvCommand["enabled"] = enabled;
+			kvCommand["special_cmd"] = static_cast<int>(special);
+			kvCommand["run"] = executable;
+			kvCommand["params"] = arguments;
+			kvCommand["ensure_check"] = ensureFileExists;
+			kvCommand["ensure_fn"] = pathToTheoreticallyExistingFile;
+			kvCommand["use_process_wnd"] = useProcessWindow;
+			kvCommand["no_wait"] = waitForKeypress;
+		}
 	}
-	return ::bakeBinary(*this);
+
+	const auto kvStr = kv.bake();
+	std::vector<std::byte> out;
+	out.resize(kvStr.length());
+	std::memcpy(out.data(), kvStr.data(), kvStr.length());
+	return out;
+}
+
+std::vector<std::byte> CmdSeq::bake() const {
+	return this->bake(this->type);
+}
+
+std::vector<std::byte> CmdSeq::bake(Type typeOverride) const {
+	switch (typeOverride) {
+		using enum Type;
+		case INVALID:
+			return {};
+		case BINARY:
+			return this->bakeBinary();
+		case KEYVALUES_STRATA:
+			return this->bakeKeyValuesStrata();
+	}
+	return {};
 }
 
 bool CmdSeq::bake(const std::string& path_) {
-	return this->bake(path_, this->usingKeyValues);
+	return this->bake(path_, this->type);
 }
 
-bool CmdSeq::bake(const std::string& path_, bool overrideUsingKeyValues) {
+bool CmdSeq::bake(const std::string& path_, Type typeOverride) {
 	FileStream writer{path_};
 	if (!writer) {
 		return false;
 	}
 	this->path = path_;
-
-	writer.seek_out(0);
-	if (overrideUsingKeyValues) {
-		writer.write(::bakeKeyValues(*this));
-	} else {
-		writer.write(::bakeBinary(*this));
-	}
+	writer.seek_out(0).write(this->bake(typeOverride));
 	return true;
 }
