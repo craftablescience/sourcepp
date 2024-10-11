@@ -8,6 +8,8 @@ var structtoolpp_1_1CmdSeq_1_1Command =
       [ "RENAME_FILE", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181aee7855c017d1a87cb6f45c57ce1a733c", null ],
       [ "COPY_FILE_IF_EXISTS", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181a6fe67a13d21c07a17ac0fbdeffb69842", null ]
     ] ],
+    [ "getExecutableDisplayName", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a4a178e41b7553ab951ab14983464d503", null ],
+    [ "getSpecialDisplayNameFor", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aff9e5e08f760e8d1be0c77d5f9fe8d33", null ],
     [ "arguments", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#ab03a4f3ccca867e6dab1de26e884b89e", null ],
     [ "enabled", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a45c401d4ac28f9bd4aa76f93e81e3626", null ],
     [ "ensureFileExists", "d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a0799751e543bd6135f297cbb10366060", null ],

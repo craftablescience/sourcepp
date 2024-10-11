@@ -71,15 +71,15 @@ var NAVTREEINDEX =
 "annotated.html",
 "d1/d2d/ImageFormats_8h.html#acc53a7285be1b23a4cc06d28cee7f9e2",
 "d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7",
-"d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102.html#a055ff18f9728d5b189d60b9de0784da5",
-"d5/d60/bsppp_8h.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520",
-"d5/db5/classvpkpp_1_1PCK.html#ad8abf22a2019129a798679037adb767c",
-"d6/dbe/Vector_8h.html#a8b42a9b5e9572b0c558400d8fe747516",
-"d8/df2/classvtfpp_1_1VTF.html#a35f66647a111e35be0c28086f47d77a0",
-"d9/dba/String_8h.html#a56584ba389f86fa656f845042a113c1a",
-"dc/d1f/structvpkpp_1_1GMA_1_1Header.html#adc01d71c5ad8e7f24f29adf34f348577",
-"de/d62/classkvpp_1_1KV1ElementBase.html#a3a6b129ba08d5ecf75539148a3f73ddb",
-"functions_l.html"
+"d4/d4b/classsourcepp_1_1math_1_1Matrix.html#a40e51fea733f05206a2060d6a6100c11",
+"d5/d60/bsppp_8h.html#a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e",
+"d5/db5/classvpkpp_1_1PCK.html#acbd571f1abce6fa3d41ffa675d40a451",
+"d6/dbe/Vector_8h.html#a834eb67d10a85547782bf63b9fd14385",
+"d8/df2/classvtfpp_1_1VTF.html#a2d17220b547c530e26ba4282349a963a",
+"d9/dba/String_8h.html#a53edfd6de4431dccfbd39818163cc438",
+"dc/d1f/structvpkpp_1_1GMA_1_1Header.html#a98c1928e2163534eebe3bde2c08930d8",
+"de/d62/classkvpp_1_1KV1ElementBase.html#a1f8bdf9062a76c32cfe17ff7fdfc5379",
+"functions_i.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
