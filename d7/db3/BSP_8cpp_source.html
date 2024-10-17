@@ -234,7 +234,7 @@ $(document).ready(function(){initNavTree('d7/db3/BSP_8cpp_source.html','../../')
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">if</span> (!writer) {</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        writer.writeLump(BSPLump::PAKFILE, <a class="code" href="../../d9/dd6/namespacesourcepp_1_1fs.html#a0758fa851da9a8730cc927691999b5c6">fs::readFileBuffer</a>(this-&gt;<a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a1be77a39294ac678d666f34c5162ac8e">tempZIPPath</a>));</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        writer.writeLump(BSPLump::PAKFILE, <a class="code" href="../../d9/dd6/namespacesourcepp_1_1fs.html#a0758fa851da9a8730cc927691999b5c6">fs::readFileBuffer</a>(this-&gt;<a class="code" href="../../da/de7/classvpkpp_1_1ZIP.html#a1be77a39294ac678d666f34c5162ac8e">tempZIPPath</a>), <span class="keyword">false</span>);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    }</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">// Rename and reopen the ZIP</span></div>
