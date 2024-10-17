@@ -113,7 +113,7 @@ bool BSP::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		if (!writer) {
 			return false;
 		}
-		writer.writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath));
+		writer.writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath), false);
 	}
 
 	// Rename and reopen the ZIP
