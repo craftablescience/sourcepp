@@ -13,7 +13,7 @@ using namespace sourcepp;
 #include <Windows.h>
 
 std::optional<GameInstance> GameInstance::find(std::string_view windowNameOverride) {
-	GameInstance instance;
+	GameInstance instance{};
 
 	if (!windowNameOverride.empty()) {
 		instance.hwnd = FindWindowA(windowNameOverride.data(), nullptr);
@@ -34,7 +34,7 @@ std::optional<GameInstance> GameInstance::find(std::string_view windowNameOverri
 std::string GameInstance::getWindowTitle() const {
 	// This should be large enough
 	std::string title(512, '\0');
-	if (auto size = GetWindowTextA(reinterpret_cast<HWND>(this->hwnd), title.data(), title.length())) {
+	if (auto size = GetWindowTextA(reinterpret_cast<HWND>(this->hwnd), title.data(), static_cast<int>(title.length()))) {
 		title.resize(size);
 		return title;
 	}
