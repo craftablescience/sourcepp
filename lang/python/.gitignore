@@ -1,0 +1,3 @@
+# Build Files
+dist/sourcepp/*
+!dist/sourcepp/__init__.py

@@ -42,7 +42,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="3" align="center"></td>
+    <td rowspan="3" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -84,7 +84,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>Find Steam install folder</td>
     <td align="center">✅</td>
     <td align="center">-</td>
-    <td rowspan="3" align="center">C</td>
+    <td rowspan="3" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>

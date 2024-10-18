@@ -26,13 +26,14 @@ option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURC
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 
-option(SOURCEPP_BUILD_BENCHMARKS   "Build benchmarks for supported libraries" OFF)
-option(SOURCEPP_BUILD_C_WRAPPERS   "Build C wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_WITH_OPENCL  "Build with support for GPU compute"       OFF)
-option(SOURCEPP_BUILD_WITH_TBB     "Build with support for std::execution"    OFF)
-option(SOURCEPP_BUILD_WITH_THREADS "Build with support for threading"          ON)
-option(SOURCEPP_BUILD_TESTS        "Build tests for supported libraries"      OFF)
-option(SOURCEPP_BUILD_WIN7_COMPAT  "Build with Windows 7 compatibility"       OFF)
+option(SOURCEPP_BUILD_BENCHMARKS      "Build benchmarks for supported libraries"      OFF)
+option(SOURCEPP_BUILD_C_WRAPPERS      "Build C wrappers for supported libraries"      OFF)
+option(SOURCEPP_BUILD_PYTHON_WRAPPERS "Build Python wrappers for supported libraries" OFF)
+option(SOURCEPP_BUILD_WITH_OPENCL     "Build with support for GPU compute"            OFF)
+option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"         OFF)
+option(SOURCEPP_BUILD_WITH_THREADS    "Build with support for threading"               ON)
+option(SOURCEPP_BUILD_TESTS           "Build tests for supported libraries"           OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT     "Build with Windows 7 compatibility"            OFF)
 
 option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
 
@@ -73,6 +74,7 @@ endif()
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
 include(AddSourcePPLibrary)
+include(FetchContent)
 include(IncludeSubdirectory)
 include(PrintOptions)
 include(TargetOptimize)
@@ -92,10 +94,24 @@ if(SOURCEPP_BUILD_C_WRAPPERS)
 endif()
 
 
+# Python bindings, part 1
+if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
+    set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
+    find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+    FetchContent_Declare(
+            pybind11
+            GIT_REPOSITORY "https://github.com/pybind/pybind11.git"
+            GIT_TAG "v2.13.6")
+    FetchContent_MakeAvailable(pybind11)
+    set(${SOURCEPP_PYTHON_NAME}_SOURCES "")
+    set(${SOURCEPP_PYTHON_NAME}_DEFINES "")
+    list(APPEND ${SOURCEPP_PYTHON_NAME}_DEPS pybind11::headers)
+endif()
+
+
 # Tests, part 1
 if(SOURCEPP_BUILD_TESTS)
     set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
-    include(FetchContent)
     FetchContent_Declare(
             googletest
             GIT_REPOSITORY "https://github.com/google/googletest.git"
@@ -138,16 +154,16 @@ endif()
 
 
 # Add libraries
-add_sourcepp_library(bsppp             NO_TEST      ) # sourcepp::bsppp
-add_sourcepp_library(dmxpp                          ) # sourcepp::dmxpp
-add_sourcepp_library(gamepp                         ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                      BENCH) # sourcepp::kvpp
-add_sourcepp_library(mdlpp                          ) # sourcepp::mdlpp
-add_sourcepp_library(steampp  C                     ) # sourcepp::steampp
-add_sourcepp_library(toolpp                         ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP              ) # sourcepp::vcryptpp
-add_sourcepp_library(vpkpp    C CSHARP NO_TEST      ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp                     BENCH) # sourcepp::vtfpp
+add_sourcepp_library(bsppp                    NO_TEST      ) # sourcepp::bsppp
+add_sourcepp_library(dmxpp                                 ) # sourcepp::dmxpp
+add_sourcepp_library(gamepp            PYTHON              ) # sourcepp::gamepp
+add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
+add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
+add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
+add_sourcepp_library(toolpp                                ) # sourcepp::toolpp
+add_sourcepp_library(vcryptpp C CSHARP                     ) # sourcepp::vcryptpp
+add_sourcepp_library(vpkpp    C CSHARP        NO_TEST      ) # sourcepp::vpkpp
+add_sourcepp_library(vtfpp                            BENCH) # sourcepp::vtfpp
 
 
 # Tests, part 2
@@ -160,9 +176,18 @@ if(SOURCEPP_BUILD_TESTS)
 endif()
 
 
+# Python bindings, part 2
+if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
+    python_add_library(${SOURCEPP_PYTHON_NAME} MODULE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp.cpp" ${${SOURCEPP_PYTHON_NAME}_SOURCES} WITH_SOABI)
+    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/dist/sourcepp")
+    target_compile_definitions(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEFINES})
+    target_link_libraries(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEPS})
+endif()
+
+
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
