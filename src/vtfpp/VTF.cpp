@@ -1192,7 +1192,9 @@ std::vector<std::byte> VTF::bake() const {
 		}
 
 		writer
-			.write<uint24_t>(0) // padding
+			.write<uint8_t>(0) // padding
+			.write<uint8_t>(0) // padding
+			.write<uint8_t>(0) // padding
 			.write<uint32_t>(this->getResources().size() + hasAuxCompression)
 			.write<uint64_t>(0); // padding
 
