@@ -31,4 +31,4 @@ void register_python(py::module_& m) {
 			.def_property_readonly("valid", &Steam::operator bool);
 }
 
-} // namespace gamepp
+} // namespace steampp

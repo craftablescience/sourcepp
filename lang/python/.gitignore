@@ -1,3 +1,4 @@
 # Build Files
+__pycache__/
 dist/sourcepp/*
 !dist/sourcepp/__init__.py
