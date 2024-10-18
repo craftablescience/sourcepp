@@ -161,7 +161,7 @@ add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
 add_sourcepp_library(toolpp                                ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP                     ) # sourcepp::vcryptpp
+add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP        NO_TEST      ) # sourcepp::vpkpp
 add_sourcepp_library(vtfpp                            BENCH) # sourcepp::vtfpp
 
