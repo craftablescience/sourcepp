@@ -119,7 +119,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> encrypted files</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center">C<br>C#</td>
+    <td rowspan="3" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>

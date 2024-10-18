@@ -161,7 +161,7 @@ add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
 add_sourcepp_library(toolpp                                ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP                     ) # sourcepp::vcryptpp
+add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP        NO_TEST      ) # sourcepp::vpkpp
 add_sourcepp_library(vtfpp                            BENCH) # sourcepp::vtfpp
 
@@ -179,7 +179,7 @@ endif()
 # Python bindings, part 2
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     python_add_library(${SOURCEPP_PYTHON_NAME} MODULE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp.cpp" ${${SOURCEPP_PYTHON_NAME}_SOURCES} WITH_SOABI)
-    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/dist/sourcepp")
+    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES PREFIX "_" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/dist/sourcepp")
     target_compile_definitions(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEFINES})
     target_link_libraries(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEPS})
 endif()

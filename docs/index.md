@@ -107,7 +107,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> encrypted files</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="2" align="center">C<br>C#</td>
+    <td rowspan="2" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/Vfont">VFONT</a> encrypted fonts</td>
