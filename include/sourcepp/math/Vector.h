@@ -28,7 +28,7 @@ struct Vec {
 
 	using value_type = P;
 
-	[[nodiscard]] consteval uint8_t size() const {
+	[[nodiscard]] constexpr uint8_t size() const {
 		return S;
 	}
 
@@ -252,7 +252,6 @@ using Vec2i = Vec2i32;
 
 using Vec2ui8 = Vec2<uint8_t>;
 using Vec2ui16 = Vec2<uint16_t>;
-using Vec2ui24 = Vec2<uint24_t>;
 using Vec2ui32 = Vec2<uint32_t>;
 using Vec2ui64 = Vec2<uint64_t>;
 using Vec2ui = Vec2ui32;
@@ -272,7 +271,6 @@ using Vec3i = Vec3i32;
 
 using Vec3ui8 = Vec3<uint8_t>;
 using Vec3ui16 = Vec3<uint16_t>;
-using Vec3ui24 = Vec3<uint24_t>;
 using Vec3ui32 = Vec3<uint32_t>;
 using Vec3ui64 = Vec3<uint64_t>;
 using Vec3ui = Vec3ui32;
@@ -292,7 +290,6 @@ using Vec4i = Vec4i32;
 
 using Vec4ui8 = Vec4<uint8_t>;
 using Vec4ui16 = Vec4<uint16_t>;
-using Vec4ui24 = Vec4<uint24_t>;
 using Vec4ui32 = Vec4<uint32_t>;
 using Vec4ui64 = Vec4<uint64_t>;
 using Vec4ui = Vec4ui32;
