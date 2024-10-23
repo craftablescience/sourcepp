@@ -15,6 +15,7 @@
 PYBIND11_MODULE(_sourcepp_python, m) {
 	m.doc() = "SourcePP: A Python wrapper around several modern C++20 libraries for sanely parsing Valve's formats.";
 
+	m.attr("__author__") = "craftablescience";
 	m.attr("__version__") = "dev";
 
 	sourcepp::register_python(m);
