@@ -9,9 +9,9 @@ namespace py = pybind11;
 
 namespace steampp {
 
-void register_python(py::module_& m) {
-	using namespace steampp;
+inline void register_python(py::module_& m) {
 	auto steampp = m.def_submodule("steampp");
+	using namespace steampp;
 
 	py::class_<Steam>(steampp, "Steam")
 	        .def(py::init<>())

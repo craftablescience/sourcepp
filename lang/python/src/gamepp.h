@@ -9,9 +9,9 @@ namespace py = pybind11;
 
 namespace gamepp {
 
-void register_python(py::module_& m) {
-	using namespace gamepp;
+inline void register_python(py::module_& m) {
 	auto gamepp = m.def_submodule("gamepp");
+	using namespace gamepp;
 
 	py::class_<GameInstance>(gamepp, "GameInstance")
 			.def_static("find", &GameInstance::find, py::arg("window_name_override") = "")

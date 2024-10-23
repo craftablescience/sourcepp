@@ -9,7 +9,6 @@
 #include <variant>
 #include <vector>
 
-#include <sourcepp/math/Vector.h>
 #include <sourcepp/parser/Binary.h>
 #include <sourcepp/Macros.h>
 

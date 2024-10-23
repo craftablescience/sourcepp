@@ -5,7 +5,7 @@
 #include <string>
 #include <string_view>
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 class BufferStream;
 

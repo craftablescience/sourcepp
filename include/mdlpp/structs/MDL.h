@@ -6,10 +6,6 @@
 #include <string>
 #include <vector>
 
-#include <sourcepp/math/Angles.h>
-#include <sourcepp/math/Matrix.h>
-#include <sourcepp/math/Vector.h>
-
 #include "Generic.h"
 
 namespace mdlpp::MDL {
@@ -24,13 +20,13 @@ struct Bone {
 	std::string name;
 
 	int32_t parent;
-	int32_t boneController[6];
+	std::array<int32_t, 6> boneController;
 	sourcepp::math::Vec3f position;
 	sourcepp::math::Quat rotationQuat;
 	sourcepp::math::Vec3f rotationEuler;
 	sourcepp::math::Vec3f positionScale;
 	sourcepp::math::Vec3f rotationScale;
-	sourcepp::math::Matrix<3,4> poseToBose;
+	sourcepp::math::Mat3x4f poseToBose;
 	sourcepp::math::Quat alignment;
 	Flags flags;
 	int32_t procType;

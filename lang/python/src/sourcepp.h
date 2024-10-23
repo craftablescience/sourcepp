@@ -8,13 +8,13 @@
 
 namespace py = pybind11;
 
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace sourcepp {
 
-void register_python(py::module_& m) {
-	using namespace sourcepp;
+inline void register_python(py::module_& m) {
 	auto sourcepp = m.def_submodule("sourcepp");
+	using namespace sourcepp;
 
 	{
 		auto math = sourcepp.def_submodule("math");
@@ -23,10 +23,10 @@ void register_python(py::module_& m) {
 		const auto registerVecType = [&math]<typename V>(std::string_view name) {
 			py::class_<V>(math, name.data(), pybind11::buffer_protocol())
 					.def_buffer([](V& v) -> py::buffer_info {
-						return {v.values.data(), static_cast<int64_t>(v.values.size())};
+						return {v.data(), static_cast<int64_t>(v.size())};
 					})
 					.def("__len__", &V::size)
-					.def("__setitem__", [](V& self, uint8_t index, V::value_type val) { self[index] = val; })
+					.def("__setitem__", [](V& self, uint8_t index, typename V::value_type val) { self[index] = val; })
 					.def("__getitem__", [](V& self, uint8_t index) { return self[index]; })
 					.def_static("zero", &V::zero)
 					.def("is_zero", &V::isZero);
@@ -44,6 +44,7 @@ void register_python(py::module_& m) {
 		registerVecType.operator()<Vec2ui64>("Vec2ui64");
 		//registerVecType.operator()<Vec2ui>("Vec2ui");
 
+		//registerVecType.operator()<Vec2f16>("Vec2f16");
 		registerVecType.operator()<Vec2f32>("Vec2f32");
 		registerVecType.operator()<Vec2f64>("Vec2f64");
 		//registerVecType.operator()<Vec2f>("Vec2f");
@@ -60,6 +61,7 @@ void register_python(py::module_& m) {
 		registerVecType.operator()<Vec3ui64>("Vec3ui64");
 		//registerVecType.operator()<Vec3ui>("Vec3ui");
 
+		//registerVecType.operator()<Vec3f16>("Vec3f16");
 		registerVecType.operator()<Vec3f32>("Vec3f32");
 		registerVecType.operator()<Vec3f64>("Vec3f64");
 		//registerVecType.operator()<Vec3f>("Vec3f");
@@ -76,6 +78,7 @@ void register_python(py::module_& m) {
 		registerVecType.operator()<Vec4ui64>("Vec4ui64");
 		//registerVecType.operator()<Vec4ui>("Vec4ui");
 
+		//registerVecType.operator()<Vec4f16>("Vec4f16");
 		registerVecType.operator()<Vec4f32>("Vec4f32");
 		registerVecType.operator()<Vec4f64>("Vec4f64");
 		//registerVecType.operator()<Vec4f>("Vec4f");

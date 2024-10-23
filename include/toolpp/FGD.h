@@ -7,7 +7,7 @@
 #include <vector>
 
 #include <BufferStream.h>
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace toolpp {
 

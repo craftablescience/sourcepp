@@ -2,8 +2,8 @@
 
 #include <string>
 
-#include <sourcepp/math/Vector.h>
 #include <sourcepp/Macros.h>
+#include <sourcepp/Math.h>
 
 namespace mdlpp {
 

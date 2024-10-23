@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <vector>
 
-#include <sourcepp/math/Integer.h>
-
 #include "ImageConversion.h"
 
 namespace vtfpp {
