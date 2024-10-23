@@ -145,6 +145,5 @@ var annotated_dup =
       [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
       [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ]
-    ] ],
-    [ "uint24_t", "d9/d80/structuint24__t.html", "d9/d80/structuint24__t" ]
+    ] ]
 ];

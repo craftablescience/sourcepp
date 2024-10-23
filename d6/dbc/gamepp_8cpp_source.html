@@ -134,19 +134,19 @@ $(document).ready(function(){initNavTree('d6/dbc/gamepp_8cpp_source.html','../..
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;Windows.h&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;std::optional&lt;GameInstance&gt; <a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8d1ebf59bc41d971a0091e5553ba4951">GameInstance::find</a>(std::string_view windowNameOverride) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html">GameInstance</a> instance;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html">GameInstance</a> instance{};</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">if</span> (!windowNameOverride.empty()) {</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        instance.<a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe">hwnd</a> = FindWindowA(windowNameOverride.data(), <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        instance.<a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe">hwnd</a> = FindWindowA(<span class="stringliteral">&quot;Valve001&quot;</span>, <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span> (!instance.<a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe">hwnd</a>) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            instance.<a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe">hwnd</a> = FindWindowA(<span class="stringliteral">&quot;Strata001&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        instance.hwnd = FindWindowA(<span class="stringliteral">&quot;Valve001&quot;</span>, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">if</span> (!instance.hwnd) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            instance.hwnd = FindWindowA(<span class="stringliteral">&quot;Strata001&quot;</span>, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="comment">// are any other names used in other branches known?</span></div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (!instance.<a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe">hwnd</a>) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (!instance.hwnd) {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">return</span> std::nullopt;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> instance;</div>
@@ -155,7 +155,7 @@ $(document).ready(function(){initNavTree('d6/dbc/gamepp_8cpp_source.html','../..
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;std::string <a class="code" href="../../d2/dc0/classgamepp_1_1GameInstance.html#ad12cf426974c60fbbcf7a916ef733d7c">GameInstance::getWindowTitle</a>()<span class="keyword"> const </span>{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// This should be large enough</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    std::string title(512, <span class="charliteral">&#39;\0&#39;</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">auto</span> size = GetWindowTextA(<span class="keyword">reinterpret_cast&lt;</span>HWND<span class="keyword">&gt;</span>(this-&gt;hwnd), title.data(), title.length())) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">auto</span> size = GetWindowTextA(<span class="keyword">reinterpret_cast&lt;</span>HWND<span class="keyword">&gt;</span>(this-&gt;hwnd), title.data(), <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(title.length()))) {</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        title.resize(size);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> title;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
