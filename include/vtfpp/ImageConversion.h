@@ -4,8 +4,6 @@
 #include <span>
 #include <vector>
 
-#include <sourcepp/math/Float.h>
-
 #include "ImageFormats.h"
 
 namespace vtfpp {

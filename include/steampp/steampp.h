@@ -10,7 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 namespace steampp {
 

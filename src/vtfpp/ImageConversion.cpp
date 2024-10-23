@@ -11,8 +11,8 @@
 #endif
 
 #include <Compressonator.h>
-#include <sourcepp/math/Float.h>
 #include <sourcepp/Macros.h>
+#include <sourcepp/Math.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC

@@ -9,9 +9,9 @@ namespace py = pybind11;
 
 namespace vcryptpp {
 
-void register_python(py::module_& m) {
-	using namespace vcryptpp;
+inline void register_python(py::module_& m) {
 	auto vcryptpp = m.def_submodule("vcryptpp");
+	using namespace vcryptpp;
 
 	{
 		auto VFONT = vcryptpp.def_submodule("VFONT");
