@@ -160,7 +160,7 @@ endif()
 # Add libraries
 add_sourcepp_library(bsppp                    NO_TEST      ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                                 ) # sourcepp::dmxpp
-add_sourcepp_library(gamepp            PYTHON              ) # sourcepp::gamepp
+add_sourcepp_library(gamepp   C        PYTHON              ) # sourcepp::gamepp
 add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
 add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
