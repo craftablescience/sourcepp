@@ -28,6 +28,7 @@ option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURC
 
 option(SOURCEPP_BUILD_BENCHMARKS      "Build benchmarks for supported libraries"      OFF)
 option(SOURCEPP_BUILD_C_WRAPPERS      "Build C wrappers for supported libraries"      OFF)
+option(SOURCEPP_BUILD_CSHARP_WRAPPERS "Build C# wrappers for supported libraries"     OFF)
 option(SOURCEPP_BUILD_PYTHON_WRAPPERS "Build Python wrappers for supported libraries" OFF)
 option(SOURCEPP_BUILD_WITH_OPENCL     "Build with support for GPU compute"            OFF)
 option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"         OFF)
@@ -54,6 +55,9 @@ if(SOURCEPP_USE_VPKPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
 endif()
 
+if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
+    set(SOURCEPP_BUILD_C_WRAPPERS ON CACHE INTERNAL "" FORCE)
+endif()
 if(MSVC)
     # MSVC does not rely on tbb for std::execution policies, so we can force this on
     set(SOURCEPP_BUILD_WITH_TBB ON CACHE INTERNAL "" FORCE)

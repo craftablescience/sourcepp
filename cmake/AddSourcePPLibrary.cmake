@@ -13,10 +13,12 @@ function(add_sourcepp_library TARGET)
         endif()
 
         # Add C#
-        if(SOURCEPP_BUILD_C_WRAPPERS AND OPTIONS_CSHARP)
+        if(SOURCEPP_BUILD_CSHARP_WRAPPERS AND OPTIONS_CSHARP)
             configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp/Buffer.cs.in"     "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}/Buffer.cs")
             configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp/String.cs.in"     "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}/String.cs")
             configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp/TARGET.csproj.in" "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}/${TARGET}.csproj")
+            add_custom_target(${TARGET}_csharp DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}/${TARGET}.csproj")
+            add_dependencies(${TARGET}_csharp ${TARGET}c)
         endif()
 
         # Add Python
