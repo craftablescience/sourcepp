@@ -18,6 +18,11 @@ namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
 
+enum class CompressionMethod : int16_t {
+	DEFLATE = 8,
+	ZSTD = 93,
+};
+
 struct Resource {
 	enum Type : uint32_t {
 		TYPE_UNKNOWN             = 0,   // Unknown
@@ -30,12 +35,7 @@ struct Resource {
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 	};
-	static constexpr std::array<Resource::Type, 8> TYPE_ARRAY_ORDER{
-		// These don't really matter
-		Resource::TYPE_CRC, Resource::TYPE_EXTENDED_FLAGS, Resource::TYPE_LOD_CONTROL_INFO, Resource::TYPE_KEYVALUES_DATA, Resource::TYPE_PARTICLE_SHEET_DATA,
-		// These matter
-		Resource::TYPE_THUMBNAIL_DATA, Resource::TYPE_AUX_COMPRESSION, Resource::TYPE_IMAGE_DATA,
-	};
+	static const std::array<Type, 8>& getOrder();
 
 	enum Flags : uint8_t {
 		FLAG_NONE       = 0,
@@ -71,8 +71,16 @@ struct Resource {
 		return std::get<std::string>(this->convertData());
 	}
 
-	[[nodiscard]] int32_t getDataAsAuxCompressionLevel() const {
-		return static_cast<int32_t>(std::get<std::span<uint32_t>>(this->convertData())[1]);
+	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
+		return static_cast<int16_t>(std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff);
+	}
+
+	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const {
+		auto method = static_cast<int16_t>((std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff0000) >> 16);
+		if (method <= 0) {
+			return CompressionMethod::DEFLATE;
+		}
+		return static_cast<CompressionMethod>(method);
 	}
 
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
@@ -159,7 +167,8 @@ public:
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
-		uint8_t compressionLevel = 6;
+		int16_t compressionLevel = -1;
+		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 		float bumpMapScale = 1.f;
 	};
 
@@ -303,9 +312,13 @@ public:
 
 	void removeKeyValuesData();
 
-	[[nodiscard]] uint8_t getCompressionLevel() const;
+	[[nodiscard]] int16_t getCompressionLevel() const;
 
-	void setCompressionLevel(uint8_t newCompressionLevel);
+	[[nodiscard]] CompressionMethod getCompressionMethod() const;
+
+	void setCompressionLevel(int16_t newCompressionLevel);
+
+	void setCompressionMethod(CompressionMethod newCompressionMethod);
 
 	[[nodiscard]] bool hasImageData() const;
 
@@ -396,7 +409,8 @@ protected:
 	//uint8_t _padding3[4];
 
 	// These aren't in the header, these are for VTF modification
-	uint8_t compressionLevel = 0;
+	int16_t compressionLevel = 0;
+	CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 };
