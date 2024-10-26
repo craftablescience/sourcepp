@@ -10,6 +10,7 @@ cmake-build-*/
 out/
 
 # Generated
+__pycache__/
 docs/html/
 test/res/
 test/Helpers.h

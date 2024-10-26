@@ -12,6 +12,10 @@
 #include "vcryptpp.h"
 #endif
 
+#ifdef VTFPP
+#include "vtfpp.h"
+#endif
+
 PYBIND11_MODULE(_sourcepp_python, m) {
 	m.doc() = "SourcePP: A Python wrapper around several modern C++20 libraries for sanely parsing Valve's formats.";
 
@@ -36,5 +40,11 @@ PYBIND11_MODULE(_sourcepp_python, m) {
 	vcryptpp::register_python(m);
 #else
 	m.def_submodule("vcryptpp");
+#endif
+
+#ifdef VTFPP
+	vtfpp::register_python(m);
+#else
+	m.def_submodule("vtfpp");
 #endif
 }
