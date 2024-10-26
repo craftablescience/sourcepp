@@ -59,7 +59,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 
 void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, const EntryCallback& callback) {
 	FileStream reader{path};
-	reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) * 2 + sizeof(uint8_t)), std::ios::end);
+	reader.seek_in(sizeof(uint32_t) * 2 + sizeof(uint8_t), std::ios::end);
 
 	auto fileCount = reader.read<uint32_t>();
 	auto dirOffset = reader.read<uint32_t>();

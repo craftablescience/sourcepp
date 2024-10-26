@@ -59,7 +59,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 
 	if (auto signature = reader.read<uint32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
-		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t)), std::ios::end);
+		reader.seek_in(sizeof(uint32_t), std::ios::end);
 		if (auto endSignature = reader.read<uint32_t>(); endSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
