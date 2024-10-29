@@ -1,8 +1,12 @@
 #pragma once
 
+#include <concepts>
 #include <cstddef>
 #include <span>
 #include <vector>
+
+#include <BufferStream.h>
+#include <sourcepp/Templates.h>
 
 #include "ImageFormats.h"
 
@@ -273,6 +277,42 @@ VTFPP_CHECK_SIZE(R8);
 
 #undef VTFPP_CHECK_SIZE
 
+template<typename T>
+concept PixelType =
+		std::same_as<T, RGBA8888> ||
+		std::same_as<T, ABGR8888> ||
+		std::same_as<T, RGB888> ||
+		std::same_as<T, BGR888> ||
+		std::same_as<T, RGB565> ||
+		std::same_as<T, I8> ||
+		std::same_as<T, IA88> ||
+		std::same_as<T, P8> ||
+		std::same_as<T, A8> ||
+		std::same_as<T, RGB888_BLUESCREEN> ||
+		std::same_as<T, BGR888_BLUESCREEN> ||
+		std::same_as<T, ARGB8888> ||
+		std::same_as<T, BGRA8888> ||
+		std::same_as<T, BGRX8888> ||
+		std::same_as<T, BGR565> ||
+		std::same_as<T, BGRX5551> ||
+		std::same_as<T, BGRA4444> ||
+		std::same_as<T, BGRA5551> ||
+		std::same_as<T, UV88> ||
+		std::same_as<T, UVWQ8888> ||
+		std::same_as<T, RGBA16161616F> ||
+		std::same_as<T, RGBA16161616> ||
+		std::same_as<T, UVLX8888> ||
+		std::same_as<T, R32F> ||
+		std::same_as<T, RGB323232F> ||
+		std::same_as<T, RGBA32323232F> ||
+		std::same_as<T, RG1616F> ||
+		std::same_as<T, RG3232F> ||
+		std::same_as<T, RGBX8888> ||
+		std::same_as<T, RGBA1010102> ||
+		std::same_as<T, BGRA1010102> ||
+		std::same_as<T, R16F> ||
+		std::same_as<T, R8>;
+
 } // namespace ImagePixel
 
 namespace ImageConversion {
@@ -339,6 +379,25 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 
 /// Resize given image data to the new dimensions, where the new width and height are governed by the resize methods
 [[nodiscard]] std::vector<std::byte> resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP);
+
+/// Extracts a single channel from the given image data.
+/// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
+/// Data is packed according to pixel channel C++ type size
+template<ImagePixel::PixelType P>
+[[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*format) {
+	if (imageData.empty() || imageData.size() % sizeof(P) != 0) {
+		return {};
+	}
+
+	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
+
+	std::vector<std::byte> out(imageData.size() / (ImageFormatDetails::bpp(P::FORMAT) / 8) * sizeof(sourcepp::member_type_t<decltype(format)>));
+	BufferStream stream{out, false};
+	for (const auto& pixel : pixels) {
+		stream << pixel.*format;
+	}
+	return out;
+}
 
 } // namespace ImageConversion
 

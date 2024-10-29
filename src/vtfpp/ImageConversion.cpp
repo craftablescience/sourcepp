@@ -952,7 +952,129 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			break;
 		}
 		case FileFormat::EXR: {
-			// todo(vtfpp): EXR write
+			EXRHeader header;
+			InitEXRHeader(&header);
+
+			std::vector<std::byte> rawData;
+			if (!ImageFormatDetails::decimal(format) || ImageFormatDetails::compressed(format)) {
+				if (ImageFormatDetails::transparent(format)) {
+					rawData = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+					format = ImageFormat::RGBA32323232F;
+				} else {
+					rawData = convertImageDataToFormat(imageData, format, ImageFormat::RGB323232F, width, height);
+					format = ImageFormat::RGB323232F;
+				}
+			} else {
+				rawData = {imageData.begin(), imageData.end()};
+			}
+
+			header.num_channels = (ImageFormatDetails::red(format) > 0) + (ImageFormatDetails::green(format) > 0) + (ImageFormatDetails::blue(format) > 0) + (ImageFormatDetails::alpha(format) > 0);
+			header.channels = static_cast<EXRChannelInfo*>(std::malloc(header.num_channels * sizeof(EXRChannelInfo)));
+			header.pixel_types = static_cast<int*>(malloc(header.num_channels * sizeof(int)));
+			header.requested_pixel_types = static_cast<int*>(malloc(header.num_channels * sizeof(int)));
+
+			switch (header.num_channels) {
+				case 4:
+					header.channels[0].name[0] = 'A';
+					header.channels[1].name[0] = 'B';
+					header.channels[2].name[0] = 'G';
+					header.channels[3].name[0] = 'R';
+					break;
+				case 3:
+					header.channels[0].name[0] = 'B';
+					header.channels[1].name[0] = 'G';
+					header.channels[2].name[0] = 'R';
+					break;
+				case 2:
+					header.channels[0].name[0] = 'G';
+					header.channels[1].name[0] = 'R';
+					break;
+				case 1:
+					header.channels[0].name[0] = 'R';
+					break;
+				default:
+					FreeEXRHeader(&header);
+					return {};
+			}
+			for (int i = 0; i < header.num_channels; i++) {
+				header.channels[i].name[1] = '\0';
+			}
+
+			int pixelType = (ImageFormatDetails::red(format) / 8) == sizeof(half) ? TINYEXR_PIXELTYPE_HALF : TINYEXR_PIXELTYPE_FLOAT;
+			for (int i = 0; i < header.num_channels; i++) {
+				header.pixel_types[i] = pixelType;
+				header.requested_pixel_types[i] = pixelType;
+			}
+
+			std::vector<std::vector<std::byte>> images(header.num_channels);
+			std::vector<void*> imagePtrs(header.num_channels);
+			switch (header.num_channels) {
+				case 4:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::a);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::b);
+						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::g);
+						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::r);
+					} else {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::a);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::b);
+						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::g);
+						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::r);
+					}
+					break;
+				case 3:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						// We should not be here!
+						FreeEXRHeader(&header);
+						return {};
+					}
+					images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::b);
+					images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::g);
+					images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::r);
+					break;
+				case 2:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::g);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::r);
+					} else {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::g);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::r);
+					}
+					break;
+				case 1:
+					images[0] = rawData;
+					break;
+				default:
+					FreeEXRHeader(&header);
+					return {};
+			}
+			for (int i = 0; i < header.num_channels; i++) {
+				imagePtrs[i] = images[i].data();
+			}
+
+			EXRImage image;
+			InitEXRImage(&image);
+			image.width = width;
+			image.height = height;
+			image.images = reinterpret_cast<unsigned char**>(imagePtrs.data());
+			image.num_channels = header.num_channels;
+
+			unsigned char* data = nullptr;
+			const char* err = nullptr;
+
+			size_t size = SaveEXRImageToMemory(&image, &header, &data, &err);
+			if (err) {
+				FreeEXRErrorMessage(err);
+				FreeEXRHeader(&header);
+				return {};
+			}
+			if (data) {
+				out = {reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size};
+				std::free(data);
+			}
+
+			FreeEXRHeader(&header);
+			break;
 		}
 		case FileFormat::DEFAULT:
 			break;

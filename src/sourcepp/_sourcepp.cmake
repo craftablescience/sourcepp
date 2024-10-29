@@ -9,7 +9,8 @@ list(APPEND ${PROJECT_NAME}_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/FS.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/Macros.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/Math.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/String.h")
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/String.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/Templates.h")
 
 add_library(${PROJECT_NAME} STATIC
         ${${PROJECT_NAME}_HEADERS}
