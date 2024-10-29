@@ -785,14 +785,13 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
 	if (ImageFormatDetails::compressed(oldFormat)) {
 		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA8888) {
-		newData = ::convertImageDataToRGBA8888(imageData, oldFormat);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA16161616) {
-		newData = ::convertImageDataToRGBA16161616(imageData, oldFormat);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA32323232F) {
-		newData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
 	} else {
-		return {};
+		switch (intermediaryOldFormat) {
+			case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(imageData, oldFormat);      break;
+			case ImageFormat::RGBA16161616:  newData = ::convertImageDataToRGBA16161616(imageData, oldFormat);  break;
+			case ImageFormat::RGBA32323232F: newData = ::convertImageDataToRGBA32323232F(imageData, oldFormat); break;
+			default:                         return {};
+		}
 	}
 
 	if (intermediaryOldFormat == newFormat) {
@@ -836,14 +835,13 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	if (ImageFormatDetails::compressed(newFormat)) {
 		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA8888) {
-		newData = ::convertImageDataFromRGBA8888(newData, newFormat);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
-		newData = ::convertImageDataFromRGBA16161616(newData, newFormat);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA32323232F) {
-		newData = ::convertImageDataFromRGBA32323232F(newData, newFormat);
 	} else {
-		return {};
+		switch (intermediaryNewFormat) {
+			case ImageFormat::RGBA8888:      newData = ::convertImageDataFromRGBA8888(newData, newFormat);      break;
+			case ImageFormat::RGBA16161616:  newData = ::convertImageDataFromRGBA16161616(newData, newFormat);  break;
+			case ImageFormat::RGBA32323232F: newData = ::convertImageDataFromRGBA32323232F(newData, newFormat); break;
+			default:                         return {};
+		}
 	}
 
 	return newData;
