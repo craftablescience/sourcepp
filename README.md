@@ -207,7 +207,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td>ZIP (and BZ2, GZ, XZ, ZSTD)</td>
+    <td>ZIP</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
