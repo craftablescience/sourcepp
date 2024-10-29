@@ -323,8 +323,8 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 	}
 
 	const auto entryLength = (this->hasCompression() && entry->compressedLength) ? entry->compressedLength : entry->length;
-	if (!entryLength) {
-		return {};
+	if (entryLength == 0) {
+		return std::vector<std::byte>{};
 	}
 	std::vector out(entryLength, static_cast<std::byte>(0));
 
@@ -880,10 +880,8 @@ uint32_t VPK::getVersion() const {
 }
 
 void VPK::setVersion(uint32_t version) {
-	if (version != 0 && version != 1 && version != 2 && version != 54) {
-		return;
-	}
-	if (::isFPX(this) || version == this->header1.version) {
+	// Version must be supported, we cannot be an FPX, and version must be different
+	if ((version != 0 && version != 1 && version != 2 && version != 54) || ::isFPX(this) || version == this->header1.version) {
 		return;
 	}
 	this->header1.version = version;
