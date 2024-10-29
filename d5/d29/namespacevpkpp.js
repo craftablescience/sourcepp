@@ -48,7 +48,6 @@ var namespacevpkpp =
     ] ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
     [ "BSP_EXTENSION", "d5/d29/namespacevpkpp.html#a09fb541c2049262e43a2503c7094b7df", null ],
-    [ "BZ2_EXTENSION", "d5/d29/namespacevpkpp.html#a7d2810cb43690ba5cbbf97106a511aec", null ],
     [ "EXAMPLE_EXTENSION", "d5/d29/namespacevpkpp.html#a5d2f9e88caa61407f218c763d0af0256", null ],
     [ "EXECUTABLE_EXTENSION0", "d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54", null ],
     [ "EXECUTABLE_EXTENSION1", "d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7", null ],
@@ -59,7 +58,6 @@ var namespacevpkpp =
     [ "GCF_EXTENSION", "d5/d29/namespacevpkpp.html#a8995592ee693f0149c0b7e02ac63190a", null ],
     [ "GMA_EXTENSION", "d5/d29/namespacevpkpp.html#a19d2b5b3eedfb8f55ddaf4fd8ac89756", null ],
     [ "GMA_SIGNATURE", "d5/d29/namespacevpkpp.html#afc84db2ed44058792375f4a59518b7b1", null ],
-    [ "GZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a3c1173f45242d97f79fbb0aa1468da12", null ],
     [ "PAK_EXTENSION", "d5/d29/namespacevpkpp.html#adec671277ece08cb7a5cb8d21271488a", null ],
     [ "PAK_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a4927a77f9388bd06544dbbccefe04e79", null ],
     [ "PAK_SIGNATURE", "d5/d29/namespacevpkpp.html#a4f65be65eb264cc405ac1dabeae4fe69", null ],
@@ -81,7 +79,5 @@ var namespacevpkpp =
     [ "WAD3_EXTENSION", "d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2", null ],
     [ "WAD3_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a3f54913e752f9a3a56fde4d6275088ad", null ],
     [ "WAD3_SIGNATURE", "d5/d29/namespacevpkpp.html#a5a2508634eaac01ad4202913a7fb95c6", null ],
-    [ "XZ_EXTENSION", "d5/d29/namespacevpkpp.html#a7e1632e11552d43b6ab79fafb743c5e2", null ],
-    [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ],
-    [ "ZST_EXTENSION", "d5/d29/namespacevpkpp.html#ac1a65d8ce9db1ef5995adcb60b66788d", null ]
+    [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ]
 ];
