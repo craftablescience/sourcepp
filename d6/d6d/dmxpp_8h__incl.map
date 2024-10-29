@@ -1,19 +1,17 @@
 <map id="include/dmxpp/dmxpp.h" name="include/dmxpp/dmxpp.h">
-<area shape="rect" id="node1" title=" " alt="" coords="322,5,501,32"/>
-<area shape="rect" id="node2" href="$d5/d8e/Value_8h.html" title=" " alt="" coords="352,80,471,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="329,304,385,331"/>
-<area shape="rect" id="node4" title=" " alt="" coords="63,379,143,405"/>
-<area shape="rect" id="node5" title=" " alt="" coords="47,155,117,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="485,379,551,405"/>
-<area shape="rect" id="node7" title=" " alt="" coords="193,155,251,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="276,155,373,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="879,379,971,405"/>
-<area shape="rect" id="node10" title=" " alt="" coords="449,155,517,181"/>
-<area shape="rect" id="node11" title=" " alt="" coords="541,155,604,181"/>
-<area shape="rect" id="node12" href="$dd/d79/Angles_8h.html" title=" " alt="" coords="629,155,807,181"/>
-<area shape="rect" id="node14" href="$d6/dbe/Vector_8h.html" title=" " alt="" coords="606,229,681,256"/>
-<area shape="rect" id="node15" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="715,304,793,331"/>
-<area shape="rect" id="node17" href="$d3/db1/Matrix_8h.html" title=" " alt="" coords="807,229,984,256"/>
-<area shape="rect" id="node13" title=" " alt="" coords="620,304,683,331"/>
-<area shape="rect" id="node16" title=" " alt="" coords="735,379,773,405"/>
+<area shape="rect" id="node1" title=" " alt="" coords="223,5,401,32"/>
+<area shape="rect" id="node2" href="$d5/d8e/Value_8h.html" title=" " alt="" coords="253,80,371,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,61,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="86,155,157,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="276,229,343,256"/>
+<area shape="rect" id="node6" title=" " alt="" coords="232,155,291,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="315,155,413,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="437,155,505,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="529,155,591,181"/>
+<area shape="rect" id="node10" href="$db/d8a/Math_8h.html" title=" " alt="" coords="616,155,747,181"/>
+<area shape="rect" id="node11" title=" " alt="" coords="482,229,521,256"/>
+<area shape="rect" id="node12" title=" " alt="" coords="545,229,625,256"/>
+<area shape="rect" id="node13" title=" " alt="" coords="650,229,713,256"/>
+<area shape="rect" id="node14" title=" " alt="" coords="737,229,829,256"/>
+<area shape="rect" id="node15" title=" " alt="" coords="853,229,928,256"/>
 </map>

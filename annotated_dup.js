@@ -67,18 +67,22 @@ var annotated_dup =
       [ "Movement", "d1/dbd/structmdlpp_1_1Movement.html", "d1/dbd/structmdlpp_1_1Movement" ]
     ] ],
     [ "sourcepp", "d2/deb/namespacesourcepp.html", [
+      [ "detail", "dc/daf/namespacesourcepp_1_1detail.html", [
+        [ "member_type_helper", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", null ],
+        [ "member_type_helper< T C::* >", "d1/de3/structsourcepp_1_1detail_1_1member__type__helper_3_01T_01C_1_1_5_01_4.html", "d1/de3/structsourcepp_1_1detail_1_1member__type__helper_3_01T_01C_1_1_5_01_4" ]
+      ] ],
       [ "math", "d0/d54/namespacesourcepp_1_1math.html", [
+        [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
         [ "QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48" ],
         [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
-        [ "FloatCompressed16", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16" ],
-        [ "Matrix", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", "d4/d4b/classsourcepp_1_1math_1_1Matrix" ],
-        [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ]
+        [ "Mat", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ]
       ] ],
       [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", [
         [ "text", "d7/d75/namespacesourcepp_1_1parser_1_1text.html", [
           [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error" ]
         ] ]
-      ] ]
+      ] ],
+      [ "member_type", "d1/dc0/structsourcepp_1_1member__type.html", null ]
     ] ],
     [ "steampp", "d7/d4d/namespacesteampp.html", [
       [ "Steam", "d9/d81/classsteampp_1_1Steam.html", "d9/d81/classsteampp_1_1Steam" ]

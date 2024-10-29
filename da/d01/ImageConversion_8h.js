@@ -40,7 +40,8 @@ var ImageConversion_8h =
       [ "JPEG", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a907e06a16862d82ca6907a28a68d0ad6", null ],
       [ "BMP", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aa5d5ca1447586e23dc011f8c0cc0a6db", null ],
       [ "TGA", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103", null ],
-      [ "HDR", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3", null ]
+      [ "HDR", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3", null ],
+      [ "EXR", "da/d01/ImageConversion_8h.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725", null ]
     ] ],
     [ "ResizeEdge", "da/d01/ImageConversion_8h.html#a5958476a157c26336cb52c3055cffb53", [
       [ "CLAMP", "da/d01/ImageConversion_8h.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345", null ],
@@ -66,6 +67,8 @@ var ImageConversion_8h =
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
     [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],
+    [ "extractChannelFromImageData", "da/d01/ImageConversion_8h.html#ac88869d5d9601ca8bcc4bea4f93b80cf", null ],
+    [ "getDefaultFileFormatForImageFormat", "da/d01/ImageConversion_8h.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
     [ "getResizedDim", "da/d01/ImageConversion_8h.html#a440840aa87de2dc367add665f674b365", null ],
     [ "resizeImageData", "da/d01/ImageConversion_8h.html#afcbc2ecd898c6e46a52535fa62494c8d", null ],
     [ "resizeImageDataStrict", "da/d01/ImageConversion_8h.html#aec2b00461a0a8b11227ed921a1996dcf", null ],
@@ -102,5 +105,6 @@ var ImageConversion_8h =
     [ "VTFPP_CHECK_SIZE", "da/d01/ImageConversion_8h.html#aef00189c07d045f9572b128c294402f0", null ],
     [ "VTFPP_CHECK_SIZE", "da/d01/ImageConversion_8h.html#ad5b1febc0b345b9b304040782e60c9dc", null ],
     [ "VTFPP_CHECK_SIZE", "da/d01/ImageConversion_8h.html#a0d1a46bf5e94bc5dc98fe16269ceafc2", null ],
-    [ "VTFPP_CHECK_SIZE", "da/d01/ImageConversion_8h.html#a5782e1bed8cf5bd9a4f564af6c036547", null ]
+    [ "VTFPP_CHECK_SIZE", "da/d01/ImageConversion_8h.html#a5782e1bed8cf5bd9a4f564af6c036547", null ],
+    [ "PixelType", "da/d01/ImageConversion_8h.html#ab9f05f1d1398f75fe95f13ab7386924f", null ]
 ];

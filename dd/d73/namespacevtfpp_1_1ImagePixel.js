@@ -65,5 +65,6 @@ var namespacevtfpp_1_1ImagePixel =
     [ "VTFPP_CHECK_SIZE", "dd/d73/namespacevtfpp_1_1ImagePixel.html#aef00189c07d045f9572b128c294402f0", null ],
     [ "VTFPP_CHECK_SIZE", "dd/d73/namespacevtfpp_1_1ImagePixel.html#ad5b1febc0b345b9b304040782e60c9dc", null ],
     [ "VTFPP_CHECK_SIZE", "dd/d73/namespacevtfpp_1_1ImagePixel.html#a0d1a46bf5e94bc5dc98fe16269ceafc2", null ],
-    [ "VTFPP_CHECK_SIZE", "dd/d73/namespacevtfpp_1_1ImagePixel.html#a5782e1bed8cf5bd9a4f564af6c036547", null ]
+    [ "VTFPP_CHECK_SIZE", "dd/d73/namespacevtfpp_1_1ImagePixel.html#a5782e1bed8cf5bd9a4f564af6c036547", null ],
+    [ "PixelType", "dd/d73/namespacevtfpp_1_1ImagePixel.html#ab9f05f1d1398f75fe95f13ab7386924f", null ]
 ];

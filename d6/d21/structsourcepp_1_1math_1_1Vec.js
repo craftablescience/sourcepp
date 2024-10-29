@@ -1,7 +1,10 @@
 var structsourcepp_1_1math_1_1Vec =
 [
     [ "value_type", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a274ecaa4f9883e1e6a6208bd990501de", null ],
+    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html#aa2f4152d2f695c7fd55c36d776eaf11e", null ],
     [ "abs", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a8cdcfe07ffa3422d979944ff5887db0e", null ],
+    [ "data", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ad77ebefb02f9cc5ee7d11e013cf88526", null ],
+    [ "data", "d6/d21/structsourcepp_1_1math_1_1Vec.html#aaa753cb4cea12102c9681398306cfc34", null ],
     [ "div", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a9c4957e197566ef432ac6dbf1598f92b", null ],
     [ "dot", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a484f0e4eccb4ce913afb32dbd49e46dd", null ],
     [ "isZero", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a37e0ff14cb6056aa11d2c38500c65cc5", null ],
@@ -24,10 +27,11 @@ var structsourcepp_1_1math_1_1Vec =
     [ "operator==", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7ae90820d48e8fc538f3230935d3441e", null ],
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#adffcc9f4e060ae9fe3d4ae942a582c5d", null ],
     [ "operator[]", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a344fcd4739c6071813e4d9f6831d5f55", null ],
+    [ "requires", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a3957b77ab582fb67a11604998f0c1c15", null ],
     [ "scale", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a4f779e85f7739150957707d680ba1782", null ],
     [ "size", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ad72e16405b03bd597372124f71085da8", null ],
     [ "sum", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a78745bd18ae9c1d020db8d089ed784b1", null ],
     [ "to", "d6/d21/structsourcepp_1_1math_1_1Vec.html#ae31614a3ccfa46be5adf64bb06e5d9c4", null ],
     [ "zero", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a7d4059d35446104bb28906b0603d93d6", null ],
-    [ "values", "d6/d21/structsourcepp_1_1math_1_1Vec.html#a4de5725618d3e1f04dac2d001ba668f9", null ]
+    [ "values", "d6/d21/structsourcepp_1_1math_1_1Vec.html#abb688aed2cdb00b89ebb11ca7c841e37", null ]
 ];

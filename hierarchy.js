@@ -31,7 +31,6 @@ var hierarchy =
       ] ]
     ] ],
     [ "kvpp::KV1ElementBase< S, K >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
-    [ "sourcepp::math::Matrix< 3, 4 >", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", null ],
     [ "mdlpp::BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", null ],
     [ "mdlpp::BakedModel::Mesh", "d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html", null ],
     [ "mdlpp::BakedModel::Vertex", "d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html", null ],
@@ -58,8 +57,12 @@ var hierarchy =
     [ "mdlpp::VVD::Fixup", "d0/d4d/structmdlpp_1_1VVD_1_1Fixup.html", null ],
     [ "mdlpp::VVD::Vertex", "dc/d30/structmdlpp_1_1VVD_1_1Vertex.html", null ],
     [ "mdlpp::VVD::VVD", "d0/de2/structmdlpp_1_1VVD_1_1VVD.html", null ],
-    [ "sourcepp::math::FloatCompressed16", "d4/db7/classsourcepp_1_1math_1_1FloatCompressed16.html", null ],
-    [ "sourcepp::math::Matrix< M, N, P >", "d4/d4b/classsourcepp_1_1math_1_1Matrix.html", null ],
+    [ "sourcepp::detail::member_type_helper< std::remove_cvref_t< T > >", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", [
+      [ "sourcepp::member_type< T >", "d1/dc0/structsourcepp_1_1member__type.html", null ]
+    ] ],
+    [ "sourcepp::detail::member_type_helper< T >", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", null ],
+    [ "sourcepp::detail::member_type_helper< T C::* >", "d1/de3/structsourcepp_1_1detail_1_1member__type__helper_3_01T_01C_1_1_5_01_4.html", null ],
+    [ "sourcepp::math::Mat< M, N, P >", "d5/d89/classsourcepp_1_1math_1_1Mat.html", null ],
     [ "sourcepp::math::QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", null ],
     [ "sourcepp::math::QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", null ],
     [ "sourcepp::math::Vec< S, P >", "d6/d21/structsourcepp_1_1math_1_1Vec.html", null ],

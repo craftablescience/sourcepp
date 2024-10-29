@@ -1,13 +1,12 @@
 <map id="include/mdlpp/structs/Generic.h" name="include/mdlpp/structs/Generic.h">
-<area shape="rect" id="node1" title=" " alt="" coords="95,5,257,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="79,5,241,47"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,95,64,121"/>
-<area shape="rect" id="node3" href="$d6/dbe/Vector_8h.html" title=" " alt="" coords="89,95,263,121"/>
-<area shape="rect" id="node11" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="295,95,439,121"/>
-<area shape="rect" id="node4" title=" " alt="" coords="63,169,119,196"/>
-<area shape="rect" id="node5" title=" " alt="" coords="143,169,206,196"/>
-<area shape="rect" id="node6" href="$d6/dac/Integer_8h.html" title=" " alt="" coords="230,169,309,196"/>
-<area shape="rect" id="node7" title=" " alt="" coords="69,244,107,271"/>
-<area shape="rect" id="node8" title=" " alt="" coords="132,244,212,271"/>
-<area shape="rect" id="node9" title=" " alt="" coords="236,244,303,271"/>
-<area shape="rect" id="node10" title=" " alt="" coords="327,244,419,271"/>
+<area shape="rect" id="node3" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="88,95,232,121"/>
+<area shape="rect" id="node5" href="$db/d8a/Math_8h.html" title=" " alt="" coords="263,95,393,121"/>
+<area shape="rect" id="node4" title=" " alt="" coords="109,169,201,196"/>
+<area shape="rect" id="node6" title=" " alt="" coords="225,169,263,196"/>
+<area shape="rect" id="node7" title=" " alt="" coords="288,169,368,196"/>
+<area shape="rect" id="node8" title=" " alt="" coords="393,169,455,196"/>
+<area shape="rect" id="node9" title=" " alt="" coords="480,169,547,196"/>
+<area shape="rect" id="node10" title=" " alt="" coords="571,169,645,196"/>
 </map>

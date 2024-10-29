@@ -133,6 +133,7 @@ Enumerations</h2></td></tr>
 , <br />
 &#160;&#160;<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103">TGA</a>
 , <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3">HDR</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725">EXR</a>
 <br />
  }</td></tr>
 <tr class="separator:ac86b05f9f4f7148b3a4ea53c6bfd0409"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -168,8 +169,11 @@ Functions</h2></td></tr>
 <tr class="memitem:a6daac8f2694c03062cdf794542c3ee93"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93">convertSeveralImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount)</td></tr>
 <tr class="memdesc:a6daac8f2694c03062cdf794542c3ee93"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts several images from one format to another.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93">More...</a><br /></td></tr>
 <tr class="separator:a6daac8f2694c03062cdf794542c3ee93"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bbe3db800f111c09ce579e0b9d4a37e"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409">FileFormat</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e">getDefaultFileFormatForImageFormat</a> (<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format)</td></tr>
+<tr class="memdesc:a6bbe3db800f111c09ce579e0b9d4a37e"><td class="mdescLeft">&#160;</td><td class="mdescRight">PNG for integer formats, EXR for floating point formats.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e">More...</a><br /></td></tr>
+<tr class="separator:a6bbe3db800f111c09ce579e0b9d4a37e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1bace17a2f4640e7f8b3de9655269a8e"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e">convertImageDataToFile</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t height, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409">FileFormat</a> fileFormat=<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a5b39c8b553c821e7cddc6da64b5bd2ee">FileFormat::DEFAULT</a>)</td></tr>
-<tr class="memdesc:a1bace17a2f4640e7f8b3de9655269a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e">More...</a><br /></td></tr>
+<tr class="memdesc:a1bace17a2f4640e7f8b3de9655269a8e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts image data to a PNG or EXR file. EXR format will be used for floating-point image formats.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e">More...</a><br /></td></tr>
 <tr class="separator:a1bace17a2f4640e7f8b3de9655269a8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e35b062eaaf17c3235b7fb03b05e9bf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a0e35b062eaaf17c3235b7fb03b05e9bf">convertFileToImageData</a> (std::span&lt; const std::byte &gt; fileData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> &amp;format, int &amp;width, int &amp;height, int &amp;frameCount)</td></tr>
 <tr class="separator:a0e35b062eaaf17c3235b7fb03b05e9bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -185,6 +189,10 @@ Functions</h2></td></tr>
 <tr class="memitem:aec2b00461a0a8b11227ed921a1996dcf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf">resizeImageDataStrict</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t &amp;widthOut, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ResizeMethod</a> widthResize, uint16_t height, uint16_t newHeight, uint16_t &amp;heightOut, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ResizeMethod</a> heightResize, bool srgb, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be">ResizeFilter</a> filter, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53">ResizeEdge</a> edge=<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345">ResizeEdge::CLAMP</a>)</td></tr>
 <tr class="memdesc:aec2b00461a0a8b11227ed921a1996dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize given image data to the new dimensions, where the new width and height are governed by the resize methods.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf">More...</a><br /></td></tr>
 <tr class="separator:aec2b00461a0a8b11227ed921a1996dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac88869d5d9601ca8bcc4bea4f93b80cf"><td class="memTemplParams" colspan="2">template&lt;ImagePixel::PixelType P&gt; </td></tr>
+<tr class="memitem:ac88869d5d9601ca8bcc4bea4f93b80cf"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac88869d5d9601ca8bcc4bea4f93b80cf">extractChannelFromImageData</a> (std::span&lt; const std::byte &gt; imageData, auto P::*format)</td></tr>
+<tr class="memdesc:ac88869d5d9601ca8bcc4bea4f93b80cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a single channel from the given image data.  <a href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac88869d5d9601ca8bcc4bea4f93b80cf">More...</a><br /></td></tr>
+<tr class="separator:ac88869d5d9601ca8bcc4bea4f93b80cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ac86b05f9f4f7148b3a4ea53c6bfd0409"></a>
@@ -213,9 +221,10 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="ac86b05f9f4f7148b3a4ea53c6bfd0409aa5d5ca1447586e23dc011f8c0cc0a6db"></a>BMP&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103"></a>TGA&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3"></a>HDR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725"></a>EXR&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00288">288</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00326">326</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -245,7 +254,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a5958476a157c26336cb52c3055cffb53a529e9e0beb5f85d1f132917c1a09860c"></a>ZERO&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00302">302</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00344">344</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -277,7 +286,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d"></a>MITCHELL&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00310">310</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00352">352</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -307,7 +316,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35"></a>POWER_OF_TWO_NEAREST&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00322">322</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00364">364</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -356,7 +365,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00947">947</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01085">1085</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -404,9 +413,9 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats. </p>
+<p>Converts image data to a PNG or EXR file. EXR format will be used for floating-point image formats. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00867">867</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00884">884</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +465,7 @@ Functions</h2></td></tr>
 
 <p>Converts an image from one format to another. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00762">762</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00774">774</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -530,7 +539,64 @@ Functions</h2></td></tr>
 
 <p>Converts several images from one format to another. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00840">840</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00852">852</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ac88869d5d9601ca8bcc4bea4f93b80cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac88869d5d9601ca8bcc4bea4f93b80cf">&#9670;&nbsp;</a></span>extractChannelFromImageData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;ImagePixel::PixelType P&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt;std::byte&gt; vtfpp::ImageConversion::extractChannelFromImageData </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
+          <td class="paramname"><em>imageData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">auto P::*&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Extracts a single channel from the given image data. </p>
+<p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size </p>
+
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00387">387</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+
+</div>
+</div>
+<a id="a6bbe3db800f111c09ce579e0b9d4a37e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bbe3db800f111c09ce579e0b9d4a37e">&#9670;&nbsp;</a></span>getDefaultFileFormatForImageFormat()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409">ImageConversion::FileFormat</a> vtfpp::ImageConversion::getDefaultFileFormatForImageFormat </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>PNG for integer formats, EXR for floating point formats. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00879">879</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -562,7 +628,7 @@ Functions</h2></td></tr>
 
 <p>Get the new image size given a resize method. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01036">1036</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01334">1334</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +702,7 @@ Functions</h2></td></tr>
 
 <p>Resize given image data to the new dimensions. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01051">1051</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01349">1349</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -734,7 +800,7 @@ Functions</h2></td></tr>
 
 <p>Resize given image data to the new dimensions, where the new width and height are governed by the resize methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01068">1068</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01366">1366</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -778,7 +844,7 @@ Functions</h2></td></tr>
 
 <p>Set the new image dimensions given a resize method. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01046">1046</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01344">1344</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>

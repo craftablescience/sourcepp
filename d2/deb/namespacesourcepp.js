@@ -12,6 +12,7 @@ var namespacesourcepp =
       [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
       [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583", null ]
     ] ],
+    [ "detail", "dc/daf/namespacesourcepp_1_1detail.html", "dc/daf/namespacesourcepp_1_1detail" ],
     [ "fs", "d9/dd6/namespacesourcepp_1_1fs.html", [
       [ "readFileBuffer", "d9/dd6/namespacesourcepp_1_1fs.html#a0758fa851da9a8730cc927691999b5c6", null ],
       [ "readFileText", "d9/dd6/namespacesourcepp_1_1fs.html#a7ed336978ac1e29e416b4fae436fe61f", null ],
@@ -48,5 +49,7 @@ var namespacesourcepp =
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22", null ],
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a3f42811d591cf1dcb5576c20daf682c3", null ],
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0", null ]
-    ] ]
+    ] ],
+    [ "member_type", "d1/dc0/structsourcepp_1_1member__type.html", null ],
+    [ "member_type_t", "d2/deb/namespacesourcepp.html#af05c7c214cd15e75c782e80ef948579b", null ]
 ];
