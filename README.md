@@ -213,11 +213,71 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="3"><code>vtfpp</code></td>
+    <td rowspan="23"><code>vtfpp</code></td>
+    <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="23" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://openexr.com">EXR</a> v1</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/GIF">GIF</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/RGBE_image_format">HDR</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/JPEG">JPEG</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>PIC</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/PNG">PNG</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://netpbm.sourceforge.net/doc/pnm.html">PNM</a> (PGM, PPM)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/PPL">PPL</a> v0</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html">PSD</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
