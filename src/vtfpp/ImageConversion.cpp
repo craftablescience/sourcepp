@@ -897,9 +897,9 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 0);
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data(), 0);
-			} else if (ImageFormatDetails::large(format)) {
-				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / (8 * sizeof(uint16_t)), rgba.data(), 0);
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 0);
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
@@ -920,6 +920,9 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data());
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
@@ -931,9 +934,9 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
-			} else if (ImageFormatDetails::large(format)) {
-				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / (8 * sizeof(uint16_t)), rgba.data());
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data());
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
@@ -941,11 +944,11 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			break;
 		}
 		case FileFormat::HDR: {
-			if (format == ImageFormat::RGBA32323232F) {
-				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(imageData.data()));
+			if (format == ImageFormat::RGB323232F) {
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(imageData.data()));
 			} else {
-				auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / (8 * sizeof(float)), reinterpret_cast<float*>(hdr.data()));
+				const auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGB323232F, width, height);
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(hdr.data()));
 			}
 			break;
 		}
