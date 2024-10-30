@@ -109,6 +109,12 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 	if (vpk->header1.signature != VPK_SIGNATURE) {
 		reader.seek_in(3, std::ios::end);
 		if (reader.read<char>() == '\0' && reader.read<char>() == '\0' && reader.read<char>() == '\0') {
+			// hack: if file is 9 bytes long it's probably an empty VTMB VPK and we should bail so that code can pick it up
+			// either way a 9 byte long VPK should not have any files in it
+			if (std::filesystem::file_size(vpk->fullFilePath) == 9) {
+				return nullptr;
+			}
+
 			// File is one of those shitty ancient VPKs
 			vpk->header1.signature = VPK_SIGNATURE;
 			vpk->header1.version = 0;
