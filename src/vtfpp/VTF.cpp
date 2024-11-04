@@ -317,10 +317,10 @@ VTF& VTF::operator=(const VTF& other) {
 
 	this->resources.clear();
 	for (const auto& [otherType, otherFlags, otherData] : other.resources) {
-		auto& [type, flags, data] = this->resources.emplace_back();
+		auto& [type, flags_, data_] = this->resources.emplace_back();
 		type = otherType;
-		flags = otherFlags;
-		data = {this->data.data() + (otherData.data() - other.data.data()), otherData.size()};
+		flags_ = otherFlags;
+		data_ = {this->data.data() + (otherData.data() - other.data.data()), otherData.size()};
 	}
 
 	this->compressionLevel = other.compressionLevel;
@@ -466,6 +466,14 @@ void VTF::setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMe
 	this->imageHeightResizeMethod = imageHeightResizeMethod_;
 }
 
+void VTF::setImageWidthResizeMethod(ImageConversion::ResizeMethod imageWidthResizeMethod_) {
+	this->imageWidthResizeMethod = imageWidthResizeMethod_;
+}
+
+void VTF::setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightResizeMethod_) {
+	this->imageHeightResizeMethod = imageHeightResizeMethod_;
+}
+
 uint16_t VTF::getWidth(uint8_t mip) const {
 	return mip > 0 ? ImageDimensions::getMipDim(mip, this->width) : this->width;
 }
@@ -607,7 +615,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 					}
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 				}));
-				if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+				if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency()) {
 					for (auto& future : futures) {
 						future.get();
 					}
@@ -745,7 +753,7 @@ void VTF::computeReflectivity() {
 					futures.push_back(std::async(std::launch::async, [this, j, k, l] {
 						return getReflectivityForImage(*this, j, k, l);
 					}));
-					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency()) {
 						for (auto& future : futures) {
 							this->reflectivity += future.get();
 						}
@@ -989,7 +997,7 @@ void VTF::removeExtendedFlagsResource() {
 	this->removeResourceInternal(Resource::TYPE_EXTENDED_FLAGS);
 }
 
-void VTF::setKeyValuesData(const std::string& value) {
+void VTF::setKeyValuesDataResource(const std::string& value) {
 	std::vector<std::byte> keyValuesData;
 	BufferStream writer{keyValuesData};
 
@@ -1000,7 +1008,7 @@ void VTF::setKeyValuesData(const std::string& value) {
 	this->setResourceInternal(Resource::TYPE_KEYVALUES_DATA, keyValuesData);
 }
 
-void VTF::removeKeyValuesData() {
+void VTF::removeKeyValuesDataResource() {
 	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
 }
 
@@ -1008,12 +1016,12 @@ int16_t VTF::getCompressionLevel() const {
 	return this->compressionLevel;
 }
 
-CompressionMethod VTF::getCompressionMethod() const {
-	return this->compressionMethod;
-}
-
 void VTF::setCompressionLevel(int16_t newCompressionLevel) {
 	this->compressionLevel = newCompressionLevel;
+}
+
+CompressionMethod VTF::getCompressionMethod() const {
+	return this->compressionMethod;
 }
 
 void VTF::setCompressionMethod(CompressionMethod newCompressionMethod) {
@@ -1150,6 +1158,16 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 
 std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
 	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
+}
+
+void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_) {
+	if (format_ != this->thumbnailFormat) {
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(imageData_, format_, this->thumbnailFormat, width_, height_));
+	} else {
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, imageData_);
+	}
+	this->thumbnailWidth = width_;
+	this->thumbnailHeight = height_;
 }
 
 void VTF::computeThumbnail(ImageConversion::ResizeFilter filter) {

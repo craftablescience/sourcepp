@@ -53,7 +53,7 @@ public:
 
 	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
-	bool setImage(const std::string& imagePath, uint32_t lod);
+	bool setImage(const std::string& imagePath, uint32_t lod = 0);
 
 	bool setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
