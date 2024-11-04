@@ -1058,6 +1058,10 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 }
 
 bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+	if (imageData_.empty()) {
+		return false;
+	}
+
 	if (!this->hasImageData()) {
 		uint16_t resizedWidth = width_, resizedHeight = height_;
 		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
@@ -1085,11 +1089,13 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	}
 	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->sliceCount)) {
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
-		if (this->format != format_) {
-			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, this->width, this->height);
+		const auto newWidth = ImageDimensions::getMipDim(mip, this->width);
+		const auto newHeight = ImageDimensions::getMipDim(mip, this->height);
+		if (width_ != newWidth || height_ != newHeight) {
+			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->imageDataIsSRGB(), filter);
 		}
-		if (width_ != ImageDimensions::getMipDim(mip, this->width) || height_ != ImageDimensions::getMipDim(mip, this->height)) {
-			image = ImageConversion::resizeImageData(image, this->format, width_, ImageDimensions::getMipDim(mip, this->width), height_, ImageDimensions::getMipDim(mip, this->height), this->imageDataIsSRGB(), filter);
+		if (format_ != this->format) {
+			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight);
 		}
 		std::memcpy(imageResource->data.data() + offset, image.data(), image.size());
 	}
@@ -1102,7 +1108,7 @@ bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter f
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
 
 	// Unable to decode file
-	if (inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+	if (imageData_.empty() || inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
 		return false;
 	}
 
