@@ -226,6 +226,10 @@ public:
 
 	void setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_);
 
+	void setImageWidthResizeMethod(ImageConversion::ResizeMethod imageWidthResizeMethod_);
+
+	void setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightResizeMethod_);
+
 	[[nodiscard]] uint16_t getWidth(uint8_t mip = 0) const;
 
 	[[nodiscard]] uint16_t getHeight(uint8_t mip = 0) const;
@@ -308,15 +312,15 @@ public:
 
 	void removeExtendedFlagsResource();
 
-	void setKeyValuesData(const std::string& value);
+	void setKeyValuesDataResource(const std::string& value);
 
-	void removeKeyValuesData();
+	void removeKeyValuesDataResource();
 
 	[[nodiscard]] int16_t getCompressionLevel() const;
 
-	[[nodiscard]] CompressionMethod getCompressionMethod() const;
-
 	void setCompressionLevel(int16_t newCompressionLevel);
+
+	[[nodiscard]] CompressionMethod getCompressionMethod() const;
 
 	void setCompressionMethod(CompressionMethod newCompressionMethod);
 
@@ -345,6 +349,8 @@ public:
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAs(ImageFormat newFormat) const;
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAsRGBA8888() const;
+
+	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_);
 
 	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
