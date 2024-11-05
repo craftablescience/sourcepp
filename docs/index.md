@@ -262,7 +262,7 @@ only exist for stable libraries.
 ## Wrappers
 
 Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library. The Python wrappers can be
-found on PyPI in the `sourcepp` package.
+found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 ## Special Thanks
 
