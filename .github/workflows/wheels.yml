@@ -27,6 +27,10 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Configure CMake
+        working-directory: '${{github.workspace}}'
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON
+
       - name: Build SDist
         run: |
           pipx run build --sdist

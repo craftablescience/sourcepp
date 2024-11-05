@@ -1,23 +1,38 @@
-# IDEs
+# IDE
 .idea/
 .vs/
 .vscode/
 CMakeSettings.json
 
-# Project exclude paths
+
+# Build
 build/
+dist/
 cmake-build-*/
 out/
 
-# Generated
+
+# Docs
 docs/html/
+
+
+# Test
 test/res/
 test/Helpers.h
+
 
 # Python
 .mypy_cache/
 __pycache__/
+wheelhouse/
 *.pyd
 *.pyi
 *.typed
 *.whl
+
+lang/python/pyproject.toml
+lang/python/src/sourcepp/__init__.py
+
+lang/python/LICENSE
+lang/python/README.md
+lang/python/THIRDPARTY_LEGAL_NOTICES.txt

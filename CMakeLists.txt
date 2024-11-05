@@ -8,7 +8,8 @@ endif()
 
 
 # Create project
-project(sourcepp)
+project(sourcepp
+        DESCRIPTION "Several modern C++20 libraries for sanely parsing Valve formats.")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -101,6 +102,7 @@ endif()
 # Python bindings, part 1
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
+    set(SOURCEPP_PYTHON_VERSION "2024.11.5dev2")
     find_package(Python REQUIRED
             COMPONENTS Interpreter Development.Module
             OPTIONAL_COMPONENTS Development.SABIModule)
@@ -111,6 +113,15 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     FetchContent_MakeAvailable(nanobind)
     set(${SOURCEPP_PYTHON_NAME}_SOURCES "")
     set(${SOURCEPP_PYTHON_NAME}_DEFINES "")
+
+    # Set the version here
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/pyproject.toml" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/pyproject.toml")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/__init__.py"    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp/__init__.py")
+
+    # These need to be inside the python directory, let's duplicate them!
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"                      "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/LICENSE"                      COPYONLY)
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/README.md"                    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/README.md"                    COPYONLY)
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/THIRDPARTY_LEGAL_NOTICES.txt" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/THIRDPARTY_LEGAL_NOTICES.txt" COPYONLY)
 endif()
 
 

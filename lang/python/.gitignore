@@ -1,9 +1,0 @@
-# Keep most Python-specific stuff in the root .gitignore
-# because scikit-build-core will use it to ignore everything
-# you want to ship!!!!!!!! This took like an hour to figure
-# out, thanks folks :D
-
-# Anyway
-
-dist/
-wheelhouse/

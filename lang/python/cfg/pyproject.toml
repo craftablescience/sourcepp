@@ -5,11 +5,11 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "sourcepp"
-version = "2024.11.5dev1"  # change __init__.py when this is updated
+version = "${SOURCEPP_PYTHON_VERSION}"
 authors = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 maintainers = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 description = "Several modern C++20 libraries for sanely parsing Valve formats."
-readme = "../../README.md"
+readme = "README.md"
 requires-python = ">=3.9"
 classifiers = [
 	"License :: OSI Approved :: MIT License",
@@ -33,8 +33,9 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 build.targets = ["sourcepp_python_all"]
 sdist.reproducible = true
+sdist.exclude = ["cfg/*"]
 wheel.py-api = "cp312"
-wheel.license-files = ["../../LICENSE", "../../THIRDPARTY_LEGAL_NOTICES.txt"]
+wheel.license-files = ["LICENSE", "THIRDPARTY_LEGAL_NOTICES.txt"]
 build.verbose = true
 logging.level = "INFO"
 
