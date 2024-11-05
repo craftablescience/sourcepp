@@ -22,14 +22,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <th>Wrappers</th>
   </tr>
   <tr>
-    <td rowspan="1"><code>bsppp</code></td>
+    <td rowspan="1"><code>bsppp</code><sup>*</sup></td>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
   </tr>
   <tr style="background: none;">
-    <td rowspan="1"><code>dmxpp</code></td>
+    <td rowspan="1"><code>dmxpp</code><sup>*</sup></td>
     <td><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
@@ -49,14 +49,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td rowspan="1"><code>kvpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> Text v1<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
   </tr>
   <tr>
-    <td rowspan="3"><code>mdlpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></td>
+    <td rowspan="3"><code>mdlpp</code><sup>*</sup></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td rowspan="3" align="center"></td>
@@ -253,9 +253,16 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 </table>
 \endhtmlonly
 
-(\*) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VDF](https://developer.valvesoftware.com/wiki/VDF), [VMT](https://developer.valvesoftware.com/wiki/VMT), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+(\*) These libraries are incomplete and still in development. Their interfaces are unstable and will likely change in the future.
+Libraries not starred should be considered stable, and their existing interfaces will not change much if at all. Note that wrappers
+only exist for stable libraries.
 
-(&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
+(&dagger;) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VMT](https://developer.valvesoftware.com/wiki/VMT) and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+
+## Wrappers
+
+Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library. The Python wrappers can be
+found on PyPI in the `sourcepp` package.
 
 ## Special Thanks
 

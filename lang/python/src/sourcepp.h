@@ -2,11 +2,10 @@
 
 #include <string_view>
 
-#include <pybind11/pybind11.h>
-#include <pybind11/operators.h>
-#include <pybind11/stl.h>
+#include <nanobind/nanobind.h>
+#include <nanobind/operators.h>
 
-namespace py = pybind11;
+namespace py = nanobind;
 
 #include <sourcepp/Math.h>
 
@@ -21,10 +20,7 @@ inline void register_python(py::module_& m) {
 		using namespace math;
 
 		const auto registerVecType = [&math]<typename V>(std::string_view name) {
-			py::class_<V>(math, name.data(), pybind11::buffer_protocol())
-					.def_buffer([](V& v) -> py::buffer_info {
-						return {v.data(), static_cast<int64_t>(v.size())};
-					})
+			py::class_<V>(math, name.data())
 					.def("__len__", &V::size)
 					.def("__setitem__", [](V& self, uint8_t index, typename V::value_type val) { self[index] = val; })
 					.def("__getitem__", [](V& self, uint8_t index) { return self[index]; })
