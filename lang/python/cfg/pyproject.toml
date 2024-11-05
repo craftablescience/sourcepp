@@ -33,6 +33,7 @@ minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
 build.targets = ["sourcepp_python_all"]
 sdist.reproducible = true
+sdist.include = ["*"]
 sdist.exclude = ["cfg/*"]
 wheel.py-api = "cp312"
 wheel.license-files = ["LICENSE", "THIRDPARTY_LEGAL_NOTICES.txt"]
