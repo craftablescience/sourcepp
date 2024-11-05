@@ -1,0 +1,102 @@
+name: Build Wheels
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release:
+        type: boolean
+        required: true
+        default: false
+        description: 'Push the wheels to PyPI'
+  release:
+    types: [published]
+jobs:
+  build_sdist:
+    name: Build SDist
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '${{github.workspace}}/lang/python'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Build SDist
+        run: |
+          pipx run build --sdist
+
+      - name: Check Metadata
+        run: |
+          pipx run twine check dist/*
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-sdist
+          path: ${{github.workspace}}/lang/python/dist/*.tar.gz
+
+# Linux build fails because the compiler's not new enough
+# macOS build fails because it keeps trying to build a universal binary
+#
+#  build_wheels:
+#    strategy:
+#      fail-fast: false
+#      matrix:
+#        os: [windows-latest, ubuntu-latest, macos-latest]
+#    name: Build Wheels For ${{matrix.os}}
+#    runs-on: ${{matrix.os}}
+#    steps:
+#      - name: Checkout Repository
+#        uses: actions/checkout@v4
+#        with:
+#          submodules: true
+#
+#      - name: Build Wheels
+#        uses: pypa/cibuildwheel@v2.19
+#        with:
+#          package-dir: '${{github.workspace}}/lang/python'
+#          output-dir: '${{github.workspace}}/lang/python/wheelhouse'
+#
+#      - name: Verify Clean Directory
+#        shell: bash
+#        run: |
+#          git diff --exit-code
+#
+#      - name: Upload Wheels
+#        uses: actions/upload-artifact@v4
+#        with:
+#          path: ${{github.workspace}}/lang/python/wheelhouse/*.whl
+#          name: dist-${{matrix.os}}
+
+  merge_wheels:
+    name: Merge Wheels
+    runs-on: ubuntu-latest
+    needs:
+      - build_sdist
+#      - build_wheels
+    steps:
+      - name: Merge Artifacts
+        uses: actions/upload-artifact/merge@v4
+        with:
+          name: dist
+          pattern: dist-*
+
+  upload_release:
+    name: Upload a Release
+    if: (github.event_name == 'release' && github.event.action == 'published') || (github.event_name == 'workflow_dispatch' && inputs.release)
+    needs: [merge_wheels]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: __token__
+          password: ${{secrets.PYPI_TOKEN}}

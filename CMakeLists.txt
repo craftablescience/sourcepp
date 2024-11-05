@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 # Set defaults before project call
 if(PROJECT_IS_TOP_LEVEL)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE INTERNAL "" FORCE)
 endif()
 
 
@@ -101,15 +101,16 @@ endif()
 # Python bindings, part 1
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
-    find_package(Python REQUIRED COMPONENTS Interpreter Development.Module)
+    find_package(Python REQUIRED
+            COMPONENTS Interpreter Development.Module
+            OPTIONAL_COMPONENTS Development.SABIModule)
     FetchContent_Declare(
-            pybind11
-            GIT_REPOSITORY "https://github.com/pybind/pybind11.git"
-            GIT_TAG "v2.13.6")
-    FetchContent_MakeAvailable(pybind11)
+            nanobind
+            GIT_REPOSITORY "https://github.com/wjakob/nanobind.git"
+            GIT_TAG "origin/master")
+    FetchContent_MakeAvailable(nanobind)
     set(${SOURCEPP_PYTHON_NAME}_SOURCES "")
     set(${SOURCEPP_PYTHON_NAME}_DEFINES "")
-    list(APPEND ${SOURCEPP_PYTHON_NAME}_DEPS pybind11::headers)
 endif()
 
 
@@ -143,7 +144,6 @@ endif()
 # Benchmarks
 if(SOURCEPP_BUILD_BENCHMARKS)
     set(SOURCEPP_BENCH_NAME "${PROJECT_NAME}_bench")
-    include(FetchContent)
     FetchContent_Declare(
             benchmark
             GIT_REPOSITORY https://github.com/google/benchmark.git
@@ -182,16 +182,52 @@ endif()
 
 # Python bindings, part 2
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
-    python_add_library(${SOURCEPP_PYTHON_NAME} MODULE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp.cpp" ${${SOURCEPP_PYTHON_NAME}_SOURCES} WITH_SOABI)
-    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES PREFIX "_" LIBRARY_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/dist/sourcepp")
+    nanobind_add_module(${SOURCEPP_PYTHON_NAME} NB_STATIC STABLE_ABI LTO
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp.cpp"
+            ${${SOURCEPP_PYTHON_NAME}_SOURCES})
+    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES
+            OUTPUT_NAME "_${PROJECT_NAME}_impl"
+            LIBRARY_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp")
     target_compile_definitions(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEFINES})
     target_link_libraries(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEPS})
+
+    add_custom_target(${SOURCEPP_PYTHON_NAME}_all)
+    add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME})
+
+    # We need to manually write out each module :(
+    set(${SOURCEPP_PYTHON_NAME}_MODULES
+            "sourcepp"
+            "sourcepp._sourcepp_impl"
+            "sourcepp._sourcepp_impl.gamepp"
+            "sourcepp._sourcepp_impl.sourcepp"
+            "sourcepp._sourcepp_impl.sourcepp.math"
+            "sourcepp._sourcepp_impl.steampp"
+            "sourcepp._sourcepp_impl.vcryptpp"
+            "sourcepp._sourcepp_impl.vcryptpp.VFONT"
+            "sourcepp._sourcepp_impl.vcryptpp.VICE"
+            "sourcepp._sourcepp_impl.vtfpp"
+            "sourcepp._sourcepp_impl.vtfpp.ImageFormatDetails"
+            "sourcepp._sourcepp_impl.vtfpp.ImageDimensions"
+            "sourcepp._sourcepp_impl.vtfpp.ImageConversion")
+    foreach(MODULE ${${SOURCEPP_PYTHON_NAME}_MODULES})
+        string(REPLACE "." "/" MODULE_DIR "${MODULE}")
+        string(REPLACE "." "_" MODULE_NAME_NORMALIZED "${MODULE}")
+        set(MODULE_NAME_NORMALIZED "${MODULE_NAME_NORMALIZED}_stub")
+        nanobind_add_stub("${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED}"
+                DEPENDS ${SOURCEPP_PYTHON_NAME}
+                MODULE "${MODULE}"
+                OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi"
+                PYTHON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src")
+        add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED})
+    endforeach()
 endif()
 
 
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
