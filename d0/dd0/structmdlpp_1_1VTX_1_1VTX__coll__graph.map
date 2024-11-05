@@ -1,23 +1,23 @@
 <map id="mdlpp::VTX::VTX" name="mdlpp::VTX::VTX">
-<area shape="rect" id="node1" title=" " alt="" coords="165,1545,296,1572"/>
-<area shape="rect" id="node2" title=" " alt="" coords="131,5,205,32"/>
-<area shape="rect" id="node13" title=" " alt="" coords="26,145,201,172"/>
-<area shape="rect" id="node18" href="$d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html" title=" " alt="" coords="159,95,305,121"/>
-<area shape="rect" id="node19" title=" " alt="" coords="405,145,569,172"/>
-<area shape="rect" id="node3" title=" " alt="" coords="157,1441,304,1483"/>
-<area shape="rect" id="node4" href="$d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html" title=" " alt="" coords="149,1352,312,1379"/>
-<area shape="rect" id="node5" title=" " alt="" coords="157,1248,304,1289"/>
-<area shape="rect" id="node6" href="$d2/d68/structmdlpp_1_1VTX_1_1Model.html" title=" " alt="" coords="158,1159,303,1185"/>
-<area shape="rect" id="node7" title=" " alt="" coords="157,1055,304,1096"/>
-<area shape="rect" id="node8" href="$d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html" title=" " alt="" coords="145,965,317,992"/>
-<area shape="rect" id="node9" title=" " alt="" coords="157,817,304,859"/>
-<area shape="rect" id="node10" href="$de/d89/structmdlpp_1_1VTX_1_1Mesh.html" title=" " alt="" coords="161,713,301,740"/>
-<area shape="rect" id="node11" title=" " alt="" coords="157,609,305,651"/>
-<area shape="rect" id="node12" href="$da/d15/structmdlpp_1_1VTX_1_1StripGroup.html" title=" " alt="" coords="143,520,318,547"/>
-<area shape="rect" id="node14" title=" " alt="" coords="305,416,452,457"/>
-<area shape="rect" id="node15" href="$d3/db9/structmdlpp_1_1VTX_1_1Strip.html" title=" " alt="" coords="419,327,554,353"/>
-<area shape="rect" id="node16" title=" " alt="" coords="561,203,628,230"/>
-<area shape="rect" id="node17" title=" " alt="" coords="268,196,439,237"/>
-<area shape="rect" id="node21" title=" " alt="" coords="157,261,304,303"/>
-<area shape="rect" id="node20" title=" " alt="" coords="683,203,749,230"/>
+<area shape="rect" id="node1" title=" " alt="" coords="101,1523,232,1548"/>
+<area shape="rect" id="node2" title=" " alt="" coords="157,199,224,225"/>
+<area shape="rect" id="node18" href="$d3/db9/structmdlpp_1_1VTX_1_1Strip.html" title=" " alt="" coords="318,320,453,345"/>
+<area shape="rect" id="node3" title=" " alt="" coords="348,5,423,31"/>
+<area shape="rect" id="node15" href="$d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html" title=" " alt="" coords="455,93,601,119"/>
+<area shape="rect" id="node16" title=" " alt="" coords="723,143,898,168"/>
+<area shape="rect" id="node19" title=" " alt="" coords="225,143,389,168"/>
+<area shape="rect" id="node4" title=" " alt="" coords="209,1420,356,1460"/>
+<area shape="rect" id="node5" href="$d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html" title=" " alt="" coords="208,1332,371,1357"/>
+<area shape="rect" id="node6" title=" " alt="" coords="224,1229,371,1269"/>
+<area shape="rect" id="node7" href="$d2/d68/structmdlpp_1_1VTX_1_1Model.html" title=" " alt="" coords="239,1141,385,1167"/>
+<area shape="rect" id="node8" title=" " alt="" coords="269,1039,416,1079"/>
+<area shape="rect" id="node9" href="$d2/dd4/structmdlpp_1_1VTX_1_1ModelLOD.html" title=" " alt="" coords="259,951,431,976"/>
+<area shape="rect" id="node10" title=" " alt="" coords="331,804,477,844"/>
+<area shape="rect" id="node11" href="$de/d89/structmdlpp_1_1VTX_1_1Mesh.html" title=" " alt="" coords="371,701,511,727"/>
+<area shape="rect" id="node12" title=" " alt="" coords="510,599,658,639"/>
+<area shape="rect" id="node13" href="$da/d15/structmdlpp_1_1VTX_1_1StripGroup.html" title=" " alt="" coords="515,511,690,536"/>
+<area shape="rect" id="node14" title=" " alt="" coords="567,256,713,296"/>
+<area shape="rect" id="node20" title=" " alt="" coords="443,192,613,232"/>
+<area shape="rect" id="node17" title=" " alt="" coords="403,408,549,448"/>
+<area shape="rect" id="node21" title=" " alt="" coords="352,199,419,225"/>
 </map>

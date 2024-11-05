@@ -1,7 +1,8 @@
 var structvtfpp_1_1VTF_1_1CreationOptions =
 [
     [ "bumpMapScale", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adf53fea7afbef857a7008777eb21f816", null ],
-    [ "compressionLevel", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3615c0fd225aa764a074a222834f4864", null ],
+    [ "compressionLevel", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a9e8541cb39a2788713dacf224ecb46dc", null ],
+    [ "compressionMethod", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#aca7301a831fc042c2c03a82e58c24208", null ],
     [ "createMips", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3f341ca72505496a468a2df1c0fc2a2a", null ],
     [ "createReflectivity", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5ddda1fb38043c7e091208018d348a2a", null ],
     [ "createThumbnail", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5f38da3921a42d14b6d1b7fb3a01e3b7", null ],

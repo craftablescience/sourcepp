@@ -34,7 +34,7 @@ var namespacevtfpp =
       [ "convertImageDataToFile", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
       [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ],
       [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93", null ],
-      [ "extractChannelFromImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac88869d5d9601ca8bcc4bea4f93b80cf", null ],
+      [ "extractChannelFromImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a96f54f096215d13e3e4efdba3a1f6cfc", null ],
       [ "getDefaultFileFormatForImageFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
       [ "getResizedDim", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a440840aa87de2dc367add665f674b365", null ],
       [ "resizeImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#afcbc2ecd898c6e46a52535fa62494c8d", null ],
@@ -69,6 +69,10 @@ var namespacevtfpp =
     [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
+    [ "CompressionMethod", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0", [
+      [ "DEFLATE", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc", null ],
+      [ "ZSTD", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234", null ]
+    ] ],
     [ "ImageFormat", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c", [
       [ "RGBA8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca165f06116e7b8d9b2481dfc805db4619", null ],
       [ "ABGR8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab0936176de5430f4f9d7f512a6d72c35", null ],

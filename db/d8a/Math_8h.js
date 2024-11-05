@@ -1,9 +1,10 @@
 var Math_8h =
 [
-    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
-    [ "QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48" ],
-    [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
-    [ "Mat", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ],
+    [ "sourcepp::math::Vec< S, P >", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
+    [ "sourcepp::math::QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48" ],
+    [ "sourcepp::math::QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
+    [ "sourcepp::math::Mat< M, N, P >", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ],
+    [ "sourcepp::math::Arithmetic", "da/dd4/conceptsourcepp_1_1math_1_1Arithmetic.html", null ],
     [ "SOURCEPP_MAT_DEFINE", "db/d8a/Math_8h.html#ad78b5a0a94bc43af272679ef1aaa4714", null ],
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a4f103cf2c28f912d70915570c4e7f4b4", null ],
     [ "EulerAngles", "db/d8a/Math_8h.html#a4567339d60c6b18585b7b92f33d761f8", null ],
@@ -24,6 +25,5 @@ var Math_8h =
     [ "SOURCEPP_MAT_DEFINE", "db/d8a/Math_8h.html#a03e1092c76b1a77dbc8f3f05a9bee8e5", null ],
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a5e5b829890a5af974e63f81203c659e8", null ],
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a2f753679010f9e38601a41b2406219cb", null ],
-    [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#ad3f8e967fcfd982842b1e25370eebbf5", null ],
-    [ "Arithmetic", "db/d8a/Math_8h.html#a3a81f3ba65bab66d6d6521b0358dc482", null ]
+    [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#ad3f8e967fcfd982842b1e25370eebbf5", null ]
 ];

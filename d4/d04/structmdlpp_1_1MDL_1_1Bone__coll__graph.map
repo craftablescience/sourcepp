@@ -1,7 +1,7 @@
 <map id="mdlpp::MDL::Bone" name="mdlpp::MDL::Bone">
-<area shape="rect" id="node1" title=" " alt="" coords="141,260,283,287"/>
-<area shape="rect" id="node2" title=" " alt="" coords="31,133,118,159"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,5,144,47"/>
-<area shape="rect" id="node4" title=" " alt="" coords="319,133,494,159"/>
-<area shape="rect" id="node5" title=" " alt="" coords="239,13,305,39"/>
+<area shape="rect" id="node1" title=" " alt="" coords="141,259,283,284"/>
+<area shape="rect" id="node2" title=" " alt="" coords="31,132,118,157"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,144,45"/>
+<area shape="rect" id="node4" title=" " alt="" coords="239,13,305,38"/>
+<area shape="rect" id="node5" title=" " alt="" coords="319,132,494,157"/>
 </map>

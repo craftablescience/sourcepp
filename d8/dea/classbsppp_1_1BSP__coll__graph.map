@@ -1,9 +1,9 @@
 <map id="bsppp::BSP" name="bsppp::BSP">
-<area shape="rect" id="node1" title=" " alt="" coords="179,436,274,463"/>
-<area shape="rect" id="node2" title=" " alt="" coords="64,347,213,373"/>
-<area shape="rect" id="node3" title=" " alt="" coords="55,243,223,284"/>
-<area shape="rect" id="node4" title=" " alt="" coords="61,139,200,165"/>
-<area shape="rect" id="node5" title=" " alt="" coords="5,5,72,32"/>
-<area shape="rect" id="node6" title=" " alt="" coords="261,347,347,373"/>
-<area shape="rect" id="node7" title=" " alt="" coords="247,243,385,284"/>
+<area shape="rect" id="node1" title=" " alt="" coords="98,431,193,456"/>
+<area shape="rect" id="node2" title=" " alt="" coords="31,343,118,368"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,240,144,280"/>
+<area shape="rect" id="node4" title=" " alt="" coords="143,343,292,368"/>
+<area shape="rect" id="node5" title=" " alt="" coords="187,5,253,31"/>
+<area shape="rect" id="node7" title=" " alt="" coords="243,137,381,163"/>
+<area shape="rect" id="node6" title=" " alt="" coords="236,240,404,280"/>
 </map>

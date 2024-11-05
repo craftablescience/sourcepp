@@ -1,9 +1,10 @@
 var namespacesourcepp_1_1math =
 [
-    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
+    [ "Mat", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ],
     [ "QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48" ],
     [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
-    [ "Mat", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ],
+    [ "Vec", "d6/d21/structsourcepp_1_1math_1_1Vec.html", "d6/d21/structsourcepp_1_1math_1_1Vec" ],
+    [ "Arithmetic", "da/dd4/conceptsourcepp_1_1math_1_1Arithmetic.html", null ],
     [ "EulerAngles", "d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8", null ],
     [ "Quat", "d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922", null ],
     [ "isPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a849e2ecc350f0f2291547b51fab5f942", null ],
@@ -22,6 +23,5 @@ var namespacesourcepp_1_1math =
     [ "SOURCEPP_MAT_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a03e1092c76b1a77dbc8f3f05a9bee8e5", null ],
     [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a5e5b829890a5af974e63f81203c659e8", null ],
     [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a2f753679010f9e38601a41b2406219cb", null ],
-    [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#ad3f8e967fcfd982842b1e25370eebbf5", null ],
-    [ "Arithmetic", "d0/d54/namespacesourcepp_1_1math.html#a3a81f3ba65bab66d6d6521b0358dc482", null ]
+    [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#ad3f8e967fcfd982842b1e25370eebbf5", null ]
 ];

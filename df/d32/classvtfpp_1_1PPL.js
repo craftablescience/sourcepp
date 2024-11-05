@@ -19,7 +19,7 @@ var classvtfpp_1_1PPL =
     [ "saveImageToFile", "df/d32/classvtfpp_1_1PPL.html#a202ebefc4eb24bd60b7c1bc0e641c3ea", null ],
     [ "setChecksum", "df/d32/classvtfpp_1_1PPL.html#a77cb822e53dc0c21667504b073ec5a89", null ],
     [ "setFormat", "df/d32/classvtfpp_1_1PPL.html#a44fb7e940f339d445f3c15bf997dbef5", null ],
-    [ "setImage", "df/d32/classvtfpp_1_1PPL.html#a9cb00883fbb3683274151b324cf55be4", null ],
+    [ "setImage", "df/d32/classvtfpp_1_1PPL.html#ac0ee261a56d92f9f908eeb45b2ffae5b", null ],
     [ "setImage", "df/d32/classvtfpp_1_1PPL.html#a7316c1295e66941651b550468b8d8714", null ],
     [ "setImage", "df/d32/classvtfpp_1_1PPL.html#a5a4940c68827749bb417afd149cfbec2", null ],
     [ "setImage", "df/d32/classvtfpp_1_1PPL.html#a85cb11e14cb7cc30fa22f6b440a9606a", null ],

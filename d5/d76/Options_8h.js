@@ -1,7 +1,7 @@
 var Options_8h =
 [
-    [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
-    [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
+    [ "vpkpp::BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
+    [ "vpkpp::EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
     [ "EntryCompressionType", "d5/d76/Options_8h.html#ae034a158f88b27daeb947b167a806182", [
       [ "NO_OVERRIDE", "d5/d76/Options_8h.html#ae034a158f88b27daeb947b167a806182a9ed9fde06cff703c7420b059dd1bfca9", null ],
       [ "NO_COMPRESS", "d5/d76/Options_8h.html#ae034a158f88b27daeb947b167a806182a2c7a9f26cee915ace4dfd40250ac57eb", null ],

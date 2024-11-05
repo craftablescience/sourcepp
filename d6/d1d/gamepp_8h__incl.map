@@ -1,13 +1,13 @@
 <map id="include/gamepp/gamepp.h" name="include/gamepp/gamepp.h">
-<area shape="rect" id="node1" title=" " alt="" coords="87,5,281,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,80,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="104,80,163,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="187,80,285,107"/>
-<area shape="rect" id="node5" href="$db/d8a/Math_8h.html" title=" " alt="" coords="309,80,440,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="130,155,169,181"/>
-<area shape="rect" id="node7" title=" " alt="" coords="193,155,273,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="298,155,361,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="385,155,452,181"/>
-<area shape="rect" id="node10" title=" " alt="" coords="477,155,569,181"/>
-<area shape="rect" id="node11" title=" " alt="" coords="593,155,668,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="87,5,281,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,79,80,104"/>
+<area shape="rect" id="node3" title=" " alt="" coords="104,79,163,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="187,79,285,104"/>
+<area shape="rect" id="node5" href="$db/d8a/Math_8h.html" title=" " alt="" coords="309,79,440,104"/>
+<area shape="rect" id="node6" title=" " alt="" coords="130,152,169,177"/>
+<area shape="rect" id="node7" title=" " alt="" coords="193,152,273,177"/>
+<area shape="rect" id="node8" title=" " alt="" coords="298,152,361,177"/>
+<area shape="rect" id="node9" title=" " alt="" coords="385,152,452,177"/>
+<area shape="rect" id="node10" title=" " alt="" coords="477,152,569,177"/>
+<area shape="rect" id="node11" title=" " alt="" coords="593,152,668,177"/>
 </map>

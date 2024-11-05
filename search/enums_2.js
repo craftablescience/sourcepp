@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['entrycompressiontype_2504',['EntryCompressionType',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182',1,'vpkpp']]]
+  ['compressionmethod_0',['CompressionMethod',['../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0',1,'vtfpp']]]
 ];

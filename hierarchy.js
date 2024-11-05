@@ -19,18 +19,18 @@ var hierarchy =
     [ "dmxpp::Value::Invalid", "da/dee/structdmxpp_1_1Value_1_1Invalid.html", null ],
     [ "dmxpp::Value::Time", "d5/d19/structdmxpp_1_1Value_1_1Time.html", null ],
     [ "gamepp::GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", null ],
-    [ "kvpp::KV1ElementBase< std::string, KV1ElementWritable< std::string > >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
-      [ "kvpp::KV1ElementWritable< std::string >", "de/d75/classkvpp_1_1KV1ElementWritable.html", [
-        [ "kvpp::KV1Writer< S >", "d4/d43/classkvpp_1_1KV1Writer.html", null ]
-      ] ],
-      [ "kvpp::KV1ElementWritable< S >", "de/d75/classkvpp_1_1KV1ElementWritable.html", null ]
-    ] ],
+    [ "kvpp::KV1ElementBase< std::string, KV1ElementWritable< std::string > >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
     [ "kvpp::KV1ElementBase< std::string_view, KV1ElementReadable >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
       [ "kvpp::KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", [
         [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
       ] ]
     ] ],
-    [ "kvpp::KV1ElementBase< S, K >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
+    [ "kvpp::KV1ElementBase< S, K >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
+      [ "kvpp::KV1ElementWritable< std::string >", "de/d75/classkvpp_1_1KV1ElementWritable.html", null ],
+      [ "kvpp::KV1ElementWritable< S >", "de/d75/classkvpp_1_1KV1ElementWritable.html", [
+        [ "kvpp::KV1Writer< S >", "d4/d43/classkvpp_1_1KV1Writer.html", null ]
+      ] ]
+    ] ],
     [ "mdlpp::BakedModel", "de/d21/structmdlpp_1_1BakedModel.html", null ],
     [ "mdlpp::BakedModel::Mesh", "d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html", null ],
     [ "mdlpp::BakedModel::Vertex", "d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html", null ],

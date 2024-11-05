@@ -1,11 +1,11 @@
 var Value_8h =
 [
-    [ "Invalid", "da/dee/structdmxpp_1_1Value_1_1Invalid.html", null ],
-    [ "Element", "dc/d06/structdmxpp_1_1Value_1_1Element.html", "dc/d06/structdmxpp_1_1Value_1_1Element" ],
-    [ "Time", "d5/d19/structdmxpp_1_1Value_1_1Time.html", "d5/d19/structdmxpp_1_1Value_1_1Time" ],
-    [ "Color", "da/db5/structdmxpp_1_1Value_1_1Color.html", "da/db5/structdmxpp_1_1Value_1_1Color" ],
-    [ "DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", "dc/d56/structdmxpp_1_1DMXAttribute" ],
-    [ "DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", "d4/d6d/structdmxpp_1_1DMXElement" ],
+    [ "dmxpp::Value::Invalid", "da/dee/structdmxpp_1_1Value_1_1Invalid.html", null ],
+    [ "dmxpp::Value::Element", "dc/d06/structdmxpp_1_1Value_1_1Element.html", "dc/d06/structdmxpp_1_1Value_1_1Element" ],
+    [ "dmxpp::Value::Time", "d5/d19/structdmxpp_1_1Value_1_1Time.html", "d5/d19/structdmxpp_1_1Value_1_1Time" ],
+    [ "dmxpp::Value::Color", "da/db5/structdmxpp_1_1Value_1_1Color.html", "da/db5/structdmxpp_1_1Value_1_1Color" ],
+    [ "dmxpp::DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", "dc/d56/structdmxpp_1_1DMXAttribute" ],
+    [ "dmxpp::DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", "d4/d6d/structdmxpp_1_1DMXElement" ],
     [ "ByteArray", "d5/d8e/Value_8h.html#a4f9e972659f43f0014b036254035bf71", null ],
     [ "EulerAngles", "d5/d8e/Value_8h.html#a917fc4b2888b561a2ed19f662146f819", null ],
     [ "Generic", "d5/d8e/Value_8h.html#a58d79617379600643b396723962db657", null ],

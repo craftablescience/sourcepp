@@ -1,25 +1,25 @@
 <map id="include/vpkpp/PackFile.h" name="include/vpkpp/PackFile.h">
-<area shape="rect" id="node1" title=" " alt="" coords="463,5,645,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,80,92,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="117,80,194,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="218,80,293,107"/>
-<area shape="rect" id="node5" title=" " alt="" coords="226,155,285,181"/>
-<area shape="rect" id="node6" title=" " alt="" coords="783,80,880,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="904,80,1028,107"/>
-<area shape="rect" id="node8" title=" " alt="" coords="309,155,372,181"/>
-<area shape="rect" id="node9" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="583,155,727,181"/>
-<area shape="rect" id="node11" title=" " alt="" coords="1053,80,1173,107"/>
-<area shape="rect" id="node12" href="$d4/d08/Attribute_8h.html" title=" " alt="" coords="509,80,599,107"/>
-<area shape="rect" id="node13" href="$d4/d42/Entry_8h.html" title=" " alt="" coords="418,80,485,107"/>
-<area shape="rect" id="node22" href="$d5/d76/Options_8h.html" title=" " alt="" coords="675,80,759,107"/>
-<area shape="rect" id="node23" href="$d6/da8/PackFileType_8h.html" title=" " alt="" coords="1197,80,1314,107"/>
-<area shape="rect" id="node10" title=" " alt="" coords="572,229,664,256"/>
-<area shape="rect" id="node14" title=" " alt="" coords="396,155,467,181"/>
-<area shape="rect" id="node15" title=" " alt="" coords="491,155,559,181"/>
-<area shape="rect" id="node16" href="$db/d8a/Math_8h.html" title=" " alt="" coords="751,155,882,181"/>
-<area shape="rect" id="node17" title=" " alt="" coords="879,229,917,256"/>
-<area shape="rect" id="node18" title=" " alt="" coords="942,229,1022,256"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1047,229,1109,256"/>
-<area shape="rect" id="node20" title=" " alt="" coords="689,229,755,256"/>
-<area shape="rect" id="node21" title=" " alt="" coords="779,229,854,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="463,5,645,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,79,92,104"/>
+<area shape="rect" id="node3" title=" " alt="" coords="117,79,194,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="218,79,293,104"/>
+<area shape="rect" id="node5" title=" " alt="" coords="226,152,285,177"/>
+<area shape="rect" id="node6" title=" " alt="" coords="783,79,880,104"/>
+<area shape="rect" id="node7" title=" " alt="" coords="904,79,1028,104"/>
+<area shape="rect" id="node8" title=" " alt="" coords="309,152,372,177"/>
+<area shape="rect" id="node9" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="583,152,727,177"/>
+<area shape="rect" id="node11" title=" " alt="" coords="1053,79,1173,104"/>
+<area shape="rect" id="node12" href="$d4/d08/Attribute_8h.html" title=" " alt="" coords="509,79,599,104"/>
+<area shape="rect" id="node13" href="$d4/d42/Entry_8h.html" title=" " alt="" coords="418,79,485,104"/>
+<area shape="rect" id="node22" href="$d5/d76/Options_8h.html" title=" " alt="" coords="675,79,759,104"/>
+<area shape="rect" id="node23" href="$d6/da8/PackFileType_8h.html" title=" " alt="" coords="1197,79,1314,104"/>
+<area shape="rect" id="node10" title=" " alt="" coords="572,225,664,251"/>
+<area shape="rect" id="node14" title=" " alt="" coords="396,152,467,177"/>
+<area shape="rect" id="node15" title=" " alt="" coords="491,152,559,177"/>
+<area shape="rect" id="node16" href="$db/d8a/Math_8h.html" title=" " alt="" coords="751,152,882,177"/>
+<area shape="rect" id="node17" title=" " alt="" coords="879,225,917,251"/>
+<area shape="rect" id="node18" title=" " alt="" coords="942,225,1022,251"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1047,225,1109,251"/>
+<area shape="rect" id="node20" title=" " alt="" coords="689,225,755,251"/>
+<area shape="rect" id="node21" title=" " alt="" coords="779,225,854,251"/>
 </map>

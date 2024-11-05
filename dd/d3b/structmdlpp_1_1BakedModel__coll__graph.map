@@ -1,10 +1,10 @@
 <map id="mdlpp::BakedModel" name="mdlpp::BakedModel">
-<area shape="rect" id="node1" title="A more accessible version of StudioModel&#39;s vertex data, so it can be rendered or converted more easil..." alt="" coords="191,392,341,419"/>
-<area shape="rect" id="node2" title=" " alt="" coords="85,288,253,329"/>
-<area shape="rect" id="node3" href="$d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html" title=" " alt="" coords="67,191,262,218"/>
-<area shape="rect" id="node4" title=" " alt="" coords="5,95,180,121"/>
-<area shape="rect" id="node5" title=" " alt="" coords="55,5,130,32"/>
-<area shape="rect" id="node6" title=" " alt="" coords="205,95,271,121"/>
-<area shape="rect" id="node7" title=" " alt="" coords="279,288,453,329"/>
-<area shape="rect" id="node8" href="$d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html" title=" " alt="" coords="287,184,445,225"/>
+<area shape="rect" id="node1" title="A more accessible version of StudioModel&#39;s vertex data, so it can be rendered or converted more easil..." alt="" coords="115,387,265,412"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,284,180,324"/>
+<area shape="rect" id="node3" href="$d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html" title=" " alt="" coords="11,181,169,221"/>
+<area shape="rect" id="node4" title=" " alt="" coords="206,284,374,324"/>
+<area shape="rect" id="node5" href="$d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html" title=" " alt="" coords="194,189,389,214"/>
+<area shape="rect" id="node6" title=" " alt="" coords="116,93,291,119"/>
+<area shape="rect" id="node7" title=" " alt="" coords="166,5,241,31"/>
+<area shape="rect" id="node8" title=" " alt="" coords="315,93,382,119"/>
 </map>

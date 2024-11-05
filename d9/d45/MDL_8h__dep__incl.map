@@ -1,10 +1,10 @@
 <map id="include/mdlpp/structs/MDL.h" name="include/mdlpp/structs/MDL.h">
-<area shape="rect" id="node1" title=" " alt="" coords="283,5,446,47"/>
-<area shape="rect" id="node2" href="$d0/d9c/mdlpp_8h.html" title=" " alt="" coords="221,184,391,211"/>
-<area shape="rect" id="node4" href="$d8/de1/VTX_8h.html" title=" " alt="" coords="106,95,269,136"/>
-<area shape="rect" id="node6" href="$db/d47/VVD_8h.html" title=" " alt="" coords="343,95,506,136"/>
-<area shape="rect" id="node8" href="$d7/d7e/MDL_8cpp.html" title=" " alt="" coords="530,102,725,129"/>
-<area shape="rect" id="node3" href="$d2/d96/mdlpp_8cpp.html" title=" " alt="" coords="227,259,385,285"/>
-<area shape="rect" id="node5" href="$d9/d1f/VTX_8cpp.html" title=" " alt="" coords="5,184,196,211"/>
-<area shape="rect" id="node7" href="$d4/d35/VVD_8cpp.html" title=" " alt="" coords="416,184,609,211"/>
+<area shape="rect" id="node1" title=" " alt="" coords="283,5,446,45"/>
+<area shape="rect" id="node2" href="$d0/d9c/mdlpp_8h.html" title=" " alt="" coords="221,181,391,207"/>
+<area shape="rect" id="node4" href="$d8/de1/VTX_8h.html" title=" " alt="" coords="106,93,269,133"/>
+<area shape="rect" id="node6" href="$db/d47/VVD_8h.html" title=" " alt="" coords="343,93,506,133"/>
+<area shape="rect" id="node8" href="$d7/d7e/MDL_8cpp.html" title=" " alt="" coords="530,101,725,126"/>
+<area shape="rect" id="node3" href="$d2/d96/mdlpp_8cpp.html" title=" " alt="" coords="227,255,385,280"/>
+<area shape="rect" id="node5" href="$d9/d1f/VTX_8cpp.html" title=" " alt="" coords="5,181,196,207"/>
+<area shape="rect" id="node7" href="$d4/d35/VVD_8cpp.html" title=" " alt="" coords="416,181,609,207"/>
 </map>

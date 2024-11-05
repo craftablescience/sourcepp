@@ -1,8 +1,8 @@
 <map id="dmxpp::DMXElement" name="dmxpp::DMXElement">
-<area shape="rect" id="node1" title=" " alt="" coords="123,393,283,420"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,289,165,331"/>
-<area shape="rect" id="node3" title=" " alt="" coords="243,289,394,331"/>
-<area shape="rect" id="node4" href="$dc/d56/structdmxpp_1_1DMXAttribute.html" title=" " alt="" coords="240,185,403,212"/>
-<area shape="rect" id="node5" title=" " alt="" coords="181,96,267,123"/>
-<area shape="rect" id="node6" title=" " alt="" coords="155,5,293,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="89,388,249,413"/>
+<area shape="rect" id="node2" title=" " alt="" coords="31,95,118,120"/>
+<area shape="rect" id="node6" href="$dc/d56/structdmxpp_1_1DMXAttribute.html" title=" " alt="" coords="91,183,253,208"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,5,144,45"/>
+<area shape="rect" id="node4" title=" " alt="" coords="269,285,429,325"/>
+<area shape="rect" id="node5" title=" " alt="" coords="94,285,245,325"/>
 </map>

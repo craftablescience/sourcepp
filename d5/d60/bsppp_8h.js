@@ -1,6 +1,6 @@
 var bsppp_8h =
 [
-    [ "BSP", "d5/dba/classbsppp_1_1BSP.html", "d5/dba/classbsppp_1_1BSP" ],
+    [ "bsppp::BSP", "d5/dba/classbsppp_1_1BSP.html", "d5/dba/classbsppp_1_1BSP" ],
     [ "BSPLump", "d5/d60/bsppp_8h.html#a9cb52214dd23962b3ae112be2b95e2d0", [
       [ "UNKNOWN", "d5/d60/bsppp_8h.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3", null ],
       [ "ENTITIES", "d5/d60/bsppp_8h.html#a9cb52214dd23962b3ae112be2b95e2d0a36bdca1ec030e93c10f9a70c79468e99", null ],

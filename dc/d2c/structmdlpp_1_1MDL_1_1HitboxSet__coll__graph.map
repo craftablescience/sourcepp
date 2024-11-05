@@ -1,8 +1,8 @@
 <map id="mdlpp::MDL::HitboxSet" name="mdlpp::MDL::HitboxSet">
-<area shape="rect" id="node1" title=" " alt="" coords="5,393,177,420"/>
-<area shape="rect" id="node2" title=" " alt="" coords="107,289,254,331"/>
-<area shape="rect" id="node3" href="$d9/dd3/structmdlpp_1_1BBox.html" title=" " alt="" coords="128,200,233,227"/>
-<area shape="rect" id="node4" title=" " alt="" coords="35,96,121,123"/>
-<area shape="rect" id="node5" title=" " alt="" coords="9,5,147,47"/>
-<area shape="rect" id="node6" title=" " alt="" coords="153,96,219,123"/>
+<area shape="rect" id="node1" title=" " alt="" coords="49,388,221,413"/>
+<area shape="rect" id="node2" title=" " alt="" coords="131,95,218,120"/>
+<area shape="rect" id="node5" href="$d9/dd3/structmdlpp_1_1BBox.html" title=" " alt="" coords="26,197,131,223"/>
+<area shape="rect" id="node3" title=" " alt="" coords="105,5,244,45"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,285,152,325"/>
+<area shape="rect" id="node6" title=" " alt="" coords="27,95,93,120"/>
 </map>
