@@ -216,13 +216,13 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
             LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp")
     target_compile_definitions(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEFINES})
     target_link_libraries(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEPS})
+    install(TARGETS ${SOURCEPP_PYTHON_NAME} LIBRARY DESTINATION "./${PROJECT_NAME}")
 
     add_custom_target(${SOURCEPP_PYTHON_NAME}_all)
     add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME})
 
     # We need to manually write out each module :(
     set(${SOURCEPP_PYTHON_NAME}_MODULES
-            "sourcepp"
             "sourcepp._sourcepp_impl"
             "sourcepp._sourcepp_impl.gamepp"
             "sourcepp._sourcepp_impl.sourcepp"
@@ -244,6 +244,7 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
                 MODULE "${MODULE}"
                 OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi"
                 PYTHON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src")
+        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi" DESTINATION "./${MODULE_DIR}/..")
         add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED})
     endforeach()
 endif()

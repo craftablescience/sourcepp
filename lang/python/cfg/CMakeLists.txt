@@ -29,12 +29,18 @@ endif()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# As weird as this looks, this is necessary for sdist wheel
-include(FetchContent)
-FetchContent_Declare(
-        sourcepp
-        GIT_REPOSITORY "https://github.com/craftablescience/sourcepp.git"
-        GIT_TAG "@SOURCEPP_GIT_TAG@")
 set(SOURCEPP_BUILD_PYTHON_WRAPPERS ON CACHE INTERNAL "" FORCE)
 set(SOURCEPP_PYTHON_VERSION "@SOURCEPP_PYTHON_VERSION@")
-FetchContent_MakeAvailable(sourcepp)
+
+# As weird as this looks, this is necessary for sdist wheel
+set(SOURCEPP_PYTHON_IS_SUBDIR OFF)
+if(SOURCEPP_PYTHON_IS_SUBDIR)
+    add_subdirectory("../.." "${CMAKE_CURRENT_BINARY_DIR}/sourcepp")
+else()
+    include(FetchContent)
+    FetchContent_Declare(
+            sourcepp
+            GIT_REPOSITORY "https://github.com/craftablescience/sourcepp.git"
+            GIT_TAG "@SOURCEPP_GIT_TAG@")
+    FetchContent_MakeAvailable(sourcepp)
+endif()

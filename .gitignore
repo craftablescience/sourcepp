@@ -23,6 +23,7 @@ test/Helpers.h
 
 # Python
 .mypy_cache/
+.venv/
 __pycache__/
 wheelhouse/
 *.pyd
