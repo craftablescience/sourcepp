@@ -1,4 +1,6 @@
-set(COMPRESSONATOR_DIR ${CMAKE_CURRENT_LIST_DIR} CACHE INTERNAL "")
+include_guard(GLOBAL)
+
+set(COMPRESSONATOR_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "")
 
 function(target_link_compressonator TARGET)
     if(WIN32)
@@ -20,8 +22,8 @@ function(target_link_compressonator TARGET)
         endif()
     elseif(APPLE)
         target_link_libraries(${TARGET} PRIVATE
-                "${COMPRESSONATOR_DIR}/lib/macOS/libCompressonator$<$<CONFIG:Debug>:d>.a"
-                "${COMPRESSONATOR_DIR}/lib/macOS/libCMP_Core$<$<CONFIG:Debug>:d>.a")
+                "${COMPRESSONATOR_DIR}/lib/macOS_arm64/libCompressonator$<$<CONFIG:Debug>:d>.a"
+                "${COMPRESSONATOR_DIR}/lib/macOS_arm64/libCMP_Core$<$<CONFIG:Debug>:d>.a")
     elseif(UNIX)
         target_link_libraries(${TARGET} PRIVATE
                 "${COMPRESSONATOR_DIR}/lib/linux_x86_64/libCompressonator$<$<CONFIG:Debug>:d>.a"
