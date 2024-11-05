@@ -102,7 +102,10 @@ endif()
 # Python bindings, part 1
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
-    set(SOURCEPP_PYTHON_VERSION "2024.11.5dev2")
+    if(NOT SOURCEPP_PYTHON_VERSION)
+        set(SOURCEPP_PYTHON_VERSION "0.0.1dev1")
+        message(WARNING "SOURCEPP_PYTHON_VERSION is not defined, do not release this build publicly! Defaulting it to ${SOURCEPP_PYTHON_VERSION}...")
+    endif()
     find_package(Python REQUIRED
             COMPONENTS Interpreter Development.Module
             OPTIONAL_COMPONENTS Development.SABIModule)
@@ -114,7 +117,17 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     set(${SOURCEPP_PYTHON_NAME}_SOURCES "")
     set(${SOURCEPP_PYTHON_NAME}_DEFINES "")
 
-    # Set the version here
+    # Set the version and git commit hash here
+    find_package(Git REQUIRED)
+    execute_process(COMMAND ${GIT_EXECUTABLE} log -1 --format=%H
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+            OUTPUT_VARIABLE SOURCEPP_GIT_TAG
+            RESULT_VARIABLE SOURCEPP_GIT_TAG_ERROR
+            OUTPUT_STRIP_TRAILING_WHITESPACE)
+    if(NOT SOURCEPP_GIT_TAG)
+        message(FATAL_ERROR "Failed to retrieve git commit SHA: ${SOURCEPP_GIT_TAG_ERROR}")
+    endif()
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/CMakeLists.txt" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/CMakeLists.txt" @ONLY)
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/pyproject.toml" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/pyproject.toml")
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/__init__.py"    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp/__init__.py")
 

@@ -1,18 +1,17 @@
 name: Build Wheels
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
     inputs:
+      version:
+        type: string
+        required: true
+        default: YYYY.MM.DDdevN
+        description: 'The package version'
       release:
         type: boolean
         required: true
         default: false
         description: 'Push a release to PyPI'
-  release:
-    types: [published]
 
 jobs:
   build_sdist:
@@ -29,7 +28,7 @@ jobs:
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
-        run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON
+        run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DSOURCEPP_PYTHON_VERSION="${{inputs.version}}"
 
       - name: Build SDist
         run: |
@@ -47,7 +46,7 @@ jobs:
 
   upload_release:
     name: Upload a Release
-    if: (github.event_name == 'release' && github.event.action == 'published') || (github.event_name == 'workflow_dispatch' && inputs.release)
+    if: inputs.release
     needs: [build_sdist]
     runs-on: ubuntu-latest
     environment:

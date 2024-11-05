@@ -30,6 +30,7 @@ wheelhouse/
 *.typed
 *.whl
 
+lang/python/CMakeLists.txt
 lang/python/pyproject.toml
 lang/python/src/sourcepp/__init__.py
 

@@ -34,6 +34,7 @@ include(FetchContent)
 FetchContent_Declare(
         sourcepp
         GIT_REPOSITORY "https://github.com/craftablescience/sourcepp.git"
-        GIT_TAG "origin/main")
+        GIT_TAG "@SOURCEPP_GIT_TAG@")
 set(SOURCEPP_BUILD_PYTHON_WRAPPERS ON CACHE INTERNAL "" FORCE)
+set(SOURCEPP_PYTHON_VERSION "@SOURCEPP_PYTHON_VERSION@")
 FetchContent_MakeAvailable(sourcepp)
