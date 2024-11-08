@@ -393,7 +393,7 @@ template<ImagePixel::PixelType P>
 
 	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
 
-	std::vector<std::byte> out(imageData.size() / (ImageFormatDetails::bpp(P::FORMAT) / 8) * sizeof(C));
+	std::vector<std::byte> out(imageData.size() / sizeof(P) * sizeof(C));
 	BufferStream stream{out, false};
 	for (const auto& pixel : pixels) {
 		stream << pixel.*channel;
