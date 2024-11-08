@@ -28,6 +28,7 @@ __pycache__/
 wheelhouse/
 *.pyd
 *.pyi
+*.so*
 *.typed
 *.whl
 

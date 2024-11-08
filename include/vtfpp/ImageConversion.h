@@ -383,20 +383,42 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 /// Extracts a single channel from the given image data.
 /// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
 /// Data is packed according to pixel channel C++ type size
+/// (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data)
 template<ImagePixel::PixelType P>
-[[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*format) {
+[[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*channel) {
+	using C = sourcepp::member_type_t<decltype(channel)>;
 	if (imageData.empty() || imageData.size() % sizeof(P) != 0) {
 		return {};
 	}
 
 	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
 
-	std::vector<std::byte> out(imageData.size() / (ImageFormatDetails::bpp(P::FORMAT) / 8) * sizeof(sourcepp::member_type_t<decltype(format)>));
+	std::vector<std::byte> out(imageData.size() / (ImageFormatDetails::bpp(P::FORMAT) / 8) * sizeof(C));
 	BufferStream stream{out, false};
 	for (const auto& pixel : pixels) {
-		stream << pixel.*format;
+		stream << pixel.*channel;
 	}
 	return out;
+}
+
+/// Applies a single channel to the given image data.
+/// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
+/// Data is packed according to pixel channel C++ type size
+/// (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data)
+template<ImagePixel::PixelType P>
+bool applyChannelToImageData(std::span<std::byte> imageData, std::span<const std::byte> channelData, auto P::*channel) {
+	using C = sourcepp::member_type_t<decltype(channel)>;
+	if (imageData.empty() || imageData.size() % sizeof(P) != 0 || channelData.empty() || channelData.size() % sizeof(C) != 0 || imageData.size() / sizeof(P) != channelData.size() / sizeof(C)) {
+		return false;
+	}
+
+	std::span pixels{reinterpret_cast<P*>(imageData.data()), imageData.size() / sizeof(P)};
+	std::span values{reinterpret_cast<C*>(channelData.data()), channelData.size() / sizeof(C)};
+
+	for (int i = 0; i < pixels.size(); i++) {
+		pixels[i].*channel = values[i];
+	}
+	return true;
 }
 
 } // namespace ImageConversion
