@@ -1,9 +1,14 @@
 #pragma once
 
+#include <algorithm>
 #include <concepts>
 #include <cstddef>
 #include <span>
 #include <vector>
+
+#ifdef SOURCEPP_BUILD_WITH_TBB
+#include <execution>
+#endif
 
 #include <BufferStream.h>
 #include <sourcepp/Templates.h>
@@ -393,11 +398,15 @@ template<ImagePixel::PixelType P>
 
 	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
 
-	std::vector<std::byte> out(imageData.size() / (ImageFormatDetails::bpp(P::FORMAT) / 8) * sizeof(C));
-	BufferStream stream{out, false};
-	for (const auto& pixel : pixels) {
-		stream << pixel.*channel;
-	}
+	std::vector<std::byte> out(imageData.size() / sizeof(P) * sizeof(C));
+	std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+			std::execution::par_unseq,
+#endif
+			pixels.begin(), pixels.end(), out.begin(), [channel](P pixel) -> C {
+		return pixel.*channel;
+	});
+
 	return out;
 }
 
