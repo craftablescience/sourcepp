@@ -64,11 +64,12 @@ var ImageConversion_8h =
       [ "POWER_OF_TWO_SMALLER", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801", null ],
       [ "POWER_OF_TWO_NEAREST", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35", null ]
     ] ],
+    [ "applyChannelToImageData", "da/d01/ImageConversion_8h.html#afa611e565a510988372aeb5ba3de37b0", null ],
     [ "convertFileToImageData", "da/d01/ImageConversion_8h.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
     [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],
-    [ "extractChannelFromImageData", "da/d01/ImageConversion_8h.html#a96f54f096215d13e3e4efdba3a1f6cfc", null ],
+    [ "extractChannelFromImageData", "da/d01/ImageConversion_8h.html#aad3b3ca83929b12ec4abad257d5f1648", null ],
     [ "getDefaultFileFormatForImageFormat", "da/d01/ImageConversion_8h.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
     [ "getResizedDim", "da/d01/ImageConversion_8h.html#a440840aa87de2dc367add665f674b365", null ],
     [ "resizeImageData", "da/d01/ImageConversion_8h.html#afcbc2ecd898c6e46a52535fa62494c8d", null ],

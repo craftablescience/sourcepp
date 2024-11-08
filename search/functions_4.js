@@ -15,7 +15,7 @@ var searchData=
   ['escapeentrypathforwrite_12',['escapeEntryPathForWrite',['../d2/dd2/classvpkpp_1_1PackFile.html#aaee6b87fa3e7657781018941a632e3a1',1,'vpkpp::PackFile']]],
   ['example_13',['EXAMPLE',['../d2/d8b/classvpkpp_1_1EXAMPLE.html#ab8193ceae611c462c74adc97411a6ea0',1,'vpkpp::EXAMPLE']]],
   ['extractall_14',['extractAll',['../d2/dd2/classvpkpp_1_1PackFile.html#a6e00aa01b95da7597c1bc22226b0f494',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, const EntryPredicate &amp;predicate, bool stripSharedDirs=true) const'],['../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, bool createUnderPackFileDir=true) const']]],
-  ['extractchannelfromimagedata_15',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a96f54f096215d13e3e4efdba3a1f6cfc',1,'vtfpp::ImageConversion']]],
+  ['extractchannelfromimagedata_15',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648',1,'vtfpp::ImageConversion']]],
   ['extractdirectory_16',['extractDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a4bb832d80b1822122a2fde5a67ffc847',1,'vpkpp::PackFile']]],
   ['extractentry_17',['extractEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923',1,'vpkpp::PackFile']]]
 ];

@@ -59,7 +59,7 @@ var searchData=
   ['executable_5fextension2_56',['EXECUTABLE_EXTENSION2',['../d5/d29/namespacevpkpp.html#a775dc7575afded7ae13cf8f5049c2a29',1,'vpkpp']]],
   ['exr_57',['EXR',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725',1,'vtfpp::ImageConversion']]],
   ['extractall_58',['extractAll',['../d2/dd2/classvpkpp_1_1PackFile.html#a6e00aa01b95da7597c1bc22226b0f494',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, const EntryPredicate &amp;predicate, bool stripSharedDirs=true) const'],['../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, bool createUnderPackFileDir=true) const']]],
-  ['extractchannelfromimagedata_59',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a96f54f096215d13e3e4efdba3a1f6cfc',1,'vtfpp::ImageConversion']]],
+  ['extractchannelfromimagedata_59',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648',1,'vtfpp::ImageConversion']]],
   ['extractdirectory_60',['extractDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a4bb832d80b1822122a2fde5a67ffc847',1,'vpkpp::PackFile']]],
   ['extractentry_61',['extractEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923',1,'vpkpp::PackFile']]],
   ['extradata_62',['extraData',['../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df',1,'vpkpp::Entry']]],
