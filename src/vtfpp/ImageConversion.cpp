@@ -1,5 +1,6 @@
 #include <vtfpp/ImageConversion.h>
 
+#include <algorithm>
 #include <bit>
 #include <cstdlib>
 #include <cstring>
@@ -8,6 +9,10 @@
 #include <span>
 #include <string_view>
 #include <unordered_map>
+
+#ifdef SOURCEPP_BUILD_WITH_TBB
+#include <execution>
+#endif
 
 #include <Compressonator.h>
 #include <sourcepp/Macros.h>
