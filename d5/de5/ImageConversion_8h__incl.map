@@ -1,17 +1,16 @@
 <map id="include/vtfpp/ImageConversion.h" name="include/vtfpp/ImageConversion.h">
-<area shape="rect" id="node1" title=" " alt="" coords="257,5,495,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,91,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="92,225,172,251"/>
-<area shape="rect" id="node4" title=" " alt="" coords="403,79,474,104"/>
-<area shape="rect" id="node5" title=" " alt="" coords="499,79,552,104"/>
-<area shape="rect" id="node6" title=" " alt="" coords="577,79,639,104"/>
-<area shape="rect" id="node7" title=" " alt="" coords="664,79,784,104"/>
-<area shape="rect" id="node8" href="$d7/dd4/Templates_8h.html" title=" " alt="" coords="166,152,330,177"/>
-<area shape="rect" id="node10" href="$d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="251,79,379,104"/>
-<area shape="rect" id="node9" title=" " alt="" coords="199,225,291,251"/>
-<area shape="rect" id="node11" href="$db/d8a/Math_8h.html" title=" " alt="" coords="355,152,485,177"/>
-<area shape="rect" id="node12" title=" " alt="" coords="506,225,545,251"/>
-<area shape="rect" id="node13" title=" " alt="" coords="569,225,631,251"/>
-<area shape="rect" id="node14" title=" " alt="" coords="316,225,383,251"/>
-<area shape="rect" id="node15" title=" " alt="" coords="407,225,481,251"/>
+<area shape="rect" id="node1" title=" " alt="" coords="268,5,505,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,225,85,251"/>
+<area shape="rect" id="node3" title=" " alt="" coords="351,79,422,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="447,79,500,104"/>
+<area shape="rect" id="node5" title=" " alt="" coords="525,79,587,104"/>
+<area shape="rect" id="node6" title=" " alt="" coords="612,79,732,104"/>
+<area shape="rect" id="node7" href="$d7/dd4/Templates_8h.html" title=" " alt="" coords="79,152,243,177"/>
+<area shape="rect" id="node9" href="$d1/d2d/ImageFormats_8h.html" title=" " alt="" coords="199,79,327,104"/>
+<area shape="rect" id="node8" title=" " alt="" coords="113,225,205,251"/>
+<area shape="rect" id="node10" href="$db/d8a/Math_8h.html" title=" " alt="" coords="268,152,399,177"/>
+<area shape="rect" id="node11" title=" " alt="" coords="419,225,458,251"/>
+<area shape="rect" id="node12" title=" " alt="" coords="482,225,545,251"/>
+<area shape="rect" id="node13" title=" " alt="" coords="229,225,296,251"/>
+<area shape="rect" id="node14" title=" " alt="" coords="320,225,395,251"/>
 </map>
