@@ -10,7 +10,7 @@ authors = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 maintainers = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 description = "Several modern C++20 libraries for sanely parsing Valve formats."
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 classifiers = [
 	"License :: OSI Approved :: MIT License",
 	"Intended Audience :: Developers",
