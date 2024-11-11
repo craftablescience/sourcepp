@@ -20,12 +20,12 @@ inline void register_python(py::module_& m) {
 			.def_prop_ro("window_title", &GameInstance::getWindowTitle)
 			.def_prop_ro("window_pos",   &GameInstance::getWindowPos)
 			.def_prop_ro("window_size",  &GameInstance::getWindowSize)
-			.def("command",              &GameInstance::command,    py::arg("command"))
-			.def("input_begin",          &GameInstance::inputBegin, py::arg("input"))
-			.def("input_end",            &GameInstance::inputEnd,   py::arg("input"))
-			.def("input_once",           &GameInstance::inputOnce,  py::arg("input"))
-			.def("input_hold",           &GameInstance::inputHold,  py::arg("input"), py::arg("sec"))
-			.def("wait",                 &GameInstance::wait,       py::arg("sec"));
+			.def("command",              &GameInstance::command,    py::arg("command"),               py::rv_policy::reference)
+			.def("input_begin",          &GameInstance::inputBegin, py::arg("input"),                 py::rv_policy::reference)
+			.def("input_end",            &GameInstance::inputEnd,   py::arg("input"),                 py::rv_policy::reference)
+			.def("input_once",           &GameInstance::inputOnce,  py::arg("input"),                 py::rv_policy::reference)
+			.def("input_hold",           &GameInstance::inputHold,  py::arg("input"), py::arg("sec"), py::rv_policy::reference)
+			.def("wait",                 &GameInstance::wait,       py::arg("sec"),                   py::rv_policy::reference);
 }
 
 } // namespace gamepp
