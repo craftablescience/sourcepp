@@ -108,7 +108,6 @@ void register_python(py::module_& m) {
 		using namespace ImageConversion;
 		auto ImageConversion = vtfpp.def_submodule("ImageConversion");
 
-		// todo(python): still need to bind the following:
 		ImageConversion.def("convert_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
 			const auto d = convertImageDataToFormat({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, width, height);
 			return py::bytes{d.data(), d.size()};
@@ -183,6 +182,7 @@ void register_python(py::module_& m) {
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("width_resize"), py::arg("height"), py::arg("new_height"), py::arg("height_resize"), py::arg("srgb"), py::arg("filter"), py::arg("edge") = ResizeEdge::CLAMP);
 
 		// Skip extractChannelFromImageData, difficult to bind
+		// Skip applyChannelToImageData, difficult to bind
 	}
 
 	py::class_<PPL::Image>(vtfpp, "PPLImage")
