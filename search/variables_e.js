@@ -8,7 +8,7 @@ var searchData=
   ['parent_5',['parent',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#ade4d21e14f00409ea19a388b8c489ead',1,'mdlpp::MDL::Bone']]],
   ['parentindex_6',['parentindex',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#abc5d6a8d6302b509be807ea0f66ac0fd',1,'vpkpp::GCF::DirectoryEntry']]],
   ['parentname_7',['parentName',['../d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html#ab870f53436717a8ea27f2588223f4da9',1,'toolpp::FGD::AutoVisGroup']]],
-  ['path_8',['path',['../d5/d62/classtoolpp_1_1CmdSeq.html#aea08f6170aaff51ae0fcd1dafe8b358f',1,'toolpp::CmdSeq::path()'],['../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440',1,'bsppp::BSP::path()']]],
+  ['path_8',['path',['../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440',1,'bsppp::BSP']]],
   ['pathtotheoreticallyexistingfile_9',['pathToTheoreticallyExistingFile',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a39501829964abad909eefc2e69df4bde',1,'toolpp::CmdSeq::Command']]],
   ['pck_5fdirectory_5fstring_5fpadding_10',['PCK_DIRECTORY_STRING_PADDING',['../d8/d7e/PCK_8cpp.html#a7a268da18b033048ccbab52c6fb35bd4',1,'PCK.cpp']]],
   ['pck_5fextension_11',['PCK_EXTENSION',['../d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7',1,'vpkpp']]],
