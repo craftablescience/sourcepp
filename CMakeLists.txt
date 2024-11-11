@@ -228,6 +228,7 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
             "sourcepp._sourcepp_impl.sourcepp"
             "sourcepp._sourcepp_impl.sourcepp.math"
             "sourcepp._sourcepp_impl.steampp"
+            "sourcepp._sourcepp_impl.toolpp"
             "sourcepp._sourcepp_impl.vcryptpp"
             "sourcepp._sourcepp_impl.vcryptpp.VFONT"
             "sourcepp._sourcepp_impl.vcryptpp.VICE"
