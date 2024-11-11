@@ -118,6 +118,10 @@ public:
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
 
+	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
+		return true;
+	}
+
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
