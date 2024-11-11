@@ -14,6 +14,7 @@ var classvpkpp_1_1GCF =
     [ "GCF", "d1/d01/classvpkpp_1_1GCF.html#ada12598828928c8f9cb86fd06b1281fa", null ],
     [ "getSupportedEntryAttributes", "d1/d01/classvpkpp_1_1GCF.html#ac7c384b4769d966388b20a6db967ee83", null ],
     [ "hasEntryChecksums", "d1/d01/classvpkpp_1_1GCF.html#a8284288c70f448ea1cb436bf018e0c70", null ],
+    [ "isCaseSensitive", "d1/d01/classvpkpp_1_1GCF.html#ae223bc0d8f9cbe47a7baa79ba2475a6d", null ],
     [ "open", "d1/d01/classvpkpp_1_1GCF.html#afa5d26a12853475fc78cf6605505a2c4", null ],
     [ "operator std::string", "d1/d01/classvpkpp_1_1GCF.html#aba7afed5a06497f31f7e3de2c01c3b19", null ],
     [ "readEntry", "d1/d01/classvpkpp_1_1GCF.html#ad82b35254e3df131300472ebeb4c5642", null ],
