@@ -51,13 +51,15 @@ public:
 		KEYVALUES_STRATA,
 	};
 
-	explicit CmdSeq(std::string path_);
+	explicit CmdSeq(const std::string& path);
+
+	explicit CmdSeq(Type type_);
 
 	[[nodiscard]] explicit operator bool() const;
 
 	[[nodiscard]] Type getType() const;
 
-	void setVersion(Type type_);
+	void setType(Type type_);
 
 	[[nodiscard]] float getVersion() const;
 
@@ -69,7 +71,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& path_);
+	bool bake(const std::string& path) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	void parseBinary(const std::string& path);
@@ -82,7 +84,6 @@ protected:
 
 	Type type;
 	float version;
-	std::string path;
 	std::vector<Sequence> sequences;
 };
 

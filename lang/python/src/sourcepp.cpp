@@ -8,6 +8,10 @@
 #include "steampp.h"
 #endif
 
+#ifdef TOOLPP
+#include "toolpp.h"
+#endif
+
 #ifdef VCRYPTPP
 #include "vcryptpp.h"
 #endif
@@ -31,6 +35,12 @@ NB_MODULE(_sourcepp_impl, m) {
 	steampp::register_python(m);
 #else
 	m.def_submodule("steampp");
+#endif
+
+#ifdef TOOLPP
+	toolpp::register_python(m);
+#else
+	m.def_submodule("toolpp");
 #endif
 
 #ifdef VCRYPTPP

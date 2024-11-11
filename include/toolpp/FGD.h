@@ -187,11 +187,11 @@ public:
 
 	AutoVisGroupWriter beginAutoVisGroup(const std::string& parentName);
 
-	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description);
+	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description = "");
 
-	[[nodiscard]] std::string bake();
+	[[nodiscard]] std::string bake() const;
 
-	bool bake(const std::string& fgdPath);
+	bool bake(const std::string& fgdPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	FGDWriter();

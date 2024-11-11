@@ -8,6 +8,7 @@
 
 #include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
+#include <sourcepp/Math.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
@@ -831,14 +832,14 @@ FGDWriter& FGDWriter::EntityWriter::endEntity() const {
 	return this->parent;
 }
 
-std::string FGDWriter::bake() {
-	this->backingData.resize(this->writer.tell());
-	if (this->backingData.ends_with("\n\n")) {
-		this->backingData.pop_back();
+std::string FGDWriter::bake() const {
+	std::string_view out{this->backingData.data(), this->writer.tell()};
+	while (out.ends_with("\n\n")) {
+		out = out.substr(0, out.size() - 1);
 	}
-	return this->backingData;
+	return std::string{out};
 }
 
-bool FGDWriter::bake(const std::string& fgdPath) {
+bool FGDWriter::bake(const std::string& fgdPath) const {
 	return fs::writeFileText(fgdPath, this->bake());
 }

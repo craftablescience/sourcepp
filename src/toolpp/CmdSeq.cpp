@@ -59,10 +59,9 @@ std::string CmdSeq::Command::getExecutableDisplayName() const {
 	return this->executable;
 }
 
-CmdSeq::CmdSeq(std::string path_)
+CmdSeq::CmdSeq(const std::string& path)
 		: type(Type::INVALID)
-		, version(0.f)
-		, path(std::move(path_)) {
+		, version(0.2f) {
 	{
 		FileStream reader{path};
 		if (!reader) {
@@ -93,6 +92,10 @@ CmdSeq::CmdSeq(std::string path_)
 	}
 }
 
+CmdSeq::CmdSeq(Type type_)
+		: type(type_)
+		, version(0.2f) {}
+
 CmdSeq::operator bool() const {
 	return this->type != Type::INVALID;
 }
@@ -101,7 +104,7 @@ CmdSeq::Type CmdSeq::getType() const {
 	return this->type;
 }
 
-void CmdSeq::setVersion(Type type_) {
+void CmdSeq::setType(Type type_) {
 	this->type = type_;
 }
 
@@ -263,12 +266,11 @@ std::vector<std::byte> CmdSeq::bake() const {
 	return {};
 }
 
-bool CmdSeq::bake(const std::string& path_) {
-	FileStream writer{path_};
+bool CmdSeq::bake(const std::string& path) const {
+	FileStream writer{path};
 	if (!writer) {
 		return false;
 	}
-	this->path = path_;
 	writer.seek_out(0).write(this->bake());
 	return true;
 }
