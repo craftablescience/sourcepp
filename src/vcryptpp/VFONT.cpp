@@ -9,17 +9,17 @@ using namespace vcryptpp;
 std::vector<std::byte> VFONT::decrypt(std::span<const std::byte> data) {
 	BufferStreamReadOnly reader{data.data(), data.size()};
 
-	if (reader.seek(IDENTIFIER.length(), std::ios::end).read_string(IDENTIFIER.length()) != IDENTIFIER) {
+	if (reader.seek(IDENTIFIER.length(), BufferStream::SEEKDIR_END).read_string(IDENTIFIER.length()) != IDENTIFIER) {
 		return {};
 	}
-	reader.seek(IDENTIFIER.length() + sizeof(uint8_t), std::ios::end);
+	reader.seek(IDENTIFIER.length() + sizeof(uint8_t), BufferStream::SEEKDIR_END);
 
 	auto bytes = reader.read<uint8_t>();
 
 	std::vector<std::byte> out;
 	out.resize(reader.size() - IDENTIFIER.length() - bytes);
 
-	reader.seek(-static_cast<int>(bytes), std::ios::cur);
+	reader.seek(-static_cast<int>(bytes), BufferStream::SEEKDIR_CUR);
 	uint8_t magic = MAGIC;
 	for (int i = 0; i < bytes - 1; i++) {
 		magic ^= reader.read<uint8_t>() + MAGIC;

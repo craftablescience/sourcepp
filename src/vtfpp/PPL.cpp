@@ -207,7 +207,7 @@ std::vector<std::byte> PPL::bake() {
 		writer.seek_u(seekPoint);
 		currentOffset += image.data.size() + alignment;
 	}
-	writer.seek(0, std::ios::end);
+	writer.seek(0, BufferStream::SEEKDIR_END);
 
 	out.resize(writer.size());
 	return out;

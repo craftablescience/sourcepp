@@ -1298,7 +1298,7 @@ std::vector<std::byte> VTF::bake() const {
 		static constexpr auto writeNonLocalResource = [](BufferStream& writer_, Resource::Type type, std::span<const std::byte> data) {
 			writer_.write<uint32_t>(type);
 			const auto resourceOffsetPos = writer_.tell();
-			writer_.seek(0, std::ios::end);
+			writer_.seek(0, BufferStream::SEEKDIR_END);
 			const auto resourceOffsetValue = writer_.tell();
 			writer_.write(data);
 			writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);

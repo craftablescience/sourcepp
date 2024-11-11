@@ -36,9 +36,9 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 	while (true) {
 		char c = stream.read<char>();
 		if (c != '\"') {
-			stream.seek(-1, std::ios::cur);
+			stream.seek(-1, BufferStream::SEEKDIR_CUR);
 			const auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::NO_ESCAPE_SEQUENCES);
-			if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
+			if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != ':') {
 				stream.skip();
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
 			}
@@ -70,7 +70,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 		}
 	}
 
-	if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
+	if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != ':') {
 		stream.skip();
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
 	}
@@ -80,7 +80,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 }
 
 void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& version) {
-	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+	if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -92,7 +92,7 @@ void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& versi
 }
 
 void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2i& mapSize) {
-	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+	if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -151,7 +151,7 @@ void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FG
 		classProperty.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
 		classProperty.arguments = "";
 
-		if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+		if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != '(') {
 			parser::text::eatWhitespace(stream);
 			if (stream.peek<char>() != '(') {
 				entity.classProperties.push_back(classProperty);
@@ -171,7 +171,7 @@ void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FG
 void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity, bool input) {
 	auto& io = input ? entity.inputs.emplace_back() : entity.outputs.emplace_back();
 	io.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
-	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
+	if (stream.seek(-1, BufferStream::SEEKDIR_CUR).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -200,7 +200,7 @@ void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backin
 			reportable = true;
 			return;
 		} else {
-			stream.seek(-static_cast<int64_t>(modifier.length()), std::ios::cur);
+			stream.seek(-static_cast<int64_t>(modifier.length()), BufferStream::SEEKDIR_CUR);
 			return;
 		}
 	}
@@ -209,7 +209,7 @@ void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backin
 		if (const auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "report") {
 			reportable = true;
 		}  else {
-			stream.seek(-static_cast<int64_t>(modifier.length()), std::ios::cur);
+			stream.seek(-static_cast<int64_t>(modifier.length()), BufferStream::SEEKDIR_CUR);
 			//return;
 		}
 	}
