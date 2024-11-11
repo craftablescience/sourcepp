@@ -10,7 +10,11 @@ build/
 dist/
 cmake-build-*/
 out/
-
+*.dll
+*.ilk
+*.pdb
+*.pyd
+*.so*
 
 # Docs
 docs/html/
@@ -26,9 +30,7 @@ test/Helpers.h
 .venv/
 __pycache__/
 wheelhouse/
-*.pyd
 *.pyi
-*.so*
 *.typed
 *.whl
 

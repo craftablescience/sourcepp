@@ -30,7 +30,7 @@ inline void register_python(py::module_& m) {
 			.def("get_app_store_art_path",       &Steam::getAppStoreArtPath,      py::arg("appID"))
 			.def("is_app_using_source_engine",   &Steam::isAppUsingSourceEngine,  py::arg("appID"))
 			.def("is_app_using_source_2_engine", &Steam::isAppUsingSource2Engine, py::arg("appID"))
-			.def_prop_ro("__bool__",             &Steam::operator bool,           py::is_operator());
+			.def("__bool__",                     &Steam::operator bool,           py::is_operator());
 }
 
 } // namespace steampp
