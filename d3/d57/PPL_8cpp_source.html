@@ -335,7 +335,7 @@ $(document).ready(function(){initNavTree('d3/d57/PPL_8cpp_source.html','../../')
 <div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>        writer.seek_u(seekPoint);</div>
 <div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>        currentOffset += image.data.size() + alignment;</div>
 <div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>    }</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    writer.seek(0, std::ios::end);</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    writer.seek(0, BufferStream::SEEKDIR_END);</div>
 <div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span> </div>
 <div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>    out.resize(writer.size());</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    <span class="keywordflow">return</span> out;</div>

@@ -133,24 +133,26 @@ $(document).ready(function(){initNavTree('d9/db1/Binary_8h.html','../../'); init
 <code>#include &lt;fstream&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
+<code>#include &lt;BufferStream.h&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../db/d8a/Math_8h_source.html">sourcepp/Math.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Binary.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d2/d29/Binary_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2parser_2Binary_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2parser_2Binary_8h" id="ainclude_2sourcepp_2parser_2Binary_8h">
-<area shape="rect" title=" " alt="" coords="139,5,316,45"/>
+<area shape="rect" title=" " alt="" coords="189,5,367,45"/>
 <area shape="rect" title=" " alt="" coords="5,93,76,119"/>
 <area shape="rect" title=" " alt="" coords="100,93,173,119"/>
 <area shape="rect" title=" " alt="" coords="198,93,257,119"/>
 <area shape="rect" title=" " alt="" coords="281,93,379,119"/>
-<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="403,93,534,119"/>
-<area shape="rect" title=" " alt="" coords="224,167,263,192"/>
-<area shape="rect" title=" " alt="" coords="287,167,367,192"/>
-<area shape="rect" title=" " alt="" coords="392,167,455,192"/>
-<area shape="rect" title=" " alt="" coords="479,167,546,192"/>
-<area shape="rect" title=" " alt="" coords="571,167,663,192"/>
-<area shape="rect" title=" " alt="" coords="687,167,762,192"/>
+<area shape="rect" title=" " alt="" coords="403,93,523,119"/>
+<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="547,93,678,119"/>
+<area shape="rect" title=" " alt="" coords="368,167,407,192"/>
+<area shape="rect" title=" " alt="" coords="431,167,511,192"/>
+<area shape="rect" title=" " alt="" coords="536,167,599,192"/>
+<area shape="rect" title=" " alt="" coords="623,167,690,192"/>
+<area shape="rect" title=" " alt="" coords="715,167,807,192"/>
+<area shape="rect" title=" " alt="" coords="831,167,906,192"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -196,9 +198,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8354793be2858631751e2fe02a487478"><td class="memItemLeft" align="right" valign="top">consteval uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a> (const char fourCC[4])</td></tr>
 <tr class="memdesc:a8354793be2858631751e2fe02a487478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a FourCC identifier from a string of 4 characters.  <br /></td></tr>
 <tr class="separator:a8354793be2858631751e2fe02a487478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34a6d6858beecc2a4066c1524bc78397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397">sourcepp::parser::binary::readStringAtOffset</a> (BufferStream &amp;stream, std::string &amp;str, std::ios::seekdir offsetFrom=std::ios::cur, std::size_t subtractFromOffset=sizeof(int32_t))</td></tr>
-<tr class="memdesc:a34a6d6858beecc2a4066c1524bc78397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an integer from the stream, seeks there, reads a string, and seeks back.  <br /></td></tr>
-<tr class="separator:a34a6d6858beecc2a4066c1524bc78397"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87e25e7783850e3ae79186b45beff2cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a87e25e7783850e3ae79186b45beff2cf">sourcepp::parser::binary::readStringAtOffset</a> (BufferStream &amp;stream, std::string &amp;str, BufferStream::BufferStreamSeekDir offsetFrom=BufferStream::SEEKDIR_CUR, std::size_t subtractFromOffset=sizeof(int32_t))</td></tr>
+<tr class="memdesc:a87e25e7783850e3ae79186b45beff2cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an integer from the stream, seeks there, reads a string, and seeks back.  <br /></td></tr>
+<tr class="separator:a87e25e7783850e3ae79186b45beff2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
