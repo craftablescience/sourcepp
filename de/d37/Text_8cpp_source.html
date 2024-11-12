@@ -218,7 +218,7 @@ $(document).ready(function(){initNavTree('de/d37/Text_8cpp_source.html','../../'
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span> </div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno"><a class="line" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">   91</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a97a7ed5d9fef57ec5780c1fc15fa2cff">parser::text::eatWhitespace</a>(BufferStream&amp; stream) {</div>
 <div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    <span class="keywordflow">while</span> (<a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#af09792417ee9447f6693c822411669c6">isWhitespace</a>(stream.read&lt;<span class="keywordtype">char</span>&gt;())) {}</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    stream.seek(-1, BufferStream::SEEKDIR_CUR);</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    stream.seek(-1, std::ios::cur);</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a7d79d0d1a16505989bc22c89b50ca00c">   96</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a7d79d0d1a16505989bc22c89b50ca00c">parser::text::eatSingleLineComment</a>(BufferStream&amp; stream) {</div>
@@ -227,7 +227,7 @@ $(document).ready(function(){initNavTree('de/d37/Text_8cpp_source.html','../../'
 <div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span> </div>
 <div class="line"><a id="l00100" name="l00100"></a><span class="lineno"><a class="line" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5119820befec25e12c9a46550a6cdf57">  100</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a5119820befec25e12c9a46550a6cdf57">parser::text::eatMultiLineComment</a>(BufferStream&amp; stream, std::string_view multiLineCommentEnd) {</div>
 <div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">while</span> (!std::ranges::equal(stream.read_span&lt;<span class="keywordtype">char</span>&gt;(multiLineCommentEnd.length()), multiLineCommentEnd)) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(multiLineCommentEnd.length() - 1), BufferStream::SEEKDIR_CUR);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(multiLineCommentEnd.length() - 1), std::ios::cur);</div>
 <div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    }</div>
 <div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>}</div>
 <div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
@@ -249,7 +249,7 @@ $(document).ready(function(){initNavTree('de/d37/Text_8cpp_source.html','../../'
 <div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>            <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ad8e2883e19b4f8256307901a1d68a67b">eatWhitespaceAndComments</a>(stream, singleLineCommentStart, multiLineCommentStart);</div>
 <div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        }</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(singleLineCommentStart.length()), BufferStream::SEEKDIR_CUR);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(singleLineCommentStart.length()), std::ios::cur);</div>
 <div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    }</div>
 <div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
 <div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>    <span class="keywordflow">if</span> (!multiLineCommentStart.empty()) {</div>
@@ -258,7 +258,7 @@ $(document).ready(function(){initNavTree('de/d37/Text_8cpp_source.html','../../'
 <div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>            <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#ad8e2883e19b4f8256307901a1d68a67b">eatWhitespaceAndComments</a>(stream, singleLineCommentStart, multiLineCommentStart);</div>
 <div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>            <span class="keywordflow">return</span>;</div>
 <div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>        }</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(multiLineCommentStart.length()), BufferStream::SEEKDIR_CUR);</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span>        stream.seek(-<span class="keyword">static_cast&lt;</span>int64_t<span class="keyword">&gt;</span>(multiLineCommentStart.length()), std::ios::cur);</div>
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>    }</div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>}</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span> </div>

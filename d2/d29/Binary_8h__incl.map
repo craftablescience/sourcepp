@@ -1,15 +1,13 @@
 <map id="include/sourcepp/parser/Binary.h" name="include/sourcepp/parser/Binary.h">
-<area shape="rect" id="node1" title=" " alt="" coords="189,5,367,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="93,5,271,45"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,93,76,119"/>
 <area shape="rect" id="node3" title=" " alt="" coords="100,93,173,119"/>
 <area shape="rect" id="node4" title=" " alt="" coords="198,93,257,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="281,93,379,119"/>
-<area shape="rect" id="node6" title=" " alt="" coords="403,93,523,119"/>
-<area shape="rect" id="node7" href="$db/d8a/Math_8h.html" title=" " alt="" coords="547,93,678,119"/>
-<area shape="rect" id="node8" title=" " alt="" coords="368,167,407,192"/>
-<area shape="rect" id="node9" title=" " alt="" coords="431,167,511,192"/>
-<area shape="rect" id="node10" title=" " alt="" coords="536,167,599,192"/>
-<area shape="rect" id="node11" title=" " alt="" coords="623,167,690,192"/>
-<area shape="rect" id="node12" title=" " alt="" coords="715,167,807,192"/>
-<area shape="rect" id="node13" title=" " alt="" coords="831,167,906,192"/>
+<area shape="rect" id="node5" href="$db/d8a/Math_8h.html" title=" " alt="" coords="281,93,411,119"/>
+<area shape="rect" id="node6" title=" " alt="" coords="101,167,140,192"/>
+<area shape="rect" id="node7" title=" " alt="" coords="165,167,245,192"/>
+<area shape="rect" id="node8" title=" " alt="" coords="269,167,332,192"/>
+<area shape="rect" id="node9" title=" " alt="" coords="357,167,423,192"/>
+<area shape="rect" id="node10" title=" " alt="" coords="448,167,540,192"/>
+<area shape="rect" id="node11" title=" " alt="" coords="565,167,639,192"/>
 </map>

@@ -134,9 +134,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a8354793be2858631751e2fe02a487478"><td class="memItemLeft" align="right" valign="top">consteval uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">makeFourCC</a> (const char fourCC[4])</td></tr>
 <tr class="memdesc:a8354793be2858631751e2fe02a487478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a FourCC identifier from a string of 4 characters.  <br /></td></tr>
 <tr class="separator:a8354793be2858631751e2fe02a487478"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a87e25e7783850e3ae79186b45beff2cf"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a87e25e7783850e3ae79186b45beff2cf">readStringAtOffset</a> (BufferStream &amp;stream, std::string &amp;str, BufferStream::BufferStreamSeekDir offsetFrom=BufferStream::SEEKDIR_CUR, std::size_t subtractFromOffset=sizeof(int32_t))</td></tr>
-<tr class="memdesc:a87e25e7783850e3ae79186b45beff2cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an integer from the stream, seeks there, reads a string, and seeks back.  <br /></td></tr>
-<tr class="separator:a87e25e7783850e3ae79186b45beff2cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34a6d6858beecc2a4066c1524bc78397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397">readStringAtOffset</a> (BufferStream &amp;stream, std::string &amp;str, std::ios::seekdir offsetFrom=std::ios::cur, std::size_t subtractFromOffset=sizeof(int32_t))</td></tr>
+<tr class="memdesc:a34a6d6858beecc2a4066c1524bc78397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an integer from the stream, seeks there, reads a string, and seeks back.  <br /></td></tr>
+<tr class="separator:a34a6d6858beecc2a4066c1524bc78397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a8354793be2858631751e2fe02a487478" name="a8354793be2858631751e2fe02a487478"></a>
@@ -168,8 +168,8 @@ Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a87e25e7783850e3ae79186b45beff2cf" name="a87e25e7783850e3ae79186b45beff2cf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a87e25e7783850e3ae79186b45beff2cf">&#9670;&#160;</a></span>readStringAtOffset()</h2>
+<a id="a34a6d6858beecc2a4066c1524bc78397" name="a34a6d6858beecc2a4066c1524bc78397"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a34a6d6858beecc2a4066c1524bc78397">&#9670;&#160;</a></span>readStringAtOffset()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -189,8 +189,8 @@ Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">BufferStream::BufferStreamSeekDir&#160;</td>
-          <td class="paramname"><em>offsetFrom</em> = <code>BufferStream::SEEKDIR_CUR</code>, </td>
+          <td class="paramtype">std::ios::seekdir&#160;</td>
+          <td class="paramname"><em>offsetFrom</em> = <code>std::ios::cur</code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -217,7 +217,7 @@ Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/d3c/Binary_8cpp_source.html#l00005">5</a> of file <a class="el" href="../../dc/d3c/Binary_8cpp_source.html">Binary.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/d3c/Binary_8cpp_source.html#l00007">7</a> of file <a class="el" href="../../dc/d3c/Binary_8cpp_source.html">Binary.cpp</a>.</p>
 
 </div>
 </div>

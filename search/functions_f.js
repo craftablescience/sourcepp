@@ -12,7 +12,7 @@ var searchData=
   ['readlump_9',['readLump',['../d5/dba/classbsppp_1_1BSP.html#a12925a26e59828c572bdaa1df394d172',1,'bsppp::BSP::readLump(BSPLump lumpIndex) const'],['../d5/dba/classbsppp_1_1BSP.html#a169a4384bdab5405fab0263fc57a3f21',1,'bsppp::BSP::readLump() const']]],
   ['readoriginalfaces_10',['readOriginalFaces',['../d5/dba/classbsppp_1_1BSP.html#af57621fba1e9a717296ed66d3fb715be',1,'bsppp::BSP']]],
   ['readplanes_11',['readPlanes',['../d5/dba/classbsppp_1_1BSP.html#a08ba76ed578a2a90bc58c8fa8b8a123f',1,'bsppp::BSP']]],
-  ['readstringatoffset_12',['readStringAtOffset',['../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a87e25e7783850e3ae79186b45beff2cf',1,'sourcepp::parser::binary']]],
+  ['readstringatoffset_12',['readStringAtOffset',['../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397',1,'sourcepp::parser::binary']]],
   ['readstringtobuffer_13',['readStringToBuffer',['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a059604b0178935b12bfba0e6296969ab',1,'sourcepp::parser::text']]],
   ['readsurfedges_14',['readSurfEdges',['../d5/dba/classbsppp_1_1BSP.html#af6b12e963636fa9bbd4763b933072072',1,'bsppp::BSP']]],
   ['readtexturedata_15',['readTextureData',['../d5/dba/classbsppp_1_1BSP.html#aba5f71815675cfdb2f8ef3e49329bea5',1,'bsppp::BSP']]],
