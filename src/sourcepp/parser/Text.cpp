@@ -90,7 +90,7 @@ std::string parser::text::convertEscapesToSpecialChars(std::string_view str, con
 
 void parser::text::eatWhitespace(BufferStream& stream) {
 	while (isWhitespace(stream.read<char>())) {}
-	stream.seek(-1, BufferStream::SEEKDIR_CUR);
+	stream.seek(-1, std::ios::cur);
 }
 
 void parser::text::eatSingleLineComment(BufferStream& stream) {
@@ -99,7 +99,7 @@ void parser::text::eatSingleLineComment(BufferStream& stream) {
 
 void parser::text::eatMultiLineComment(BufferStream& stream, std::string_view multiLineCommentEnd) {
 	while (!std::ranges::equal(stream.read_span<char>(multiLineCommentEnd.length()), multiLineCommentEnd)) {
-		stream.seek(-static_cast<int64_t>(multiLineCommentEnd.length() - 1), BufferStream::SEEKDIR_CUR);
+		stream.seek(-static_cast<int64_t>(multiLineCommentEnd.length() - 1), std::ios::cur);
 	}
 }
 
@@ -121,7 +121,7 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 			eatWhitespaceAndComments(stream, singleLineCommentStart, multiLineCommentStart);
 			return;
 		}
-		stream.seek(-static_cast<int64_t>(singleLineCommentStart.length()), BufferStream::SEEKDIR_CUR);
+		stream.seek(-static_cast<int64_t>(singleLineCommentStart.length()), std::ios::cur);
 	}
 
 	if (!multiLineCommentStart.empty()) {
@@ -130,7 +130,7 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 			eatWhitespaceAndComments(stream, singleLineCommentStart, multiLineCommentStart);
 			return;
 		}
-		stream.seek(-static_cast<int64_t>(multiLineCommentStart.length()), BufferStream::SEEKDIR_CUR);
+		stream.seek(-static_cast<int64_t>(multiLineCommentStart.length()), std::ios::cur);
 	}
 }
 

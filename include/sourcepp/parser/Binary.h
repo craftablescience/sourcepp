@@ -3,10 +3,10 @@
 #include <cstddef>
 #include <fstream>
 #include <string>
-#include <string_view>
 
-#include <BufferStream.h>
 #include <sourcepp/Math.h>
+
+class BufferStream;
 
 namespace sourcepp::parser::binary {
 
@@ -27,6 +27,6 @@ consteval uint32_t makeFourCC(const char fourCC[4]) {
  * @param subtractFromOffset This offset is subtracted from the read integer. Defaults to the size of an
  *                           integer since an integer was read from the stream before seeking to the string.
  */
-void readStringAtOffset(BufferStream& stream, std::string& str, BufferStream::BufferStreamSeekDir offsetFrom = BufferStream::SEEKDIR_CUR, std::size_t subtractFromOffset = sizeof(int32_t));
+void readStringAtOffset(BufferStream& stream, std::string& str, std::ios::seekdir offsetFrom = std::ios::cur, std::size_t subtractFromOffset = sizeof(int32_t));
 
 } // namespace sourcepp::parser::binary

@@ -87,7 +87,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(bone.procType)
 			.read(bone.procIndex)
 			.read(bone.physicsBone);
-		parser::binary::readStringAtOffset(stream, bone.surfacePropName, BufferStream::SEEKDIR_CUR, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Mat3x4f) + sizeof(Bone::Flags));
+		parser::binary::readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Mat3x4f) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
 		// _unused0
@@ -164,7 +164,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 	for (int i = 0; i < materialDirCount; i++) {
 		auto& materialDir = this->materialDirectories.emplace_back();
 
-		parser::binary::readStringAtOffset(stream, materialDir, BufferStream::SEEKDIR_BEG, 0);
+		parser::binary::readStringAtOffset(stream, materialDir, std::ios::beg, 0);
 	}
 
     stream.seek(skinReferenceOffset);
