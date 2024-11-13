@@ -1,5 +1,5 @@
 add_pretty_parser(vtfpp
-        DEPS miniz libzstd_static sourcepp_stb sourcepp_tinyexr
+        DEPS miniz libzstd_static sourcepp_parser sourcepp_stb sourcepp_tinyexr
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"

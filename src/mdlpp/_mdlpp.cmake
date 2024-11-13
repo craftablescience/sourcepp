@@ -1,4 +1,5 @@
 add_pretty_parser(mdlpp
+        DEPS sourcepp_parser
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/Generic.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/mdlpp/structs/MDL.h"
