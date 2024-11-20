@@ -5,7 +5,6 @@
 #include <steampp/steampp.h>
 
 #include <algorithm>
-#include <fstream>
 #include <filesystem>
 #include <ranges>
 #include <unordered_set>
@@ -43,8 +42,8 @@ bool isAppUsingSource2EnginePredicate(std::string_view installDir) {
 			return true;
 		}
 		std::filesystem::directory_iterator subDirIterator{entry.path(), std::filesystem::directory_options::skip_permission_denied};
-		return std::any_of(std::filesystem::begin(subDirIterator), std::filesystem::end(subDirIterator), [](const auto& entry) {
-			return entry.is_directory() && std::filesystem::exists(entry.path() / "gameinfo.gi");
+		return std::any_of(std::filesystem::begin(subDirIterator), std::filesystem::end(subDirIterator), [](const auto& entry_) {
+			return entry_.is_directory() && std::filesystem::exists(entry_.path() / "gameinfo.gi");
 		});
 	});
 }
@@ -55,7 +54,8 @@ std::unordered_set<AppID> getAppsKnownToUseEngine(bool(*p)(std::string_view)) {
 		return {
 #include "cache/EngineSource.inl"
 		};
-	} else if (p == &::isAppUsingSource2EnginePredicate) {
+	}
+	if (p == &::isAppUsingSource2EnginePredicate) {
 		return {
 #include "cache/EngineSource2.inl"
 		};
@@ -79,7 +79,7 @@ bool isAppUsingEngine(const Steam* steam, AppID appID) {
 		return false;
 	}
 
-	auto installDir = steam->getAppInstallDir(appID);
+	const auto installDir = steam->getAppInstallDir(appID);
 	if (std::error_code ec; !std::filesystem::exists(installDir, ec)) [[unlikely]] {
 		return false;
 	}
@@ -149,9 +149,8 @@ Steam::Steam() {
 		}
 		if (location.empty()) {
 			return;
-		} else {
-			steamLocation = location;
 		}
+		steamLocation = location;
 	}
 #endif
 

@@ -9,6 +9,9 @@ macro(target_optimize TARGET)
             if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
                 target_compile_options(${TARGET} PRIVATE -fno-limit-debug-info)
             endif()
+
+            # Add debug define
+            target_compile_definitions(${TARGET} PRIVATE DEBUG)
         else()
             # Build with optimizations and don't omit stack pointer for debugging
             if(UNIX OR MINGW)

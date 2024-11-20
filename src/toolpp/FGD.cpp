@@ -8,15 +8,17 @@
 
 #include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
+#include <sourcepp/Math.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
+using namespace std::string_view_literals;
 using namespace toolpp;
 
 namespace {
 
-constexpr const char* INVALID_SYNTAX_MSG = "Invalid syntax found in FGD!";
-constexpr const char* INVALID_CLASS_MSG = "Invalid class found in FGD!";
+constexpr auto INVALID_SYNTAX_MSG = "Invalid syntax found in FGD!";
+constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 
 [[nodiscard]] bool tryToEatSeparator(BufferStream& stream, char sep) {
 	parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -30,12 +32,12 @@ constexpr const char* INVALID_CLASS_MSG = "Invalid class found in FGD!";
 
 	static constexpr std::string_view END = "\"\n";
 
-	auto startSpan = backing.tell();
+	const auto startSpan = backing.tell();
 	while (true) {
 		char c = stream.read<char>();
 		if (c != '\"') {
 			stream.seek(-1, std::ios::cur);
-			auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::NO_ESCAPE_SEQUENCES);
+			const auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::NO_ESCAPE_SEQUENCES);
 			if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
 				stream.skip();
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -96,7 +98,7 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 	}
-	auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
 	auto mapSizes = string::split(mapSizeString, ',');
 	if (mapSizes.size() != 2) {
 		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -122,7 +124,7 @@ void readAutoVisGroups(BufferStreamReadOnly& stream, BufferStream& backing, std:
 	if (!::tryToEatSeparator(stream, '=')) {
 		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 	}
-	auto parentName = ::readFGDString(stream, backing);
+	const auto parentName = ::readFGDString(stream, backing);
 	if (!::tryToEatSeparator(stream, '[')) {
 		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 	}
@@ -192,7 +194,7 @@ void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backin
 
 	parser::text::eatWhitespace(stream);
 	if (stream.peek<char>() == 'r') {
-		if (auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "readonly") {
+		if (const auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "readonly") {
 			readonly = true;
 		} else if (modifier == "report") {
 			reportable = true;
@@ -204,27 +206,28 @@ void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backin
 	}
 	parser::text::eatWhitespace(stream);
 	if (stream.peek<char>() == 'r') {
-		if (auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "report") {
+		if (const auto modifier = parser::text::readUnquotedStringToBuffer(stream, backing); modifier == "report") {
 			reportable = true;
 		}  else {
 			stream.seek(-static_cast<int64_t>(modifier.length()), std::ios::cur);
-			return;
+			//return;
 		}
 	}
 }
 
 void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity) {
 	// Key and value type (looks like "key(valueType)", or "input key(valueType)" for i/o)
-	auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
 	parser::text::eatWhitespace(stream);
 	if (string::iequals(name, "input")) {
 		::readEntityIO(stream, backing, entity, true);
 		return;
-	} else if (string::iequals(name, "output")) {
+	}
+	if (string::iequals(name, "output")) {
 		::readEntityIO(stream, backing, entity, false);
 		return;
 	}
-	auto valueType = parser::text::readUnquotedStringToBuffer(stream, backing, ")", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto valueType = parser::text::readUnquotedStringToBuffer(stream, backing, ")", parser::text::NO_ESCAPE_SEQUENCES);
 	// If there is a space after the value type, we need to get rid of the parenthesis here
 	parser::text::eatWhitespace(stream);
 	if (stream.peek<char>() == ')') {
@@ -287,7 +290,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 
 		while (stream.peek<char>() != ']') {
 			auto& flag = field.flags.emplace_back();
-			auto valueString = ::readFGDString(stream, backing);
+			const auto valueString = ::readFGDString(stream, backing);
 			if (string::toInt(valueString, flag.value).ec != std::errc{}) {
 				flag.value = 0;
 			}
@@ -300,7 +303,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 			if (!::tryToEatSeparator(stream, ':')) {
 				continue;
 			}
-			auto enabledByDefaultString = ::readFGDString(stream, backing);
+			const auto enabledByDefaultString = ::readFGDString(stream, backing);
 			int enabledByDefault = 0;
 			if (string::toInt(enabledByDefaultString, enabledByDefault).ec != std::errc{}) {
 				flag.enabledByDefault = false;
@@ -349,7 +352,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	}
 	for (const auto& field : newEntity.fields) {
 		if (auto it = std::find_if(oldEntity.fields.begin(), oldEntity.fields.end(), [&field](const auto& oldField) {
-				return oldField.name == field.name;
+			return oldField.name == field.name;
 		}); it != oldEntity.fields.end()) {
 			it->valueType = field.valueType;
 			it->readonly = field.readonly;
@@ -369,7 +372,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	}
 	for (const auto& field : newEntity.fieldsWithChoices) {
 		if (auto it = std::find_if(oldEntity.fieldsWithChoices.begin(), oldEntity.fieldsWithChoices.end(), [&field](const auto& oldField) {
-				return oldField.name == field.name;
+			return oldField.name == field.name;
 		}); it != oldEntity.fieldsWithChoices.end()) {
 			it->readonly = field.readonly;
 			it->reportable = field.reportable;
@@ -389,7 +392,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	}
 	for (const auto& field : newEntity.fieldsWithFlags) {
 		if (auto it = std::find_if(oldEntity.fieldsWithFlags.begin(), oldEntity.fieldsWithFlags.end(), [&field](const auto& oldField) {
-				return oldField.name == field.name;
+			return oldField.name == field.name;
 		}); it != oldEntity.fieldsWithFlags.end()) {
 			it->readonly = field.readonly;
 			it->reportable = field.reportable;
@@ -400,7 +403,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	}
 	for (const auto& input : newEntity.inputs) {
 		if (auto it = std::find_if(oldEntity.inputs.begin(), oldEntity.inputs.end(), [&input](const auto& oldInput) {
-				return oldInput.name == input.name;
+			return oldInput.name == input.name;
 		}); it != oldEntity.inputs.end()) {
 			it->valueType = input.valueType;
 			if (!input.description.empty()) {
@@ -412,7 +415,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	}
 	for (const auto& output : newEntity.outputs) {
 		if (auto it = std::find_if(oldEntity.outputs.begin(), oldEntity.outputs.end(), [&output](const auto& oldOutput) {
-				return oldOutput.name == output.name;
+			return oldOutput.name == output.name;
 		}); it != oldEntity.outputs.end()) {
 			it->valueType = output.valueType;
 			if (!output.description.empty()) {
@@ -435,7 +438,7 @@ void readEntity(BufferStreamReadOnly& stream, BufferStream& backing, std::string
 
 	// Entity name
 	parser::text::eatWhitespaceAndSingleLineComments(stream);
-	auto name = ::readFGDString(stream, backing);
+	const auto name = ::readFGDString(stream, backing);
 
 	// If a colon is here, the entity has a description
 	if (::tryToEatSeparator(stream, ':')) {
@@ -466,11 +469,11 @@ void writeOptionalKeyValueStrings(BufferStream& writer, std::initializer_list<st
 	static constexpr auto writeOptionalString = [](BufferStream& stream, const std::string& str) {
 		if (!str.empty()) {
 			stream
-				.write(" : \"", 4)
+				.write(" : \""sv, false)
 				.write(str, false)
 				.write('\"');
 		} else {
-			stream.write(" :", 2);
+			stream.write(" :"sv, false);
 		}
 	};
 	for (auto revString = std::rbegin(strings); revString != std::rend(strings); ++revString) {
@@ -498,7 +501,7 @@ void FGD::load(const std::string& fgdPath) {
 	BufferStreamReadOnly stream{fgdData};
 
 	try {
-		std::vector<std::string> seenPaths{fgdPath};
+		std::vector seenPaths{fgdPath};
 		string::normalizeSlashes(seenPaths.front());
 		this->readEntities(stream, fgdPath, seenPaths);
 	} catch (const std::overflow_error&) {}
@@ -539,7 +542,7 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, st
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 
-		auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+		const auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
 		if (string::iequals(classType, "include")) {
 			parser::text::eatWhitespace(stream);
 			// Assume the include path is relative to the current file being processed
@@ -604,66 +607,66 @@ FGDWriter FGDWriter::begin() {
 
 FGDWriter& FGDWriter::include(const std::string& fgdPath) {
 	this->writer
-		.write("@include \"", 10)
+		.write("@include \""sv, false)
 		.write(fgdPath, false)
-		.write("\"\n\n", 3);
+		.write("\"\n\n"sv, false);
 	return *this;
 }
 
 FGDWriter& FGDWriter::version(int version) {
 	this->writer
-		.write("@version(", 9)
+		.write("@version("sv, false)
 		.write(std::to_string(version), false)
-		.write(")\n\n", 3);
+		.write(")\n\n"sv, false);
 	return *this;
 }
 
 FGDWriter& FGDWriter::mapSize(math::Vec2i mapSize) {
 	this->writer
-	    .write("@mapsize(", 9)
+	    .write("@mapsize("sv, false)
 	    .write(std::to_string(mapSize[0]), false)
-	    .write(", ", 2)
+	    .write(", "sv, false)
 	    .write(std::to_string(mapSize[1]), false)
-	    .write(")\n\n", 3);
+	    .write(")\n\n"sv, false);
 	return *this;
 }
 
 FGDWriter& FGDWriter::materialExclusionDirs(const std::vector<std::string>& dirs) {
-	this->writer.write("@MaterialExclusion\n[\n", 21);
+	this->writer.write("@MaterialExclusion\n[\n"sv, false);
 	for (const auto& dir : dirs) {
 		this->writer << '\t' << '\"';
 		this->writer.write(dir, false);
 		this->writer << '\"' << '\n';
 	}
-	this->writer.write("]\n\n", 3);
+	this->writer.write("]\n\n"sv, false);
 	return *this;
 }
 
 FGDWriter::AutoVisGroupWriter FGDWriter::beginAutoVisGroup(const std::string& parentName) {
 	this->writer
-		.write("@AutoVisGroup = \"", 17)
+		.write("@AutoVisGroup = \""sv, false)
 		.write(parentName, false)
-		.write("\"\n[\n", 4);
+		.write("\"\n[\n"sv, false);
 	return AutoVisGroupWriter{*this};
 }
 
 FGDWriter::AutoVisGroupWriter& FGDWriter::AutoVisGroupWriter::visGroup(const std::string& name, const std::vector<std::string>& entities) {
 	this->parent.writer
-	    .write("\t\"", 2)
+	    .write("\t\""sv, false)
 	    .write(name, false)
-	    .write("\"\n\t[\n", 5);
+	    .write("\"\n\t[\n"sv, false);
 	for (const auto& entity : entities) {
 		this->parent.writer
-			.write("\t\t\"", 3)
+			.write("\t\t\""sv, false)
 			.write(entity, false)
-			.write("\"\n", 2);
+			.write("\"\n"sv, false);
 	}
-	this->parent.writer.write("\t]\n", 3);
+	this->parent.writer.write("\t]\n"sv, false);
 	return *this;
 }
 
-FGDWriter& FGDWriter::AutoVisGroupWriter::endAutoVisGroup() {
-	this->parent.writer.write("]\n\n", 3);
+FGDWriter& FGDWriter::AutoVisGroupWriter::endAutoVisGroup() const {
+	this->parent.writer.write("]\n\n"sv, false);
 	return this->parent;
 }
 
@@ -683,20 +686,20 @@ FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, con
 		}
 	}
 	this->writer
-		.write("= ", 2)
+		.write("= "sv, false)
 		.write(name, false)
-		.write(" :", 2);
+		.write(" :"sv, false);
 	// Put the description on the same line if it's short
 	if (description.size() < 32) {
 		this->writer
-			.write(" \"", 2)
+			.write(" \""sv, false)
 			.write(description, false);
 	} else {
 		this->writer
-			.write("\n\t\"", 3)
+			.write("\n\t\""sv, false)
 			.write(description, false);
 	}
-	this->writer.write("\"\n[\n", 4);
+	this->writer.write("\"\n[\n"sv, false);
 	return EntityWriter{*this};
 }
 
@@ -708,10 +711,10 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::keyValue(const std::string& na
 		.write(valueType, false)
 		.write(')');
 	if (readOnly) {
-		this->parent.writer.write(" readonly", 9);
+		this->parent.writer.write(" readonly"sv, false);
 	}
 	if (report) {
-		this->parent.writer.write(" report", 7);
+		this->parent.writer.write(" report"sv, false);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, valueDefault, description});
 	this->parent.writer << '\n';
@@ -722,30 +725,30 @@ FGDWriter::EntityWriter::KeyValueChoicesWriter FGDWriter::EntityWriter::beginKey
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
-	    .write("(choices)", 9);
+	    .write("(choices)"sv, false);
 	if (readOnly) {
-		this->parent.writer.write(" readonly", 9);
+		this->parent.writer.write(" readonly"sv, false);
 	}
 	if (report) {
-		this->parent.writer.write(" report", 7);
+		this->parent.writer.write(" report"sv, false);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, valueDefault, description});
-	this->parent.writer.write(" =\n\t[\n", 6);
+	this->parent.writer.write(" =\n\t[\n"sv, false);
 	return KeyValueChoicesWriter{*this};
 }
 
 FGDWriter::EntityWriter::KeyValueChoicesWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::choice(const std::string& value, const std::string& displayName) {
 	this->parent.parent.writer
-		.write("\t\t\"", 3)
+		.write("\t\t\""sv, false)
 		.write(value, false)
-		.write("\" : \"", 5)
+		.write("\" : \""sv, false)
 		.write(displayName, false)
-		.write("\"\n", 2);
+		.write("\"\n"sv, false);
 	return *this;
 }
 
-FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyValueChoices() {
-	this->parent.parent.writer.write("\t]\n", 3);
+FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyValueChoices() const {
+	this->parent.parent.writer.write("\t]\n"sv, false);
 	return this->parent;
 }
 
@@ -753,29 +756,29 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyVa
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
-	    .write("(flags)", 7);
+	    .write("(flags)"sv, false);
 	if (readOnly) {
-		this->parent.writer.write(" readonly", 9);
+		this->parent.writer.write(" readonly"sv, false);
 	}
 	if (report) {
-		this->parent.writer.write(" report", 7);
+		this->parent.writer.write(" report"sv, false);
 	}
 	::writeOptionalKeyValueStrings(this->parent.writer, {displayName, description});
-	this->parent.writer.write(" =\n\t[\n", 6);
+	this->parent.writer.write(" =\n\t[\n"sv, false);
 	return KeyValueFlagsWriter{*this};
 }
 
 FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::flag(uint64_t value, const std::string& displayName, bool enabledByDefault, const std::string& description) {
 	this->parent.parent.writer
-		.write("\t\t", 2)
+		.write("\t\t"sv, false)
 	    .write(std::to_string(value), false)
-	    .write(" : \"", 4)
+	    .write(" : \""sv, false)
 	    .write(displayName, false)
-	    .write("\" : ", 4)
+	    .write("\" : "sv, false)
 	    .write(std::to_string(enabledByDefault), false);
 	if (!description.empty()) {
 		this->parent.parent.writer
-		    .write(" : \"", 4)
+		    .write(" : \""sv, false)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -783,22 +786,22 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueF
 	return *this;
 }
 
-FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyValueFlags() {
-	this->parent.parent.writer.write("\t]\n", 3);
+FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyValueFlags() const {
+	this->parent.parent.writer.write("\t]\n"sv, false);
 	return this->parent;
 }
 
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name, const std::string& valueType, const std::string& description) {
 	this->parent.writer
 	    .write('\t')
-		.write("input ", 6)
+		.write("input "sv, false)
 	    .write(name, false)
 	    .write('(')
 	    .write(valueType, false)
 	    .write(')');
 	if (!description.empty()) {
 		this->parent.writer
-		    .write(" : \"", 4)
+		    .write(" : \""sv, false)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -809,14 +812,14 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name,
 FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(const std::string& name, const std::string& valueType, const std::string& description) {
 	this->parent.writer
 	    .write('\t')
-	    .write("output ", 7)
+	    .write("output "sv, false)
 	    .write(name, false)
 	    .write('(')
 	    .write(valueType, false)
 	    .write(')');
 	if (!description.empty()) {
 		this->parent.writer
-		    .write(" : \"", 4)
+		    .write(" : \""sv, false)
 		    .write(description, false)
 		    .write('\"');
 	}
@@ -824,19 +827,19 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(const std::string& name
 	return *this;
 }
 
-FGDWriter& FGDWriter::EntityWriter::endEntity() {
-	this->parent.writer.write("]\n\n", 3);
+FGDWriter& FGDWriter::EntityWriter::endEntity() const {
+	this->parent.writer.write("]\n\n"sv, false);
 	return this->parent;
 }
 
-std::string FGDWriter::bake() {
-	this->backingData.resize(this->writer.tell());
-	if (this->backingData.ends_with("\n\n")) {
-		this->backingData.pop_back();
+std::string FGDWriter::bake() const {
+	std::string_view out{this->backingData.data(), this->writer.tell()};
+	while (out.ends_with("\n\n")) {
+		out = out.substr(0, out.size() - 1);
 	}
-	return this->backingData;
+	return std::string{out};
 }
 
-bool FGDWriter::bake(const std::string& fgdPath) {
+bool FGDWriter::bake(const std::string& fgdPath) const {
 	return fs::writeFileText(fgdPath, this->bake());
 }

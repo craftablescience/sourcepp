@@ -7,7 +7,7 @@
 #include <vector>
 
 #include <BufferStream.h>
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace toolpp {
 
@@ -125,7 +125,7 @@ public:
 
 		AutoVisGroupWriter& visGroup(const std::string& name, const std::vector<std::string>& entities);
 
-		FGDWriter& endAutoVisGroup();
+		FGDWriter& endAutoVisGroup() const; // NOLINT(*-use-nodiscard)
 
 	private:
 		FGDWriter& parent;
@@ -139,7 +139,7 @@ public:
 
 			KeyValueChoicesWriter& choice(const std::string& value, const std::string& displayName);
 
-			EntityWriter& endKeyValueChoices();
+			EntityWriter& endKeyValueChoices() const; // NOLINT(*-use-nodiscard)
 
 		private:
 			EntityWriter& parent;
@@ -151,7 +151,7 @@ public:
 
 			KeyValueFlagsWriter& flag(uint64_t value, const std::string& displayName, bool enabledByDefault, const std::string& description = "");
 
-			EntityWriter& endKeyValueFlags();
+			EntityWriter& endKeyValueFlags() const; // NOLINT(*-use-nodiscard)
 
 		private:
 			EntityWriter& parent;
@@ -169,7 +169,7 @@ public:
 
 		EntityWriter& output(const std::string& name, const std::string& valueType, const std::string& description = "");
 
-		FGDWriter& endEntity();
+		FGDWriter& endEntity() const; // NOLINT(*-use-nodiscard)
 
 	private:
 		FGDWriter& parent;
@@ -187,11 +187,11 @@ public:
 
 	AutoVisGroupWriter beginAutoVisGroup(const std::string& parentName);
 
-	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description);
+	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description = "");
 
-	[[nodiscard]] std::string bake();
+	[[nodiscard]] std::string bake() const;
 
-	bool bake(const std::string& fgdPath);
+	bool bake(const std::string& fgdPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	FGDWriter();

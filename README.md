@@ -22,7 +22,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>bsppp</code></td>
+    <td rowspan="1"><code>bsppp</code><sup>*</sup></td>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
@@ -30,7 +30,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>dmxpp</code></td>
+    <td rowspan="1"><code>dmxpp</code><sup>*</sup></td>
     <td><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
@@ -42,7 +42,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>Get Source engine instance window title/position/size</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="3" align="center"></td>
+    <td rowspan="3" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -53,15 +53,15 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="1"><code>kvpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1<sup>*</sup></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> Text v1<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="5"><code>mdlpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49<sup>&dagger;</sup></td>
+    <td rowspan="5"><code>mdlpp</code><sup>*</sup></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)">MDL</a> v44-49</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td rowspan="5" align="center"></td>
@@ -84,7 +84,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>Find Steam install folder</td>
     <td align="center">✅</td>
     <td align="center">-</td>
-    <td rowspan="3" align="center">C</td>
+    <td rowspan="3" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -102,7 +102,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center"></td>
+    <td rowspan="3" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -119,7 +119,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://developer.valvesoftware.com/wiki/VICE">VICE</a> encrypted files</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center">C<br>C#</td>
+    <td rowspan="3" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -129,11 +129,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="23"><code>vpkpp</code></td>
+    <td rowspan="25"><code>vpkpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="23" align="center">C<br>C#</td>
+    <td rowspan="25" align="center">C<br>C#</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -186,7 +186,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>
-      <a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> v1-2, v54
+      <a href="https://developer.valvesoftware.com/wiki/VPK">VPK</a> pre-v1, v1-2, v54
       <br> &bull; <a href="https://www.counter-strike.net/cs2">Counter-Strike: 2</a> modifications
       <br> &bull; <a href="https://clientmod.ru">Counter-Strike: Source ClientMod</a> modifications
     </td>
@@ -201,17 +201,83 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td>ZIP (and BZ2, GZ, XZ, ZSTD)</td>
+    <td>WAD v3</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="3"><code>vtfpp</code></td>
+    <td>ZIP</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td rowspan="23"><code>vtfpp</code></td>
+    <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="23" align="center">Python</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://openexr.com">EXR</a> v1</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/GIF">GIF</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/RGBE_image_format">HDR</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/JPEG">JPEG</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>PIC</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/PNG">PNG</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://netpbm.sourceforge.net/doc/pnm.html">PNM</a> (PGM, PPM)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/PPL">PPL</a> v0</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html">PSD</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -224,14 +290,22 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
 </table>
 
-(\*) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VDF](https://developer.valvesoftware.com/wiki/VDF), [VMT](https://developer.valvesoftware.com/wiki/VMT), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+(\*) These libraries are incomplete and still in development. Their interfaces are unstable and will likely change in the future.
+Libraries not starred should be considered stable, and their existing interfaces will not change much if at all. Note that wrappers
+only exist for stable libraries.
 
-(&dagger;) The MDL parser is not complete. It is usable in its current state, but it does not currently parse more complex components like animations. This parser is still in development.
+(&dagger;) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VMT](https://developer.valvesoftware.com/wiki/VMT) and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+
+## Wrappers
+
+Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library. The Python wrappers can be
+found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 ## Special Thanks
 
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
+- `vpkpp`'s WAD3 parser was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`'s write support is based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
 
 ## Gallery

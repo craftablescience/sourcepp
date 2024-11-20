@@ -122,7 +122,7 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return false;
 	}
-    auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 	return this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0;
 }
 
@@ -169,7 +169,6 @@ std::optional<std::vector<std::byte>> BSP::readLump(BSPLump lumpIndex, bool read
         // Not Compressed and we dont need to do anything
         return lumpBytes;
     }
-
 }
 
 bool BSP::stageLump(BSPLump lumpIndex, const std::span<const std::byte> data, uint8_t compressLevel) {
@@ -282,11 +281,10 @@ void BSP::flushChanges(BSPLump lumpIndex)
 		}
 		return;
 	}
-
-
 	if (lumpIndex == BSPLump::GAME_LUMP) {
 		this->stagedGameLumps = this->readGameLumps();
 	}
+
 	auto lumpToFlush = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 	this->stagedLumps[lumpToFlush].clear();
 	this->stagedHeader.lumps[lumpToFlush] = this->header.lumps[lumpToFlush];
@@ -302,10 +300,10 @@ bool BSP::stageLumpPatchFile(const std::string& lumpFilePath) {
 		return false;
 	}
 
-	auto offset = reader.read<int32_t>();
-	auto index = reader.read<int32_t>();
-	auto version = reader.read<int32_t>();
-	auto length = reader.read<int32_t>();
+	const auto offset = reader.read<int32_t>();
+	const auto index = reader.read<int32_t>();
+	const auto version = reader.read<int32_t>();
+	const auto length = reader.read<int32_t>();
 	if (index < 0 || index > BSP_LUMP_COUNT || offset <= 0 || length <= 0) {
 		return false;
 	}
@@ -321,7 +319,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		return;
 	}
 
-	auto& lump = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
+	const auto& [lumpOffset, lumpLength, lumpVersion, lumpFourCC] = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
 
 	const auto fsPath = std::filesystem::path{this->path};
 	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
@@ -337,8 +335,8 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		.seek_out(0)
 		.write<int32_t>(sizeof(int32_t) * 5)
 		.write(lumpIndex)
-		.write(lump.version)
-		.write(lump.length)
+		.write(lumpVersion)
+		.write(lumpLength)
 		.write(this->header.mapRevision)
 		.write(*lumpData);
 }

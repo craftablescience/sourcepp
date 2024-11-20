@@ -836,6 +836,7 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 	EXPECT_EQ(vtf.getCompressionLevel(), 9);
+	EXPECT_EQ(vtf.getCompressionMethod(), CompressionMethod::DEFLATE);
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -876,7 +877,8 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
-	EXPECT_EQ(vtf.getCompressionLevel(), 6);
+	EXPECT_EQ(vtf.getCompressionLevel(), -1);
+	EXPECT_EQ(vtf.getCompressionMethod(), CompressionMethod::ZSTD);
 }
 
 TEST(vtfpp, read_v76_nomip_c9) {
@@ -903,6 +905,7 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 	EXPECT_EQ(vtf.getCompressionLevel(), 9);
+	EXPECT_EQ(vtf.getCompressionMethod(), CompressionMethod::DEFLATE);
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);

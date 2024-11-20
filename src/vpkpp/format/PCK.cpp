@@ -1,11 +1,10 @@
 #include <vpkpp/format/PCK.h>
 
 #include <filesystem>
+#include <ranges>
 
 #include <FileStream.h>
-
 #include <sourcepp/crypto/MD5.h>
-#include <sourcepp/FS.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -60,7 +59,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 
 	if (auto signature = reader.read<uint32_t>(); signature != PCK_SIGNATURE) {
 		// PCK might be embedded
-		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t)), std::ios::end);
+		reader.seek_in(sizeof(uint32_t), std::ios::end);
 		if (auto endSignature = reader.read<uint32_t>(); endSignature != PCK_SIGNATURE) {
 			return nullptr;
 		}
@@ -183,7 +182,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
-			const auto padding = math::getPaddingForAlignment(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
+			const auto padding = math::paddingForAlignment(PCK_FILE_DATA_PADDING, static_cast<int>(entry->length));
 			for (int i = 0; i < padding; i++) {
 				fileData.push_back(static_cast<std::byte>(0));
 			}
@@ -235,9 +234,9 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 		// Dry-run to get the length of the directory section
 		this->dataOffset = stream.tell_out();
-		for (const auto& [path, entry] : entriesToBake) {
+		for (const auto& path : std::views::keys(entriesToBake)) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::paddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			this->dataOffset +=
 					sizeof(uint32_t) +             // Path length
 					entryPath.length() + padding + // Path
@@ -252,7 +251,7 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
 			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
-			const auto padding = math::getPaddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
+			const auto padding = math::paddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, false, entryPath.length() + padding);
 

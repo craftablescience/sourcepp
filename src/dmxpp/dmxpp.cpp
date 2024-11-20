@@ -100,40 +100,41 @@ bool DMX::openBinary(BufferStream& stream) {
 	} else {
 		stringCount = stream.read<uint32_t>();
 	}
+	stringList.reserve(stringCount);
 	for (int i = 0; i < stringCount; i++) {
 		stringList.push_back(stream.read_string());
 	}
 
 	// Read a string index and get the string from the list
-	const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream) {
+	const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream_) {
 		if (stringListIndicesAreShort) {
-			return stringList.at(stream.read<uint16_t>());
+			return stringList.at(stream_.read<uint16_t>());
 		}
-		return stringList.at(stream.read<uint32_t>());
+		return stringList.at(stream_.read<uint32_t>());
 	};
 
 	// Read elements
-	int elementCount = stream.read<int32_t>();
+	const int elementCount = stream.read<int32_t>();
 	for (int i = 0; i < elementCount; i++) {
-		auto& element = this->elements.emplace_back();
-		element.type = readStringFromIndex(stream);
+		auto& [type, name, guid, attributes] = this->elements.emplace_back();
+		type = readStringFromIndex(stream);
 		if (elementNamesAreStoredInStringList) {
-			element.name = readStringFromIndex(stream);
+			name = readStringFromIndex(stream);
 		} else {
-			element.name = stream.read_string();
+			name = stream.read_string();
 		}
-		element.guid = stream.read_bytes<16>();
+		guid = stream.read_bytes<16>();
 	}
 
 	// Helper to read a value for an attribute
 	std::function<Value::Generic(BufferStream&, Value::ID, bool)> readValue;
-	readValue = [&readValue, &readStringFromIndex](BufferStream& stream, Value::ID type, bool useStringList) -> Value::Generic {
-		const auto readArrayValue = [&readValue]<typename T>(BufferStream& stream, Value::ID type) {
+	readValue = [&readValue, &readStringFromIndex](BufferStream& stream_, Value::ID type, bool useStringList) -> Value::Generic {
+		const auto readArrayValue = [&readValue]<typename T>(BufferStream& reader, Value::ID type_) {
 			std::vector<T> out;
-			auto size = stream.read<uint32_t>();
+			auto size = reader.read<uint32_t>();
 			out.reserve(size);
 			for (int i = 0; i < size; i++) {
-				out.push_back(std::get<T>(readValue(stream, Value::arrayIDToInnerID(type), true)));
+				out.push_back(std::get<T>(readValue(reader, Value::arrayIDToInnerID(type_), true)));
 			}
 			return out;
 		};
@@ -143,75 +144,75 @@ bool DMX::openBinary(BufferStream& stream) {
 				return Value::Invalid{};
 			case ELEMENT: {
 				Value::Element value;
-				value.index = stream.read<uint32_t>();
+				value.index = stream_.read<uint32_t>();
 				if (value.index == -2) {
 					// Parse the ASCII GUID if it's a stub
-					value.stubGUID = stream.read_string();
+					value.stubGUID = stream_.read_string();
 				}
 				return value;
 			}
 			case INT:
-				return stream.read<int32_t>();
+				return stream_.read<int32_t>();
 			case FLOAT:
-				return stream.read<float>();
+				return stream_.read<float>();
 			case BOOL:
-				return stream.read<bool>();
+				return stream_.read<bool>();
 			case STRING:
-				return useStringList ? readStringFromIndex(stream) : stream.read_string();
+				return useStringList ? readStringFromIndex(stream_) : stream_.read_string();
 			case BYTEARRAY:
-				return stream.read_bytes(stream.read<uint32_t>());
+				return stream_.read_bytes(stream_.read<uint32_t>());
 			case TIME:
-				return Value::Time{static_cast<float>(static_cast<double>(stream.read<int32_t>()) / 10000.0)};
+				return Value::Time{static_cast<float>(static_cast<double>(stream_.read<int32_t>()) / 10000.0)};
 			case COLOR:
-				return stream.read<Value::Color>();
+				return stream_.read<Value::Color>();
 			case VECTOR2:
-				return stream.read<Value::Vector2>();
+				return stream_.read<Value::Vector2>();
 			case VECTOR3:
 			case EULER_ANGLE:
-				return stream.read<Value::Vector3>();
+				return stream_.read<Value::Vector3>();
 			case VECTOR4:
 			case QUATERNION:
-				return stream.read<Value::Vector4>();
+				return stream_.read<Value::Vector4>();
 			case MATRIX_4X4:
-				return stream.read<Value::Matrix4x4>();
+				return stream_.read<Value::Matrix4x4>();
 			case ARRAY_ELEMENT:
-				return readArrayValue.operator()<Value::Element>(stream, type);
+				return readArrayValue.operator()<Value::Element>(stream_, type);
 			case ARRAY_INT:
-				return readArrayValue.operator()<int32_t>(stream, type);
+				return readArrayValue.operator()<int32_t>(stream_, type);
 			case ARRAY_FLOAT:
-				return readArrayValue.operator()<float>(stream, type);
+				return readArrayValue.operator()<float>(stream_, type);
 			case ARRAY_BOOL:
-				return readArrayValue.operator()<bool>(stream, type);
+				return readArrayValue.operator()<bool>(stream_, type);
 			case ARRAY_STRING:
-				return readArrayValue.operator()<std::string>(stream, type);
+				return readArrayValue.operator()<std::string>(stream_, type);
 			case ARRAY_BYTEARRAY:
-				return readArrayValue.operator()<std::vector<std::byte>>(stream, type);
+				return readArrayValue.operator()<std::vector<std::byte>>(stream_, type);
 			case ARRAY_TIME:
-				return readArrayValue.operator()<Value::Time>(stream, type);
+				return readArrayValue.operator()<Value::Time>(stream_, type);
 			case ARRAY_COLOR:
-				return readArrayValue.operator()<Value::Color>(stream, type);
+				return readArrayValue.operator()<Value::Color>(stream_, type);
 			case ARRAY_VECTOR2:
-				return readArrayValue.operator()<Value::Vector2>(stream, type);
+				return readArrayValue.operator()<Value::Vector2>(stream_, type);
 			case ARRAY_VECTOR3:
 			case ARRAY_EULER_ANGLE:
-				return readArrayValue.operator()<Value::Vector3>(stream, type);
+				return readArrayValue.operator()<Value::Vector3>(stream_, type);
 			case ARRAY_VECTOR4:
 			case ARRAY_QUATERNION:
-				return readArrayValue.operator()<Value::Vector4>(stream, type);
+				return readArrayValue.operator()<Value::Vector4>(stream_, type);
 			case ARRAY_MATRIX_4X4:
-				return readArrayValue.operator()<Value::Matrix4x4>(stream, type);
+				return readArrayValue.operator()<Value::Matrix4x4>(stream_, type);
 		}
 		return 0; // Dummy to get it to compile
 	};
 
 	// Read element attributes
-	for (auto& element : this->elements) {
-		int attributeCount = stream.read<int32_t>();
+	for (auto& [type, name, guid, attributes] : this->elements) {
+		const int attributeCount = stream.read<int32_t>();
 		for (int i = 0; i < attributeCount; i++) {
-			auto& attribute = element.attributes.emplace_back();
-			attribute.name = readStringFromIndex(stream);
-			attribute.type = Value::byteToID(stream.read<std::byte>());
-			attribute.value = readValue(stream, attribute.type, stringValuesAreStoredInStringList);
+			auto& [attrName, attrType, attrValue] = attributes.emplace_back();
+			attrName = readStringFromIndex(stream);
+			attrType = Value::byteToID(stream.read<std::byte>());
+			attrValue = readValue(stream, attrType, stringValuesAreStoredInStringList);
 		}
 	}
 

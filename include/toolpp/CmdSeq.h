@@ -1,11 +1,10 @@
 #pragma once
 
 #include <cstddef>
-#include <optional>
 #include <string>
 #include <vector>
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 namespace toolpp {
 
@@ -20,9 +19,12 @@ public:
 			COPY_FILE = 257,
 			DELETE_FILE = 258,
 			RENAME_FILE = 259,
-			COPY_FILE_IF_EXISTS_ALT = 260,
+			// This used to be a different thing - Strata changes it to be an alias for 261
+			//COPY_FILE_IF_EXISTS_ALT = 260,
 			COPY_FILE_IF_EXISTS = 261,
 		} special;
+		static constexpr auto SPECIAL_COPY_FILE_IF_EXISTS_ALIAS = static_cast<Special>(260);
+
 		std::string executable;
 		std::string arguments;
 
@@ -32,6 +34,10 @@ public:
 		bool useProcessWindow;
 
 		bool waitForKeypress;
+
+		[[nodiscard]] static std::string getSpecialDisplayNameFor(Special special);
+
+		[[nodiscard]] std::string getExecutableDisplayName() const;
 	};
 
 	struct Sequence {
@@ -39,7 +45,21 @@ public:
 		std::vector<Command> commands;
 	};
 
-	explicit CmdSeq(std::string path_);
+	enum class Type {
+		INVALID,
+		BINARY,
+		KEYVALUES_STRATA,
+	};
+
+	explicit CmdSeq(const std::string& path);
+
+	explicit CmdSeq(Type type_);
+
+	[[nodiscard]] explicit operator bool() const;
+
+	[[nodiscard]] Type getType() const;
+
+	void setType(Type type_);
 
 	[[nodiscard]] float getVersion() const;
 
@@ -51,20 +71,19 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	[[nodiscard]] std::vector<std::byte> bake(bool overrideUsingKeyValues) const;
-
-	bool bake(const std::string& path_);
-
-	bool bake(const std::string& path_, bool overrideUsingKeyValues);
+	bool bake(const std::string& path) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	void parseBinary(const std::string& path);
 
-	void parseKeyValues(const std::string& path);
+	void parseKeyValuesStrata(const std::string& path);
 
-	bool usingKeyValues = false;
+	[[nodiscard]] std::vector<std::byte> bakeBinary() const;
+
+	[[nodiscard]] std::vector<std::byte> bakeKeyValuesStrata() const;
+
+	Type type;
 	float version;
-	std::string path;
 	std::vector<Sequence> sequences;
 };
 

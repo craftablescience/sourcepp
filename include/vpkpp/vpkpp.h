@@ -13,6 +13,7 @@
 #include "format/PCK.h"
 #include "format/VPK.h"
 #include "format/VPK_VTMB.h"
+#include "format/WAD3.h"
 #include "format/ZIP.h"
 #include "Attribute.h"
 #include "Entry.h"

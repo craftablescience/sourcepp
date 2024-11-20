@@ -1,19 +1,14 @@
 #pragma once
 
 #include <array>
-#include <concepts>
 #include <cstddef>
 #include <cstdint>
 #include <string>
 #include <string_view>
-#include <type_traits>
 #include <variant>
 #include <vector>
 
-#include <sourcepp/math/Angles.h>
-#include <sourcepp/math/Integer.h>
-#include <sourcepp/math/Matrix.h>
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace dmxpp {
 
@@ -49,7 +44,7 @@ using EulerAngles = sourcepp::math::EulerAngles;
 
 using Quaternion = sourcepp::math::Quat;
 
-using Matrix4x4 = sourcepp::math::Matrix<4,4>;
+using Matrix4x4 = sourcepp::math::Mat4x4f;
 
 using Generic = std::variant<
 	Invalid,
@@ -148,33 +143,20 @@ std::string IDToString(ID id);
 
 // NOLINTNEXTLINE(*-no-recursion)
 constexpr ID stringToID(std::string_view id) {
-	if (id == "element") {
-		return ID::ELEMENT;
-	} else if (id == "int") {
-		return ID::INT;
-	} else if (id == "float") {
-		return ID::FLOAT;
-	} else if (id == "bool") {
-		return ID::BOOL;
-	} else if (id == "string") {
-		return ID::STRING;
-	} else if (id == "binary") {
-		return ID::BYTEARRAY;
-	} else if (id == "time") {
-		return ID::TIME;
-	} else if (id == "color") {
-		return ID::COLOR;
-	} else if (id == "vector2") {
-		return ID::VECTOR2;
-	} else if (id == "vector3") {
-		return ID::VECTOR3;
-	} else if (id == "vector4") {
-		return ID::VECTOR4;
-	} else if (id == "quaternion") {
-		return ID::QUATERNION;
-	} else if (id == "matrix") {
-		return ID::MATRIX_4X4;
-	} else if (id.ends_with("_array")) {
+	if (id == "element")    return ID::ELEMENT;
+	if (id == "int")        return ID::INT;
+	if (id == "float")      return ID::FLOAT;
+	if (id == "bool")       return ID::BOOL;
+	if (id == "string")     return ID::STRING;
+	if (id == "binary")     return ID::BYTEARRAY;
+	if (id == "time")       return ID::TIME;
+	if (id == "color")      return ID::COLOR;
+	if (id == "vector2")    return ID::VECTOR2;
+	if (id == "vector3")    return ID::VECTOR3;
+	if (id == "vector4")    return ID::VECTOR4;
+	if (id == "quaternion") return ID::QUATERNION;
+	if (id == "matrix")     return ID::MATRIX_4X4;
+	if (id.ends_with("_array")) {
 		return innerIDToArrayID(stringToID(id.substr(0, id.length() - 6)));
 	}
 	return ID::INVALID;

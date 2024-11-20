@@ -3,9 +3,7 @@
 #include <filesystem>
 
 #include <FileStream.h>
-
 #include <sourcepp/parser/Text.h>
-#include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
 using namespace sourcepp;
@@ -34,7 +32,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 	}
 
 	// Extra check to make sure this is a VTMB VPK path
-	auto stem = std::filesystem::path{path}.stem().string();
+	const auto stem = std::filesystem::path{path}.stem().string();
 	if (stem.length() != 7 || !stem.starts_with("pack") || !parser::text::isNumber(stem.substr(4))) {
 		return nullptr;
 	}
@@ -61,7 +59,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 
 void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, const EntryCallback& callback) {
 	FileStream reader{path};
-	reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) * 2 + sizeof(uint8_t)), std::ios::end);
+	reader.seek_in(sizeof(uint32_t) * 2 + sizeof(uint8_t), std::ios::end);
 
 	auto fileCount = reader.read<uint32_t>();
 	auto dirOffset = reader.read<uint32_t>();

@@ -1,6 +1,6 @@
 add_pretty_parser(vpkpp
-        DEPS cryptopp::cryptopp MINIZIP::minizip sourcepp::bsppp sourcepp::kvpp
-        DEPS_INTERFACE tsl::hat_trie
+        DEPS libzstd_static MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::bsppp sourcepp::kvpp
+        DEPS_PUBLIC tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
@@ -10,6 +10,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PCK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK_VTMB.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/WAD3.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/ZIP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/Attribute.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/Entry.h"
@@ -26,12 +27,10 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/format/PCK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK_VTMB.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/format/WAD3.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/ZIP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PackFile.cpp")
 
-target_include_directories(vpkpp PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/ext/hat-trie/include")
-
 if(SOURCEPP_VPKPP_SUPPORT_VPK_V54)
-    target_link_libraries(vpkpp PRIVATE libzstd_static)
     target_compile_definitions(vpkpp PRIVATE VPKPP_SUPPORT_VPK_V54)
 endif()

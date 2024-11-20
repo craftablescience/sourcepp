@@ -1,0 +1,65 @@
+name: Build Wheels
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        default: YYYY.MM.DDdevN
+        description: 'The package version'
+      release:
+        type: boolean
+        required: true
+        default: false
+        description: 'Push a release to PyPI'
+
+jobs:
+  build_sdist:
+    name: Build SDist
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '${{github.workspace}}/lang/python'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        working-directory: '${{github.workspace}}'
+        run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DSOURCEPP_PYTHON_VERSION="${{inputs.version}}"
+
+      - name: Build SDist
+        run: |
+          pipx run build --sdist
+
+      - name: Check Metadata
+        run: |
+          pipx run twine check dist/*
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-sdist
+          path: ${{github.workspace}}/lang/python/dist/*.tar.gz
+
+  upload_release:
+    name: Upload a Release
+    if: inputs.release
+    needs: [build_sdist]
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi-release
+      url: https://pypi.org/p/sourcepp
+    permissions:
+      id-token: write
+    steps:
+      - name: Download Artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-sdist
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1

@@ -2,16 +2,21 @@
 
 #include <algorithm>
 #include <bit>
+#include <cstdlib>
 #include <cstring>
 #include <memory>
+#include <ranges>
 #include <span>
+#include <string_view>
+#include <unordered_map>
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 #include <execution>
 #endif
 
 #include <Compressonator.h>
-#include <sourcepp/math/Float.h>
+#include <sourcepp/Macros.h>
+#include <sourcepp/Math.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC
@@ -25,9 +30,16 @@
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #define STB_IMAGE_WRITE_STATIC
-// HDR write in memory is erroneously guarded by this define
-//#define STBI_WRITE_NO_STDIO
+#define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
+
+#define TINYEXR_IMPLEMENTATION 1
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+#define TINYEXR_USE_THREAD 1
+#else
+#define TINYEXR_USE_THREAD 0
+#endif
+#include <tinyexr.h>
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -39,7 +51,6 @@ namespace {
 		using enum ImageFormat;
 		case RGBA8888:
 		case UVWQ8888:
-		case UVLX8888:
 			return CMP_FORMAT_RGBA_8888;
 		case ABGR8888:
 			return CMP_FORMAT_ABGR_8888;
@@ -63,12 +74,18 @@ namespace {
 			return CMP_FORMAT_DXT5;
 		case UV88:
 			return CMP_FORMAT_RG_8;
+		case R16F:
+			return CMP_FORMAT_R_16F;
+		case RG1616F:
+			return CMP_FORMAT_RG_16F;
 		case RGBA16161616F:
 			return CMP_FORMAT_RGBA_16F;
 		case RGBA16161616:
 			return CMP_FORMAT_RGBA_16;
 		case R32F:
 			return CMP_FORMAT_R_32F;
+		case RG3232F:
+			return CMP_FORMAT_RG_32F;
 		case RGB323232F:
 			return CMP_FORMAT_RGB_32F;
 		case RGBA32323232F:
@@ -77,6 +94,10 @@ namespace {
 			return CMP_FORMAT_ATI2N;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
+		case RGBA1010102:
+			return CMP_FORMAT_RGBA_1010102;
+		case R8:
+			return CMP_FORMAT_R_8;
 		case BC7:
 			return CMP_FORMAT_BC7;
 		case BC6H:
@@ -91,7 +112,10 @@ namespace {
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
+		case UVLX8888:
 		case EMPTY:
+		case BGRA1010102:
+		case RGBX8888:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
@@ -102,7 +126,6 @@ namespace {
 		using enum ImageFormat;
 		case RGBA8888:
 		case UVWQ8888:
-		case UVLX8888:
 		case RGBA16161616:
 		case RGBA16161616F:
 		case RGBA32323232F:
@@ -117,16 +140,20 @@ namespace {
 		case I8:
 		case P8:
 		case R32F:
+		case R16F:
+		case R8:
 			return STBIR_1CHANNEL;
 		case ARGB8888:
 			return STBIR_ARGB;
 		case BGRA8888:
 			return STBIR_BGRA;
 		case UV88:
+		case RG1616F:
+		case RG3232F:
 			return STBIR_2CHANNEL;
 		case IA88:
 			return STBIR_RA;
-		// We want these to get converted to RGBA8888 before resize
+		// We want these to get converted to their respective container format before resize
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
 		case DXT3:
@@ -139,12 +166,16 @@ namespace {
 		case A8:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
+		case RGBX8888:
 		case BGRX8888:
 		case BGR565:
 		case BGRX5551:
 		case BGRA4444:
 		case BGRA5551:
+		case UVLX8888:
 		case EMPTY:
+		case RGBA1010102:
+		case BGRA1010102:
 			break;
 	}
 	return -1;
@@ -169,12 +200,17 @@ namespace {
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
+		case RGBX8888:
+		case R8:
 			return srgb ? STBIR_TYPE_UINT8_SRGB : STBIR_TYPE_UINT8;
+		case R16F:
+		case RG1616F:
 		case RGBA16161616F:
 			return STBIR_TYPE_HALF_FLOAT;
 		case RGBA16161616:
 			return STBIR_TYPE_UINT16;
 		case R32F:
+		case RG3232F:
 		case RGB323232F:
 		case RGBA32323232F:
 			return STBIR_TYPE_FLOAT;
@@ -190,6 +226,8 @@ namespace {
 		case EMPTY:
 		case ATI2N:
 		case ATI1N:
+		case RGBA1010102:
+		case BGRA1010102:
 		case BC7:
 		case BC6H:
 			break;
@@ -242,13 +280,13 @@ namespace {
 		return {};
 	}
 
-	if (format == ImageFormat::RGBA8888 || format == ImageFormat::UVWQ8888 || format == ImageFormat::UVLX8888) {
+	if (format == ImageFormat::RGBA8888 || format == ImageFormat::UVWQ8888) {
 		return {imageData.begin(), imageData.end()};
 	}
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
 	#define VTFPP_REMAP_TO_8(value, shift) math::remap<uint8_t>((value), (1 << (shift)) - 1, (1 << 8) - 1)
 
@@ -258,7 +296,7 @@ namespace {
 			return {(r), (g), (b), (a)}; \
 		})
 #ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::unseq)
+	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
 #else
 	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
 #endif
@@ -285,7 +323,10 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          VTFPP_REMAP_TO_8(pixel.r, 4), VTFPP_REMAP_TO_8(pixel.g, 4), VTFPP_REMAP_TO_8(pixel.b, 4), VTFPP_REMAP_TO_8(pixel.a, 4));
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(UVLX8888,          pixel.u, pixel.v, pixel.l, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(R8,                pixel.r, 0,       0,       0xff);
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -307,7 +348,7 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
@@ -316,7 +357,7 @@ namespace {
 #ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixel::InputType> newDataSpan{reinterpret_cast<ImagePixel::InputType*>(newData.data()), newData.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(std::execution::unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::InputType { \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::InputType { \
 			return __VA_ARGS__; \
 		})
 #else
@@ -349,7 +390,10 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          {VTFPP_REMAP_FROM_8(pixel.b, 5), VTFPP_REMAP_FROM_8(pixel.g, 5), VTFPP_REMAP_FROM_8(pixel.r, 5), 0x1});
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          {VTFPP_REMAP_FROM_8(pixel.b, 4), VTFPP_REMAP_FROM_8(pixel.g, 4), VTFPP_REMAP_FROM_8(pixel.r, 4), VTFPP_REMAP_FROM_8(pixel.a, 4)});
 		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              {pixel.r, pixel.g});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(UVLX8888,          {pixel.r, pixel.g, pixel.b});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          {pixel.r, pixel.g, pixel.b, 0xff});
+		VTFPP_CASE_CONVERT_AND_BREAK(R8,                {pixel.r});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -372,7 +416,7 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
 	#define VTFPP_REMAP_TO_16(value, shift) math::remap<uint16_t>((value), (1 << (shift)) - 1, (1 << 16) - 1)
 
@@ -382,7 +426,7 @@ namespace {
 			return { static_cast<uint16_t>(r), static_cast<uint16_t>(g), static_cast<uint16_t>(b), static_cast<uint16_t>(a) }; \
 		})
 #ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::unseq)
+	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
 #else
 	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
 #endif
@@ -417,25 +461,9 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(ABGR8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB888_BLUESCREEN, pixel.r, pixel.g, pixel.b, (pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR888,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR888_BLUESCREEN, pixel.r, pixel.g, pixel.b, (pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff) ? 0 : 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGB565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(P8,                pixel.p, pixel.p, pixel.p, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(I8,                pixel.i, pixel.i, pixel.i, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(IA88,              pixel.i, pixel.i, pixel.i, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(A8,                0,       0,       0,       pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(ARGB8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA8888,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRX8888,          pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGR565,            pixel.r, pixel.g, pixel.b, 0xff);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA5551,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRX5551,          pixel.r, pixel.g, pixel.b, 1);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA4444,          pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(UV88,              pixel.u, pixel.v, 0,       0xff);
-		default: break;
+		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(RGBA1010102, pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_REMAP_AND_BREAK(BGRA1010102, pixel.r, pixel.g, pixel.b, pixel.a);
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_REMAP_AND_BREAK
@@ -459,7 +487,7 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
@@ -468,7 +496,7 @@ namespace {
 #ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixel::InputType> newDataSpan{reinterpret_cast<ImagePixel::InputType*>(newData.data()), newData.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(std::execution::unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA16161616 pixel) -> ImagePixel::InputType { \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA16161616 pixel) -> ImagePixel::InputType { \
 			return __VA_ARGS__; \
 		})
 #else
@@ -483,25 +511,9 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(ABGR8888,          {VTFPP_REMAP_FROM_16(pixel.a, 8), VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB888,            {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_BLUESCREEN, pixel.a < 0xffff ? ImagePixel::RGB888_BLUESCREEN{VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)} : ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR888,            {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN, pixel.a < 0xffff ? ImagePixel::BGR888_BLUESCREEN{VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8)} : ImagePixel::BGR888_BLUESCREEN{0xff, 0, 0});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB565,            {VTFPP_REMAP_FROM_16(pixel.r, 5), VTFPP_REMAP_FROM_16(pixel.g, 6), VTFPP_REMAP_FROM_16(pixel.b, 5)});
-		VTFPP_CASE_CONVERT_AND_BREAK(P8,                {VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(I8,                {VTFPP_REMAP_FROM_16(pixel.r, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(IA88,              {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(A8,                {VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,          {VTFPP_REMAP_FROM_16(pixel.a, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.b, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888,          {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.a, 8)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888,          {VTFPP_REMAP_FROM_16(pixel.b, 8), VTFPP_REMAP_FROM_16(pixel.g, 8), VTFPP_REMAP_FROM_16(pixel.r, 8), 0xff});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR565,            {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 6), VTFPP_REMAP_FROM_16(pixel.r, 5)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA5551,          {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 5), VTFPP_REMAP_FROM_16(pixel.r, 5), static_cast<uint8_t>(pixel.a < 0xffff ? 1 : 0)});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551,          {VTFPP_REMAP_FROM_16(pixel.b, 5), VTFPP_REMAP_FROM_16(pixel.g, 5), VTFPP_REMAP_FROM_16(pixel.r, 5), 0x1});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGRA4444,          {VTFPP_REMAP_FROM_16(pixel.b, 4), VTFPP_REMAP_FROM_16(pixel.g, 4), VTFPP_REMAP_FROM_16(pixel.r, 4), VTFPP_REMAP_FROM_16(pixel.a, 4)});
-		VTFPP_CASE_CONVERT_AND_BREAK(UV88,              {VTFPP_REMAP_FROM_16(pixel.r, 8), VTFPP_REMAP_FROM_16(pixel.g, 8)});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA1010102, {VTFPP_REMAP_FROM_16(pixel.r, 10), VTFPP_REMAP_FROM_16(pixel.g, 10), VTFPP_REMAP_FROM_16(pixel.b, 10), VTFPP_REMAP_FROM_16(pixel.a, 2)});
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA1010102, {VTFPP_REMAP_FROM_16(pixel.b, 10), VTFPP_REMAP_FROM_16(pixel.g, 10), VTFPP_REMAP_FROM_16(pixel.r, 10), VTFPP_REMAP_FROM_16(pixel.a, 2)});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -522,13 +534,13 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
 	#define VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, ...) \
 		std::span<const ImagePixel::InputType> imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
 		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::InputType pixel) -> ImagePixel::RGBA32323232F { return {(r), (g), (b), (a)}; })
 #ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::unseq)
+	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
 #else
 	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
 #endif
@@ -537,10 +549,13 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    pixel.r,             pixel.g,             pixel.b,             1.f);
-		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          pixel.r,             pixel.r,             pixel.r,             1.f);
-		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, pixel.r.toFloat32(), pixel.g.toFloat32(), pixel.b.toFloat32(), pixel.a.toFloat32());
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          pixel.r, 0.f,     0.f,     1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RG3232F,       pixel.r, pixel.g, 0.f,     1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    pixel.r, pixel.g, pixel.b, 1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(R16F,          pixel.r, 0.f,     0.f,     1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RG1616F,       pixel.r, pixel.g, 0.f,     1.f);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, pixel.r, pixel.g, pixel.b, pixel.a);
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -561,14 +576,14 @@ namespace {
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(format) / 8));
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixel::InputType> newDataSpan{reinterpret_cast<ImagePixel::InputType*>(newData.data()), newData.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(std::execution::unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::InputType { \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::InputType { \
 			return __VA_ARGS__; \
 		})
 #else
@@ -583,10 +598,13 @@ namespace {
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    {pixel.r, pixel.g, pixel.b});
 		VTFPP_CASE_CONVERT_AND_BREAK(R32F,          {pixel.r});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, {math::FloatCompressed16{pixel.r}, math::FloatCompressed16{pixel.g}, math::FloatCompressed16{pixel.b}, math::FloatCompressed16{pixel.a}});
-		default: break;
+		VTFPP_CASE_CONVERT_AND_BREAK(RG3232F,       {pixel.r, pixel.g});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB323232F,    {pixel.r, pixel.g, pixel.b});
+		VTFPP_CASE_CONVERT_AND_BREAK(R16F,          {half{pixel.r}});
+		VTFPP_CASE_CONVERT_AND_BREAK(RG1616F,       {half{pixel.r}, half{pixel.g}});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA16161616F, {half{pixel.r}, half{pixel.g}, half{pixel.b}, half{pixel.a}});
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
@@ -602,12 +620,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA32323232F {
 		return {
@@ -628,12 +646,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::RGBA8888 {
 		return {
@@ -654,12 +672,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
-	std::span<const ImagePixel::RGBA8888> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA8888)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA16161616 {
 		return {
@@ -680,12 +698,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
-	std::span<ImagePixel::RGBA8888> newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA8888)};
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA16161616 pixel) -> ImagePixel::RGBA8888 {
 		return {
@@ -706,12 +724,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8));
-	std::span<ImagePixel::RGBA16161616> newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA16161616)};
 
-	std::span<const ImagePixel::RGBA32323232F> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA32323232F)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::RGBA16161616 {
 		return {
@@ -732,12 +750,12 @@ namespace {
 
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8) * (ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8));
-	std::span<ImagePixel::RGBA32323232F> newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
+	std::span newDataSpan{reinterpret_cast<ImagePixel::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixel::RGBA32323232F)};
 
-	std::span<const ImagePixel::RGBA16161616> imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)}; \
+	std::span imageDataSpan{reinterpret_cast<const ImagePixel::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixel::RGBA16161616)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::unseq,
+			std::execution::par_unseq,
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA16161616 pixel) -> ImagePixel::RGBA32323232F {
 		return {
@@ -764,24 +782,23 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	std::vector<std::byte> newData;
 
-	ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
+	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
 	if (ImageFormatDetails::compressed(oldFormat)) {
 		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA8888) {
-		newData = ::convertImageDataToRGBA8888(imageData, oldFormat);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA16161616) {
-		newData = ::convertImageDataToRGBA16161616(imageData, oldFormat);
-	} else if (intermediaryOldFormat == ImageFormat::RGBA32323232F) {
-		newData = ::convertImageDataToRGBA32323232F(imageData, oldFormat);
 	} else {
-		return {};
+		switch (intermediaryOldFormat) {
+			case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(imageData, oldFormat);      break;
+			case ImageFormat::RGBA16161616:  newData = ::convertImageDataToRGBA16161616(imageData, oldFormat);  break;
+			case ImageFormat::RGBA32323232F: newData = ::convertImageDataToRGBA32323232F(imageData, oldFormat); break;
+			default:                         return {};
+		}
 	}
 
 	if (intermediaryOldFormat == newFormat) {
 		return newData;
 	}
 
-	ImageFormat intermediaryNewFormat = ImageFormatDetails::containerFormat(newFormat);
+	const ImageFormat intermediaryNewFormat = ImageFormatDetails::containerFormat(newFormat);
 	if (intermediaryOldFormat != intermediaryNewFormat) {
 		if (intermediaryOldFormat == ImageFormat::RGBA8888) {
 			if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
@@ -818,14 +835,13 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	if (ImageFormatDetails::compressed(newFormat)) {
 		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA8888) {
-		newData = ::convertImageDataFromRGBA8888(newData, newFormat);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
-		newData = ::convertImageDataFromRGBA16161616(newData, newFormat);
-	} else if (intermediaryNewFormat == ImageFormat::RGBA32323232F) {
-		newData = ::convertImageDataFromRGBA32323232F(newData, newFormat);
 	} else {
-		return {};
+		switch (intermediaryNewFormat) {
+			case ImageFormat::RGBA8888:      newData = ::convertImageDataFromRGBA8888(newData, newFormat);      break;
+			case ImageFormat::RGBA16161616:  newData = ::convertImageDataFromRGBA16161616(newData, newFormat);  break;
+			case ImageFormat::RGBA32323232F: newData = ::convertImageDataFromRGBA32323232F(newData, newFormat); break;
+			default:                         return {};
+		}
 	}
 
 	return newData;
@@ -858,21 +874,22 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 	return out;
 }
 
+ImageConversion::FileFormat ImageConversion::getDefaultFileFormatForImageFormat(ImageFormat format) {
+	using enum FileFormat;
+	return ImageFormatDetails::decimal(format) ? EXR : PNG;
+}
+
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
 	std::vector<std::byte> out;
-	auto stbWriteFunc = [](void* out, void* data, int size) {
-		std::copy(reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size, std::back_inserter(*reinterpret_cast<std::vector<std::byte>*>(out)));
+	auto stbWriteFunc = [](void* out_, void* data, int size) {
+		std::copy_n(static_cast<std::byte*>(data), size, std::back_inserter(*static_cast<std::vector<std::byte>*>(out_)));
 	};
 
 	if (fileFormat == FileFormat::DEFAULT) {
-		if (ImageFormatDetails::decimal(format)) {
-			fileFormat = FileFormat::HDR;
-		} else {
-			fileFormat = FileFormat::PNG;
-		}
+		fileFormat = getDefaultFileFormatForImageFormat(format);
 	}
 	switch (fileFormat) {
 		case FileFormat::PNG: {
@@ -880,11 +897,11 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 0);
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data(), 0);
-			} else if (ImageFormatDetails::large(format)) {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, rgba.data(), 0);
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 0);
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_png_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data(), 0);
 			}
 			break;
@@ -893,7 +910,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			if (format == ImageFormat::RGB888) {
 				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data(), 95);
 			} else {
-				auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
 				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data(), 95);
 			}
 			break;
@@ -903,8 +920,11 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data());
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
 			}
 			break;
@@ -914,22 +934,147 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, imageData.data());
-			} else if (ImageFormatDetails::large(format)) {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA16161616) / 8, rgba.data());
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB888) / 8, rgb.data());
 			} else {
-				auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8, rgba.data());
 			}
 			break;
 		}
 		case FileFormat::HDR: {
-			if (format == ImageFormat::RGBA32323232F) {
-				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<const float*>(imageData.data()));
+			if (format == ImageFormat::RGB323232F) {
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(imageData.data()));
 			} else {
-				auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGBA32323232F) / 8, reinterpret_cast<float*>(hdr.data()));
+				const auto hdr = convertImageDataToFormat(imageData, format, ImageFormat::RGB323232F, width, height);
+				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(hdr.data()));
 			}
+			break;
+		}
+		case FileFormat::EXR: {
+			EXRHeader header;
+			InitEXRHeader(&header);
+
+			std::vector<std::byte> rawData;
+			if (!ImageFormatDetails::decimal(format) || ImageFormatDetails::compressed(format)) {
+				if (ImageFormatDetails::transparent(format)) {
+					rawData = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+					format = ImageFormat::RGBA32323232F;
+				} else {
+					rawData = convertImageDataToFormat(imageData, format, ImageFormat::RGB323232F, width, height);
+					format = ImageFormat::RGB323232F;
+				}
+			} else {
+				rawData = {imageData.begin(), imageData.end()};
+			}
+
+			header.num_channels = (ImageFormatDetails::red(format) > 0) + (ImageFormatDetails::green(format) > 0) + (ImageFormatDetails::blue(format) > 0) + (ImageFormatDetails::alpha(format) > 0);
+			header.channels = static_cast<EXRChannelInfo*>(std::malloc(header.num_channels * sizeof(EXRChannelInfo)));
+			header.pixel_types = static_cast<int*>(malloc(header.num_channels * sizeof(int)));
+			header.requested_pixel_types = static_cast<int*>(malloc(header.num_channels * sizeof(int)));
+
+			switch (header.num_channels) {
+				case 4:
+					header.channels[0].name[0] = 'A';
+					header.channels[1].name[0] = 'B';
+					header.channels[2].name[0] = 'G';
+					header.channels[3].name[0] = 'R';
+					break;
+				case 3:
+					header.channels[0].name[0] = 'B';
+					header.channels[1].name[0] = 'G';
+					header.channels[2].name[0] = 'R';
+					break;
+				case 2:
+					header.channels[0].name[0] = 'G';
+					header.channels[1].name[0] = 'R';
+					break;
+				case 1:
+					header.channels[0].name[0] = 'R';
+					break;
+				default:
+					FreeEXRHeader(&header);
+					return {};
+			}
+			for (int i = 0; i < header.num_channels; i++) {
+				header.channels[i].name[1] = '\0';
+			}
+
+			int pixelType = (ImageFormatDetails::red(format) / 8) == sizeof(half) ? TINYEXR_PIXELTYPE_HALF : TINYEXR_PIXELTYPE_FLOAT;
+			for (int i = 0; i < header.num_channels; i++) {
+				header.pixel_types[i] = pixelType;
+				header.requested_pixel_types[i] = pixelType;
+			}
+
+			std::vector<std::vector<std::byte>> images(header.num_channels);
+			std::vector<void*> imagePtrs(header.num_channels);
+			switch (header.num_channels) {
+				case 4:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::a);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::b);
+						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::g);
+						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::r);
+					} else {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::a);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::b);
+						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::g);
+						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::r);
+					}
+					break;
+				case 3:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						// We should not be here!
+						FreeEXRHeader(&header);
+						return {};
+					}
+					images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::b);
+					images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::g);
+					images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::r);
+					break;
+				case 2:
+					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::g);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::r);
+					} else {
+						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::g);
+						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::r);
+					}
+					break;
+				case 1:
+					images[0] = rawData;
+					break;
+				default:
+					FreeEXRHeader(&header);
+					return {};
+			}
+			for (int i = 0; i < header.num_channels; i++) {
+				imagePtrs[i] = images[i].data();
+			}
+
+			EXRImage image;
+			InitEXRImage(&image);
+			image.width = width;
+			image.height = height;
+			image.images = reinterpret_cast<unsigned char**>(imagePtrs.data());
+			image.num_channels = header.num_channels;
+
+			unsigned char* data = nullptr;
+			const char* err = nullptr;
+
+			size_t size = SaveEXRImageToMemory(&image, &header, &data, &err);
+			if (err) {
+				FreeEXRErrorMessage(err);
+				FreeEXRHeader(&header);
+				return {};
+			}
+			if (data) {
+				out = {reinterpret_cast<std::byte*>(data), reinterpret_cast<std::byte*>(data) + size};
+				std::free(data);
+			}
+
+			FreeEXRHeader(&header);
 			break;
 		}
 		case FileFormat::DEFAULT:
@@ -947,8 +1092,169 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	int channels = 0;
 	frameCount = 1;
 
+	// EXR
+	if (EXRVersion version; ParseEXRVersionFromMemory(&version, reinterpret_cast<const unsigned char*>(fileData.data()), fileData.size()) == TINYEXR_SUCCESS) {
+		if (version.multipart || version.non_image) {
+			return {};
+		}
+
+		EXRHeader header;
+		InitEXRHeader(&header);
+		const char* err = nullptr;
+		if (ParseEXRHeaderFromMemory(&header, &version, reinterpret_cast<const unsigned char*>(fileData.data()), fileData.size(), &err) != TINYEXR_SUCCESS) {
+			FreeEXRErrorMessage(err);
+			return {};
+		}
+
+		// Sanity check
+		if (header.num_channels < 1) {
+			FreeEXRHeader(&header);
+			return {};
+		}
+
+		// Define the channel names we support (RGBA, greyscale)
+		std::unordered_map<std::string_view, int> channelIndices{{"R", -1}, {"G",  -1}, {"B",  -1}, {"A", -1}, {"Y", -1}};
+
+		// Get channel type (EXR supports different types per channel, we do not)
+		// Rather than bailing we ask EXR to convert the lowest precision data
+		auto channelType = header.pixel_types[0];
+		for (int i = 1; i < header.num_channels; i++) {
+			// UINT -> HALF -> FLOAT
+			if (header.pixel_types[i] > channelType && channelIndices.contains(header.channels[i].name)) {
+				channelType = header.pixel_types[i];
+			}
+		}
+		// requested_pixel_types field only supports floats
+		if (channelType == TINYEXR_PIXELTYPE_UINT) {
+			channelType = TINYEXR_PIXELTYPE_HALF;
+		}
+
+		// Determine proper format to use
+		for (int i = 0; i < header.num_channels; i++) {
+			if (channelIndices.contains(header.channels[i].name)) {
+				channelIndices[header.channels[i].name] = i;
+			}
+		}
+		if (channelIndices["Y"] >= 0) {
+			if (channelIndices["A"] >= 0) {
+				format = channelType == TINYEXR_PIXELTYPE_HALF ? ImageFormat::RGBA16161616F : ImageFormat::RGBA32323232F;
+			} else {
+				if (channelType == TINYEXR_PIXELTYPE_HALF) {
+					// VTF has no RGB161616F
+					channelType = TINYEXR_PIXELTYPE_FLOAT;
+				}
+				format = ImageFormat::RGB323232F;
+			}
+			channelIndices["R"] = channelIndices["Y"];
+			channelIndices["G"] = channelIndices["Y"];
+			channelIndices["B"] = channelIndices["Y"];
+		} else if (channelIndices["A"] >= 0) {
+			format = channelType == TINYEXR_PIXELTYPE_HALF ? ImageFormat::RGBA16161616F : ImageFormat::RGBA32323232F;
+		} else if (channelIndices["B"] >= 0) {
+			if (channelType == TINYEXR_PIXELTYPE_HALF) {
+				// VTF has no RGB161616F
+				channelType = TINYEXR_PIXELTYPE_FLOAT;
+			}
+			format = ImageFormat::RGB323232F;
+		} else if (channelIndices["G"] >= 0) {
+			format = channelType == TINYEXR_PIXELTYPE_HALF ? ImageFormat::RG1616F : ImageFormat::RG3232F;
+		} else if (channelIndices["R"] >= 0) {
+			format = channelType == TINYEXR_PIXELTYPE_HALF ? ImageFormat::R16F : ImageFormat::R32F;
+		} else {
+			FreeEXRHeader(&header);
+			return {};
+		}
+
+		// Now that channelType has stopped changing, we can set it properly
+		for (int i = 0; i < header.num_channels; i++) {
+			if (header.pixel_types[i] != channelType && channelIndices.contains(header.channels[i].name)) {
+				header.requested_pixel_types[i] = channelType;
+			}
+		}
+
+		EXRImage image;
+		InitEXRImage(&image);
+		if (LoadEXRImageFromMemory(&image, &header, reinterpret_cast<const unsigned char*>(fileData.data()), fileData.size(), &err) != TINYEXR_SUCCESS) {
+			FreeEXRErrorMessage(err);
+			FreeEXRHeader(&header);
+			return {};
+		}
+
+		width = image.width;
+		height = image.height;
+
+		// Merge channel data into a single buffer
+		std::vector<std::byte> combinedChannels(width * height * (ImageFormatDetails::bpp(format) / 8));
+		const auto populateBuffer = [
+			hasRed=ImageFormatDetails::red(format) > 0,
+			hasGreen=ImageFormatDetails::green(format) > 0,
+			hasBlue=ImageFormatDetails::blue(format) > 0,
+			hasAlpha=ImageFormatDetails::alpha(format) > 0,
+			width,
+			height,
+			&header,
+			r=channelIndices["R"],
+			g=channelIndices["G"],
+			b=channelIndices["B"],
+			a=channelIndices["A"],
+			&image,
+			&combinedChannels
+		]<typename C> {
+			const auto channelCount = hasRed + hasGreen + hasBlue + hasAlpha;
+			std::span out{reinterpret_cast<C*>(combinedChannels.data()), combinedChannels.size() / sizeof(C)};
+			if (header.tiled) {
+				for (int t = 0; t < image.num_tiles; t++) {
+					auto** src = reinterpret_cast<C**>(image.tiles[t].images);
+					for (int j = 0; j < header.tile_size_y; j++) {
+						for (int i = 0; i < header.tile_size_x; i++) {
+							const auto ii = static_cast<uint64_t>(image.tiles[t].offset_x) * header.tile_size_x + i;
+							const auto jj = static_cast<uint64_t>(image.tiles[t].offset_y) * header.tile_size_y + j;
+							const auto idx = ii + jj * image.width;
+
+							if (ii >= image.width || jj >= image.height) {
+								continue;
+							}
+
+							const auto srcIdx = j * static_cast<uint64_t>(header.tile_size_x) + i;
+							if (r >= 0)        out[idx * channelCount + 0] = src[r][srcIdx];
+							else if (hasRed)   out[idx * channelCount + 0] = 0.f;
+							if (g >= 0)        out[idx * channelCount + 1] = src[g][srcIdx];
+							else if (hasGreen) out[idx * channelCount + 1] = 0.f;
+							if (b >= 0)        out[idx * channelCount + 2] = src[b][srcIdx];
+							else if (hasBlue)  out[idx * channelCount + 2] = 0.f;
+							if (a >= 0)        out[idx * channelCount + 3] = src[a][srcIdx];
+							else if (hasAlpha) out[idx * channelCount + 3] = 1.f;
+						}
+					}
+				}
+			} else {
+				auto** src = reinterpret_cast<C**>(image.images);
+				for (uint64_t i = 0; i < width * height; i++) {
+					if (r >= 0)        out[i * channelCount + 0] = src[r][i];
+					else if (hasRed)   out[i * channelCount + 0] = 0.f;
+					if (g >= 0)        out[i * channelCount + 1] = src[g][i];
+					else if (hasGreen) out[i * channelCount + 1] = 0.f;
+					if (b >= 0)        out[i * channelCount + 2] = src[b][i];
+					else if (hasBlue)  out[i * channelCount + 2] = 0.f;
+					if (a >= 0)        out[i * channelCount + 3] = src[a][i];
+					else if (hasAlpha) out[i * channelCount + 3] = 1.f;
+				}
+			}
+		};
+		if (channelType == TINYEXR_PIXELTYPE_HALF) {
+			populateBuffer.operator()<half>();
+		} else {
+			populateBuffer.operator()<float>();
+		}
+
+		FreeEXRImage(&image);
+		FreeEXRHeader(&header);
+		return combinedChannels;
+	}
+
+	// HDR
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		std::unique_ptr<float, void(*)(void*)> stbImage{
+		const std::unique_ptr<float, void(*)(void*)> stbImage{
 			stbi_loadf_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
@@ -964,24 +1270,11 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
-	} else if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
-			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
-			&stbi_image_free,
-		};
-		if (!stbImage) {
-			return {};
-		}
+	}
 
-		if (channels == 4) {
-			format = ImageFormat::RGBA16161616;
-		} else {
-			return {};
-		}
-
-		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
-	} else if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+	// GIF
+	if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
+		const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
 			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), nullptr, &width, &height, &frameCount, &channels, 0),
 			&stbi_image_free,
 		};
@@ -998,25 +1291,45 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get() + (ImageFormatDetails::getDataLength(format, width, height) * frameCount))};
-	} else {
-		std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
-			stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+	}
+
+	// 16-bit single-frame image
+	if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
+		const std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
+			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
 		if (!stbImage) {
 			return {};
 		}
 
-		switch (channels) {
-			case 1:  format = ImageFormat::I8;       break;
-			case 2:  format = ImageFormat::UV88;     break;
-			case 3:  format = ImageFormat::RGB888;   break;
-			case 4:  format = ImageFormat::RGBA8888; break;
-			default: return {};
+		if (channels == 4) {
+			format = ImageFormat::RGBA16161616;
+		} else {
+			return {};
 		}
 
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
+
+	// 8-bit or less single frame image
+	const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+		stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
+		&stbi_image_free,
+	};
+	if (!stbImage) {
+		return {};
+	}
+
+	switch (channels) {
+		case 1:  format = ImageFormat::I8;       break;
+		case 2:  format = ImageFormat::UV88;     break;
+		case 3:  format = ImageFormat::RGB888;   break;
+		case 4:  format = ImageFormat::RGBA8888; break;
+		default: return {};
+	}
+
+	return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 }
 
 uint16_t ImageConversion::getResizedDim(uint16_t n, ResizeMethod method) {

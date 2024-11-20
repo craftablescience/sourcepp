@@ -6,7 +6,7 @@
 #include <string_view>
 #include <vector>
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 namespace sourcepp::string {
 
