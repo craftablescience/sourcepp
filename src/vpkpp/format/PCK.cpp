@@ -34,7 +34,7 @@ std::unique_ptr<PackFile> PCK::create(const std::string& path, uint32_t version,
 
 		if (version > 1) {
 			stream
-				.write(FlagsV2::FLAG_NONE)
+				.write(FLAG_DIR_NONE)
 				.write<uint64_t>(0);
 		}
 
@@ -80,20 +80,20 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	reader.read(pck->header.godotVersionMinor);
 	reader.read(pck->header.godotVersionPatch);
 
-	pck->header.flags = FLAG_NONE;
+	pck->header.flags = FLAG_DIR_NONE;
 	std::size_t extraEntryContentsOffset = 0;
 	if (pck->header.packVersion > 1) {
-		pck->header.flags = reader.read<FlagsV2>();
+		pck->header.flags = reader.read<FlagsDirV2>();
 		extraEntryContentsOffset = reader.read<uint64_t>();
 	}
 
-	if (pck->header.flags & FLAG_ENCRYPTED) {
+	if (pck->header.flags & FLAG_DIR_ENCRYPTED) {
 		// File directory is encrypted
 		return nullptr;
 	}
-	if (pck->header.flags & FLAG_RELATIVE_FILE_DATA) {
+	if (pck->header.flags & FLAG_DIR_RELATIVE_FILE_DATA) {
 		extraEntryContentsOffset += pck->startOffset;
-		pck->header.flags = static_cast<FlagsV2>(pck->header.flags & ~FLAG_RELATIVE_FILE_DATA);
+		pck->header.flags = static_cast<FlagsDirV2>(pck->header.flags & ~FLAG_DIR_RELATIVE_FILE_DATA);
 	}
 
 	// Reserved
@@ -115,6 +115,9 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 
 		if (pck->header.packVersion > 1) {
 			entry.flags = reader.read<uint32_t>();
+			if (entry.flags & FLAG_FILE_REMOVED) {
+				continue;
+			}
 		}
 
 		pck->entries.emplace(entryPath, entry);
@@ -141,7 +144,7 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) c
 	}
 
 	// It's baked into the file on disk
-	if (entry->flags & FLAG_ENCRYPTED) {
+	if (entry->flags & FLAG_FILE_ENCRYPTED) {
 		// File is encrypted
 		return std::nullopt;
 	}
@@ -297,7 +300,7 @@ PCK::operator std::string() const {
 	if (this->startOffset > 0) {
 		out += " | Embedded";
 	}
-	if (this->header.flags & FLAG_ENCRYPTED) {
+	if (this->header.flags & FLAG_DIR_ENCRYPTED) {
 		out += " | Encrypted";
 	}
 	return out;
