@@ -341,11 +341,16 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-types" name="pro-types"></a>
 Protected Types</h2></td></tr>
-<tr class="memitem:a465bf158d0c364a8f0268fa1f0b2e557"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">FlagsV2</a> : uint32_t { <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584">FLAG_NONE</a> = 0
-, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746">FLAG_ENCRYPTED</a> = 1 &lt;&lt; 0
-, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11">FLAG_RELATIVE_FILE_DATA</a> = 1 &lt;&lt; 1
+<tr class="memitem:af2f0816ddcb1c66bfbeddad2b243e97b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97b">FlagsDirV2</a> : uint32_t { <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97ba743a16047c1625051e1cde4a9f3e558c">FLAG_DIR_NONE</a> = 0
+, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97ba2b7d9825be9a7943ef488dead91e84c4">FLAG_DIR_ENCRYPTED</a> = 1 &lt;&lt; 0
+, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97baba2ad57ae6a63282226eb84572440c84">FLAG_DIR_RELATIVE_FILE_DATA</a> = 1 &lt;&lt; 1
  }</td></tr>
-<tr class="separator:a465bf158d0c364a8f0268fa1f0b2e557"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:af2f0816ddcb1c66bfbeddad2b243e97b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad80bbb8ef8c713815647f457072b98ee"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98ee">FlagsFileV2</a> : uint32_t { <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eeaa28779843c887c8f94b5ef02068b9c23">FLAG_FILE_NONE</a> = 0
+, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eea74707391e46a353c50bb1a47bfde0ec6">FLAG_FILE_ENCRYPTED</a> = 1 &lt;&lt; 0
+, <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eeaac5d3271a71d6bd1149b73140ce8bb55">FLAG_FILE_REMOVED</a> = 1 &lt;&lt; 1
+ }</td></tr>
+<tr class="separator:ad80bbb8ef8c713815647f457072b98ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_types_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_types_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Types inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:a2cf2c9a0f3b9f928d570d0ab4ccfd703 inherit pro_types_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2cf2c9a0f3b9f928d570d0ab4ccfd703">OpenFactoryFunction</a> = std::function&lt; std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;(const std::string &amp;path, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback)&gt;</td></tr>
 <tr class="separator:a2cf2c9a0f3b9f928d570d0ab4ccfd703 inherit pro_types_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -423,8 +428,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00013">13</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a465bf158d0c364a8f0268fa1f0b2e557" name="a465bf158d0c364a8f0268fa1f0b2e557"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a465bf158d0c364a8f0268fa1f0b2e557">&#9670;&#160;</a></span>FlagsV2</h2>
+<a id="af2f0816ddcb1c66bfbeddad2b243e97b" name="af2f0816ddcb1c66bfbeddad2b243e97b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af2f0816ddcb1c66bfbeddad2b243e97b">&#9670;&#160;</a></span>FlagsDirV2</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -433,7 +438,7 @@ Additional Inherited Members</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557">vpkpp::PCK::FlagsV2</a> : uint32_t</td>
+          <td class="memname">enum <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97b">vpkpp::PCK::FlagsDirV2</a> : uint32_t</td>
         </tr>
       </table>
   </td>
@@ -443,12 +448,41 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584" name="a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584"></a>FLAG_NONE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746" name="a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746"></a>FLAG_ENCRYPTED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11" name="a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11"></a>FLAG_RELATIVE_FILE_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="af2f0816ddcb1c66bfbeddad2b243e97ba743a16047c1625051e1cde4a9f3e558c" name="af2f0816ddcb1c66bfbeddad2b243e97ba743a16047c1625051e1cde4a9f3e558c"></a>FLAG_DIR_NONE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af2f0816ddcb1c66bfbeddad2b243e97ba2b7d9825be9a7943ef488dead91e84c4" name="af2f0816ddcb1c66bfbeddad2b243e97ba2b7d9825be9a7943ef488dead91e84c4"></a>FLAG_DIR_ENCRYPTED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="af2f0816ddcb1c66bfbeddad2b243e97baba2ad57ae6a63282226eb84572440c84" name="af2f0816ddcb1c66bfbeddad2b243e97baba2ad57ae6a63282226eb84572440c84"></a>FLAG_DIR_RELATIVE_FILE_DATA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00015">15</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+
+</div>
+</div>
+<a id="ad80bbb8ef8c713815647f457072b98ee" name="ad80bbb8ef8c713815647f457072b98ee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad80bbb8ef8c713815647f457072b98ee">&#9670;&#160;</a></span>FlagsFileV2</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98ee">vpkpp::PCK::FlagsFileV2</a> : uint32_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad80bbb8ef8c713815647f457072b98eeaa28779843c887c8f94b5ef02068b9c23" name="ad80bbb8ef8c713815647f457072b98eeaa28779843c887c8f94b5ef02068b9c23"></a>FLAG_FILE_NONE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad80bbb8ef8c713815647f457072b98eea74707391e46a353c50bb1a47bfde0ec6" name="ad80bbb8ef8c713815647f457072b98eea74707391e46a353c50bb1a47bfde0ec6"></a>FLAG_FILE_ENCRYPTED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad80bbb8ef8c713815647f457072b98eeaac5d3271a71d6bd1149b73140ce8bb55" name="ad80bbb8ef8c713815647f457072b98eeaac5d3271a71d6bd1149b73140ce8bb55"></a>FLAG_FILE_REMOVED&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00021">21</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>
@@ -530,7 +564,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00157">157</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00160">160</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -578,7 +612,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00167">167</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00170">170</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -655,7 +689,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00316">316</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00319">319</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -686,7 +720,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00288">288</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00291">291</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -707,7 +741,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Returns 1 for v1, 2 for v2. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00306">306</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00309">309</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -738,7 +772,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00036">36</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00042">42</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>
@@ -778,7 +812,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Open a <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html">PCK</a> file (potentially embedded in an executable) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00070">70</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00076">76</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>
@@ -807,7 +841,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00293">293</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00296">296</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -839,7 +873,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#adb4279fcac0f5dea6f9817edd95a05d2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00133">133</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -875,7 +909,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00320">320</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00323">323</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -897,7 +931,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Change the version of the <a class="el" href="../../d5/db5/classvpkpp_1_1PCK.html">PCK</a>. Valid values are 1 and 2. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00310">310</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d7e/PCK_8cpp_source.html#l00313">313</a> of file <a class="el" href="../../d8/d7e/PCK_8cpp_source.html">PCK.cpp</a>.</p>
 
 </div>
 </div>
@@ -922,7 +956,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00066">66</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00072">72</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>
@@ -946,7 +980,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00063">63</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00069">69</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>
@@ -970,7 +1004,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00065">65</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/dae/PCK_8h_source.html#l00071">71</a> of file <a class="el" href="../../dd/dae/PCK_8h_source.html">PCK.h</a>.</p>
 
 </div>
 </div>

@@ -1,10 +1,15 @@
 var classvpkpp_1_1PCK =
 [
     [ "Header", "d5/da3/structvpkpp_1_1PCK_1_1Header.html", "d5/da3/structvpkpp_1_1PCK_1_1Header" ],
-    [ "FlagsV2", "d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557", [
-      [ "FLAG_NONE", "d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557aa45053ac647f71beb3771b32458a7584", null ],
-      [ "FLAG_ENCRYPTED", "d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557a6224bde8de6aa4899a68ba9436968746", null ],
-      [ "FLAG_RELATIVE_FILE_DATA", "d5/db5/classvpkpp_1_1PCK.html#a465bf158d0c364a8f0268fa1f0b2e557acb28e541c561d2ca7160d611f8aa4f11", null ]
+    [ "FlagsDirV2", "d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97b", [
+      [ "FLAG_DIR_NONE", "d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97ba743a16047c1625051e1cde4a9f3e558c", null ],
+      [ "FLAG_DIR_ENCRYPTED", "d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97ba2b7d9825be9a7943ef488dead91e84c4", null ],
+      [ "FLAG_DIR_RELATIVE_FILE_DATA", "d5/db5/classvpkpp_1_1PCK.html#af2f0816ddcb1c66bfbeddad2b243e97baba2ad57ae6a63282226eb84572440c84", null ]
+    ] ],
+    [ "FlagsFileV2", "d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98ee", [
+      [ "FLAG_FILE_NONE", "d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eeaa28779843c887c8f94b5ef02068b9c23", null ],
+      [ "FLAG_FILE_ENCRYPTED", "d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eea74707391e46a353c50bb1a47bfde0ec6", null ],
+      [ "FLAG_FILE_REMOVED", "d5/db5/classvpkpp_1_1PCK.html#ad80bbb8ef8c713815647f457072b98eeaac5d3271a71d6bd1149b73140ce8bb55", null ]
     ] ],
     [ "PCK", "d5/db5/classvpkpp_1_1PCK.html#af22c02a57acc17232a509f46429b620b", null ],
     [ "addEntryInternal", "d5/db5/classvpkpp_1_1PCK.html#a1e14dba8aca68ba5e0b009a6ba1c68e3", null ],
