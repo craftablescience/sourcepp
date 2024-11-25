@@ -197,6 +197,34 @@ bool BSP::stageLump(BSPLump lumpIndex, const std::span<const std::byte> data, ui
     return true;
 }
 
+bool BSP::stageLump(std::span<BSPEntity> entities, uint8_t compressLevel) {
+    if (this->path.empty()) {
+        return false;
+    }
+
+    std::vector<std::byte> byteVec;
+    for (auto e : entities)
+    {
+        byteVec.push_back((std::byte)'{');
+        for (auto it = e.begin(); it != e.end(); it++) {
+            byteVec.push_back((std::byte)'\"');
+
+            for (char c : it->first){
+                byteVec.push_back((std::byte)c);
+            }
+            byteVec.push_back((std::byte)'\"');
+            byteVec.push_back((std::byte)' ');
+            byteVec.push_back((std::byte)'\"');
+            for (char c : it->second){
+                byteVec.push_back((std::byte)c);
+            }
+            byteVec.push_back((std::byte)'\"');
+        }
+        byteVec.push_back((std::byte)'}');
+    }
+    return this->stageLump(BSPLump::ENTITIES, byteVec, compressLevel);
+}
+
 void BSP::writeChangesToDisk() {
     uint32_t offset = sizeof(BSP_SIGNATURE) + sizeof(BSP::Header);
     this->header = this->stagedHeader;
@@ -384,6 +412,66 @@ void BSP::writeHeader() const {
 	}
 
 	writer << this->header.mapRevision;
+}
+
+std::vector<BSPEntity> BSP::parseEntities() const {
+	auto lumpData = this->readLump(BSPLump::ENTITIES);
+
+	std::vector<BSPEntity> ents;
+
+	if (!lumpData.has_value())
+	{
+		return ents;
+	}
+
+	auto lumpDataValue = lumpData.value();
+
+	BSPEntity e;
+	std::string key, value;
+	bool quoted = false;
+	bool keying = true;
+
+	for (uint32_t i = 0; i <lumpDataValue.size(); i++){
+		char c = (char)lumpDataValue[i];
+
+		if ( c == '\\') {
+			i++;
+			continue;
+		}
+		if ( c == '\"') {
+			quoted = !quoted;
+
+			if (!quoted && !keying) {
+				e[key] = value;
+				key.erase();
+				value.erase();
+			}
+
+			if (!quoted) {
+				keying = !keying;
+			}
+			continue;
+		}
+		if ( c == '}') {
+			ents.push_back(e);
+			e.clear();
+			continue;
+		}
+		if (!quoted)
+			continue;
+
+		if ( keying ) {
+			key += c;
+		}
+		else {
+			value += c;
+		}
+	}
+
+	if ( quoted || !keying ) // somethings messed up
+		ents.clear();
+
+	return ents;
 }
 
 std::vector<BSPPlane> BSP::readPlanes() const {

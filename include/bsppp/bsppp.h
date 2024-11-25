@@ -6,6 +6,7 @@
 #include <span>
 #include <string>
 #include <vector>
+#include <map>
 
 #include <sourcepp/parser/Binary.h>
 
@@ -15,6 +16,8 @@ namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
 constexpr auto BSP_LZMA_ID       = sourcepp::parser::binary::makeFourCC("LZMA");
+
+typedef std::map<std::string, std::string> BSPEntity;
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
@@ -164,7 +167,9 @@ public:
 
     template<BSPLump Lump>
     [[nodiscard]] auto readLump() const {
-		if constexpr (Lump == BSPLump::PLANES) {
+        if constexpr (Lump == BSPLump::ENTITIES){
+            return this->parseEntities();
+        } else if constexpr (Lump == BSPLump::PLANES) {
 			return this->readPlanes();
 		} else if constexpr (Lump == BSPLump::TEXDATA) {
 			return this->readTextureData();
@@ -193,6 +198,7 @@ public:
     /// PAKLUMP can be written here but you should probably use vpkpp for that
     /// Valid compressLevel range is 0 to 9, 0 is considered off, 9 the slowest and most compressiest
     bool stageLump(BSPLump lumpIndex, std::span<const std::byte> data, uint8_t compressLevel = 0);
+    bool stageLump(std::span<BSPEntity>, uint8_t compressLevel = 0);
 
     /// Write all changes made to header and lumps to file
     void writeChangesToDisk();
@@ -208,6 +214,8 @@ public:
 
 protected:
 	void writeHeader() const;
+
+	[[nodiscard]] std::vector<BSPEntity> parseEntities() const;
 
 	[[nodiscard]] std::vector<BSPPlane> readPlanes() const;
 
