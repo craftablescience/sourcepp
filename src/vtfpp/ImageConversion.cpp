@@ -5,7 +5,6 @@
 #include <cstdlib>
 #include <cstring>
 #include <memory>
-#include <ranges>
 #include <span>
 #include <string_view>
 #include <unordered_map>
@@ -1372,3 +1371,203 @@ std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const st
 	heightOut = getResizedDim(newHeight, heightResize);
 	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, filter, edge);
 }
+
+#ifndef SOURCEPP_BUILD_WITH_OPENCL // cpu implementation
+std::array<std::vector<std::byte>,6> ImageConversion::cubeMapFromImageData(std::span<std::byte> imageData, uint16_t width, uint16_t height, ImageFormat format, uint16_t resolution, bool bilinear)
+{
+    auto convertedData = convertImageDataToFormat(imageData,format, ImageFormat::RGBA32323232F, width, height);
+
+    static std::array<std::array<sourcepp::math::Vec3f, 3>, 6> startRightUp= {{ // for each face, contains the 3d starting point (corresponding to left bottom pixel), right direction, and up direction in 3d space, correponding to pixel x,y coordinates of each face		{{-1.0f, -1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+                                                                               {{{-1.0f, -1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}}},  // front
+                                                                               {{{1.0f, -1.0f, 1.0f},  {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}}},   // back
+                                                                               {{{-1.0f, -1.0f, 1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}}},  // left
+                                                                               {{{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}}},   // right
+                                                                               {{{-1.0f, 1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}},   // up
+                                                                               {{{-1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -1.0f}}}   // down
+                                                                       }};
+
+    auto floatData = std::vector<float>();
+    floatData.assign(reinterpret_cast<float*>(convertedData.data()), reinterpret_cast<float*>(convertedData.data() + convertedData.size()));
+    std::array<std::vector<std::byte>,6> faceData;
+
+    for (int i = 0; i < 6; i++)
+    {
+        sourcepp::math::Vec3f& start = startRightUp[i][0];
+        sourcepp::math::Vec3f& right = startRightUp[i][1];
+        sourcepp::math::Vec3f& up = startRightUp[i][2];
+
+        auto face = std::vector<float>();//&faceData[i];
+        face.resize(resolution * resolution * 4);
+
+        sourcepp::math::Vec3f pixelDirection3d;
+
+        for (int row = 0; row < resolution; row++)
+            for (int col = 0; col < resolution; col++) {
+
+                pixelDirection3d[0] = start[0] + ((float)col * 2.0f + 0.5f)/(float)resolution * right[0] + ((float)row * 2.0f + 0.5f)/(float)resolution * up[0];
+                pixelDirection3d[1] = start[1] + ((float)col * 2.0f + 0.5f)/(float)resolution * right[1] + ((float)row * 2.0f + 0.5f)/(float)resolution * up[1];
+                pixelDirection3d[2] = start[2] + ((float)col * 2.0f + 0.5f)/(float)resolution * right[2] + ((float)row * 2.0f + 0.5f)/(float)resolution * up[2];
+
+                float azimuth = atan2f(pixelDirection3d[0], -pixelDirection3d[2]) + (float)M_PI; // add pi to move range to 0-360 deg
+                float elevation = atanf(pixelDirection3d[1] / sqrtf(pixelDirection3d[0] * pixelDirection3d[0] + pixelDirection3d[2] * pixelDirection3d[2])) + (float)M_PI/2.0f;
+
+                float colHdri = (azimuth / (float)M_PI / 2.0f) * (float)width; // add pi to azimuth to move range to 0-360 deg
+                float rowHdri = (elevation / (float)M_PI ) * (float)height;
+
+                if (!bilinear)
+                {
+                    int colNearest = std::clamp((int)colHdri, 0, width - 1);
+                    int rowNearest = std::clamp((int)rowHdri, 0, height - 1);
+
+                    face[col * 4 + resolution * row * 4] = floatData[colNearest * 4 + width * rowNearest * 4] ; // red
+                    face[col * 4 + resolution * row * 4 + 1] = floatData[colNearest * 4 + width * rowNearest * 4 + 1]; //green
+                    face[col * 4 + resolution * row * 4 + 2] = floatData[colNearest * 4 + width * rowNearest * 4 + 2]; //blue
+                    face[col * 4 + resolution * row * 4 + 3] = floatData[colNearest* 4 + width * rowNearest * 4 + 3]; //alpha
+                }
+                else
+                {
+                    {
+                        float intCol, intRow;
+                        float factorCol = std::modf(colHdri- 0.5f, &intCol);        // factor gives the contribution of the next column, while the contribution of intCol is 1 - factor
+                        float factorRow = std::modf(rowHdri - 0.5f, &intRow);
+
+                        int low_idx_row = static_cast<int>(intRow);
+                        int low_idx_column = static_cast<int>(intCol);
+                        int high_idx_column;
+                        if (factorCol < 0.0f)                           //modf can only give a negative value if the azimuth falls in the first pixel, left of the center, so we have to mix with the pixel on the opposite side of the panoramic image
+                            high_idx_column = width - 1;
+                        else if (low_idx_column == width -1)          //if we are in the right-most pixel, and fall right of the center, mix with the left-most pixel
+                            high_idx_column = 0;
+                        else
+                            high_idx_column = low_idx_column + 1;
+
+                        int high_idx_row;
+                        if (factorRow < 0.0f)
+                            high_idx_row = height - 1;
+                        else if (low_idx_row == height - 1)
+                            high_idx_row = 0;
+                        else
+                            high_idx_row = low_idx_row + 1;
+
+                        factorCol = std::abs(factorCol);
+                        factorRow = std::abs(factorRow);
+                        float f1 = (1 - factorRow) * (1 - factorCol);
+                        float f2 = factorRow * (1 - factorCol);
+                        float f3 = (1 - factorRow) * factorCol;
+                        float f4 = factorRow * factorCol;
+
+                        for (int j = 0; j < 4; j++)
+                        {
+                            unsigned char interpolatedValue = static_cast< unsigned char>((floatData[low_idx_column * 4 + width * low_idx_row * 4 + j]) * f1 +
+                                                                             floatData[low_idx_column * 4 + width * high_idx_row * 4 + j] * f2 +
+                                                                             floatData[high_idx_column * 4 + width * low_idx_row * 4 + j] * f3 +
+                                                                             floatData[high_idx_column * 4 + width * high_idx_row * 4 + j] * f4);
+                            face[col * 4 + resolution * row * 4 + j] = (std::clamp(interpolatedValue, (uint8_t)0, (uint8_t)255));
+                        }
+                        //faceData[i] = convertImageDataToFormat(std::span<std::byte>{reinterpret_cast<std::byte*>(face.data()), reinterpret_cast<std::byte*>(face.data() + face.size())},ImageFormat::RGBA32323232F, format,resolution,resolution);
+                    }
+                }
+            }
+
+        faceData[i] = convertImageDataToFormat(std::span<std::byte>{reinterpret_cast<std::byte*>(face.data()), reinterpret_cast<std::byte*>(face.data() + face.size())},ImageFormat::RGBA32323232F, format,resolution,resolution);
+    }
+    return faceData;
+}
+//Don't use, bad. Doesn't work on Ubuntu + AMD >:(
+#else // opencl implementation
+#define CL_HPP_TARGET_OPENCL_VERSION 300
+#include <CL/cl2.hpp>
+//I have no idea if this even works. I cannot test it. -Trico
+std::array<std::vector<std::byte>,6> ImageConversion::cubeMapFromImageData(std::span<std::byte> imageData, uint16_t width, uint16_t height, ImageFormat format, uint16_t resolution, bool bilinear)
+{
+    static std::array<std::array<sourcepp::math::Vec3f, 3>, 6> startRightUp= {{ // for each face, contains the 3d starting point (corresponding to left bottom pixel), right direction, and up direction in 3d space, correponding to pixel x,y coordinates of each face		{{-1.0f, -1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}},
+        {{{-1.0f, -1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}}},  // front
+        {{{1.0f, -1.0f, 1.0f}, {-1.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f}}},   // back
+        {{{-1.0f, -1.0f, 1.0f}, {0.0f, 0.0f, -1.0f}, {0.0f, 1.0f, 0.0f}}},  // left
+        {{{1.0f, -1.0f, -1.0f}, {0.0f, 0.0f, 1.0f}, {0.0f, 1.0f, 0.0f}}},   // right
+        {{{-1.0f, 1.0f, -1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 1.0f}}},   // up
+        {{{-1.0f, -1.0f, 1.0f}, {1.0f, 0.0f, 0.0f}, {0.0f, 0.0f, -1.0f}}}   // down
+	}};
+
+
+
+    // create cl program
+    // Currently hardcoded because there is no way to deterime location currently.
+    std::string pathToClFile = "/media/trico/Storage Drive X2/GithubProjects/sourcepp_tests/sourcepp/src/vtfpp/ProcessFace.cl";
+    std::ifstream clFile(pathToClFile.c_str());
+    std::string src(std::istreambuf_iterator<char>(clFile), (std::istreambuf_iterator<char>()));
+    std::vector<cl::Platform> platforms;
+    cl::Platform::get(&platforms);
+    auto platform = platforms.front();
+    std::vector<cl::Device> devices;
+    platform.getDevices(CL_DEVICE_TYPE_GPU, &devices);
+    auto device = devices.front();
+    auto vendor = device.getInfo<CL_DEVICE_VENDOR>();
+
+    cl::Program::Sources sources(1, src);
+    cl::Context context(device);
+    cl::Program program(context, sources);
+    cl_int err;
+    if (bilinear)
+        err = program.build("-cl-std=CL1.2 -D filter=CLK_FILTER_LINEAR");
+    else
+        err = program.build("-cl-std=CL1.2 -D filter=CLK_FILTER_NEAREST");
+    if (err != 0)
+        throw std::runtime_error(std::string("cl error code: ") + std::to_string(err));
+
+    // create and write image
+    cl::ImageFormat clFormat;
+
+    clFormat = cl::ImageFormat(CL_RGBA, CL_FLOAT);  //TODO: make formate depend on nmber of channels
+
+    // cl::Image2D imgHdri(context, CL_MEM_READ_ONLY | CL_MEM_HOST_NO_ACCESS | CL_MEM_COPY_HOST_PTR, format, width, height);
+    cl::Image2D imgHdri(context, CL_MEM_READ_ONLY, clFormat, width, height);
+    cl::Image2D imgFace(context, CL_MEM_WRITE_ONLY, clFormat, resolution, resolution);
+    cl::CommandQueue queue(context, device);
+    std::array<std::size_t, 3> origin{};
+    origin[0] = 0;
+    origin[1] = 0;
+    origin[2] = 0;
+    std::array<std::size_t, 3> region{};
+    region[0] = width;
+    region[1] = height;
+    region[2] = 1;
+
+    auto convertedData = convertImageDataToFormat(imageData,format, ImageFormat::RGBA32323232F, width, height);
+
+    std::array<std::vector<std::byte>,6> faceData;
+
+    queue.enqueueWriteImage(imgHdri, CL_TRUE, origin, region, 0, 0, convertedData.data());
+    cl::Buffer bufDirections(context, CL_MEM_READ_ONLY, sizeof(float) * 9);
+
+    for (int i = 0; i < 6; i++)
+    {
+        auto face = std::vector<std::byte>();
+        face.resize(resolution * resolution * 4);
+
+        cl::Kernel kernel(program, "processFace");
+        kernel.setArg(0, imgHdri);
+        kernel.setArg(1, imgFace);
+        kernel.setArg(2, bufDirections);
+
+        err = queue.enqueueWriteBuffer(bufDirections, CL_TRUE, 0, 9 * sizeof(float), &startRightUp[i][0]);
+        err = queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(resolution, resolution));
+        cl::finish();
+
+        std::array<std::size_t, 3> origin_out{};
+        origin_out[0] = 0;
+        origin_out[1] = 0;
+        origin_out[2] = 0;
+        std::array<std::size_t, 3> region_out{};
+        region_out[0] = resolution;
+        region_out[1] = resolution;
+        region_out[2] = 1;
+
+        queue.enqueueReadImage(imgFace, CL_TRUE, origin_out, region_out, 0, 0, face.data());
+        cl::finish();
+        faceData[i] = face;
+    }
+
+    return faceData;
+}
+#endif
