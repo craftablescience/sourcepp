@@ -15,6 +15,7 @@
 
 #include <Compressonator.h>
 #include <sourcepp/Macros.h>
+#define _USE_MATH_DEFINES
 #include <sourcepp/Math.h>
 
 #define STB_IMAGE_IMPLEMENTATION
