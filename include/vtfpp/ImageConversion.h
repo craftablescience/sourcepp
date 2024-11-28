@@ -421,6 +421,8 @@ bool applyChannelToImageData(std::span<std::byte> imageData, std::span<const std
 	return true;
 }
 
+std::array<std::vector<std::byte>,6> cubeMapFromImageData(std::span<std::byte> imageData, uint16_t width, uint16_t height, ImageFormat format, uint16_t resolution, bool bilinear);
+
 } // namespace ImageConversion
 
 } // namespace vtfpp
