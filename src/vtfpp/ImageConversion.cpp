@@ -1323,6 +1323,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixel::RGBA16161616 {
 						return {pixel, 0, 0, 0xffff};
 					});
+					return out;
 				}
 				case 2: {
 					struct RG1616 {
@@ -1337,6 +1338,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixel::RGBA16161616 {
 						return {pixel.r, pixel.g, 0, 0xffff};
 					});
+					return out;
 				}
 				case 3: {
 					struct RGB161616 {
@@ -1352,6 +1354,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixel::RGBA16161616 {
 						return {pixel.r, pixel.g, pixel.b, 0xffff};
 					});
+					return out;
 				}
 				default:
 					return {};
