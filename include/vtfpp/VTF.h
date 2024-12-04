@@ -126,7 +126,7 @@ public:
 		FLAG_NORMAL                                  = 1 <<  7,
 		FLAG_NO_MIP                                  = 1 <<  8, // Added at VTF creation time
 		FLAG_NO_LOD                                  = 1 <<  9, // Added at VTF creation time
-		FLAG_MIN_MIP                                 = 1 << 10,
+		FLAG_LOAD_LOWEST_MIPS                        = 1 << 10,
 		FLAG_PROCEDURAL                              = 1 << 11,
 		FLAG_ONE_BIT_ALPHA                           = 1 << 12, // Added at VTF creation time
 		FLAG_MULTI_BIT_ALPHA                         = 1 << 13, // Added at VTF creation time
@@ -138,7 +138,7 @@ public:
 		FLAG_ONE_OVER_MIP_LEVEL_IN_ALPHA             = 1 << 19, // Internal to vtex, removed
 		FLAG_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL = 1 << 20, // Internal to vtex, removed
 		FLAG_NORMAL_TO_DUDV                          = 1 << 21, // Internal to vtex, removed
-		FLAG_ALPHA_TEST_MIP_GENERATION               = 1 << 22,
+		FLAG_ALPHA_TEST_MIP_GENERATION               = 1 << 22, // Internal to vtex, removed
 		FLAG_NO_DEPTH_BUFFER                         = 1 << 23,
 		FLAG_NICE_FILTERED                           = 1 << 24, // Internal to vtex, removed
 		FLAG_CLAMP_U                                 = 1 << 25,

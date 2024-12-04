@@ -271,7 +271,7 @@ void register_python(py::module_& m) {
 			.value("NORMAL",                                  VTF::FLAG_NORMAL)
 			.value("NO_MIP",                                  VTF::FLAG_NO_MIP)
 			.value("NO_LOD",                                  VTF::FLAG_NO_LOD)
-			.value("MIN_MIP",                                 VTF::FLAG_MIN_MIP)
+			.value("LOAD_LOWEST_MIPS",                        VTF::FLAG_LOAD_LOWEST_MIPS)
 			.value("PROCEDURAL",                              VTF::FLAG_PROCEDURAL)
 			.value("ONE_BIT_ALPHA",                           VTF::FLAG_ONE_BIT_ALPHA)
 			.value("MULTI_BIT_ALPHA",                         VTF::FLAG_MULTI_BIT_ALPHA)
