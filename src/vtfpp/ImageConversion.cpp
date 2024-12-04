@@ -1264,6 +1264,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 
 		switch (channels) {
 			case 1:  format = ImageFormat::R32F;          break;
+			case 2:  format = ImageFormat::RG3232F;       break;
 			case 3:  format = ImageFormat::RGB323232F;    break;
 			case 4:  format = ImageFormat::RGBA32323232F; break;
 			default: return {};
