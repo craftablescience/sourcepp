@@ -14,7 +14,7 @@ var classvtfpp_1_1VTF =
       [ "FLAG_NORMAL", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa2a696ed52127fc450a6f7e42c09ec517", null ],
       [ "FLAG_NO_MIP", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aafaa376419e4fc87b0139010daa4daaf0", null ],
       [ "FLAG_NO_LOD", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa60478e6bd53f9e88803c92965eac705e", null ],
-      [ "FLAG_MIN_MIP", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa7770597d0bebd69d41517a953ff0fb35", null ],
+      [ "FLAG_LOAD_LOWEST_MIPS", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aac42515e4b34a7ade265036cc300ece2c", null ],
       [ "FLAG_PROCEDURAL", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aaaad207276633ba48c6cebdb795eecf8f", null ],
       [ "FLAG_ONE_BIT_ALPHA", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aaae8325bd3738b0e3ee96c73288e165f4", null ],
       [ "FLAG_MULTI_BIT_ALPHA", "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa84d3ce507f9951e2d66bc68b018b49d3", null ],
