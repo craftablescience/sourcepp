@@ -1306,6 +1306,56 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 
 		if (channels == 4) {
 			format = ImageFormat::RGBA16161616;
+		} else if (channels >= 1 && channels < 4) {
+			// There are no other 16-bit integer formats in Source, so we have to do a conversion here
+			format = ImageFormat::RGBA16161616;
+
+			std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
+			std::span<ImagePixel::RGBA16161616> outPixels{reinterpret_cast<ImagePixel::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixel::RGBA16161616)};
+
+			switch (channels) {
+				case 1: {
+					std::span<uint16_t> inPixels{reinterpret_cast<uint16_t*>(stbImage.get()), outPixels.size()};
+					std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+						std::execution::par_unseq,
+#endif
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixel::RGBA16161616 {
+						return {pixel, 0, 0, 0xffff};
+					});
+				}
+				case 2: {
+					struct RG1616 {
+						uint16_t r;
+						uint16_t g;
+					};
+					std::span<RG1616> inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
+					std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+						std::execution::par_unseq,
+#endif
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixel::RGBA16161616 {
+						return {pixel.r, pixel.g, 0, 0xffff};
+					});
+				}
+				case 3: {
+					struct RGB161616 {
+						uint16_t r;
+						uint16_t g;
+						uint16_t b;
+					};
+					std::span<RGB161616> inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
+					std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+						std::execution::par_unseq,
+#endif
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixel::RGBA16161616 {
+						return {pixel.r, pixel.g, pixel.b, 0xffff};
+					});
+				}
+				default:
+					return {};
+			}
 		} else {
 			return {};
 		}
