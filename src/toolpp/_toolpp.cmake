@@ -1,5 +1,5 @@
 add_pretty_parser(toolpp
-        DEPS sourcepp::kvpp
+        DEPS sourcepp_parser sourcepp::kvpp
         SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/toolpp/CmdSeq.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/toolpp/FGD.h"

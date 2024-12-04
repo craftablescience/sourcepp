@@ -202,7 +202,7 @@ void BSP::writeLump(BSPLump lumpIndex, std::span<const std::byte> data, bool con
 
 			// If we have the space to add padding (we should), then do so
 			// This should never fail for well-constructed BSP files
-			auto padding = math::getPaddingForAlignment(4, currentOffset);
+			auto padding = math::paddingForAlignment(4, currentOffset);
 			if (padding && i < lumpIDs.size() - 1 && currentOffset + padding <= this->header.lumps[lumpIDs[i + 1]].offset) {
 				currentOffset += padding;
 			}

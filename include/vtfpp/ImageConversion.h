@@ -1,10 +1,12 @@
 #pragma once
 
+#include <concepts>
 #include <cstddef>
 #include <span>
 #include <vector>
 
-#include <sourcepp/math/Float.h>
+#include <BufferStream.h>
+#include <sourcepp/Templates.h>
 
 #include "ImageFormats.h"
 
@@ -172,10 +174,10 @@ VTFPP_CHECK_SIZE(UVWQ8888);
 
 struct RGBA16161616F {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
-	sourcepp::math::FloatCompressed16 r;
-	sourcepp::math::FloatCompressed16 g;
-	sourcepp::math::FloatCompressed16 b;
-	sourcepp::math::FloatCompressed16 a;
+	half r;
+	half g;
+	half b;
+	half a;
 };
 VTFPP_CHECK_SIZE(RGBA16161616F);
 
@@ -222,8 +224,8 @@ VTFPP_CHECK_SIZE(RGBA32323232F);
 
 struct RG1616F {
 	static constexpr auto FORMAT = ImageFormat::RG1616F;
-	sourcepp::math::FloatCompressed16 r;
-	sourcepp::math::FloatCompressed16 g;
+	half r;
+	half g;
 };
 VTFPP_CHECK_SIZE(RG1616F);
 
@@ -263,7 +265,7 @@ VTFPP_CHECK_SIZE(BGRA1010102);
 
 struct R16F {
 	static constexpr auto FORMAT = ImageFormat::R16F;
-	sourcepp::math::FloatCompressed16 r;
+	half r;
 };
 VTFPP_CHECK_SIZE(R16F);
 
@@ -274,6 +276,42 @@ struct R8 {
 VTFPP_CHECK_SIZE(R8);
 
 #undef VTFPP_CHECK_SIZE
+
+template<typename T>
+concept PixelType =
+		std::same_as<T, RGBA8888> ||
+		std::same_as<T, ABGR8888> ||
+		std::same_as<T, RGB888> ||
+		std::same_as<T, BGR888> ||
+		std::same_as<T, RGB565> ||
+		std::same_as<T, I8> ||
+		std::same_as<T, IA88> ||
+		std::same_as<T, P8> ||
+		std::same_as<T, A8> ||
+		std::same_as<T, RGB888_BLUESCREEN> ||
+		std::same_as<T, BGR888_BLUESCREEN> ||
+		std::same_as<T, ARGB8888> ||
+		std::same_as<T, BGRA8888> ||
+		std::same_as<T, BGRX8888> ||
+		std::same_as<T, BGR565> ||
+		std::same_as<T, BGRX5551> ||
+		std::same_as<T, BGRA4444> ||
+		std::same_as<T, BGRA5551> ||
+		std::same_as<T, UV88> ||
+		std::same_as<T, UVWQ8888> ||
+		std::same_as<T, RGBA16161616F> ||
+		std::same_as<T, RGBA16161616> ||
+		std::same_as<T, UVLX8888> ||
+		std::same_as<T, R32F> ||
+		std::same_as<T, RGB323232F> ||
+		std::same_as<T, RGBA32323232F> ||
+		std::same_as<T, RG1616F> ||
+		std::same_as<T, RG3232F> ||
+		std::same_as<T, RGBX8888> ||
+		std::same_as<T, RGBA1010102> ||
+		std::same_as<T, BGRA1010102> ||
+		std::same_as<T, R16F> ||
+		std::same_as<T, R8>;
 
 } // namespace ImagePixel
 
@@ -292,9 +330,13 @@ enum class FileFormat {
 	BMP,
 	TGA,
 	HDR,
+	EXR,
 };
 
-/// Converts image data to a PNG or HDR file. HDR output will be used for floating-point formats.
+/// PNG for integer formats, EXR for floating point formats
+[[nodiscard]] FileFormat getDefaultFileFormatForImageFormat(ImageFormat format);
+
+/// Converts image data to a PNG or EXR file. EXR format will be used for floating-point image formats.
 [[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT);
 
 [[nodiscard]] std::vector<std::byte> convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount);
@@ -339,6 +381,47 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 [[nodiscard]] std::vector<std::byte> resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP);
 
 [[nodiscard]] std::vector<std::byte> cropImageData(const std::span<const std::byte> full_image, uint16_t full_width, uint16_t full_height, uint16_t channels, uint16_t x, uint16_t y, uint16_t subrect_width, uint16_t subrect_height);
+
+/// Extracts a single channel from the given image data.
+/// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
+/// Data is packed according to pixel channel C++ type size
+/// (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data)
+template<ImagePixel::PixelType P>
+[[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*channel) {
+	using C = sourcepp::member_type_t<decltype(channel)>;
+	if (imageData.empty() || imageData.size() % sizeof(P) != 0) {
+		return {};
+	}
+
+	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
+
+	std::vector<std::byte> out(imageData.size() / sizeof(P) * sizeof(C));
+	BufferStream stream{out, false};
+	for (const auto& pixel : pixels) {
+		stream << pixel.*channel;
+	}
+	return out;
+}
+
+/// Applies a single channel to the given image data.
+/// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
+/// Data is packed according to pixel channel C++ type size
+/// (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data)
+template<ImagePixel::PixelType P>
+bool applyChannelToImageData(std::span<std::byte> imageData, std::span<const std::byte> channelData, auto P::*channel) {
+	using C = sourcepp::member_type_t<decltype(channel)>;
+	if (imageData.empty() || imageData.size() % sizeof(P) != 0 || channelData.empty() || channelData.size() % sizeof(C) != 0 || imageData.size() / sizeof(P) != channelData.size() / sizeof(C)) {
+		return false;
+	}
+
+	std::span pixels{reinterpret_cast<P*>(imageData.data()), imageData.size() / sizeof(P)};
+	std::span values{reinterpret_cast<C*>(channelData.data()), channelData.size() / sizeof(C)};
+
+	for (int i = 0; i < pixels.size(); i++) {
+		pixels[i].*channel = values[i];
+	}
+	return true;
+}
 
 } // namespace ImageConversion
 

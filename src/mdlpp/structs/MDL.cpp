@@ -87,7 +87,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(bone.procType)
 			.read(bone.procIndex)
 			.read(bone.physicsBone);
-		parser::binary::readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Matrix<3,4>) + sizeof(Bone::Flags));
+		parser::binary::readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Mat3x4f) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
 		// _unused0

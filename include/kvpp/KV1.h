@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <BufferStream.h>
-#include <sourcepp/math/Integer.h>
 #include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>

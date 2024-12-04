@@ -9,7 +9,6 @@
 #include <variant>
 #include <vector>
 
-#include <sourcepp/math/Vector.h>
 #include <sourcepp/parser/Binary.h>
 #include <sourcepp/Macros.h>
 
@@ -19,6 +18,11 @@
 namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+
+enum class CompressionMethod : int16_t {
+	DEFLATE = 8,
+	ZSTD = 93,
+};
 
 struct Resource {
 	enum Type : uint32_t {
@@ -32,12 +36,7 @@ struct Resource {
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 	};
-	static constexpr std::array<Resource::Type, 8> TYPE_ARRAY_ORDER{
-		// These don't really matter
-		Resource::TYPE_CRC, Resource::TYPE_EXTENDED_FLAGS, Resource::TYPE_LOD_CONTROL_INFO, Resource::TYPE_KEYVALUES_DATA, Resource::TYPE_PARTICLE_SHEET_DATA,
-		// These matter
-		Resource::TYPE_THUMBNAIL_DATA, Resource::TYPE_AUX_COMPRESSION, Resource::TYPE_IMAGE_DATA,
-	};
+	static const std::array<Type, 8>& getOrder();
 
 	enum Flags : uint8_t {
 		FLAG_NONE       = 0,
@@ -73,8 +72,16 @@ struct Resource {
 		return std::get<std::string>(this->convertData());
 	}
 
-	[[nodiscard]] int32_t getDataAsAuxCompressionLevel() const {
-		return static_cast<int32_t>(std::get<std::span<uint32_t>>(this->convertData())[1]);
+	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
+		return static_cast<int16_t>(std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff);
+	}
+
+	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const {
+		auto method = static_cast<int16_t>((std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff0000) >> 16);
+		if (method <= 0) {
+			return CompressionMethod::DEFLATE;
+		}
+		return static_cast<CompressionMethod>(method);
 	}
 
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
@@ -124,7 +131,7 @@ public:
 		FLAG_NORMAL                                  = 1 <<  7,
 		FLAG_NO_MIP                                  = 1 <<  8, // Added at VTF creation time
 		FLAG_NO_LOD                                  = 1 <<  9, // Added at VTF creation time
-		FLAG_MIN_MIP                                 = 1 << 10,
+		FLAG_LOAD_LOWEST_MIPS                        = 1 << 10,
 		FLAG_PROCEDURAL                              = 1 << 11,
 		FLAG_ONE_BIT_ALPHA                           = 1 << 12, // Added at VTF creation time
 		FLAG_MULTI_BIT_ALPHA                         = 1 << 13, // Added at VTF creation time
@@ -136,7 +143,7 @@ public:
 		FLAG_ONE_OVER_MIP_LEVEL_IN_ALPHA             = 1 << 19, // Internal to vtex, removed
 		FLAG_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL = 1 << 20, // Internal to vtex, removed
 		FLAG_NORMAL_TO_DUDV                          = 1 << 21, // Internal to vtex, removed
-		FLAG_ALPHA_TEST_MIP_GENERATION               = 1 << 22,
+		FLAG_ALPHA_TEST_MIP_GENERATION               = 1 << 22, // Internal to vtex, removed
 		FLAG_NO_DEPTH_BUFFER                         = 1 << 23,
 		FLAG_NICE_FILTERED                           = 1 << 24, // Internal to vtex, removed
 		FLAG_CLAMP_U                                 = 1 << 25,
@@ -165,7 +172,8 @@ public:
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
-		uint8_t compressionLevel = 6;
+		int16_t compressionLevel = -1;
+		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 		float bumpMapScale = 1.f;
 	};
 
@@ -222,6 +230,10 @@ public:
 	[[nodiscard]] ImageConversion::ResizeMethod getImageHeightResizeMethod() const;
 
 	void setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_);
+
+	void setImageWidthResizeMethod(ImageConversion::ResizeMethod imageWidthResizeMethod_);
+
+	void setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightResizeMethod_);
 
 	[[nodiscard]] uint16_t getWidth(uint8_t mip = 0) const;
 
@@ -305,13 +317,17 @@ public:
 
 	void removeExtendedFlagsResource();
 
-	void setKeyValuesData(const std::string& value);
+	void setKeyValuesDataResource(const std::string& value);
 
-	void removeKeyValuesData();
+	void removeKeyValuesDataResource();
 
-	[[nodiscard]] uint8_t getCompressionLevel() const;
+	[[nodiscard]] int16_t getCompressionLevel() const;
 
-	void setCompressionLevel(uint8_t newCompressionLevel);
+	void setCompressionLevel(int16_t newCompressionLevel);
+
+	[[nodiscard]] CompressionMethod getCompressionMethod() const;
+
+	void setCompressionMethod(CompressionMethod newCompressionMethod);
 
 	[[nodiscard]] bool hasImageData() const;
 
@@ -341,6 +357,8 @@ public:
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAs(ImageFormat newFormat) const;
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAsRGBA8888() const;
+
+	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_);
 
 	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
 
@@ -405,7 +423,8 @@ protected:
 	//uint8_t _padding3[4];
 
 	// These aren't in the header, these are for VTF modification
-	uint8_t compressionLevel = 0;
+	int16_t compressionLevel = 0;
+	CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 };

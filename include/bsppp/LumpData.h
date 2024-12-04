@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace bsppp {
 

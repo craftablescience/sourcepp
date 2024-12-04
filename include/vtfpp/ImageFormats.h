@@ -1,6 +1,6 @@
 #pragma once
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 namespace vtfpp {
 

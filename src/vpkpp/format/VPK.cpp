@@ -55,20 +55,21 @@ VPK::VPK(const std::string& fullFilePath_)
 }
 
 std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version) {
-	if (version != 1 && version != 2 && version != 54) {
+	if (version != 0 && version != 1 && version != 2 && version != 54) {
 		return nullptr;
 	}
 
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 
-		Header1 header1{};
-		header1.signature = VPK_SIGNATURE;
-		header1.version = version;
-		header1.treeSize = 1;
-		stream.write(header1);
-
-		if (version == 2 || version == 54) {
+		if (version > 0) {
+			Header1 header1{};
+			header1.signature = VPK_SIGNATURE;
+			header1.version = version;
+			header1.treeSize = 1;
+			stream.write(header1);
+		}
+		if (version > 1) {
 			Header2 header2{};
 			header2.fileDataSectionSize = 0;
 			header2.archiveMD5SectionSize = 0;
@@ -106,12 +107,28 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 	reader.seek_in(0);
 	reader.read(vpk->header1);
 	if (vpk->header1.signature != VPK_SIGNATURE) {
-		// File is not a VPK
-		return nullptr;
+		reader.seek_in(3, std::ios::end);
+		if (reader.read<char>() == '\0' && reader.read<char>() == '\0' && reader.read<char>() == '\0') {
+			// hack: if file is 9 bytes long it's probably an empty VTMB VPK and we should bail so that code can pick it up
+			// either way a 9 byte long VPK should not have any files in it
+			if (std::filesystem::file_size(vpk->fullFilePath) == 9) {
+				return nullptr;
+			}
+
+			// File is one of those shitty ancient VPKs
+			vpk->header1.signature = VPK_SIGNATURE;
+			vpk->header1.version = 0;
+			vpk->header1.treeSize = 0;
+
+			reader.seek_in(0);
+		} else {
+			// File is not a VPK
+			return nullptr;
+		}
 	}
 	if (vpk->hasExtendedHeader()) {
 		reader.read(vpk->header2);
-	} else if (vpk->header1.version != 1) {
+	} else if (vpk->header1.version != 0 && vpk->header1.version != 1) {
 		// Apex Legends, Titanfall, etc. are not supported
 		return nullptr;
 	}
@@ -312,8 +329,8 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 	}
 
 	const auto entryLength = (this->hasCompression() && entry->compressedLength) ? entry->compressedLength : entry->length;
-	if (!entryLength) {
-		return {};
+	if (entryLength == 0) {
+		return std::vector<std::byte>{};
 	}
 	std::vector out(entryLength, static_cast<std::byte>(0));
 
@@ -559,9 +576,11 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	outDir.seek_out(0);
 
 	// Dummy header
-	outDir.write(this->header1);
-	if (this->hasExtendedHeader()) {
-		outDir.write(this->header2);
+	if (this->header1.version > 0) {
+		outDir.write(this->header1);
+		if (this->hasExtendedHeader()) {
+			outDir.write(this->header2);
+		}
 	}
 
 	// File tree data
@@ -730,6 +749,12 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		this->footer2.signature.clear();
 	}
 
+	// Ancient crap VPK with no header
+	if (this->header1.version == 0) {
+		PackFile::setFullFilePath(outputDir);
+		return true;
+	}
+
 	// Write new headers
 	outDir.seek_out(0);
 	outDir.write(this->header1);
@@ -861,10 +886,8 @@ uint32_t VPK::getVersion() const {
 }
 
 void VPK::setVersion(uint32_t version) {
-	if (version != 1 && version != 2 && version != 54) {
-		return;
-	}
-	if (::isFPX(this) || version == this->header1.version) {
+	// Version must be supported, we cannot be an FPX, and version must be different
+	if ((version != 0 && version != 1 && version != 2 && version != 54) || ::isFPX(this) || version == this->header1.version) {
 		return;
 	}
 	this->header1.version = version;

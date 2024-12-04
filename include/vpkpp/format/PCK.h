@@ -12,10 +12,16 @@ constexpr std::string_view PCK_EXTENSION = ".pck";
 
 class PCK : public PackFile {
 protected:
-	enum FlagsV2 : uint32_t {
-		FLAG_NONE                    = 0,
-		FLAG_ENCRYPTED          = 1 << 0,
-		FLAG_RELATIVE_FILE_DATA = 1 << 1,
+	enum FlagsDirV2 : uint32_t {
+		FLAG_DIR_NONE               = 0,
+		FLAG_DIR_ENCRYPTED          = 1 << 0,
+		FLAG_DIR_RELATIVE_FILE_DATA = 1 << 1,
+	};
+
+	enum FlagsFileV2 : uint32_t {
+		FLAG_FILE_NONE      = 0,
+		FLAG_FILE_ENCRYPTED = 1 << 0,
+		FLAG_FILE_REMOVED   = 1 << 1,
 	};
 
 	struct Header {
@@ -23,7 +29,7 @@ protected:
 		uint32_t godotVersionMajor;
 		uint32_t godotVersionMinor;
 		uint32_t godotVersionPatch;
-		FlagsV2 flags; // packVersion >= 2
+		FlagsDirV2 flags; // packVersion >= 2
 	};
 
 public:

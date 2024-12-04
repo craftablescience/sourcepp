@@ -21,6 +21,10 @@ if(NOT TARGET cryptopp::cryptopp)
 endif()
 
 
+# half
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
+
+
 # hat-trie
 if(NOT TARGET tsl::hat_trie)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/hat-trie")
@@ -38,11 +42,11 @@ endif()
 
 
 # minizip-ng (guard this behind vpkpp because this is a big dependency)
-if(SOURCEPP_USE_VPKPP AND NOT TARGET MINIZIP::minizip)
+if((SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP) AND NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
     # todo: guard liblzma/xz force-enable behind BSP compression option
     set(MZ_LZMA             ON  CACHE INTERNAL "" FORCE)
-    if(SOURCEPP_VPKPP_SUPPORT_VPK_V54)
+    if(SOURCEPP_USE_VTFPP OR SOURCEPP_VPKPP_SUPPORT_VPK_V54)
         set(MZ_ZSTD         ON  CACHE INTERNAL "" FORCE)
     endif()
     set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "" FORCE)
@@ -73,7 +77,7 @@ endif()
 
 function(sourcepp_add_opencl TARGET)
     if(SOURCEPP_BUILD_WITH_OPENCL)
-        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_OPENCL)
+        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_OPENCL)
         target_link_libraries(${TARGET} PRIVATE OpenCL::OpenCL)
     endif()
 endfunction()
@@ -83,10 +87,14 @@ endfunction()
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
 
 
-# TBB
+# tinyexr
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+
+
+# tbb
 function(sourcepp_add_tbb TARGET)
     if(SOURCEPP_BUILD_WITH_TBB)
-        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_TBB)
+        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_TBB)
         if(NOT MSVC)
             target_link_libraries(${TARGET} PRIVATE tbb)
         endif()
@@ -106,7 +114,7 @@ endif()
 
 function(sourcepp_add_threads TARGET)
     if(SOURCEPP_BUILD_WITH_THREADS)
-        target_compile_definitions(${TARGET} PRIVATE SOURCEPP_BUILD_WITH_THREADS)
+        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_THREADS)
         target_link_libraries(${TARGET} PRIVATE Threads::Threads)
     endif()
 endfunction()

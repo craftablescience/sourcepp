@@ -200,7 +200,7 @@ std::vector<std::byte> PPL::bake() {
 		}
 		const auto seekPoint = writer.tell();
 		writer.seek_u(currentOffset).write(image.data);
-		const auto alignment = math::getPaddingForAlignment(ALIGNMENT, writer.tell());
+		const auto alignment = math::paddingForAlignment(ALIGNMENT, writer.tell());
 		for (int i = 0; i < alignment; i++) {
 			writer.write<uint8_t>(0);
 		}

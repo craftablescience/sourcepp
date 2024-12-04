@@ -11,6 +11,7 @@
 
 #include <BufferStream.h>
 #include <miniz.h>
+#include <zstd.h>
 
 #include <vtfpp/ImageConversion.h>
 
@@ -19,24 +20,65 @@ using namespace vtfpp;
 
 namespace {
 
-std::vector<std::byte> compressData(std::span<const std::byte> data, int level) {
-	mz_ulong compressedSize = mz_compressBound(data.size());
-	std::vector<std::byte> out(compressedSize);
+std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t level, CompressionMethod method) {
+	switch (method) {
+		using enum CompressionMethod;
+		case DEFLATE: {
+			mz_ulong compressedSize = mz_compressBound(data.size());
+			std::vector<std::byte> out(compressedSize);
 
-	int status = MZ_OK;
-	while ((status = mz_compress2(reinterpret_cast<unsigned char*>(out.data()), &compressedSize, reinterpret_cast<const unsigned char*>(data.data()), data.size(), level)) == MZ_BUF_ERROR) {
-		compressedSize *= 2;
-		out.resize(compressedSize);
-	}
+			int status = MZ_OK;
+			while ((status = mz_compress2(reinterpret_cast<unsigned char*>(out.data()), &compressedSize, reinterpret_cast<const unsigned char*>(data.data()), data.size(), level)) == MZ_BUF_ERROR) {
+				compressedSize *= 2;
+				out.resize(compressedSize);
+			}
 
-	if (status != MZ_OK) {
-		return {};
+			if (status != MZ_OK) {
+				return {};
+			}
+			out.resize(compressedSize);
+			return out;
+		}
+		case ZSTD: {
+			if (level < 0) {
+				level = 6;
+			}
+
+			auto expectedSize = ZSTD_compressBound(data.size());
+			std::vector<std::byte> out(expectedSize);
+
+			auto compressedSize = ZSTD_compress(out.data(), expectedSize, data.data(), data.size(), level);
+			if (ZSTD_isError(compressedSize)) {
+				return {};
+			}
+
+			out.resize(compressedSize);
+			return out;
+		}
 	}
-	out.resize(compressedSize);
-	return out;
+	return {};
 }
 
 } // namespace
+
+const std::array<Resource::Type, 8>& Resource::getOrder() {
+	static constinit std::array<Type, 8> typeArray{
+		TYPE_THUMBNAIL_DATA,
+		TYPE_IMAGE_DATA,
+		TYPE_PARTICLE_SHEET_DATA,
+		TYPE_CRC,
+		TYPE_LOD_CONTROL_INFO,
+		TYPE_EXTENDED_FLAGS,
+		TYPE_KEYVALUES_DATA,
+		TYPE_AUX_COMPRESSION,
+	};
+	static bool unsorted = true;
+	if (unsorted) {
+		std::sort(typeArray.begin(), typeArray.end());
+		unsorted = false;
+	}
+	return typeArray;
+}
 
 Resource::ConvertedData Resource::convertData() const {
 	switch (this->type) {
@@ -146,17 +188,17 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
-			auto& [type, flags, data] = this->resources.emplace_back();
+			auto& [type, flags_, data_] = this->resources.emplace_back();
 
 			auto typeAndFlags = stream.read<uint32_t>();
 			type = static_cast<Resource::Type>(typeAndFlags & 0xffffff); // last 3 bytes
-			flags = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
-			data = stream.read_span<std::byte>(4);
+			flags_ = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
+			data_ = stream.read_span<std::byte>(4);
 
-			if (!(flags & Resource::FLAG_LOCAL_DATA)) {
+			if (!(flags_ & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(data.data());
+					auto currentOffset = *reinterpret_cast<uint32_t*>(data_.data());
 
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
@@ -191,9 +233,20 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 								if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getSliceCount())) {
 									// Keep in mind that slices are compressed together
 									mz_ulong decompressedImageDataSize = newLength * this->sliceCount;
-									if (mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength) != MZ_OK) {
-										this->opened = false;
-										return;
+									switch (auxResource->getDataAsAuxCompressionMethod()) {
+										using enum CompressionMethod;
+										case DEFLATE:
+											if (mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength) != MZ_OK) {
+												this->opened = false;
+												return;
+											}
+											break;
+										case ZSTD:
+											if (auto decompressedSize = ZSTD_decompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength); ZSTD_isError(decompressedSize) || decompressedSize != decompressedImageDataSize) {
+												this->opened = false;
+												return;
+											}
+											break;
 									}
 								}
 								oldOffset += oldLength;
@@ -205,7 +258,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 		}
 	} else {
-		stream.skip(math::getPaddingForAlignment(16, stream.tell()));
+		stream.skip(math::paddingForAlignment(16, stream.tell()));
 		this->opened = stream.tell() == headerSize;
 
 		this->resources.reserve(2);
@@ -227,7 +280,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	}
 
 	if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
-		this->compressionLevel = static_cast<int8_t>(resource->getDataAsAuxCompressionLevel());
+		this->compressionLevel = resource->getDataAsAuxCompressionLevel();
+		this->compressionMethod = resource->getDataAsAuxCompressionMethod();
 		this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
 	}
 }
@@ -263,13 +317,14 @@ VTF& VTF::operator=(const VTF& other) {
 
 	this->resources.clear();
 	for (const auto& [otherType, otherFlags, otherData] : other.resources) {
-		auto& [type, flags, data] = this->resources.emplace_back();
+		auto& [type, flags_, data_] = this->resources.emplace_back();
 		type = otherType;
-		flags = otherFlags;
-		data = {this->data.data() + (otherData.data() - other.data.data()), otherData.size()};
+		flags_ = otherFlags;
+		data_ = {this->data.data() + (otherData.data() - other.data.data()), otherData.size()};
 	}
 
 	this->compressionLevel = other.compressionLevel;
+	this->compressionMethod = other.compressionMethod;
 	this->imageWidthResizeMethod = other.imageWidthResizeMethod;
 	this->imageHeightResizeMethod = other.imageHeightResizeMethod;
 
@@ -315,6 +370,7 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setFormat(options.outputFormat);
 	writer.setCompressionLevel(options.compressionLevel);
+	writer.setCompressionMethod(options.compressionMethod);
 }
 
 void VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
@@ -410,6 +466,14 @@ void VTF::setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMe
 	this->imageHeightResizeMethod = imageHeightResizeMethod_;
 }
 
+void VTF::setImageWidthResizeMethod(ImageConversion::ResizeMethod imageWidthResizeMethod_) {
+	this->imageWidthResizeMethod = imageWidthResizeMethod_;
+}
+
+void VTF::setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightResizeMethod_) {
+	this->imageHeightResizeMethod = imageHeightResizeMethod_;
+}
+
 uint16_t VTF::getWidth(uint8_t mip) const {
 	return mip > 0 ? ImageDimensions::getMipDim(mip, this->width) : this->width;
 }
@@ -485,7 +549,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		newMipCount = recommendedCount;
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::getPaddingForAlignment(4, this->width), this->height + math::getPaddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else {
 		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	}
@@ -551,7 +615,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 					}
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 				}));
-				if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+				if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency()) {
 					for (auto& future : futures) {
 						future.get();
 					}
@@ -689,7 +753,7 @@ void VTF::computeReflectivity() {
 					futures.push_back(std::async(std::launch::async, [this, j, k, l] {
 						return getReflectivityForImage(*this, j, k, l);
 					}));
-					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency() * 2) {
+					if (std::thread::hardware_concurrency() > 0 && futures.size() >= std::thread::hardware_concurrency()) {
 						for (auto& future : futures) {
 							this->reflectivity += future.get();
 						}
@@ -784,7 +848,7 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 	this->data.clear();
 	BufferStream writer{this->data};
 
-	for (auto resourceType : Resource::TYPE_ARRAY_ORDER) {
+	for (auto resourceType : Resource::getOrder()) {
 		if (!resourceData.contains(resourceType)) {
 			continue;
 		}
@@ -933,7 +997,7 @@ void VTF::removeExtendedFlagsResource() {
 	this->removeResourceInternal(Resource::TYPE_EXTENDED_FLAGS);
 }
 
-void VTF::setKeyValuesData(const std::string& value) {
+void VTF::setKeyValuesDataResource(const std::string& value) {
 	std::vector<std::byte> keyValuesData;
 	BufferStream writer{keyValuesData};
 
@@ -944,16 +1008,24 @@ void VTF::setKeyValuesData(const std::string& value) {
 	this->setResourceInternal(Resource::TYPE_KEYVALUES_DATA, keyValuesData);
 }
 
-void VTF::removeKeyValuesData() {
+void VTF::removeKeyValuesDataResource() {
 	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
 }
 
-uint8_t VTF::getCompressionLevel() const {
+int16_t VTF::getCompressionLevel() const {
 	return this->compressionLevel;
 }
 
-void VTF::setCompressionLevel(uint8_t newCompressionLevel) {
+void VTF::setCompressionLevel(int16_t newCompressionLevel) {
 	this->compressionLevel = newCompressionLevel;
+}
+
+CompressionMethod VTF::getCompressionMethod() const {
+	return this->compressionMethod;
+}
+
+void VTF::setCompressionMethod(CompressionMethod newCompressionMethod) {
+	this->compressionMethod = newCompressionMethod;
 }
 
 bool VTF::hasImageData() const {
@@ -986,12 +1058,16 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 }
 
 bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+	if (imageData_.empty()) {
+		return false;
+	}
+
 	if (!this->hasImageData()) {
 		uint16_t resizedWidth = width_, resizedHeight = height_;
 		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
 		if (ImageFormatDetails::compressed(format_)) {
-			resizedWidth += math::getPaddingForAlignment(4, resizedWidth);
-			resizedHeight += math::getPaddingForAlignment(4, resizedHeight);
+			resizedWidth += math::paddingForAlignment(4, resizedWidth);
+			resizedHeight += math::paddingForAlignment(4, resizedHeight);
 		}
 		if (const auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
 			mip = newMipCount - 1;
@@ -1013,11 +1089,13 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	}
 	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->sliceCount)) {
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
-		if (this->format != format_) {
-			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, this->width, this->height);
+		const auto newWidth = ImageDimensions::getMipDim(mip, this->width);
+		const auto newHeight = ImageDimensions::getMipDim(mip, this->height);
+		if (width_ != newWidth || height_ != newHeight) {
+			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->imageDataIsSRGB(), filter);
 		}
-		if (width_ != ImageDimensions::getMipDim(mip, this->width) || height_ != ImageDimensions::getMipDim(mip, this->height)) {
-			image = ImageConversion::resizeImageData(image, this->format, width_, ImageDimensions::getMipDim(mip, this->width), height_, ImageDimensions::getMipDim(mip, this->height), this->imageDataIsSRGB(), filter);
+		if (format_ != this->format) {
+			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight);
 		}
 		std::memcpy(imageResource->data.data() + offset, image.data(), image.size());
 	}
@@ -1030,7 +1108,7 @@ bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter f
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
 
 	// Unable to decode file
-	if (inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+	if (imageData_.empty() || inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
 		return false;
 	}
 
@@ -1086,6 +1164,16 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 
 std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
 	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
+}
+
+void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_) {
+	if (format_ != this->thumbnailFormat) {
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(imageData_, format_, this->thumbnailFormat, width_, height_));
+	} else {
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, imageData_);
+	}
+	this->thumbnailWidth = width_;
+	this->thumbnailHeight = height_;
 }
 
 void VTF::computeThumbnail(ImageConversion::ResizeFilter filter) {
@@ -1145,7 +1233,7 @@ std::vector<std::byte> VTF::bake() const {
 	}
 
 	if (this->minorVersion < 3) {
-		const auto headerAlignment = math::getPaddingForAlignment(16, writer.tell());
+		const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
 		for (uint16_t i = 0; i < headerAlignment; i++) {
 			writer.write<std::byte>({});
 		}
@@ -1169,19 +1257,20 @@ std::vector<std::byte> VTF::bake() const {
 				auxCompressionResourceData.resize((this->mipCount * this->frameCount * faceCount + 2) * sizeof(uint32_t));
 				BufferStream auxWriter{auxCompressionResourceData, false};
 
-				// Format of aux resource is as follows, with each item being a 4 byte integer:
+				// Format of aux resource is as follows, with each item of unspecified type being a 4 byte integer:
 				// - Size of resource in bytes, not counting this int
-				// - Compression level
+				// - Compression level, method (2 byte integers)
 				// - (X times) Size of each mip-face-frame combo
 				auxWriter
 					.write<uint32_t>(auxCompressionResourceData.size() - sizeof(uint32_t))
-					.write<uint32_t>(this->compressionLevel);
+					.write(this->compressionLevel)
+					.write(this->compressionMethod);
 
 				for (int i = this->mipCount - 1; i >= 0; i--) {
 					for (int j = 0; j < this->frameCount; j++) {
 						for (int k = 0; k < faceCount; k++) {
 							if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
-								auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel);
+								auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
 								compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 								auxWriter.write<uint32_t>(compressedData.size());
 							}
@@ -1192,7 +1281,9 @@ std::vector<std::byte> VTF::bake() const {
 		}
 
 		writer
-			.write<uint24_t>(0) // padding
+			.write<uint8_t>(0) // padding
+			.write<uint8_t>(0) // padding
+			.write<uint8_t>(0) // padding
 			.write<uint32_t>(this->getResources().size() + hasAuxCompression)
 			.write<uint64_t>(0); // padding
 
@@ -1212,7 +1303,7 @@ std::vector<std::byte> VTF::bake() const {
 			writer_.write(data);
 			writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
 		};
-		for (const auto resourceType : Resource::TYPE_ARRAY_ORDER) {
+		for (const auto resourceType : Resource::getOrder()) {
 			if (hasAuxCompression && resourceType == Resource::TYPE_AUX_COMPRESSION) {
 				writeNonLocalResource(writer, resourceType, auxCompressionResourceData);
 			} else if (hasAuxCompression && resourceType == Resource::TYPE_IMAGE_DATA) {

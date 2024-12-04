@@ -6,7 +6,7 @@
 #include <tuple>
 #include <vector>
 
-#include <sourcepp/math/Integer.h>
+#include <sourcepp/Math.h>
 
 namespace sourcepp::crypto {
 

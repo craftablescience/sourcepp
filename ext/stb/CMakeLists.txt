@@ -7,3 +7,7 @@ add_library(${PROJECT_NAME} INTERFACE
         "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image_resize2.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/stb_image_write.h")
+
+target_include_directories(${PROJECT_NAME} INTERFACE
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)

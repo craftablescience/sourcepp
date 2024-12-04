@@ -4,7 +4,7 @@
 #include <string>
 #include <string_view>
 
-#include <sourcepp/math/Vector.h>
+#include <sourcepp/Math.h>
 
 namespace gamepp {
 
