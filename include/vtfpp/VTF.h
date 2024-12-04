@@ -13,6 +13,7 @@
 #include <sourcepp/Macros.h>
 
 #include "ImageConversion.h"
+#include "SHT.h"
 
 namespace vtfpp {
 
@@ -86,6 +87,10 @@ struct Resource {
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
 		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
+
+    [[nodiscard]] SpriteSheet getSpriteSheet() const {
+        return {reinterpret_cast<const unsigned char *>(data.data()), static_cast<uint32_t>(data.size()), true};
+    }
 };
 SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
 
@@ -333,6 +338,9 @@ public:
 	[[nodiscard]] std::vector<std::byte> getImageDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+
+    [[nodiscard]] std::vector<std::byte>
+    getSpritesheetFrame( uint32_t &spriteWidth, uint32_t &spriteHeight, uint32_t sequence = 0, uint32_t frame = 0, uint8_t sheetImage = 0) const;
 
 	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
 

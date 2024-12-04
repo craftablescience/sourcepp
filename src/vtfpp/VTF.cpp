@@ -1326,3 +1326,40 @@ std::vector<std::byte> VTF::bake() const {
 bool VTF::bake(const std::string& vtfPath) const {
 	return fs::writeFileBuffer(vtfPath, this->bake());
 }
+
+std::vector<std::byte>
+VTF::getSpritesheetFrame( uint32_t &spriteWidth, uint32_t &spriteHeight, uint32_t sequence, uint32_t frame, uint8_t sheetImage) const {
+
+    spriteWidth = 0;
+    spriteHeight = 0;
+
+    if(!getResource(Resource::TYPE_PARTICLE_SHEET_DATA))
+        return {};
+
+    auto sheetData = getResource(Resource::TYPE_PARTICLE_SHEET_DATA)->getSpriteSheet();
+
+    if(sheetData.getSequences().size() <= sequence)
+        return {};
+
+    if(sheetData.getSequences()[sequence].getFrames().size() <= frame)
+        return {};
+
+    if(sheetImage > (sheetData.getVersion() == 0 ? 1 : 4))
+        return{};
+
+    auto sheetFrame = sheetData.getSequences()[sequence].getFrames()[frame];
+    auto imagePositions = sheetFrame.getSpriteImages()[sheetImage];
+    // The rounding like this has the principle "rather too big than too small.", rounding to nearest can be a bit fucky.
+    // From testing, rounding to nearest gets you an image too small. Rounding to furthest for all vallues results in innacurate
+    // w/h. same for flooring everything. Source never intended these to be split back into images again. So unless VTFPP
+    // starts to return float vectors this is the best I can do that seems to work best.
+    uint16_t left =  std::floor(math::remap(imagePositions.left, 0.f, 1.f, 0.f, static_cast<float>(this->width)));
+    uint16_t bottom = std::ceil(math::remap(imagePositions.bottom, 0.f, 1.f, 0.f, static_cast<float>(this->height)));
+    uint16_t right = std::ceil(math::remap(imagePositions.right, 0.f, 1.f, 0.f, static_cast<float>(this->width)));
+    uint16_t top = std::floor(math::remap(imagePositions.top, 0.f, 1.f, 0.f, static_cast<float>(this->height)));
+
+    spriteWidth = (right - left);
+    spriteHeight = (bottom - top);
+
+    return ImageConversion::convertImageDataToFormat(ImageConversion::cropImageData(this->getImageDataAsRGBA8888(), this->width, this->height, 4, left,top, spriteWidth, spriteHeight), ImageFormat::RGBA8888, this->format, spriteWidth, spriteHeight);
+}
