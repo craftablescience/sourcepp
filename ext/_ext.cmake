@@ -42,7 +42,7 @@ endif()
 
 
 # minizip-ng (guard this behind vpkpp because this is a big dependency)
-if((SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP) AND NOT TARGET MINIZIP::minizip)
+if((SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP OR SOURCEPP_USE_BSPPP) AND NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
     # todo: guard liblzma/xz force-enable behind BSP compression option
     set(MZ_LZMA             ON  CACHE INTERNAL "" FORCE)
