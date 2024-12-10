@@ -17,6 +17,7 @@ namespace vcryptpp
     public static class KnownCodes {
         public const string DEFAULT = "x9Ke0BY7";
 
+        public const string BLOODY_GOOD_TIME = "K4PeJwL7";
         public const string CONTAGION_WEAPONS = "fUk0fF69";
         public const string CONTAGION_SCRIPTS = "5!rrFz6p";
         public const string COUNTER_STRIKE_SOURCE = "d7NSuLq2";
