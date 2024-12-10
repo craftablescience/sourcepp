@@ -13,6 +13,7 @@ namespace vcryptpp::VICE {
 namespace KnownCodes {
 
 constexpr std::string_view DEFAULT = "x9Ke0BY7";
+constexpr std::string_view BLOODY_GOOD_TIME = "K4PeJwL7";
 constexpr std::string_view CONTAGION_WEAPONS = "fUk0fF69";
 constexpr std::string_view CONTAGION_SCRIPTS = "5!rrFz6p";
 constexpr std::string_view COUNTER_STRIKE_SOURCE = "d7NSuLq2";

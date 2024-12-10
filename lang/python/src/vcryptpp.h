@@ -36,6 +36,7 @@ inline void register_python(py::module_& m) {
 			using namespace KnownCodes;
 
 			KnownCodes.attr("DEFAULT")                         = DEFAULT;
+			KnownCodes.attr("BLOODY_GOOD_TIME")                = BLOODY_GOOD_TIME;
 			KnownCodes.attr("CONTAGION_WEAPONS")               = CONTAGION_WEAPONS;
 			KnownCodes.attr("CONTAGION_SCRIPTS")               = CONTAGION_SCRIPTS;
 			KnownCodes.attr("COUNTER_STRIKE_SOURCE")           = COUNTER_STRIKE_SOURCE;
