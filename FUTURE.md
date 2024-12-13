@@ -27,3 +27,5 @@
   - Add VFONT write support
 - `vpkpp`
   - Cache file handles so they're not constantly getting closed/opened
+- `vtfpp`
+  - Allow directly applying an HDRI to a VTF without requiring the user to write a custom wrapper
