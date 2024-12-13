@@ -25,5 +25,8 @@ var Math_8h =
     [ "SOURCEPP_MAT_DEFINE", "db/d8a/Math_8h.html#a03e1092c76b1a77dbc8f3f05a9bee8e5", null ],
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a5e5b829890a5af974e63f81203c659e8", null ],
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a2f753679010f9e38601a41b2406219cb", null ],
-    [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#ad3f8e967fcfd982842b1e25370eebbf5", null ]
+    [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#ad3f8e967fcfd982842b1e25370eebbf5", null ],
+    [ "pi", "db/d8a/Math_8h.html#ab73842854a86cbdce04ac45cbdb629c9", null ],
+    [ "pi_f32", "db/d8a/Math_8h.html#a3513d45e8320c3b263a4845b006460a7", null ],
+    [ "pi_f64", "db/d8a/Math_8h.html#a37b832bd75afd26a5442d974be7be738", null ]
 ];

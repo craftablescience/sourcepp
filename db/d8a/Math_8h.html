@@ -129,7 +129,8 @@ $(document).ready(function(){initNavTree('db/d8a/Math_8h.html','../../'); initRe
 <a href="#concepts">Concepts</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">Math.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -137,6 +138,7 @@ $(document).ready(function(){initNavTree('db/d8a/Math_8h.html','../../'); initRe
 <code>#include &lt;concepts&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 <code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;half.hpp&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -144,13 +146,14 @@ Include dependency graph for Math.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d8/d28/Math_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2Math_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2Math_8h" id="ainclude_2sourcepp_2Math_8h">
-<area shape="rect" title=" " alt="" coords="158,5,339,31"/>
+<area shape="rect" title=" " alt="" coords="203,5,385,31"/>
 <area shape="rect" title=" " alt="" coords="5,79,44,104"/>
 <area shape="rect" title=" " alt="" coords="69,79,149,104"/>
 <area shape="rect" title=" " alt="" coords="173,79,236,104"/>
 <area shape="rect" title=" " alt="" coords="261,79,327,104"/>
-<area shape="rect" title=" " alt="" coords="352,79,444,104"/>
-<area shape="rect" title=" " alt="" coords="469,79,543,104"/>
+<area shape="rect" title=" " alt="" coords="352,79,431,104"/>
+<area shape="rect" title=" " alt="" coords="455,79,547,104"/>
+<area shape="rect" title=" " alt="" coords="571,79,646,104"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -291,6 +294,16 @@ Functions</h2></td></tr>
 <tr class="separator:a44c30d6ee6918dc3c7e4fbafc65899db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67010ad7f4e6a3ab573a6106dfb0ca28"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a67010ad7f4e6a3ab573a6106dfb0ca28">sourcepp::math::SOURCEPP_MAT_DEFINE</a> (4, 3)</td></tr>
 <tr class="separator:a67010ad7f4e6a3ab573a6106dfb0ca28"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:ab73842854a86cbdce04ac45cbdb629c9"><td class="memTemplParams" colspan="2">template&lt;std::floating_point F&gt; </td></tr>
+<tr class="memitem:ab73842854a86cbdce04ac45cbdb629c9"><td class="memTemplItemLeft" align="right" valign="top">constexpr F&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#ab73842854a86cbdce04ac45cbdb629c9">sourcepp::math::pi</a> = std::numbers::pi_v&lt;F&gt;</td></tr>
+<tr class="separator:ab73842854a86cbdce04ac45cbdb629c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3513d45e8320c3b263a4845b006460a7"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a3513d45e8320c3b263a4845b006460a7">sourcepp::math::pi_f32</a> = pi&lt;float&gt;</td></tr>
+<tr class="separator:a3513d45e8320c3b263a4845b006460a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b832bd75afd26a5442d974be7be738"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html#a37b832bd75afd26a5442d974be7be738">sourcepp::math::pi_f64</a> = pi&lt;double&gt;</td></tr>
+<tr class="separator:a37b832bd75afd26a5442d974be7be738"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="ad78b5a0a94bc43af272679ef1aaa4714" name="ad78b5a0a94bc43af272679ef1aaa4714"></a>
@@ -335,7 +348,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">using </span>Mat##M##x##N##f64  = Mat##M##x##N&lt;double&gt;; \</div>
 <div class="line">    <span class="keyword">using </span>Mat##M##x##N##f    = Mat##M##x##N##f32</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/d8a/Math_8h_source.html#l00393">393</a> of file <a class="el" href="../../db/d8a/Math_8h_source.html">Math.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d8a/Math_8h_source.html#l00399">399</a> of file <a class="el" href="../../db/d8a/Math_8h_source.html">Math.h</a>.</p>
 
 </div>
 </div>
@@ -371,7 +384,7 @@ Functions</h2></td></tr>
 <div class="line">    <span class="keyword">using </span>Vec##S##f64  = Vec##S&lt;double&gt;; \</div>
 <div class="line">    <span class="keyword">using </span>Vec##S##f    = Vec##S##f32</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="../../db/d8a/Math_8h_source.html#l00298">298</a> of file <a class="el" href="../../db/d8a/Math_8h_source.html">Math.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../db/d8a/Math_8h_source.html#l00304">304</a> of file <a class="el" href="../../db/d8a/Math_8h_source.html">Math.h</a>.</p>
 
 </div>
 </div>

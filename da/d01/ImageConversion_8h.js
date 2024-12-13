@@ -66,6 +66,7 @@ var ImageConversion_8h =
     ] ],
     [ "applyChannelToImageData", "da/d01/ImageConversion_8h.html#afa611e565a510988372aeb5ba3de37b0", null ],
     [ "convertFileToImageData", "da/d01/ImageConversion_8h.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
+    [ "convertHDRIToCubeMap", "da/d01/ImageConversion_8h.html#a30fb0fa055a416e7f1642b99b04a090a", null ],
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
     [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],

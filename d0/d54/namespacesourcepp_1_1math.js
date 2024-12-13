@@ -23,5 +23,8 @@ var namespacesourcepp_1_1math =
     [ "SOURCEPP_MAT_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a03e1092c76b1a77dbc8f3f05a9bee8e5", null ],
     [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a5e5b829890a5af974e63f81203c659e8", null ],
     [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#a2f753679010f9e38601a41b2406219cb", null ],
-    [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#ad3f8e967fcfd982842b1e25370eebbf5", null ]
+    [ "SOURCEPP_VEC_DEFINE", "d0/d54/namespacesourcepp_1_1math.html#ad3f8e967fcfd982842b1e25370eebbf5", null ],
+    [ "pi", "d0/d54/namespacesourcepp_1_1math.html#ab73842854a86cbdce04ac45cbdb629c9", null ],
+    [ "pi_f32", "d0/d54/namespacesourcepp_1_1math.html#a3513d45e8320c3b263a4845b006460a7", null ],
+    [ "pi_f64", "d0/d54/namespacesourcepp_1_1math.html#a37b832bd75afd26a5442d974be7be738", null ]
 ];

@@ -1,18 +1,19 @@
 <map id="include/mdlpp/structs/VTX.h" name="include/mdlpp/structs/VTX.h">
-<area shape="rect" id="node1" title=" " alt="" coords="164,5,327,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="57,167,127,192"/>
+<area shape="rect" id="node1" title=" " alt="" coords="175,5,337,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="67,167,138,192"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,313,72,339"/>
-<area shape="rect" id="node4" title=" " alt="" coords="352,93,405,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="443,167,506,192"/>
-<area shape="rect" id="node6" href="$da/d9c/MDL_8h.html" title=" " alt="" coords="214,93,277,119"/>
-<area shape="rect" id="node7" title=" " alt="" coords="152,167,208,192"/>
-<area shape="rect" id="node8" title=" " alt="" coords="583,240,641,265"/>
-<area shape="rect" id="node9" href="$df/d6a/Generic_8h.html" title=" " alt="" coords="283,167,367,192"/>
-<area shape="rect" id="node10" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="415,240,559,265"/>
-<area shape="rect" id="node12" href="$db/d8a/Math_8h.html" title=" " alt="" coords="260,240,391,265"/>
-<area shape="rect" id="node11" title=" " alt="" coords="450,313,542,339"/>
-<area shape="rect" id="node13" title=" " alt="" coords="387,313,426,339"/>
+<area shape="rect" id="node4" title=" " alt="" coords="363,93,416,119"/>
+<area shape="rect" id="node5" title=" " alt="" coords="454,167,517,192"/>
+<area shape="rect" id="node6" href="$da/d9c/MDL_8h.html" title=" " alt="" coords="225,93,287,119"/>
+<area shape="rect" id="node7" title=" " alt="" coords="163,167,219,192"/>
+<area shape="rect" id="node8" title=" " alt="" coords="593,240,652,265"/>
+<area shape="rect" id="node9" href="$df/d6a/Generic_8h.html" title=" " alt="" coords="294,167,378,192"/>
+<area shape="rect" id="node10" href="$df/d0a/Macros_8h.html" title=" " alt="" coords="425,240,569,265"/>
+<area shape="rect" id="node12" href="$db/d8a/Math_8h.html" title=" " alt="" coords="271,240,401,265"/>
+<area shape="rect" id="node11" title=" " alt="" coords="553,313,645,339"/>
+<area shape="rect" id="node13" title=" " alt="" coords="490,313,529,339"/>
 <area shape="rect" id="node14" title=" " alt="" coords="96,313,176,339"/>
 <area shape="rect" id="node15" title=" " alt="" coords="201,313,263,339"/>
-<area shape="rect" id="node16" title=" " alt="" coords="288,313,363,339"/>
+<area shape="rect" id="node16" title=" " alt="" coords="287,313,366,339"/>
+<area shape="rect" id="node17" title=" " alt="" coords="391,313,465,339"/>
 </map>
