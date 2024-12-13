@@ -4,6 +4,7 @@
 #include <concepts>
 #include <cmath>
 #include <cstdint>
+#include <numbers>
 #include <type_traits>
 
 #include <half.hpp>
@@ -20,6 +21,11 @@ using std::uint64_t;
 using half_float::half;
 
 namespace sourcepp::math {
+
+template<std::floating_point F>
+constexpr F pi = std::numbers::pi_v<F>;
+constexpr auto pi_f32  = pi<float>;
+constexpr auto pi_f64  = pi<double>;
 
 template<typename T>
 concept Arithmetic = std::is_arithmetic_v<T> || std::same_as<T, half>;
