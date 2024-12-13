@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <concepts>
 #include <cstddef>
 #include <span>
@@ -323,6 +324,12 @@ namespace ImageConversion {
 /// Converts several images from one format to another.
 [[nodiscard]] std::vector<std::byte> convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount);
 
+/// Converts an HDRI into a cubemap. The output image data is in the same image format as the input.
+/// The output images have the following order: front, back, left, right, down, up.
+/// Resolution is the output size (width, height) of each image slice. 0 leaves it at the input size, the height of the HDRI.
+/// Fails (returns empty vectors) if the input data is empty, the given width is not 2x the height, or an error was encountered.
+[[nodiscard]] std::array<std::vector<std::byte>, 6> convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true);
+
 enum class FileFormat {
 	DEFAULT,
 	PNG,
@@ -336,7 +343,7 @@ enum class FileFormat {
 /// PNG for integer formats, EXR for floating point formats
 [[nodiscard]] FileFormat getDefaultFileFormatForImageFormat(ImageFormat format);
 
-/// Converts image data to a PNG or EXR file. EXR format will be used for floating-point image formats.
+/// Converts image data to the given file format (PNG or EXR by default).
 [[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT);
 
 [[nodiscard]] std::vector<std::byte> convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount);

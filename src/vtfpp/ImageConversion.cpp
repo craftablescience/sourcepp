@@ -5,10 +5,15 @@
 #include <cstdlib>
 #include <cstring>
 #include <memory>
-#include <ranges>
 #include <span>
 #include <string_view>
 #include <unordered_map>
+
+#ifdef SOURCEPP_BUILD_WITH_OPENCL
+#define CL_HPP_MINIMUM_OPENCL_VERSION 120
+#define CL_HPP_TARGET_OPENCL_VERSION 120
+#include <CL/opencl.hpp>
+#endif
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 #include <execution>
@@ -434,7 +439,7 @@ namespace {
 		case InputType: { VTFPP_CONVERT(InputType, r, g, b, a); } break
 
 	#define VTFPP_CONVERT_REMAP(InputType, r, g, b, a) \
-        do { \
+		do { \
 			if constexpr (ImageFormatDetails::alpha(ImageFormat::InputType) > 1) { \
 				VTFPP_CONVERT(InputType, \
 						VTFPP_REMAP_TO_16((r), ImageFormatDetails::red(ImageFormat::InputType)), \
@@ -769,6 +774,83 @@ namespace {
 	return newData;
 }
 
+void convertHDRIToCubeMapCPUFallback(std::span<const float> imageDataRGBA32323232F, ImageFormat outputFormat, uint16_t width, uint16_t height, uint16_t resolution, bool bilinear, const std::array<std::array<math::Vec3f, 3>, 6>& startRightUp, std::array<std::vector<std::byte>, 6>& faceData) {
+	for (int i = 0; i < 6; i++) {
+		const math::Vec3f& start = startRightUp[i][0];
+		const math::Vec3f& right = startRightUp[i][1];
+		const math::Vec3f& up    = startRightUp[i][2];
+
+		faceData[i].resize(resolution * resolution * sizeof(ImagePixel::RGBA32323232F));
+		std::span<float> face{reinterpret_cast<float*>(faceData[i].data()), reinterpret_cast<float*>(faceData[i].data() + faceData[i].size())};
+
+		for (int row = 0; row < resolution; row++) {
+			for (int col = 0; col < resolution; col++) {
+				math::Vec3f pixelDirection3d{
+					start[0] + ((float) col * 2.f + 0.5f) / (float) resolution * right[0] + ((float) row * 2.f + 0.5f) / (float) resolution * up[0],
+					start[1] + ((float) col * 2.f + 0.5f) / (float) resolution * right[1] + ((float) row * 2.f + 0.5f) / (float) resolution * up[1],
+					start[2] + ((float) col * 2.f + 0.5f) / (float) resolution * right[2] + ((float) row * 2.f + 0.5f) / (float) resolution * up[2],
+				};
+				float azimuth = std::atan2(pixelDirection3d[0], -pixelDirection3d[2]) + math::pi_f32; // add pi to move range to 0-360 deg
+				float elevation = std::atan(pixelDirection3d[1] / std::sqrt(pixelDirection3d[0] * pixelDirection3d[0] + pixelDirection3d[2] * pixelDirection3d[2])) + math::pi_f32 / 2.f;
+				float colHdri = (azimuth / math::pi_f32 / 2.f) * (float) width; // add pi to azimuth to move range to 0-360 deg
+				float rowHdri = (elevation / math::pi_f32) * (float) height;
+				if (!bilinear) {
+					int colNearest = std::clamp((int) colHdri, 0, width - 1);
+					int rowNearest = std::clamp((int) rowHdri, 0, height - 1);
+					face[col * 4 + resolution * row * 4 + 0] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 0];
+					face[col * 4 + resolution * row * 4 + 1] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 1];
+					face[col * 4 + resolution * row * 4 + 2] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 2];
+					face[col * 4 + resolution * row * 4 + 3] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 3];
+				} else {
+					float intCol, intRow;
+					// factor gives the contribution of the next column, while the contribution of intCol is 1 - factor
+					float factorCol = std::modf(colHdri - 0.5f, &intCol);
+					float factorRow = std::modf(rowHdri - 0.5f, &intRow);
+					int low_idx_row = static_cast<int>(intRow);
+					int low_idx_column = static_cast<int>(intCol);
+					int high_idx_column;
+					if (factorCol < 0.0f) {
+						// modf can only give a negative value if the azimuth falls in the first pixel, left of the
+						// center, so we have to mix with the pixel on the opposite side of the panoramic image
+						high_idx_column = width - 1;
+					} else if (low_idx_column == width - 1) {
+						// if we are in the right-most pixel, and fall right of the center, mix with the left-most pixel
+						high_idx_column = 0;
+					} else {
+						high_idx_column = low_idx_column + 1;
+					}
+					int high_idx_row;
+					if (factorRow < 0.0f) {
+						high_idx_row = height - 1;
+					} else if (low_idx_row == height - 1) {
+						high_idx_row = 0;
+					} else {
+						high_idx_row = low_idx_row + 1;
+					}
+					factorCol = std::abs(factorCol);
+					factorRow = std::abs(factorRow);
+					float f1 = (1 - factorRow) * (1 - factorCol);
+					float f2 = factorRow * (1 - factorCol);
+					float f3 = (1 - factorRow) * factorCol;
+					float f4 = factorRow * factorCol;
+					for (int j = 0; j < 4; j++) {
+						auto interpolatedValue = static_cast<uint8_t>(
+							face[low_idx_column * 4  + width * low_idx_row  * 4 + j] * f1 +
+							face[low_idx_column * 4  + width * high_idx_row * 4 + j] * f2 +
+							face[high_idx_column * 4 + width * low_idx_row  * 4 + j] * f3 +
+							face[high_idx_column * 4 + width * high_idx_row * 4 + j] * f4
+						);
+						face[col * 4 + resolution * row * 4 + j] = std::clamp<uint8_t>(interpolatedValue, 0, 255);
+					}
+				}
+			}
+		}
+		if (outputFormat != ImageFormat::RGBA32323232F) {
+			faceData[i] = ImageConversion::convertImageDataToFormat(faceData[i], ImageFormat::RGBA32323232F, outputFormat, resolution, resolution);
+		}
+	}
+}
+
 } // namespace
 
 std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
@@ -872,6 +954,122 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 		}
 	}
 	return out;
+}
+
+std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution, bool bilinear) {
+	if (imageData.empty() || format == ImageFormat::EMPTY) {
+		return {};
+	}
+
+	if (!resolution) {
+		resolution = height;
+	}
+
+	std::span<const float> imageDataRGBA32323232F{reinterpret_cast<const float*>(imageData.data()), reinterpret_cast<const float*>(imageData.data() + imageData.size())};
+
+	std::vector<std::byte> possiblyConvertedDataOrEmptyDontUseMeDirectly;
+	if (format != ImageFormat::RGBA32323232F) {
+		possiblyConvertedDataOrEmptyDontUseMeDirectly = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+		imageDataRGBA32323232F = {reinterpret_cast<const float*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data()), reinterpret_cast<const float*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data() + possiblyConvertedDataOrEmptyDontUseMeDirectly.size())};
+	}
+
+	// For each face, contains the 3d starting point (corresponding to left bottom pixel), right direction,
+	// and up direction in 3d space, corresponding to pixel x,y coordinates of each face
+	static constexpr std::array<std::array<math::Vec3f, 3>, 6> startRightUp = {{
+		{{{-1.0f, -1.0f, -1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 1.0f,  0.0f}}}, // front
+		{{{ 1.0f, -1.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}, {0.0f, 1.0f,  0.0f}}}, // back
+		{{{-1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, {0.0f, 1.0f,  0.0f}}}, // left
+		{{{ 1.0f, -1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, {0.0f, 1.0f,  0.0f}}}, // right
+		{{{-1.0f,  1.0f, -1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 0.0f,  1.0f}}}, // up
+		{{{-1.0f, -1.0f,  1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 0.0f, -1.0f}}}, // down
+	}};
+
+	std::array<std::vector<std::byte>, 6> faceData;
+
+#ifdef SOURCEPP_BUILD_WITH_OPENCL
+	std::vector<cl::Platform> platforms;
+	if (cl::Platform::get(&platforms) != CL_SUCCESS || platforms.empty()) {
+		::convertHDRIToCubeMapCPUFallback(imageDataRGBA32323232F, format, width, height, resolution, bilinear, startRightUp, faceData);
+		return faceData;
+	}
+
+	std::vector<cl::Device> devices;
+	for (const auto& platform : platforms) {
+		if (platforms.front().getDevices(CL_DEVICE_TYPE_GPU, &devices) == CL_SUCCESS && !devices.empty()) {
+			break;
+		}
+		devices.clear();
+	}
+	if (devices.empty()) {
+		::convertHDRIToCubeMapCPUFallback(imageDataRGBA32323232F, format, width, height, resolution, bilinear, startRightUp, faceData);
+		return faceData;
+	}
+	const auto& device = devices.front();
+
+	cl::Program::Sources sources{R"(
+__constant sampler_t sampler = CLK_NORMALIZED_COORDS_FALSE | CLK_ADDRESS_CLAMP_TO_EDGE | VTFPP_FILTER;
+__kernel void processFace(read_only image2d_t hdriImg, write_only image2d_t faceImg, __global float* startRightUp) {
+	int2 pixelCoordFace = (int2)(get_global_id(0), get_global_id(1));
+	int resolutionFace = get_global_size(0);
+	float3 start = (float3)(startRightUp[0], startRightUp[1], startRightUp[2]);
+	float3 right = (float3)(startRightUp[3], startRightUp[4], startRightUp[5]);
+	float3 up    = (float3)(startRightUp[6], startRightUp[7], startRightUp[8]);
+	float3 direction = (float3)(
+		start.x + (pixelCoordFace.x * 2.f + 0.5f)/(float)resolutionFace * right.x + (pixelCoordFace.y * 2.f + 0.5f)/(float)resolutionFace * up.x,
+		start.y + (pixelCoordFace.x * 2.f + 0.5f)/(float)resolutionFace * right.y + (pixelCoordFace.y * 2.f + 0.5f)/(float)resolutionFace * up.y,
+		start.z + (pixelCoordFace.x * 2.f + 0.5f)/(float)resolutionFace * right.z + (pixelCoordFace.y * 2.f + 0.5f)/(float)resolutionFace * up.z);
+	float azimuth = atan2(direction.x, -direction.z) + radians(180.f);
+	float elevation = atan(direction.y / sqrt(pow(direction.x, 2) + pow(direction.z, 2))) + radians(90.f);
+	float2 pixelCoordHdri = (float2)(azimuth / radians(360.f) * get_image_width(hdriImg), elevation / radians(180.f) * get_image_height(hdriImg));
+	uint4 pixel = read_imageui(hdriImg, sampler, pixelCoordHdri);
+	write_imageui(faceImg, pixelCoordFace, pixel);
+})"};
+	cl::Context context{device};
+	cl::Program program{context, sources};
+	if (int err = program.build(bilinear ? "-cl-std=CL1.2 -DVTFPP_FILTER=CLK_FILTER_LINEAR" : "-cl-std=CL1.2 -DVTFPP_FILTER=CLK_FILTER_NEAREST"); err != CL_SUCCESS) {
+#ifdef DEBUG
+		if (err == CL_BUILD_PROGRAM_FAILURE) {
+			const auto buildLog = program.getBuildInfo<CL_PROGRAM_BUILD_LOG>();
+			SOURCEPP_DEBUG_BREAK;
+		}
+#endif
+		::convertHDRIToCubeMapCPUFallback(imageDataRGBA32323232F, format, width, height, resolution, bilinear, startRightUp, faceData);
+		return faceData;
+	}
+
+	cl::ImageFormat clFormat{CL_RGBA, CL_FLOAT};
+	cl::Image2D imgHdri{context, CL_MEM_READ_ONLY, clFormat, width, height};
+	cl::Image2D imgFace{context, CL_MEM_WRITE_ONLY, clFormat, resolution, resolution};
+	cl::CommandQueue queue{context, device};
+	queue.enqueueWriteImage(imgHdri, CL_TRUE, {0, 0, 0}, {width, height, 1}, 0, 0, imageDataRGBA32323232F.data());
+	cl::Buffer bufDirections(context, CL_MEM_READ_ONLY, sizeof(float) * 9);
+
+	for (int i = 0; i < 6; i++) {
+		auto& face = faceData[i];
+		face.resize(resolution * resolution * sizeof(ImagePixel::RGBA32323232F));
+
+		cl::Kernel kernel{program, "processFace"};
+		kernel.setArg(0, imgHdri);
+		kernel.setArg(1, imgFace);
+		kernel.setArg(2, bufDirections);
+
+		queue.enqueueWriteBuffer(bufDirections, CL_TRUE, 0, 9 * sizeof(float), &startRightUp[i][0]);
+		queue.enqueueNDRangeKernel(kernel, cl::NullRange, cl::NDRange(resolution, resolution));
+		cl::finish();
+
+		std::array<std::size_t, 3> origin_out{0, 0, 0};
+		std::array<std::size_t, 3> region_out{resolution, resolution, 1};
+		queue.enqueueReadImage(imgFace, CL_TRUE, origin_out, region_out, 0, 0, face.data());
+		cl::finish();
+
+		if (format != ImageFormat::RGBA32323232F) {
+			faceData[i] = ImageConversion::convertImageDataToFormat(faceData[i], ImageFormat::RGBA32323232F, format, resolution, resolution);
+		}
+	}
+#else
+	::convertHDRIToCubeMapCPUFallback(imageDataRGBA32323232F, format, width, height, resolution, bilinear, startRightUp, faceData);
+#endif
+	return faceData;
 }
 
 ImageConversion::FileFormat ImageConversion::getDefaultFileFormatForImageFormat(ImageFormat format) {
