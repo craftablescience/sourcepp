@@ -118,6 +118,11 @@ void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count"));
 
+		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
+			const auto ds = convertHDRIToCubeMap({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
+			return {py::bytes{ds[0].data(), ds[0].size()}, py::bytes{ds[1].data(), ds[1].size()}, py::bytes{ds[2].data(), ds[2].size()}, py::bytes{ds[3].data(), ds[3].size()}, py::bytes{ds[4].data(), ds[4].size()}, py::bytes{ds[5].data(), ds[5].size()}};
+		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resolution") = 0, py::arg("bilinear") = true);
+
 		py::enum_<FileFormat>(ImageConversion, "FileFormat")
 				.value("DEFAULT", FileFormat::DEFAULT)
 				.value("PNG",     FileFormat::PNG)
