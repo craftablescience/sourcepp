@@ -1,6 +1,7 @@
 var namespacevcryptpp_1_1VICE =
 [
     [ "KnownCodes", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html", [
+      [ "BLOODY_GOOD_TIME", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#ace76c828a63d908ef2b5ae78ed6c0164", null ],
       [ "CONTAGION_SCRIPTS", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a216cf72e1c52c7d05dee030f7b8a7815", null ],
       [ "CONTAGION_WEAPONS", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#abb78a372a0bf54b5a255d46f6346f949", null ],
       [ "COUNTER_STRIKE_2", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#aafa464ad80e08cd1cd06baac6f5269b2", null ],
