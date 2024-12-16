@@ -37,6 +37,7 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")
 
 # miniz
 if(NOT TARGET miniz)
+    set(BUILD_NO_STDIO ON CACHE INTERNAL "" FORCE)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/miniz")
 endif()
 
@@ -50,7 +51,7 @@ if((SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP) AND NOT TARGET MINIZIP::minizip)
         set(MZ_ZSTD         ON  CACHE INTERNAL "" FORCE)
     endif()
     set(MZ_FETCH_LIBS       ON  CACHE INTERNAL "" FORCE)
-    set(MZ_FORCE_FETCH_LIBS ON  CACHE INTERNAL "" FORCE)
+    set(MZ_FORCE_FETCH_LIBS OFF CACHE INTERNAL "")
     set(MZ_PKCRYPT          OFF CACHE INTERNAL "")
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
