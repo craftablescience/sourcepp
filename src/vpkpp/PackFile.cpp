@@ -18,6 +18,7 @@
 #include <vpkpp/format/FPX.h>
 #include <vpkpp/format/GCF.h>
 #include <vpkpp/format/GMA.h>
+#include <vpkpp/format/ORE.h>
 #include <vpkpp/format/PAK.h>
 #include <vpkpp/format/PCK.h>
 #include <vpkpp/format/VPK.h>
