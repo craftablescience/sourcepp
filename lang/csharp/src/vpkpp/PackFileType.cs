@@ -7,6 +7,7 @@ namespace vpkpp
         FPX,
         GCF,
         GMA,
+        ORE,
         PAK,
         PCK,
         VPK,

@@ -115,11 +115,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
   </tr>
   <tr>
-    <td rowspan="13"><code>vpkpp</code></td>
+    <td rowspan="14"><code>vpkpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="13" align="center">C<br>C#</td>
+    <td rowspan="14" align="center">C<br>C#</td>
   </tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
@@ -140,6 +140,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>GMA v1-3 (Garry's Mod)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>ORE (Narbacular Drop)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr>
     <td><a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)</td>
@@ -268,7 +273,8 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
-- `vpkpp`'s WAD3 parser was contributed by [@ozxybox](https://github.com/ozxybox).
+- `vpkpp`'s ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
+- `vpkpp`'s WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`'s write support is based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
 
 ## Gallery
