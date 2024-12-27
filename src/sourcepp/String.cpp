@@ -21,6 +21,43 @@ bool string::contains(std::string_view s, char c) {
 	return std::find(s.begin(), s.end(), c) != s.end();
 }
 
+bool string::matches(std::string_view in, std::string_view search) {
+	int inPos = 0, searchPos = 0;
+	for ( ; inPos < in.length() && searchPos < search.length(); inPos++, searchPos++) {
+		if (search[searchPos] == '%') {
+			if (++searchPos == search.length()) {
+				return false;
+			}
+			switch (search[searchPos]) {
+				default:
+				case '?': // wildcard
+					break;
+				case 'w': // whitespace
+					if (!std::isspace(in[inPos])) return false;
+					break;
+				case 'a': // letter
+					if (!(in[inPos] >= 'a' && in[inPos] <= 'z' || in[inPos] >= 'A' && in[inPos] <= 'Z')) return false;
+					break;
+				case 'u': // uppercase letter
+					if (!(in[inPos] >= 'A' && in[inPos] <= 'Z')) return false;
+					break;
+				case 'l': // lowercase letter
+					if (!(in[inPos] >= 'a' && in[inPos] <= 'z')) return false;
+					break;
+				case 'd': // digit
+					if (!std::isdigit(in[inPos])) return false;
+					break;
+				case '%': // escaped percent
+					if (in[inPos] != '%') return false;
+					break;
+			}
+		} else if (in[inPos] != search[searchPos]) {
+			return false;
+		}
+	}
+	return inPos == in.length() && searchPos == search.length();
+}
+
 bool string::iequals(std::string_view s1, std::string_view s2) {
 	return std::ranges::equal(s1, s2, [](char a, char b) { return std::tolower(a) == std::tolower(b); });
 }
