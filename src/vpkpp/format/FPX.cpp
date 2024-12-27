@@ -2,7 +2,9 @@
 
 #include <filesystem>
 #include <FileStream.h>
+#include <sourcepp/String.h>
 
+using namespace sourcepp;
 using namespace vpkpp;
 
 FPX::FPX(const std::string& fullFilePath_)
@@ -26,14 +28,21 @@ std::unique_ptr<PackFile> FPX::create(const std::string& path) {
 }
 
 std::unique_ptr<PackFile> FPX::open(const std::string& path, const EntryCallback& callback) {
-	auto fpx = FPX::openInternal(path, callback);
-	if (!fpx && path.length() > 8) {
-		// If it just tried to load a numbered archive, let's try to load the directory FPX
-		if (const auto dirPath = path.substr(0, path.length() - 8) + FPX_DIR_SUFFIX.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {
+	std::unique_ptr<PackFile> fpx;
+
+	// Try loading the directory FPX first if this is a numbered archive and the dir exists
+	if (path.length() >= 8) {
+		auto dirPath = path.substr(0, path.length() - 8) + "_fdr.fpx";
+		auto pathEnd = path.substr(path.length() - 8, path.length());
+		if (string::matches(pathEnd, "_%d%d%d.fpx") && std::filesystem::exists(dirPath)) {
 			fpx = FPX::openInternal(dirPath, callback);
+			if (fpx) {
+				return fpx;
+			}
 		}
 	}
-	return fpx;
+
+	return FPX::openInternal(path, callback);
 }
 
 std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, const EntryCallback& callback) {
