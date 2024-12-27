@@ -6,6 +6,7 @@ var PackFileType_8h =
       [ "FPX", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861", null ],
       [ "GCF", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a366c430296cd79553bf0b0adfa5f393a", null ],
       [ "GMA", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a597f74555552f599b5edfa7dc114ba09", null ],
+      [ "ORE", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926ac58a68644efd40aba0c480fdcc278504", null ],
       [ "PAK", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926a520db707904f92039c093517ef0f748f", null ],
       [ "PCK", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926abed028f19aa93adb7f45e064155e5278", null ],
       [ "VPK", "d6/da8/PackFileType_8h.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850", null ],

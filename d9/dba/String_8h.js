@@ -9,6 +9,7 @@ var String_8h =
     [ "ltrim", "d9/dba/String_8h.html#a2921eb99eb12a40ad6d74fd6072e1f23", null ],
     [ "ltrim", "d9/dba/String_8h.html#aeaffd6bef15e1224b7a85e6a80ac5086", null ],
     [ "ltrim", "d9/dba/String_8h.html#a10e3eb9713ad6cc59351814aa564cc33", null ],
+    [ "matches", "d9/dba/String_8h.html#aa64841c9eccc61cf36fffaea7170f8ca", null ],
     [ "normalizeSlashes", "d9/dba/String_8h.html#a4106f9c1c6da69c3d53de30d61a29cf8", null ],
     [ "padNumber", "d9/dba/String_8h.html#ad0311ff34cfbea8cf15726c2ffe6761e", null ],
     [ "rtrim", "d9/dba/String_8h.html#ad1fec827a88b6a9fbfc14ac6ec37d78b", null ],
