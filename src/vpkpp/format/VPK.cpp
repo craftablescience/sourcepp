@@ -84,14 +84,21 @@ std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version)
 }
 
 std::unique_ptr<PackFile> VPK::open(const std::string& path, const EntryCallback& callback) {
-	auto vpk = VPK::openInternal(path, callback);
-	if (!vpk && path.length() > 8) {
-		// If it just tried to load a numbered archive, let's try to load the directory VPK
-		if (const auto dirPath = path.substr(0, path.length() - 8) + VPK_DIR_SUFFIX.data() + std::filesystem::path{path}.extension().string(); std::filesystem::exists(dirPath)) {
+	std::unique_ptr<PackFile> vpk;
+
+	// Try loading the directory VPK first if this is a numbered archive and the dir exists
+	if (path.length() >= 8) {
+		auto dirPath = path.substr(0, path.length() - 8) + "_dir.vpk";
+		auto pathEnd = path.substr(path.length() - 8, path.length());
+		if (string::matches(pathEnd, "_%d%d%d.vpk") && std::filesystem::exists(dirPath)) {
 			vpk = VPK::openInternal(dirPath, callback);
+			if (vpk) {
+				return vpk;
+			}
 		}
 	}
-	return vpk;
+
+	return VPK::openInternal(path, callback);
 }
 
 std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const EntryCallback& callback) {
