@@ -6,6 +6,10 @@
 
 ### Future Improvements
 
+- External
+  - Move from cryptopp to a maintained cryptography library
+  - Move from compressonator to something that isn't a pile of garbage
+  - Fork minizip-ng and change how it handles dependencies
 - `bsppp`
   - Read/write LZMA-compressed lumps
 - `dmxpp`
@@ -17,6 +21,10 @@
     - When creating an instance of the game, attaching a console might be easier, or enabling -condebug,
       which would then allow reading output from the console
   - Add a method to take a screenshot of the game and move the file to a user-specified location
+- `kvpp`
+  - Reduce template spam
+  - Move DMX/KV2 code here
+  - Add a KV3 parser/writer
 - `mdlpp`
   - Parse animations/sequences
   - Make something to construct StudioModel objects from a given model file like obj/glTF?
@@ -26,6 +34,7 @@
 - `vcryptpp`
   - Add VFONT write support
 - `vpkpp`
+  - Add write support to ORE
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Allow directly applying an HDRI to a VTF without requiring the user to write a custom wrapper
