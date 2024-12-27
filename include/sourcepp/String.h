@@ -12,6 +12,16 @@ namespace sourcepp::string {
 
 [[nodiscard]] bool contains(std::string_view s, char c);
 
+/// A very basic regex-like pattern checker for ASCII strings. Supports:
+///   %? - matches any character
+///   %w - matches a whitespace character (defined by std::isspace)
+///   %a - matches a letter (A-Z, a-z)
+///   %u - matches an uppercase letter (A-Z)
+///   %l - matches a lowercase letter (a-z)
+///   %d - matches a single digit (0-9)
+///   %% - escaped percent character
+[[nodiscard]] bool matches(std::string_view in, std::string_view search);
+
 [[nodiscard]] bool iequals(std::string_view s1, std::string_view s2);
 
 void ltrim(std::string& s);
