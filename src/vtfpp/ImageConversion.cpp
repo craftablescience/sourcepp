@@ -46,8 +46,6 @@
 #endif
 #include <tinyexr.h>
 
-#include <uc_apng_loader.h>
-
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -1283,6 +1281,13 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	return out;
 }
 
+namespace {
+
+template<typename T>
+using stb_ptr = std::unique_ptr<T, void(*)(void*)>;
+
+} // namespace
+
 std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount) {
 	stbi_convert_iphone_png_to_rgb(true);
 
@@ -1454,14 +1459,13 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 
 	// HDR
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		const std::unique_ptr<float, void(*)(void*)> stbImage{
+		const ::stb_ptr<float> stbImage{
 			stbi_loadf_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
 		if (!stbImage) {
 			return {};
 		}
-
 		switch (channels) {
 			case 1:  format = ImageFormat::R32F;          break;
 			case 2:  format = ImageFormat::RG3232F;       break;
@@ -1469,20 +1473,18 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			case 4:  format = ImageFormat::RGBA32323232F; break;
 			default: return {};
 		}
-
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
 	// GIF
 	if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
-		const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+		const ::stb_ptr<stbi_uc> stbImage{
 			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), nullptr, &width, &height, &frameCount, &channels, 0),
 			&stbi_image_free,
 		};
 		if (!stbImage || !frameCount) {
 			return {};
 		}
-
 		switch (channels) {
 			case 1:  format = ImageFormat::I8;       break;
 			case 2:  format = ImageFormat::UV88;     break;
@@ -1490,62 +1492,208 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			case 4:  format = ImageFormat::RGBA8888; break;
 			default: return {};
 		}
-
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get() + (ImageFormatDetails::getDataLength(format, width, height) * frameCount))};
 	}
 
 	// APNG
-	if (fileData.size() >= uc::apng::SIGNATURE.size()) {
-		uc::apng::signature_t signature{};
-		std::memcpy(&signature, fileData.data(), sizeof(uc::apng::signature_t));
-		if (signature == uc::apng::SIGNATURE) {
-			// We know it's a PNG, but is it an APNG...
-			do {
-				try {
-					auto loader = uc::apng::create_memory_loader(reinterpret_cast<const char*>(fileData.data()), fileData.size());
-					frameCount = loader.num_frames();
-					if (frameCount <= 1) {
-						// Fall back to regular stb_image so we get better format support
-						frameCount = 1;
-						break;
-					}
-
-					width = loader.width();
-					height = loader.height();
-					format = ImageFormat::RGBA8888;
-
-					std::vector<std::byte> frames(sizeof(ImagePixel::RGBA8888) * width * height * loader.num_frames());
-					while (loader.has_frame()) {
-						const auto frame = loader.next_frame();
-						std::memcpy(frames.data() + (sizeof(ImagePixel::RGBA8888) * width * height * frame.index), frame.image.data(), frame.image.size());
-					}
-					return frames;
-				} catch (const uc::apng::exception&) {
-					// Keep going down the list, maybe stb can load it?
+	{
+		stbi__context s;
+		stbi__start_mem(&s, reinterpret_cast<const stbi_uc*>(fileData.data()), fileData.size());
+		if (stbi__png_test(&s)) {
+			// We know it's a PNG, but is it an APNG? You'll have to scroll past the decoder to find out!
+			const auto apngDecoder = [&format, &width, &height, &frameCount]<typename P>(const auto& stbImage, std::size_t dirOffset) -> std::vector<std::byte> {
+				stbi__apng_directory* dir = reinterpret_cast<stbi__apng_directory*>(stbImage.get() + dirOffset);
+				if (dir->type != STBI__STRUCTURE_TYPE_APNG_DIRECTORY) {
+					return {}; // Malformed
 				}
-			} while (0);
+
+				format = P::FORMAT;
+				frameCount = dir->num_frames;
+
+				static constexpr auto calcPixelOffset = [](uint32_t offsetX, uint32_t offsetY, uint32_t width) {
+					return ((offsetY * width) + offsetX) * sizeof(P);
+				};
+
+				// Where dst is a full frame and src is a subregion
+				static constexpr auto copyImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
+					for (uint32_t y = 0; y < srcHeight; y++) {
+						std::copy(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+							std::execution::unseq,
+#endif
+							src.data() + calcPixelOffset(         0,              y, srcWidth),
+							src.data() + calcPixelOffset(  srcWidth,              y, srcWidth),
+							dst.data() + calcPixelOffset(srcOffsetX, srcOffsetY + y, dstWidth));
+					}
+				};
+
+				// Where dst and src are the same size and we are copying a subregion
+				static constexpr auto copyImageSubRectData = [](std::span<std::byte> dst, std::span<const std::byte> src, uint32_t imgWidth, uint32_t imgHeight, uint32_t subWidth, uint32_t subHeight, uint32_t subOffsetX, uint32_t subOffsetY) {
+					for (uint32_t y = subOffsetY; y < subOffsetY + subHeight; y++) {
+						std::copy(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+							std::execution::unseq,
+#endif
+							src.data() + calcPixelOffset(subOffsetX,            y, imgWidth),
+							src.data() + calcPixelOffset(subOffsetX + subWidth, y, imgWidth),
+							dst.data() + calcPixelOffset(subOffsetX,            y, imgWidth));
+					}
+				};
+
+				static constexpr auto clearImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, uint32_t clrWidth, uint32_t clrHeight, uint32_t clrOffsetX, uint32_t clrOffsetY) {
+					for (uint32_t y = 0; y < clrHeight; y++) {
+						std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+							std::execution::unseq,
+#endif
+							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth),
+							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth) + (clrWidth * sizeof(P)),
+							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth),
+							[](std::byte) { return std::byte{0}; });
+					}
+				};
+
+				static constexpr auto overlayImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
+					for (uint32_t y = 0; y < srcHeight; y++) {
+						const auto* sp = reinterpret_cast<const uint8_t*>(src.data() + calcPixelOffset(0, y, srcWidth));
+						auto* dp = reinterpret_cast<uint8_t*>(dst.data() + calcPixelOffset(srcOffsetX, srcOffsetY + y, dstWidth));
+						for (uint32_t x = 0; x < srcWidth; x++, sp += 4, dp += 4) {
+							if (sp[3] == 0) {
+								continue;
+							} else if ((sp[3] == 0xff) || (dp[3] == 0)) {
+								std::copy(sp, sp + sizeof(P), dp);
+							} else {
+								int u = sp[3] * 0xff;
+								int v = (0xff - sp[3]) * dp[3];
+								int al = u + v;
+								dp[0] = (sp[0] * u + dp[0] * v) / al;
+								dp[1] = (sp[1] * u + dp[1] * v) / al;
+								dp[2] = (sp[2] * u + dp[2] * v) / al;
+								dp[3] = al / 0xff;
+							}
+						}
+					}
+				};
+
+				// https://wiki.mozilla.org/APNG_Specification
+				const uint64_t fullFrameSize = sizeof(P) * width * height;
+				uint64_t currentFrameSize = 0;
+				std::vector<std::byte> out(fullFrameSize * frameCount);
+				uint64_t srcFrameOffset = 0;
+				uint64_t dstFrameOffset = 0;
+				for (uint32_t i = 0; i < dir->num_frames; i++) {
+					const auto& frame = dir->frames[i];
+					currentFrameSize = sizeof(P) * frame.width * frame.height;
+
+					// If the parameters are perfect we can memcpy all the data in
+					if (frame.width == width && frame.height == height && frame.x_offset == 0 && frame.y_offset == 0 && frame.blend_op == STBI_APNG_blend_op_source) {
+						std::memcpy(out.data() + dstFrameOffset, stbImage.get() + srcFrameOffset, fullFrameSize);
+					} else {
+						// Check the blend op
+						if (frame.blend_op == STBI_APNG_blend_op_source || (i == 0 && frame.blend_op == STBI_APNG_blend_op_over)) {
+							copyImageData({out.data() + dstFrameOffset, out.data() + dstFrameOffset + fullFrameSize}, width, height, {reinterpret_cast<const std::byte*>(stbImage.get() + srcFrameOffset), reinterpret_cast<const std::byte*>(stbImage.get() + srcFrameOffset + currentFrameSize)}, frame.width, frame.height, frame.x_offset, frame.y_offset);
+						} else if (frame.blend_op == STBI_APNG_blend_op_over) {
+							overlayImageData({out.data() + dstFrameOffset, out.data() + dstFrameOffset + fullFrameSize}, width, height, {reinterpret_cast<const std::byte*>(stbImage.get() + srcFrameOffset), reinterpret_cast<const std::byte*>(stbImage.get() + srcFrameOffset + currentFrameSize)}, frame.width, frame.height, frame.x_offset, frame.y_offset);
+						} else {
+							return {}; // Malformed
+						}
+					}
+
+					dstFrameOffset += fullFrameSize;
+					srcFrameOffset += currentFrameSize;
+
+					// Bail here if this is the last frame
+					if (i == dir->num_frames - 1) {
+						continue;
+					}
+
+					// Copy over this frame to the next one
+					copyImageData({out.data() + dstFrameOffset, out.data() + dstFrameOffset + fullFrameSize}, width, height, {out.data() + dstFrameOffset - fullFrameSize, out.data() + dstFrameOffset}, width, height, 0, 0);
+
+					// Check the dispose op to see what to do about the frame's region for the next frame, if there is one
+					if (frame.dispose_op == STBI_APNG_dispose_op_background || (i == 0 && frame.dispose_op == STBI_APNG_dispose_op_previous)) {
+						clearImageData({out.data() + dstFrameOffset, out.data() + dstFrameOffset + fullFrameSize}, width, height, frame.width, frame.height, frame.x_offset, frame.y_offset);
+					} else if (frame.dispose_op == STBI_APNG_dispose_op_previous) {
+						copyImageSubRectData({out.data() + dstFrameOffset, out.data() + dstFrameOffset + fullFrameSize}, {out.data() + dstFrameOffset - fullFrameSize, out.data() + dstFrameOffset}, width, height, frame.width, frame.height, frame.x_offset, frame.y_offset);
+					} else if (frame.dispose_op != STBI_APNG_dispose_op_none) {
+						return {}; // Malformed
+					}
+				}
+#if 0
+				// Debug code from https://gist.github.com/jcredmond/9ef711b406e42a250daa3797ce96fd26
+
+				static const char *dispose_ops[] = {
+					"STBI_APNG_dispose_op_none", // leave the old frame
+					"STBI_APNG_dispose_op_background", // clear frame's region to black transparent
+					"STBI_APNG_dispose_op_previous", // frame's region should be reverted to prior frame before adding new one - if first frame, clear region to black transparent
+				};
+
+				static const char *blend_ops[] = {
+					"STBI_APNG_blend_op_source", // all color, including alpha, overwrites prior image
+					"STBI_APNG_blend_op_over", // composited onto the output buffer with algorithm
+				};
+
+				fprintf(stderr, "dir_offset                       : %zu\n", dirOffset);
+				fprintf(stderr, "dir.type                         : %.*s\n", 4, (unsigned char *) &dir->type);
+				fprintf(stderr, "dir.num_frames                   : %u\n", dir->num_frames);
+				fprintf(stderr, "dir.default_image_is_first_frame : %s\n",
+				        dir->default_image_is_first_frame ? "yes" : "no");
+				fprintf(stderr, "dir.num_plays                    : %u\n", dir->num_plays);
+
+				for (int i = 0; i < dir->num_frames; ++i) {
+					stbi__apng_frame_directory_entry *frame = &dir->frames[i];
+
+					fprintf(stderr, "frame         : %u\n", i);
+					fprintf(stderr, "   width      : %u\n", frame->width);
+					fprintf(stderr, "   height     : %u\n", frame->height);
+					fprintf(stderr, "   x_offset   : %u\n", frame->x_offset);
+					fprintf(stderr, "   y_offset   : %u\n", frame->y_offset);
+					fprintf(stderr, "   delay_num  : %u\n", frame->delay_num);
+					fprintf(stderr, "   delay_den  : %u\n", frame->delay_den);
+					fprintf(stderr, "   dispose_op : %s\n", dispose_ops[frame->dispose_op]);
+					fprintf(stderr, "   blend_op   : %s\n", blend_ops[frame->blend_op]);
+				}
+#endif
+				return out;
+			};
+
+			std::size_t dirOffset = 0;
+			if (stbi__png_is16(&s)) {
+				const ::stb_ptr<stbi_us> stbImage{
+					stbi__apng_load_16bit(&s, &width, &height, &channels, STBI_rgb_alpha, &dirOffset),
+					&stbi_image_free,
+				};
+				if (stbImage && dirOffset) {
+					return apngDecoder.template operator()<ImagePixel::RGBA16161616>(stbImage, dirOffset);
+				}
+			} else {
+				const ::stb_ptr<stbi_uc> stbImage{
+					stbi__apng_load_8bit(&s, &width, &height, &channels, STBI_rgb_alpha, &dirOffset),
+					&stbi_image_free,
+				};
+				if (stbImage && dirOffset) {
+					return apngDecoder.template operator()<ImagePixel::RGBA8888>(stbImage, dirOffset);
+				}
+			}
 		}
 	}
 
 	// 16-bit single-frame image
 	if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
-		const std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
+		const ::stb_ptr<stbi_us> stbImage{
 			stbi_load_16_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 			&stbi_image_free,
 		};
 		if (!stbImage) {
 			return {};
 		}
-
 		if (channels == 4) {
 			format = ImageFormat::RGBA16161616;
 		} else if (channels >= 1 && channels < 4) {
 			// There are no other 16-bit integer formats in Source, so we have to do a conversion here
 			format = ImageFormat::RGBA16161616;
-
 			std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
 			std::span<ImagePixel::RGBA16161616> outPixels{reinterpret_cast<ImagePixel::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixel::RGBA16161616)};
-
 			switch (channels) {
 				case 1: {
 					std::span<uint16_t> inPixels{reinterpret_cast<uint16_t*>(stbImage.get()), outPixels.size()};
@@ -1595,19 +1743,17 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		} else {
 			return {};
 		}
-
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
     // 8-bit or less single frame image
-	const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
+	const ::stb_ptr<stbi_uc> stbImage{
 		stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 		&stbi_image_free,
 	};
 	if (!stbImage) {
 		return {};
 	}
-
 	switch (channels) {
 		case 1:  format = ImageFormat::I8;       break;
 		case 2:  format = ImageFormat::UV88;     break;
@@ -1615,7 +1761,6 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		case 4:  format = ImageFormat::RGBA8888; break;
 		default: return {};
 	}
-
 	return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 }
 
