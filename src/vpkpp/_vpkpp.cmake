@@ -2,6 +2,7 @@ add_pretty_parser(vpkpp
         DEPS libzstd_static miniz MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::kvpp
         DEPS_PUBLIC tsl::hat_trie
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FGP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GCF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GMA.h"
@@ -23,6 +24,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/PackFile.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/vpkpp.h"
         SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/format/FGP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GMA.cpp"
