@@ -1,11 +1,12 @@
 add_pretty_parser(vpkpp
-        DEPS libzstd_static MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::bsppp sourcepp::kvpp
+        DEPS libzstd_static miniz MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::bsppp sourcepp::kvpp
         DEPS_PUBLIC tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/BSP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GCF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GMA.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GRP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/ORE.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PAK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PCK.h"
@@ -24,6 +25,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GMA.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/format/GRP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/ORE.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PAK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PCK.cpp"
