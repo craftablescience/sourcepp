@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -7,8 +6,11 @@ namespace vcryptpp
 {
     internal static unsafe partial class Extern
     {
-        [DllImport("vcryptppc")]
-        public static extern Buffer vcryptpp_vfont_decrypt(byte* buffer, ulong bufferLen);
+		internal static unsafe partial class VFONT
+		{
+			[LibraryImport("vcryptppc", EntryPoint = "vcryptpp_vfont_decrypt")]
+			public static partial sourcepp.Buffer Decrypt(byte* buffer, ulong bufferLen);
+		}
     }
 
     public static class VFONT
@@ -19,8 +21,8 @@ namespace vcryptpp
             {
                 fixed (byte* bufferPtr = buffer)
                 {
-                    Buffer ret = Extern.vcryptpp_vfont_decrypt(bufferPtr, (ulong) buffer.LongLength);
-                    return BufferUtils.ConvertToArrayAndDelete(ref ret);
+                    var ret = Extern.VFONT.Decrypt(bufferPtr, (ulong) buffer.LongLength);
+                    return sourcepp.BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }
         }
@@ -32,8 +34,8 @@ namespace vcryptpp
                 var data = buffer.ToArray();
                 fixed (byte* bufferPtr = data)
                 {
-                    Buffer ret = Extern.vcryptpp_vfont_decrypt(bufferPtr, (ulong) data.LongLength);
-                    return BufferUtils.ConvertToArrayAndDelete(ref ret);
+                    var ret = Extern.VFONT.Decrypt(bufferPtr, (ulong) data.LongLength);
+                    return sourcepp.BufferUtils.ConvertToArrayAndDelete(ref ret);
                 }
             }
         }

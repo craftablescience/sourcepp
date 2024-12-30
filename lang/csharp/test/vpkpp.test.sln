@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vpkpp", "..\src\vpkpp\vpkpp.csproj", "{EA9C7AA7-6C04-433B-8F64-E38462E88CA6}"
+Project("{3D6B5B52-47BF-4FB9-9B11-261BC3E44F2C}") = "vpkpp", "..\src\vpkpp\vpkpp.csproj", "{EA9C7AA7-6C04-433B-8F64-E38462E88CA6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "vpkpp.test", "vpkpp.test\vpkpp.test.csproj", "{3BCD0725-785C-41E6-956F-39E25AAA5D4E}"
+Project("{3D6B5B52-47BF-4FB9-9B11-261BC3E44F2C}") = "vpkpp.test", "vpkpp.test\vpkpp.test.csproj", "{3BCD0725-785C-41E6-956F-39E25AAA5D4E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{EA9C7AA7-6C04-433B-8F64-E38462E88CA6} = {EA9C7AA7-6C04-433B-8F64-E38462E88CA6}
 	EndProjectSection

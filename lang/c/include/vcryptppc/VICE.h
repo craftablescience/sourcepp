@@ -2,8 +2,7 @@
 
 #include <sourceppc/Buffer.h>
 
-#define VCRYPTPP_VICE_KNOWN_CODES_DEFAULT "x9Ke0BY7";
-
+#define VCRYPTPP_VICE_KNOWN_CODES_DEFAULT                         "x9Ke0BY7";
 #define VCRYPTPP_VICE_BLOODY_GOOD_TIME                            "K4PeJwL7"
 #define VCRYPTPP_VICE_KNOWN_CODES_CONTAGION_WEAPONS               "fUk0fF69"
 #define VCRYPTPP_VICE_KNOWN_CODES_CONTAGION_SCRIPTS               "5!rrFz6p"
@@ -26,6 +25,12 @@
 #define VCRYPTPP_VICE_KNOWN_CODES_TEAM_FORTRESS_2_ITEMS           "A5fSXbf7"
 #define VCRYPTPP_VICE_KNOWN_CODES_THE_SHIP                        "eb3A4m79"
 #define VCRYPTPP_VICE_KNOWN_CODES_ZOMBIE_PANIC_SOURCE             "5R0ni0pZ"
+
+#define VCRYPTPP_VICE_KNOWN_CODES_EKV_GPU_DEFAULT                 "X8bU2qll"
+#define VCRYPTPP_VICE_KNOWN_CODES_EKV_GPU_ALIEN_SWARM             "sW9.JupP"
+#define VCRYPTPP_VICE_KNOWN_CODES_EKV_GPU_LEFT_4_DEAD_1           "zp14Hi(]"
+#define VCRYPTPP_VICE_KNOWN_CODES_EKV_GPU_LEFT_4_DEAD_2           EKV_GPU_LEFT_4_DEAD_1
+#define VCRYPTPP_VICE_KNOWN_CODES_EKV_GPU_PORTAL_2                "UrE66!Ap"
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
 SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_encrypt(const unsigned char* buffer, size_t bufferLen, const char* code);
