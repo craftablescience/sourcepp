@@ -46,6 +46,8 @@
 #endif
 #include <tinyexr.h>
 
+#include <uc_apng_loader.h>
+
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -1492,6 +1494,39 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get() + (ImageFormatDetails::getDataLength(format, width, height) * frameCount))};
 	}
 
+	// APNG
+	if (fileData.size() >= uc::apng::SIGNATURE.size()) {
+		uc::apng::signature_t signature{};
+		std::memcpy(&signature, fileData.data(), sizeof(uc::apng::signature_t));
+		if (signature == uc::apng::SIGNATURE) {
+			// We know it's a PNG, but is it an APNG...
+			do {
+				try {
+					auto loader = uc::apng::create_memory_loader(reinterpret_cast<const char*>(fileData.data()), fileData.size());
+					frameCount = loader.num_frames();
+					if (frameCount <= 1) {
+						// Fall back to regular stb_image so we get better format support
+						frameCount = 1;
+						break;
+					}
+
+					width = loader.width();
+					height = loader.height();
+					format = ImageFormat::RGBA8888;
+
+					std::vector<std::byte> frames(sizeof(ImagePixel::RGBA8888) * width * height * loader.num_frames());
+					while (loader.has_frame()) {
+						const auto frame = loader.next_frame();
+						std::memcpy(frames.data() + (sizeof(ImagePixel::RGBA8888) * width * height * frame.index), frame.image.data(), frame.image.size());
+					}
+					return frames;
+				} catch (const uc::apng::exception&) {
+					// Keep going down the list, maybe stb can load it?
+				}
+			} while (0);
+		}
+	}
+
 	// 16-bit single-frame image
 	if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
 		const std::unique_ptr<stbi_us, void(*)(void*)> stbImage{
@@ -1564,7 +1599,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
-	// 8-bit or less single frame image
+    // 8-bit or less single frame image
 	const std::unique_ptr<stbi_uc, void(*)(void*)> stbImage{
 		stbi_load_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), &width, &height, &channels, 0),
 		&stbi_image_free,

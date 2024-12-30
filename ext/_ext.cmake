@@ -92,6 +92,10 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
 
 
+# uc_apng_loader
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/uc_apng_loader")
+
+
 # tbb
 function(sourcepp_add_tbb TARGET)
     if(SOURCEPP_BUILD_WITH_TBB)
