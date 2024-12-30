@@ -9,6 +9,7 @@ var namespacesourcepp =
       [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00", null ],
       [ "computeSHA256KeyPair", "db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5", null ],
       [ "decodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#af0f8f739fd07fe6acd369b64dd32136f", null ],
+      [ "encodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#a97d529d4a2f74e8686a13a26f7243e09", null ],
       [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
       [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583", null ]
     ] ],
