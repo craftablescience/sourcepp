@@ -121,6 +121,18 @@ namespace {
 		case EMPTY:
 		case BGRA1010102:
 		case RGBX8888:
+		case BGRX8888_LINEAR:
+		case RGBA8888_LINEAR:
+		case ABGR8888_LINEAR:
+		case ARGB8888_LINEAR:
+		case BGRA8888_LINEAR:
+		case RGB888_LINEAR:
+		case BGR888_LINEAR:
+		case BGRX5551_LINEAR:
+		case I8_LINEAR:
+		case RGBA16161616_LINEAR:
+		case BGRX8888_LE:
+		case BGRA8888_LE:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
@@ -181,6 +193,18 @@ namespace {
 		case EMPTY:
 		case RGBA1010102:
 		case BGRA1010102:
+		case BGRX8888_LINEAR:
+		case RGBA8888_LINEAR:
+		case ABGR8888_LINEAR:
+		case ARGB8888_LINEAR:
+		case BGRA8888_LINEAR:
+		case RGB888_LINEAR:
+		case BGR888_LINEAR:
+		case BGRX5551_LINEAR:
+		case I8_LINEAR:
+		case RGBA16161616_LINEAR:
+		case BGRX8888_LE:
+		case BGRA8888_LE:
 			break;
 	}
 	return -1;
@@ -233,6 +257,18 @@ namespace {
 		case ATI1N:
 		case RGBA1010102:
 		case BGRA1010102:
+		case BGRX8888_LINEAR:
+		case RGBA8888_LINEAR:
+		case ABGR8888_LINEAR:
+		case ARGB8888_LINEAR:
+		case BGRA8888_LINEAR:
+		case RGB888_LINEAR:
+		case BGR888_LINEAR:
+		case BGRX5551_LINEAR:
+		case I8_LINEAR:
+		case RGBA16161616_LINEAR:
+		case BGRX8888_LE:
+		case BGRA8888_LE:
 		case BC7:
 		case BC6H:
 			break;
@@ -331,6 +367,17 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(UVLX8888,          pixel.u, pixel.v, pixel.l, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(RGBX8888,          pixel.r, pixel.g, pixel.b, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(R8,                pixel.r, 0,       0,       0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888_LINEAR,   pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGBA8888_LINEAR,   pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(ABGR8888_LINEAR,   pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888_LINEAR,   pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888_LINEAR,   pixel.r, pixel.g, pixel.b, pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_LINEAR,     pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_LINEAR,     pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRX5551_LINEAR,   VTFPP_REMAP_TO_8(pixel.r, 5), VTFPP_REMAP_TO_8(pixel.g, 5), VTFPP_REMAP_TO_8(pixel.b, 5), 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(I8_LINEAR,         pixel.i, pixel.i, pixel.i, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888_LE,       pixel.r, pixel.g, pixel.b, 0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888_LE,       pixel.r, pixel.g, pixel.b, pixel.a);
 		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 

@@ -133,57 +133,36 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
 
-	if (stream.read<uint32_t>() != VTF_SIGNATURE) {
+	if (auto signature = stream.read<uint32_t>(); signature == VTF_SIGNATURE) {
+		this->platform = PLATFORM_PC;
+		stream >> this->majorVersion >> this->minorVersion;
+		if (this->majorVersion != 7 || this->minorVersion > 6) {
+			return;
+		}
+	} else if (signature == VTFX_SIGNATURE) {
+		stream.set_big_endian(true);
+		uint32_t minorConsoleVersion = 0;
+		stream >> this->platform >> minorConsoleVersion;
+		if (minorConsoleVersion != 8) {
+			return;
+		}
+		switch (this->platform) {
+			case PLATFORM_PS3:
+			case PLATFORM_X360:
+				this->majorVersion = 7;
+				this->minorVersion = 3;
+				break;
+			default:
+				this->platform = PLATFORM_UNKN;
+				return;
+		}
+	} else {
 		return;
 	}
 
-	stream >> this->majorVersion >> this->minorVersion;
-	if (this->majorVersion != 7 || this->minorVersion > 6) {
-		return;
-	}
 	const auto headerSize = stream.read<uint32_t>();
 
-	stream
-		.read(this->width)
-		.read(this->height)
-		.read(this->flags)
-		.read(this->frameCount)
-		.read(this->startFrame)
-		.skip(4)
-		.read(this->reflectivity)
-		.skip(4)
-		.read(this->bumpMapScale)
-		.read(this->format)
-		.read(this->mipCount);
-
-	// This will always be DXT1
-	stream.skip<ImageFormat>();
-	stream >> this->thumbnailWidth >> this->thumbnailHeight;
-	if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
-		this->thumbnailFormat = ImageFormat::EMPTY;
-	} else {
-		this->thumbnailFormat = ImageFormat::DXT1;
-	}
-
-	if (this->minorVersion < 2) {
-		this->sliceCount = 1;
-	} else {
-		stream.read(this->sliceCount);
-	}
-
-	if (parseHeaderOnly) {
-		this->opened = true;
-		return;
-	}
-
-	if (this->minorVersion >= 3) {
-		stream.skip(3);
-		auto resourceCount = stream.read<uint32_t>();
-		stream.skip(8);
-
-		if (resourceCount > VTF::MAX_RESOURCES) {
-			resourceCount = VTF::MAX_RESOURCES;
-		}
+	const auto readResources = [this, &stream](uint32_t resourceCount) {
 		this->resources.reserve(resourceCount);
 
 		Resource* lastResource = nullptr;
@@ -215,6 +194,84 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
 			stream.seek(static_cast<int64_t>(curPos));
 		}
+	};
+
+	if (this->platform != PLATFORM_PC) {
+		uint16_t preload;
+		uint8_t skipMips, resourceCount;
+		uint32_t unk, compressedLength;
+		stream
+			.read(this->flags)
+			.read(this->width)
+			.read(this->height)
+			.read(this->sliceCount)
+			.read(this->frameCount)
+			.read(preload)
+			.read(skipMips)
+			.read(resourceCount)
+			.read(this->reflectivity[0])
+			.read(this->reflectivity[1])
+			.read(this->reflectivity[2])
+			.read(this->bumpMapScale)
+			.read(this->format)
+			.read(unk)
+			.read(compressedLength)
+			.skip(4);
+
+		if (parseHeaderOnly) {
+			this->opened = true;
+			return;
+		}
+
+		this->resources.reserve(resourceCount);
+		readResources(resourceCount);
+
+		// todo: convert image from big endian to little endian
+
+		this->opened = stream.tell() == headerSize;
+		return;
+	}
+
+	stream
+		.read(this->width)
+		.read(this->height)
+		.read(this->flags)
+		.read(this->frameCount)
+		.read(this->startFrame)
+		.skip(4)
+		.read(this->reflectivity[0])
+		.read(this->reflectivity[1])
+		.read(this->reflectivity[2])
+		.skip(4)
+		.read(this->bumpMapScale)
+		.read(this->format)
+		.read(this->mipCount);
+
+	// This will always be DXT1
+	stream.skip<ImageFormat>();
+	stream >> this->thumbnailWidth >> this->thumbnailHeight;
+	if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+		this->thumbnailFormat = ImageFormat::EMPTY;
+	} else {
+		this->thumbnailFormat = ImageFormat::DXT1;
+	}
+
+	if (this->minorVersion < 2) {
+		this->sliceCount = 1;
+	} else {
+		stream.read(this->sliceCount);
+	}
+
+	if (parseHeaderOnly) {
+		this->opened = true;
+		return;
+	}
+
+	if (this->minorVersion >= 3) {
+		stream.skip(3);
+		auto resourceCount = stream.read<uint32_t>();
+		stream.skip(8);
+		readResources(resourceCount);
 
 		this->opened = stream.tell() == headerSize;
 
@@ -425,6 +482,17 @@ VTF VTF::create(const std::string& imagePath, CreationOptions options) {
 	return writer;
 }
 
+VTF::Platform VTF::getPlatform() const {
+	return this->platform;
+}
+
+void VTF::setPlatform(Platform newPlatform) {
+	if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3) {
+		this->setVersion(7, 3);
+	}
+	this->platform = newPlatform;
+}
+
 uint32_t VTF::getMajorVersion() const {
 	return this->majorVersion;
 }
@@ -439,10 +507,16 @@ void VTF::setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion) {
 }
 
 void VTF::setMajorVersion(uint32_t newMajorVersion) {
+	if (this->platform != PLATFORM_PC) {
+		return;
+	}
 	this->majorVersion = newMajorVersion;
 }
 
 void VTF::setMinorVersion(uint32_t newMinorVersion) {
+	if (this->platform != PLATFORM_PC) {
+		return;
+	}
 	if (this->hasImageData()) {
 		auto faceCount = this->getFaceCount();
 		if (faceCount == 7 && (newMinorVersion < 1 || newMinorVersion > 4)) {
@@ -672,16 +746,6 @@ bool VTF::setFaceCount(bool isCubemap, bool hasSphereMap) {
 	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4 && hasSphereMap) ? 7 : 6) : 1, this->sliceCount);
 	return true;
 }
-
-/*
-bool VTF::computeSphereMap() {
-	if (this->getFaceCount() < 7) {
-		return false;
-	}
-	// compute spheremap here
-	return true;
-}
-*/
 
 uint16_t VTF::getSliceCount() const {
 	return this->sliceCount;
