@@ -167,11 +167,16 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="16"><code>vpkpp</code></td>
+    <td rowspan="17"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="16" align="center">C<br>C#<br>Python</td>
+    <td rowspan="17" align="center">C<br>C#<br>Python</td>
+  </tr>
+  <tr>
+    <td>FGP v3 (PS3, Orange Box)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr>
     <td>FPX v10 (Tactical Intervention)</td>

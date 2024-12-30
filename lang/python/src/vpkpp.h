@@ -157,6 +157,16 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("is_read_only", &PackFileReadOnly::isReadOnly)
 		.def("__str__", &PackFileReadOnly::operator std::string);
 
+	vpkpp.attr("FGP_SIGNATURE") = FGP_SIGNATURE;
+	vpkpp.attr("FGP_EXTENSION") = FGP_EXTENSION;
+
+	py::class_<FGP, PackFile>(vpkpp, "FGP")
+		.def_static("create", &FGP::create, "path"_a)
+		.def_static("open", &FGP::open, "path"_a, "callback"_a = nullptr)
+		.def_ro_static("GUID", &FGP::GUID)
+		.def_prop_rw("loading_screen_filepath", &FGP::getLoadingScreenFilePath, &FGP::setLoadingScreenFilePath)
+		.def_static("hash_filepath", &FGP::hashFilePath);
+
 	vpkpp.attr("FPX_SIGNATURE") = FPX_SIGNATURE;
 	vpkpp.attr("FPX_DIR_SUFFIX") = FPX_DIR_SUFFIX;
 	vpkpp.attr("FPX_EXTENSION") = FPX_EXTENSION;
