@@ -18,7 +18,7 @@ var searchData=
   ['bone_15',['Bone',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html',1,'mdlpp::MDL']]],
   ['bonecontroller_16',['BoneController',['../d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html',1,'mdlpp::MDL']]],
   ['boneweight_17',['BoneWeight',['../d8/de6/structmdlpp_1_1VVD_1_1BoneWeight.html',1,'mdlpp::VVD']]],
-  ['bsp_18',['BSP',['../d5/dba/classbsppp_1_1BSP.html',1,'bsppp::BSP'],['../d2/da8/classvpkpp_1_1BSP.html',1,'vpkpp::BSP']]],
+  ['bsp_18',['BSP',['../d5/dba/classbsppp_1_1BSP.html',1,'bsppp']]],
   ['bspbrushmodel_5fv0_19',['BSPBrushModel_v0',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html',1,'bsppp']]],
   ['bspedge_5fv0_20',['BSPEdge_v0',['../d8/d16/structbsppp_1_1BSPEdge__v0.html',1,'bsppp']]],
   ['bspedge_5fv1_21',['BSPEdge_v1',['../dd/d95/structbsppp_1_1BSPEdge__v1.html',1,'bsppp']]],

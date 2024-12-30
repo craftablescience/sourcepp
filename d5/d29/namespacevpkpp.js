@@ -1,7 +1,6 @@
 var namespacevpkpp =
 [
     [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
-    [ "BSP", "d2/da8/classvpkpp_1_1BSP.html", "d2/da8/classvpkpp_1_1BSP" ],
     [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ],
     [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
     [ "EXAMPLE", "d2/d8b/classvpkpp_1_1EXAMPLE.html", "d2/d8b/classvpkpp_1_1EXAMPLE" ],
@@ -34,22 +33,7 @@ var namespacevpkpp =
       [ "ZSTD", "d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a8406cc2302e19183037b61249546b234", null ],
       [ "XZ", "d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a27db3b98d01e664c17a6620b222c6469", null ]
     ] ],
-    [ "PackFileType", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926", [
-      [ "UNKNOWN", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3", null ],
-      [ "BSP", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a", null ],
-      [ "FPX", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a995a2953326c239798add4347d8ef861", null ],
-      [ "GCF", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a366c430296cd79553bf0b0adfa5f393a", null ],
-      [ "GMA", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a597f74555552f599b5edfa7dc114ba09", null ],
-      [ "ORE", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926ac58a68644efd40aba0c480fdcc278504", null ],
-      [ "PAK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a520db707904f92039c093517ef0f748f", null ],
-      [ "PCK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926abed028f19aa93adb7f45e064155e5278", null ],
-      [ "VPK", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850", null ],
-      [ "VPK_VTMB", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a895f95fda6944a0f9ee77b020d2854f8", null ],
-      [ "WAD3", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4bced2938402aa3454b4d019e09b1e0a", null ],
-      [ "ZIP", "d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4348f938bbddd8475e967ccb47ecb234", null ]
-    ] ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
-    [ "BSP_EXTENSION", "d5/d29/namespacevpkpp.html#a09fb541c2049262e43a2503c7094b7df", null ],
     [ "EXAMPLE_EXTENSION", "d5/d29/namespacevpkpp.html#a5d2f9e88caa61407f218c763d0af0256", null ],
     [ "EXECUTABLE_EXTENSION0", "d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54", null ],
     [ "EXECUTABLE_EXTENSION1", "d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7", null ],
@@ -76,7 +60,7 @@ var namespacevpkpp =
     [ "VPK_EXTENSION", "d5/d29/namespacevpkpp.html#aaea2a4bac36b1a0c486413c01a681bbe", null ],
     [ "VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE", "d5/d29/namespacevpkpp.html#ab81d557f41f43dc8529153b289a6ef05", null ],
     [ "VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE", "d5/d29/namespacevpkpp.html#a5a083f2e65dc297d5a090e1e1c70fff3", null ],
-    [ "VPK_MAX_PRELOAD_BYTES", "d5/d29/namespacevpkpp.html#a24a5c671b7c17e554a742304d8abc1a2", null ],
+    [ "VPK_MAX_PRELOAD_BYTES", "d5/d29/namespacevpkpp.html#aeaf5cd2b78763005285870f2449b24c3", null ],
     [ "VPK_SIGNATURE", "d5/d29/namespacevpkpp.html#a232e225c110d56abf39101bd1259fd35", null ],
     [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
     [ "WAD3_EXTENSION", "d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2", null ],

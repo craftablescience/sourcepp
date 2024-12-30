@@ -1,8 +1,10 @@
 <map id="vpkpp::PCK" name="vpkpp::PCK">
-<area shape="rect" id="node1" title=" " alt="" coords="107,315,203,340"/>
-<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="13,227,136,252"/>
-<area shape="rect" id="node3" title=" " alt="" coords="31,95,118,120"/>
+<area shape="rect" id="node1" title=" " alt="" coords="176,329,272,355"/>
+<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="15,241,137,267"/>
+<area shape="rect" id="node3" title=" " alt="" coords="31,102,118,127"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,5,144,45"/>
-<area shape="rect" id="node5" href="$d5/da3/structvpkpp_1_1PCK_1_1Header.html" title=" " alt="" coords="161,227,311,252"/>
-<area shape="rect" id="node6" title=" " alt="" coords="199,95,273,120"/>
+<area shape="rect" id="node5" title=" " alt="" coords="161,241,287,267"/>
+<area shape="rect" id="node6" title=" " alt="" coords="142,95,309,135"/>
+<area shape="rect" id="node7" href="$d5/da3/structvpkpp_1_1PCK_1_1Header.html" title=" " alt="" coords="311,241,462,267"/>
+<area shape="rect" id="node8" title=" " alt="" coords="349,102,424,127"/>
 </map>

@@ -11,12 +11,12 @@ var classvpkpp_1_1GCF =
     [ "DirectoryMapEntry", "d9/dd6/structvpkpp_1_1GCF_1_1DirectoryMapEntry.html", "d9/dd6/structvpkpp_1_1GCF_1_1DirectoryMapEntry" ],
     [ "DirectoryMapHeader", "d4/dcd/structvpkpp_1_1GCF_1_1DirectoryMapHeader.html", "d4/dcd/structvpkpp_1_1GCF_1_1DirectoryMapHeader" ],
     [ "Header", "d3/d08/structvpkpp_1_1GCF_1_1Header.html", "d3/d08/structvpkpp_1_1GCF_1_1Header" ],
-    [ "GCF", "d1/d01/classvpkpp_1_1GCF.html#ada12598828928c8f9cb86fd06b1281fa", null ],
+    [ "getGUID", "d1/d01/classvpkpp_1_1GCF.html#a5eaaacb7d3270e766fb2da608d2a7558", null ],
     [ "getSupportedEntryAttributes", "d1/d01/classvpkpp_1_1GCF.html#ac7c384b4769d966388b20a6db967ee83", null ],
     [ "hasEntryChecksums", "d1/d01/classvpkpp_1_1GCF.html#a8284288c70f448ea1cb436bf018e0c70", null ],
-    [ "isCaseSensitive", "d1/d01/classvpkpp_1_1GCF.html#ae223bc0d8f9cbe47a7baa79ba2475a6d", null ],
     [ "open", "d1/d01/classvpkpp_1_1GCF.html#afa5d26a12853475fc78cf6605505a2c4", null ],
     [ "operator std::string", "d1/d01/classvpkpp_1_1GCF.html#aba7afed5a06497f31f7e3de2c01c3b19", null ],
+    [ "PackFileReadOnly", "d1/d01/classvpkpp_1_1GCF.html#af630c8ee72e32ad4a057bfd97c95c65f", null ],
     [ "readEntry", "d1/d01/classvpkpp_1_1GCF.html#ad82b35254e3df131300472ebeb4c5642", null ],
     [ "verifyEntryChecksums", "d1/d01/classvpkpp_1_1GCF.html#a41716763d0081f46ff6eb3d04634fae0", null ],
     [ "blockdata", "d1/d01/classvpkpp_1_1GCF.html#a1f47149dd580456360fea9c8dd9e0225", null ],
@@ -27,5 +27,6 @@ var classvpkpp_1_1GCF =
     [ "dirheader", "d1/d01/classvpkpp_1_1GCF.html#aa5c96887602a3559fd2a1fb87ab290d5", null ],
     [ "dirmap_entries", "d1/d01/classvpkpp_1_1GCF.html#a07a3d0133349a9a5f2b1209542f3ed87", null ],
     [ "fragmap", "d1/d01/classvpkpp_1_1GCF.html#ae9f739eb204683082f9b228e2d21a3f4", null ],
+    [ "GUID", "d1/d01/classvpkpp_1_1GCF.html#a8bb20496704a9b9951c1b505ecea6426", null ],
     [ "header", "d1/d01/classvpkpp_1_1GCF.html#a03d2cacba825233823734914b3e5f4ff", null ]
 ];

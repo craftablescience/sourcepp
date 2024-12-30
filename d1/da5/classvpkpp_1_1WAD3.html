@@ -126,6 +126,7 @@ $(document).ready(function(){initNavTree('d1/da5/classvpkpp_1_1WAD3.html','../..
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="../../d3/d4d/classvpkpp_1_1WAD3-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">vpkpp::WAD3 Class Reference</div></div>
@@ -150,15 +151,20 @@ Collaboration diagram for vpkpp::WAD3:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dc/d0c/classvpkpp_1_1WAD3__coll__graph.png" border="0" usemap="#avpkpp_1_1WAD3_coll__map" alt="Collaboration graph"/></div>
 <map name="avpkpp_1_1WAD3_coll__map" id="avpkpp_1_1WAD3_coll__map">
-<area shape="rect" title="Valve GoldSrc WAD3 file." alt="" coords="20,257,129,283"/>
-<area shape="rect" href="../../d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="13,183,136,208"/>
-<area shape="rect" title=" " alt="" coords="31,95,118,120"/>
+<area shape="rect" title="Valve GoldSrc WAD3 file." alt="" coords="95,285,204,311"/>
+<area shape="rect" href="../../d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="15,197,137,223"/>
+<area shape="rect" title=" " alt="" coords="31,102,118,127"/>
 <area shape="rect" title=" " alt="" coords="5,5,144,45"/>
+<area shape="rect" title=" " alt="" coords="163,197,288,223"/>
+<area shape="rect" title=" " alt="" coords="142,95,309,135"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
+<tr class="memitem:aaa4c5d1dec5cb84614286b7c1ddcd62f"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#aaa4c5d1dec5cb84614286b7c1ddcd62f">getGUID</a> () const override</td></tr>
+<tr class="memdesc:aaa4c5d1dec5cb84614286b7c1ddcd62f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the GUID corresponding to the pack file type.  <br /></td></tr>
+<tr class="separator:aaa4c5d1dec5cb84614286b7c1ddcd62f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa45aff49510befa24d84a85e22ef039e"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#aa45aff49510befa24d84a85e22ef039e">readEntry</a> (const std::string &amp;path_) const override</td></tr>
 <tr class="memdesc:aa45aff49510befa24d84a85e22ef039e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to read the entry's data to a bytebuffer.  <br /></td></tr>
 <tr class="separator:aa45aff49510befa24d84a85e22ef039e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -179,9 +185,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:addf7e9a6ddb7f8316f3b88553c2ed77b inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21ca5cc0d75c60dfdbb5ca09f902702a inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a21ca5cc0d75c60dfdbb5ca09f902702a">~PackFile</a> ()=default</td></tr>
 <tr class="separator:a21ca5cc0d75c60dfdbb5ca09f902702a inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926">PackFileType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1b441d33f287e522af51446219111c31">getType</a> () const</td></tr>
-<tr class="memdesc:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file type of the pack file.  <br /></td></tr>
-<tr class="separator:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3bc3a33d4c589b4aba3c3c50f7b93d7c">getGUID</a> () const =0</td></tr>
+<tr class="memdesc:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the GUID corresponding to the pack file type.  <br /></td></tr>
+<tr class="separator:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; <br />
+requires requires (const T&amp;) {{T::GUID} -&gt; std::convertible_to&lt;std::string_view&gt;;}</td></tr>
+<tr class="memitem:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3c16675c5d81cc6944d5023a1e8e23b6">isInstanceOf</a> () const</td></tr>
+<tr class="memdesc:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the pack file is an instance of the given pack file class.  <br /></td></tr>
+<tr class="separator:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a01489dadc91ac52b3c4665b58a40a6ff">hasEntryChecksums</a> () const</td></tr>
 <tr class="memdesc:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the format has a checksum for each entry.  <br /></td></tr>
 <tr class="separator:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -200,9 +211,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a4ee6075bf81d76bb4c23377c5c33b36e">verifyPackFileSignature</a> () const</td></tr>
 <tr class="memdesc:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the file signature, returns true on success Will return true if there is no signature ability in the format.  <br /></td></tr>
 <tr class="separator:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">isCaseSensitive</a> () const noexcept</td></tr>
-<tr class="memdesc:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <br /></td></tr>
-<tr class="separator:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a7f418df3fcc249e927ed122592ccee46">isCaseSensitive</a> () const</td></tr>
+<tr class="memdesc:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <br /></td></tr>
+<tr class="separator:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a9188af670e9624028d6f61a8347c2161">hasEntry</a> (const std::string &amp;path, bool includeUnbaked=true) const</td></tr>
 <tr class="memdesc:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if an entry exists given the file path.  <br /></td></tr>
 <tr class="separator:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -317,12 +328,21 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memdesc:aaee6b87fa3e7657781018941a632e3a1 inherit pub_static_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">On Windows, some characters and file names are invalid - this escapes the given entry path.  <br /></td></tr>
 <tr class="separator:aaee6b87fa3e7657781018941a632e3a1 inherit pub_static_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a1e4bade2fc4fda755d21b44501047185"><td class="memItemLeft" align="right" valign="top">static constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#a1e4bade2fc4fda755d21b44501047185">GUID</a> = &quot;1B4D626A278F47B9B2D4ADB244218B03&quot;</td></tr>
+<tr class="separator:a1e4bade2fc4fda755d21b44501047185"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a64602a3c0134e36a1f02612246774845"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#a64602a3c0134e36a1f02612246774845">WAD3</a> (const std::string &amp;fullFilePath_)</td></tr>
-<tr class="separator:a64602a3c0134e36a1f02612246774845"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefd32dc5b18bba9eaa3f3f79d964f206"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#aefd32dc5b18bba9eaa3f3f79d964f206">addEntryInternal</a> (<a class="el" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a> &amp;entry, const std::string &amp;path, std::vector&lt; std::byte &gt; &amp;buffer, <a class="el" href="../../d6/d5b/structvpkpp_1_1EntryOptions.html">EntryOptions</a> options) override</td></tr>
 <tr class="separator:aefd32dc5b18bba9eaa3f3f79d964f206"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adc77a118c34eab29dd5510d33b69816e"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#adc77a118c34eab29dd5510d33b69816e">PackFile</a> (const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &amp;other)=delete</td></tr>
+<tr class="separator:adc77a118c34eab29dd5510d33b69816e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7944fb8e4ba984e4a5facee3e2122f61"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#a7944fb8e4ba984e4a5facee3e2122f61">PackFile</a> (<a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &amp;&amp;other) noexcept=default</td></tr>
+<tr class="separator:a7944fb8e4ba984e4a5facee3e2122f61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a706ae4057a060449a8beb15317f77839"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html#a706ae4057a060449a8beb15317f77839">PackFile</a> (std::string fullFilePath_)</td></tr>
+<tr class="separator:a706ae4057a060449a8beb15317f77839"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pro_methods_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_methods_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Member Functions inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:a706ae4057a060449a8beb15317f77839 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a706ae4057a060449a8beb15317f77839">PackFile</a> (std::string fullFilePath_)</td></tr>
 <tr class="separator:a706ae4057a060449a8beb15317f77839 inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -373,8 +393,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5">fullFilePath</a></td></tr>
 <tr class="separator:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2df5acc30e128b3ad9c88d8d07d51aec inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926">PackFileType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">type</a> = <a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3">PackFileType::UNKNOWN</a></td></tr>
-<tr class="separator:a2df5acc30e128b3ad9c88d8d07d51aec inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a65e0817ce01fc83fbe68a7624192808a">entries</a></td></tr>
 <tr class="separator:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae5e68c951fd18b8ee1d930f43516e3f6">unbakedEntries</a></td></tr>
@@ -384,36 +402,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><p>Valve GoldSrc <a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html" title="Valve GoldSrc WAD3 file.">WAD3</a> file. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d02/WAD3_8h_source.html#l00016">16</a> of file <a class="el" href="../../dd/d02/WAD3_8h_source.html">WAD3.h</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a64602a3c0134e36a1f02612246774845" name="a64602a3c0134e36a1f02612246774845"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a64602a3c0134e36a1f02612246774845">&#9670;&#160;</a></span>WAD3()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">WAD3::WAD3 </td>
-          <td>(</td>
-          <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>fullFilePath_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="aefd32dc5b18bba9eaa3f3f79d964f206" name="aefd32dc5b18bba9eaa3f3f79d964f206"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aefd32dc5b18bba9eaa3f3f79d964f206">&#9670;&#160;</a></span>addEntryInternal()</h2>
 
@@ -462,7 +451,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00144">144</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00139">139</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
 
 </div>
 </div>
@@ -510,7 +499,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00151">151</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00146">146</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
 
 </div>
 </div>
@@ -540,7 +529,38 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Create a <a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html" title="Valve GoldSrc WAD3 file.">WAD3</a> file. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00057">57</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00052">52</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aaa4c5d1dec5cb84614286b7c1ddcd62f" name="aaa4c5d1dec5cb84614286b7c1ddcd62f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aaa4c5d1dec5cb84614286b7c1ddcd62f">&#9670;&#160;</a></span>getGUID()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::WAD3::getGUID </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the GUID corresponding to the pack file type. </p>
+
+<p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3bc3a33d4c589b4aba3c3c50f7b93d7c">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d02/WAD3_8h_source.html#l00026">26</a> of file <a class="el" href="../../dd/d02/WAD3_8h_source.html">WAD3.h</a>.</p>
 
 </div>
 </div>
@@ -571,7 +591,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00230">230</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00225">225</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
 
 </div>
 </div>
@@ -611,7 +631,87 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Open a <a class="el" href="../../d1/da5/classvpkpp_1_1WAD3.html" title="Valve GoldSrc WAD3 file.">WAD3</a> file. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00066">66</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00061">61</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+
+</div>
+</div>
+<a id="adc77a118c34eab29dd5510d33b69816e" name="adc77a118c34eab29dd5510d33b69816e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adc77a118c34eab29dd5510d33b69816e">&#9670;&#160;</a></span>PackFile() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vpkpp::PackFile::PackFile </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">delete</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7944fb8e4ba984e4a5facee3e2122f61" name="a7944fb8e4ba984e4a5facee3e2122f61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7944fb8e4ba984e4a5facee3e2122f61">&#9670;&#160;</a></span>PackFile() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">vpkpp::PackFile::PackFile </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &amp;&amp;&#160;</td>
+          <td class="paramname"><em>other</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a706ae4057a060449a8beb15317f77839" name="a706ae4057a060449a8beb15317f77839"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a706ae4057a060449a8beb15317f77839">&#9670;&#160;</a></span>PackFile() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PackFile::PackFile </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>fullFilePath_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00191">191</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -643,7 +743,32 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#adb4279fcac0f5dea6f9817edd95a05d2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00123">123</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/d40/WAD3_8cpp_source.html#l00118">118</a> of file <a class="el" href="../../d8/d40/WAD3_8cpp_source.html">WAD3.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a1e4bade2fc4fda755d21b44501047185" name="a1e4bade2fc4fda755d21b44501047185"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e4bade2fc4fda755d21b44501047185">&#9670;&#160;</a></span>GUID</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view vpkpp::WAD3::GUID = &quot;1B4D626A278F47B9B2D4ADB244218B03&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d02/WAD3_8h_source.html#l00024">24</a> of file <a class="el" href="../../dd/d02/WAD3_8h_source.html">WAD3.h</a>.</p>
 
 </div>
 </div>

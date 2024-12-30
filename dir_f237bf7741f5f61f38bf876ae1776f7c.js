@@ -5,6 +5,5 @@ var dir_f237bf7741f5f61f38bf876ae1776f7c =
     [ "Entry.h", "d4/d42/Entry_8h.html", "d4/d42/Entry_8h" ],
     [ "Options.h", "d5/d76/Options_8h.html", "d5/d76/Options_8h" ],
     [ "PackFile.h", "d3/df4/PackFile_8h.html", "d3/df4/PackFile_8h" ],
-    [ "PackFileType.h", "d6/da8/PackFileType_8h.html", "d6/da8/PackFileType_8h" ],
     [ "vpkpp.h", "d6/dae/vpkpp_8h.html", null ]
 ];

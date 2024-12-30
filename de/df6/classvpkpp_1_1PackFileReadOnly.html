@@ -172,9 +172,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:addf7e9a6ddb7f8316f3b88553c2ed77b inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a21ca5cc0d75c60dfdbb5ca09f902702a inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a21ca5cc0d75c60dfdbb5ca09f902702a">~PackFile</a> ()=default</td></tr>
 <tr class="separator:a21ca5cc0d75c60dfdbb5ca09f902702a inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926">PackFileType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1b441d33f287e522af51446219111c31">getType</a> () const</td></tr>
-<tr class="memdesc:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the file type of the pack file.  <br /></td></tr>
-<tr class="separator:a1b441d33f287e522af51446219111c31 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3bc3a33d4c589b4aba3c3c50f7b93d7c">getGUID</a> () const =0</td></tr>
+<tr class="memdesc:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the GUID corresponding to the pack file type.  <br /></td></tr>
+<tr class="separator:a3bc3a33d4c589b4aba3c3c50f7b93d7c inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; <br />
+requires requires (const T&amp;) {{T::GUID} -&gt; std::convertible_to&lt;std::string_view&gt;;}</td></tr>
+<tr class="memitem:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3c16675c5d81cc6944d5023a1e8e23b6">isInstanceOf</a> () const</td></tr>
+<tr class="memdesc:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the pack file is an instance of the given pack file class.  <br /></td></tr>
+<tr class="separator:a3c16675c5d81cc6944d5023a1e8e23b6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a01489dadc91ac52b3c4665b58a40a6ff">hasEntryChecksums</a> () const</td></tr>
 <tr class="memdesc:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns true if the format has a checksum for each entry.  <br /></td></tr>
 <tr class="separator:a01489dadc91ac52b3c4665b58a40a6ff inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -193,9 +198,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a4ee6075bf81d76bb4c23377c5c33b36e">verifyPackFileSignature</a> () const</td></tr>
 <tr class="memdesc:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the file signature, returns true on success Will return true if there is no signature ability in the format.  <br /></td></tr>
 <tr class="separator:a4ee6075bf81d76bb4c23377c5c33b36e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae16b67d23c583d1fff3197050c7deda6">isCaseSensitive</a> () const noexcept</td></tr>
-<tr class="memdesc:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <br /></td></tr>
-<tr class="separator:ae16b67d23c583d1fff3197050c7deda6 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">virtual constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a7f418df3fcc249e927ed122592ccee46">isCaseSensitive</a> () const</td></tr>
+<tr class="memdesc:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <br /></td></tr>
+<tr class="separator:a7f418df3fcc249e927ed122592ccee46 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a9188af670e9624028d6f61a8347c2161">hasEntry</a> (const std::string &amp;path, bool includeUnbaked=true) const</td></tr>
 <tr class="memdesc:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if an entry exists given the file path.  <br /></td></tr>
 <tr class="separator:a9188af670e9624028d6f61a8347c2161 inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,8 +365,6 @@ Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pro_attribs_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5">fullFilePath</a></td></tr>
 <tr class="separator:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2df5acc30e128b3ad9c88d8d07d51aec inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926">PackFileType</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2df5acc30e128b3ad9c88d8d07d51aec">type</a> = <a class="el" href="../../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3">PackFileType::UNKNOWN</a></td></tr>
-<tr class="separator:a2df5acc30e128b3ad9c88d8d07d51aec inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a65e0817ce01fc83fbe68a7624192808a">entries</a></td></tr>
 <tr class="separator:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae5e68c951fd18b8ee1d930f43516e3f6">unbakedEntries</a></td></tr>
@@ -369,7 +372,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00221">221</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00224">224</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="af630c8ee72e32ad4a057bfd97c95c65f" name="af630c8ee72e32ad4a057bfd97c95c65f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af630c8ee72e32ad4a057bfd97c95c65f">&#9670;&#160;</a></span>PackFileReadOnly()</h2>
@@ -395,7 +398,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00731">731</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00726">726</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -448,7 +451,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00738">738</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00733">733</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -496,7 +499,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00742">742</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00737">737</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>
@@ -525,7 +528,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a71dd4ec9ff22e4423fa22e1c9349fd94">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00223">223</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/df4/PackFile_8h_source.html#l00226">226</a> of file <a class="el" href="../../d3/df4/PackFile_8h_source.html">PackFile.h</a>.</p>
 
 </div>
 </div>
@@ -554,7 +557,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00734">734</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d75/PackFile_8cpp_source.html#l00729">729</a> of file <a class="el" href="../../d3/d75/PackFile_8cpp_source.html">PackFile.cpp</a>.</p>
 
 </div>
 </div>

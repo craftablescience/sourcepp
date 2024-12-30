@@ -13,6 +13,6 @@ var VPK_8h =
     [ "VPK_EXTENSION", "d3/d5a/VPK_8h.html#aaea2a4bac36b1a0c486413c01a681bbe", null ],
     [ "VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE", "d3/d5a/VPK_8h.html#ab81d557f41f43dc8529153b289a6ef05", null ],
     [ "VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE", "d3/d5a/VPK_8h.html#a5a083f2e65dc297d5a090e1e1c70fff3", null ],
-    [ "VPK_MAX_PRELOAD_BYTES", "d3/d5a/VPK_8h.html#a24a5c671b7c17e554a742304d8abc1a2", null ],
+    [ "VPK_MAX_PRELOAD_BYTES", "d3/d5a/VPK_8h.html#aeaf5cd2b78763005285870f2449b24c3", null ],
     [ "VPK_SIGNATURE", "d3/d5a/VPK_8h.html#a232e225c110d56abf39101bd1259fd35", null ]
 ];

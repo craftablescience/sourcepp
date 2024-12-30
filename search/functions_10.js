@@ -10,7 +10,7 @@ var searchData=
   ['setcompressionmethod_7',['setCompressionMethod',['../d8/df2/classvtfpp_1_1VTF.html#accf5b8603ced76c94b8fbaa9a356e5a3',1,'vtfpp::VTF']]],
   ['setconditional_8',['setConditional',['../de/d75/classkvpp_1_1KV1ElementWritable.html#a4f31ebf053b26300428d1fe3d767b825',1,'kvpp::KV1ElementWritable']]],
   ['setcrcresource_9',['setCRCResource',['../d8/df2/classvtfpp_1_1VTF.html#aca8caaecc372adfe71dc3bde2a5a35ba',1,'vtfpp::VTF']]],
-  ['setentrycompressionstrength_10',['setEntryCompressionStrength',['../da/de7/classvpkpp_1_1ZIP.html#a4e5656e4db7f585ed542c3a65c7b9667',1,'vpkpp::ZIP']]],
+  ['setentrycompressionstrength_10',['setEntryCompressionStrength',['../da/de7/classvpkpp_1_1ZIP.html#a2d3383602a3b30478d6444ac08b6c872',1,'vpkpp::ZIP']]],
   ['setentrycompressiontype_11',['setEntryCompressionType',['../da/de7/classvpkpp_1_1ZIP.html#a20c52b9650e5ae417d67ca7b2df04c3f',1,'vpkpp::ZIP']]],
   ['setextendedflagsresource_12',['setExtendedFlagsResource',['../d8/df2/classvtfpp_1_1VTF.html#ac49085c62c3c5520a621b2ca241a843a',1,'vtfpp::VTF']]],
   ['setfacecount_13',['setFaceCount',['../d8/df2/classvtfpp_1_1VTF.html#a4c106fed549e17145313a75c83d91d83',1,'vtfpp::VTF']]],

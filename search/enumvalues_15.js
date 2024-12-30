@@ -9,7 +9,5 @@ var searchData=
   ['vertnormalindices_6',['VERTNORMALINDICES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a394e5ca2822893bd8858d4ffe0427e97',1,'bsppp']]],
   ['vertnormals_7',['VERTNORMALS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad8e8dcbd9fee07bc6e24016099b31914',1,'bsppp']]],
   ['visibility_8',['VISIBILITY',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e',1,'bsppp']]],
-  ['vpk_9',['VPK',['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926aeb269f0f90b691b25f03516438480850',1,'vpkpp']]],
-  ['vpk_5fpreloaded_5fdata_10',['VPK_PRELOADED_DATA',['../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeac514d589875c1a147d787d1ac36649bc',1,'vpkpp']]],
-  ['vpk_5fvtmb_11',['VPK_VTMB',['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a895f95fda6944a0f9ee77b020d2854f8',1,'vpkpp']]]
+  ['vpk_5fpreloaded_5fdata_9',['VPK_PRELOADED_DATA',['../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeac514d589875c1a147d787d1ac36649bc',1,'vpkpp']]]
 ];

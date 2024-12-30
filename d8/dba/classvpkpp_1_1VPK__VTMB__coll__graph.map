@@ -1,8 +1,10 @@
 <map id="vpkpp::VPK_VTMB" name="vpkpp::VPK_VTMB">
-<area shape="rect" id="node1" title=" " alt="" coords="113,271,255,296"/>
-<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="13,183,136,208"/>
-<area shape="rect" id="node3" title=" " alt="" coords="31,95,118,120"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,285,375,311"/>
+<area shape="rect" id="node2" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="15,197,137,223"/>
+<area shape="rect" id="node3" title=" " alt="" coords="31,102,118,127"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,5,144,45"/>
-<area shape="rect" id="node5" title=" " alt="" coords="309,183,483,208"/>
-<area shape="rect" id="node6" title=" " alt="" coords="168,95,243,120"/>
+<area shape="rect" id="node5" title=" " alt="" coords="161,197,287,223"/>
+<area shape="rect" id="node6" title=" " alt="" coords="142,95,309,135"/>
+<area shape="rect" id="node7" title=" " alt="" coords="459,197,634,223"/>
+<area shape="rect" id="node8" title=" " alt="" coords="380,102,455,127"/>
 </map>

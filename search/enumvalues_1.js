@@ -18,7 +18,6 @@ var searchData=
   ['box_15',['BOX',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beae657cce1913c857166b0475f18668ef5',1,'vtfpp::ImageConversion']]],
   ['brushes_16',['BRUSHES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00',1,'bsppp']]],
   ['brushsides_17',['BRUSHSIDES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6',1,'bsppp']]],
-  ['bsp_18',['BSP',['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926adb55f5a9e3472e08cf5af25914d2c94a',1,'vpkpp']]],
-  ['bytearray_19',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
-  ['bzip2_20',['BZIP2',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
+  ['bytearray_18',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
+  ['bzip2_19',['BZIP2',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
 ];

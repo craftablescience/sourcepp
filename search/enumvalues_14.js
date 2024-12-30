@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['unknown_0',['UNKNOWN',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3',1,'bsppp::UNKNOWN()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a696b031073e74bf2cb98e5ef201d4aa3',1,'vpkpp::UNKNOWN()']]],
+  ['unknown_0',['UNKNOWN',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3',1,'bsppp']]],
   ['unused0_1',['UNUSED0',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a',1,'bsppp']]],
   ['unused1_2',['UNUSED1',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4',1,'bsppp']]],
   ['unused2_3',['UNUSED2',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde',1,'bsppp']]],

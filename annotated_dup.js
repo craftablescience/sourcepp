@@ -94,7 +94,6 @@ var annotated_dup =
     ] ],
     [ "vpkpp", "d5/d29/namespacevpkpp.html", [
       [ "BakeOptions", "d0/dff/structvpkpp_1_1BakeOptions.html", "d0/dff/structvpkpp_1_1BakeOptions" ],
-      [ "BSP", "d2/da8/classvpkpp_1_1BSP.html", "d2/da8/classvpkpp_1_1BSP" ],
       [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ],
       [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
       [ "EXAMPLE", "d2/d8b/classvpkpp_1_1EXAMPLE.html", "d2/d8b/classvpkpp_1_1EXAMPLE" ],

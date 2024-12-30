@@ -1,7 +1,7 @@
 var searchData=
 [
   ['w_0',['w',['../dd/d9f/structvtfpp_1_1ImagePixel_1_1UVWQ8888.html#a8663d5787dc6529ccd06a5e923dff931',1,'vtfpp::ImagePixel::UVWQ8888']]],
-  ['wad3_1',['WAD3',['../d1/da5/classvpkpp_1_1WAD3.html',1,'vpkpp::WAD3'],['../d1/da5/classvpkpp_1_1WAD3.html#a64602a3c0134e36a1f02612246774845',1,'vpkpp::WAD3::WAD3()'],['../d5/d29/namespacevpkpp.html#aa85a67fde1caa75abb46425eaa54d926a4bced2938402aa3454b4d019e09b1e0a',1,'vpkpp::WAD3()']]],
+  ['wad3_1',['WAD3',['../d1/da5/classvpkpp_1_1WAD3.html',1,'vpkpp']]],
   ['wad3_2ecpp_2',['WAD3.cpp',['../d8/d40/WAD3_8cpp.html',1,'']]],
   ['wad3_2eh_3',['WAD3.h',['../dd/d02/WAD3_8h.html',1,'']]],
   ['wad3_5fextension_4',['WAD3_EXTENSION',['../d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2',1,'vpkpp']]],
@@ -22,9 +22,9 @@ var searchData=
   ['wft_5fqpic_19',['WFT_QPIC',['../d8/d40/WAD3_8cpp.html#a915e67171e66fed68ea93b4076661204ae0beef53479dde72658fbc730e2f6aaa',1,'WAD3.cpp']]],
   ['wft_5fraw_20',['WFT_RAW',['../d8/d40/WAD3_8cpp.html#a915e67171e66fed68ea93b4076661204a276bcb11de6af782357c04f2acbd4d6e',1,'WAD3.cpp']]],
   ['wholefilechecksum_21',['wholeFileChecksum',['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#a48d5a49102e62e02e2e658cf7dc179c8',1,'vpkpp::VPK::Footer2']]],
-  ['width_22',['width',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a51e7955b91f78dd821ae5a755516f091',1,'bsppp::BSPTextureData_v0::width()'],['../d1/dc9/structvtfpp_1_1PPL_1_1Image.html#a35023f656b651ada5074dc8a24cb954a',1,'vtfpp::PPL::Image::width()'],['../d8/df2/classvtfpp_1_1VTF.html#a0471c9d679c3a402799b2609c78ea38e',1,'vtfpp::VTF::width()']]],
+  ['width_22',['width',['../d8/df2/classvtfpp_1_1VTF.html#a0471c9d679c3a402799b2609c78ea38e',1,'vtfpp::VTF::width()'],['../d1/dc9/structvtfpp_1_1PPL_1_1Image.html#a35023f656b651ada5074dc8a24cb954a',1,'vtfpp::PPL::Image::width()'],['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a51e7955b91f78dd821ae5a755516f091',1,'bsppp::BSPTextureData_v0::width()']]],
   ['widthresizemethod_23',['widthResizeMethod',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339',1,'vtfpp::VTF::CreationOptions']]],
-  ['wn_24',['wn',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#ac3c31f6a1f8f33cc2c95a2f315d0ef60',1,'sourcepp::math::QuatCompressed48::wn()'],['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#a6e0eb178e612ee071e6ec8d3c1ae8769',1,'sourcepp::math::QuatCompressed64::wn()']]],
+  ['wn_24',['wn',['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#a6e0eb178e612ee071e6ec8d3c1ae8769',1,'sourcepp::math::QuatCompressed64::wn()'],['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#ac3c31f6a1f8f33cc2c95a2f315d0ef60',1,'sourcepp::math::QuatCompressed48::wn()']]],
   ['worldlights_25',['WORLDLIGHTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0',1,'bsppp']]],
   ['worldlights_5fhdr_26',['WORLDLIGHTS_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a',1,'bsppp']]],
   ['wrap_27',['WRAP',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0',1,'vtfpp::ImageConversion']]],
