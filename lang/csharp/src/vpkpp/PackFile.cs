@@ -19,134 +19,134 @@ namespace vpkpp
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_open")]
+        public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-        [DllImport("vpkppc")]
-        public static extern StringArray vpkpp_get_openable_extensions();
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_openable_extensions")]
+        public static partial sourcepp.StringArray GetOpenableExtensions();
 
-        [DllImport("vpkppc")]
-        public static extern PackFileType vpkpp_get_type(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_guid")]
+		public static partial sourcepp.String GetGUID(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_has_entry_checksums(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_entry_checksums")]
+        public static partial int HasEntryChecksums(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern StringArray vpkpp_verify_entry_checksums(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_entry_checksums")]
+        public static partial sourcepp.StringArray VerifyEntryChecksums(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_has_pack_file_checksum(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_pack_file_checksum")]
+        public static partial int HasPackFileChecksum(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_verify_pack_file_checksum(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_pack_file_checksum")]
+        public static partial int VerifyPackFileChecksum(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_has_pack_file_signature(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_pack_file_signature")]
+        public static partial int HasPackFileSignature(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_verify_pack_file_signature(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_pack_file_signature")]
+        public static partial int VerifyPackFileSignature(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_is_case_sensitive(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_is_case_sensitive")]
+        public static partial int IsCaseSensitive(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_has_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_entry")]
+        public static partial int HasEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_find_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_find_entry")]
+        public static partial void* FindEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
 
-        [DllImport("vpkppc")]
-        public static extern Buffer vpkpp_read_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_read_entry")]
+        public static partial sourcepp.Buffer ReadEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_read_entry_text(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_read_entry_text")]
+        public static partial sourcepp.String ReadEntryText(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_is_read_only(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_is_read_only")]
+        public static partial int IsReadOnly(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_entry_from_file(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_file")]
+        public static partial void AddEntryFromFile(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_entry_from_file_with_options(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath, EntryOptions options);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_file_with_options")]
+        public static partial void AddEntryFromFile(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath, EntryOptions options);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_entry_from_mem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_mem")]
+        public static partial void AddEntryFromMem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_entry_from_mem_with_options(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen, EntryOptions options);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_mem_with_options")]
+        public static partial void AddEntryFromMem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen, EntryOptions options);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, IntPtr creation);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_directory")]
+        public static partial void AddDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, IntPtr creation);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_add_directory_with_options(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, EntryOptions options);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_directory_with_options")]
+        public static partial void AddDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, EntryOptions options);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_rename_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldPath, [MarshalAs(UnmanagedType.LPStr)] string newPath);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_rename_entry")]
+        public static partial int RenameEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldPath, [MarshalAs(UnmanagedType.LPStr)] string newPath);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_rename_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldDir, [MarshalAs(UnmanagedType.LPStr)] string newDir);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_rename_directory")]
+        public static partial int RenameDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldDir, [MarshalAs(UnmanagedType.LPStr)] string newDir);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_remove_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_remove_entry")]
+        public static partial int RemoveEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_remove_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dirName);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_remove_directory")]
+        public static partial ulong RemoveDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dirName);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr callback);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_bake")]
+        public static partial int Bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr callback);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_bake_with_options(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, BakeOptions options, IntPtr callback);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_bake_with_options")]
+        public static partial int Bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, BakeOptions options, IntPtr callback);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_extract_entry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_entry")]
+        public static partial int ExtractEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_extract_directory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dir, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_directory")]
+        public static partial int ExtractDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dir, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_extract_all(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, int createUnderPackFileDir);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_all")]
+        public static partial int ExtractAll(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, int createUnderPackFileDir);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_extract_all_if(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr predicate, int stripSharedDirs);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_all_if")]
+        public static partial int ExtractAllIf(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr predicate, int stripSharedDirs);
 
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_get_entry_count(void* handle, int includeUnbaked);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_entry_count")]
+        public static partial ulong GetEntryCount(void* handle, int includeUnbaked);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_run_for_all_entries(void* handle, IntPtr operation, int includeUnbaked);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_run_for_all_entries")]
+        public static partial void RunForAllEntries(void* handle, IntPtr operation, int includeUnbaked);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_filepath(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filepath")]
+        public static partial sourcepp.String GetFilepath(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_truncated_filepath(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filepath")]
+        public static partial sourcepp.String GetTruncatedFilepath(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_filename(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filename")]
+        public static partial sourcepp.String GetFilename(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_truncated_filename(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filename")]
+        public static partial sourcepp.String GetTruncatedFilename(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_filestem(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filestem")]
+        public static partial sourcepp.String GetFilestem(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_get_truncated_filestem(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filestem")]
+        public static partial sourcepp.String GetTruncatedFilestem(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern Attribute vpkpp_get_supported_entry_attributes(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_supported_entry_attributes")]
+        public static partial Attribute GetSupportedEntryAttributes(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_to_string(void* handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_to_string")]
+        public static partial sourcepp.String ToString(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_close(void** handle);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_close")]
+        public static partial void Close(void** handle);
 
-        [DllImport("vpkppc")]
-        public static extern String vpkpp_escape_entry_path_for_write([MarshalAs(UnmanagedType.LPStr)] string path);
+        [LibraryImport("vpkppc", EntryPoint = "vpkpp_escape_entry_path_for_write")]
+        public static partial sourcepp.String EscapeEntryPathForWrite([MarshalAs(UnmanagedType.LPStr)] string path);
     }
 
     public class PackFile
@@ -162,7 +162,7 @@ namespace vpkpp
             {
                 fixed (void** handlePtr = &Handle)
                 {
-                    Extern.vpkpp_close(handlePtr);
+                    Extern.Close(handlePtr);
                 }
             }
         }
@@ -171,7 +171,7 @@ namespace vpkpp
         {
             unsafe
             {
-                var handle = Extern.vpkpp_open(path, 0);
+                var handle = Extern.Open(path, 0);
                 return handle == null ? null : new PackFile(handle);
             }
         }
@@ -184,28 +184,28 @@ namespace vpkpp
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new PackFile(handle);
             }
         }
 
         public static string EscapeEntryPathForWrite(string path)
         {
-            var str = Extern.vpkpp_escape_entry_path_for_write(path);
-            return StringUtils.ConvertToStringAndDelete(ref str);
+            var str = Extern.EscapeEntryPathForWrite(path);
+            return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
         }
 
         public static List<string> GetSupportedFileTypes()
         {
-            var stringArray = Extern.vpkpp_get_openable_extensions();
-            return StringUtils.ConvertToListAndDelete(ref stringArray);
+            var stringArray = Extern.GetOpenableExtensions();
+            return sourcepp.StringUtils.ConvertToListAndDelete(ref stringArray);
         }
 
         public bool HasEntryChecksums()
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_entry_checksums(Handle));
+                return Convert.ToBoolean(Extern.HasEntryChecksums(Handle));
             }
         }
 
@@ -213,8 +213,8 @@ namespace vpkpp
         {
             unsafe
             {
-                var stringArray = Extern.vpkpp_verify_entry_checksums(Handle);
-                return StringUtils.ConvertToListAndDelete(ref stringArray);
+                var stringArray = Extern.VerifyEntryChecksums(Handle);
+                return sourcepp.StringUtils.ConvertToListAndDelete(ref stringArray);
             }
         }
 
@@ -222,7 +222,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_pack_file_checksum(Handle));
+                return Convert.ToBoolean(Extern.HasPackFileChecksum(Handle));
             }
         }
 
@@ -230,7 +230,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_verify_pack_file_checksum(Handle));
+                return Convert.ToBoolean(Extern.VerifyPackFileChecksum(Handle));
             }
         }
 
@@ -238,7 +238,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_pack_file_signature(Handle));
+                return Convert.ToBoolean(Extern.HasPackFileSignature(Handle));
             }
         }
 
@@ -246,7 +246,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_verify_pack_file_signature(Handle));
+                return Convert.ToBoolean(Extern.VerifyPackFileSignature(Handle));
             }
         }
 
@@ -254,7 +254,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_has_entry(Handle, path, Convert.ToInt32(includeUnbaked)));
+                return Convert.ToBoolean(Extern.HasEntry(Handle, path, Convert.ToInt32(includeUnbaked)));
             }
         }
 
@@ -262,7 +262,7 @@ namespace vpkpp
         {
             unsafe
             {
-                var entry = Extern.vpkpp_find_entry(Handle, path, Convert.ToInt32(includeUnbaked));
+                var entry = Extern.FindEntry(Handle, path, Convert.ToInt32(includeUnbaked));
                 return entry == null ? null : new Entry(entry, false);
             }
         }
@@ -271,8 +271,8 @@ namespace vpkpp
         {
             unsafe
             {
-                var buffer = Extern.vpkpp_read_entry(Handle, path);
-                return buffer.size < 0 ? null : BufferUtils.ConvertToArrayAndDelete(ref buffer);
+                var buffer = Extern.ReadEntry(Handle, path);
+                return buffer.size < 0 ? null : sourcepp.BufferUtils.ConvertToArrayAndDelete(ref buffer);
             }
         }
 
@@ -280,8 +280,8 @@ namespace vpkpp
         {
             unsafe
             {
-                var str = Extern.vpkpp_read_entry_text(Handle, path);
-                return str.size < 0 ? null : StringUtils.ConvertToStringAndDelete(ref str);
+                var str = Extern.ReadEntryText(Handle, path);
+                return str.size < 0 ? null : sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
             }
         }
 
@@ -289,7 +289,7 @@ namespace vpkpp
         {
             unsafe
             {
-                Extern.vpkpp_add_entry_from_file(Handle, entryPath, filepath);
+                Extern.AddEntryFromFile(Handle, entryPath, filepath);
             }
         }
 
@@ -297,7 +297,7 @@ namespace vpkpp
         {
             unsafe
             {
-                Extern.vpkpp_add_entry_from_file_with_options(Handle, entryPath, filepath, options);
+                Extern.AddEntryFromFile(Handle, entryPath, filepath, options);
             }
         }
 
@@ -307,7 +307,7 @@ namespace vpkpp
             {
                 fixed (byte* bufferPtr = buffer)
                 {
-                    Extern.vpkpp_add_entry_from_mem(Handle, path, bufferPtr, (ulong) buffer.LongLength);
+                    Extern.AddEntryFromMem(Handle, path, bufferPtr, (ulong) buffer.LongLength);
                 }
             }
         }
@@ -318,7 +318,7 @@ namespace vpkpp
             {
                 fixed (byte* bufferPtr = buffer)
                 {
-                    Extern.vpkpp_add_entry_from_mem_with_options(Handle, path, bufferPtr, (ulong) buffer.LongLength, options);
+                    Extern.AddEntryFromMem(Handle, path, bufferPtr, (ulong) buffer.LongLength, options);
                 }
             }
         }
@@ -330,7 +330,7 @@ namespace vpkpp
                 var data = buffer.ToArray();
                 fixed (byte* bufferPtr = data)
                 {
-                    Extern.vpkpp_add_entry_from_mem(Handle, path, bufferPtr, (ulong)data.LongLength);
+                    Extern.AddEntryFromMem(Handle, path, bufferPtr, (ulong)data.LongLength);
                 }
             }
         }
@@ -342,7 +342,7 @@ namespace vpkpp
                 var data = buffer.ToArray();
                 fixed (byte* bufferPtr = data)
                 {
-                    Extern.vpkpp_add_entry_from_mem_with_options(Handle, path, bufferPtr, (ulong)data.LongLength, options);
+                    Extern.AddEntryFromMem(Handle, path, bufferPtr, (ulong)data.LongLength, options);
                 }
             }
         }
@@ -351,7 +351,7 @@ namespace vpkpp
         {
             unsafe
             {
-                Extern.vpkpp_add_directory(Handle, entryBasePath, dir, 0);
+                Extern.AddDirectory(Handle, entryBasePath, dir, 0);
             }
         }
 
@@ -359,7 +359,7 @@ namespace vpkpp
         {
             unsafe
             {
-                Extern.vpkpp_add_directory_with_options(Handle, entryBasePath, dir, options);
+                Extern.AddDirectory(Handle, entryBasePath, dir, options);
             }
         }
 
@@ -371,7 +371,7 @@ namespace vpkpp
                 {
                     return creation(path);
                 };
-                Extern.vpkpp_add_directory(Handle, entryBasePath, dir, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                Extern.AddDirectory(Handle, entryBasePath, dir, Marshal.GetFunctionPointerForDelegate(callbackNative));
             }
         }
 
@@ -379,7 +379,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_rename_entry(Handle, oldPath, newPath));
+                return Convert.ToBoolean(Extern.RenameEntry(Handle, oldPath, newPath));
             }
         }
 
@@ -387,7 +387,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_rename_directory(Handle, oldDir, newDir));
+                return Convert.ToBoolean(Extern.RenameDirectory(Handle, oldDir, newDir));
             }
         }
 
@@ -395,7 +395,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_remove_entry(Handle, path));
+                return Convert.ToBoolean(Extern.RemoveEntry(Handle, path));
             }
         }
 
@@ -403,7 +403,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Extern.vpkpp_remove_directory(Handle, dirName);
+                return Extern.RemoveDirectory(Handle, dirName);
             }
         }
 
@@ -411,7 +411,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_bake(Handle, outputDir, 0));
+                return Convert.ToBoolean(Extern.Bake(Handle, outputDir, 0));
             }
         }
 
@@ -423,7 +423,7 @@ namespace vpkpp
                 {
                     callback(path, new Entry(entry, true));
                 };
-                return Convert.ToBoolean(Extern.vpkpp_bake(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(callbackNative)));
+                return Convert.ToBoolean(Extern.Bake(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(callbackNative)));
             }
         }
 
@@ -431,7 +431,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_bake_with_options(Handle, outputDir, options, 0));
+                return Convert.ToBoolean(Extern.Bake(Handle, outputDir, options, 0));
             }
         }
 
@@ -443,7 +443,7 @@ namespace vpkpp
                 {
                     callback(path, new Entry(entry, true));
                 };
-                return Convert.ToBoolean(Extern.vpkpp_bake_with_options(Handle, outputDir, options, Marshal.GetFunctionPointerForDelegate(callbackNative)));
+                return Convert.ToBoolean(Extern.Bake(Handle, outputDir, options, Marshal.GetFunctionPointerForDelegate(callbackNative)));
             }
         }
 
@@ -451,7 +451,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_extract_entry(Handle, entryPath, filepath));
+                return Convert.ToBoolean(Extern.ExtractEntry(Handle, entryPath, filepath));
             }
         }
 
@@ -459,7 +459,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_extract_directory(Handle, dir, outputDir));
+                return Convert.ToBoolean(Extern.ExtractDirectory(Handle, dir, outputDir));
             }
         }
 
@@ -467,7 +467,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_extract_all(Handle, outputDir, Convert.ToInt32(createUnderPackFileDir)));
+                return Convert.ToBoolean(Extern.ExtractAll(Handle, outputDir, Convert.ToInt32(createUnderPackFileDir)));
             }
         }
 
@@ -479,7 +479,7 @@ namespace vpkpp
                 {
                     return Convert.ToInt32(predicate(path, new Entry(entry, true)));
                 };
-                return Convert.ToBoolean(Extern.vpkpp_extract_all_if(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(predicateNative), Convert.ToInt32(stripSharedDirs)));
+                return Convert.ToBoolean(Extern.ExtractAllIf(Handle, outputDir, Marshal.GetFunctionPointerForDelegate(predicateNative), Convert.ToInt32(stripSharedDirs)));
             }
         }
 
@@ -487,7 +487,7 @@ namespace vpkpp
         {
             unsafe
             {
-                return Extern.vpkpp_get_entry_count(Handle, Convert.ToInt32(includeUnbaked));
+                return Extern.GetEntryCount(Handle, Convert.ToInt32(includeUnbaked));
             }
         }
 
@@ -499,7 +499,7 @@ namespace vpkpp
                 {
                     operation(path, new Entry(entry, true));
                 };
-                Extern.vpkpp_run_for_all_entries(Handle, Marshal.GetFunctionPointerForDelegate(callbackNative), Convert.ToInt32(includeUnbaked));
+                Extern.RunForAllEntries(Handle, Marshal.GetFunctionPointerForDelegate(callbackNative), Convert.ToInt32(includeUnbaked));
             }
         }
 
@@ -507,18 +507,19 @@ namespace vpkpp
         {
             unsafe
             {
-                var str = Extern.vpkpp_to_string(Handle);
-                return StringUtils.ConvertToStringAndDelete(ref str);
+                var str = Extern.ToString(Handle);
+                return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
             }
         }
 
-        public PackFileType Type
+        public string TypeGUID
         {
             get
             {
                 unsafe
                 {
-                    return Extern.vpkpp_get_type(Handle);
+					var str = Extern.GetGUID(Handle);
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -529,7 +530,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Convert.ToBoolean(Extern.vpkpp_is_case_sensitive(Handle));
+                    return Convert.ToBoolean(Extern.IsCaseSensitive(Handle));
                 }
             }
         }
@@ -540,7 +541,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Convert.ToBoolean(Extern.vpkpp_is_read_only(Handle));
+                    return Convert.ToBoolean(Extern.IsReadOnly(Handle));
                 }
             }
         }
@@ -551,8 +552,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_filepath(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetFilepath(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -563,8 +564,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_truncated_filepath(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetTruncatedFilepath(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -575,8 +576,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_filename(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetFilename(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -587,8 +588,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_truncated_filename(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetTruncatedFilename(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -599,8 +600,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_filestem(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetFilestem(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -611,8 +612,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var str = Extern.vpkpp_get_truncated_filestem(Handle);
-                    return StringUtils.ConvertToStringAndDelete(ref str);
+                    var str = Extern.GetTruncatedFilestem(Handle);
+                    return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
                 }
             }
         }
@@ -623,7 +624,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_get_supported_entry_attributes(Handle);
+                    return Extern.GetSupportedEntryAttributes(Handle);
                 }
             }
         }

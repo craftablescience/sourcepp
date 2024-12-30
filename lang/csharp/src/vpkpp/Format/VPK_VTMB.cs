@@ -7,11 +7,17 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_vtmb_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class VPK_VTMB
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_vtmb_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_vtmb_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_vtmb_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_vtmb_guid")]
+			public static partial sourcepp.String GUID();
+		}
     }
 
     public class VPK_VTMB : PackFile
@@ -22,7 +28,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_vtmb_create(path);
+                var handle = Extern.VPK_VTMB.Create(path);
                 return handle == null ? null : new VPK_VTMB(handle);
             }
         }
@@ -31,7 +37,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_vtmb_open(path, 0);
+                var handle = Extern.VPK_VTMB.Open(path, 0);
                 return handle == null ? null : new VPK_VTMB(handle);
             }
         }
@@ -44,9 +50,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_vpk_vtmb_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.VPK_VTMB.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new VPK_VTMB(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.VPK_VTMB.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

@@ -20,9 +20,7 @@ using namespace vpkpp;
 
 ZIP::ZIP(const std::string& fullFilePath_)
 		: PackFile(fullFilePath_)
-		, tempZIPPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {
-	this->type = PackFileType::ZIP;
-}
+		, tempZIPPath((std::filesystem::temp_directory_path() / (string::generateUUIDv4() + ".zip")).string()) {}
 
 ZIP::~ZIP() {
 	this->closeZIP();
@@ -165,15 +163,15 @@ void ZIP::setEntryCompressionType(const std::string& path_, EntryCompressionType
 	}
 }
 
-uint16_t ZIP::getEntryCompressionStrength(const std::string& path_) const {
+int16_t ZIP::getEntryCompressionStrength(const std::string& path_) const {
 	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
-		return static_cast<uint16_t>(this->entries.at(path).flags & 0xffff);
+		return static_cast<int16_t>(this->entries.at(path).flags & 0xffff);
 	}
 	return 0;
 }
 
-void ZIP::setEntryCompressionStrength(const std::string& path_, uint16_t strength) {
+void ZIP::setEntryCompressionStrength(const std::string& path_, int16_t strength) {
 	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.count(path)) {
 		this->entries.at(path).flags = (this->entries.at(path).flags & 0xffff0000) | strength;

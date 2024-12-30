@@ -14,7 +14,6 @@
 #include "Attribute.h"
 #include "Entry.h"
 #include "Options.h"
-#include "PackFileType.h"
 
 namespace vpkpp {
 
@@ -50,8 +49,15 @@ public:
 	/// Returns a sorted list of supported extensions for opening, e.g. {".bsp", ".vpk"}
 	[[nodiscard]] static std::vector<std::string> getOpenableExtensions();
 
-	/// Get the file type of the pack file
-	[[nodiscard]] PackFileType getType() const;
+	/// Get the GUID corresponding to the pack file type
+	[[nodiscard]] virtual constexpr std::string_view getGUID() const = 0;
+
+	/// Check if the pack file is an instance of the given pack file class
+	template<typename T>
+	requires requires (const T&) {{T::GUID} -> std::convertible_to<std::string_view>;}
+	[[nodiscard]] bool isInstanceOf() const {
+		return this->getGUID() == T::GUID;
+	}
 
 	/// Returns true if the format has a checksum for each entry
 	[[nodiscard]] virtual constexpr bool hasEntryChecksums() const {
@@ -77,7 +83,7 @@ public:
 	[[nodiscard]] virtual bool verifyPackFileSignature() const;
 
 	/// Does the format support case-sensitive file names?
-	[[nodiscard]] virtual constexpr bool isCaseSensitive() const noexcept {
+	[[nodiscard]] virtual constexpr bool isCaseSensitive() const {
 		return false;
 	}
 
@@ -211,9 +217,6 @@ protected:
 	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory);
 
 	std::string fullFilePath;
-
-	PackFileType type = PackFileType::UNKNOWN;
-
 	EntryTrie entries;
 	EntryTrie unbakedEntries;
 };

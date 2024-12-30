@@ -25,6 +25,14 @@ public:
 	// Always return a unique_ptr to PackFile so it has a uniform return type
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	// Use a site like https://guidgenerator.com/ to generate a GUID - don't copypaste this one!!!
+	static constexpr inline std::string_view GUID = "9F389AF190E74D3DA472C5AA4B881F83";
+
+	// Necessary to identify the type of the pack file
+	[[nodiscard]] constexpr std::string_view getGUID() const noexcept override {
+		return EXAMPLE::GUID;
+	}
+
 	// [OPTIONAL] Implement this and return true if your file format is case-sensitive
 	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
 		return PackFile::isCaseSensitive();
@@ -47,7 +55,7 @@ public:
 	}
 
 protected:
-	explicit EXAMPLE(const std::string& fullFilePath_);
+	using PackFile::PackFile;
 
 	// [WRITE] Adds a new entry from either a filename or a buffer
 	// Again, if your type needs any new options specific to entries, add them to EntryOptions

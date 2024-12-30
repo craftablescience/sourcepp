@@ -8,12 +8,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-EXAMPLE::EXAMPLE(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	// Add a new type in the PackFileType enum for this file type, and set it here
-	this->type = PackFileType::UNKNOWN;
-}
-
 std::unique_ptr<PackFile> EXAMPLE::open(const std::string& path, const EntryCallback& callback) {
 	// Check if the file exists
 	if (!std::filesystem::exists(path)) {

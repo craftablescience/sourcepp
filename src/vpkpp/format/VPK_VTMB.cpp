@@ -9,11 +9,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-VPK_VTMB::VPK_VTMB(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::VPK_VTMB;
-}
-
 std::unique_ptr<PackFile> VPK_VTMB::create(const std::string& path) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};

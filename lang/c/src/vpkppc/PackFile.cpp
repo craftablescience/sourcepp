@@ -28,10 +28,10 @@ SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions() {
 	return Convert::toStringArray(PackFile::getOpenableExtensions());
 }
 
-SOURCEPP_API vpkpp_pack_file_type_e vpkpp_get_type(vpkpp_pack_file_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_PACK_FILE_TYPE_UNKNOWN);
+SOURCEPP_API sourcepp_string_t vpkpp_get_guid(vpkpp_pack_file_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return static_cast<vpkpp_pack_file_type_e>(Convert::packFile(handle)->getType());
+	return Convert::toString(Convert::packFile(handle)->getGUID());
 }
 
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle) {

@@ -112,15 +112,17 @@ protected:
 public:
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	static constexpr inline std::string_view GUID = "0C088488F666451E9361297528F2446D";
+
+	[[nodiscard]] constexpr std::string_view getGUID() const override {
+		return GCF::GUID;
+	}
+
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
-
-	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
-		return true;
-	}
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
@@ -129,7 +131,7 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	explicit GCF(const std::string& fullFilePath_);
+	using PackFileReadOnly::PackFileReadOnly;
 
 	Header header{};
 	BlockHeader blockheader{};

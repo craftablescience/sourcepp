@@ -7,14 +7,20 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_pck_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class PCK
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_pck_create_with_options([MarshalAs(UnmanagedType.LPStr)] string path, uint version, uint godotMajorVersion, uint godotMinorVersion, uint godotPatchVersion);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_create_with_options")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, uint version, uint godotMajorVersion, uint godotMinorVersion, uint godotPatchVersion);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_pck_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_guid")]
+			public static partial sourcepp.String GUID();
+		}
     }
 
     public class PCK : PackFile
@@ -25,7 +31,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_pck_create(path);
+                var handle = Extern.PCK.Create(path);
                 return handle == null ? null : new PCK(handle);
             }
         }
@@ -34,7 +40,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_pck_create_with_options(path, version, godotMajorVersion, godotMinorVersion, godotPatchVersion);
+                var handle = Extern.PCK.Create(path, version, godotMajorVersion, godotMinorVersion, godotPatchVersion);
                 return handle == null ? null : new PCK(handle);
             }
         }
@@ -43,7 +49,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_pck_open(path, 0);
+                var handle = Extern.PCK.Open(path, 0);
                 return handle == null ? null : new PCK(handle);
             }
         }
@@ -56,9 +62,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_pck_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.PCK.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new PCK(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.PCK.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

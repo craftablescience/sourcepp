@@ -37,11 +37,11 @@ struct EntryOptions {
 	/// BSP/ZIP - The compression strength
 	int16_t zip_compressionStrength = 5;
 
+	/// VPK - The amount in bytes of the file to preload. Maximum is controlled by VPK_MAX_PRELOAD_BYTES (format/VPK.h)
+	uint16_t vpk_preloadBytes = 0;
+
 	/// VPK - Save this entry to the directory VPK
 	bool vpk_saveToDirectory = false;
-
-	/// VPK - The amount in bytes of the file to preload. Maximum is controlled by VPK_MAX_PRELOAD_BYTES (format/VPK.h)
-	uint32_t vpk_preloadBytes = 0;
 };
 
 } // namespace vpkpp

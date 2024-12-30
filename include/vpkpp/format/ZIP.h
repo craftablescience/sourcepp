@@ -19,13 +19,19 @@ public:
 	/// Open a ZIP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	static constexpr inline std::string_view GUID = "3F3FDBC4F5D44B1F8A8E3AF5611B561B";
+
+	[[nodiscard]] constexpr std::string_view getGUID() const override {
+		return ZIP::GUID;
+	}
+
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}
 
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override;
 
-	[[nodiscard]] constexpr bool isCaseSensitive() const noexcept override {
+	[[nodiscard]] constexpr bool isCaseSensitive() const override {
 		return true;
 	}
 
@@ -39,9 +45,9 @@ public:
 
 	void setEntryCompressionType(const std::string& path_, EntryCompressionType type);
 
-	[[nodiscard]] uint16_t getEntryCompressionStrength(const std::string& path_) const;
+	[[nodiscard]] int16_t getEntryCompressionStrength(const std::string& path_) const;
 
-	void setEntryCompressionStrength(const std::string& path_, uint16_t strength);
+	void setEntryCompressionStrength(const std::string& path_, int16_t strength);
 
 protected:
 	explicit ZIP(const std::string& fullFilePath_);

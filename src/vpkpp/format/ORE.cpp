@@ -7,11 +7,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-ORE::ORE(const std::string& fullFilePath_)
-		: PackFileReadOnly(fullFilePath_) {
-	this->type = PackFileType::ORE;
-}
-
 std::unique_ptr<PackFile> ORE::create(const std::string& path) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};

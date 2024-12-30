@@ -16,7 +16,7 @@ constexpr std::string_view VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE = "public_key\n{\n\tt
 constexpr std::string_view VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE = "private_key\n{\n\ttype \"rsa\"\n\trsa_private_key \"%s\"\n\tprivate_key_encrypted 0\n\tpublic_key\n\t{\n\t\ttype \"rsa\"\n\t\trsa_public_key \"%s\"\n\t}\n}\n";
 
 /// Maximum preload data size in bytes
-constexpr uint32_t VPK_MAX_PRELOAD_BYTES = 1024;
+constexpr uint16_t VPK_MAX_PRELOAD_BYTES = 1024;
 
 /// Chunk size in bytes (default is 200mb)
 constexpr uint32_t VPK_DEFAULT_CHUNK_SIZE = 200 * 1024 * 1024;
@@ -70,6 +70,12 @@ public:
 	/// Open a VPK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	static constexpr inline std::string_view GUID = "98148F7C8701469CB2D8F8620FD738A3";
+
+	[[nodiscard]] constexpr std::string_view getGUID() const override {
+		return VPK::GUID;
+	}
+
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}
@@ -122,7 +128,7 @@ public:
 	void setChunkSize(uint32_t newChunkSize);
 
 protected:
-	explicit VPK(const std::string& fullFilePath_);
+	using PackFile::PackFile;
 
 	[[nodiscard]] static std::unique_ptr<PackFile> openInternal(const std::string& path, const EntryCallback& callback = nullptr);
 

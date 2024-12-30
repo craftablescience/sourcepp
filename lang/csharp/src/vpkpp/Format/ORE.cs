@@ -7,11 +7,17 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_ore_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class ORE
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_ore_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_guid")]
+			public static partial sourcepp.String GUID();
+		}
     }
 
     public class ORE : PackFile
@@ -22,7 +28,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_ore_create(path);
+                var handle = Extern.ORE.Create(path);
                 return handle == null ? null : new ORE(handle);
             }
         }
@@ -31,7 +37,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_ore_open(path, 0);
+                var handle = Extern.ORE.Open(path, 0);
                 return handle == null ? null : new ORE(handle);
             }
         }
@@ -44,9 +50,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_ore_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.ORE.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new ORE(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.ORE.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

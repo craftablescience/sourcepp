@@ -44,15 +44,10 @@ std::string removeVPKAndOrDirSuffix(const std::string& path, bool isFPX) {
 }
 
 bool isFPX(const VPK* vpk) {
-	return vpk->getType() == PackFileType::FPX;
+	return vpk->isInstanceOf<FPX>();
 }
 
 } // namespace
-
-VPK::VPK(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::VPK;
-}
 
 std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version) {
 	if (version != 0 && version != 1 && version != 2 && version != 54) {
@@ -443,7 +438,7 @@ void VPK::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 	}
 
 	if (options.vpk_preloadBytes > 0) {
-		const auto clampedPreloadBytes = std::clamp(options.vpk_preloadBytes, 0u, buffer.size() > VPK_MAX_PRELOAD_BYTES ? VPK_MAX_PRELOAD_BYTES : static_cast<uint32_t>(buffer.size()));
+		const auto clampedPreloadBytes = std::clamp<uint16_t>(options.vpk_preloadBytes, 0, buffer.size() > VPK_MAX_PRELOAD_BYTES ? VPK_MAX_PRELOAD_BYTES : static_cast<uint16_t>(buffer.size()));
 		entry.extraData.resize(clampedPreloadBytes);
 		std::memcpy(entry.extraData.data(), buffer.data(), clampedPreloadBytes);
 		buffer.erase(buffer.begin(), buffer.begin() + clampedPreloadBytes);

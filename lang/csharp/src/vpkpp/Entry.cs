@@ -5,32 +5,35 @@ namespace vpkpp
 {
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern uint vpkpp_entry_get_flags(void* handle);
+		internal static unsafe partial class Entry
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_flags")]
+			public static partial uint GetFlags(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern uint vpkpp_entry_get_archive_index(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_archive_index")]
+			public static partial uint GetArchiveIndex(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_length(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_length")]
+			public static partial ulong GetLength(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_compressed_length(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_compressed_length")]
+			public static partial ulong GetCompressedLength(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern ulong vpkpp_entry_get_offset(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_offset")]
+			public static partial ulong GetOffset(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern Buffer vpkpp_entry_get_extra_data(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_extra_data")]
+			public static partial sourcepp.Buffer GetExtraData(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern uint vpkpp_entry_get_crc32(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_crc32")]
+			public static partial uint GetCRC32(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern int vpkpp_entry_is_unbaked(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_is_unbaked")]
+			public static partial int IsUnbaked(void* handle);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_entry_free(void** handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_free")]
+			public static partial void Free(void** handle);
+		}
     }
 
     public class Entry
@@ -49,7 +52,7 @@ namespace vpkpp
                 {
                     fixed (void** handlePtr = &Handle)
                     {
-                        Extern.vpkpp_entry_free(handlePtr);
+                        Extern.Entry.Free(handlePtr);
                     }
                 }
             }
@@ -61,7 +64,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_flags(Handle);
+                    return Extern.Entry.GetFlags(Handle);
                 }
             }
         }
@@ -72,7 +75,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_archive_index(Handle);
+                    return Extern.Entry.GetArchiveIndex(Handle);
                 }
             }
         }
@@ -83,7 +86,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_length(Handle);
+                    return Extern.Entry.GetLength(Handle);
                 }
             }
         }
@@ -94,7 +97,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_compressed_length(Handle);
+                    return Extern.Entry.GetCompressedLength(Handle);
                 }
             }
         }
@@ -105,7 +108,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_offset(Handle);
+                    return Extern.Entry.GetOffset(Handle);
                 }
             }
         }
@@ -116,8 +119,8 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    var buffer = Extern.vpkpp_entry_get_extra_data(Handle);
-                    return BufferUtils.ConvertToArrayAndDelete(ref buffer);
+                    var buffer = Extern.Entry.GetExtraData(Handle);
+                    return sourcepp.BufferUtils.ConvertToArrayAndDelete(ref buffer);
                 }
             }
         }
@@ -128,7 +131,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Extern.vpkpp_entry_get_crc32(Handle);
+                    return Extern.Entry.GetCRC32(Handle);
                 }
             }
         }
@@ -139,7 +142,7 @@ namespace vpkpp
             {
                 unsafe
                 {
-                    return Convert.ToBoolean(Extern.vpkpp_entry_is_unbaked(Handle));
+                    return Convert.ToBoolean(Extern.Entry.IsUnbaked(Handle));
                 }
             }
         }

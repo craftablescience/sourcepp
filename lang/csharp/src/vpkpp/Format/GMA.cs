@@ -7,9 +7,15 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_gma_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-    }
+		internal static unsafe partial class GMA
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gma_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gma_guid")]
+			public static partial sourcepp.String GUID();
+		}
+	}
 
     public class GMA : PackFile
     {
@@ -19,7 +25,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_gma_open(path, 0);
+                var handle = Extern.GMA.Open(path, 0);
                 return handle == null ? null : new GMA(handle);
             }
         }
@@ -32,9 +38,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_gma_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.GMA.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new GMA(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.GMA.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

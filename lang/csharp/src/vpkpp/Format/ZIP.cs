@@ -7,12 +7,30 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class ZIP
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_zip_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-    }
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_guid")]
+			public static partial sourcepp.String GUID();
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_type")]
+			public static partial int GetEntryCompressionType(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_type")]
+			public static partial void SetEntryCompressionType(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int type);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_strength")]
+			public static partial short GetEntryCompressionStrength(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_strength")]
+			public static partial void SetEntryCompressionStrength(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, short strength);
+		}
+	}
 
     public class ZIP : PackFile
     {
@@ -22,7 +40,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_zip_create(path);
+                var handle = Extern.ZIP.Create(path);
                 return handle == null ? null : new ZIP(handle);
             }
         }
@@ -31,7 +49,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_zip_open(path, 0);
+                var handle = Extern.ZIP.Open(path, 0);
                 return handle == null ? null : new ZIP(handle);
             }
         }
@@ -44,9 +62,53 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_zip_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.ZIP.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new ZIP(handle);
             }
         }
-    }
+
+		public EntryCompressionType GetEntryCompressionType(string path)
+		{
+			unsafe
+			{
+				return (EntryCompressionType)Extern.ZIP.GetEntryCompressionType(Handle, path);
+			}
+		}
+
+		public void SetEntryCompressionType(string path, EntryCompressionType type)
+		{
+			unsafe
+			{
+				Extern.ZIP.SetEntryCompressionType(Handle, path, (int)type);
+			}
+		}
+
+		public short GetEntryCompressionStrength(string path)
+		{
+			unsafe
+			{
+				return Extern.ZIP.GetEntryCompressionStrength(Handle, path);
+			}
+		}
+
+		public void SetEntryCompressionStrength(string path, short strength)
+		{
+			unsafe
+			{
+				Extern.ZIP.SetEntryCompressionStrength(Handle, path, strength);
+			}
+		}
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.ZIP.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

@@ -10,11 +10,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-GCF::GCF(const std::string& fullFilePath_)
-		: PackFileReadOnly(fullFilePath_) {
-	this->type = PackFileType::GCF;
-}
-
 std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback& callback) {
 	// TODO: Add v5 and perhaps v4 support
 

@@ -7,9 +7,15 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_gcf_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-    }
+		internal static unsafe partial class GCF
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gcf_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gcf_guid")]
+			public static partial sourcepp.String GUID();
+		}
+	}
 
     public class GCF : PackFile
     {
@@ -19,7 +25,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_gcf_open(path, 0);
+                var handle = Extern.GCF.Open(path, 0);
                 return handle == null ? null : new GCF(handle);
             }
         }
@@ -32,9 +38,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_gcf_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new GCF(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.GCF.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

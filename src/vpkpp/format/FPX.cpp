@@ -7,11 +7,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-FPX::FPX(const std::string& fullFilePath_)
-		: VPK(fullFilePath_) {
-	this->type = PackFileType::FPX;
-}
-
 std::unique_ptr<PackFile> FPX::create(const std::string& path) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};

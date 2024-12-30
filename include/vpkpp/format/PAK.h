@@ -18,6 +18,12 @@ public:
 	/// Open a PAK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	static constexpr inline std::string_view GUID = "C282210FE64D46D1AE364D7E8E925542";
+
+	[[nodiscard]] constexpr std::string_view getGUID() const override {
+		return PAK::GUID;
+	}
+
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
@@ -25,7 +31,7 @@ public:
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
 protected:
-	explicit PAK(const std::string& fullFilePath_);
+	using PackFile::PackFile;
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 

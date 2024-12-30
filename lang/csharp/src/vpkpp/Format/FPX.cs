@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Runtime.InteropServices;
 
 namespace vpkpp.Format
@@ -7,11 +7,17 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_fpx_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class FPX
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_fpx_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_guid")]
+			public static partial sourcepp.String GUID();
+		}
     }
 
     public class FPX : PackFile
@@ -22,7 +28,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_fpx_create(path);
+                var handle = Extern.FPX.Create(path);
                 return handle == null ? null : new FPX(handle);
             }
         }
@@ -31,7 +37,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_fpx_open(path, 0);
+                var handle = Extern.FPX.Open(path, 0);
                 return handle == null ? null : new FPX(handle);
             }
         }
@@ -44,8 +50,20 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_fpx_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.FPX.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new FPX(handle);
+            }
+        }
+
+        public static string GUID
+        {
+            get
+            {
+                unsafe
+                {
+					var str = Extern.FPX.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
             }
         }
     }

@@ -12,11 +12,6 @@ using namespace vpkpp;
 constexpr int PCK_DIRECTORY_STRING_PADDING = 4;
 constexpr int PCK_FILE_DATA_PADDING = 16;
 
-PCK::PCK(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::PCK;
-}
-
 std::unique_ptr<PackFile> PCK::create(const std::string& path, uint32_t version, uint32_t godotMajorVersion, uint32_t godotMinorVersion, uint32_t godotPatchVersion) {
 	if (version != 1 && version != 2) {
 		return nullptr;

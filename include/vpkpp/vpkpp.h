@@ -20,4 +20,3 @@
 #include "Entry.h"
 #include "Options.h"
 #include "PackFile.h"
-#include "PackFileType.h"

@@ -6,7 +6,6 @@
 #include "Attribute.h"
 #include "Entry.h"
 #include "Options.h"
-#include "PackFileType.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,7 +29,8 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_c
 // REQUIRES MANUAL FREE: sourcepp_string_array_free
 SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions();
 
-SOURCEPP_API vpkpp_pack_file_type_e vpkpp_get_type(vpkpp_pack_file_handle_t handle);
+// REQUIRES MANUAL FREE: sourcepp_string_free
+SOURCEPP_API sourcepp_string_t vpkpp_get_guid(vpkpp_pack_file_handle_t handle);
 
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle);
 

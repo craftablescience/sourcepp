@@ -27,6 +27,12 @@ public:
 	/// Open a GMA file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
+	static constexpr inline std::string_view GUID = "49191CA83B7B4EBBA86D0EA364AAC457";
+
+	[[nodiscard]] constexpr std::string_view getGUID() const override {
+		return GMA::GUID;
+	}
+
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}
@@ -46,7 +52,7 @@ public:
 	[[nodiscard]] explicit operator std::string() const override;
 
 protected:
-	explicit GMA(const std::string& fullFilePath_);
+	using PackFile::PackFile;
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 

@@ -49,11 +49,6 @@ constexpr std::string_view k_FileTypeNames[] = {
 	"font",
 };
 
-WAD3::WAD3(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::WAD3;
-}
-
 std::unique_ptr<PackFile> WAD3::create(const std::string& path) {
 	FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	stream

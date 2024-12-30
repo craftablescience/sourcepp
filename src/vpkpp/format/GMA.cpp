@@ -9,11 +9,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-GMA::GMA(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::GMA;
-}
-
 std::unique_ptr<PackFile> GMA::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist

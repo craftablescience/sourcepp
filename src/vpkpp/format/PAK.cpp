@@ -7,11 +7,6 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-PAK::PAK(const std::string& fullFilePath_)
-		: PackFile(fullFilePath_) {
-	this->type = PackFileType::PAK;
-}
-
 std::unique_ptr<PackFile> PAK::create(const std::string& path) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};

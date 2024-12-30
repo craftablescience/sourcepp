@@ -7,11 +7,17 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_wad3_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class WAD3
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_wad3_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_guid")]
+			public static partial sourcepp.String GUID();
+		}
     }
 
     public class WAD3 : PackFile
@@ -22,7 +28,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_wad3_create(path);
+                var handle = Extern.WAD3.Create(path);
                 return handle == null ? null : new WAD3(handle);
             }
         }
@@ -31,7 +37,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_wad3_open(path, 0);
+                var handle = Extern.WAD3.Open(path, 0);
                 return handle == null ? null : new WAD3(handle);
             }
         }
@@ -44,9 +50,21 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_wad3_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.WAD3.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new WAD3(handle);
             }
         }
-    }
+
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.WAD3.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+	}
 }

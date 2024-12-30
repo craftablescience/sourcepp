@@ -9,29 +9,35 @@ namespace vpkpp.Format
 
     internal static unsafe partial class Extern
     {
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create([MarshalAs(UnmanagedType.LPStr)] string path);
+		internal static unsafe partial class VPK
+		{
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_create")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_create_with_options([MarshalAs(UnmanagedType.LPStr)] string path, uint version);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_create_with_options")]
+			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, uint version);
 
-        [DllImport("vpkppc")]
-        public static extern void* vpkpp_vpk_open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_open")]
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_vpk_generate_keypair_files([MarshalAs(UnmanagedType.LPStr)] string path);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_guid")]
+			public static partial sourcepp.String GUID();
 
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_vpk_sign_from_file(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filepath);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_generate_keypair_files")]
+			public static partial byte GenerateKeypairFiles([MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [DllImport("vpkppc")]
-        public static extern byte vpkpp_vpk_sign_from_mem(void* handle, byte* privateKeyBuffer, ulong privateKeyLen, byte* publicKeyBuffer, ulong publicKeyLen);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_sign_from_file")]
+			public static partial byte Sign(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-        [DllImport("vpkppc")]
-        public static extern uint vpkpp_vpk_get_version(void* handle);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_sign_from_mem")]
+			public static partial byte Sign(void* handle, byte* privateKeyBuffer, ulong privateKeyLen, byte* publicKeyBuffer, ulong publicKeyLen);
 
-        [DllImport("vpkppc")]
-        public static extern void vpkpp_vpk_set_version(void* handle, uint version);
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_get_version")]
+			public static partial uint GetVersion(void* handle);
+
+			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_set_version")]
+			public static partial void SetVersion(void* handle, uint version);
+		}
     }
 
     public class VPK : PackFile
@@ -42,7 +48,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_create(path);
+                var handle = Extern.VPK.Create(path);
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -51,7 +57,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_create_with_options(path, version);
+                var handle = Extern.VPK.Create(path, version);
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -60,7 +66,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                var handle = Extern.vpkpp_vpk_open(path, 0);
+                var handle = Extern.VPK.Open(path, 0);
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -73,7 +79,7 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.vpkpp_vpk_open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.VPK.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
                 return handle == null ? null : new VPK(handle);
             }
         }
@@ -82,7 +88,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_vpk_generate_keypair_files(path));
+                return Convert.ToBoolean(Extern.VPK.GenerateKeypairFiles(path));
             }
         }
 
@@ -90,7 +96,7 @@ namespace vpkpp.Format
         {
             unsafe
             {
-                return Convert.ToBoolean(Extern.vpkpp_vpk_sign_from_file(Handle, filepath));
+                return Convert.ToBoolean(Extern.VPK.Sign(Handle, filepath));
             }
         }
 
@@ -102,7 +108,7 @@ namespace vpkpp.Format
                 {
                     fixed (byte* publicKeyBufferPtr = publicKey)
                     {
-                        return Convert.ToBoolean(Extern.vpkpp_vpk_sign_from_mem(Handle, privateKeyBufferPtr, (ulong) privateKey.LongLength, publicKeyBufferPtr, (ulong) publicKey.LongLength));
+                        return Convert.ToBoolean(Extern.VPK.Sign(Handle, privateKeyBufferPtr, (ulong) privateKey.LongLength, publicKeyBufferPtr, (ulong) publicKey.LongLength));
                     }
                 }
             }
@@ -118,26 +124,38 @@ namespace vpkpp.Format
                 {
                     fixed (byte* publicKeyBufferPtr = publicKeyData)
                     {
-                        return Convert.ToBoolean(Extern.vpkpp_vpk_sign_from_mem(Handle, privateKeyBufferPtr, (ulong) privateKeyData.LongLength, publicKeyBufferPtr, (ulong) publicKeyData.LongLength));
+                        return Convert.ToBoolean(Extern.VPK.Sign(Handle, privateKeyBufferPtr, (ulong) privateKeyData.LongLength, publicKeyBufferPtr, (ulong) publicKeyData.LongLength));
                     }
                 }
             }
         }
 
-        public uint Version
+		public static string GUID
+		{
+			get
+			{
+				unsafe
+				{
+					var str = Extern.VPK.GUID();
+					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
+				}
+			}
+		}
+
+		public uint Version
         {
             get
             {
                 unsafe
                 {
-                    return Extern.vpkpp_vpk_get_version(Handle);
+                    return Extern.VPK.GetVersion(Handle);
                 }
             }
             set
             {
                 unsafe
                 {
-                    Extern.vpkpp_vpk_set_version(Handle, Math.Clamp(value, 1, 2));
+                    Extern.VPK.SetVersion(Handle, Math.Clamp(value, 1, 2));
                 }
             }
         }
