@@ -191,11 +191,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="13"><code>vtfpp</code></td>
+    <td rowspan="14"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="13" align="center">Python</td>
+    <td rowspan="14" align="center">Python</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
@@ -246,6 +246,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html">PSD</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
+  </tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/Animated_Particles">SHT</a> v0-1</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a></td>
