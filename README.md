@@ -219,11 +219,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="25"><code>vtfpp</code></td>
+    <td rowspan="27"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="25" align="center">Python</td>
+    <td rowspan="27" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -284,6 +284,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html">PSD</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/Animated_Particles">SHT</a> v0-1</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
