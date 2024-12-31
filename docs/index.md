@@ -191,11 +191,16 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="12"><code>vtfpp</code></td>
+    <td rowspan="13"><code>vtfpp</code></td>
+    <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td rowspan="13" align="center">Python</td>
+  </tr>
+  <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="12" align="center">Python</td>
   </tr>
   <tr>
     <td><a href="https://openexr.com">EXR</a> v1</td>
