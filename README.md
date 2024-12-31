@@ -219,11 +219,17 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="23"><code>vtfpp</code></td>
+    <td rowspan="25"><code>vtfpp</code></td>
+    <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td rowspan="25" align="center">Python</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="23" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
