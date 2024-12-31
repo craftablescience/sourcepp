@@ -50,7 +50,7 @@ var searchData=
   ['contains_47',['contains',['../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167',1,'sourcepp::string']]],
   ['contents_48',['contents',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#af0481505e436fd1ff15a001d91699b31',1,'mdlpp::MDL::Bone']]],
   ['convertdata_49',['convertData',['../d3/d80/structvtfpp_1_1Resource.html#a452f64cd7c868d1b03e43e9830d4d9a7',1,'vtfpp::Resource']]],
-  ['converteddata_50',['ConvertedData',['../d3/d80/structvtfpp_1_1Resource.html#ab5079269f351efa7f186f6029adc65a8',1,'vtfpp::Resource']]],
+  ['converteddata_50',['ConvertedData',['../d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0',1,'vtfpp::Resource']]],
   ['convertescapestospecialchars_51',['convertEscapesToSpecialChars',['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a329ee9bf54ac0786210469e21f77f56b',1,'sourcepp::parser::text']]],
   ['convertfiletoimagedata_52',['convertFileToImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a0e35b062eaaf17c3235b7fb03b05e9bf',1,'vtfpp::ImageConversion']]],
   ['converthdritocubemap_53',['convertHDRIToCubeMap',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a30fb0fa055a416e7f1642b99b04a090a',1,'vtfpp::ImageConversion']]],
@@ -80,9 +80,10 @@ var searchData=
   ['createreflectivity_77',['createReflectivity',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5ddda1fb38043c7e091208018d348a2a',1,'vtfpp::VTF::CreationOptions']]],
   ['createthumbnail_78',['createThumbnail',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a5f38da3921a42d14b6d1b7fb3a01e3b7',1,'vtfpp::VTF::CreationOptions']]],
   ['creationoptions_79',['CreationOptions',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html',1,'vtfpp::VTF']]],
-  ['cryptopp_5fenable_5fnamespace_5fweak_80',['CRYPTOPP_ENABLE_NAMESPACE_WEAK',['../d0/ddd/MD5_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;MD5.cpp'],['../d1/da7/VPK_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;VPK.cpp']]],
-  ['cubemaps_81',['CUBEMAPS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54',1,'bsppp']]],
-  ['cubic_5fbspline_82',['CUBIC_BSPLINE',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77',1,'vtfpp::ImageConversion']]],
-  ['currentarchive_83',['currentArchive',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#afba35789362f5e1e8d5658b17086b57e',1,'vpkpp::VPK_VTMB']]],
-  ['currentlyfilledchunksize_84',['currentlyFilledChunkSize',['../d5/d8b/classvpkpp_1_1VPK.html#a5e7b2e84cb81359776f1daa33f1a8e9c',1,'vpkpp::VPK']]]
+  ['cropimagedata_80',['cropImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39',1,'vtfpp::ImageConversion']]],
+  ['cryptopp_5fenable_5fnamespace_5fweak_81',['CRYPTOPP_ENABLE_NAMESPACE_WEAK',['../d0/ddd/MD5_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;MD5.cpp'],['../d1/da7/VPK_8cpp.html#a60054cd46e0dc2ed04249519a5291cda',1,'CRYPTOPP_ENABLE_NAMESPACE_WEAK():&#160;VPK.cpp']]],
+  ['cubemaps_82',['CUBEMAPS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54',1,'bsppp']]],
+  ['cubic_5fbspline_83',['CUBIC_BSPLINE',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77',1,'vtfpp::ImageConversion']]],
+  ['currentarchive_84',['currentArchive',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#afba35789362f5e1e8d5658b17086b57e',1,'vpkpp::VPK_VTMB']]],
+  ['currentlyfilledchunksize_85',['currentlyFilledChunkSize',['../d5/d8b/classvpkpp_1_1VPK.html#a5e7b2e84cb81359776f1daa33f1a8e9c',1,'vpkpp::VPK']]]
 ];

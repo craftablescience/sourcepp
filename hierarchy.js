@@ -165,6 +165,10 @@ var hierarchy =
     [ "vtfpp::PPL", "df/d32/classvtfpp_1_1PPL.html", null ],
     [ "vtfpp::PPL::Image", "d1/dc9/structvtfpp_1_1PPL_1_1Image.html", null ],
     [ "vtfpp::Resource", "d3/d80/structvtfpp_1_1Resource.html", null ],
+    [ "vtfpp::SHT", "db/dde/classvtfpp_1_1SHT.html", null ],
+    [ "vtfpp::SHT::Sequence", "d3/d32/structvtfpp_1_1SHT_1_1Sequence.html", null ],
+    [ "vtfpp::SHT::Sequence::Frame", "d0/d5e/structvtfpp_1_1SHT_1_1Sequence_1_1Frame.html", null ],
+    [ "vtfpp::SHT::Sequence::Frame::Bounds", "db/d04/structvtfpp_1_1SHT_1_1Sequence_1_1Frame_1_1Bounds.html", null ],
     [ "vtfpp::VTF", "d8/df2/classvtfpp_1_1VTF.html", null ],
     [ "vtfpp::VTF::CreationOptions", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html", null ]
 ];

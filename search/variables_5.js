@@ -32,6 +32,7 @@ var searchData=
   ['fpx_5fsignature_29',['FPX_SIGNATURE',['../d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e',1,'vpkpp']]],
   ['fragmap_30',['fragmap',['../d1/d01/classvpkpp_1_1GCF.html#ae9f739eb204683082f9b228e2d21a3f4',1,'vpkpp::GCF']]],
   ['framecount_31',['frameCount',['../d8/df2/classvtfpp_1_1VTF.html#ade453966686ddc1920e0e4995f93c223',1,'vtfpp::VTF']]],
-  ['freedchunks_32',['freedChunks',['../d5/d8b/classvpkpp_1_1VPK.html#a77c4145c9ef0870ff784edc7da7ea6f1',1,'vpkpp::VPK']]],
-  ['fullfilepath_33',['fullFilePath',['../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5',1,'vpkpp::PackFile']]]
+  ['frames_32',['frames',['../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#ac27efca7ca35b0314d03e2d9fca753b3',1,'vtfpp::SHT::Sequence']]],
+  ['freedchunks_33',['freedChunks',['../d5/d8b/classvpkpp_1_1VPK.html#a77c4145c9ef0870ff784edc7da7ea6f1',1,'vpkpp::VPK']]],
+  ['fullfilepath_34',['fullFilePath',['../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5',1,'vpkpp::PackFile']]]
 ];

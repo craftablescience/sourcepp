@@ -8,5 +8,6 @@ var searchData=
   ['lightmapvectors_5',['lightmapVectors',['../d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html#a825d8debfd80854830e67389dd56efc0',1,'bsppp::BSPTextureInfo_v0']]],
   ['lightoffset_6',['lightOffset',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a0d006eaacbc46d43ac224593c2674c7c',1,'bsppp::BSPFace_v1::lightOffset()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#aa8a83312d7b538639fafc5427e83fcf6',1,'bsppp::BSPFace_v2::lightOffset()']]],
   ['localcount_7',['localcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a0067cb75ada81714f4e30780553a2232',1,'vpkpp::GCF::DirectoryHeader']]],
-  ['lod_8',['LOD',['../d0/d4d/structmdlpp_1_1VVD_1_1Fixup.html#a8974dd183ea7e0955b8ffed95a9bde99',1,'mdlpp::VVD::Fixup']]]
+  ['lod_8',['LOD',['../d0/d4d/structmdlpp_1_1VVD_1_1Fixup.html#a8974dd183ea7e0955b8ffed95a9bde99',1,'mdlpp::VVD::Fixup']]],
+  ['loop_9',['loop',['../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#a6c1023d105945c360915a1bda66a61f8',1,'vtfpp::SHT::Sequence']]]
 ];

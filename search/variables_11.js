@@ -1,7 +1,7 @@
 var searchData=
 [
   ['seconds_0',['seconds',['../d5/d19/structdmxpp_1_1Value_1_1Time.html#afd259892e5a8ec4b619a45f870d9c3e2',1,'dmxpp::Value::Time']]],
-  ['sequences_1',['sequences',['../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23',1,'toolpp::CmdSeq']]],
+  ['sequences_1',['sequences',['../d5/d62/classtoolpp_1_1CmdSeq.html#ae29a36a856d54cd4d1067dd2389e5f23',1,'toolpp::CmdSeq::sequences()'],['../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab',1,'vtfpp::SHT::sequences()']]],
   ['side_2',['side',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a9a37c44ab1ec3ee5e8f17bf9a6bd2983',1,'bsppp::BSPFace_v1::side()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#a8ff92e3621c58631480622c78c170783',1,'bsppp::BSPFace_v2::side()']]],
   ['signature_3',['signature',['../dc/d1f/structvpkpp_1_1GMA_1_1Header.html#adc01d71c5ad8e7f24f29adf34f348577',1,'vpkpp::GMA::Header::signature()'],['../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac',1,'vpkpp::VPK::Header1::signature()'],['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#aecb6472f0b6c632d2d92645679a007f1',1,'vpkpp::VPK::Footer2::signature()']]],
   ['signaturesectionsize_4',['signatureSectionSize',['../d2/d8d/structvpkpp_1_1VPK_1_1Header2.html#a4433bf660d7dc8a7af946b21ee29f161',1,'vpkpp::VPK::Header2']]],

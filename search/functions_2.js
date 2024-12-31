@@ -27,5 +27,6 @@ var searchData=
   ['createinternal_24',['createInternal',['../d8/df2/classvtfpp_1_1VTF.html#a87c1d812b72d708cd9efa13ec6510766',1,'vtfpp::VTF']]],
   ['createlumppatchfile_25',['createLumpPatchFile',['../d5/dba/classbsppp_1_1BSP.html#aa2bd3d2880f264fa2317fed4e0f43dce',1,'bsppp::BSP']]],
   ['createnewentry_26',['createNewEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#ae3f2940fa07872e72e9e9982dcd77504',1,'vpkpp::PackFile']]],
-  ['createrandom_27',['createRandom',['../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d',1,'sourcepp::string']]]
+  ['createrandom_27',['createRandom',['../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d',1,'sourcepp::string']]],
+  ['cropimagedata_28',['cropImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39',1,'vtfpp::ImageConversion']]]
 ];

@@ -1,6 +1,6 @@
 var structvtfpp_1_1Resource =
 [
-    [ "ConvertedData", "d3/d80/structvtfpp_1_1Resource.html#ab5079269f351efa7f186f6029adc65a8", null ],
+    [ "ConvertedData", "d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0", null ],
     [ "Flags", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34", [
       [ "FLAG_NONE", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34afa684042bc8cf30ba5dfb26e112494c4", null ],
       [ "FLAG_LOCAL_DATA", "d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a", null ]
@@ -24,6 +24,7 @@ var structvtfpp_1_1Resource =
     [ "getDataAsExtendedFlags", "d3/d80/structvtfpp_1_1Resource.html#aa17db7c16ce4914583168cc5c8966b9d", null ],
     [ "getDataAsKeyValuesData", "d3/d80/structvtfpp_1_1Resource.html#a6e37adb4ee39a3e91c2ff84a9aad54a1", null ],
     [ "getDataAsLODControlInfo", "d3/d80/structvtfpp_1_1Resource.html#a4f1603eddf872798fc306fb651f1f1ba", null ],
+    [ "getDataAsParticleSheet", "d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72", null ],
     [ "getOrder", "d3/d80/structvtfpp_1_1Resource.html#aee66bbde0c1b346e7580dedceda08fe6", null ],
     [ "data", "d3/d80/structvtfpp_1_1Resource.html#af6f083ee840ba1a8cce2818e5e130c18", null ],
     [ "flags", "d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a", null ],

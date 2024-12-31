@@ -199,6 +199,9 @@ Functions</h2></td></tr>
 <tr class="memitem:aec2b00461a0a8b11227ed921a1996dcf"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aec2b00461a0a8b11227ed921a1996dcf">resizeImageDataStrict</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t &amp;widthOut, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ResizeMethod</a> widthResize, uint16_t height, uint16_t newHeight, uint16_t &amp;heightOut, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc">ResizeMethod</a> heightResize, bool srgb, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be">ResizeFilter</a> filter, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53">ResizeEdge</a> edge=<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345">ResizeEdge::CLAMP</a>)</td></tr>
 <tr class="memdesc:aec2b00461a0a8b11227ed921a1996dcf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Resize given image data to the new dimensions, where the new width and height are governed by the resize methods.  <br /></td></tr>
 <tr class="separator:aec2b00461a0a8b11227ed921a1996dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7cd00a5275611b373c7b7651d0d5a39"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39">cropImageData</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset)</td></tr>
+<tr class="memdesc:ac7cd00a5275611b373c7b7651d0d5a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning.  <br /></td></tr>
+<tr class="separator:ac7cd00a5275611b373c7b7651d0d5a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad3b3ca83929b12ec4abad257d5f1648"><td class="memTemplParams" colspan="2">template&lt;ImagePixel::PixelType P&gt; </td></tr>
 <tr class="memitem:aad3b3ca83929b12ec4abad257d5f1648"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648">extractChannelFromImageData</a> (std::span&lt; const std::byte &gt; imageData, auto P::*channel)</td></tr>
 <tr class="memdesc:aad3b3ca83929b12ec4abad257d5f1648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a single channel from the given image data.  <br /></td></tr>
@@ -372,7 +375,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Applies a single channel to the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00416">416</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00419">419</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -655,6 +658,74 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 </div>
 </div>
+<a id="ac7cd00a5275611b373c7b7651d0d5a39" name="ac7cd00a5275611b373c7b7651d0d5a39"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac7cd00a5275611b373c7b7651d0d5a39">&#9670;&#160;</a></span>cropImageData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; vtfpp::ImageConversion::cropImageData </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
+          <td class="paramname"><em>imageData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>newWidth</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>xOffset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>newHeight</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>yOffset</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01808">1808</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
 <a id="aad3b3ca83929b12ec4abad257d5f1648" name="aad3b3ca83929b12ec4abad257d5f1648"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aad3b3ca83929b12ec4abad257d5f1648">&#9670;&#160;</a></span>extractChannelFromImageData()</h2>
 
@@ -686,7 +757,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Extracts a single channel from the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00395">395</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00398">398</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>

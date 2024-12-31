@@ -36,6 +36,7 @@ var namespacevtfpp =
       [ "convertImageDataToFile", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
       [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ],
       [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93", null ],
+      [ "cropImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39", null ],
       [ "extractChannelFromImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648", null ],
       [ "getDefaultFileFormatForImageFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
       [ "getResizedDim", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a440840aa87de2dc367add665f674b365", null ],
@@ -70,6 +71,7 @@ var namespacevtfpp =
     [ "ImagePixel", "dd/d73/namespacevtfpp_1_1ImagePixel.html", "dd/d73/namespacevtfpp_1_1ImagePixel" ],
     [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
+    [ "SHT", "db/dde/classvtfpp_1_1SHT.html", "db/dde/classvtfpp_1_1SHT" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
     [ "CompressionMethod", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0", [
       [ "DEFLATE", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc", null ],
