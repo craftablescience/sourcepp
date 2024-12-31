@@ -21,11 +21,11 @@ inline void register_python(py::module_& m) {
 
 		const auto registerVecType = [&math]<typename V>(std::string_view name) {
 			py::class_<V>(math, name.data())
-					.def("__len__", &V::size)
-					.def("__setitem__", [](V& self, uint8_t index, typename V::value_type val) { self[index] = val; })
-					.def("__getitem__", [](V& self, uint8_t index) { return self[index]; })
-					.def_static("zero", &V::zero)
-					.def("is_zero", &V::isZero);
+				.def("__len__", &V::size)
+				.def("__setitem__", [](V& self, uint8_t index, typename V::value_type val) { self[index] = val; })
+				.def("__getitem__", [](V& self, uint8_t index) { return self[index]; })
+				.def_static("zero", &V::zero)
+				.def("is_zero", &V::isZero);
 		};
 
 		registerVecType.operator()<Vec2i8>("Vec2i8");
