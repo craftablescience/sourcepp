@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cstring>
 #include <unordered_map>
+#include <utility>
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 #include <future>
@@ -949,7 +950,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
 }
 
-std::vector<std::byte> VTF::getParticleSheetFrameRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
 	spriteWidth = 0;
 	spriteHeight = 0;
 
@@ -969,15 +970,21 @@ std::vector<std::byte> VTF::getParticleSheetFrameRaw(uint16_t& spriteWidth, uint
 	// This will also break if any of the bounds are above 1 or below 0, but that
 	// hasn't been observed in official textures
 	const auto& bounds = sequence->frames[shtFrame].bounds[shtBounds];
-	uint16_t left = std::floor(bounds.left * static_cast<float>(this->getWidth(mip)));
-	uint16_t bottom = std::ceil(bounds.bottom * static_cast<float>(this->getHeight(mip)));
-	uint16_t right = std::ceil(bounds.right * static_cast<float>(this->getWidth(mip)));
-	uint16_t top = std::floor(bounds.top * static_cast<float>(this->getHeight(mip)));
+	uint16_t x1 = std::clamp<uint16_t>(std::floor(bounds.x1 * static_cast<float>(this->getWidth(mip))),  0, this->getWidth(mip));
+	uint16_t y1 = std::clamp<uint16_t>(std::ceil( bounds.y1 * static_cast<float>(this->getHeight(mip))), 0, this->getHeight(mip));
+	uint16_t x2 = std::clamp<uint16_t>(std::ceil( bounds.x2 * static_cast<float>(this->getWidth(mip))),  0, this->getHeight(mip));
+	uint16_t y2 = std::clamp<uint16_t>(std::floor(bounds.y2 * static_cast<float>(this->getHeight(mip))), 0, this->getWidth(mip));
 
-	spriteWidth = (right - left);
-	spriteHeight = (bottom - top);
+	if (x1 > x2) [[unlikely]] {
+		std::swap(x1, x2);
+	}
+	if (y1 > y2) [[unlikely]] {
+		std::swap(y1, y2);
+	}
+	spriteWidth = x2 - x1;
+	spriteWidth = y2 - y1;
 
-	const auto out = ImageConversion::cropImageData(this->getImageDataRaw(mip, frame, face, slice), this->getFormat(), this->getWidth(mip), spriteWidth, left, this->getHeight(mip), spriteHeight, top);
+	const auto out = ImageConversion::cropImageData(this->getImageDataRaw(mip, frame, face, slice), this->getFormat(), this->getWidth(mip), spriteWidth, x1, this->getHeight(mip), spriteHeight, y1);
 	if (out.empty()) {
 		spriteWidth = 0;
 		spriteHeight = 0;
@@ -985,12 +992,12 @@ std::vector<std::byte> VTF::getParticleSheetFrameRaw(uint16_t& spriteWidth, uint
 	return out;
 }
 
-std::vector<std::byte> VTF::getParticleSheetFrameAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	return ImageConversion::convertImageDataToFormat(this->getParticleSheetFrameRaw(spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice), this->getFormat(), newFormat, spriteWidth, spriteHeight);
+std::vector<std::byte> VTF::getParticleSheetFrameDataAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	return ImageConversion::convertImageDataToFormat(this->getParticleSheetFrameDataRaw(spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice), this->getFormat(), newFormat, spriteWidth, spriteHeight);
 }
 
-std::vector<std::byte> VTF::getParticleSheetFrameAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
-	return this->getParticleSheetFrameAs(ImageFormat::RGBA8888, spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice);
+std::vector<std::byte> VTF::getParticleSheetFrameDataAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+	return this->getParticleSheetFrameDataAs(ImageFormat::RGBA8888, spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice);
 }
 
 void VTF::setParticleSheetResource(const SHT& value) {

@@ -303,13 +303,13 @@ public:
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
 
 	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
-	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
-	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameDataAs(ImageFormat newFormat, uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
-	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameDataAsRGBA8888(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	void setParticleSheetResource(const SHT& value);
 
