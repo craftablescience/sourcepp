@@ -15,10 +15,10 @@ public:
 	struct Sequence {
 		struct Frame {
 			struct Bounds {
-				float left;
-				float top;
-				float right;
-				float bottom;
+				float x1;
+				float y1;
+				float x2;
+				float y2;
 			};
 
 			float duration;

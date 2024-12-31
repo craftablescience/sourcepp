@@ -25,7 +25,7 @@ SHT::SHT(std::span<const std::byte> shtData) {
             frame.duration = stream.read<float>();
             for (uint8_t i = 0; i < this->getFrameBoundsCount(); i++) {
                 auto& bounds = frame.bounds[i];
-	            stream >> bounds.left >> bounds.top >> bounds.right >> bounds.bottom;
+	            stream >> bounds.x1 >> bounds.y1 >> bounds.x2 >> bounds.y2;
             }
         }
     }
@@ -105,7 +105,7 @@ std::vector<std::byte> SHT::bake() const {
 
             for (uint8_t i = 0; i < this->getFrameBoundsCount(); i++) {
 	            auto& bounds = frame.bounds[i];
-                stream << bounds.left << bounds.top << bounds.right << bounds.bottom;
+                stream << bounds.x1 << bounds.y1 << bounds.x2 << bounds.y2;
             }
         }
     }
