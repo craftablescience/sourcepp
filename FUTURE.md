@@ -38,3 +38,4 @@
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Allow directly applying an HDRI to a VTF without requiring the user to write a custom wrapper
+  - Add a MKS parser/writer
