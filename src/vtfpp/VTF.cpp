@@ -99,7 +99,7 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
 			}
-			return std::string(reinterpret_cast<const char*>(this->data.data()) + 4, *reinterpret_cast<const uint32_t*>(this->data.data()));
+			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data()));
 		case TYPE_AUX_COMPRESSION:
 			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
 				return {};
@@ -385,7 +385,7 @@ void VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 
 void VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
 	std::vector<std::byte> imageData;
-	imageData.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
 	create(imageData, format, width, height, vtfPath, options);
 }
 
@@ -401,7 +401,7 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 
 VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
 	std::vector<std::byte> imageData;
-	imageData.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, width, height, options);
 }
 
@@ -736,7 +736,7 @@ void VTF::computeReflectivity() {
 		for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
 			out += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
 		}
-		return out / (rgba8888Data.size() / (ImageFormatDetails::bpp(ImageFormat::RGBA8888) / 8));
+		return out / (rgba8888Data.size() / sizeof(ImagePixel::RGBA8888));
 	};
 
 	const auto faceCount = this->getFaceCount();
