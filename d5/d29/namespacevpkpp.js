@@ -49,6 +49,8 @@ var namespacevpkpp =
     [ "ORE_EXTENSION", "d5/d29/namespacevpkpp.html#a5dc5a90027f316b557953b3bf7e4ab51", null ],
     [ "PAK_EXTENSION", "d5/d29/namespacevpkpp.html#adec671277ece08cb7a5cb8d21271488a", null ],
     [ "PAK_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a4927a77f9388bd06544dbbccefe04e79", null ],
+    [ "PAK_HROT_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#ac50fa3126cdea5fb54ac691a7ce35003", null ],
+    [ "PAK_HROT_SIGNATURE", "d5/d29/namespacevpkpp.html#a05a43ca150120b696edea180146c75c7", null ],
     [ "PAK_SIGNATURE", "d5/d29/namespacevpkpp.html#a4f65be65eb264cc405ac1dabeae4fe69", null ],
     [ "PCK_EXTENSION", "d5/d29/namespacevpkpp.html#aacd7a6258cf5468b307efd0e46e13df7", null ],
     [ "PCK_PATH_PREFIX", "d5/d29/namespacevpkpp.html#ab80f53d81b90c5c1f933ca6d1b787ab1", null ],

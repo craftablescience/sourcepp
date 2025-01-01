@@ -128,6 +128,7 @@ $(document).ready(function(){initNavTree('d9/daf/classvpkpp_1_1PAK.html','../../
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pub-static-attribs">Static Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d8/dd8/classvpkpp_1_1PAK-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">vpkpp::PAK Class Reference</div></div>
 </div><!--header-->
@@ -171,6 +172,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a6dfe97c298800eb70125f45eea75bea8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838dae">Attribute</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a6dfe97c298800eb70125f45eea75bea8">getSupportedEntryAttributes</a> () const override</td></tr>
 <tr class="memdesc:a6dfe97c298800eb70125f45eea75bea8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns a list of supported entry attributes Mostly for GUI programs that show entries and their metadata in a table ;)  <br /></td></tr>
 <tr class="separator:a6dfe97c298800eb70125f45eea75bea8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a446420927b4d1ed8aeed5bf0e471b10a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a446420927b4d1ed8aeed5bf0e471b10a">isHROT</a> () const</td></tr>
+<tr class="separator:a446420927b4d1ed8aeed5bf0e471b10a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a483866c003f0a6593fe1261ffcd3686a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a483866c003f0a6593fe1261ffcd3686a">setHROT</a> (bool hrot)</td></tr>
+<tr class="separator:a483866c003f0a6593fe1261ffcd3686a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
 <tr class="memitem:adc77a118c34eab29dd5510d33b69816e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#adc77a118c34eab29dd5510d33b69816e">PackFile</a> (const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &amp;other)=delete</td></tr>
 <tr class="separator:adc77a118c34eab29dd5510d33b69816e inherit pub_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -308,9 +313,9 @@ requires requires (const T&amp;) {{T::GUID} -&gt; std::convertible_to&lt;std::st
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a6b6a241dd965d01b8e84c50433bb2871"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a6b6a241dd965d01b8e84c50433bb2871">create</a> (const std::string &amp;path)</td></tr>
-<tr class="memdesc:a6b6a241dd965d01b8e84c50433bb2871"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html">PAK</a> file.  <br /></td></tr>
-<tr class="separator:a6b6a241dd965d01b8e84c50433bb2871"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f0c9908d413c7b005e6754a85af5b0e"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a0f0c9908d413c7b005e6754a85af5b0e">create</a> (const std::string &amp;path, bool forHROT=false)</td></tr>
+<tr class="memdesc:a0f0c9908d413c7b005e6754a85af5b0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a <a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html">PAK</a> file.  <br /></td></tr>
+<tr class="separator:a0f0c9908d413c7b005e6754a85af5b0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a02942e71a1d53c4792e55485e5e81abb"><td class="memItemLeft" align="right" valign="top">static std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#a02942e71a1d53c4792e55485e5e81abb">open</a> (const std::string &amp;path, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback=nullptr)</td></tr>
 <tr class="memdesc:a02942e71a1d53c4792e55485e5e81abb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open a <a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html">PAK</a> file.  <br /></td></tr>
 <tr class="separator:a02942e71a1d53c4792e55485e5e81abb"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -360,6 +365,18 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:acbf51429607ac52d3a226e465b6c75fd inherit pro_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acbf51429607ac52d3a226e465b6c75fd">cleanEntryPath</a> (const std::string &amp;path) const</td></tr>
 <tr class="separator:acbf51429607ac52d3a226e465b6c75fd inherit pro_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:ab7c09816b3154c03e886701622575c1f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/daf/classvpkpp_1_1PAK.html#ab7c09816b3154c03e886701622575c1f">isHROT_</a> = false</td></tr>
+<tr class="separator:ab7c09816b3154c03e886701622575c1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
+<tr class="memitem:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5">fullFilePath</a></td></tr>
+<tr class="separator:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a65e0817ce01fc83fbe68a7624192808a">entries</a></td></tr>
+<tr class="separator:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae5e68c951fd18b8ee1d930f43516e3f6">unbakedEntries</a></td></tr>
+<tr class="separator:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
 <tr class="inherit_header pub_types_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
@@ -387,17 +404,10 @@ Additional Inherited Members</h2></td></tr>
 <tr class="separator:a2e541d69be3e1766034ac44fe020bc1a inherit pro_static_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86e560db1da63e24e24c33a0f78a7b77 inherit pro_static_methods_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2cf2c9a0f3b9f928d570d0ab4ccfd703">OpenFactoryFunction</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a86e560db1da63e24e24c33a0f78a7b77">registerOpenExtensionForTypeFactory</a> (std::string_view extension, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2cf2c9a0f3b9f928d570d0ab4ccfd703">OpenFactoryFunction</a> &amp;factory)</td></tr>
 <tr class="separator:a86e560db1da63e24e24c33a0f78a7b77 inherit pro_static_methods_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="inherit_header pro_attribs_classvpkpp_1_1PackFile"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classvpkpp_1_1PackFile')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">vpkpp::PackFile</a></td></tr>
-<tr class="memitem:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a5fa46f071a4945b5dcd2e65bfd09e3d5">fullFilePath</a></td></tr>
-<tr class="separator:a5fa46f071a4945b5dcd2e65bfd09e3d5 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a65e0817ce01fc83fbe68a7624192808a">entries</a></td></tr>
-<tr class="separator:a65e0817ce01fc83fbe68a7624192808a inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a1462ffbd23782248dfa0cf21575e1676">EntryTrie</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#ae5e68c951fd18b8ee1d930f43516e3f6">unbakedEntries</a></td></tr>
-<tr class="separator:ae5e68c951fd18b8ee1d930f43516e3f6 inherit pro_attribs_classvpkpp_1_1PackFile"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00013">13</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00017">17</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a8d7f3aeb34921c45368de1ead0b96bf7" name="a8d7f3aeb34921c45368de1ead0b96bf7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8d7f3aeb34921c45368de1ead0b96bf7">&#9670;&#160;</a></span>addEntryInternal()</h2>
@@ -447,7 +457,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00080">80</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00084">84</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
 
 </div>
 </div>
@@ -495,12 +505,12 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00087">87</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
 
 </div>
 </div>
-<a id="a6b6a241dd965d01b8e84c50433bb2871" name="a6b6a241dd965d01b8e84c50433bb2871"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b6a241dd965d01b8e84c50433bb2871">&#9670;&#160;</a></span>create()</h2>
+<a id="a0f0c9908d413c7b005e6754a85af5b0e" name="a0f0c9908d413c7b005e6754a85af5b0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0f0c9908d413c7b005e6754a85af5b0e">&#9670;&#160;</a></span>create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -512,8 +522,18 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">std::unique_ptr&lt; <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html">PackFile</a> &gt; PAK::create </td>
           <td>(</td>
           <td class="paramtype">const std::string &amp;&#160;</td>
-          <td class="paramname"><em>path</em></td><td>)</td>
+          <td class="paramname"><em>path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>forHROT</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -556,7 +576,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a3bc3a33d4c589b4aba3c3c50f7b93d7c">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00023">23</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00027">27</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
 
 </div>
 </div>
@@ -587,7 +607,26 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00145">145</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00149">149</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a446420927b4d1ed8aeed5bf0e471b10a" name="a446420927b4d1ed8aeed5bf0e471b10a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a446420927b4d1ed8aeed5bf0e471b10a">&#9670;&#160;</a></span>isHROT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool PAK::isHROT </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00154">154</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
 
 </div>
 </div>
@@ -739,7 +778,27 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#adb4279fcac0f5dea6f9817edd95a05d2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00061">61</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00065">65</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a483866c003f0a6593fe1261ffcd3686a" name="a483866c003f0a6593fe1261ffcd3686a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a483866c003f0a6593fe1261ffcd3686a">&#9670;&#160;</a></span>setHROT()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void PAK::setHROT </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>hrot</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d2/d5d/PAK_8cpp_source.html#l00158">158</a> of file <a class="el" href="../../d2/d5d/PAK_8cpp_source.html">PAK.cpp</a>.</p>
 
 </div>
 </div>
@@ -764,7 +823,31 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00021">21</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00025">25</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
+
+</div>
+</div>
+<a id="ab7c09816b3154c03e886701622575c1f" name="ab7c09816b3154c03e886701622575c1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7c09816b3154c03e886701622575c1f">&#9670;&#160;</a></span>isHROT_</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool vpkpp::PAK::isHROT_ = false</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dc/da5/PAK_8h_source.html#l00046">46</a> of file <a class="el" href="../../dc/da5/PAK_8h_source.html">PAK.h</a>.</p>
 
 </div>
 </div>
