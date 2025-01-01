@@ -206,7 +206,7 @@ std::vector<std::string> GCF::verifyEntryChecksums() const {
 			uint32_t csum = this->checksums[checksumstart + i];
 			std::size_t toread = std::min(static_cast<std::size_t>(0x8000), tocheck);
 			const auto* data = bytes->data() + (i * 0x8000);
-			uint32_t checksum = crypto::computeCRC32(data, toread) ^ crypto::computeAdler32(data, toread);
+			uint32_t checksum = crypto::computeCRC32({data, toread}) ^ crypto::computeAdler32({data, toread});
 			if (checksum != csum) {
 				bad.push_back(path);
 			}

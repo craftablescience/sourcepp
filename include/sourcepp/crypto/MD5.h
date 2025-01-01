@@ -2,14 +2,12 @@
 
 #include <array>
 #include <cstddef>
-#include <vector>
+#include <span>
 
 #include <sourcepp/Math.h>
 
 namespace sourcepp::crypto {
 
-std::array<std::byte, 16> computeMD5(const std::vector<std::byte>& buffer);
-
-std::array<std::byte, 16> computeMD5(const std::byte* buffer, std::size_t len);
+std::array<std::byte, 16> computeMD5(std::span<const std::byte> buffer);
 
 } // namespace sourcepp::crypto

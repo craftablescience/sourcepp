@@ -36,11 +36,10 @@ constexpr std::size_t NMAX = 5552u;
 #define DO8(buffer,i)  DO4(buffer,i) DO4(buffer,i+4)
 #define DO16(buffer)   DO8(buffer,0) DO8(buffer,8)
 
-uint32_t crypto::computeAdler32(const std::vector<std::byte>& buffer) {
-	return computeAdler32(buffer.data(), buffer.size());
-}
+uint32_t crypto::computeAdler32(std::span<const std::byte> buffer) {
+	const std::byte* cur = buffer.data();
+	uint64_t len = buffer.size();
 
-uint32_t crypto::computeAdler32(const std::byte* buffer, std::size_t len) {
 	uint32_t adler = 0;
 
 	/* split Adler-32 into component sums */
@@ -59,13 +58,13 @@ uint32_t crypto::computeAdler32(const std::byte* buffer, std::size_t len) {
 	}
 
 	/* initial Adler-32 value (deferred check for len == 1 speed) */
-	if (!buffer)
+	if (!cur)
 		return 1L;
 
 	/* in case short lengths are provided, keep it somewhat fast */
 	if (len < 16) {
 		while (len--) {
-			adler += static_cast<unsigned char>(*buffer++);
+			adler += static_cast<unsigned char>(*cur++);
 			sum2 += adler;
 		}
 		if (adler >= BASE)
@@ -80,7 +79,7 @@ uint32_t crypto::computeAdler32(const std::byte* buffer, std::size_t len) {
 		uint32_t n = NMAX / 16;    /* NMAX is divisible by 16 */
 		do {
 			DO16(buffer)           /* 16 sums unrolled */
-			buffer += 16;
+			cur += 16;
 		} while (--n);
 		adler %= BASE;
 		sum2 %= BASE;
@@ -91,10 +90,10 @@ uint32_t crypto::computeAdler32(const std::byte* buffer, std::size_t len) {
 		while (len >= 16) {
 			len -= 16;
 			DO16(buffer)
-			buffer += 16;
+			cur += 16;
 		}
 		while (len--) {
-			adler += static_cast<unsigned char>(*buffer++);
+			adler += static_cast<unsigned char>(*cur++);
 			sum2 += adler;
 		}
 		adler %= BASE;

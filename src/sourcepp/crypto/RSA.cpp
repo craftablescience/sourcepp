@@ -27,7 +27,7 @@ std::pair<std::string, std::string> crypto::computeSHA256KeyPair(uint16_t size) 
 	return std::make_pair(std::move(privateKeyStr), std::move(publicKeyStr));
 }
 
-bool crypto::verifySHA256PublicKey(const std::vector<std::byte>& buffer, const std::vector<std::byte>& publicKey, const std::vector<std::byte>& signature) {
+bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, std::span<const std::byte> publicKey, std::span<const std::byte> signature) {
 	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Verifier verifier{
 		CryptoPP::VectorSource(reinterpret_cast<const std::vector<CryptoPP::byte>&>(publicKey), true).Ref()
 	};
@@ -35,7 +35,7 @@ bool crypto::verifySHA256PublicKey(const std::vector<std::byte>& buffer, const s
 	                              reinterpret_cast<const CryptoPP::byte*>(signature.data()), signature.size());
 }
 
-std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(const std::vector<std::byte>& buffer, const std::vector<std::byte>& privateKey) {
+std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(std::span<const std::byte> buffer, std::span<const std::byte> privateKey) {
 	CryptoPP::AutoSeededRandomPool rng;
 
 	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Signer signer{
