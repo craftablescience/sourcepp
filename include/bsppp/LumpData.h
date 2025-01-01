@@ -2,28 +2,10 @@
 
 #include <vector>
 
+#include <sourcepp/parser/Binary.h>
 #include <sourcepp/Math.h>
 
 namespace bsppp {
-
-#pragma pack(push)
-#pragma pack(1)
-// Compressed lumps use their own header to annoy programmers 20 years later
-// https://developer.valvesoftware.com/wiki/BSP_(Source)#Lump_compression
-struct lzma_header_bsplump
-{
-    unsigned int    id;
-    unsigned int    actualSize;         // always little endian
-    unsigned int    lzmaSize;           // always little endian
-    unsigned char   properties[5];
-};
-
-struct lzma_header_alone // .LZMA format header
-{
-    unsigned char   properties[5];
-    unsigned long   actualSize;         // always little endian
-};
-#pragma pack(pop)
 
 //region Lump 1 (Planes)
 
@@ -59,6 +41,56 @@ struct BSPVertex_v0 {
 };
 
 using BSPVertex = BSPVertex_v0;
+
+//endregion
+
+//region Lump 5 (Nodes)
+
+struct BSPNode_v0 {
+	uint32_t planeNum;
+	int32_t children[2];
+	int16_t mins[3];
+	int16_t maxs[3];
+	uint16_t firstFace;
+	uint16_t numFaces;
+	int16_t area;
+	uint16_t _unused0;
+};
+
+struct BSPNode_v1 {
+	uint32_t planeNum;
+	int32_t children[2];
+	float mins[3];
+	float maxs[3];
+	uint32_t firstFace;
+	uint32_t numFaces;
+	int16_t area;
+
+	[[nodiscard]] static BSPNode_v1 upgrade(const BSPNode_v0& old) {
+		return {
+			old.planeNum,
+			{
+				old.children[0],
+				old.children[1],
+			},
+			{
+				static_cast<float>(old.mins[0]),
+				static_cast<float>(old.mins[1]),
+				static_cast<float>(old.mins[2]),
+			},
+			{
+				static_cast<float>(old.maxs[0]),
+				static_cast<float>(old.maxs[1]),
+				static_cast<float>(old.maxs[2]),
+			},
+			old.firstFace,
+			old.numFaces,
+			old.area,
+		};
+	}
+};
+
+using BSPNode = BSPNode_v1;
 
 //endregion
 
@@ -199,17 +231,24 @@ using BSPBrushModel = BSPBrushModel_v0;
 //endregion
 
 //region Lump 35 (Game Lump)
+
 struct BSPGameLump {
-	int32_t		id;
-	uint16_t	flags;
-	uint16_t	version;
-	int32_t		fileoffset;// offset from begining of file, not lump
-	int32_t		length; // (Decompressed) size, compressed size is determined by subtracting the next entry's offset with this one
+	enum Signature : uint32_t {
+		SIGNATURE_STATIC_PROPS = sourcepp::parser::binary::makeFourCC("sprp"),
+		SIGNATURE_DETAIL_PROPS = sourcepp::parser::binary::makeFourCC("dprp"),
+		SIGNATURE_DETAIL_PROP_LIGHTING_LDR = sourcepp::parser::binary::makeFourCC("dplt"),
+		SIGNATURE_DETAIL_PROP_LIGHTING_HDR = sourcepp::parser::binary::makeFourCC("dplh"),
+	} signature;
+	uint16_t isCompressed;
+	uint16_t version;
+	// Offset from beginning of file, not game lump (except Portal 2 on console but we'll ignore that for now)
+	uint32_t offset;
+	// Compressed size is determined by subtracting the next entry's offset with this one like VTF resources
+	uint32_t uncompressedLength;
 
-
-	// This being in the struct is not acurate to how it is written to disk, only to manage it here better
 	std::vector<std::byte> data;
 };
 
 //endregion
+
 } // namespace bsppp

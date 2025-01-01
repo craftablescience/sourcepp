@@ -42,7 +42,7 @@ std::unique_ptr<PackFile> PakLump::open(const std::string& path, const EntryCall
 		bsp->version = reader.getVersion();
 		bsp->mapRevision = reader.getMapRevision();
 
-		if (auto pakFileLump = reader.readLump(BSPLump::PAKFILE)) {
+		if (auto pakFileLump = reader.getLumpData(BSPLump::PAKFILE)) {
 			// Extract the paklump to a temp file
 			FileStream writer{bsp->tempPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 			writer.write(*pakFileLump);
@@ -111,7 +111,8 @@ bool PakLump::bake(const std::string& outputDir_, BakeOptions options, const Ent
 		if (!writer) {
 			return false;
 		}
-		writer.writeLump(BSPLump::PAKFILE, fs::readFileBuffer(this->tempZIPPath), false);
+		writer.setLump(BSPLump::PAKFILE, 0, fs::readFileBuffer(this->tempZIPPath));
+		writer.bake();
 	}
 
 	// Rename and reopen the ZIP
