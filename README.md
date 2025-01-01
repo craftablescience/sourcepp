@@ -130,14 +130,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td rowspan="27"><code>vpkpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
+    <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
-    <td align="center">✅</td>
+    <td align="center">❌</td>
     <td rowspan="27" align="center">C<br>C#</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
+    <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

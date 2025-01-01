@@ -8,6 +8,7 @@
 #include "format/FPX.h"
 #include "format/GCF.h"
 #include "format/GMA.h"
+#include "format/OO7.h"
 #include "format/ORE.h"
 #include "format/PAK.h"
 #include "format/PCK.h"

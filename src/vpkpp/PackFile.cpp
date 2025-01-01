@@ -12,17 +12,9 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 
-// Need to include these so the compiler will think the automatic registry
-// variables are important enough to initialize :3 (I love C++!)
-#include <vpkpp/format/FPX.h>
-#include <vpkpp/format/GCF.h>
-#include <vpkpp/format/GMA.h>
-#include <vpkpp/format/ORE.h>
-#include <vpkpp/format/PAK.h>
-#include <vpkpp/format/PCK.h>
-#include <vpkpp/format/VPK.h>
-#include <vpkpp/format/VPK_VTMB.h>
-#include <vpkpp/format/ZIP.h>
+// Need to include this so the compiler will think the automatic registry
+// variables in the formats are important enough to initialize :3 (I love C++!)
+#include <vpkpp/vpkpp.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
