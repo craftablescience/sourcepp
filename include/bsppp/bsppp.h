@@ -10,6 +10,7 @@
 #include <sourcepp/parser/Binary.h>
 
 #include "LumpData.h"
+#include "PakLump.h"
 
 namespace bsppp {
 

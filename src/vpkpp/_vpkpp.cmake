@@ -1,5 +1,5 @@
 add_pretty_parser(vpkpp
-        DEPS libzstd_static MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::bsppp sourcepp::kvpp
+        DEPS libzstd_static MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::kvpp
         DEPS_PUBLIC tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
