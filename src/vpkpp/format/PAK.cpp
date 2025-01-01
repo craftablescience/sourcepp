@@ -7,11 +7,11 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-std::unique_ptr<PackFile> PAK::create(const std::string& path) {
+std::unique_ptr<PackFile> PAK::create(const std::string& path, bool hrot) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		stream
-			.write(PAK_SIGNATURE)
+			.write(hrot ? PAK_HROT_SIGNATURE : PAK_SIGNATURE)
 			.write<uint32_t>(0)
 			.write<uint32_t>(0);
 	}
@@ -30,20 +30,24 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 	FileStream reader{pak->fullFilePath};
 	reader.seek_in(0);
 
-	if (auto signature = reader.read<uint32_t>(); signature != PAK_SIGNATURE) {
+	if (auto signature = reader.read<uint32_t>(); signature == PAK_SIGNATURE) {
+		pak->isHROT_ = false;
+	} else if (signature == PAK_HROT_SIGNATURE) {
+		pak->isHROT_ = true;
+	} else {
 		// File is not a PAK
 		return nullptr;
 	}
 
 	auto directoryOffset = reader.read<uint32_t>();
 	// Directory size / file entry size
-	auto fileCount = reader.read<uint32_t>() / 64;
+	auto fileCount = reader.read<uint32_t>() / (pak->isHROT() ? 128 : 64);
 
 	reader.seek_in(directoryOffset);
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
-		auto entryPath = pak->cleanEntryPath(reader.read_string(PAK_FILENAME_MAX_SIZE));
+		auto entryPath = pak->cleanEntryPath(reader.read_string(pak->isHROT() ? PAK_HROT_FILENAME_MAX_SIZE : PAK_FILENAME_MAX_SIZE));
 
 		entry.offset = reader.read<uint32_t>();
 		entry.length = reader.read<uint32_t>();
@@ -113,17 +117,17 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		stream.seek_out(0);
 
 		// Signature
-		stream.write(PAK_SIGNATURE);
+		stream.write(this->isHROT() ? PAK_HROT_SIGNATURE : PAK_SIGNATURE);
 
 		// Index and size of directory
 		static constexpr uint32_t DIRECTORY_INDEX = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
 		stream.write(DIRECTORY_INDEX);
-		const uint32_t directorySize = entriesToBake.size() * 64;
+		const uint32_t directorySize = entriesToBake.size() * (this->isHROT() ? 128 : 64);
 		stream.write(directorySize);
 
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
-			stream.write(path, false, PAK_FILENAME_MAX_SIZE);
+			stream.write(path, false, this->isHROT() ? PAK_HROT_FILENAME_MAX_SIZE : PAK_FILENAME_MAX_SIZE);
 			stream.write(static_cast<uint32_t>(entry->offset + DIRECTORY_INDEX + directorySize));
 			stream.write(static_cast<uint32_t>(entry->length));
 
@@ -145,4 +149,12 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 Attribute PAK::getSupportedEntryAttributes() const {
 	using enum Attribute;
 	return LENGTH;
+}
+
+bool PAK::isHROT() const {
+	return this->isHROT_;
+}
+
+void PAK::setHROT(bool hrot) {
+	this->isHROT_ = hrot;
 }
