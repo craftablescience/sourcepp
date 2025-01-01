@@ -1,7 +1,7 @@
 var searchData=
 [
   ['magic_0',['MAGIC',['../de/dbc/namespacevcryptpp_1_1VFONT.html#a2055c803010923eab82b4adb82e63b74',1,'vcryptpp::VFONT']]],
-  ['majorversion_1',['majorVersion',['../d8/df2/classvtfpp_1_1VTF.html#a0a965e011712efeb6f5da71644d44d03',1,'vtfpp::VTF::majorVersion()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a7cc61a7b6a8560c89d76b75f894b2845',1,'vtfpp::VTF::CreationOptions::majorVersion()']]],
+  ['majorversion_1',['majorVersion',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a7cc61a7b6a8560c89d76b75f894b2845',1,'vtfpp::VTF::CreationOptions::majorVersion()'],['../d3/dec/classvpkpp_1_1OO7.html#a33c1c87dad1eefd5809d867f090ddfde',1,'vpkpp::OO7::majorVersion()'],['../d8/df2/classvtfpp_1_1VTF.html#a0a965e011712efeb6f5da71644d44d03',1,'vtfpp::VTF::majorVersion()']]],
   ['maprevision_2',['mapRevision',['../d4/daf/classbsppp_1_1PakLump.html#a3efe1c5070372a693916aa6d770e2787',1,'bsppp::PakLump']]],
   ['mapsize_3',['mapSize',['../d2/d4c/classtoolpp_1_1FGD.html#adcb9902c94fa7b90b6ca61723ffba737',1,'toolpp::FGD']]],
   ['material_4',['material',['../df/de5/structmdlpp_1_1MDL_1_1Mesh.html#a5a8899a8c3f46323109fb1dca589602f',1,'mdlpp::MDL::Mesh']]],
@@ -26,7 +26,7 @@ var searchData=
   ['meshid_23',['meshID',['../df/de5/structmdlpp_1_1MDL_1_1Mesh.html#a6632f94c66ab7dd8e681dbaf1d290b4b',1,'mdlpp::MDL::Mesh']]],
   ['meshvertexid_24',['meshVertexID',['../d0/d6e/structmdlpp_1_1VTX_1_1Vertex.html#a3e31337035e0d13c0f75f30562b332de',1,'mdlpp::VTX::Vertex']]],
   ['min_25',['min',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a915bd54c2238c2a1d8f57b2a3ca11a95',1,'bsppp::BSPBrushModel_v0']]],
-  ['minorversion_26',['minorVersion',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3697bca5e9413dc3ccd89730a307ed83',1,'vtfpp::VTF::CreationOptions::minorVersion()'],['../d8/df2/classvtfpp_1_1VTF.html#a711449358dff7c686b033a882550fe62',1,'vtfpp::VTF::minorVersion()']]],
+  ['minorversion_26',['minorVersion',['../d3/dec/classvpkpp_1_1OO7.html#a2104f31f9d9f43f89b6e728e2b40d46a',1,'vpkpp::OO7::minorVersion()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3697bca5e9413dc3ccd89730a307ed83',1,'vtfpp::VTF::CreationOptions::minorVersion()'],['../d8/df2/classvtfpp_1_1VTF.html#a711449358dff7c686b033a882550fe62',1,'vtfpp::VTF::minorVersion()']]],
   ['mipcount_27',['mipCount',['../d8/df2/classvtfpp_1_1VTF.html#a2cc48570ed0ac9afad13e992837276ea',1,'vtfpp::VTF']]],
   ['modellods_28',['modelLODs',['../d2/d68/structmdlpp_1_1VTX_1_1Model.html#a2796bc9017d7d80ec5e5ca0a6895e031',1,'mdlpp::VTX::Model']]],
   ['models_29',['models',['../d1/d46/structmdlpp_1_1MDL_1_1BodyPart.html#a19a182c3b8b778ad314ade603925d7fa',1,'mdlpp::MDL::BodyPart::models()'],['../d1/db8/structmdlpp_1_1VTX_1_1BodyPart.html#a272607fb7bd97553147bb34c82571ffa',1,'mdlpp::VTX::BodyPart::models()']]],

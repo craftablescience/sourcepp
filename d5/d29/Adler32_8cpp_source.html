@@ -164,79 +164,78 @@ $(document).ready(function(){initNavTree('d5/d29/Adler32_8cpp_source.html','../.
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#a095de11a8bdd0f9e1d48cda9728cd931">   36</a></span><span class="preprocessor">#define DO8(buffer,i)  DO4(buffer,i) DO4(buffer,i+4)</span></div>
 <div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">   37</a></span><span class="preprocessor">#define DO16(buffer)   DO8(buffer,0) DO8(buffer,8)</span></div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">   39</a></span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">crypto::computeAdler32</a>(<span class="keyword">const</span> std::vector&lt;std::byte&gt;&amp; buffer) {</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">computeAdler32</a>(buffer.data(), buffer.size());</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../db/d83/namespacesourcepp_1_1crypto.html#ad371d07a92e8f37f023237eaf590b3ad">   39</a></span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#ad371d07a92e8f37f023237eaf590b3ad">crypto::computeAdler32</a>(std::span&lt;const std::byte&gt; buffer) {</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keyword">const</span> std::byte* cur = buffer.data();</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    uint64_t len = buffer.size();</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260">   43</a></span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">crypto::computeAdler32</a>(<span class="keyword">const</span> std::byte* buffer, std::size_t len) {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    uint32_t adler = 0;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="comment">/* split Adler-32 into component sums */</span></div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    uint32_t sum2 = (adler &gt;&gt; 16) &amp; 0xffff;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    adler &amp;= 0xffff;</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="comment">/* in case user likes doing a byte at a time, keep it fast */</span></div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keywordflow">if</span> (len == 1) {</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(buffer[0]);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        <span class="keywordflow">if</span> (adler &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            adler -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        sum2 += adler;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>        <span class="keywordflow">if</span> (sum2 &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>            sum2 -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    }</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="comment">/* initial Adler-32 value (deferred check for len == 1 speed) */</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">if</span> (!buffer)</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> 1L;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="comment">/* in case short lengths are provided, keep it somewhat fast */</span></div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">if</span> (len &lt; 16) {</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">while</span> (len--) {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*buffer++);</div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>            sum2 += adler;</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        }</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">if</span> (adler &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            adler -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;            <span class="comment">/* only added so many BASE&#39;s */</span></div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    }</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span> </div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="comment">/* do length NMAX blocks -- requires just one modulo operation */</span></div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    <span class="keywordflow">while</span> (len &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>) {</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        len -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        uint32_t n = <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a> / 16;    <span class="comment">/* NMAX is divisible by 16 */</span></div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>        <span class="keywordflow">do</span> {</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)           <span class="comment">/* 16 sums unrolled */</span></div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>            buffer += 16;</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        } <span class="keywordflow">while</span> (--n);</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        adler %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="comment">/* do remaining bytes (less than NMAX, still just one modulo) */</span></div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    <span class="keywordflow">if</span> (len) {                  <span class="comment">/* avoid modulos if none remaining */</span></div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        <span class="keywordflow">while</span> (len &gt;= 16) {</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            len -= 16;</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>            buffer += 16;</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        }</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">while</span> (len--) {</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*buffer++);</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            sum2 += adler;</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        }</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        adler %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    }</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="comment">/* return recombined sums */</span></div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    uint32_t adler = 0;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>    <span class="comment">/* split Adler-32 into component sums */</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    uint32_t sum2 = (adler &gt;&gt; 16) &amp; 0xffff;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>    adler &amp;= 0xffff;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    <span class="comment">/* in case user likes doing a byte at a time, keep it fast */</span></div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">if</span> (len == 1) {</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>        adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(buffer[0]);</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>        <span class="keywordflow">if</span> (adler &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            adler -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        sum2 += adler;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>        <span class="keywordflow">if</span> (sum2 &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>            sum2 -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    }</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="comment">/* initial Adler-32 value (deferred check for len == 1 speed) */</span></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (!cur)</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> 1L;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    <span class="comment">/* in case short lengths are provided, keep it somewhat fast */</span></div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    <span class="keywordflow">if</span> (len &lt; 16) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">while</span> (len--) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*cur++);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            sum2 += adler;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">if</span> (adler &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>)</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            adler -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;            <span class="comment">/* only added so many BASE&#39;s */</span></div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    <span class="comment">/* do length NMAX blocks -- requires just one modulo operation */</span></div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">while</span> (len &gt;= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>) {</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        len -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>;</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        uint32_t n = <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a> / 16;    <span class="comment">/* NMAX is divisible by 16 */</span></div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">do</span> {</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)           <span class="comment">/* 16 sums unrolled */</span></div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            cur += 16;</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        } <span class="keywordflow">while</span> (--n);</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        adler %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    }</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span> </div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    <span class="comment">/* do remaining bytes (less than NMAX, still just one modulo) */</span></div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">if</span> (len) {                  <span class="comment">/* avoid modulos if none remaining */</span></div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">while</span> (len &gt;= 16) {</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            len -= 16;</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            cur += 16;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        }</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">while</span> (len--) {</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            adler += <span class="keyword">static_cast&lt;</span><span class="keywordtype">unsigned</span> <span class="keywordtype">char</span><span class="keyword">&gt;</span>(*cur++);</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            sum2 += adler;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        }</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        adler %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        sum2 %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    <span class="comment">/* return recombined sums */</span></div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <span class="keywordflow">return</span> adler | (sum2 &lt;&lt; 16);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>}</div>
 <div class="ttc" id="aAdler32_8cpp_html_a9549fb44dc51fb8710d5d6dee5d99d10"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a></div><div class="ttdeci">constexpr uint32_t BASE</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00030">Adler32.cpp:30</a></div></div>
 <div class="ttc" id="aAdler32_8cpp_html_ac720f76bf5bff280b6733b00b2e331e5"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a></div><div class="ttdeci">#define DO16(buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00037">Adler32.cpp:37</a></div></div>
 <div class="ttc" id="aAdler32_8cpp_html_ad5a91fdaa1c4a0f44c6c533db1bd99b3"><div class="ttname"><a href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a></div><div class="ttdeci">constexpr std::size_t NMAX</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00031">Adler32.cpp:31</a></div></div>
 <div class="ttc" id="aAdler32_8h_html"><div class="ttname"><a href="../../dc/d15/Adler32_8h.html">Adler32.h</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1crypto_html_a44a81bc09c814c0501ecff4bd3816564"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564">sourcepp::crypto::computeAdler32</a></div><div class="ttdeci">uint32_t computeAdler32(const std::vector&lt; std::byte &gt; &amp;buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00039">Adler32.cpp:39</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1crypto_html_ad371d07a92e8f37f023237eaf590b3ad"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html#ad371d07a92e8f37f023237eaf590b3ad">sourcepp::crypto::computeAdler32</a></div><div class="ttdeci">uint32_t computeAdler32(std::span&lt; const std::byte &gt; buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d29/Adler32_8cpp_source.html#l00039">Adler32.cpp:39</a></div></div>
 <div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/Adler32_8h_source.html#l00008">Adler32.h:8</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

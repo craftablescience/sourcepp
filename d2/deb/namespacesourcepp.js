@@ -1,17 +1,14 @@
 var namespacesourcepp =
 [
     [ "crypto", "db/d83/namespacesourcepp_1_1crypto.html", [
-      [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#ae28cdf50997cbb94d3bda79efc6b2260", null ],
-      [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#a44a81bc09c814c0501ecff4bd3816564", null ],
-      [ "computeCRC32", "db/d83/namespacesourcepp_1_1crypto.html#a6818bbd0d47838fd9e94e2d9a942f06a", null ],
-      [ "computeCRC32", "db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43", null ],
-      [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a788b3d4c0030bf2311e4da600371c89b", null ],
-      [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00", null ],
+      [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#ad371d07a92e8f37f023237eaf590b3ad", null ],
+      [ "computeCRC32", "db/d83/namespacesourcepp_1_1crypto.html#ae6001c547224efd4b9a34bb0c42d90d3", null ],
+      [ "computeMD5", "db/d83/namespacesourcepp_1_1crypto.html#a1d0000c421916af2446706e8ba62ae27", null ],
       [ "computeSHA256KeyPair", "db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5", null ],
       [ "decodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#af0f8f739fd07fe6acd369b64dd32136f", null ],
       [ "encodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#a97d529d4a2f74e8686a13a26f7243e09", null ],
-      [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
-      [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583", null ]
+      [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#a0a4ed283db62e7c750a5085db1a60ee6", null ],
+      [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#a37b0b95fc83f9ec196d1bbacf24cf811", null ]
     ] ],
     [ "detail", "dc/daf/namespacesourcepp_1_1detail.html", "dc/daf/namespacesourcepp_1_1detail" ],
     [ "fs", "d9/dd6/namespacesourcepp_1_1fs.html", [

@@ -129,20 +129,18 @@ $(document).ready(function(){initNavTree('d6/d27/CRC32_8h_source.html','../../')
 <a href="../../d6/d27/CRC32_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;span&gt;</span></div>
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;<a class="code" href="../../db/d8a/Math_8h.html">sourcepp/Math.h</a>&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../db/d83/namespacesourcepp_1_1crypto.html">sourcepp::crypto</a> {</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43">computeCRC32</a>(<span class="keyword">const</span> std::vector&lt;std::byte&gt;&amp; buffer);</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#ae6001c547224efd4b9a34bb0c42d90d3">computeCRC32</a>(std::span&lt;const std::byte&gt; buffer);</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>uint32_t <a class="code hl_function" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43">computeCRC32</a>(<span class="keyword">const</span> std::byte* buffer, std::size_t len);</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>} <span class="comment">// namespace sourcepp::crypto</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>} <span class="comment">// namespace sourcepp::crypto</span></div>
 <div class="ttc" id="aMath_8h_html"><div class="ttname"><a href="../../db/d8a/Math_8h.html">Math.h</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1crypto_html"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html">sourcepp::crypto</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/Adler32_8h_source.html#l00008">Adler32.h:8</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1crypto_html_ab3d4dfec5a13c777b9243a1acbfd3b43"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html#ab3d4dfec5a13c777b9243a1acbfd3b43">sourcepp::crypto::computeCRC32</a></div><div class="ttdeci">uint32_t computeCRC32(const std::vector&lt; std::byte &gt; &amp;buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d6c/CRC32_8cpp_source.html#l00007">CRC32.cpp:7</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1crypto_html_ae6001c547224efd4b9a34bb0c42d90d3"><div class="ttname"><a href="../../db/d83/namespacesourcepp_1_1crypto.html#ae6001c547224efd4b9a34bb0c42d90d3">sourcepp::crypto::computeCRC32</a></div><div class="ttdeci">uint32_t computeCRC32(std::span&lt; const std::byte &gt; buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d6c/CRC32_8cpp_source.html#l00007">CRC32.cpp:7</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

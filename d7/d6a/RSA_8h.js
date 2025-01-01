@@ -1,6 +1,6 @@
 var RSA_8h =
 [
     [ "computeSHA256KeyPair", "d7/d6a/RSA_8h.html#adca36bfd682b13d5f9345ae11cf088b5", null ],
-    [ "signDataWithSHA256PrivateKey", "d7/d6a/RSA_8h.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
-    [ "verifySHA256PublicKey", "d7/d6a/RSA_8h.html#ab6e183f3d207cc9c44ca0247ededd583", null ]
+    [ "signDataWithSHA256PrivateKey", "d7/d6a/RSA_8h.html#a0a4ed283db62e7c750a5085db1a60ee6", null ],
+    [ "verifySHA256PublicKey", "d7/d6a/RSA_8h.html#a37b0b95fc83f9ec196d1bbacf24cf811", null ]
 ];

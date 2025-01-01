@@ -131,25 +131,25 @@ $(document).ready(function(){initNavTree('de/ddd/MD5_8h.html','../../'); initRes
 <div class="contents">
 <div class="textblock"><code>#include &lt;array&gt;</code><br />
 <code>#include &lt;cstddef&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../db/d8a/Math_8h_source.html">sourcepp/Math.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for MD5.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../db/d9f/MD5_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2crypto_2MD5_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2crypto_2MD5_8h" id="ainclude_2sourcepp_2crypto_2MD5_8h">
-<area shape="rect" title=" " alt="" coords="78,5,255,45"/>
+<area shape="rect" title=" " alt="" coords="75,5,253,45"/>
 <area shape="rect" title=" " alt="" coords="5,93,61,119"/>
 <area shape="rect" title=" " alt="" coords="86,93,157,119"/>
-<area shape="rect" title=" " alt="" coords="181,93,243,119"/>
-<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="268,93,399,119"/>
-<area shape="rect" title=" " alt="" coords="45,167,83,192"/>
-<area shape="rect" title=" " alt="" coords="108,167,188,192"/>
-<area shape="rect" title=" " alt="" coords="213,167,275,192"/>
-<area shape="rect" title=" " alt="" coords="300,167,367,192"/>
-<area shape="rect" title=" " alt="" coords="391,167,470,192"/>
-<area shape="rect" title=" " alt="" coords="494,167,586,192"/>
-<area shape="rect" title=" " alt="" coords="611,167,685,192"/>
+<area shape="rect" title=" " alt="" coords="181,93,235,119"/>
+<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="259,93,389,119"/>
+<area shape="rect" title=" " alt="" coords="35,167,74,192"/>
+<area shape="rect" title=" " alt="" coords="99,167,179,192"/>
+<area shape="rect" title=" " alt="" coords="203,167,266,192"/>
+<area shape="rect" title=" " alt="" coords="291,167,357,192"/>
+<area shape="rect" title=" " alt="" coords="382,167,461,192"/>
+<area shape="rect" title=" " alt="" coords="485,167,577,192"/>
+<area shape="rect" title=" " alt="" coords="601,167,676,192"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -157,10 +157,11 @@ This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d9/de4/MD5_8h__dep__incl.png" border="0" usemap="#ainclude_2sourcepp_2crypto_2MD5_8hdep" alt=""/></div>
 <map name="ainclude_2sourcepp_2crypto_2MD5_8hdep" id="ainclude_2sourcepp_2crypto_2MD5_8hdep">
-<area shape="rect" title=" " alt="" coords="186,5,363,45"/>
+<area shape="rect" title=" " alt="" coords="294,5,471,45"/>
 <area shape="rect" href="../../d0/ddd/MD5_8cpp.html" title=" " alt="" coords="5,93,155,133"/>
-<area shape="rect" href="../../d8/d7e/PCK_8cpp.html" title=" " alt="" coords="179,101,370,126"/>
-<area shape="rect" href="../../d1/da7/VPK_8cpp.html" title=" " alt="" coords="394,101,585,126"/>
+<area shape="rect" href="../../d4/d47/OO7_8cpp.html" title=" " alt="" coords="179,101,371,126"/>
+<area shape="rect" href="../../d8/d7e/PCK_8cpp.html" title=" " alt="" coords="395,101,586,126"/>
+<area shape="rect" href="../../d1/da7/VPK_8cpp.html" title=" " alt="" coords="610,101,801,126"/>
 </map>
 </div>
 </div>
@@ -175,10 +176,8 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a7edd6b551463bd5f8a4cbe143598bd00"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::byte, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a7edd6b551463bd5f8a4cbe143598bd00">sourcepp::crypto::computeMD5</a> (const std::vector&lt; std::byte &gt; &amp;buffer)</td></tr>
-<tr class="separator:a7edd6b551463bd5f8a4cbe143598bd00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a788b3d4c0030bf2311e4da600371c89b"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::byte, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a788b3d4c0030bf2311e4da600371c89b">sourcepp::crypto::computeMD5</a> (const std::byte *buffer, std::size_t len)</td></tr>
-<tr class="separator:a788b3d4c0030bf2311e4da600371c89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d0000c421916af2446706e8ba62ae27"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::byte, 16 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a1d0000c421916af2446706e8ba62ae27">sourcepp::crypto::computeMD5</a> (std::span&lt; const std::byte &gt; buffer)</td></tr>
+<tr class="separator:a1d0000c421916af2446706e8ba62ae27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->

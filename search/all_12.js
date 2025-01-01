@@ -70,7 +70,7 @@ var searchData=
   ['sign_67',['sign',['../d5/d8b/classvpkpp_1_1VPK.html#a9b63f9ffac005b88c99fe5e92220be39',1,'vpkpp::VPK::sign(const std::string &amp;filename_)'],['../d5/d8b/classvpkpp_1_1VPK.html#a5e812a3e85dcf32603131d9dd28effbf',1,'vpkpp::VPK::sign(const std::vector&lt; std::byte &gt; &amp;privateKey, const std::vector&lt; std::byte &gt; &amp;publicKey)']]],
   ['signature_68',['signature',['../dc/d1f/structvpkpp_1_1GMA_1_1Header.html#adc01d71c5ad8e7f24f29adf34f348577',1,'vpkpp::GMA::Header::signature()'],['../d2/d67/structvpkpp_1_1VPK_1_1Header1.html#aa8a035ffd664f66885a59077becec5ac',1,'vpkpp::VPK::Header1::signature()'],['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#aecb6472f0b6c632d2d92645679a007f1',1,'vpkpp::VPK::Footer2::signature()']]],
   ['signaturesectionsize_69',['signatureSectionSize',['../d2/d8d/structvpkpp_1_1VPK_1_1Header2.html#a4433bf660d7dc8a7af946b21ee29f161',1,'vpkpp::VPK::Header2']]],
-  ['signdatawithsha256privatekey_70',['signDataWithSHA256PrivateKey',['../db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1',1,'sourcepp::crypto']]],
+  ['signdatawithsha256privatekey_70',['signDataWithSHA256PrivateKey',['../db/d83/namespacesourcepp_1_1crypto.html#a0a4ed283db62e7c750a5085db1a60ee6',1,'sourcepp::crypto']]],
   ['size_71',['size',['../d6/d21/structsourcepp_1_1math_1_1Vec.html#ad72e16405b03bd597372124f71085da8',1,'sourcepp::math::Vec']]],
   ['skins_72',['skins',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a62018c532fb9a57bd71b3daaf61dc874',1,'mdlpp::MDL::MDL']]],
   ['sl4d2_5fprop_5fblob_73',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],

@@ -130,6 +130,7 @@ $(document).ready(function(){initNavTree('d7/d6a/RSA_8h.html','../../'); initRes
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;string_view&gt;</code><br />
 <code>#include &lt;tuple&gt;</code><br />
@@ -140,20 +141,21 @@ Include dependency graph for RSA.h:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../dc/d12/RSA_8h__incl.png" border="0" usemap="#ainclude_2sourcepp_2crypto_2RSA_8h" alt=""/></div>
 <map name="ainclude_2sourcepp_2crypto_2RSA_8h" id="ainclude_2sourcepp_2crypto_2RSA_8h">
-<area shape="rect" title=" " alt="" coords="193,5,371,45"/>
+<area shape="rect" title=" " alt="" coords="221,5,399,45"/>
 <area shape="rect" title=" " alt="" coords="5,93,76,119"/>
-<area shape="rect" title=" " alt="" coords="101,93,159,119"/>
-<area shape="rect" title=" " alt="" coords="184,93,281,119"/>
-<area shape="rect" title=" " alt="" coords="305,93,360,119"/>
-<area shape="rect" title=" " alt="" coords="384,93,447,119"/>
-<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="471,93,602,119"/>
-<area shape="rect" title=" " alt="" coords="248,167,287,192"/>
-<area shape="rect" title=" " alt="" coords="311,167,391,192"/>
-<area shape="rect" title=" " alt="" coords="416,167,479,192"/>
-<area shape="rect" title=" " alt="" coords="503,167,570,192"/>
-<area shape="rect" title=" " alt="" coords="595,167,673,192"/>
-<area shape="rect" title=" " alt="" coords="697,167,789,192"/>
-<area shape="rect" title=" " alt="" coords="814,167,889,192"/>
+<area shape="rect" title=" " alt="" coords="101,93,154,119"/>
+<area shape="rect" title=" " alt="" coords="178,93,237,119"/>
+<area shape="rect" title=" " alt="" coords="261,93,359,119"/>
+<area shape="rect" title=" " alt="" coords="383,93,437,119"/>
+<area shape="rect" title=" " alt="" coords="461,93,524,119"/>
+<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="549,93,679,119"/>
+<area shape="rect" title=" " alt="" coords="325,167,364,192"/>
+<area shape="rect" title=" " alt="" coords="389,167,469,192"/>
+<area shape="rect" title=" " alt="" coords="493,167,556,192"/>
+<area shape="rect" title=" " alt="" coords="581,167,647,192"/>
+<area shape="rect" title=" " alt="" coords="672,167,751,192"/>
+<area shape="rect" title=" " alt="" coords="775,167,867,192"/>
+<area shape="rect" title=" " alt="" coords="891,167,966,192"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -180,10 +182,10 @@ Namespaces</h2></td></tr>
 Functions</h2></td></tr>
 <tr class="memitem:adca36bfd682b13d5f9345ae11cf088b5"><td class="memItemLeft" align="right" valign="top">std::pair&lt; std::string, std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#adca36bfd682b13d5f9345ae11cf088b5">sourcepp::crypto::computeSHA256KeyPair</a> (uint16_t size=2048)</td></tr>
 <tr class="separator:adca36bfd682b13d5f9345ae11cf088b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab6e183f3d207cc9c44ca0247ededd583"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab6e183f3d207cc9c44ca0247ededd583">sourcepp::crypto::verifySHA256PublicKey</a> (const std::vector&lt; std::byte &gt; &amp;buffer, const std::vector&lt; std::byte &gt; &amp;publicKey, const std::vector&lt; std::byte &gt; &amp;signature)</td></tr>
-<tr class="separator:ab6e183f3d207cc9c44ca0247ededd583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab47c07cf7ad1e5ea163d791f61279fe1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1">sourcepp::crypto::signDataWithSHA256PrivateKey</a> (const std::vector&lt; std::byte &gt; &amp;buffer, const std::vector&lt; std::byte &gt; &amp;privateKey)</td></tr>
-<tr class="separator:ab47c07cf7ad1e5ea163d791f61279fe1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37b0b95fc83f9ec196d1bbacf24cf811"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a37b0b95fc83f9ec196d1bbacf24cf811">sourcepp::crypto::verifySHA256PublicKey</a> (std::span&lt; const std::byte &gt; buffer, std::span&lt; const std::byte &gt; publicKey, std::span&lt; const std::byte &gt; signature)</td></tr>
+<tr class="separator:a37b0b95fc83f9ec196d1bbacf24cf811"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a4ed283db62e7c750a5085db1a60ee6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d83/namespacesourcepp_1_1crypto.html#a0a4ed283db62e7c750a5085db1a60ee6">sourcepp::crypto::signDataWithSHA256PrivateKey</a> (std::span&lt; const std::byte &gt; buffer, std::span&lt; const std::byte &gt; privateKey)</td></tr>
+<tr class="separator:a0a4ed283db62e7c750a5085db1a60ee6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 </div><!-- doc-content -->
