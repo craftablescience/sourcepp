@@ -156,6 +156,9 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d27/structbsppp_1_1BSPVertex__v0.html">BSPVertex_v0</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/daf/classbsppp_1_1PakLump.html">PakLump</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Utility class for vpkpp integration - you need to include this header in a C++ file somewhere in your executable for automatic registration to work! Thanks C++.  <a href="../../d4/daf/classbsppp_1_1PakLump.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
@@ -291,6 +294,8 @@ Variables</h2></td></tr>
 <tr class="separator:a855bc3f5e5b7416f9010213e0ffa0630"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43b64a45a04c3808d0c3c938988cf2e0"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#a43b64a45a04c3808d0c3c938988cf2e0">BSP_LUMP_COUNT</a> = static_cast&lt;int32_t&gt;(<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">BSPLump::COUNT</a>)</td></tr>
 <tr class="separator:a43b64a45a04c3808d0c3c938988cf2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abdcd63d573ade86572992d52c6f26412"><td class="memItemLeft" align="right" valign="top">constexpr std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412">BSP_EXTENSION</a> = &quot;.bsp&quot;</td></tr>
+<tr class="separator:abdcd63d573ade86572992d52c6f26412"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ab641c01a21e113d496ce0922694f0043" name="ab641c01a21e113d496ce0922694f0043"></a>
@@ -526,11 +531,35 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d" name="a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d"></a>COUNT&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00018">18</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00019">19</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="abdcd63d573ade86572992d52c6f26412" name="abdcd63d573ade86572992d52c6f26412"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abdcd63d573ade86572992d52c6f26412">&#9670;&#160;</a></span>BSP_EXTENSION</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::string_view bsppp::BSP_EXTENSION = &quot;.bsp&quot;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/ddd/PakLump_8h_source.html#l00009">9</a> of file <a class="el" href="../../d0/ddd/PakLump_8h_source.html">PakLump.h</a>.</p>
+
+</div>
+</div>
 <a id="a43b64a45a04c3808d0c3c938988cf2e0" name="a43b64a45a04c3808d0c3c938988cf2e0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a43b64a45a04c3808d0c3c938988cf2e0">&#9670;&#160;</a></span>BSP_LUMP_COUNT</h2>
 
@@ -551,7 +580,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00105">105</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00106">106</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>
@@ -575,7 +604,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00016">16</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d60/bsppp_8h_source.html#l00017">17</a> of file <a class="el" href="../../d5/d60/bsppp_8h_source.html">bsppp.h</a>.</p>
 
 </div>
 </div>

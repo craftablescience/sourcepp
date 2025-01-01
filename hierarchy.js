@@ -119,7 +119,9 @@ var hierarchy =
       ] ],
       [ "vpkpp::VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", null ],
       [ "vpkpp::WAD3", "d1/da5/classvpkpp_1_1WAD3.html", null ],
-      [ "vpkpp::ZIP", "da/de7/classvpkpp_1_1ZIP.html", null ]
+      [ "vpkpp::ZIP", "da/de7/classvpkpp_1_1ZIP.html", [
+        [ "bsppp::PakLump", "d4/daf/classbsppp_1_1PakLump.html", null ]
+      ] ]
     ] ],
     [ "vpkpp::PCK::Header", "d5/da3/structvpkpp_1_1PCK_1_1Header.html", null ],
     [ "vpkpp::VPK::Footer2", "d5/dde/structvpkpp_1_1VPK_1_1Footer2.html", null ],

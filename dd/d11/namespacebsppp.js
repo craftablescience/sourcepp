@@ -11,6 +11,7 @@ var namespacebsppp =
     [ "BSPTextureData_v0", "d1/d93/structbsppp_1_1BSPTextureData__v0.html", "d1/d93/structbsppp_1_1BSPTextureData__v0" ],
     [ "BSPTextureInfo_v0", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0" ],
     [ "BSPVertex_v0", "d2/d27/structbsppp_1_1BSPVertex__v0.html", "d2/d27/structbsppp_1_1BSPVertex__v0" ],
+    [ "PakLump", "d4/daf/classbsppp_1_1PakLump.html", "d4/daf/classbsppp_1_1PakLump" ],
     [ "BSPBrushModel", "dd/d11/namespacebsppp.html#ab641c01a21e113d496ce0922694f0043", null ],
     [ "BSPEdge", "dd/d11/namespacebsppp.html#a1a1261bb6b66ffd2d6b6f2a3a93d774e", null ],
     [ "BSPFace", "dd/d11/namespacebsppp.html#a5bf7eaa5dd1cb4c39d56ea0a3181bd47", null ],
@@ -103,6 +104,7 @@ var namespacebsppp =
       [ "UNUSED8", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2", null ],
       [ "COUNT", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d", null ]
     ] ],
+    [ "BSP_EXTENSION", "dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412", null ],
     [ "BSP_LUMP_COUNT", "dd/d11/namespacebsppp.html#a43b64a45a04c3808d0c3c938988cf2e0", null ],
     [ "BSP_SIGNATURE", "dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630", null ]
 ];

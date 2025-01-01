@@ -11,7 +11,8 @@ var annotated_dup =
       [ "BSPSurfEdge_v0", "df/d2e/structbsppp_1_1BSPSurfEdge__v0.html", "df/d2e/structbsppp_1_1BSPSurfEdge__v0" ],
       [ "BSPTextureData_v0", "d1/d93/structbsppp_1_1BSPTextureData__v0.html", "d1/d93/structbsppp_1_1BSPTextureData__v0" ],
       [ "BSPTextureInfo_v0", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html", "d3/d0f/structbsppp_1_1BSPTextureInfo__v0" ],
-      [ "BSPVertex_v0", "d2/d27/structbsppp_1_1BSPVertex__v0.html", "d2/d27/structbsppp_1_1BSPVertex__v0" ]
+      [ "BSPVertex_v0", "d2/d27/structbsppp_1_1BSPVertex__v0.html", "d2/d27/structbsppp_1_1BSPVertex__v0" ],
+      [ "PakLump", "d4/daf/classbsppp_1_1PakLump.html", "d4/daf/classbsppp_1_1PakLump" ]
     ] ],
     [ "dmxpp", "d9/db0/namespacedmxpp.html", [
       [ "Value", "d7/d45/namespacedmxpp_1_1Value.html", [
