@@ -209,6 +209,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a41716763d0081f46ff6eb3d04634fae0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html#a41716763d0081f46ff6eb3d04634fae0">verifyEntryChecksums</a> () const override</td></tr>
 <tr class="memdesc:a41716763d0081f46ff6eb3d04634fae0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Verify the checksums of each file, if a file fails the check its path will be added to the vector If there is no checksum ability in the format, it will return an empty vector.  <br /></td></tr>
 <tr class="separator:a41716763d0081f46ff6eb3d04634fae0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a824e7840477a2bfba8cd9a5d724dfb97"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html#a824e7840477a2bfba8cd9a5d724dfb97">isCaseSensitive</a> () const override</td></tr>
+<tr class="memdesc:a824e7840477a2bfba8cd9a5d724dfb97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Does the format support case-sensitive file names?  <br /></td></tr>
+<tr class="separator:a824e7840477a2bfba8cd9a5d724dfb97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad82b35254e3df131300472ebeb4c5642"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d01/classvpkpp_1_1GCF.html#ad82b35254e3df131300472ebeb4c5642">readEntry</a> (const std::string &amp;path_) const override</td></tr>
 <tr class="memdesc:ad82b35254e3df131300472ebeb4c5642"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to read the entry's data to a bytebuffer.  <br /></td></tr>
 <tr class="separator:ad82b35254e3df131300472ebeb4c5642"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -527,7 +530,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00279">279</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00273">273</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
 
 </div>
 </div>
@@ -559,6 +562,37 @@ Additional Inherited Members</h2></td></tr>
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a01489dadc91ac52b3c4665b58a40a6ff">vpkpp::PackFile</a>.</p>
 
 <p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00121">121</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+
+</div>
+</div>
+<a id="a824e7840477a2bfba8cd9a5d724dfb97" name="a824e7840477a2bfba8cd9a5d724dfb97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a824e7840477a2bfba8cd9a5d724dfb97">&#9670;&#160;</a></span>isCaseSensitive()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool vpkpp::GCF::isCaseSensitive </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Does the format support case-sensitive file names? </p>
+
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a7f418df3fcc249e927ed122592ccee46">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00127">127</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -627,7 +661,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00284">284</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00278">278</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
 
 </div>
 </div>
@@ -687,7 +721,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#adb4279fcac0f5dea6f9817edd95a05d2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00219">219</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00214">214</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
 
 </div>
 </div>
@@ -718,7 +752,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a632694d8d4478215efc581d400ff465b">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00194">194</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../de/d9a/GCF_8cpp_source.html#l00189">189</a> of file <a class="el" href="../../de/d9a/GCF_8cpp_source.html">GCF.cpp</a>.</p>
 
 </div>
 </div>
@@ -743,7 +777,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00138">138</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00142">142</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -767,7 +801,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00137">137</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00141">141</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -791,7 +825,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00145">145</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00149">149</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -815,7 +849,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00144">144</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00148">148</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -839,7 +873,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00143">143</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00147">147</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -863,7 +897,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00140">140</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00144">144</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -887,7 +921,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00142">142</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00146">146</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -911,7 +945,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00139">139</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00143">143</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
@@ -959,7 +993,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00136">136</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../df/d32/GCF_8h_source.html#l00140">140</a> of file <a class="el" href="../../df/d32/GCF_8h_source.html">GCF.h</a>.</p>
 
 </div>
 </div>
