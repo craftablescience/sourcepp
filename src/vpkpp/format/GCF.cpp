@@ -18,17 +18,14 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 		return nullptr;
 	}
 
-	// Create the pack file
 	auto* gcf = new GCF{path};
 	auto packFile = std::unique_ptr<PackFile>(gcf);
 
-	// open file
 	FileStream reader(gcf->fullFilePath);
 	reader.seek_in(0);
 
-	// we read the main header here (not the block header)
+	// read the main header here (not the block header)
 	reader.read(gcf->header);
-
 	if (gcf->header.dummy1 != 1 && gcf->header.dummy2 != 1 && gcf->header.gcfversion != 6) {
 		/**
 		* This should NEVER occur when reading a "normal" gcf file.
@@ -39,8 +36,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 		return nullptr;
 	}
 
-	uintmax_t real_size = std::filesystem::file_size(gcf->fullFilePath);
-	if (real_size != gcf->header.filesize) {
+	if (gcf->header.filesize != std::filesystem::file_size(gcf->fullFilePath)) {
 		// again, this should never occur with a valid gcf file
 		return nullptr;
 	}
@@ -103,14 +99,13 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 	reader.read(gcf->dirheader);
 
 	uint64_t diroffset = reader.tell_in() + (gcf->dirheader.itemcount * 28);
-	uint64_t currentoffset;
 
 	std::vector<DirectoryEntry2> direntries{};
 
 	for (int i = 0; i < gcf->dirheader.itemcount; i++) {
 		DirectoryEntry2& entry = direntries.emplace_back();
 		reader.read(entry.entry_real);
-		currentoffset = reader.tell_in();
+		auto currentoffset = reader.tell_in();
 		reader.seek_in_u(diroffset + entry.entry_real.nameoffset);
 		reader.read(entry.filename);
 		if (entry.entry_real.dirtype != 0) { // if not directory
@@ -252,7 +247,6 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 
 	FileStream stream{this->fullFilePath};
 	if (!stream) {
-		//printf("!stream\n");
 		return std::nullopt;
 	}
 
