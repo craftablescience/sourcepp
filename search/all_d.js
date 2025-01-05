@@ -14,13 +14,14 @@ var searchData=
   ['no_5foverride_11',['NO_OVERRIDE',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a9ed9fde06cff703c7420b059dd1bfca9',1,'vpkpp']]],
   ['nodes_12',['NODES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a91333d9dc1ff3a19e07d7d7bd34e18ed',1,'bsppp']]],
   ['none_13',['NONE',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181ab50339a10e1de285ac99d4c3990b8693',1,'toolpp::CmdSeq::Command::NONE()'],['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccab50339a10e1de285ac99d4c3990b8693',1,'vtfpp::ImageConversion::NONE()'],['../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeab50339a10e1de285ac99d4c3990b8693',1,'vpkpp::NONE()']]],
-  ['normal_14',['normal',['../d8/de4/structbsppp_1_1BSPPlane__v0.html#a2a0b80064a63a72f25e6d1d720feddb9',1,'bsppp::BSPPlane_v0::normal()'],['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#a4f4664ff8342fea1afcbc6c15041e1ea',1,'mdlpp::VVD::Vertex::normal()'],['../d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#aa1e28b36d1438c5dee860e5d73347a40',1,'mdlpp::BakedModel::Vertex::normal()']]],
+  ['normal_14',['normal',['../d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#aa1e28b36d1438c5dee860e5d73347a40',1,'mdlpp::BakedModel::Vertex::normal()'],['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#a4f4664ff8342fea1afcbc6c15041e1ea',1,'mdlpp::VVD::Vertex::normal()'],['../d8/de4/structbsppp_1_1BSPPlane__v0.html#a2a0b80064a63a72f25e6d1d720feddb9',1,'bsppp::BSPPlane_v0::normal()']]],
   ['normalizeslashes_15',['normalizeSlashes',['../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8',1,'sourcepp::string']]],
-  ['nuclear_5fdawn_16',['NUCLEAR_DAWN',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#add37351aa5f12b3aa9cc92a6a4989734',1,'vcryptpp::VICE::KnownCodes']]],
-  ['numarchives_17',['numArchives',['../d5/d8b/classvpkpp_1_1VPK.html#ab6f13dc9bbee32873cc853e95eed76ea',1,'vpkpp::VPK']]],
-  ['numedges_18',['numEdges',['../d8/d85/structbsppp_1_1BSPFace__v2.html#a2c1d88f8654b5236e2a458cafc21becd',1,'bsppp::BSPFace_v2::numEdges()'],['../d6/d98/structbsppp_1_1BSPFace__v1.html#a7e2854487a06dee462929bd9d22b00e9',1,'bsppp::BSPFace_v1::numEdges()']]],
-  ['numfaces_19',['numFaces',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a5f4f579fa359070693f7cb07acf71e87',1,'bsppp::BSPBrushModel_v0']]],
-  ['numlods_20',['numLODs',['../d0/de2/structmdlpp_1_1VVD_1_1VVD.html#a99400b8c15708b19d25fdacd972279a6',1,'mdlpp::VVD::VVD::numLODs()'],['../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5',1,'mdlpp::VTX::VTX::numLODs()']]],
-  ['numprims_21',['numPrims',['../d8/d85/structbsppp_1_1BSPFace__v2.html#a4263804e995790f2e5dc42ade9fd0f98',1,'bsppp::BSPFace_v2::numPrims()'],['../d6/d98/structbsppp_1_1BSPFace__v1.html#ae6c41308d9feb0d21078ff9766733d42',1,'bsppp::BSPFace_v1::numPrims()']]],
-  ['numverticesinlod_22',['numVerticesInLOD',['../d0/de2/structmdlpp_1_1VVD_1_1VVD.html#a30c4865a0134b14f6127d75972e7a56a',1,'mdlpp::VVD::VVD']]]
+  ['notes_16',['notes',['../d4/d47/classvpkpp_1_1OL.html#a58f7f7c7fc67828fcbc8ac6f74830a7c',1,'vpkpp::OL']]],
+  ['nuclear_5fdawn_17',['NUCLEAR_DAWN',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#add37351aa5f12b3aa9cc92a6a4989734',1,'vcryptpp::VICE::KnownCodes']]],
+  ['numarchives_18',['numArchives',['../d5/d8b/classvpkpp_1_1VPK.html#ab6f13dc9bbee32873cc853e95eed76ea',1,'vpkpp::VPK']]],
+  ['numedges_19',['numEdges',['../d8/d85/structbsppp_1_1BSPFace__v2.html#a2c1d88f8654b5236e2a458cafc21becd',1,'bsppp::BSPFace_v2::numEdges()'],['../d6/d98/structbsppp_1_1BSPFace__v1.html#a7e2854487a06dee462929bd9d22b00e9',1,'bsppp::BSPFace_v1::numEdges()']]],
+  ['numfaces_20',['numFaces',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a5f4f579fa359070693f7cb07acf71e87',1,'bsppp::BSPBrushModel_v0']]],
+  ['numlods_21',['numLODs',['../d0/de2/structmdlpp_1_1VVD_1_1VVD.html#a99400b8c15708b19d25fdacd972279a6',1,'mdlpp::VVD::VVD::numLODs()'],['../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5',1,'mdlpp::VTX::VTX::numLODs()']]],
+  ['numprims_22',['numPrims',['../d6/d98/structbsppp_1_1BSPFace__v1.html#ae6c41308d9feb0d21078ff9766733d42',1,'bsppp::BSPFace_v1::numPrims()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#a4263804e995790f2e5dc42ade9fd0f98',1,'bsppp::BSPFace_v2::numPrims()']]],
+  ['numverticesinlod_23',['numVerticesInLOD',['../d0/de2/structmdlpp_1_1VVD_1_1VVD.html#a30c4865a0134b14f6127d75972e7a56a',1,'mdlpp::VVD::VVD']]]
 ];

@@ -112,6 +112,7 @@ var hierarchy =
       [ "vpkpp::PCK", "d5/db5/classvpkpp_1_1PCK.html", null ],
       [ "vpkpp::PackFileReadOnly", "de/df6/classvpkpp_1_1PackFileReadOnly.html", [
         [ "vpkpp::GCF", "d1/d01/classvpkpp_1_1GCF.html", null ],
+        [ "vpkpp::OL", "d4/d47/classvpkpp_1_1OL.html", null ],
         [ "vpkpp::OO7", "d3/dec/classvpkpp_1_1OO7.html", null ],
         [ "vpkpp::ORE", "d8/d00/classvpkpp_1_1ORE.html", null ]
       ] ],
