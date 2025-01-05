@@ -51,9 +51,8 @@ SOURCEPP_API int vpkpp_pak_is_hrot(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
 	auto* pak = Convert::packFile(handle);
-	if (!pak->isInstanceOf<PAK>()) {
-		return false;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(pak->isInstanceOf<PAK>(), false);
+
 	return dynamic_cast<PAK*>(pak)->isHROT();
 }
 
@@ -61,8 +60,7 @@ SOURCEPP_API void vpkpp_pak_set_hrot(vpkpp_pack_file_handle_t handle, int hrot) 
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* pak = Convert::packFile(handle);
-	if (!pak->isInstanceOf<PAK>()) {
-		return;
-	}
+	SOURCEPP_EARLY_RETURN(pak->isInstanceOf<PAK>());
+
 	return dynamic_cast<PAK*>(pak)->setHROT(hrot);
 }

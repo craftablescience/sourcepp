@@ -58,9 +58,8 @@ SOURCEPP_API bool vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, cons
 	SOURCEPP_EARLY_RETURN_VAL(filename, false);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return false;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(vpk->isInstanceOf<VPK>(), false);
+
 	return dynamic_cast<VPK*>(vpk)->sign(filename);
 }
 
@@ -72,9 +71,8 @@ SOURCEPP_API bool vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const
 	SOURCEPP_EARLY_RETURN_VAL(publicKeyLen, false);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return false;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(vpk->isInstanceOf<VPK>(), false);
+
 	return dynamic_cast<VPK*>(vpk)->sign(
 		{reinterpret_cast<const std::byte*>(privateKeyBuffer), reinterpret_cast<const std::byte*>(privateKeyBuffer + privateKeyLen)},
 		{reinterpret_cast<const std::byte*>(publicKeyBuffer), reinterpret_cast<const std::byte*>(publicKeyBuffer + publicKeyLen)});
@@ -84,9 +82,8 @@ SOURCEPP_API uint32_t vpkpp_vpk_get_version(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return 0;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(vpk->isInstanceOf<VPK>(), 0);
+
 	return dynamic_cast<VPK*>(vpk)->getVersion();
 }
 
@@ -94,9 +91,8 @@ SOURCEPP_API void vpkpp_vpk_set_version(vpkpp_pack_file_handle_t handle, uint32_
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return;
-	}
+	SOURCEPP_EARLY_RETURN(vpk->isInstanceOf<VPK>());
+
 	dynamic_cast<VPK*>(vpk)->setVersion(version);
 }
 
@@ -104,9 +100,8 @@ SOURCEPP_API uint32_t vpkpp_vpk_get_chunk_size(vpkpp_pack_file_handle_t handle) 
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return 0;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(vpk->isInstanceOf<VPK>(), 0);
+
 	return dynamic_cast<VPK*>(vpk)->getChunkSize();
 }
 
@@ -114,8 +109,7 @@ SOURCEPP_API void vpkpp_vpk_set_chunk_size(vpkpp_pack_file_handle_t handle, uint
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* vpk = Convert::packFile(handle);
-	if (!vpk->isInstanceOf<VPK>()) {
-		return;
-	}
+	SOURCEPP_EARLY_RETURN(vpk->isInstanceOf<VPK>());
+
 	dynamic_cast<VPK*>(vpk)->setChunkSize(chunkSize);
 }

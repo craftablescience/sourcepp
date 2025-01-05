@@ -115,11 +115,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
   </tr>
   <tr>
-    <td rowspan="14"><code>vpkpp</code></td>
+    <td rowspan="15"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="14" align="center">C<br>C#</td>
+    <td rowspan="15" align="center">C<br>C#</td>
   </tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a></td>
@@ -140,6 +140,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>GMA v1-3 (Garry's Mod)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>OL (Worldcraft Object Library)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr>
     <td>ORE (Narbacular Drop)</td>
@@ -287,6 +292,7 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s 007 parser is based on [reverse-engineering work](https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt) by Alhexx.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
+- `vpkpp`'s OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`'s SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).

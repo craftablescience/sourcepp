@@ -42,9 +42,8 @@ SOURCEPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type
 	SOURCEPP_EARLY_RETURN_VAL(path, ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
 
 	auto* zip = Convert::packFile(handle);
-	if (!zip->isInstanceOf<ZIP>()) {
-		return ENTRY_COMPRESSION_TYPE_NO_COMPRESS;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(zip->isInstanceOf<ZIP>(), ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
+
 	return static_cast<vpkpp_entry_compression_type_e>(dynamic_cast<ZIP*>(zip)->getEntryCompressionType(path));
 }
 
@@ -53,9 +52,8 @@ SOURCEPP_API void vpkpp_zip_set_entry_compression_type(vpkpp_pack_file_handle_t 
 	SOURCEPP_EARLY_RETURN(path);
 
 	auto* zip = Convert::packFile(handle);
-	if (!zip->isInstanceOf<ZIP>()) {
-		return;
-	}
+	SOURCEPP_EARLY_RETURN(zip->isInstanceOf<ZIP>());
+
 	dynamic_cast<ZIP*>(zip)->setEntryCompressionType(path, static_cast<EntryCompressionType>(type));
 }
 
@@ -64,9 +62,8 @@ SOURCEPP_API int16_t vpkpp_zip_get_entry_compression_strength(vpkpp_pack_file_ha
 	SOURCEPP_EARLY_RETURN_VAL(path, 0);
 
 	auto* zip = Convert::packFile(handle);
-	if (!zip->isInstanceOf<ZIP>()) {
-		return 0;
-	}
+	SOURCEPP_EARLY_RETURN_VAL(zip->isInstanceOf<ZIP>(), 0);
+
 	return dynamic_cast<ZIP*>(zip)->getEntryCompressionStrength(path);
 }
 
@@ -75,8 +72,7 @@ SOURCEPP_API void vpkpp_zip_set_entry_compression_strength(vpkpp_pack_file_handl
 	SOURCEPP_EARLY_RETURN(path);
 
 	auto* zip = Convert::packFile(handle);
-	if (!zip->isInstanceOf<ZIP>()) {
-		return;
-	}
+	SOURCEPP_EARLY_RETURN(zip->isInstanceOf<ZIP>());
+
 	dynamic_cast<ZIP*>(zip)->setEntryCompressionStrength(path, strength);
 }
