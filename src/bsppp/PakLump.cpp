@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-#include <bsppp/bsppp.h>
+#include <bsppp/BSP.h>
 #include <FileStream.h>
 #include <mz.h>
 #include <mz_zip.h>
