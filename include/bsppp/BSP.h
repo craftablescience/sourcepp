@@ -11,6 +11,7 @@
 
 #include <sourcepp/parser/Binary.h>
 
+#include "EntityLump.h"
 #include "LumpData.h"
 #include "PakLump.h"
 
@@ -153,7 +154,9 @@ public:
 
 	template<BSPLump Lump>
 	[[nodiscard]] auto getLumpData() const {
-		if constexpr (Lump == BSPLump::PLANES) {
+		if constexpr (Lump == BSPLump::ENTITIES) {
+			return this->parseEntities();
+		} else if constexpr (Lump == BSPLump::PLANES) {
 			return this->parsePlanes();
 		} else if constexpr (Lump == BSPLump::TEXDATA) {
 			return this->parseTextureData();
@@ -185,6 +188,8 @@ public:
 	/// instead. Valid compressLevel range is 0 to 9, 0 is considered off, 9 the slowest and most compressiest
 	bool setLump(BSPLump lumpIndex, uint32_t version, std::span<const std::byte> data, uint8_t compressLevel = 0);
 
+	bool setLump(uint32_t version, std::span<const BSPEntityKeyValues> data, uint8_t compressLevel = 0);
+
 	[[nodiscard]] bool isGameLumpCompressed(BSPGameLump::Signature signature) const;
 
 	[[nodiscard]] uint16_t getGameLumpVersion(BSPGameLump::Signature signature);
@@ -207,6 +212,8 @@ public:
 
 protected:
 	bool readHeader();
+
+	[[nodiscard]] std::vector<BSPEntityKeyValues> parseEntities() const;
 
 	[[nodiscard]] std::vector<BSPPlane> parsePlanes() const;
 
