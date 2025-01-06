@@ -136,7 +136,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 /**
  * Read a string starting at the current stream position.
@@ -145,7 +145,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 /**
  * Read a string starting at the current stream position.
@@ -155,13 +155,11 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-[[nodiscard]] std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
 
 class syntax_error : public std::runtime_error {
 public:
-	explicit syntax_error(const char* message) noexcept : std::runtime_error(message) {}
-	syntax_error(const syntax_error& other) noexcept = default;
-	syntax_error& operator=(const syntax_error& other) noexcept = default;
+	using std::runtime_error::runtime_error;
 };
 
 } // namespace sourcepp::parser::text

@@ -183,6 +183,22 @@ bool BSP::setLump(BSPLump lumpIndex, uint32_t version, std::span<const std::byte
 	return true;
 }
 
+bool BSP::setLump(uint32_t version, std::span<const BSPEntityKeyValues> data, uint8_t compressLevel) {
+	if (version > 1) {
+		return false;
+	}
+	std::string out;
+	for (const auto& ent : data) {
+		out += ent.bake(version == 1) + '\n';
+	}
+	if (out.empty()) {
+		out += '\0';
+	} else {
+		out.back() = '\0';
+	}
+	return this->setLump(BSPLump::ENTITIES, version, {reinterpret_cast<const std::byte*>(out.data()), out.size()}, compressLevel);
+}
+
 bool BSP::isGameLumpCompressed(BSPGameLump::Signature signature) const {
 	for (const auto& gameLump : this->stagedGameLumps) {
 		if (gameLump.signature == signature) {
@@ -503,6 +519,66 @@ bool BSP::readHeader() {
 
 	reader >> this->header.mapRevision;
 	return true;
+}
+
+std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
+	using namespace sourcepp;
+
+	const auto useEscapes = this->getLumpVersion(BSPLump::ENTITIES);
+	if (useEscapes > 1) {
+		return {};
+	}
+
+	auto data = this->getLumpData(BSPLump::ENTITIES);
+	if (!data) {
+		return {};
+	}
+	BufferStreamReadOnly stream{*data};
+
+	std::vector<BSPEntityKeyValues> entities;
+
+	try {
+		while (true) {
+			// Expect an opening brace
+			parser::text::eatWhitespaceAndSingleLineComments(stream);
+			if (stream.peek<char>() != '{') {
+				break;
+			}
+
+			auto& ent = entities.emplace_back();
+
+			while (true) {
+				// Check if the block is over
+				parser::text::eatWhitespaceAndSingleLineComments(stream);
+				if (stream.peek<char>() == '}') {
+					stream.skip();
+					break;
+				}
+
+				std::string key, value;
+
+				// Read key
+				{
+					BufferStream keyStream{key};
+					parser::text::readStringToBuffer(stream, keyStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+					key.resize(keyStream.tell());
+					parser::text::eatWhitespaceAndSingleLineComments(stream);
+				}
+
+				// Read value
+				{
+					BufferStream valueStream{value};
+					parser::text::readStringToBuffer(stream, valueStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+					value.resize(valueStream.tell());
+					parser::text::eatWhitespaceAndSingleLineComments(stream);
+				}
+
+				ent[key] = value;
+			}
+		}
+	} catch (const std::overflow_error&) {}
+
+	return entities;
 }
 
 std::vector<BSPPlane> BSP::parsePlanes() const {
