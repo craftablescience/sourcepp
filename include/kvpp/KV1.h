@@ -15,7 +15,8 @@ namespace kvpp {
 template<typename V>
 concept KV1ValueType = std::convertible_to<V, std::string_view>
         			|| std::same_as<V, bool>
-        			|| std::same_as<V, int>
+        			|| std::same_as<V, int32_t>
+        			|| std::same_as<V, int64_t>
         			|| std::same_as<V, float>;
 
 template<typename S, typename K>
@@ -38,9 +39,17 @@ public:
 		if constexpr (std::convertible_to<V, std::string_view>) {
 			return this->value;
 		} else if constexpr (std::same_as<V, bool>) {
-			return static_cast<bool>(this->getValue<int>());
-		} else if constexpr (std::same_as<V, int>) {
+			return static_cast<bool>(this->getValue<int32_t>());
+		} else if constexpr (std::same_as<V, int32_t>) {
+			if (this->value.length() == 10 && this->value.starts_with("0x") && sourcepp::parser::text::isNumber(this->value.substr(2))) {
+				return std::stoi(std::string{this->value.substr(2)}, nullptr, 16);
+			}
 			return std::stoi(std::string{this->value});
+		} else if constexpr (std::same_as<V, int64_t>) {
+			if (this->value.length() == 18 && this->value.starts_with("0x") && sourcepp::parser::text::isNumber(this->value.substr(2))) {
+				return std::stoll(std::string{this->value.substr(2)}, nullptr, 16);
+			}
+			return std::stoll(std::string{this->value});
 		} else if constexpr (std::same_as<V, float>) {
 			return std::stof(std::string{this->value});
 		}
@@ -206,7 +215,7 @@ public:
 	void setValue(V value_) {
 		if constexpr (std::convertible_to<V, std::string_view>) {
 			this->value = std::string_view{value_};
-		} else if constexpr (std::same_as<V, bool> || std::same_as<V, int> || std::same_as<V, float>) {
+		} else {
 			this->setValue(std::to_string(value_));
 		}
 	}
