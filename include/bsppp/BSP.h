@@ -108,6 +108,19 @@ enum class BSPLump : int32_t {
 constexpr int32_t BSP_LUMP_COUNT = 64;
 static_assert(static_cast<std::underlying_type_t<BSPLump>>(BSPLump::COUNT) == BSP_LUMP_COUNT, "Incorrect lump count!");
 
+/// Pulled from Portal 2, map e1912. This is not a given for every game or even map, and obviously lump order doesn't
+/// matter one bit, but we do at least want the paklump to be at the end since it commonly grows and shrinks.
+constexpr std::array<uint32_t, 64> BSP_LUMP_ORDER{
+	25, 24, 32, 57, 49, 59,  6,  2,
+	43, 44, 10, 17,  1, 18, 19, 14,
+	 5, 20, 21,  4,  0, 29, 26, 62,
+	 3, 12, 13,  7, 58, 33, 48, 63,
+	28,  9,  8, 53, 37, 38, 39, 30,
+	31, 56, 52, 51, 55, 16, 36, 45,
+	50, 60, 61, 46, 42, 41, 54, 15,
+	34, 47, 11, 22, 23, 27, 35, 40,
+};
+
 class BSP {
 	struct Lump {
 		/// Byte offset into file

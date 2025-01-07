@@ -77,9 +77,14 @@ BSP BSP::create(std::string path, uint32_t version, uint32_t mapRevision) {
 		if (version == 27) {
 			writer.write<uint32_t>(0);
 		}
-		writer
-			.write<decltype(BSP::Header::lumps)>({})
-			.write(mapRevision);
+		for (int i = 0; i < BSP_LUMP_COUNT; i++) {
+			writer
+				.write<uint32_t>(0)
+				.write<uint32_t>(0)
+				.write<uint32_t>(0)
+				.write<uint32_t>(0);
+		}
+		writer << mapRevision;
 	}
 	return BSP{std::move(path)};
 }
@@ -300,7 +305,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 	const auto fsPath = std::filesystem::path{this->path};
 	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
 	int nonexistentNumber = 0;
-	while (1) {
+	while (true) {
 		if (!std::filesystem::exists(fsStem + std::to_string(nonexistentNumber) + ".lmp")) {
 			break;
 		}
@@ -355,26 +360,36 @@ bool BSP::bake(std::string_view outputPath) {
 	}
 
 	const auto lumpsHeaderOffset = stream.tell();
-	stream.write<decltype(Header::lumps)>({});
+	for (int i = 0; i < sizeof(Header::lumps); i++) {
+		stream.write<uint8_t>(0);
+	}
 
 	stream << this->stagedMapRevision;
 
-	for (int32_t i = 0; i < BSP_LUMP_COUNT; i++) {
+	for (auto i : BSP_LUMP_ORDER) {
 		if (!this->hasLump(static_cast<BSPLump>(i))) {
 			continue;
+		}
+
+		// Lumps are 4 byte aligned
+		if (const auto padding = math::paddingForAlignment(4, stream.tell()); padding > 0) {
+			for (int p = 0; p < padding; p++) {
+				stream.write<uint8_t>(0);
+			}
 		}
 
 		if (static_cast<BSPLump>(i) == BSPLump::GAME_LUMP && !this->stagedGameLumps.empty()) {
 			const auto gameLumpOffset = stream.tell();
 
 			bool oneOrMoreGameLumpCompressed = false;
-			for (auto gameLump : this->stagedGameLumps) {
+			for (const auto& gameLump : this->stagedGameLumps) {
 				if (gameLump.isCompressed) {
 					oneOrMoreGameLumpCompressed = true;
 					break;
 				}
 			}
-			auto gameLumpCurrentOffset = sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
+			// NOLINTNEXTLINE(*-sizeof-container)
+			auto gameLumpCurrentOffset = stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
 			stream.write<uint32_t>(this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed);
 
 			for (const auto& gameLump : this->stagedGameLumps) {
@@ -450,21 +465,33 @@ bool BSP::bake(std::string_view outputPath) {
 		if (data) {
 			const auto curPos = stream.tell();
 			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
+
+			auto& lump = this->header.lumps[i];
 			if (!this->isL4D2) {
 				stream
 					.write<uint32_t>(curPos)
-					.write<uint32_t>(this->header.lumps[i].length)
-					.write<uint32_t>(this->header.lumps[i].version);
+					.write<uint32_t>(lump.length)
+					.write<uint32_t>(lump.version);
 			} else {
 				stream
-					.write<uint32_t>(this->header.lumps[i].version)
+					.write<uint32_t>(lump.version)
 					.write<uint32_t>(curPos)
-					.write<uint32_t>(this->header.lumps[i].length);
+					.write<uint32_t>(lump.length);
 			}
 			stream
-				.write<uint32_t>(this->header.lumps[i].uncompressedLength)
+				.write<uint32_t>(lump.uncompressedLength)
 				.seek_u(curPos)
 				.write(*data);
+		} else {
+			// We should never be here!
+			SOURCEPP_DEBUG_BREAK;
+		}
+	}
+
+	// Lumps are 4 byte aligned
+	if (const auto padding = math::paddingForAlignment(4, stream.tell()); padding > 0) {
+		for (int p = 0; p < padding; p++) {
+			stream.write<uint8_t>(0);
 		}
 	}
 
@@ -496,7 +523,13 @@ bool BSP::readHeader() {
 		reader.skip_in<uint32_t>();
 	}
 
-	reader >> this->header.lumps;
+	for (auto& lump : this->header.lumps) {
+		reader
+			>> lump.offset
+			>> lump.length
+			>> lump.version
+			>> lump.uncompressedLength;
+	}
 
 	// If no offsets are larger than 1024 (less than the size of the BSP header, but greater
 	// than any lump version), it's probably a L4D2 BSP and those are lump versions!
@@ -539,11 +572,17 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 
 	try {
 		while (true) {
+			// Check for EOF - give 3 chars for extra breathing room
+			if (stream.tell() >= stream.size() - 3) {
+				return entities;
+			}
+
 			// Expect an opening brace
 			parser::text::eatWhitespaceAndSingleLineComments(stream);
 			if (stream.peek<char>() != '{') {
 				break;
 			}
+			stream.skip<char>();
 
 			auto& ent = entities.emplace_back();
 
@@ -561,7 +600,7 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 				{
 					BufferStream keyStream{key};
 					parser::text::readStringToBuffer(stream, keyStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
-					key.resize(keyStream.tell());
+					key.resize(keyStream.tell() - 1);
 					parser::text::eatWhitespaceAndSingleLineComments(stream);
 				}
 
@@ -569,15 +608,16 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 				{
 					BufferStream valueStream{value};
 					parser::text::readStringToBuffer(stream, valueStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
-					value.resize(valueStream.tell());
+					value.resize(valueStream.tell() - 1);
 					parser::text::eatWhitespaceAndSingleLineComments(stream);
 				}
 
 				ent[key] = value;
 			}
 		}
-	} catch (const std::overflow_error&) {}
-
+	} catch (const std::overflow_error&) {
+		return {};
+	}
 	return entities;
 }
 
