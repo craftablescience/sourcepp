@@ -1,11 +1,16 @@
 <map id="include/bsppp/LumpData.h" name="include/bsppp/LumpData.h">
-<area shape="rect" id="node1" title=" " alt="" coords="197,5,391,31"/>
-<area shape="rect" id="node2" href="$db/d8a/Math_8h.html" title=" " alt="" coords="229,79,359,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,152,44,177"/>
-<area shape="rect" id="node4" title=" " alt="" coords="69,152,149,177"/>
-<area shape="rect" id="node5" title=" " alt="" coords="173,152,236,177"/>
-<area shape="rect" id="node6" title=" " alt="" coords="261,152,327,177"/>
-<area shape="rect" id="node7" title=" " alt="" coords="352,152,431,177"/>
-<area shape="rect" id="node8" title=" " alt="" coords="455,152,547,177"/>
-<area shape="rect" id="node9" title=" " alt="" coords="571,152,646,177"/>
+<area shape="rect" id="node1" title=" " alt="" coords="119,5,314,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="39,79,101,104"/>
+<area shape="rect" id="node3" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="125,79,308,104"/>
+<area shape="rect" id="node7" href="$db/d8a/Math_8h.html" title=" " alt="" coords="281,152,411,177"/>
+<area shape="rect" id="node4" title=" " alt="" coords="5,152,76,177"/>
+<area shape="rect" id="node5" title=" " alt="" coords="100,152,173,177"/>
+<area shape="rect" id="node6" title=" " alt="" coords="198,152,257,177"/>
+<area shape="rect" id="node8" title=" " alt="" coords="57,225,96,251"/>
+<area shape="rect" id="node9" title=" " alt="" coords="121,225,201,251"/>
+<area shape="rect" id="node10" title=" " alt="" coords="225,225,288,251"/>
+<area shape="rect" id="node11" title=" " alt="" coords="313,225,379,251"/>
+<area shape="rect" id="node12" title=" " alt="" coords="404,225,483,251"/>
+<area shape="rect" id="node13" title=" " alt="" coords="507,225,599,251"/>
+<area shape="rect" id="node14" title=" " alt="" coords="623,225,698,251"/>
 </map>

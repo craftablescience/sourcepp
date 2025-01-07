@@ -23,11 +23,15 @@ var searchData=
   ['bspbrushmodel_5fv0_20',['BSPBrushModel_v0',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html',1,'bsppp']]],
   ['bspedge_5fv0_21',['BSPEdge_v0',['../d8/d16/structbsppp_1_1BSPEdge__v0.html',1,'bsppp']]],
   ['bspedge_5fv1_22',['BSPEdge_v1',['../dd/d95/structbsppp_1_1BSPEdge__v1.html',1,'bsppp']]],
-  ['bspface_5fv1_23',['BSPFace_v1',['../d6/d98/structbsppp_1_1BSPFace__v1.html',1,'bsppp']]],
-  ['bspface_5fv2_24',['BSPFace_v2',['../d8/d85/structbsppp_1_1BSPFace__v2.html',1,'bsppp']]],
-  ['bspplane_5fv0_25',['BSPPlane_v0',['../d8/de4/structbsppp_1_1BSPPlane__v0.html',1,'bsppp']]],
-  ['bspsurfedge_5fv0_26',['BSPSurfEdge_v0',['../df/d2e/structbsppp_1_1BSPSurfEdge__v0.html',1,'bsppp']]],
-  ['bsptexturedata_5fv0_27',['BSPTextureData_v0',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html',1,'bsppp']]],
-  ['bsptextureinfo_5fv0_28',['BSPTextureInfo_v0',['../d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html',1,'bsppp']]],
-  ['bspvertex_5fv0_29',['BSPVertex_v0',['../d2/d27/structbsppp_1_1BSPVertex__v0.html',1,'bsppp']]]
+  ['bspentitykeyvalues_23',['BSPEntityKeyValues',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html',1,'bsppp']]],
+  ['bspface_5fv1_24',['BSPFace_v1',['../d6/d98/structbsppp_1_1BSPFace__v1.html',1,'bsppp']]],
+  ['bspface_5fv2_25',['BSPFace_v2',['../d8/d85/structbsppp_1_1BSPFace__v2.html',1,'bsppp']]],
+  ['bspgamelump_26',['BSPGameLump',['../d6/d07/structbsppp_1_1BSPGameLump.html',1,'bsppp']]],
+  ['bspnode_5fv0_27',['BSPNode_v0',['../d8/d37/structbsppp_1_1BSPNode__v0.html',1,'bsppp']]],
+  ['bspnode_5fv1_28',['BSPNode_v1',['../d7/dd7/structbsppp_1_1BSPNode__v1.html',1,'bsppp']]],
+  ['bspplane_5fv0_29',['BSPPlane_v0',['../d8/de4/structbsppp_1_1BSPPlane__v0.html',1,'bsppp']]],
+  ['bspsurfedge_5fv0_30',['BSPSurfEdge_v0',['../df/d2e/structbsppp_1_1BSPSurfEdge__v0.html',1,'bsppp']]],
+  ['bsptexturedata_5fv0_31',['BSPTextureData_v0',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html',1,'bsppp']]],
+  ['bsptextureinfo_5fv0_32',['BSPTextureInfo_v0',['../d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html',1,'bsppp']]],
+  ['bspvertex_5fv0_33',['BSPVertex_v0',['../d2/d27/structbsppp_1_1BSPVertex__v0.html',1,'bsppp']]]
 ];

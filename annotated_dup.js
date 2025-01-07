@@ -5,8 +5,12 @@ var annotated_dup =
       [ "BSPBrushModel_v0", "d3/db0/structbsppp_1_1BSPBrushModel__v0.html", "d3/db0/structbsppp_1_1BSPBrushModel__v0" ],
       [ "BSPEdge_v0", "d8/d16/structbsppp_1_1BSPEdge__v0.html", "d8/d16/structbsppp_1_1BSPEdge__v0" ],
       [ "BSPEdge_v1", "dd/d95/structbsppp_1_1BSPEdge__v1.html", "dd/d95/structbsppp_1_1BSPEdge__v1" ],
+      [ "BSPEntityKeyValues", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html", "d7/db2/classbsppp_1_1BSPEntityKeyValues" ],
       [ "BSPFace_v1", "d6/d98/structbsppp_1_1BSPFace__v1.html", "d6/d98/structbsppp_1_1BSPFace__v1" ],
       [ "BSPFace_v2", "d8/d85/structbsppp_1_1BSPFace__v2.html", "d8/d85/structbsppp_1_1BSPFace__v2" ],
+      [ "BSPGameLump", "d6/d07/structbsppp_1_1BSPGameLump.html", "d6/d07/structbsppp_1_1BSPGameLump" ],
+      [ "BSPNode_v0", "d8/d37/structbsppp_1_1BSPNode__v0.html", "d8/d37/structbsppp_1_1BSPNode__v0" ],
+      [ "BSPNode_v1", "d7/dd7/structbsppp_1_1BSPNode__v1.html", "d7/dd7/structbsppp_1_1BSPNode__v1" ],
       [ "BSPPlane_v0", "d8/de4/structbsppp_1_1BSPPlane__v0.html", "d8/de4/structbsppp_1_1BSPPlane__v0" ],
       [ "BSPSurfEdge_v0", "df/d2e/structbsppp_1_1BSPSurfEdge__v0.html", "df/d2e/structbsppp_1_1BSPSurfEdge__v0" ],
       [ "BSPTextureData_v0", "d1/d93/structbsppp_1_1BSPTextureData__v0.html", "d1/d93/structbsppp_1_1BSPTextureData__v0" ],
@@ -80,7 +84,7 @@ var annotated_dup =
       ] ],
       [ "parser", "d5/d3c/namespacesourcepp_1_1parser.html", [
         [ "text", "d7/d75/namespacesourcepp_1_1parser_1_1text.html", [
-          [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error" ]
+          [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", null ]
         ] ]
       ] ],
       [ "member_type", "d1/dc0/structsourcepp_1_1member__type.html", null ]

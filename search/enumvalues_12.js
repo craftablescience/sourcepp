@@ -8,11 +8,15 @@ var searchData=
   ['s2004_5fportalverts_5',['S2004_PORTALVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27',1,'bsppp']]],
   ['s2006_5fxbox_5flightmappageinfos_6',['S2006_XBOX_LIGHTMAPPAGEINFOS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd',1,'bsppp']]],
   ['s2006_5fxbox_5flightmappages_7',['S2006_XBOX_LIGHTMAPPAGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb',1,'bsppp']]],
-  ['sl4d2_5fprop_5fblob_8',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],
-  ['sl4d2_5fpropcollision_9',['SL4D2_PROPCOLLISION',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15',1,'bsppp']]],
-  ['sl4d2_5fprophulls_10',['SL4D2_PROPHULLS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e',1,'bsppp']]],
-  ['sl4d2_5fprophullverts_11',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
-  ['sl4d2_5fproptris_12',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
-  ['string_13',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value']]],
-  ['surfedges_14',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
+  ['signature_5fdetail_5fprop_5flighting_5fhdr_8',['SIGNATURE_DETAIL_PROP_LIGHTING_HDR',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11facf8724d928b374c807fec1acaac06c85',1,'bsppp::BSPGameLump']]],
+  ['signature_5fdetail_5fprop_5flighting_5fldr_9',['SIGNATURE_DETAIL_PROP_LIGHTING_LDR',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa4127ceba30cbfca7879a261a4eaa3892',1,'bsppp::BSPGameLump']]],
+  ['signature_5fdetail_5fprops_10',['SIGNATURE_DETAIL_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa71f4f0d94bcad487aec8610b366d161e',1,'bsppp::BSPGameLump']]],
+  ['signature_5fstatic_5fprops_11',['SIGNATURE_STATIC_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa16ad2a2fa54b13b7ef220e61b9be8655',1,'bsppp::BSPGameLump']]],
+  ['sl4d2_5fprop_5fblob_12',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],
+  ['sl4d2_5fpropcollision_13',['SL4D2_PROPCOLLISION',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15',1,'bsppp']]],
+  ['sl4d2_5fprophulls_14',['SL4D2_PROPHULLS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e',1,'bsppp']]],
+  ['sl4d2_5fprophullverts_15',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
+  ['sl4d2_5fproptris_16',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
+  ['string_17',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value']]],
+  ['surfedges_18',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
 ];

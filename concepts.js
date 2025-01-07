@@ -1,5 +1,8 @@
 var concepts =
 [
+    [ "bsppp", "dd/d11/namespacebsppp.html", [
+      [ "BSPEntityKeyValueType", "d0/dbe/conceptbsppp_1_1BSPEntityKeyValueType.html", null ]
+    ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
       [ "KV1ValueType", "d5/d6a/conceptkvpp_1_1KV1ValueType.html", null ]
     ] ],

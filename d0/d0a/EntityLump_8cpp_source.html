@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: src/bsppp/EntityLump.cpp Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('d0/d0a/EntityLump_8cpp_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">EntityLump.cpp</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/d0a/EntityLump_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;<a class="code" href="../../d5/d02/EntityLump_8h.html">bsppp/EntityLump.h</a>&gt;</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../dd/d11/namespacebsppp.html">bsppp</a>;</div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../d2/deb/namespacesourcepp.html">sourcepp</a>;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno"><a class="line" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a57a11812fb70f83f7651598e4e52022a">    6</a></span>std::string_view <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a57a11812fb70f83f7651598e4e52022a">BSPEntityKeyValues::Element::getKey</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#afcaa1dc0f3358cb398cae8f0a383de6d">key</a>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>}</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#aacbac0fa82215b8ad45567b375069ee9">   10</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#aacbac0fa82215b8ad45567b375069ee9">BSPEntityKeyValues::Element::setKey</a>(std::string_view key_) {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    this-&gt;key = key_;</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a580ea05b12c2a8dc5385e3d791b4b822">   14</a></span>std::string_view <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a580ea05b12c2a8dc5385e3d791b4b822">BSPEntityKeyValues::Element::getValue</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    <span class="keywordflow">return</span> this-&gt;value;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b">   18</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b">BSPEntityKeyValues::Element::isInvalid</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">return</span> <span class="keyword">this</span> == &amp;getInvalid();</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">   22</a></span><span class="keyword">const</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">BSPEntityKeyValues::Element::getInvalid</a>() {</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">static</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> element;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keywordflow">return</span> element;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a14cc4274fcef1c1cabeaeb95272ea8a0">   27</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a14cc4274fcef1c1cabeaeb95272ea8a0">BSPEntityKeyValues::hasChild</a>(std::string_view childKey)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keywordflow">return</span> !this-&gt;<a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">operator[]</a>(childKey).<a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b">isInvalid</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>}</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a2d9fc184a4ccb2c882f1e8fd385e1340">   31</a></span>uint64_t <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a2d9fc184a4ccb2c882f1e8fd385e1340">BSPEntityKeyValues::getKeyValuesCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>.size();</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>}</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ab9d7b31958d13bb3bbd0c02a417fa9aa">   35</a></span>uint64_t <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a2d9fc184a4ccb2c882f1e8fd385e1340">BSPEntityKeyValues::getKeyValuesCount</a>(std::string_view childKey)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    uint64_t count = 0;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; element : this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a>(element.getKey(), childKey)) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            ++count;</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">return</span> count;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a6844377e5db9e048a5eb6e08524000a7">   45</a></span><span class="keyword">const</span> std::vector&lt;BSPEntityKeyValues::Element&gt;&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a6844377e5db9e048a5eb6e08524000a7">BSPEntityKeyValues::getKeyValues</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>}</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">   49</a></span><span class="keyword">const</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">BSPEntityKeyValues::operator[]</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>.at(n);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>}</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a95ab023c6b06e182e3abce4f4dddb71e">   53</a></span><a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">BSPEntityKeyValues::operator[]</a>(<span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>.at(n);</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>}</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#adfd29203eff0eed916a880ef4c92ed2c">   57</a></span><span class="keyword">const</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">BSPEntityKeyValues::operator[]</a>(std::string_view childKey)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">operator()</a>(childKey);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a1499c94af6ea2bb43407cb9289e30623">   61</a></span><a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">BSPEntityKeyValues::operator[]</a>(std::string_view childKey) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">operator()</a>(childKey);</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>}</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">   65</a></span><span class="keyword">const</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">BSPEntityKeyValues::operator()</a>(std::string_view childKey)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; element : this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a>(element.getKey(), childKey)) {</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>            <span class="keywordflow">return</span> element;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        }</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    }</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">Element::getInvalid</a>();</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>}</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span> </div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#aab0f61642a730e28b69690aa518002a6">   74</a></span><a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">BSPEntityKeyValues::operator()</a>(std::string_view childKey) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; element : this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a>(element.getKey(), childKey)) {</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>            <span class="keywordflow">return</span> element;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        }</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    }</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a1a8e5b474fdaf19eda1e03d77e3f8bb9">addKeyValue</a>(childKey);</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>}</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a188898e64c701d25ac6a38d400a13264">   83</a></span><span class="keyword">const</span> <a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">BSPEntityKeyValues::operator()</a>(std::string_view childKey, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> count = 0;</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; element : this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a>(element.getKey(), childKey)) {</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>            <span class="keywordflow">if</span> (count == n) {</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>                <span class="keywordflow">return</span> element;</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>            }</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>            ++count;</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        }</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    }</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">Element::getInvalid</a>();</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>}</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a92d5eada7d37cea52fd461b4c804fe46">   96</a></span><a class="code hl_class" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a>&amp; <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">BSPEntityKeyValues::operator()</a>(std::string_view childKey, <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordtype">unsigned</span> <span class="keywordtype">int</span> count = 0;</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; element: this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">if</span> (<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a>(element.getKey(), childKey)) {</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            <span class="keywordflow">if</span> (count == n) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                <span class="keywordflow">return</span> element;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>            ++count;</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        }</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    }</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a1a8e5b474fdaf19eda1e03d77e3f8bb9">addKeyValue</a>(childKey);</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>}</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span> </div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno"><a class="line" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a403c4b26fd5018926c279f1025d6cc45">  109</a></span>std::string <a class="code hl_function" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a403c4b26fd5018926c279f1025d6cc45">BSPEntityKeyValues::bake</a>(<span class="keywordtype">bool</span> useEscapes)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>    std::string out = <span class="stringliteral">&quot;{\n&quot;</span>;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; elem : this-&gt;<a class="code hl_variable" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">keyvalues</a>) {</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        out += <span class="stringliteral">&quot;\t\&quot;&quot;</span>;</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        out += <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382">parser::text::convertSpecialCharsToEscapes</a>(elem.getKey(), useEscapes ? <a class="code hl_variable" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">parser::text::DEFAULT_ESCAPE_SEQUENCES</a> : <a class="code hl_variable" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3559e3fdd071666052ef3fc804dc7fa7">parser::text::NO_ESCAPE_SEQUENCES</a>);</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        out += <span class="stringliteral">&quot;\&quot; \&quot;&quot;</span>;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        out += <a class="code hl_function" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382">parser::text::convertSpecialCharsToEscapes</a>(elem.getValue(), useEscapes ? <a class="code hl_variable" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">parser::text::DEFAULT_ESCAPE_SEQUENCES</a> : <a class="code hl_variable" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3559e3fdd071666052ef3fc804dc7fa7">parser::text::NO_ESCAPE_SEQUENCES</a>);</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        out += <span class="stringliteral">&quot;\&quot;\n&quot;</span>;</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    out += <span class="stringliteral">&quot;}&quot;</span>;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>}</div>
+<div class="ttc" id="aEntityLump_8h_html"><div class="ttname"><a href="../../d5/d02/EntityLump_8h.html">EntityLump.h</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">bsppp::BSPEntityKeyValues::Element</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d02/EntityLump_8h_source.html#l00023">EntityLump.h:23</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_a06ec24184622f24c42cfbf93159e271e"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">bsppp::BSPEntityKeyValues::Element::getInvalid</a></div><div class="ttdeci">static const Element &amp; getInvalid()</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00022">EntityLump.cpp:22</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_a57a11812fb70f83f7651598e4e52022a"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a57a11812fb70f83f7651598e4e52022a">bsppp::BSPEntityKeyValues::Element::getKey</a></div><div class="ttdeci">std::string_view getKey() const</div><div class="ttdoc">Get the key associated with the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00006">EntityLump.cpp:6</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_a580ea05b12c2a8dc5385e3d791b4b822"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a580ea05b12c2a8dc5385e3d791b4b822">bsppp::BSPEntityKeyValues::Element::getValue</a></div><div class="ttdeci">std::string_view getValue() const</div><div class="ttdoc">Get the value associated with the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00014">EntityLump.cpp:14</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_a6de217152cbcd606b439e9854188490b"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b">bsppp::BSPEntityKeyValues::Element::isInvalid</a></div><div class="ttdeci">bool isInvalid() const</div><div class="ttdoc">Check if the given element is invalid.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00018">EntityLump.cpp:18</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_aacbac0fa82215b8ad45567b375069ee9"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#aacbac0fa82215b8ad45567b375069ee9">bsppp::BSPEntityKeyValues::Element::setKey</a></div><div class="ttdeci">void setKey(std::string_view key_)</div><div class="ttdoc">Set the key associated with the element.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00010">EntityLump.cpp:10</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_1_1Element_html_afcaa1dc0f3358cb398cae8f0a383de6d"><div class="ttname"><a href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#afcaa1dc0f3358cb398cae8f0a383de6d">bsppp::BSPEntityKeyValues::Element::key</a></div><div class="ttdeci">std::string key</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d02/EntityLump_8h_source.html#l00078">EntityLump.h:78</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a0d10acbea5a23bba4c8eac0fb876a795"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a0d10acbea5a23bba4c8eac0fb876a795">bsppp::BSPEntityKeyValues::operator()</a></div><div class="ttdeci">const Element &amp; operator()(std::string_view childKey) const</div><div class="ttdoc">Get the first keyvalue of the entity with the given key.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00065">EntityLump.cpp:65</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a14cc4274fcef1c1cabeaeb95272ea8a0"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a14cc4274fcef1c1cabeaeb95272ea8a0">bsppp::BSPEntityKeyValues::hasChild</a></div><div class="ttdeci">bool hasChild(std::string_view childKey) const</div><div class="ttdoc">Check if this entity has one or more keyvalues with the given name.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00027">EntityLump.cpp:27</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a1a8e5b474fdaf19eda1e03d77e3f8bb9"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a1a8e5b474fdaf19eda1e03d77e3f8bb9">bsppp::BSPEntityKeyValues::addKeyValue</a></div><div class="ttdeci">Element &amp; addKeyValue(std::string_view key_, V value_={})</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d02/EntityLump_8h_source.html#l00121">EntityLump.h:121</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a2d9fc184a4ccb2c882f1e8fd385e1340"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a2d9fc184a4ccb2c882f1e8fd385e1340">bsppp::BSPEntityKeyValues::getKeyValuesCount</a></div><div class="ttdeci">uint64_t getKeyValuesCount() const</div><div class="ttdoc">Get the number of keyvalues.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00031">EntityLump.cpp:31</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a403c4b26fd5018926c279f1025d6cc45"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a403c4b26fd5018926c279f1025d6cc45">bsppp::BSPEntityKeyValues::bake</a></div><div class="ttdeci">std::string bake(bool useEscapes) const</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00109">EntityLump.cpp:109</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_a6844377e5db9e048a5eb6e08524000a7"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a6844377e5db9e048a5eb6e08524000a7">bsppp::BSPEntityKeyValues::getKeyValues</a></div><div class="ttdeci">const std::vector&lt; Element &gt; &amp; getKeyValues() const</div><div class="ttdoc">Get the keyvalues of the entity.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00045">EntityLump.cpp:45</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_ac16b0eeb15bdcae4ca767d54f7e441be"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be">bsppp::BSPEntityKeyValues::keyvalues</a></div><div class="ttdeci">std::vector&lt; Element &gt; keyvalues</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d02/EntityLump_8h_source.html#l00132">EntityLump.h:132</a></div></div>
+<div class="ttc" id="aclassbsppp_1_1BSPEntityKeyValues_html_acfef8a609fe85188df783f736440c962"><div class="ttname"><a href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962">bsppp::BSPEntityKeyValues::operator[]</a></div><div class="ttdeci">const Element &amp; operator[](unsigned int n) const</div><div class="ttdoc">Get the keyvalue of the entity at the given index.</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d0a/EntityLump_8cpp_source.html#l00049">EntityLump.cpp:49</a></div></div>
+<div class="ttc" id="anamespacebsppp_html"><div class="ttname"><a href="../../dd/d11/namespacebsppp.html">bsppp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dd1/BSP_8h_source.html#l00018">BSP.h:18</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1parser_1_1text_html_a1b19c978d6ed532500d1129e20af5382"><div class="ttname"><a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382">sourcepp::parser::text::convertSpecialCharsToEscapes</a></div><div class="ttdeci">std::string convertSpecialCharsToEscapes(std::string_view str, const EscapeSequenceMap &amp;escapeSequences)</div><div class="ttdoc">Convert special characters like \n to escaped special characters like \\n.</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d37/Text_8cpp_source.html#l00054">Text.cpp:54</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1parser_1_1text_html_a3559e3fdd071666052ef3fc804dc7fa7"><div class="ttname"><a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a3559e3fdd071666052ef3fc804dc7fa7">sourcepp::parser::text::NO_ESCAPE_SEQUENCES</a></div><div class="ttdeci">const EscapeSequenceMap NO_ESCAPE_SEQUENCES</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d37/Text_8cpp_source.html#l00026">Text.cpp:26</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1parser_1_1text_html_aa0d4faf5aba5df763300f7653aa7f0e2"><div class="ttname"><a href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#aa0d4faf5aba5df763300f7653aa7f0e2">sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES</a></div><div class="ttdeci">const EscapeSequenceMap DEFAULT_ESCAPE_SEQUENCES</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d37/Text_8cpp_source.html#l00012">Text.cpp:12</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ae67855e62fdd7b2137081dd36d567637"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a></div><div class="ttdeci">bool iequals(std::string_view s1, std::string_view s2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00061">String.cpp:61</a></div></div>
+<div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d15/Adler32_8h_source.html#l00008">Adler32.h:8</a></div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_6c813d04c23f0a62d71d8b6443c7e7ab.html">bsppp</a></li><li class="navelem"><a class="el" href="../../d0/d0a/EntityLump_8cpp.html">EntityLump.cpp</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

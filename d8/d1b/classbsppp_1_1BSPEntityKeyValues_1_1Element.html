@@ -1,0 +1,523 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: bsppp::BSPEntityKeyValues::Element Class Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="../../d9/d8c/classbsppp_1_1BSPEntityKeyValues_1_1Element-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">bsppp::BSPEntityKeyValues::Element Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>&gt;</code></p>
+<div class="dynheader">
+Collaboration diagram for bsppp::BSPEntityKeyValues::Element:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d6/d9a/classbsppp_1_1BSPEntityKeyValues_1_1Element__coll__graph.png" border="0" usemap="#absppp_1_1BSPEntityKeyValues_1_1Element_coll__map" alt="Collaboration graph"/></div>
+<map name="absppp_1_1BSPEntityKeyValues_1_1Element_coll__map" id="absppp_1_1BSPEntityKeyValues_1_1Element_coll__map">
+<area shape="rect" title=" " alt="" coords="5,197,204,237"/>
+<area shape="rect" title=" " alt="" coords="61,95,148,120"/>
+<area shape="rect" title=" " alt="" coords="35,5,174,45"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a57a11812fb70f83f7651598e4e52022a"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a57a11812fb70f83f7651598e4e52022a">getKey</a> () const</td></tr>
+<tr class="memdesc:a57a11812fb70f83f7651598e4e52022a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <br /></td></tr>
+<tr class="separator:a57a11812fb70f83f7651598e4e52022a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacbac0fa82215b8ad45567b375069ee9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#aacbac0fa82215b8ad45567b375069ee9">setKey</a> (std::string_view key_)</td></tr>
+<tr class="memdesc:aacbac0fa82215b8ad45567b375069ee9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the key associated with the element.  <br /></td></tr>
+<tr class="separator:aacbac0fa82215b8ad45567b375069ee9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a580ea05b12c2a8dc5385e3d791b4b822"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a580ea05b12c2a8dc5385e3d791b4b822">getValue</a> () const</td></tr>
+<tr class="memdesc:a580ea05b12c2a8dc5385e3d791b4b822"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element.  <br /></td></tr>
+<tr class="separator:a580ea05b12c2a8dc5385e3d791b4b822"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a13a0a8f446dc9276765478c7cbcb82f2"><td class="memTemplParams" colspan="2">template&lt;BSPEntityKeyValueType V&gt; </td></tr>
+<tr class="memitem:a13a0a8f446dc9276765478c7cbcb82f2"><td class="memTemplItemLeft" align="right" valign="top">V&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a13a0a8f446dc9276765478c7cbcb82f2">getValue</a> () const</td></tr>
+<tr class="memdesc:a13a0a8f446dc9276765478c7cbcb82f2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element as the given type.  <br /></td></tr>
+<tr class="separator:a13a0a8f446dc9276765478c7cbcb82f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f7419f40c8547c866d62c3bc24b9885"><td class="memTemplParams" colspan="2">template&lt;BSPEntityKeyValueType V&gt; </td></tr>
+<tr class="memitem:a2f7419f40c8547c866d62c3bc24b9885"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a2f7419f40c8547c866d62c3bc24b9885">setValue</a> (V value_)</td></tr>
+<tr class="memdesc:a2f7419f40c8547c866d62c3bc24b9885"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:a2f7419f40c8547c866d62c3bc24b9885"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f17bc99a67f41539a08cfb7d6d80863"><td class="memTemplParams" colspan="2">template&lt;BSPEntityKeyValueType V&gt; </td></tr>
+<tr class="memitem:a4f17bc99a67f41539a08cfb7d6d80863"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a4f17bc99a67f41539a08cfb7d6d80863">operator=</a> (V value_)</td></tr>
+<tr class="memdesc:a4f17bc99a67f41539a08cfb7d6d80863"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:a4f17bc99a67f41539a08cfb7d6d80863"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6de217152cbcd606b439e9854188490b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b">isInvalid</a> () const</td></tr>
+<tr class="memdesc:a6de217152cbcd606b439e9854188490b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given element is invalid.  <br /></td></tr>
+<tr class="separator:a6de217152cbcd606b439e9854188490b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:a391079f320f087d0efce23821474a410"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a391079f320f087d0efce23821474a410">Element</a> ()=default</td></tr>
+<tr class="separator:a391079f320f087d0efce23821474a410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
+Static Protected Member Functions</h2></td></tr>
+<tr class="memitem:a06ec24184622f24c42cfbf93159e271e"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a06ec24184622f24c42cfbf93159e271e">getInvalid</a> ()</td></tr>
+<tr class="separator:a06ec24184622f24c42cfbf93159e271e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:afcaa1dc0f3358cb398cae8f0a383de6d"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#afcaa1dc0f3358cb398cae8f0a383de6d">key</a></td></tr>
+<tr class="separator:afcaa1dc0f3358cb398cae8f0a383de6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac12ef5c240574b4f558495475ed6da7f"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#ac12ef5c240574b4f558495475ed6da7f">value</a></td></tr>
+<tr class="separator:ac12ef5c240574b4f558495475ed6da7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:a5b6e367feb07697a6246c3af8a807d6f"><td class="memItemLeft" align="right" valign="top">class&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a5b6e367feb07697a6246c3af8a807d6f">BSPEntityKeyValues</a></td></tr>
+<tr class="separator:a5b6e367feb07697a6246c3af8a807d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00023">23</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a391079f320f087d0efce23821474a410" name="a391079f320f087d0efce23821474a410"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a391079f320f087d0efce23821474a410">&#9670;&#160;</a></span>Element()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bsppp::BSPEntityKeyValues::Element::Element </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">default</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a06ec24184622f24c42cfbf93159e271e" name="a06ec24184622f24c42cfbf93159e271e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a06ec24184622f24c42cfbf93159e271e">&#9670;&#160;</a></span>getInvalid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const <a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">BSPEntityKeyValues::Element</a> &amp; BSPEntityKeyValues::Element::getInvalid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00022">22</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a57a11812fb70f83f7651598e4e52022a" name="a57a11812fb70f83f7651598e4e52022a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57a11812fb70f83f7651598e4e52022a">&#9670;&#160;</a></span>getKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view BSPEntityKeyValues::Element::getKey </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the key associated with the element. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00006">6</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a580ea05b12c2a8dc5385e3d791b4b822" name="a580ea05b12c2a8dc5385e3d791b4b822"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a580ea05b12c2a8dc5385e3d791b4b822">&#9670;&#160;</a></span>getValue() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string_view BSPEntityKeyValues::Element::getValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Get the value associated with the element. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00014">14</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a13a0a8f446dc9276765478c7cbcb82f2" name="a13a0a8f446dc9276765478c7cbcb82f2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a13a0a8f446dc9276765478c7cbcb82f2">&#9670;&#160;</a></span>getValue() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;BSPEntityKeyValueType V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">V bsppp::BSPEntityKeyValues::Element::getValue </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get the value associated with the element as the given type. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00038">38</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<a id="a6de217152cbcd606b439e9854188490b" name="a6de217152cbcd606b439e9854188490b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6de217152cbcd606b439e9854188490b">&#9670;&#160;</a></span>isInvalid()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool BSPEntityKeyValues::Element::isInvalid </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Check if the given element is invalid. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00018">18</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4f17bc99a67f41539a08cfb7d6d80863" name="a4f17bc99a67f41539a08cfb7d6d80863"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f17bc99a67f41539a08cfb7d6d80863">&#9670;&#160;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;BSPEntityKeyValueType V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> &amp; bsppp::BSPEntityKeyValues::Element::operator= </td>
+          <td>(</td>
+          <td class="paramtype">V&#160;</td>
+          <td class="paramname"><em>value_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the value associated with the element. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00065">65</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<a id="aacbac0fa82215b8ad45567b375069ee9" name="aacbac0fa82215b8ad45567b375069ee9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacbac0fa82215b8ad45567b375069ee9">&#9670;&#160;</a></span>setKey()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BSPEntityKeyValues::Element::setKey </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>key_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Set the key associated with the element. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00010">10</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a2f7419f40c8547c866d62c3bc24b9885" name="a2f7419f40c8547c866d62c3bc24b9885"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f7419f40c8547c866d62c3bc24b9885">&#9670;&#160;</a></span>setValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;BSPEntityKeyValueType V&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void bsppp::BSPEntityKeyValues::Element::setValue </td>
+          <td>(</td>
+          <td class="paramtype">V&#160;</td>
+          <td class="paramname"><em>value_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set the value associated with the element. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00055">55</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Friends And Related Function Documentation</h2>
+<a id="a5b6e367feb07697a6246c3af8a807d6f" name="a5b6e367feb07697a6246c3af8a807d6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5b6e367feb07697a6246c3af8a807d6f">&#9670;&#160;</a></span>BSPEntityKeyValues</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">friend class <a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html">BSPEntityKeyValues</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">friend</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00024">24</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="afcaa1dc0f3358cb398cae8f0a383de6d" name="afcaa1dc0f3358cb398cae8f0a383de6d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcaa1dc0f3358cb398cae8f0a383de6d">&#9670;&#160;</a></span>key</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string bsppp::BSPEntityKeyValues::Element::key</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00078">78</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<a id="ac12ef5c240574b4f558495475ed6da7f" name="ac12ef5c240574b4f558495475ed6da7f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac12ef5c240574b4f558495475ed6da7f">&#9670;&#160;</a></span>value</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string bsppp::BSPEntityKeyValues::Element::value</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00079">79</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/bsppp/<a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a></li>
+<li>src/bsppp/<a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dd/d11/namespacebsppp.html">bsppp</a></li><li class="navelem"><a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html">BSPEntityKeyValues</a></li><li class="navelem"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

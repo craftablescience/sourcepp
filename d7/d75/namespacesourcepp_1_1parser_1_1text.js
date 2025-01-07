@@ -1,6 +1,6 @@
 var namespacesourcepp_1_1parser_1_1text =
 [
-    [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error" ],
+    [ "syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", null ],
     [ "EscapeSequenceMap", "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601", null ],
     [ "convertEscapesToSpecialChars", "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a329ee9bf54ac0786210469e21f77f56b", null ],
     [ "convertSpecialCharsToEscapes", "d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382", null ],

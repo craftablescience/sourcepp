@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/bsppp/BSP.h File Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('d2/dd1/BSP_8h.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#enum-members">Enumerations</a> &#124;
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">BSP.h File Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;array&gt;</code><br />
+<code>#include &lt;cstddef&gt;</code><br />
+<code>#include &lt;optional&gt;</code><br />
+<code>#include &lt;span&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;tuple&gt;</code><br />
+<code>#include &lt;vector&gt;</code><br />
+<code>#include &lt;unordered_map&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d9/db1/Binary_8h_source.html">sourcepp/parser/Binary.h</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../df/df2/LumpData_8h_source.html">LumpData.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d0/ddd/PakLump_8h_source.html">PakLump.h</a>&quot;</code><br />
+</div><div class="textblock"><div class="dynheader">
+Include dependency graph for BSP.h:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/dda/BSP_8h__incl.png" border="0" usemap="#ainclude_2bsppp_2BSP_8h" alt=""/></div>
+<map name="ainclude_2bsppp_2BSP_8h" id="ainclude_2bsppp_2BSP_8h">
+<area shape="rect" title=" " alt="" coords="1147,5,1298,31"/>
+<area shape="rect" title=" " alt="" coords="664,152,720,177"/>
+<area shape="rect" title=" " alt="" coords="921,372,991,397"/>
+<area shape="rect" title=" " alt="" coords="1277,299,1352,324"/>
+<area shape="rect" title=" " alt="" coords="2179,79,2232,104"/>
+<area shape="rect" title=" " alt="" coords="745,372,804,397"/>
+<area shape="rect" title=" " alt="" coords="2257,79,2311,104"/>
+<area shape="rect" title=" " alt="" coords="1283,372,1346,397"/>
+<area shape="rect" title=" " alt="" coords="2030,372,2154,397"/>
+<area shape="rect" href="../../d9/db1/Binary_8h.html" title=" " alt="" coords="617,299,799,324"/>
+<area shape="rect" href="../../d5/d02/EntityLump_8h.html" title=" " alt="" coords="1582,225,1690,251"/>
+<area shape="rect" href="../../df/df2/LumpData_8h.html" title=" " alt="" coords="1109,225,1211,251"/>
+<area shape="rect" href="../../d0/ddd/PakLump_8h.html" title=" " alt="" coords="771,79,864,104"/>
+<area shape="rect" title=" " alt="" coords="647,372,721,397"/>
+<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="1016,372,1147,397"/>
+<area shape="rect" title=" " alt="" coords="1245,445,1283,471"/>
+<area shape="rect" title=" " alt="" coords="1437,445,1517,471"/>
+<area shape="rect" title=" " alt="" coords="863,445,926,471"/>
+<area shape="rect" title=" " alt="" coords="951,445,1017,471"/>
+<area shape="rect" title=" " alt="" coords="1042,445,1121,471"/>
+<area shape="rect" title=" " alt="" coords="431,445,523,471"/>
+<area shape="rect" title=" " alt="" coords="1145,445,1220,471"/>
+<area shape="rect" title=" " alt="" coords="1631,372,1729,397"/>
+<area shape="rect" title=" " alt="" coords="1739,299,1859,324"/>
+<area shape="rect" href="../../d6/d35/Text_8h.html" title=" " alt="" coords="1883,299,2053,324"/>
+<area shape="rect" href="../../d9/dba/String_8h.html" title=" " alt="" coords="1478,299,1613,324"/>
+<area shape="rect" title=" " alt="" coords="1919,372,2006,397"/>
+<area shape="rect" title=" " alt="" coords="1515,372,1597,397"/>
+<area shape="rect" href="../../d6/d66/ZIP_8h.html" title=" " alt="" coords="745,152,890,177"/>
+<area shape="rect" href="../../d3/df4/PackFile_8h.html" title=" " alt="" coords="768,225,867,251"/>
+<area shape="rect" title=" " alt="" coords="259,299,346,324"/>
+<area shape="rect" title=" " alt="" coords="371,299,448,324"/>
+<area shape="rect" href="../../df/d0a/Macros_8h.html" title=" " alt="" coords="67,372,211,397"/>
+<area shape="rect" title=" " alt="" coords="472,299,592,324"/>
+<area shape="rect" href="../../d4/d08/Attribute_8h.html" title=" " alt="" coords="93,299,184,324"/>
+<area shape="rect" href="../../d4/d42/Entry_8h.html" title=" " alt="" coords="875,299,941,324"/>
+<area shape="rect" href="../../d5/d76/Options_8h.html" title=" " alt="" coords="1017,299,1101,324"/>
+<area shape="rect" title=" " alt="" coords="829,372,897,397"/>
+</map>
+</div>
+</div><div class="textblock"><div class="dynheader">
+This graph shows which files directly or indirectly include this file:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d7/d6e/BSP_8h__dep__incl.png" border="0" usemap="#ainclude_2bsppp_2BSP_8hdep" alt=""/></div>
+<map name="ainclude_2bsppp_2BSP_8hdep" id="ainclude_2bsppp_2BSP_8hdep">
+<area shape="rect" title=" " alt="" coords="191,5,341,31"/>
+<area shape="rect" href="../../d5/d60/bsppp_8h.html" title=" " alt="" coords="5,79,172,104"/>
+<area shape="rect" href="../../d7/db3/BSP_8cpp.html" title=" " alt="" coords="197,79,335,104"/>
+<area shape="rect" href="../../d9/dcf/PakLump_8cpp.html" title=" " alt="" coords="360,79,535,104"/>
+</map>
+</div>
+</div>
+<p><a href="../../d2/dd1/BSP_8h_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html">bsppp::BSP</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:dd/d11/namespacebsppp"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html">bsppp</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a9cb52214dd23962b3ae112be2b95e2d0"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0">bsppp::BSPLump</a> : int32_t { <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a696b031073e74bf2cb98e5ef201d4aa3">bsppp::UNKNOWN</a> = -1
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a36bdca1ec030e93c10f9a70c79468e99">bsppp::ENTITIES</a> = 0
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a30cfe32790c0d4e0130e3869466dd0a1">bsppp::PLANES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab59e93e2fa8f8c61636c76c24fdc2326">bsppp::TEXDATA</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5f728d6851deadb33f871b88f99a48d5">bsppp::VERTEXES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac5ff532f1acccdce7cd57b9f62e27e3e">bsppp::VISIBILITY</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a91333d9dc1ff3a19e07d7d7bd34e18ed">bsppp::NODES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afacfab32c52cbc01d02f58256f08d315">bsppp::TEXINFO</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1ecfb77271f8562023b0327af43ab528">bsppp::FACES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8b1aa4726295b67f4ca299670037daeb">bsppp::LIGHTING</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a8307d318a3a8fd7a3acd8eb50fc95701">bsppp::OCCLUSION</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af66d35c5f2a797d8cf35758854b59f78">bsppp::LEAFS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a92770325ca0bd1216791c74855c3361d">bsppp::FACEIDS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a42861b39fff0a83ef415a81d1bafa380">bsppp::EDGES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4">bsppp::SURFEDGES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6fcf99a66c09959e90e17228e290e186">bsppp::MODELS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0">bsppp::WORLDLIGHTS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7582d12688b983da0181873b8be6ba90">bsppp::LEAFFACES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a458812aeb5bb5ff1cfd5e01ce9184467">bsppp::LEAFBRUSHES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9bf2ab1ffb335ced89494214da47f00">bsppp::BRUSHES</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ace2a50b22024d3ad2f6212e4483b81b6">bsppp::BRUSHSIDES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f">bsppp::AREAS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a542185eeed6ee956854439852e31486b">bsppp::AREAPORTALS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7256c3f9a9c6ff014025bd7862687247">bsppp::S2004_PORTALS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6edad2a3530e2405819325ffb4339a2a">bsppp::UNUSED0</a> = S2004_PORTALS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15">bsppp::SL4D2_PROPCOLLISION</a> = S2004_PORTALS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a9bd93fb90d99295d942dae95a82ddb39">bsppp::S2004_CLUSTERS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acbc322ab28d0735085ab3b41894248d4">bsppp::UNUSED1</a> = S2004_CLUSTERS
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e">bsppp::SL4D2_PROPHULLS</a> = S2004_CLUSTERS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a679cef8ff5bd1de7be89895c5a44ba27">bsppp::S2004_PORTALVERTS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a61408c8c87ae7425c70f5d8e74e09bde">bsppp::UNUSED2</a> = S2004_PORTALVERTS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda">bsppp::SL4D2_PROPHULLVERTS</a> = S2004_PORTALVERTS
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a3bca23801f726cff6ea503a3695281a8">bsppp::S2004_CLUSTERPORTALS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4d8e4ee261c67bdf1d36713c50efb0f7">bsppp::UNUSED3</a> = S2004_CLUSTERPORTALS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b">bsppp::SL4D2_PROPTRIS</a> = S2004_CLUSTERPORTALS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac01d97e0a8b280b0df597abdf00092e6">bsppp::DISPINFO</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a00904ddf6c4bbd3373ccaa6c5e60c0c5">bsppp::ORIGINALFACES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a788d8f638e60561afa5c3a11b4d5cbb0">bsppp::PHYSDISP</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a246e84d36905de295b76bd7cc2277d8e">bsppp::PHYSCOLLIDE</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad8e8dcbd9fee07bc6e24016099b31914">bsppp::VERTNORMALS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a394e5ca2822893bd8858d4ffe0427e97">bsppp::VERTNORMALINDICES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaf302d78078f9d42f8cc88da7ddb6f34">bsppp::S2004_DISP_LIGHTMAP_ALPHAS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac78a510f21324530fbda960535e6cb72">bsppp::UNUSED4</a> = S2004_DISP_LIGHTMAP_ALPHAS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aaa3ea5eacf0caaf1ea52935c626440a8">bsppp::DISP_VERTS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad5657a3ada8fce3f920d38e45207495f">bsppp::DISP_LIGHTMAP_SAMPLE_POSITIONS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afa21c6619d29b03985e23a104720f255">bsppp::GAME_LUMP</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ab682d84f3654447a17fdb6ccbdfdd9da">bsppp::LEAFWATERDATA</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80">bsppp::PRIMITIVES</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520">bsppp::PRIMVERTS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e">bsppp::PRIMINDICES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aadf7a75abda3b4835e296fea4da84d46">bsppp::PAKFILE</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a7eb831d353901b7c4c40f1d2dd086eca">bsppp::CLIPPORTALVERTS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54">bsppp::CUBEMAPS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2fb3930053508f33b70d1efbe301166d">bsppp::TEXDATA_STRING_DATA</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b">bsppp::TEXDATA_STRING_TABLE</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2be68fa3c0db36fcb6320c4b04b1be0f">bsppp::OVERLAYS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a6a7ccedfc8a176cc57fbc82fad438200">bsppp::LEAFMINDISTTOWATER</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af1276b6f0398b18cf6264bd3128e6058">bsppp::FACE_MACRO_TEXTURE_INFO</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aafc09baf493410df48c752da561289f3">bsppp::DISP_TRIS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad9d33d63d674c829378d01891659095f">bsppp::S2004_PHYSCOLLIDESURFACE</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2d64ed7388cf6b01c5f20e532acca71">bsppp::UNUSED5</a> = S2004_PHYSCOLLIDESURFACE
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8">bsppp::SL4D2_PROP_BLOB</a> = S2004_PHYSCOLLIDESURFACE
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a62e303e962da4eacd469497bef2b522f">bsppp::WATEROVERLAYS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29be139d19768f442f97673e67044bdb">bsppp::S2006_XBOX_LIGHTMAPPAGES</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a97ae8d4c4c7943c1e537e3bf9834d11c">bsppp::LEAF_AMBIENT_INDEX_HDR</a> = S2006_XBOX_LIGHTMAPPAGES
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a5002d914d0a87d70824c8a5b46eaffdd">bsppp::S2006_XBOX_LIGHTMAPPAGEINFOS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4539fc06d4ea12a41a52548539e8712a">bsppp::LEAF_AMBIENT_INDEX</a> = S2006_XBOX_LIGHTMAPPAGEINFOS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a38f9a6e1e43650abbb9e9e30f1890681">bsppp::LIGHTING_HDR</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a">bsppp::WORLDLIGHTS_HDR</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0ae8b0f2ac3a3f4b887dbdd9f7a312ee">bsppp::LEAF_AMBIENT_LIGHTING_HDR</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a2666a9dff51c36a0fb93adce1528cf9f">bsppp::LEAF_AMBIENT_LIGHTING</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f4e64d97cf1c5a022ef25fc8f9d22a1">bsppp::XBOX_XZIPPAKFILE</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a499d922fed0127406ed1501be52d12b0">bsppp::FACES_HDR</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a1b81ee8c7e0cf5c518e53b217eff1b81">bsppp::MAP_FLAGS</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0f0712a8491b5a88e94259de1f944994">bsppp::OVERLAY_FADES</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29d9219eabad217f3df3f5a588297ffa">bsppp::L4D_OVERLAY_SYSTEM_LEVELS</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0adb8543f715bd7d5562f7f48e1730be3b">bsppp::UNUSED6</a> = L4D_OVERLAY_SYSTEM_LEVELS
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a328233f6bb183f588ca2de5063f15b83">bsppp::L4D2_PHYSLEVEL</a>
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0af0810480064ef116ec5ae8b1599f5292">bsppp::UNUSED7</a> = L4D2_PHYSLEVEL
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4f755e27ed464f26858b790983f13571">bsppp::ASW_DISP_MULTIBLEND</a>
+, <br />
+&#160;&#160;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2">bsppp::UNUSED8</a> = ASW_DISP_MULTIBLEND
+, <a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d">bsppp::COUNT</a>
+<br />
+ }</td></tr>
+<tr class="separator:a9cb52214dd23962b3ae112be2b95e2d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a855bc3f5e5b7416f9010213e0ffa0630"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630">bsppp::BSP_SIGNATURE</a> = <a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a>(&quot;VBSP&quot;)</td></tr>
+<tr class="separator:a855bc3f5e5b7416f9010213e0ffa0630"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe0d0c44fc4e9356ec9b8b989f321b56"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#afe0d0c44fc4e9356ec9b8b989f321b56">bsppp::LZMA_VALVE_SIGNATURE</a> = <a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a>(&quot;LZMA&quot;)</td></tr>
+<tr class="separator:afe0d0c44fc4e9356ec9b8b989f321b56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9bc64d24afcbeda0818b5d86a4ae1163"><td class="memItemLeft" align="right" valign="top">constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#a9bc64d24afcbeda0818b5d86a4ae1163">bsppp::BSP_LUMP_COUNT</a> = 64</td></tr>
+<tr class="separator:a9bc64d24afcbeda0818b5d86a4ae1163"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f98c313e147fe64c58acfa79fec4956"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; uint32_t, 64 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d11/namespacebsppp.html#a3f98c313e147fe64c58acfa79fec4956">bsppp::BSP_LUMP_ORDER</a></td></tr>
+<tr class="memdesc:a3f98c313e147fe64c58acfa79fec4956"><td class="mdescLeft">&#160;</td><td class="mdescRight">Pulled from Portal 2, map e1912.  <br /></td></tr>
+<tr class="separator:a3f98c313e147fe64c58acfa79fec4956"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_3c662dd1c626d8c0973edefd160a736b.html">bsppp</a></li><li class="navelem"><a class="el" href="../../d2/dd1/BSP_8h.html">BSP.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

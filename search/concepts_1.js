@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['arithmetic_0',['Arithmetic',['../da/dd4/conceptsourcepp_1_1math_1_1Arithmetic.html',1,'sourcepp::math']]]
+  ['kv1valuetype_0',['KV1ValueType',['../d5/d6a/conceptkvpp_1_1KV1ValueType.html',1,'kvpp']]]
 ];

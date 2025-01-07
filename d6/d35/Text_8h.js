@@ -1,6 +1,6 @@
 var Text_8h =
 [
-    [ "sourcepp::parser::text::syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error" ],
+    [ "sourcepp::parser::text::syntax_error", "d7/d77/classsourcepp_1_1parser_1_1text_1_1syntax__error.html", null ],
     [ "EscapeSequenceMap", "d6/d35/Text_8h.html#a372147434dc8a65090a5be1878d23601", null ],
     [ "convertEscapesToSpecialChars", "d6/d35/Text_8h.html#a329ee9bf54ac0786210469e21f77f56b", null ],
     [ "convertSpecialCharsToEscapes", "d6/d35/Text_8h.html#a1b19c978d6ed532500d1129e20af5382", null ],

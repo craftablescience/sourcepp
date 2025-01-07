@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pixeltype_0',['PixelType',['../d8/d9a/conceptvtfpp_1_1ImagePixel_1_1PixelType.html',1,'vtfpp::ImagePixel']]]
+  ['arithmetic_0',['Arithmetic',['../da/dd4/conceptsourcepp_1_1math_1_1Arithmetic.html',1,'sourcepp::math']]]
 ];
