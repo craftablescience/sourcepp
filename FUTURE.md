@@ -11,7 +11,8 @@
   - Move from compressonator to something that isn't a pile of garbage
   - Fork minizip-ng and change how it handles dependencies
 - `bsppp`
-  - Read/write LZMA-compressed lumps
+  - Support parsing more lumps
+  - Think about GoldSrc support
 - `dmxpp`
   - Add support for v9+ DMX files
   - Add support for keyvalues2 and keyvalues2_flat formats
@@ -34,7 +35,6 @@
 - `vcryptpp`
   - Add VFONT write support
 - `vpkpp`
-  - Add write support to ORE
   - Cache file handles so they're not constantly getting closed/opened
 - `vtfpp`
   - Allow directly applying an HDRI to a VTF without requiring the user to write a custom wrapper
