@@ -162,6 +162,6 @@ Attribute OO7::getSupportedEntryAttributes() const {
 }
 
 OO7::operator std::string() const {
-	return PackFile::operator std::string() +
+	return PackFileReadOnly::operator std::string() +
 		" | Version v" + std::to_string(this->majorVersion) + '.' + std::to_string(this->minorVersion);
 }
