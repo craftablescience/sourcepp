@@ -107,7 +107,9 @@ void fixFilePathForWindows(std::string& path) {
 } // namespace
 
 PackFile::PackFile(std::string fullFilePath_)
-		: fullFilePath(std::move(fullFilePath_)) {}
+		: fullFilePath(std::move(fullFilePath_)) {
+	string::normalizeSlashes(this->fullFilePath);
+}
 
 std::unique_ptr<PackFile> PackFile::open(const std::string& path, const EntryCallback& callback) {
 	auto extension = std::filesystem::path{path}.extension().string();
@@ -583,7 +585,7 @@ std::string_view PackFile::getFilepath() const {
 }
 
 std::string PackFile::getTruncatedFilepath() const {
-	return (std::filesystem::path{this->fullFilePath}.parent_path() / this->getTruncatedFilestem()).string();
+	return std::filesystem::path{this->fullFilePath}.parent_path().string() + '/' + this->getTruncatedFilestem();
 }
 
 std::string PackFile::getFilename() const {
