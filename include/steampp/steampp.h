@@ -42,6 +42,8 @@ public:
 
 	[[nodiscard]] std::string getAppStoreArtPath(AppID appID) const;
 
+	[[nodiscard]] bool isAppUsingGoldSrcEngine(AppID appID) const;
+
 	[[nodiscard]] bool isAppUsingSourceEngine(AppID appID) const;
 
 	[[nodiscard]] bool isAppUsingSource2Engine(AppID appID) const;

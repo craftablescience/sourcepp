@@ -51,6 +51,8 @@ SOURCEPP_API sourcepp_string_t steampp_get_app_box_art_path(steampp_steam_handle
 // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_API sourcepp_string_t steampp_get_app_store_art_path(steampp_steam_handle_t handle, AppID appID);
 
+SOURCEPP_API bool steampp_is_app_using_goldsrc_engine(steampp_steam_handle_t handle, AppID appID);
+
 SOURCEPP_API bool steampp_is_app_using_source_engine(steampp_steam_handle_t handle, AppID appID);
 
 SOURCEPP_API bool steampp_is_app_using_source_2_engine(steampp_steam_handle_t handle, AppID appID);

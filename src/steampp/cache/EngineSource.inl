@@ -109,7 +109,6 @@
 747250, // Half-Life 2: Year Long Alarm
 360, // Half-Life Deathmatch: Source
 255470, // Half-Life Deathmatch: Source Dedicated server
-2296760, // Half-Life: Hadron
 280, // Half-Life: Source
 1219590, // HEAT REBORN
 1523440, // HEAT REBORN BETA
@@ -156,6 +155,7 @@
 1802710, // Momentum Mod Playtest
 244630, // NEOTOKYO
 313600, // NEOTOKYO Dedicated Server
+2954780, // Nightmare House: The Original Mod
 224260, // No More Room in Hell
 317670, // No More Room in Hell Dedicated Server
 17710, // Nuclear Dawn
@@ -167,15 +167,19 @@
 17575, // Pirates, Vikings, and Knights II Dedicated Server
 400, // Portal
 620, // Portal 2
+2615420, // Portal: Ambition
+2665240, // Portal Ambition Demo
 213630, // Portal 2 - Educational Version
 247120, // Portal 2 Sixense Perceptual Pack
 440000, // Portal 2: Community Edition
+1400890, // Portal 2: Community Edition SDK
 2716490, // Portal 2: Confinement
 1255980, // Portal Reloaded
 317400, // Portal Stories: Mel
 2012840, // Portal with RTX
 410, // Portal: First Slice
 1636310, // Portal: Forbidden Testing Tracks
+3043220, // Portal: Lost in Aperture
 2410180, // Portal: Prelude RTX
 601360, // Portal: Revolution
 2266250, // Portal: Revolution Authoring Tools
@@ -215,6 +219,7 @@
 1197420, // Team Fortress: Throwback Dedicated Server
 303210, // The Beginner's Guide
 1007090, // The Burton Equation
+3281900, // The Cleaning Game
 314280, // The Forgotten Ones
 2403, // The Ship Dedicated Server
 2430, // The Ship Tutorial
@@ -238,6 +243,7 @@
 313240, // Wilson Chronicles
 22200, // Zeno Clash
 22220, // Zeno Clash Demo
+22210, // Zeno Clash Press
 813990, // Zombie Master: Reborn
 17500, // Zombie Panic! Source
 17505, // Zombie Panic! Source Dedicated Server

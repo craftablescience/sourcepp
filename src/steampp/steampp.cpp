@@ -25,6 +25,14 @@ using namespace steampp;
 
 namespace {
 
+bool isAppUsingGoldSrcEnginePredicate(std::string_view installDir) {
+	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
+	std::error_code ec;
+	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry){
+		return entry.is_directory(ec) && std::filesystem::exists(entry.path() / "liblist.gam", ec);
+	});
+}
+
 bool isAppUsingSourceEnginePredicate(std::string_view installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
 	std::error_code ec;
@@ -52,6 +60,11 @@ bool isAppUsingSource2EnginePredicate(std::string_view installDir) {
 
 // Note: this can't be a template because gcc threw a fit. No idea why
 std::unordered_set<AppID> getAppsKnownToUseEngine(bool(*p)(std::string_view)) {
+	if (p == &::isAppUsingGoldSrcEnginePredicate) {
+		return {
+#include "cache/EngineGoldSrc.inl"
+		};
+	}
 	if (p == &::isAppUsingSourceEnginePredicate) {
 		return {
 #include "cache/EngineSource.inl"
@@ -319,6 +332,10 @@ std::string Steam::getAppStoreArtPath(AppID appID) const {
 		return "";
 	}
 	return path;
+}
+
+bool Steam::isAppUsingGoldSrcEngine(AppID appID) const {
+	return ::isAppUsingEngine<::isAppUsingGoldSrcEnginePredicate>(this, appID);
 }
 
 bool Steam::isAppUsingSourceEngine(AppID appID) const {
