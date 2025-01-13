@@ -6,11 +6,15 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ContentWithTargetPath Include="${CMAKE_BINARY_DIR}/${TARGET}c${CMAKE_SHARED_LIBRARY_SUFFIX}">
+  <ItemGroup Condition="'$(IsWindows)'=='true'">
+    <None Update="${TARGET}c.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <TargetPath>${TARGET}c${CMAKE_SHARED_LIBRARY_SUFFIX}</TargetPath>
-    </ContentWithTargetPath>
+    </None>
+  </ItemGroup>
+  <ItemGroup Condition="'$(IsLinux)'=='true'">
+    <None Update="${TARGET}c.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
