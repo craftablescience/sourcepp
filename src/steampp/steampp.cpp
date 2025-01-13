@@ -27,23 +27,25 @@ namespace {
 
 bool isAppUsingSourceEnginePredicate(std::string_view installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
-	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [](const auto& entry){
-		return entry.is_directory() && std::filesystem::exists(entry.path() / "gameinfo.txt");
+	std::error_code ec;
+	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry){
+		return entry.is_directory(ec) && std::filesystem::exists(entry.path() / "gameinfo.txt", ec);
 	});
 }
 
 bool isAppUsingSource2EnginePredicate(std::string_view installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
-	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [](const auto& entry) {
-		if (!entry.is_directory()) {
+	std::error_code ec;
+	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry) {
+		if (!entry.is_directory(ec)) {
 			return false;
 		}
-		if (std::filesystem::exists(entry.path() / "gameinfo.gi")) {
+		if (std::filesystem::exists(entry.path() / "gameinfo.gi", ec)) {
 			return true;
 		}
 		std::filesystem::directory_iterator subDirIterator{entry.path(), std::filesystem::directory_options::skip_permission_denied};
-		return std::any_of(std::filesystem::begin(subDirIterator), std::filesystem::end(subDirIterator), [](const auto& entry_) {
-			return entry_.is_directory() && std::filesystem::exists(entry_.path() / "gameinfo.gi");
+		return std::any_of(std::filesystem::begin(subDirIterator), std::filesystem::end(subDirIterator), [&ec](const auto& entry_) {
+			return entry_.is_directory(ec) && std::filesystem::exists(entry_.path() / "gameinfo.gi", ec);
 		});
 	});
 }
@@ -200,11 +202,10 @@ Steam::Steam() {
 		}
 		libraryFolderPath /= "steamapps";
 
-		this->libraryDirs.push_back(libraryFolderPath.string());
-
-		if (!std::filesystem::exists(libraryFolderPath)) {
+		if (!std::filesystem::exists(libraryFolderPath, ec)) {
 			continue;
 		}
+		this->libraryDirs.push_back(libraryFolderPath.string());
 
 		for (const auto& entry : std::filesystem::directory_iterator{libraryFolderPath, std::filesystem::directory_options::skip_permission_denied}) {
 			auto entryName = entry.path().filename().string();
@@ -233,9 +234,9 @@ Steam::Steam() {
 			}
 
 			this->gameDetails[std::stoi(std::string{appID.getValue()})] = GameInfo{
-					.name = std::string{appName.getValue()},
-					.installDir = std::string{appInstallDir.getValue()},
-					.libraryInstallDirsIndex = this->libraryDirs.size() - 1,
+				.name = std::string{appName.getValue()},
+				.installDir = std::string{appInstallDir.getValue()},
+				.libraryInstallDirsIndex = this->libraryDirs.size() - 1,
 			};
 		}
 	}
