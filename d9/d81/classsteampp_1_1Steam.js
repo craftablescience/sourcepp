@@ -12,6 +12,7 @@ var classsteampp_1_1Steam =
     [ "getLibraryDirs", "d9/d81/classsteampp_1_1Steam.html#a4fe31c27d8136e6b3e01583238a8e6b6", null ],
     [ "getSourceModDir", "d9/d81/classsteampp_1_1Steam.html#a361adb136b3fc399919c111fb5bb3768", null ],
     [ "isAppInstalled", "d9/d81/classsteampp_1_1Steam.html#a755f58814c4c7d147f9f4083bce33598", null ],
+    [ "isAppUsingGoldSrcEngine", "d9/d81/classsteampp_1_1Steam.html#a1f23b89cb2c68e2fefaa7e39902d643b", null ],
     [ "isAppUsingSource2Engine", "d9/d81/classsteampp_1_1Steam.html#a543131c303f06c4a5830770bd881c7c3", null ],
     [ "isAppUsingSourceEngine", "d9/d81/classsteampp_1_1Steam.html#a0f8f3ef88f56857da60664f209c2804d", null ],
     [ "operator bool", "d9/d81/classsteampp_1_1Steam.html#a4ffa8e60cbb36bd410aa051c66afd709", null ]

@@ -83,12 +83,12 @@ var NAVTREEINDEX =
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea7baf723b2a575ce54a6013d4264c080f",
 "d8/d85/structbsppp_1_1BSPFace__v2.html",
 "d8/df2/classvtfpp_1_1VTF.html#aa203515ee52f1d82378a4bd97823a51aa36e13f096b1a59fe5e0039d58591a4ef",
-"d9/d81/classsteampp_1_1Steam.html#a2a802e23653125dcc89d9b6f75abb0db",
-"da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755",
-"dc/d00/namespacevcryptpp_1_1VICE.html",
-"dd/d73/namespacevtfpp_1_1ImagePixel.html#a6e9cedf432d59e0576668c532a122ff0",
-"de/da1/structvtfpp_1_1ImagePixel_1_1R32F.html",
-"functions_vars_v.html"
+"d9/d81/classsteampp_1_1Steam.html#a1f23b89cb2c68e2fefaa7e39902d643b",
+"da/d42/classvpkpp_1_1FPX.html",
+"db/dee/structmdlpp_1_1StudioModel.html#afd1b2c935828f448f006bddb4d1afcdf",
+"dd/d73/namespacevtfpp_1_1ImagePixel.html#a660580f5b7a5b30ba030ccc7c50e289d",
+"de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cafd301d675be7b677ba979a430a80c010",
+"functions_vars_r.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
