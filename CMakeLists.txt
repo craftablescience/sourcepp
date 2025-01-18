@@ -195,7 +195,7 @@ add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON              ) # sourcepp::toolpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP        NO_TEST      ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp             PYTHON         BENCH) # sourcepp::vtfpp
+add_sourcepp_library(vtfpp    C        PYTHON         BENCH) # sourcepp::vtfpp
 
 
 # Tests, part 2
