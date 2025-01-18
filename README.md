@@ -129,6 +129,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
+    <td rowspan="1"><code>vmtpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/VMT">VMT</a></td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td rowspan="1" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
     <td rowspan="29"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
@@ -321,7 +329,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
 Libraries not starred should be considered stable, and their existing interfaces will not change much if at all. Note that wrappers
 only exist for stable libraries.
 
-(&dagger;) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VMT](https://developer.valvesoftware.com/wiki/VMT) and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
+(&dagger;) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [RES](https://developer.valvesoftware.com/wiki/Resource_list_(Source)), [VDF](https://developer.valvesoftware.com/wiki/VDF), and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
 
 ## Wrappers
 
