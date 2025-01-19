@@ -2,6 +2,7 @@ var namespaces_dup =
 [
     [ "bsppp", "dd/d11/namespacebsppp.html", "dd/d11/namespacebsppp" ],
     [ "dmxpp", "d9/db0/namespacedmxpp.html", "d9/db0/namespacedmxpp" ],
+    [ "fspp", "d9/d5a/namespacefspp.html", "d9/d5a/namespacefspp" ],
     [ "gamepp", "de/d04/namespacegamepp.html", "de/d04/namespacegamepp" ],
     [ "kvpp", "d8/d57/namespacekvpp.html", "d8/d57/namespacekvpp" ],
     [ "mdlpp", "d1/d8e/namespacemdlpp.html", "d1/d8e/namespacemdlpp" ],

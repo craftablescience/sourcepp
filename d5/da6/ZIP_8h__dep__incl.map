@@ -1,11 +1,13 @@
 <map id="include/vpkpp/format/ZIP.h" name="include/vpkpp/format/ZIP.h">
-<area shape="rect" id="node1" title=" " alt="" coords="412,5,573,45"/>
-<area shape="rect" id="node2" href="$d0/ddd/PakLump_8h.html" title=" " alt="" coords="189,93,375,119"/>
-<area shape="rect" id="node7" href="$d6/dae/vpkpp_8h.html" title=" " alt="" coords="408,93,577,119"/>
-<area shape="rect" id="node9" href="$d9/d2a/ZIP_8cpp.html" title=" " alt="" coords="601,93,784,119"/>
-<area shape="rect" id="node3" href="$d2/dd1/BSP_8h.html" title=" " alt="" coords="191,167,341,192"/>
+<area shape="rect" id="node1" title=" " alt="" coords="465,5,627,45"/>
+<area shape="rect" id="node2" href="$d0/ddd/PakLump_8h.html" title=" " alt="" coords="278,93,465,119"/>
+<area shape="rect" id="node8" href="$d6/dae/vpkpp_8h.html" title=" " alt="" coords="543,167,712,192"/>
+<area shape="rect" id="node11" href="$d9/d2a/ZIP_8cpp.html" title=" " alt="" coords="584,93,767,119"/>
+<area shape="rect" id="node3" href="$d2/dd1/BSP_8h.html" title=" " alt="" coords="208,167,359,192"/>
 <area shape="rect" id="node4" href="$d5/d60/bsppp_8h.html" title=" " alt="" coords="5,240,172,265"/>
-<area shape="rect" id="node6" href="$d9/dcf/PakLump_8cpp.html" title=" " alt="" coords="360,240,535,265"/>
-<area shape="rect" id="node5" href="$d7/db3/BSP_8cpp.html" title=" " alt="" coords="197,240,335,265"/>
-<area shape="rect" id="node8" href="$d3/d75/PackFile_8cpp.html" title=" " alt="" coords="417,167,587,192"/>
+<area shape="rect" id="node7" href="$d9/dcf/PakLump_8cpp.html" title=" " alt="" coords="360,240,535,265"/>
+<area shape="rect" id="node6" href="$d7/db3/BSP_8cpp.html" title=" " alt="" coords="197,240,335,265"/>
+<area shape="rect" id="node5" href="$d5/de7/fspp_8cpp.html" title=" " alt="" coords="507,313,639,339"/>
+<area shape="rect" id="node9" href="$d8/ddc/fspp_8h.html" title=" " alt="" coords="611,240,756,265"/>
+<area shape="rect" id="node10" href="$d3/d75/PackFile_8cpp.html" title=" " alt="" coords="780,240,949,265"/>
 </map>

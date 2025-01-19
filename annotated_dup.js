@@ -29,6 +29,10 @@ var annotated_dup =
       [ "DMXAttribute", "dc/d56/structdmxpp_1_1DMXAttribute.html", "dc/d56/structdmxpp_1_1DMXAttribute" ],
       [ "DMXElement", "d4/d6d/structdmxpp_1_1DMXElement.html", "d4/d6d/structdmxpp_1_1DMXElement" ]
     ] ],
+    [ "fspp", "d9/d5a/namespacefspp.html", [
+      [ "FileSystem", "d7/dca/classfspp_1_1FileSystem.html", "d7/dca/classfspp_1_1FileSystem" ],
+      [ "FileSystemOptions", "d8/d61/structfspp_1_1FileSystemOptions.html", "d8/d61/structfspp_1_1FileSystemOptions" ]
+    ] ],
     [ "gamepp", "de/d04/namespacegamepp.html", [
       [ "GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", "d2/dc0/classgamepp_1_1GameInstance" ]
     ] ],

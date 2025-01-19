@@ -23,6 +23,8 @@ var hierarchy =
     [ "dmxpp::Value::Element", "dc/d06/structdmxpp_1_1Value_1_1Element.html", null ],
     [ "dmxpp::Value::Invalid", "da/dee/structdmxpp_1_1Value_1_1Invalid.html", null ],
     [ "dmxpp::Value::Time", "d5/d19/structdmxpp_1_1Value_1_1Time.html", null ],
+    [ "fspp::FileSystem", "d7/dca/classfspp_1_1FileSystem.html", null ],
+    [ "fspp::FileSystemOptions", "d8/d61/structfspp_1_1FileSystemOptions.html", null ],
     [ "gamepp::GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", null ],
     [ "kvpp::KV1ElementBase< std::string, KV1ElementWritable< std::string > >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
     [ "kvpp::KV1ElementBase< std::string_view, KV1ElementReadable >", "de/d62/classkvpp_1_1KV1ElementBase.html", [

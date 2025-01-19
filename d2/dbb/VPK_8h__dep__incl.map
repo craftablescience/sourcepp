@@ -1,8 +1,10 @@
 <map id="include/vpkpp/format/VPK.h" name="include/vpkpp/format/VPK.h">
-<area shape="rect" id="node1" title=" " alt="" coords="213,5,375,45"/>
-<area shape="rect" id="node2" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="213,93,375,133"/>
-<area shape="rect" id="node3" href="$d6/dae/vpkpp_8h.html" title=" " alt="" coords="5,181,175,207"/>
-<area shape="rect" id="node6" href="$d1/da7/VPK_8cpp.html" title=" " alt="" coords="413,181,604,207"/>
-<area shape="rect" id="node5" href="$d3/d9d/FPX_8cpp.html" title=" " alt="" coords="199,181,389,207"/>
-<area shape="rect" id="node4" href="$d3/d75/PackFile_8cpp.html" title=" " alt="" coords="5,255,175,280"/>
+<area shape="rect" id="node1" title=" " alt="" coords="312,5,473,45"/>
+<area shape="rect" id="node2" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="312,93,473,133"/>
+<area shape="rect" id="node3" href="$d6/dae/vpkpp_8h.html" title=" " alt="" coords="104,181,273,207"/>
+<area shape="rect" id="node8" href="$d1/da7/VPK_8cpp.html" title=" " alt="" coords="512,181,703,207"/>
+<area shape="rect" id="node7" href="$d3/d9d/FPX_8cpp.html" title=" " alt="" coords="298,181,487,207"/>
+<area shape="rect" id="node4" href="$d8/ddc/fspp_8h.html" title=" " alt="" coords="5,255,151,280"/>
+<area shape="rect" id="node5" href="$d5/de7/fspp_8cpp.html" title=" " alt="" coords="67,328,199,353"/>
+<area shape="rect" id="node6" href="$d3/d75/PackFile_8cpp.html" title=" " alt="" coords="227,255,396,280"/>
 </map>

@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['value_5ftype_0',['value_type',['../d6/d21/structsourcepp_1_1math_1_1Vec.html#a274ecaa4f9883e1e6a6208bd990501de',1,'sourcepp::math::Vec']]],
-  ['vector2_1',['Vector2',['../d7/d45/namespacedmxpp_1_1Value.html#a6dd9b9d48823a78948183ff4a37949af',1,'dmxpp::Value']]],
-  ['vector3_2',['Vector3',['../d7/d45/namespacedmxpp_1_1Value.html#ab78651db2e28d84b8c5d11d3c9a6009e',1,'dmxpp::Value']]],
-  ['vector4_3',['Vector4',['../d7/d45/namespacedmxpp_1_1Value.html#a6364ffca0f28d0c5fcc79cb9fba59d19',1,'dmxpp::Value']]]
+  ['type_0',['type',['../d1/de3/structsourcepp_1_1detail_1_1member__type__helper_3_01T_01C_1_1_5_01_4.html#aac726fdb47e398e374f43df1443a7240',1,'sourcepp::detail::member_type_helper&lt; T C::* &gt;']]]
 ];
