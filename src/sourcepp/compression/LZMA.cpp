@@ -44,18 +44,25 @@ std::optional<std::vector<std::byte>> compression::compressValveLZMA(std::span<c
 		// Switch out normal header with Valve one
 		BufferStream compressedStream{compressedData};
 		compressedStream << VALVE_LZMA_SIGNATURE;
-		const auto properties = compressedStream.read<std::array<uint8_t, 5>>();
+		const auto properties = compressedStream.read<uint8_t>();
+		const auto dictionarySize = compressedStream.read<uint32_t>();
 		compressedStream
 			.seek_u(sizeof(uint32_t))
 			.write<uint32_t>(data.size())
 			.write(compressedData.size() - (sizeof(uint32_t) * 3) + (sizeof(uint8_t) * 5))
-			.write(properties);
+			.write(properties)
+			.write(dictionarySize);
 	}
 	return compressedData;
 }
 
 std::optional<std::vector<std::byte>> compression::decompressValveLZMA(std::span<const std::byte> data) {
-	std::vector<std::byte> compressedData{data.begin(), data.end()};
+	if (data.size() < 18) {
+		// Valve LZMA header length + 1 null byte
+		return std::nullopt;
+	}
+
+	std::vector<std::byte> compressedData{data.begin() + sizeof(uint32_t), data.end()};
 	std::vector<std::byte> uncompressedData;
 	{
 		// Switch out Valve header with normal one
@@ -63,13 +70,16 @@ std::optional<std::vector<std::byte>> compression::decompressValveLZMA(std::span
 		if (in.read<uint32_t>() != VALVE_LZMA_SIGNATURE) {
 			return std::nullopt;
 		}
-		const auto uncompressedLength = in.read<uint32_t>();
-		in.skip<uint32_t>();
-		const auto properties = in.read<std::array<uint8_t, 5>>();
-		BufferStream out{compressedData};
+		const uint64_t uncompressedLength = in.read<uint32_t>();
+		in.skip<uint32_t>(); // compressed length is easily inferred
+		const auto properties = in.read<uint8_t>();
+		const auto dictionarySize = in.read<uint32_t>();
+		BufferStream out{compressedData.data(), compressedData.size()};
 		out
 			.write(properties)
-			.write<uint64_t>(uncompressedLength);
+			.write(dictionarySize)
+			.write(uncompressedLength);
+
 		uncompressedData.resize(uncompressedLength);
 	}
 
