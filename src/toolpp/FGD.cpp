@@ -350,6 +350,9 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 	if (!newEntity.description.empty()) {
 		oldEntity.description = newEntity.description;
 	}
+	if (!newEntity.docsURL.empty()) {
+		oldEntity.docsURL = newEntity.docsURL;
+	}
 	for (const auto& field : newEntity.fields) {
 		if (auto it = std::find_if(oldEntity.fields.begin(), oldEntity.fields.end(), [&field](const auto& oldField) {
 			return oldField.name == field.name;
@@ -445,6 +448,13 @@ void readEntity(BufferStreamReadOnly& stream, BufferStream& backing, std::string
 		entity.description = ::readFGDString(stream, backing);
 	} else {
 		entity.description = "";
+	}
+
+	// If a colon is here, the entity has a docs URL
+	if (::tryToEatSeparator(stream, ':')) {
+		entity.docsURL = ::readFGDString(stream, backing);
+	} else {
+		entity.docsURL = "";
 	}
 
 	// Parse entity keyvalues
@@ -670,7 +680,7 @@ FGDWriter& FGDWriter::AutoVisGroupWriter::endAutoVisGroup() const {
 	return this->parent;
 }
 
-FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description) {
+FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description, const std::string& docsURL) {
 	this->writer
 		.write('@')
 		.write(classType, false);
@@ -692,14 +702,21 @@ FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, con
 	// Put the description on the same line if it's short
 	if (description.size() < 32) {
 		this->writer
-			.write(" \""sv, false)
+			.write(" \""sv, false) // NOLINT(*-raw-string-literal)
 			.write(description, false);
 	} else {
 		this->writer
 			.write("\n\t\""sv, false)
 			.write(description, false);
 	}
-	this->writer.write("\"\n[\n"sv, false);
+	this->writer.write('\"');
+	if (!docsURL.empty()) {
+		this->writer
+			.write(" : \""sv, false) // NOLINT(*-raw-string-literal)
+			.write(docsURL, false)
+			.write('\"');
+	}
+	this->writer.write("\n[\n"sv, false);
 	return EntityWriter{*this};
 }
 

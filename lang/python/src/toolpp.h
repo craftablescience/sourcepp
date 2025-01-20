@@ -120,6 +120,7 @@ inline void register_python(py::module_& m) {
 		.def_ro("class_type",          &FGD::Entity::classType)
 		.def_ro("class_properties",    &FGD::Entity::classProperties)
 		.def_ro("description",         &FGD::Entity::description)
+		.def_ro("docs_url",            &FGD::Entity::docsURL)
 		.def_ro("fields",              &FGD::Entity::fields)
 		.def_ro("fields_with_choices", &FGD::Entity::fieldsWithChoices)
 		.def_ro("fields_with_flags",   &FGD::Entity::fieldsWithFlags)
@@ -172,7 +173,7 @@ inline void register_python(py::module_& m) {
 		.def("map_size", &FGDWriter::mapSize, py::arg("map_size"), py::rv_policy::reference)
 		.def("material_exclusion_dirs", &FGDWriter::materialExclusionDirs, py::arg("material_exclusion_dirs"), py::rv_policy::reference)
 		.def("begin_auto_visgroup", &FGDWriter::beginAutoVisGroup, py::arg("parent_name"))
-		.def("begin_entity", &FGDWriter::beginEntity, py::arg("class_type"), py::arg("class_properties"), py::arg("name"), py::arg("description") = "")
+		.def("begin_entity", &FGDWriter::beginEntity, py::arg("class_type"), py::arg("class_properties"), py::arg("name"), py::arg("description") = "", py::arg("docs_url") = "")
 		.def("bake", [](const FGDWriter& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};

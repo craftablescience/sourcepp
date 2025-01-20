@@ -101,7 +101,7 @@ TEST(toolpp, fgdWrite) {
 				.choice("models/something03.mdl", "something completely different")
 			.endKeyValueChoices()
 		.endEntity()
-		.beginEntity("ExtendClass", {}, "entity_name", "")
+		.beginEntity("ExtendClass", {}, "entity_name", "", "this is a JACK feature to add a docs link")
 			.keyValue("portal4", "void", "Portal 4 but better")
 			.output("portalOutput3", "string", "Portal Output 3")
 			.beginKeyValueFlags("effects", "Effects", "These sure are effects")
@@ -173,7 +173,7 @@ TEST(toolpp, fgdWrite) {
 	]
 ]
 
-@ExtendClass = entity_name : ""
+@ExtendClass = entity_name : "" : "this is a JACK feature to add a docs link"
 [
 	portal4(void) : "Portal 4 but better"
 	output portalOutput3(string) : "Portal Output 3"

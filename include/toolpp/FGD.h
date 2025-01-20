@@ -70,6 +70,7 @@ public:
 		std::vector<ClassProperty> classProperties;
 
 		std::string_view description;
+		std::string_view docsURL;
 
 		std::vector<Field> fields;
 		std::vector<FieldChoices> fieldsWithChoices;
@@ -187,7 +188,7 @@ public:
 
 	AutoVisGroupWriter beginAutoVisGroup(const std::string& parentName);
 
-	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description = "");
+	EntityWriter beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description = "", const std::string& docsURL = "");
 
 	[[nodiscard]] std::string bake() const;
 
