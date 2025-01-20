@@ -1,15 +1,18 @@
 <map id="include/sourcepp/compression/LZMA.h" name="include/sourcepp/compression/LZMA.h">
-<area shape="rect" id="node1" title=" " alt="" coords="117,5,335,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,76,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="101,93,175,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="199,93,253,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="277,93,340,119"/>
-<area shape="rect" id="node6" href="$db/d8a/Math_8h.html" title=" " alt="" coords="365,93,495,119"/>
-<area shape="rect" id="node7" title=" " alt="" coords="141,167,180,192"/>
-<area shape="rect" id="node8" title=" " alt="" coords="205,167,285,192"/>
-<area shape="rect" id="node9" title=" " alt="" coords="309,167,372,192"/>
-<area shape="rect" id="node10" title=" " alt="" coords="397,167,463,192"/>
-<area shape="rect" id="node11" title=" " alt="" coords="488,167,567,192"/>
-<area shape="rect" id="node12" title=" " alt="" coords="591,167,683,192"/>
-<area shape="rect" id="node13" title=" " alt="" coords="707,167,782,192"/>
+<area shape="rect" id="node1" title=" " alt="" coords="80,5,299,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="55,167,126,192"/>
+<area shape="rect" id="node3" title=" " alt="" coords="23,93,97,119"/>
+<area shape="rect" id="node4" title=" " alt="" coords="121,93,175,119"/>
+<area shape="rect" id="node5" title=" " alt="" coords="199,93,262,119"/>
+<area shape="rect" id="node6" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="286,93,469,119"/>
+<area shape="rect" id="node9" href="$db/d8a/Math_8h.html" title=" " alt="" coords="439,167,569,192"/>
+<area shape="rect" id="node7" title=" " alt="" coords="253,167,326,192"/>
+<area shape="rect" id="node8" title=" " alt="" coords="351,167,409,192"/>
+<area shape="rect" id="node10" title=" " alt="" coords="215,240,254,265"/>
+<area shape="rect" id="node11" title=" " alt="" coords="279,240,359,265"/>
+<area shape="rect" id="node12" title=" " alt="" coords="383,240,446,265"/>
+<area shape="rect" id="node13" title=" " alt="" coords="471,240,537,265"/>
+<area shape="rect" id="node14" title=" " alt="" coords="562,240,641,265"/>
+<area shape="rect" id="node15" title=" " alt="" coords="665,240,757,265"/>
+<area shape="rect" id="node16" title=" " alt="" coords="781,240,856,265"/>
 </map>

@@ -2,7 +2,8 @@ var namespacesourcepp =
 [
     [ "compression", "d2/d50/namespacesourcepp_1_1compression.html", [
       [ "compressValveLZMA", "d2/d50/namespacesourcepp_1_1compression.html#a109d3a599428dd45c73232f076d0c7f9", null ],
-      [ "decompressValveLZMA", "d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2", null ]
+      [ "decompressValveLZMA", "d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2", null ],
+      [ "VALVE_LZMA_SIGNATURE", "d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600", null ]
     ] ],
     [ "crypto", "db/d83/namespacesourcepp_1_1crypto.html", [
       [ "computeAdler32", "db/d83/namespacesourcepp_1_1crypto.html#ad371d07a92e8f37f023237eaf590b3ad", null ],

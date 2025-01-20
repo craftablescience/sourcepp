@@ -1,5 +1,6 @@
 var NAVTREEINDEX9 =
 {
+"d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71":[3,0,0,7,2],
 "d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71":[1,4,0,7,2],
 "d6/d21/structsourcepp_1_1math_1_1Vec.html":[3,0,6,1,3],
 "d6/d21/structsourcepp_1_1math_1_1Vec.html":[1,4,6,4,3],
@@ -248,6 +249,5 @@ var NAVTREEINDEX9 =
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea5dea13cf7ba399de1ae68a7194c73cff":[1,4,1,1,12,12],
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949":[1,4,1,1,12,6],
 "d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea715fe50478c0d3a4764ab963d3b54a51":[1,4,1,1,12,20],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea72540cb8c9f90fff63ea53b0c945ad50":[1,4,1,1,12,31],
-"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea742fddb28fdd19c821c68476fca4e85e":[1,4,1,1,12,11]
+"d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea72540cb8c9f90fff63ea53b0c945ad50":[1,4,1,1,12,31]
 };
