@@ -100,6 +100,7 @@ include_subdirectory(ext)
 
 # Shared code
 include_subdirectory(src/sourcepp)
+include_subdirectory(src/sourcepp/compression)
 include_subdirectory(src/sourcepp/crypto)
 include_subdirectory(src/sourcepp/parser)
 

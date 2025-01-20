@@ -42,12 +42,10 @@ if(NOT TARGET miniz)
 endif()
 
 
-# minizip-ng (guard this because it's a big dependency!)
-if((SOURCEPP_USE_BSPPP OR SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP) AND NOT TARGET MINIZIP::minizip)
+# minizip-ng
+if(NOT TARGET MINIZIP::minizip)
     set(MZ_COMPAT           OFF CACHE INTERNAL "")
-    if(SOURCEPP_USE_BSPPP)
-        set(MZ_LZMA         ON  CACHE INTERNAL "" FORCE)
-    endif()
+    set(MZ_LZMA             ON  CACHE INTERNAL "" FORCE)
     if(SOURCEPP_USE_VTFPP OR SOURCEPP_VPKPP_SUPPORT_VPK_V54)
         set(MZ_ZSTD         ON  CACHE INTERNAL "" FORCE)
     endif()

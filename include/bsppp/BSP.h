@@ -18,7 +18,6 @@
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
-constexpr auto LZMA_VALVE_SIGNATURE = sourcepp::parser::binary::makeFourCC("LZMA");
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
@@ -249,10 +248,6 @@ protected:
 	[[nodiscard]] std::vector<BSPFace> parseOriginalFaces() const;
 
 	[[nodiscard]] std::vector<BSPGameLump> parseGameLumps(bool decompress) const;
-
-	[[nodiscard]] static std::optional<std::vector<std::byte>>	compressLumpData(const std::span<const std::byte> data, uint8_t compressLevel = 6);
-
-	[[nodiscard]] static std::optional<std::vector<std::byte>>	decompressLumpData(const std::span<const std::byte> data);
 
 	std::string path;
 	Header header{};
