@@ -18,10 +18,15 @@
 namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+constexpr uint32_t VTFX_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTFX");
 
 enum class CompressionMethod : int16_t {
+	// Strata Source v7.6 defines
 	DEFLATE = 8,
 	ZSTD = 93,
+
+	// Signify the image resource should be compressed with LZMA on console
+	CONSOLE_LZMA = 0x360,
 };
 
 struct Resource {
@@ -157,6 +162,13 @@ public:
 	};
 	static constexpr std::underlying_type_t<Flags> FLAG_MASK_GENERATED = FLAG_NO_MIP | FLAG_NO_LOD | FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA | FLAG_ENVMAP;
 
+	enum Platform : uint32_t {
+		PLATFORM_UNKNOWN = 0,
+		PLATFORM_PC      = 1,
+		PLATFORM_PS3     = 0x333,
+		PLATFORM_X360    = 0x360,
+	};
+
 	struct CreationOptions {
 		uint32_t majorVersion = 7;
 		uint32_t minorVersion = 4;
@@ -173,6 +185,7 @@ public:
 		bool createMips = true;
 		bool createThumbnail = true;
 		bool createReflectivity = true;
+		Platform platform = PLATFORM_PC;
 		int16_t compressionLevel = -1;
 		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 		float bumpMapScale = 1.f;
@@ -183,8 +196,6 @@ public:
 
 	/// This value is only valid when passed to VTF::create through CreationOptions or VTF::setFormat
 	static constexpr auto FORMAT_DEFAULT = static_cast<ImageFormat>(-1);
-
-	static constexpr int32_t MAX_RESOURCES = 32;
 
 	VTF();
 
@@ -215,6 +226,10 @@ public:
 	static void create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
 
 	[[nodiscard]] static VTF create(const std::string& imagePath, CreationOptions options);
+
+	[[nodiscard]] Platform getPlatform() const;
+
+	void setPlatform(Platform newPlatform);
 
 	[[nodiscard]] uint32_t getMajorVersion() const;
 
@@ -269,8 +284,6 @@ public:
 	[[nodiscard]] uint8_t getFaceCount() const;
 
 	bool setFaceCount(bool isCubemap, bool hasSphereMap = false);
-
-	//bool computeSphereMap();
 
 	[[nodiscard]] uint16_t getSliceCount() const;
 
@@ -413,10 +426,10 @@ protected:
 	//uint8_t _padding1[4];
 
 	float bumpMapScale{};
-	ImageFormat format{};
+	ImageFormat format = ImageFormat::EMPTY;
 	uint8_t mipCount = 1;
 
-	ImageFormat thumbnailFormat{};
+	ImageFormat thumbnailFormat = ImageFormat::EMPTY;
 	uint8_t thumbnailWidth{};
 	uint8_t thumbnailHeight{};
 
@@ -429,7 +442,8 @@ protected:
 	std::vector<Resource> resources;
 	//uint8_t _padding3[4];
 
-	// These aren't in the header, these are for VTF modification
+	// These aren't in the header
+	Platform platform = PLATFORM_PC;
 	int16_t compressionLevel = 0;
 	CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;

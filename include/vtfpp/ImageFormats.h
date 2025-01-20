@@ -5,6 +5,7 @@
 namespace vtfpp {
 
 enum class ImageFormat : int32_t {
+	// region Universal Formats
 	RGBA8888 = 0,
 	ABGR8888,
 	RGB888,
@@ -35,6 +36,9 @@ enum class ImageFormat : int32_t {
 	R32F,
 	RGB323232F,
 	RGBA32323232F,
+	// endregion
+
+	// region Alien Swarm & Beyond Formats
 	RG1616F,
 	RG3232F,
 	RGBX8888,
@@ -44,10 +48,28 @@ enum class ImageFormat : int32_t {
 	RGBA1010102,
 	BGRA1010102,
 	R16F,
+	// endregion
 
+	// region Console Formats
+	CONSOLE_BGRX8888_LINEAR = 42,
+	CONSOLE_RGBA8888_LINEAR,
+	CONSOLE_ABGR8888_LINEAR,
+	CONSOLE_ARGB8888_LINEAR,
+	CONSOLE_BGRA8888_LINEAR,
+	CONSOLE_RGB888_LINEAR,
+	CONSOLE_BGR888_LINEAR,
+	CONSOLE_BGRX5551_LINEAR,
+	CONSOLE_I8_LINEAR,
+	CONSOLE_RGBA16161616_LINEAR,
+	CONSOLE_BGRX8888_LE,
+	CONSOLE_BGRA8888_LE,
+	// endregion
+
+	// region Strata Source Formats
 	R8 = 69,
 	BC7,
 	BC6H,
+	// endregion
 };
 
 namespace ImageFormatDetails {
@@ -64,22 +86,33 @@ namespace ImageFormatDetails {
 		case RG1616F:
 		case RGBA16161616F:
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 			return 16;
 		case RGBA1010102:
 		case BGRA1010102:
 			return 10;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case IA88:
 		case P8:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
@@ -89,6 +122,7 @@ namespace ImageFormatDetails {
 		case RGB565:
 		case BGR565:
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA5551:
 			return 5;
 		case BGRA4444:
@@ -139,19 +173,29 @@ namespace ImageFormatDetails {
 		case RG1616F:
 		case RGBA16161616F:
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 			return 16;
 		case RGBA1010102:
 		case BGRA1010102:
 			return 10;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UV88:
 		case UVWQ8888:
 		case UVLX8888:
@@ -161,11 +205,13 @@ namespace ImageFormatDetails {
 		case BGR565:
 			return 6;
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA5551:
 			return 5;
 		case BGRA4444:
 			return 4;
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case IA88:
 		case P8:
 		case R32F:
@@ -215,19 +261,29 @@ namespace ImageFormatDetails {
 			return 32;
 		case RGBA16161616F:
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 			return 16;
 		case RGBA1010102:
 		case BGRA1010102:
 			return 10;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UVWQ8888:
 		case UVLX8888:
 		case RGBX8888:
@@ -235,11 +291,13 @@ namespace ImageFormatDetails {
 		case RGB565:
 		case BGR565:
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA5551:
 			return 5;
 		case BGRA4444:
 			return 4;
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case IA88:
 		case P8:
 		case UV88:
@@ -291,13 +349,21 @@ namespace ImageFormatDetails {
 			return 32;
 		case RGBA16161616F:
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 			return 16;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case IA88:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UVWQ8888:
 		case UVLX8888:
 		case RGBX8888:
@@ -308,12 +374,16 @@ namespace ImageFormatDetails {
 		case BGRA1010102:
 			return 2;
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA5551:
 			return 1;
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case P8:
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 		case UV88:
@@ -372,13 +442,21 @@ namespace ImageFormatDetails {
 			return 96;
 		case RGBA16161616F:
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 		case RG3232F:
 			return 64;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UVLX8888:
 		case R32F:
 		case UVWQ8888:
@@ -388,7 +466,9 @@ namespace ImageFormatDetails {
 		case RG1616F:
 			return 32;
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 			return 24;
@@ -396,12 +476,14 @@ namespace ImageFormatDetails {
 		case BGR565:
 		case IA88:
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA4444:
 		case BGRA5551:
 		case UV88:
 		case R16F:
 			return 16;
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case P8:
 		case A8:
 		case DXT3:
@@ -434,26 +516,38 @@ namespace ImageFormatDetails {
 		case BC6H:
 			return RGBA32323232F;
 		case RGBA16161616:
+		case CONSOLE_RGBA16161616_LINEAR:
 		case RGBA1010102:
 		case BGRA1010102:
 			return RGBA16161616;
 		case RGBA8888:
+		case CONSOLE_RGBA8888_LINEAR:
 		case ABGR8888:
+		case CONSOLE_ABGR8888_LINEAR:
 		case RGB888:
+		case CONSOLE_RGB888_LINEAR:
 		case BGR888:
+		case CONSOLE_BGR888_LINEAR:
 		case RGB888_BLUESCREEN:
 		case BGR888_BLUESCREEN:
 		case ARGB8888:
+		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_BGRA8888_LE:
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case UVWQ8888:
 		case UVLX8888:
 		case RGB565:
 		case BGR565:
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case BGRA5551:
 		case BGRA4444:
 		case I8:
+		case CONSOLE_I8_LINEAR:
 		case IA88:
 		case P8:
 		case UV88:
@@ -510,7 +604,10 @@ namespace ImageFormatDetails {
 		case BGR888_BLUESCREEN:
 			return true;
 		case BGRX8888:
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_BGRX8888_LE:
 		case BGRX5551:
+		case CONSOLE_BGRX5551_LINEAR:
 		case UVLX8888:
 		case RGBX8888:
 			return false;
@@ -561,6 +658,28 @@ namespace ImageDimensions {
 		}
 	}
 	return maxMipCount;
+}
+
+[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height) {
+	if (width == 0 || height == 0) {
+		return 0;
+	}
+	uint8_t numMipLevels = 1;
+	while (true) {
+		if (width == 1 && height == 1) {
+			break;
+		}
+		width >>= 1;
+		if (width < 1) {
+			width = 1;
+		}
+		height >>= 1;
+		if (height < 1) {
+			height = 1;
+		}
+		numMipLevels += 1;
+	}
+	return numMipLevels;
 }
 
 } // namespace ImageDimensions

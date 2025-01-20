@@ -18,14 +18,19 @@ namespace ImagePixel {
 #define VTFPP_CHECK_SIZE(format) \
 	static_assert(sizeof(format) == ImageFormatDetails::bpp(ImageFormat::format) / 8)
 
+#define VTFPP_FORMAT_INHERITED(format, parent)              \
+	struct format : parent {                                \
+        static constexpr auto FORMAT = ImageFormat::format; \
+	};                                                      \
+	VTFPP_CHECK_SIZE(format)
+
 struct RGBA8888 {
 	static constexpr auto FORMAT = ImageFormat::RGBA8888;
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
 	uint8_t a;
-};
-VTFPP_CHECK_SIZE(RGBA8888);
+}; VTFPP_CHECK_SIZE(RGBA8888);
 
 struct ABGR8888 {
 	static constexpr auto FORMAT = ImageFormat::ABGR8888;
@@ -33,67 +38,53 @@ struct ABGR8888 {
 	uint8_t b;
 	uint8_t g;
 	uint8_t r;
-};
-VTFPP_CHECK_SIZE(ABGR8888);
+}; VTFPP_CHECK_SIZE(ABGR8888);
 
 struct RGB888 {
 	static constexpr auto FORMAT = ImageFormat::RGB888;
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
-};
-VTFPP_CHECK_SIZE(RGB888);
+}; VTFPP_CHECK_SIZE(RGB888);
 
-struct RGB888_BLUESCREEN : RGB888 {
-	static constexpr auto FORMAT = ImageFormat::RGB888_BLUESCREEN;
-};
-VTFPP_CHECK_SIZE(RGB888_BLUESCREEN);
+VTFPP_FORMAT_INHERITED(RGB888_BLUESCREEN, RGB888);
 
 struct BGR888 {
 	static constexpr auto FORMAT = ImageFormat::BGR888;
 	uint8_t b;
 	uint8_t g;
 	uint8_t r;
-};
-VTFPP_CHECK_SIZE(BGR888);
+}; VTFPP_CHECK_SIZE(BGR888);
 
-struct BGR888_BLUESCREEN : BGR888 {
-	static constexpr auto FORMAT = ImageFormat::BGR888_BLUESCREEN;
-};
-VTFPP_CHECK_SIZE(BGR888_BLUESCREEN);
+VTFPP_FORMAT_INHERITED(BGR888_BLUESCREEN, BGR888);
 
 struct RGB565 {
 	static constexpr auto FORMAT = ImageFormat::RGB565;
 	uint16_t r : 5;
 	uint16_t g : 6;
 	uint16_t b : 5;
-};
-VTFPP_CHECK_SIZE(RGB565);
+}; VTFPP_CHECK_SIZE(RGB565);
 
 struct I8 {
 	static constexpr auto FORMAT = ImageFormat::I8;
 	uint8_t i;
-};
-VTFPP_CHECK_SIZE(I8);
+}; VTFPP_CHECK_SIZE(I8);
 
 struct IA88 {
 	static constexpr auto FORMAT = ImageFormat::IA88;
 	uint8_t i;
 	uint8_t a;
-};
-VTFPP_CHECK_SIZE(IA88);
+}; VTFPP_CHECK_SIZE(IA88);
 
 struct P8 {
 	static constexpr auto FORMAT = ImageFormat::P8;
 	uint8_t p;
-};
-VTFPP_CHECK_SIZE(P8);
+}; VTFPP_CHECK_SIZE(P8);
 
 struct A8 {
 	static constexpr auto FORMAT = ImageFormat::A8;
 	uint8_t a;
-};
-VTFPP_CHECK_SIZE(A8);
+}; VTFPP_CHECK_SIZE(A8);
 
 struct ARGB8888 {
 	static constexpr auto FORMAT = ImageFormat::ARGB8888;
@@ -101,8 +92,7 @@ struct ARGB8888 {
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
-};
-VTFPP_CHECK_SIZE(ARGB8888);
+}; VTFPP_CHECK_SIZE(ARGB8888);
 
 struct BGRA8888 {
 	static constexpr auto FORMAT = ImageFormat::BGRA8888;
@@ -110,8 +100,7 @@ struct BGRA8888 {
 	uint8_t g;
 	uint8_t r;
 	uint8_t a;
-};
-VTFPP_CHECK_SIZE(BGRA8888);
+}; VTFPP_CHECK_SIZE(BGRA8888);
 
 struct BGRX8888 {
 	static constexpr auto FORMAT = ImageFormat::BGRX8888;
@@ -119,16 +108,14 @@ struct BGRX8888 {
 	uint8_t g;
 	uint8_t r;
 	uint8_t x;
-};
-VTFPP_CHECK_SIZE(BGRX8888);
+}; VTFPP_CHECK_SIZE(BGRX8888);
 
 struct BGR565 {
 	static constexpr auto FORMAT = ImageFormat::BGR565;
 	uint16_t b : 5;
 	uint16_t g : 6;
 	uint16_t r : 5;
-};
-VTFPP_CHECK_SIZE(BGR565);
+}; VTFPP_CHECK_SIZE(BGR565);
 
 struct BGRX5551 {
 	static constexpr auto FORMAT = ImageFormat::BGRX5551;
@@ -136,8 +123,7 @@ struct BGRX5551 {
 	uint16_t g : 5;
 	uint16_t r : 5;
 	uint16_t x : 1;
-};
-VTFPP_CHECK_SIZE(BGRX5551);
+}; VTFPP_CHECK_SIZE(BGRX5551);
 
 struct BGRA4444 {
 	static constexpr auto FORMAT = ImageFormat::BGRA4444;
@@ -145,8 +131,7 @@ struct BGRA4444 {
 	uint16_t g : 4;
 	uint16_t r : 4;
 	uint16_t a : 4;
-};
-VTFPP_CHECK_SIZE(BGRA4444);
+}; VTFPP_CHECK_SIZE(BGRA4444);
 
 struct BGRA5551 {
 	static constexpr auto FORMAT = ImageFormat::BGRA5551;
@@ -154,15 +139,13 @@ struct BGRA5551 {
 	uint16_t g : 5;
 	uint16_t r : 5;
 	uint16_t a : 1;
-};
-VTFPP_CHECK_SIZE(BGRA5551);
+}; VTFPP_CHECK_SIZE(BGRA5551);
 
 struct UV88 {
 	static constexpr auto FORMAT = ImageFormat::UV88;
 	uint8_t u;
 	uint8_t v;
-};
-VTFPP_CHECK_SIZE(UV88);
+}; VTFPP_CHECK_SIZE(UV88);
 
 struct UVWQ8888 {
 	static constexpr auto FORMAT = ImageFormat::UVWQ8888;
@@ -170,8 +153,7 @@ struct UVWQ8888 {
 	uint8_t v;
 	uint8_t w;
 	uint8_t q;
-};
-VTFPP_CHECK_SIZE(UVWQ8888);
+}; VTFPP_CHECK_SIZE(UVWQ8888);
 
 struct RGBA16161616F {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
@@ -179,8 +161,7 @@ struct RGBA16161616F {
 	half g;
 	half b;
 	half a;
-};
-VTFPP_CHECK_SIZE(RGBA16161616F);
+}; VTFPP_CHECK_SIZE(RGBA16161616F);
 
 struct RGBA16161616 {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616;
@@ -188,8 +169,7 @@ struct RGBA16161616 {
 	uint16_t g;
 	uint16_t b;
 	uint16_t a;
-};
-VTFPP_CHECK_SIZE(RGBA16161616);
+}; VTFPP_CHECK_SIZE(RGBA16161616);
 
 struct UVLX8888 {
 	static constexpr auto FORMAT = ImageFormat::UVLX8888;
@@ -197,22 +177,19 @@ struct UVLX8888 {
 	uint8_t v;
 	uint8_t l;
 	uint8_t x;
-};
-VTFPP_CHECK_SIZE(UVLX8888);
+}; VTFPP_CHECK_SIZE(UVLX8888);
 
 struct R32F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
 	float r;
-};
-VTFPP_CHECK_SIZE(R32F);
+}; VTFPP_CHECK_SIZE(R32F);
 
 struct RGB323232F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
 	float r;
 	float g;
 	float b;
-};
-VTFPP_CHECK_SIZE(RGB323232F);
+}; VTFPP_CHECK_SIZE(RGB323232F);
 
 struct RGBA32323232F {
 	static constexpr auto FORMAT = ImageFormat::RGBA32323232F;
@@ -220,22 +197,19 @@ struct RGBA32323232F {
 	float g;
 	float b;
 	float a;
-};
-VTFPP_CHECK_SIZE(RGBA32323232F);
+}; VTFPP_CHECK_SIZE(RGBA32323232F);
 
 struct RG1616F {
 	static constexpr auto FORMAT = ImageFormat::RG1616F;
 	half r;
 	half g;
-};
-VTFPP_CHECK_SIZE(RG1616F);
+}; VTFPP_CHECK_SIZE(RG1616F);
 
 struct RG3232F {
 	static constexpr auto FORMAT = ImageFormat::RG3232F;
 	float r;
 	float g;
-};
-VTFPP_CHECK_SIZE(RG3232F);
+}; VTFPP_CHECK_SIZE(RG3232F);
 
 struct RGBX8888 {
 	static constexpr auto FORMAT = ImageFormat::RGBX8888;
@@ -243,8 +217,7 @@ struct RGBX8888 {
 	uint8_t g;
 	uint8_t b;
 	uint8_t x;
-};
-VTFPP_CHECK_SIZE(RGBX8888);
+}; VTFPP_CHECK_SIZE(RGBX8888);
 
 struct RGBA1010102 {
 	static constexpr auto FORMAT = ImageFormat::RGBA1010102;
@@ -252,8 +225,7 @@ struct RGBA1010102 {
 	uint32_t g : 10;
 	uint32_t b : 10;
 	uint32_t a : 2;
-};
-VTFPP_CHECK_SIZE(RGBA1010102);
+}; VTFPP_CHECK_SIZE(RGBA1010102);
 
 struct BGRA1010102 {
 	static constexpr auto FORMAT = ImageFormat::BGRA1010102;
@@ -261,21 +233,43 @@ struct BGRA1010102 {
 	uint32_t g : 10;
 	uint32_t r : 10;
 	uint32_t a : 2;
-};
-VTFPP_CHECK_SIZE(BGRA1010102);
+}; VTFPP_CHECK_SIZE(BGRA1010102);
 
 struct R16F {
 	static constexpr auto FORMAT = ImageFormat::R16F;
 	half r;
-};
-VTFPP_CHECK_SIZE(R16F);
+}; VTFPP_CHECK_SIZE(R16F);
 
 struct R8 {
 	static constexpr auto FORMAT = ImageFormat::R8;
 	uint8_t r;
-};
-VTFPP_CHECK_SIZE(R8);
+}; VTFPP_CHECK_SIZE(R8);
 
+VTFPP_FORMAT_INHERITED(CONSOLE_BGRX8888_LINEAR, BGRX8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_RGBA8888_LINEAR, RGBA8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_ABGR8888_LINEAR, ABGR8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_ARGB8888_LINEAR, ARGB8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_BGRA8888_LINEAR, BGRA8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_RGB888_LINEAR, RGB888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_BGR888_LINEAR, BGR888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_BGRX5551_LINEAR, BGRX5551);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_I8_LINEAR, I8);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_RGBA16161616_LINEAR, RGBA16161616);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_BGRX8888_LE, BGRX8888);
+
+VTFPP_FORMAT_INHERITED(CONSOLE_BGRA8888_LE, BGRA8888);
+
+#undef VTFPP_FORMAT_INHERITED
 #undef VTFPP_CHECK_SIZE
 
 template<typename T>
@@ -312,6 +306,18 @@ concept PixelType =
 		std::same_as<T, RGBA1010102> ||
 		std::same_as<T, BGRA1010102> ||
 		std::same_as<T, R16F> ||
+		std::same_as<T, CONSOLE_BGRX8888_LINEAR> ||
+		std::same_as<T, CONSOLE_RGBA8888_LINEAR> ||
+		std::same_as<T, CONSOLE_ABGR8888_LINEAR> ||
+		std::same_as<T, CONSOLE_ARGB8888_LINEAR> ||
+		std::same_as<T, CONSOLE_BGRA8888_LINEAR> ||
+		std::same_as<T, CONSOLE_RGB888_LINEAR> ||
+		std::same_as<T, CONSOLE_BGR888_LINEAR> ||
+		std::same_as<T, CONSOLE_BGRX5551_LINEAR> ||
+		std::same_as<T, CONSOLE_I8_LINEAR> ||
+		std::same_as<T, CONSOLE_RGBA16161616_LINEAR> ||
+		std::same_as<T, CONSOLE_BGRX8888_LE> ||
+		std::same_as<T, CONSOLE_BGRA8888_LE> ||
 		std::same_as<T, R8>;
 
 } // namespace ImagePixel
