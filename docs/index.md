@@ -94,6 +94,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td rowspan="2"><code>toolpp</code></td>
     <td>
       <a href="https://developer.valvesoftware.com/wiki/FGD">FGD (Source 1)</a>
+      <br> &bull; <a href="https://jack.hlfx.ru/en">J.A.C.K.</a> modifications
       <br> &bull; <a href="https://ficool2.github.io/HammerPlusPlus-Website">Hammer++</a> modifications
       <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
     </td>
