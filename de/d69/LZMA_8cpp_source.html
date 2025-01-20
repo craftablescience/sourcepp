@@ -162,82 +162,89 @@ $(document).ready(function(){initNavTree('de/d69/LZMA_8cpp_source.html','../../'
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        compressedData.insert(compressedData.end(), compressedChunk.begin(), compressedChunk.begin() + compressedChunk.size() - <span class="keyword">static_cast&lt;</span>std::ptrdiff_t<span class="keyword">&gt;</span>(stream.avail_out));</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    } <span class="keywordflow">while</span> (ret == LZMA_OK);</div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> code = lzma_code(&amp;stream, LZMA_FINISH); code != LZMA_OK &amp;&amp; code != LZMA_STREAM_END) {</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    }</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>    {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        <span class="comment">// Switch out normal header with Valve one</span></div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        BufferStream compressedStream{compressedData};</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        compressedStream &lt;&lt; <a class="code hl_variable" href="../../d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600">VALVE_LZMA_SIGNATURE</a>;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keyword">const</span> <span class="keyword">auto</span> properties = compressedStream.read&lt;uint8_t&gt;();</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">const</span> <span class="keyword">auto</span> dictionarySize = compressedStream.read&lt;uint32_t&gt;();</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        compressedStream</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            .seek_u(<span class="keyword">sizeof</span>(uint32_t))</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            .write&lt;uint32_t&gt;(data.size())</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            .write(compressedData.size() - (<span class="keyword">sizeof</span>(uint32_t) * 3) + (<span class="keyword">sizeof</span>(uint8_t) * 5))</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            .write(properties)</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            .write(dictionarySize);</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    }</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keywordflow">return</span> compressedData;</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>}</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span> </div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">   59</a></span>std::optional&lt;std::vector&lt;std::byte&gt;&gt; <a class="code hl_function" href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">compression::decompressValveLZMA</a>(std::span&lt;const std::byte&gt; data) {</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>    <span class="keywordflow">if</span> (data.size() &lt; 18) {</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>        <span class="comment">// Valve LZMA header length + 1 null byte</span></div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span> </div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    std::vector&lt;std::byte&gt; compressedData{data.begin() + <span class="keyword">sizeof</span>(uint32_t), data.end()};</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    std::vector&lt;std::byte&gt; uncompressedData;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    {</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="comment">// Switch out Valve header with normal one</span></div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        BufferStreamReadOnly in{data.data(), data.size()};</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        <span class="keywordflow">if</span> (in.read&lt;uint32_t&gt;() != <a class="code hl_variable" href="../../d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600">VALVE_LZMA_SIGNATURE</a>) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keyword">const</span> uint64_t uncompressedLength = in.read&lt;uint32_t&gt;();</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        in.skip&lt;uint32_t&gt;(); <span class="comment">// compressed length is easily inferred</span></div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keyword">const</span> <span class="keyword">auto</span> properties = in.read&lt;uint8_t&gt;();</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keyword">const</span> <span class="keyword">auto</span> dictionarySize = in.read&lt;uint32_t&gt;();</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        BufferStream out{compressedData.data(), compressedData.size()};</div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        out</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>            .write(properties)</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            .write(dictionarySize)</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            .write(uncompressedLength);</div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span> </div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        uncompressedData.resize(uncompressedLength);</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>    }</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span> </div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>    lzma_stream stream{</div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>        .next_in = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>uint8_t*<span class="keyword">&gt;</span>(compressedData.data()),</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        .avail_in = compressedData.size(),</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        .next_out = <span class="keyword">reinterpret_cast&lt;</span>uint8_t*<span class="keyword">&gt;</span>(uncompressedData.data()),</div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        .avail_out = uncompressedData.size(),</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>    };</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span> </div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>    <span class="keywordflow">if</span> (lzma_alone_decoder(&amp;stream, UINT64_MAX) != LZMA_OK) {</div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    }</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> ret = lzma_code(&amp;stream, LZMA_RUN); ret != LZMA_OK &amp;&amp; ret != LZMA_STREAM_END) {</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>        lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>    }</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> ret = lzma_code(&amp;stream, LZMA_FINISH); ret != LZMA_OK &amp;&amp; ret != LZMA_STREAM_END) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">return</span> std::nullopt;</div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    }</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    lzma_end(&amp;stream);</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span> </div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    <span class="keywordflow">return</span> uncompressedData;</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>}</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    ret = lzma_code(&amp;stream, LZMA_FINISH);</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">if</span> (ret != LZMA_OK &amp;&amp; ret != LZMA_STREAM_END) {</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <span class="comment">// Switch out normal header with Valve one</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        BufferStream compressedStream{compressedData};</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        compressedStream &lt;&lt; <a class="code hl_variable" href="../../d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600">VALVE_LZMA_SIGNATURE</a>;</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keyword">const</span> <span class="keyword">auto</span> properties = compressedStream.read&lt;uint8_t&gt;();</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keyword">const</span> <span class="keyword">auto</span> dictionarySize = compressedStream.read&lt;uint32_t&gt;();</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>        compressedStream</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            .seek_u(<span class="keyword">sizeof</span>(uint32_t))</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            .write&lt;uint32_t&gt;(data.size())</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            .write(compressedData.size() - (<span class="keyword">sizeof</span>(uint32_t) * 3) + (<span class="keyword">sizeof</span>(uint8_t) * 5))</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>            .write(properties)</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>            .write(dictionarySize);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    }</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> compressedData;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">   60</a></span>std::optional&lt;std::vector&lt;std::byte&gt;&gt; <a class="code hl_function" href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">compression::decompressValveLZMA</a>(std::span&lt;const std::byte&gt; data) {</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (data.size() &lt; 18) {</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        <span class="comment">// Valve LZMA header length + 1 null byte</span></div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>    }</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span> </div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    std::vector&lt;std::byte&gt; compressedData{data.begin() + <span class="keyword">sizeof</span>(uint32_t), data.end()};</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    std::vector&lt;std::byte&gt; uncompressedData;</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    {</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>        <span class="comment">// Switch out Valve header with normal one</span></div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>        BufferStreamReadOnly in{data.data(), data.size()};</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>        <span class="keywordflow">if</span> (in.read&lt;uint32_t&gt;() != <a class="code hl_variable" href="../../d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600">VALVE_LZMA_SIGNATURE</a>) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>            <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        }</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        <span class="keyword">const</span> uint64_t uncompressedLength = in.read&lt;uint32_t&gt;();</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        in.skip&lt;uint32_t&gt;(); <span class="comment">// compressed length is easily inferred</span></div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>        <span class="keyword">const</span> <span class="keyword">auto</span> properties = in.read&lt;uint8_t&gt;();</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>        <span class="keyword">const</span> <span class="keyword">auto</span> dictionarySize = in.read&lt;uint32_t&gt;();</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        BufferStream out{compressedData.data(), compressedData.size()};</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        out</div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>            .write(properties)</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            .write(dictionarySize)</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            .write(uncompressedLength);</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        uncompressedData.resize(uncompressedLength);</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    lzma_stream stream{</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>        .next_in = <span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>uint8_t*<span class="keyword">&gt;</span>(compressedData.data()),</div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>        .avail_in = compressedData.size(),</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        .next_out = <span class="keyword">reinterpret_cast&lt;</span>uint8_t*<span class="keyword">&gt;</span>(uncompressedData.data()),</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        .avail_out = uncompressedData.size(),</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    };</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">if</span> (lzma_alone_decoder(&amp;stream, UINT64_MAX) != LZMA_OK) {</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>    }</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>    <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>        <span class="keyword">const</span> <span class="keyword">auto</span> ret = lzma_code(&amp;stream, LZMA_RUN);</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        <span class="keywordflow">if</span> (ret == LZMA_STREAM_END || stream.avail_out == 0) {</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            <span class="keywordflow">break</span>;</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>        }</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">if</span> (ret != LZMA_OK) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>            <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        }</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> ret = lzma_code(&amp;stream, LZMA_FINISH); ret != LZMA_OK &amp;&amp; ret != LZMA_STREAM_END) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>        lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    lzma_end(&amp;stream);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordflow">return</span> uncompressedData;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
 <div class="ttc" id="aLZMA_8h_html"><div class="ttname"><a href="../../d9/d25/LZMA_8h.html">LZMA.h</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1compression_html_a109d3a599428dd45c73232f076d0c7f9"><div class="ttname"><a href="../../d2/d50/namespacesourcepp_1_1compression.html#a109d3a599428dd45c73232f076d0c7f9">sourcepp::compression::compressValveLZMA</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; compressValveLZMA(std::span&lt; const std::byte &gt; data, uint8_t compressLevel=6)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d69/LZMA_8cpp_source.html#l00008">LZMA.cpp:8</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1compression_html_a243ca9a85ac91639079447e730761600"><div class="ttname"><a href="../../d2/d50/namespacesourcepp_1_1compression.html#a243ca9a85ac91639079447e730761600">sourcepp::compression::VALVE_LZMA_SIGNATURE</a></div><div class="ttdeci">constexpr auto VALVE_LZMA_SIGNATURE</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d25/LZMA_8h_source.html#l00013">LZMA.h:13</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1compression_html_acbd3e3f47a01b6d6b3d1189d771b34d2"><div class="ttname"><a href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">sourcepp::compression::decompressValveLZMA</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; decompressValveLZMA(std::span&lt; const std::byte &gt; data)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d69/LZMA_8cpp_source.html#l00059">LZMA.cpp:59</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1compression_html_acbd3e3f47a01b6d6b3d1189d771b34d2"><div class="ttname"><a href="../../d2/d50/namespacesourcepp_1_1compression.html#acbd3e3f47a01b6d6b3d1189d771b34d2">sourcepp::compression::decompressValveLZMA</a></div><div class="ttdeci">std::optional&lt; std::vector&lt; std::byte &gt; &gt; decompressValveLZMA(std::span&lt; const std::byte &gt; data)</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d69/LZMA_8cpp_source.html#l00060">LZMA.cpp:60</a></div></div>
 <div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d25/LZMA_8h_source.html#l00011">LZMA.h:11</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
