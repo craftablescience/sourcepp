@@ -128,7 +128,6 @@ $(document).ready(function(){initNavTree('d5/dba/classbsppp_1_1BSP.html','../../
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
-<a href="#pro-static-methods">Static Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="../../d2/dd6/classbsppp_1_1BSP-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">bsppp::BSP Class Reference</div></div>
@@ -241,13 +240,6 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a2afa4d4ca3e8d565832d485ec01e2882"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d6/d07/structbsppp_1_1BSPGameLump.html">BSPGameLump</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a2afa4d4ca3e8d565832d485ec01e2882">parseGameLumps</a> (bool decompress) const</td></tr>
 <tr class="separator:a2afa4d4ca3e8d565832d485ec01e2882"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-static-methods" name="pro-static-methods"></a>
-Static Protected Member Functions</h2></td></tr>
-<tr class="memitem:a72b5326b5fd8f9e10613bf36c4cdede3"><td class="memItemLeft" align="right" valign="top">static std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a72b5326b5fd8f9e10613bf36c4cdede3">compressLumpData</a> (const std::span&lt; const std::byte &gt; data, uint8_t compressLevel=6)</td></tr>
-<tr class="separator:a72b5326b5fd8f9e10613bf36c4cdede3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa075c3873bfe39060930c5a2be82ca00"><td class="memItemLeft" align="right" valign="top">static std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#aa075c3873bfe39060930c5a2be82ca00">decompressLumpData</a> (const std::span&lt; const std::byte &gt; data)</td></tr>
-<tr class="separator:aa075c3873bfe39060930c5a2be82ca00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
 <tr class="memitem:ae3ad139a57f8565ec75e962745324440"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#ae3ad139a57f8565ec75e962745324440">path</a></td></tr>
@@ -267,7 +259,7 @@ Protected Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00124">124</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00123">123</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a79565eac09e3a56bf2417e35905dc753" name="a79565eac09e3a56bf2417e35905dc753"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a79565eac09e3a56bf2417e35905dc753">&#9670;&#160;</a></span>BSP()</h2>
@@ -303,7 +295,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00044">44</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00043">43</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -324,45 +316,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00348">348</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
-
-</div>
-</div>
-<a id="a72b5326b5fd8f9e10613bf36c4cdede3" name="a72b5326b5fd8f9e10613bf36c4cdede3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a72b5326b5fd8f9e10613bf36c4cdede3">&#9670;&#160;</a></span>compressLumpData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt; std::vector&lt; std::byte &gt; &gt; BSP::compressLumpData </td>
-          <td>(</td>
-          <td class="paramtype">const std::span&lt; const std::byte &gt;&#160;</td>
-          <td class="paramname"><em>data</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>compressLevel</em> = <code>6</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00740">740</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00347">347</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -406,7 +360,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00073">73</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00072">72</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -426,35 +380,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00288">288</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
-
-</div>
-</div>
-<a id="aa075c3873bfe39060930c5a2be82ca00" name="aa075c3873bfe39060930c5a2be82ca00"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa075c3873bfe39060930c5a2be82ca00">&#9670;&#160;</a></span>decompressLumpData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::optional&lt; std::vector&lt; std::byte &gt; &gt; BSP::decompressLumpData </td>
-          <td>(</td>
-          <td class="paramtype">const std::span&lt; const std::byte &gt;&#160;</td>
-          <td class="paramname"><em>data</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00789">789</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00287">287</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -474,7 +400,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00225">225</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00224">224</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -494,7 +420,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00216">216</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00215">215</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -523,7 +449,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00169">169</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00168">168</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -553,7 +479,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00137">137</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -573,7 +499,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00126">126</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00125">125</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -592,7 +518,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00100">100</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00099">99</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -611,7 +537,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00092">92</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00091">91</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -631,7 +557,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00107">107</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -651,7 +577,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00207">207</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00206">206</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -671,7 +597,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00116">116</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -698,7 +624,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00069">69</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00068">68</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -725,7 +651,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00674">674</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00673">673</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -752,7 +678,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00660">660</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00659">659</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -779,7 +705,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00557">557</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00556">556</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -806,7 +732,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00650">650</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00649">649</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -834,7 +760,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00689">689</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00688">688</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -861,7 +787,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00636">636</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00635">635</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -888,7 +814,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00678">678</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00677">677</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -915,7 +841,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00624">624</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00623">623</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -942,7 +868,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00670">670</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00669">669</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -969,7 +895,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00628">628</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00627">627</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -996,7 +922,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00646">646</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00645">645</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1023,7 +949,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00632">632</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00631">631</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1050,7 +976,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00508">508</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00507">507</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1071,7 +997,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 
 <p>Resets ALL in-memory modifications (version, all lumps including game lumps, map revision) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00278">278</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00277">277</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1093,7 +1019,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 
 <p>Reset changes made to a lump before they're written to disk. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00260">260</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00259">259</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1135,7 +1061,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00237">237</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00236">236</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1180,7 +1106,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 <p><a class="el" href="../../d5/dba/classbsppp_1_1BSP.html#a55e277e01f109ee9f5626e8e86b5faa6">BSP::setGameLump</a> should be used for writing game lumps as they need special handling. </p>
 <p>Paklump can be written here but compression is unsupported, prefer using <a class="el" href="../../d4/daf/classbsppp_1_1PakLump.html" title="Utility class for vpkpp integration - you need to include this header in a C++ file somewhere in your...">bsppp::PakLump</a> or your favorite zip library instead. Valid compressLevel range is 0 to 9, 0 is considered off, 9 the slowest and most compressiest </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00160">160</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00159">159</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1216,7 +1142,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00191">191</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00190">190</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1236,7 +1162,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00326">326</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00325">325</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1256,7 +1182,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00104">104</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00103">103</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1276,7 +1202,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/BSP_8cpp_source.html#l00095">95</a> of file <a class="el" href="../../d7/db3/BSP_8cpp_source.html">BSP.cpp</a>.</p>
 
 </div>
 </div>
@@ -1301,7 +1227,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00258">258</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00253">253</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1325,7 +1251,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00266">266</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00261">261</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1349,7 +1275,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00257">257</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00252">252</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1373,7 +1299,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00262">262</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00257">257</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1397,7 +1323,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00261">261</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00256">256</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1421,7 +1347,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00263">263</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00258">258</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>
@@ -1445,7 +1371,7 @@ template&lt;<a class="el" href="../../dd/d11/namespacebsppp.html#a9cb52214dd2396
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00260">260</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d2/dd1/BSP_8h_source.html#l00255">255</a> of file <a class="el" href="../../d2/dd1/BSP_8h_source.html">BSP.h</a>.</p>
 
 </div>
 </div>

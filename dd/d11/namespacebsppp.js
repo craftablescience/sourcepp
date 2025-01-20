@@ -113,6 +113,5 @@ var namespacebsppp =
     [ "BSP_EXTENSION", "dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412", null ],
     [ "BSP_LUMP_COUNT", "dd/d11/namespacebsppp.html#a9bc64d24afcbeda0818b5d86a4ae1163", null ],
     [ "BSP_LUMP_ORDER", "dd/d11/namespacebsppp.html#a3f98c313e147fe64c58acfa79fec4956", null ],
-    [ "BSP_SIGNATURE", "dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630", null ],
-    [ "LZMA_VALVE_SIGNATURE", "dd/d11/namespacebsppp.html#afe0d0c44fc4e9356ec9b8b989f321b56", null ]
+    [ "BSP_SIGNATURE", "dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630", null ]
 ];
