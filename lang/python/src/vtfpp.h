@@ -367,6 +367,13 @@ void register_python(py::module_& m) {
 		.value("SPECVAR_ALPHA",                           VTF::FLAG_SPECVAR_ALPHA)
 		.export_values();
 
+	py::enum_<VTF::Platform>(cVTF, "Platform")
+		.value("UNKNOWN", VTF::PLATFORM_UNKNOWN)
+		.value("PC",      VTF::PLATFORM_PC)
+		.value("PS3",     VTF::PLATFORM_PS3)
+		.value("X360",    VTF::PLATFORM_X360)
+		.export_values();
+
 	py::class_<VTF::CreationOptions>(cVTF, "CreationOptions")
 		.def(py::init<>())
 		.def_rw("major_version",        &VTF::CreationOptions::majorVersion)
@@ -392,7 +399,6 @@ void register_python(py::module_& m) {
 		.def_ro_static("FLAG_MASK_GENERATED", &VTF::FLAG_MASK_GENERATED)
 		.def_ro_static("FORMAT_UNCHANGED",    &VTF::FORMAT_UNCHANGED)
 		.def_ro_static("FORMAT_DEFAULT",      &VTF::FORMAT_DEFAULT)
-		.def_ro_static("MAX_RESOURCES",       &VTF::MAX_RESOURCES)
 		.def(py::init<>())
 		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false) {
 			return new(self) VTF{std::span{reinterpret_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
@@ -409,6 +415,7 @@ void register_python(py::module_& m) {
 		.def_static("create_blank", py::overload_cast<ImageFormat, uint16_t, uint16_t, VTF::CreationOptions>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_from_file", py::overload_cast<const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("creation_options") = VTF::CreationOptions{})
+		.def_prop_rw("platform", &VTF::getPlatform, &VTF::setPlatform)
 		.def_prop_rw("version_major", &VTF::getMajorVersion, &VTF::setMajorVersion)
 		.def_prop_rw("version_minor", &VTF::getMinorVersion, &VTF::setMinorVersion)
 		.def_prop_rw("image_width_resize_method", &VTF::getImageWidthResizeMethod, &VTF::setImageWidthResizeMethod)
