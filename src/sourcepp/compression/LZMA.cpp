@@ -2,15 +2,8 @@
 
 #include <BufferStream.h>
 #include <lzma.h>
-#include <sourcepp/parser/Binary.h>
 
 using namespace sourcepp;
-
-namespace {
-
-constexpr auto LZMA_VALVE_SIGNATURE = parser::binary::makeFourCC("LZMA");
-
-} // namespace
 
 std::optional<std::vector<std::byte>> compression::compressValveLZMA(std::span<const std::byte> data, uint8_t compressLevel) {
 	// Preallocate extra 4 bytes for Valve LZMA header signature
@@ -50,7 +43,7 @@ std::optional<std::vector<std::byte>> compression::compressValveLZMA(std::span<c
 	{
 		// Switch out normal header with Valve one
 		BufferStream compressedStream{compressedData};
-		compressedStream << LZMA_VALVE_SIGNATURE;
+		compressedStream << VALVE_LZMA_SIGNATURE;
 		const auto properties = compressedStream.read<std::array<uint8_t, 5>>();
 		compressedStream
 			.seek_u(sizeof(uint32_t))
@@ -67,7 +60,7 @@ std::optional<std::vector<std::byte>> compression::decompressValveLZMA(std::span
 	{
 		// Switch out Valve header with normal one
 		BufferStreamReadOnly in{data.data(), data.size()};
-		if (in.read<uint32_t>() != LZMA_VALVE_SIGNATURE) {
+		if (in.read<uint32_t>() != VALVE_LZMA_SIGNATURE) {
 			return std::nullopt;
 		}
 		const auto uncompressedLength = in.read<uint32_t>();
