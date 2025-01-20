@@ -34,7 +34,8 @@ std::optional<std::vector<std::byte>> compression::compressValveLZMA(std::span<c
 		compressedData.insert(compressedData.end(), compressedChunk.begin(), compressedChunk.begin() + compressedChunk.size() - static_cast<std::ptrdiff_t>(stream.avail_out));
 	} while (ret == LZMA_OK);
 
-	if (auto code = lzma_code(&stream, LZMA_FINISH); code != LZMA_OK && code != LZMA_STREAM_END) {
+	ret = lzma_code(&stream, LZMA_FINISH);
+	if (ret != LZMA_OK && ret != LZMA_STREAM_END) {
 		lzma_end(&stream);
 		return std::nullopt;
 	}
@@ -94,11 +95,17 @@ std::optional<std::vector<std::byte>> compression::decompressValveLZMA(std::span
 		lzma_end(&stream);
 		return std::nullopt;
 	}
-	if (auto ret = lzma_code(&stream, LZMA_RUN); ret != LZMA_OK && ret != LZMA_STREAM_END) {
-		lzma_end(&stream);
-		return std::nullopt;
+	while (true) {
+		const auto ret = lzma_code(&stream, LZMA_RUN);
+		if (ret == LZMA_STREAM_END || stream.avail_out == 0) {
+			break;
+		}
+		if (ret != LZMA_OK) {
+			lzma_end(&stream);
+			return std::nullopt;
+		}
 	}
-	if (auto ret = lzma_code(&stream, LZMA_FINISH); ret != LZMA_OK && ret != LZMA_STREAM_END) {
+	if (const auto ret = lzma_code(&stream, LZMA_FINISH); ret != LZMA_OK && ret != LZMA_STREAM_END) {
 		lzma_end(&stream);
 		return std::nullopt;
 	}
