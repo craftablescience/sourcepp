@@ -5,6 +5,8 @@
 #include <span>
 #include <vector>
 
+#include <sourcepp/Math.h>
+
 namespace sourcepp::compression {
 
 [[nodiscard]] std::optional<std::vector<std::byte>> compressValveLZMA(std::span<const std::byte> data, uint8_t compressLevel = 6);
