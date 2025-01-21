@@ -182,9 +182,9 @@ public:
 		bool isCubeMap = false;
 		bool hasSphereMap = false;
 		uint16_t initialSliceCount = 1;
-		bool createMips = true;
-		bool createThumbnail = true;
-		bool createReflectivity = true;
+		bool computeMips = true;
+		bool computeThumbnail = true;
+		bool computeReflectivity = true;
 		Platform platform = PLATFORM_PC;
 		int16_t compressionLevel = -1;
 		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
