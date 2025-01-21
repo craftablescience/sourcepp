@@ -522,10 +522,7 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setStartFrame(options.startFrame);
 	writer.setBumpMapScale(options.bumpMapScale);
-	if (options.createReflectivity) {
-		writer.computeReflectivity();
-	}
-	if (options.createThumbnail) {
+	if (options.computeThumbnail) {
 		writer.computeThumbnail();
 	}
 	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
@@ -533,9 +530,12 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
 		options.outputFormat = writer.getDefaultFormat();
 	}
-	if (options.createMips) {
+	if (options.computeMips) {
 		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
 		writer.computeMips();
+	}
+	if (options.computeReflectivity) {
+		writer.computeReflectivity();
 	}
 	writer.setFormat(options.outputFormat);
 	writer.setCompressionLevel(options.compressionLevel);

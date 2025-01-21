@@ -388,9 +388,9 @@ void register_python(py::module_& m) {
 		.def_rw("is_cubemap",           &VTF::CreationOptions::isCubeMap)
 		.def_rw("has_spheremap",        &VTF::CreationOptions::hasSphereMap)
 		.def_rw("initial_slice_count",  &VTF::CreationOptions::initialSliceCount)
-		.def_rw("create_mips",          &VTF::CreationOptions::createMips)
-		.def_rw("create_thumbnail",     &VTF::CreationOptions::createThumbnail)
-		.def_rw("create_reflectivity",  &VTF::CreationOptions::createReflectivity)
+		.def_rw("compute_mips",         &VTF::CreationOptions::computeMips)
+		.def_rw("compute_thumbnail",    &VTF::CreationOptions::computeThumbnail)
+		.def_rw("compute_reflectivity", &VTF::CreationOptions::computeReflectivity)
 		.def_rw("compression_level",    &VTF::CreationOptions::compressionLevel)
 		.def_rw("compression_method",   &VTF::CreationOptions::compressionMethod)
 		.def_rw("bumpmap_scale",        &VTF::CreationOptions::bumpMapScale);
