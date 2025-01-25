@@ -220,9 +220,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	const auto headerSize = stream.read<uint32_t>();
 
 	const auto readResources = [this, &stream](uint32_t resourceCount) {
+		// Read resource header info
 		this->resources.reserve(resourceCount);
-
-		Resource* lastResource = nullptr;
 		for (int i = 0; i < resourceCount; i++) {
 			auto& [type, flags_, data_] = this->resources.emplace_back();
 
@@ -235,31 +234,44 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			flags_ = static_cast<Resource::Flags>(typeAndFlags >> 24); // first byte
 			data_ = stream.read_span<std::byte>(4);
 
-			if (!(flags_ & Resource::FLAG_LOCAL_DATA)) {
+			if (stream.is_big_endian() && !(flags_ & Resource::FLAG_LOCAL_DATA)) {
+				BufferStream::swap_endian(reinterpret_cast<uint32_t*>(data_.data()));
+			}
+		}
+
+		// Sort resources by their offset, in case certain VTFs are written
+		// weirdly and have resource data written out of order. So far I have
+		// found only one VTF in an official Valve game where this is the case
+		std::sort(this->resources.begin(), this->resources.end(), [](const Resource& lhs, const Resource& rhs) {
+			if ((lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
+				return lhs.type < rhs.type;
+			}
+			if ((lhs.flags & Resource::FLAG_LOCAL_DATA) && !(rhs.flags & Resource::FLAG_LOCAL_DATA)) {
+				return true;
+			}
+			if (!(lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
+				return false;
+			}
+			return *reinterpret_cast<uint32_t*>(lhs.data.data()) < *reinterpret_cast<uint32_t*>(rhs.data.data());
+		});
+
+		// Fix up data spans to point to the actual data
+		Resource* lastResource = nullptr;
+		for (auto& resource : this->resources) {
+			if (!(resource.flags & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
 					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(data_.data());
-					if (stream.is_big_endian()) {
-						// Data is still big-endian
-						BufferStream::swap_endian(&lastOffset);
-						BufferStream::swap_endian(&currentOffset);
-					}
-
+					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
 					auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(static_cast<int64_t>(curPos));
 				}
-				lastResource = &this->resources.back();
+				lastResource = &resource;
 			}
 		}
 		if (lastResource) {
 			auto offset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-			if (stream.is_big_endian()) {
-				// Data is still big-endian
-				BufferStream::swap_endian(&offset);
-			}
-
 			auto curPos = stream.tell();
 			stream.seek(offset);
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
