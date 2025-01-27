@@ -207,11 +207,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="14"><code>vtfpp</code></td>
+    <td rowspan="15"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="14" align="center">Python</td>
+    <td rowspan="15" align="center">Python</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
@@ -277,6 +277,13 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>
       <a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6
       <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> (X360, PS3)
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>

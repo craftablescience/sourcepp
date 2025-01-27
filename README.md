@@ -237,11 +237,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="27"><code>vtfpp</code></td>
+    <td rowspan="29"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="27" align="center">Python</td>
+    <td rowspan="29" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -320,6 +320,14 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>
       <a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6
       <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> (X360, PS3)
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
