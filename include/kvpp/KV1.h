@@ -276,6 +276,22 @@ public:
 		return this->addChild(childKey);
 	}
 
+	/// Remove a child element from the element. -1 means all children with the given key
+	void removeChild(std::string_view childKey, int n = -1) {
+		unsigned int count = 0;
+		for (auto element = this->children.begin(); element != this->children.end(); ++element) {
+			if (sourcepp::string::iequals(element->getKey(), childKey)) {
+				if (n < 0 || count == n) {
+					element = this->children.erase(element);
+					if (count == n) {
+						return;
+					}
+				}
+				++count;
+			}
+		}
+	}
+
 protected:
 	KV1ElementWritable() = default;
 
