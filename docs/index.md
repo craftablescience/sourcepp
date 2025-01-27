@@ -23,7 +23,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td rowspan="1"><code>bsppp</code><sup>*</sup></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27
+      <br> &bull; Console modifications
+      <br> &bull; Left 4 Dead 2 modifications
+      <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
+    </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center">Python</td>
