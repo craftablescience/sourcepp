@@ -298,6 +298,9 @@ std::string Steam::getAppIconPath(AppID appID) const {
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
 		// Currently the icon is the only file with a SHA-1 hash for a name. If this changes then we're fucked (need to make a binary KV1 parser)
 		for (const auto& image : std::filesystem::directory_iterator{std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID), std::filesystem::directory_options::skip_permission_denied, ec}) {
+			if (!image.is_regular_file()) {
+				continue;
+			}
 			// SHA-1 = 160 bits -> 20 bytes -> 40 hex chars
 			if (image.path().stem().string().size() == 40) {
 				return image.path().string();
