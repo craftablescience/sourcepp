@@ -85,6 +85,7 @@ var BSP_8h =
       [ "UNUSED8", "d2/dd1/BSP_8h.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2", null ],
       [ "COUNT", "d2/dd1/BSP_8h.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d", null ]
     ] ],
+    [ "BSP_CONSOLE_SIGNATURE", "d2/dd1/BSP_8h.html#add6a7e56be4bc155590087db9309e695", null ],
     [ "BSP_LUMP_COUNT", "d2/dd1/BSP_8h.html#a9bc64d24afcbeda0818b5d86a4ae1163", null ],
     [ "BSP_LUMP_ORDER", "d2/dd1/BSP_8h.html#a3f98c313e147fe64c58acfa79fec4956", null ],
     [ "BSP_SIGNATURE", "d2/dd1/BSP_8h.html#a855bc3f5e5b7416f9010213e0ffa0630", null ]

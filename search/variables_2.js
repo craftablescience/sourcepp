@@ -8,7 +8,7 @@ var searchData=
   ['bboxmin_5',['bboxMin',['../d9/dd3/structmdlpp_1_1BBox.html#a279f55a56cf4b1ee80748df63f1025b7',1,'mdlpp::BBox']]],
   ['binary_6',['BINARY',['../d7/da0/namespacedmxpp_1_1Format.html#a504da6325d7224d7cbd87c8526366b6a',1,'dmxpp::Format']]],
   ['binplatform_7',['binPlatform',['../d8/d61/structfspp_1_1FileSystemOptions.html#ac49781bb30681fcbb6dda4de3ff55e7b',1,'fspp::FileSystemOptions']]],
-  ['blockcount_8',['blockcount',['../d3/d08/structvpkpp_1_1GCF_1_1Header.html#adf7c4c73da43f07330e212d5059d11dd',1,'vpkpp::GCF::Header::blockcount()'],['../db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#a03566f603e34af0243b2ec3e9a1a6807',1,'vpkpp::GCF::DataBlockHeader::blockcount()']]],
+  ['blockcount_8',['blockcount',['../db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#a03566f603e34af0243b2ec3e9a1a6807',1,'vpkpp::GCF::DataBlockHeader::blockcount()'],['../d3/d08/structvpkpp_1_1GCF_1_1Header.html#adf7c4c73da43f07330e212d5059d11dd',1,'vpkpp::GCF::Header::blockcount()']]],
   ['blockdata_9',['blockdata',['../d1/d01/classvpkpp_1_1GCF.html#a1f47149dd580456360fea9c8dd9e0225',1,'vpkpp::GCF']]],
   ['blockheader_10',['blockheader',['../d1/d01/classvpkpp_1_1GCF.html#a276aea73df032dc36b464582c39defc8',1,'vpkpp::GCF']]],
   ['blocksize_11',['blocksize',['../d3/d08/structvpkpp_1_1GCF_1_1Header.html#aa2a0eea2ba6c3891f7c3df035738cc5a',1,'vpkpp::GCF::Header::blocksize()'],['../db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#a46e551634b5ae411c15d60ca845820b6',1,'vpkpp::GCF::DataBlockHeader::blocksize()']]],
@@ -23,9 +23,10 @@ var searchData=
   ['boneweight_20',['boneWeight',['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#af02bab875f7c763ba7f0beb2fd61ef07',1,'mdlpp::VVD::Vertex']]],
   ['boundingradius_21',['boundingRadius',['../d5/da2/structmdlpp_1_1MDL_1_1Model.html#a294bc6cc30c945fac555c346dc276dde',1,'mdlpp::MDL::Model']]],
   ['bounds_22',['bounds',['../d0/d5e/structvtfpp_1_1SHT_1_1Sequence_1_1Frame.html#ad98314d296451d11f1cbee45462fc66f',1,'vtfpp::SHT::Sequence::Frame']]],
-  ['bsp_5fextension_23',['BSP_EXTENSION',['../dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412',1,'bsppp']]],
-  ['bsp_5flump_5fcount_24',['BSP_LUMP_COUNT',['../dd/d11/namespacebsppp.html#a9bc64d24afcbeda0818b5d86a4ae1163',1,'bsppp']]],
-  ['bsp_5flump_5forder_25',['BSP_LUMP_ORDER',['../dd/d11/namespacebsppp.html#a3f98c313e147fe64c58acfa79fec4956',1,'bsppp']]],
-  ['bsp_5fsignature_26',['BSP_SIGNATURE',['../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630',1,'bsppp']]],
-  ['bumpmapscale_27',['bumpMapScale',['../d8/df2/classvtfpp_1_1VTF.html#afaab7d2619345d8ea0e0ada37746fd88',1,'vtfpp::VTF::bumpMapScale()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adf53fea7afbef857a7008777eb21f816',1,'vtfpp::VTF::CreationOptions::bumpMapScale()']]]
+  ['bsp_5fconsole_5fsignature_23',['BSP_CONSOLE_SIGNATURE',['../dd/d11/namespacebsppp.html#add6a7e56be4bc155590087db9309e695',1,'bsppp']]],
+  ['bsp_5fextension_24',['BSP_EXTENSION',['../dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412',1,'bsppp']]],
+  ['bsp_5flump_5fcount_25',['BSP_LUMP_COUNT',['../dd/d11/namespacebsppp.html#a9bc64d24afcbeda0818b5d86a4ae1163',1,'bsppp']]],
+  ['bsp_5flump_5forder_26',['BSP_LUMP_ORDER',['../dd/d11/namespacebsppp.html#a3f98c313e147fe64c58acfa79fec4956',1,'bsppp']]],
+  ['bsp_5fsignature_27',['BSP_SIGNATURE',['../dd/d11/namespacebsppp.html#a855bc3f5e5b7416f9010213e0ffa0630',1,'bsppp']]],
+  ['bumpmapscale_28',['bumpMapScale',['../d8/df2/classvtfpp_1_1VTF.html#afaab7d2619345d8ea0e0ada37746fd88',1,'vtfpp::VTF::bumpMapScale()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adf53fea7afbef857a7008777eb21f816',1,'vtfpp::VTF::CreationOptions::bumpMapScale()']]]
 ];

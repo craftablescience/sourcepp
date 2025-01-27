@@ -110,6 +110,7 @@ var namespacebsppp =
       [ "UNUSED8", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ac1484a1c0b2d10e74e8b2f3029e3a6b2", null ],
       [ "COUNT", "dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d", null ]
     ] ],
+    [ "BSP_CONSOLE_SIGNATURE", "dd/d11/namespacebsppp.html#add6a7e56be4bc155590087db9309e695", null ],
     [ "BSP_EXTENSION", "dd/d11/namespacebsppp.html#abdcd63d573ade86572992d52c6f26412", null ],
     [ "BSP_LUMP_COUNT", "dd/d11/namespacebsppp.html#a9bc64d24afcbeda0818b5d86a4ae1163", null ],
     [ "BSP_LUMP_ORDER", "dd/d11/namespacebsppp.html#a3f98c313e147fe64c58acfa79fec4956", null ],

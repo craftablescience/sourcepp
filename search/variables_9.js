@@ -19,8 +19,7 @@ var searchData=
   ['iscompressed_16',['isCompressed',['../d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71',1,'bsppp::BSPGameLump']]],
   ['iscubemap_17',['isCubeMap',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c',1,'vtfpp::VTF::CreationOptions']]],
   ['ishrot_5f_18',['isHROT_',['../d9/daf/classvpkpp_1_1PAK.html#ab7c09816b3154c03e886701622575c1f',1,'vpkpp::PAK']]],
-  ['isl4d2_19',['isL4D2',['../d5/dba/classbsppp_1_1BSP.html#a36ac4412515d1b23483e6d96f82dc3af',1,'bsppp::BSP']]],
-  ['item_5fcount_20',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
-  ['itemcount_21',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
-  ['itemsize_22',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]]
+  ['item_5fcount_19',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
+  ['itemcount_20',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
+  ['itemsize_21',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]]
 ];
