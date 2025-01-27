@@ -9,7 +9,7 @@ var Math_8h =
     [ "SOURCEPP_VEC_DEFINE", "db/d8a/Math_8h.html#a4f103cf2c28f912d70915570c4e7f4b4", null ],
     [ "EulerAngles", "db/d8a/Math_8h.html#a4567339d60c6b18585b7b92f33d761f8", null ],
     [ "Quat", "db/d8a/Math_8h.html#a3c1646b9032a280749abf282f9dcf922", null ],
-    [ "isPowerOf2", "db/d8a/Math_8h.html#a849e2ecc350f0f2291547b51fab5f942", null ],
+    [ "isPowerOf2", "db/d8a/Math_8h.html#a327fdedfce01c437e2a0429f802bba45", null ],
     [ "nearestPowerOf2", "db/d8a/Math_8h.html#a1bdf52cb659232b552995cb6940689af", null ],
     [ "paddingForAlignment", "db/d8a/Math_8h.html#a87270826c1117276963e26cfffc13408", null ],
     [ "remap", "db/d8a/Math_8h.html#aeb822b72bb06c58f134ef0e58e3f9824", null ],
