@@ -7,6 +7,7 @@ var classkvpp_1_1KV1ElementWritable =
     [ "operator=", "de/d75/classkvpp_1_1KV1ElementWritable.html#a4e4df913281e7936a31bd2c56407232a", null ],
     [ "operator[]", "de/d75/classkvpp_1_1KV1ElementWritable.html#abd639fee47320babb4be5e53fd1c88a7", null ],
     [ "operator[]", "de/d75/classkvpp_1_1KV1ElementWritable.html#a7f8eb29ec29d2d7a6bcc55a114e590b8", null ],
+    [ "removeChild", "de/d75/classkvpp_1_1KV1ElementWritable.html#a206ab310be80b571769839ebc09f144f", null ],
     [ "setConditional", "de/d75/classkvpp_1_1KV1ElementWritable.html#a4f31ebf053b26300428d1fe3d767b825", null ],
     [ "setKey", "de/d75/classkvpp_1_1KV1ElementWritable.html#a0b0a6a70b3608a4fb91b8a0ffa6a4c4e", null ],
     [ "setValue", "de/d75/classkvpp_1_1KV1ElementWritable.html#a69856bc5a382e3c36c9798ec8df54f44", null ],

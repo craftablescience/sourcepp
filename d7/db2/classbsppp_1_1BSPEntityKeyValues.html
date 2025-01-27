@@ -189,11 +189,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memdesc:a188898e64c701d25ac6a38d400a13264"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth keyvalue of the entity with the given key.  <br /></td></tr>
 <tr class="separator:a188898e64c701d25ac6a38d400a13264"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a92d5eada7d37cea52fd461b4c804fe46"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a92d5eada7d37cea52fd461b4c804fe46">operator()</a> (std::string_view childKey, unsigned int n)</td></tr>
-<tr class="memdesc:a92d5eada7d37cea52fd461b4c804fe46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth keyvalue of the element with the given key, or create a new entity if it doesn't exist.  <br /></td></tr>
+<tr class="memdesc:a92d5eada7d37cea52fd461b4c804fe46"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth keyvalue of the entity with the given key, or create a new entity if it doesn't exist.  <br /></td></tr>
 <tr class="separator:a92d5eada7d37cea52fd461b4c804fe46"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a8e5b474fdaf19eda1e03d77e3f8bb9"><td class="memTemplParams" colspan="2">template&lt;BSPEntityKeyValueType V = std::string_view&gt; </td></tr>
 <tr class="memitem:a1a8e5b474fdaf19eda1e03d77e3f8bb9"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html">Element</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a1a8e5b474fdaf19eda1e03d77e3f8bb9">addKeyValue</a> (std::string_view key_, V value_={})</td></tr>
+<tr class="memdesc:a1a8e5b474fdaf19eda1e03d77e3f8bb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new keyvalue to the entity.  <br /></td></tr>
 <tr class="separator:a1a8e5b474fdaf19eda1e03d77e3f8bb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab70608763413a9a13ee07508d4578b19"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ab70608763413a9a13ee07508d4578b19">removeKeyValue</a> (std::string_view childKey, int n=-1)</td></tr>
+<tr class="memdesc:ab70608763413a9a13ee07508d4578b19"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a keyvalue from the entity. -1 means all keyvalues with the given key.  <br /></td></tr>
+<tr class="separator:ab70608763413a9a13ee07508d4578b19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a403c4b26fd5018926c279f1025d6cc45"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a403c4b26fd5018926c279f1025d6cc45">bake</a> (bool useEscapes) const</td></tr>
 <tr class="separator:a403c4b26fd5018926c279f1025d6cc45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -268,7 +272,9 @@ template&lt;BSPEntityKeyValueType V = std::string_view&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00121">121</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+<p>Add a new keyvalue to the entity. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00122">122</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
 
 </div>
 </div>
@@ -288,7 +294,7 @@ template&lt;BSPEntityKeyValueType V = std::string_view&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
 
 </div>
 </div>
@@ -448,7 +454,7 @@ template&lt;BSPEntityKeyValueType V = std::string_view&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>Get the nth keyvalue of the element with the given key, or create a new entity if it doesn't exist. </p>
+<p>Get the nth keyvalue of the entity with the given key, or create a new entity if it doesn't exist. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00096">96</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
 
@@ -574,6 +580,38 @@ template&lt;BSPEntityKeyValueType V = std::string_view&gt; </div>
 
 </div>
 </div>
+<a id="ab70608763413a9a13ee07508d4578b19" name="ab70608763413a9a13ee07508d4578b19"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab70608763413a9a13ee07508d4578b19">&#9670;&#160;</a></span>removeKeyValue()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void BSPEntityKeyValues::removeKeyValue </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>childKey</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em> = <code>-1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Remove a keyvalue from the entity. -1 means all keyvalues with the given key. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html#l00109">109</a> of file <a class="el" href="../../d0/d0a/EntityLump_8cpp_source.html">EntityLump.cpp</a>.</p>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="ac16b0eeb15bdcae4ca767d54f7e441be" name="ac16b0eeb15bdcae4ca767d54f7e441be"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ac16b0eeb15bdcae4ca767d54f7e441be">&#9670;&#160;</a></span>keyvalues</h2>
@@ -595,7 +633,7 @@ template&lt;BSPEntityKeyValueType V = std::string_view&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00132">132</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d5/d02/EntityLump_8h_source.html#l00136">136</a> of file <a class="el" href="../../d5/d02/EntityLump_8h_source.html">EntityLump.h</a>.</p>
 
 </div>
 </div>

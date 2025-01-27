@@ -192,6 +192,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a5b0c410f156cc70038781f51ce3d40ff inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html">KV1ElementWritable</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#a5b0c410f156cc70038781f51ce3d40ff">operator()</a> (std::string_view childKey, unsigned int n)</td></tr>
 <tr class="memdesc:a5b0c410f156cc70038781f51ce3d40ff inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth child element of the element with the given key, or create a new element if it doesn't exist.  <br /></td></tr>
 <tr class="separator:a5b0c410f156cc70038781f51ce3d40ff inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a206ab310be80b571769839ebc09f144f inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d75/classkvpp_1_1KV1ElementWritable.html#a206ab310be80b571769839ebc09f144f">removeChild</a> (std::string_view childKey, int n=-1)</td></tr>
+<tr class="memdesc:a206ab310be80b571769839ebc09f144f inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a child element from the element. -1 means all children with the given key.  <br /></td></tr>
+<tr class="separator:a206ab310be80b571769839ebc09f144f inherit pub_methods_classkvpp_1_1KV1ElementWritable"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_classkvpp_1_1KV1ElementBase"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkvpp_1_1KV1ElementBase')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">kvpp::KV1ElementBase&lt; S, K &gt;</a></td></tr>
 <tr class="memitem:a11e4ef28e4dcbf68dc46392413807685 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html#a11e4ef28e4dcbf68dc46392413807685">getKey</a> () const</td></tr>
 <tr class="memdesc:a11e4ef28e4dcbf68dc46392413807685 inherit pub_methods_classkvpp_1_1KV1ElementBase"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <br /></td></tr>
@@ -269,7 +272,7 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock"><div class="compoundTemplParams">template&lt;typename S = std::string&gt;<br />
 requires std::convertible_to&lt;S, std::string_view&gt;<br />
 class kvpp::KV1Writer&lt; S &gt;</div>
-<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00322">322</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00338">338</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ad6eec6ac938dd9055415413d027ba59c" name="ad6eec6ac938dd9055415413d027ba59c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad6eec6ac938dd9055415413d027ba59c">&#9670;&#160;</a></span>KV1Writer()</h2>
@@ -307,7 +310,7 @@ template&lt;typename S  = std::string&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00324">324</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00340">340</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>
@@ -337,7 +340,7 @@ template&lt;typename S  = std::string&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00341">341</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00357">357</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>
@@ -367,7 +370,7 @@ template&lt;typename S  = std::string&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00349">349</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00365">365</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>
@@ -394,7 +397,7 @@ template&lt;typename S  = std::string&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00361">361</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d3/d10/KV1_8h_source.html#l00377">377</a> of file <a class="el" href="../../d3/d10/KV1_8h_source.html">KV1.h</a>.</p>
 
 </div>
 </div>

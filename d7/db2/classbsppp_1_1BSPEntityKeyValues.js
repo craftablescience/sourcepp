@@ -16,5 +16,6 @@ var classbsppp_1_1BSPEntityKeyValues =
     [ "operator[]", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#adfd29203eff0eed916a880ef4c92ed2c", null ],
     [ "operator[]", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a95ab023c6b06e182e3abce4f4dddb71e", null ],
     [ "operator[]", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#acfef8a609fe85188df783f736440c962", null ],
+    [ "removeKeyValue", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ab70608763413a9a13ee07508d4578b19", null ],
     [ "keyvalues", "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be", null ]
 ];
