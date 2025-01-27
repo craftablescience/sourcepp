@@ -9,13 +9,13 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class ORE
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ore_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ore_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ore_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ore_guid")]
 			public static partial sourcepp.String GUID();
 		}
     }

@@ -8,10 +8,10 @@ namespace vcryptpp
     {
 		internal static unsafe partial class VICE
 		{
-			[LibraryImport("vcryptppc", EntryPoint = "vcryptpp_vice_decrypt")]
+			[LibraryImport("sourcepp_vcryptppc", EntryPoint = "vcryptpp_vice_decrypt")]
 			public static partial sourcepp.Buffer Decrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
 
-			[LibraryImport("vcryptppc", EntryPoint = "vcryptpp_vice_encrypt")]
+			[LibraryImport("sourcepp_vcryptppc", EntryPoint = "vcryptpp_vice_encrypt")]
 			public static partial sourcepp.Buffer Encrypt(byte* buffer, ulong bufferLen, [MarshalAs(UnmanagedType.LPStr)] string code);
 		}
     }

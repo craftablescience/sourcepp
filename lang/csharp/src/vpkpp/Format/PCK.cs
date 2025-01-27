@@ -9,16 +9,16 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class PCK
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pck_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_create_with_options")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pck_create_with_options")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, uint version, uint godotMajorVersion, uint godotMinorVersion, uint godotPatchVersion);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pck_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pck_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pck_guid")]
 			public static partial sourcepp.String GUID();
 		}
     }

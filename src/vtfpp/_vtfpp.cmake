@@ -13,7 +13,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_LIST_DIR}/SHT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/VTF.cpp")
 
-sourcepp_add_opencl(vtfpp)
-sourcepp_add_tbb(vtfpp)
-sourcepp_add_threads(vtfpp)
-target_link_compressonator(vtfpp)
+sourcepp_add_opencl(sourcepp_vtfpp)
+sourcepp_add_tbb(sourcepp_vtfpp)
+sourcepp_add_threads(sourcepp_vtfpp)
+target_link_compressonator(sourcepp_vtfpp)

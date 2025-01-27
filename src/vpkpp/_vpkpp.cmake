@@ -35,5 +35,5 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/PackFile.cpp")
 
 if(SOURCEPP_VPKPP_SUPPORT_VPK_V54)
-    target_compile_definitions(vpkpp PRIVATE VPKPP_SUPPORT_VPK_V54)
+    target_compile_definitions(sourcepp_vpkpp PRIVATE VPKPP_SUPPORT_VPK_V54)
 endif()

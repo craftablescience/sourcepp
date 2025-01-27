@@ -9,25 +9,25 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class ZIP
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_guid")]
 			public static partial sourcepp.String GUID();
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_type")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_type")]
 			public static partial int GetEntryCompressionType(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_type")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_type")]
 			public static partial void SetEntryCompressionType(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int type);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_strength")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_get_entry_compression_strength")]
 			public static partial short GetEntryCompressionStrength(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_strength")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_zip_set_entry_compression_strength")]
 			public static partial void SetEntryCompressionStrength(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, short strength);
 		}
 	}

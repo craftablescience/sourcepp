@@ -7,31 +7,31 @@ namespace vpkpp
     {
 		internal static unsafe partial class Entry
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_flags")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_flags")]
 			public static partial uint GetFlags(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_archive_index")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_archive_index")]
 			public static partial uint GetArchiveIndex(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_length")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_length")]
 			public static partial ulong GetLength(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_compressed_length")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_compressed_length")]
 			public static partial ulong GetCompressedLength(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_offset")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_offset")]
 			public static partial ulong GetOffset(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_extra_data")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_extra_data")]
 			public static partial sourcepp.Buffer GetExtraData(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_get_crc32")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_get_crc32")]
 			public static partial uint GetCRC32(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_is_unbaked")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_is_unbaked")]
 			public static partial int IsUnbaked(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_entry_free")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_entry_free")]
 			public static partial void Free(void** handle);
 		}
     }

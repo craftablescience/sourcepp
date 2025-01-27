@@ -9,13 +9,13 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class WAD3
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_wad3_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_wad3_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_wad3_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_wad3_guid")]
 			public static partial sourcepp.String GUID();
 		}
     }

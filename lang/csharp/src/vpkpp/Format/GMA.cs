@@ -9,10 +9,10 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class GMA
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gma_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gma_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gma_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gma_guid")]
 			public static partial sourcepp.String GUID();
 		}
 	}

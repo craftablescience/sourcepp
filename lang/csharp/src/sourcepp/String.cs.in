@@ -15,16 +15,16 @@ namespace ${TARGET}.sourcepp
 {
     internal static unsafe partial class Extern
     {
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_string_new")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_string_new")]
         public static partial String StringNew(ulong size);
 
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_string_free")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_string_free")]
         public static partial void StringFree(String* str);
 
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_string_array_new")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_string_array_new")]
         public static partial StringArray StringArrayNew(ulong size);
 
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_string_array_free")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_string_array_free")]
         public static partial void StringArrayFree(StringArray* array);
     }
 

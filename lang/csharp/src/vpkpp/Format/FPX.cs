@@ -9,13 +9,13 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class FPX
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fpx_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fpx_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_fpx_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fpx_guid")]
 			public static partial sourcepp.String GUID();
 		}
     }

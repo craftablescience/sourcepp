@@ -15,10 +15,10 @@ namespace ${TARGET}.sourcepp
 {
     internal static unsafe partial class Extern
     {
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_buffer_new")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_buffer_new")]
         public static partial Buffer BufferNew(ulong size);
 
-        [LibraryImport("${TARGET}c", EntryPoint = "sourcepp_buffer_free")]
+        [LibraryImport("sourcepp_${TARGET}c", EntryPoint = "sourcepp_buffer_free")]
         public static partial void BufferFree(Buffer* str);
     }
 

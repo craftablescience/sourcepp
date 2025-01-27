@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(IsWindows)'=='true'">
-    <None Update="${TARGET}c.dll">
+    <None Update="sourcepp_${TARGET}c.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup Condition="'$(IsLinux)'=='true'">
-    <None Update="${TARGET}c.so">
+    <None Update="sourcepp_${TARGET}c.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

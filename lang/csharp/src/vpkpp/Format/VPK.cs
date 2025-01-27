@@ -11,31 +11,31 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class VPK
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_create_with_options")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_create_with_options")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, uint version);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_guid")]
 			public static partial sourcepp.String GUID();
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_generate_keypair_files")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_generate_keypair_files")]
 			public static partial byte GenerateKeypairFiles([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_sign_from_file")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_sign_from_file")]
 			public static partial byte Sign(void* handle, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_sign_from_mem")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_sign_from_mem")]
 			public static partial byte Sign(void* handle, byte* privateKeyBuffer, ulong privateKeyLen, byte* publicKeyBuffer, ulong publicKeyLen);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_get_version")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_get_version")]
 			public static partial uint GetVersion(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_vpk_set_version")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_set_version")]
 			public static partial void SetVersion(void* handle, uint version);
 		}
     }

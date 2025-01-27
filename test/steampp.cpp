@@ -1,3 +1,4 @@
+// These tests should be run manually outside CI
 #if 0
 
 #include <gtest/gtest.h>

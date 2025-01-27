@@ -8,7 +8,7 @@ namespace vcryptpp
     {
 		internal static unsafe partial class VFONT
 		{
-			[LibraryImport("vcryptppc", EntryPoint = "vcryptpp_vfont_decrypt")]
+			[LibraryImport("sourcepp_vcryptppc", EntryPoint = "vcryptpp_vfont_decrypt")]
 			public static partial sourcepp.Buffer Decrypt(byte* buffer, ulong bufferLen);
 		}
     }

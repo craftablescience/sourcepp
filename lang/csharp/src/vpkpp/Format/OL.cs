@@ -9,16 +9,16 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class OL
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ol_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ol_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_guid")]
 			public static partial sourcepp.String GUID();
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ol_get_notes")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_get_notes")]
 			public static partial sourcepp.String GetNotes(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_ol_get_entry_notes")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_get_entry_notes")]
 			public static partial sourcepp.String GetEntryNotes(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 		}
 	}

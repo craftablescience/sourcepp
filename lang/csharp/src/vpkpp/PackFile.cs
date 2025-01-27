@@ -19,133 +19,133 @@ namespace vpkpp
 
     internal static unsafe partial class Extern
     {
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_open")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_open")]
         public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_openable_extensions")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_openable_extensions")]
         public static partial sourcepp.StringArray GetOpenableExtensions();
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_guid")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_guid")]
 		public static partial sourcepp.String GetGUID(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_entry_checksums")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_has_entry_checksums")]
         public static partial int HasEntryChecksums(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_entry_checksums")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_verify_entry_checksums")]
         public static partial sourcepp.StringArray VerifyEntryChecksums(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_pack_file_checksum")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_has_pack_file_checksum")]
         public static partial int HasPackFileChecksum(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_pack_file_checksum")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_verify_pack_file_checksum")]
         public static partial int VerifyPackFileChecksum(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_pack_file_signature")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_has_pack_file_signature")]
         public static partial int HasPackFileSignature(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_verify_pack_file_signature")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_verify_pack_file_signature")]
         public static partial int VerifyPackFileSignature(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_is_case_sensitive")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_is_case_sensitive")]
         public static partial int IsCaseSensitive(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_has_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_has_entry")]
         public static partial int HasEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_find_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_find_entry")]
         public static partial void* FindEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, int includeUnbaked);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_read_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_read_entry")]
         public static partial sourcepp.Buffer ReadEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_read_entry_text")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_read_entry_text")]
         public static partial sourcepp.String ReadEntryText(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_is_read_only")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_is_read_only")]
         public static partial int IsReadOnly(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_file")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_entry_from_file")]
         public static partial void AddEntryFromFile(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_file_with_options")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_entry_from_file_with_options")]
         public static partial void AddEntryFromFile(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath, EntryOptions options);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_mem")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_entry_from_mem")]
         public static partial void AddEntryFromMem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_entry_from_mem_with_options")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_entry_from_mem_with_options")]
         public static partial void AddEntryFromMem(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path, byte* buffer, ulong bufferLen, EntryOptions options);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_directory")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_directory")]
         public static partial void AddDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, IntPtr creation);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_add_directory_with_options")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_add_directory_with_options")]
         public static partial void AddDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryBaseDir, [MarshalAs(UnmanagedType.LPStr)] string dir, EntryOptions options);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_rename_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_rename_entry")]
         public static partial int RenameEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldPath, [MarshalAs(UnmanagedType.LPStr)] string newPath);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_rename_directory")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_rename_directory")]
         public static partial int RenameDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string oldDir, [MarshalAs(UnmanagedType.LPStr)] string newDir);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_remove_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_remove_entry")]
         public static partial int RemoveEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_remove_directory")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_remove_directory")]
         public static partial ulong RemoveDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dirName);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_bake")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_bake")]
         public static partial int Bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr callback);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_bake_with_options")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_bake_with_options")]
         public static partial int Bake(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, BakeOptions options, IntPtr callback);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_entry")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_extract_entry")]
         public static partial int ExtractEntry(void* handle, [MarshalAs(UnmanagedType.LPStr)] string entryPath, [MarshalAs(UnmanagedType.LPStr)] string filepath);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_directory")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_extract_directory")]
         public static partial int ExtractDirectory(void* handle, [MarshalAs(UnmanagedType.LPStr)] string dir, [MarshalAs(UnmanagedType.LPStr)] string outputDir);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_all")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_extract_all")]
         public static partial int ExtractAll(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, int createUnderPackFileDir);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_extract_all_if")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_extract_all_if")]
         public static partial int ExtractAllIf(void* handle, [MarshalAs(UnmanagedType.LPStr)] string outputDir, IntPtr predicate, int stripSharedDirs);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_entry_count")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_entry_count")]
         public static partial ulong GetEntryCount(void* handle, int includeUnbaked);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_run_for_all_entries")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_run_for_all_entries")]
         public static partial void RunForAllEntries(void* handle, IntPtr operation, int includeUnbaked);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filepath")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_filepath")]
         public static partial sourcepp.String GetFilepath(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filepath")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_truncated_filepath")]
         public static partial sourcepp.String GetTruncatedFilepath(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filename")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_filename")]
         public static partial sourcepp.String GetFilename(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filename")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_truncated_filename")]
         public static partial sourcepp.String GetTruncatedFilename(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_filestem")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_filestem")]
         public static partial sourcepp.String GetFilestem(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_truncated_filestem")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_truncated_filestem")]
         public static partial sourcepp.String GetTruncatedFilestem(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_get_supported_entry_attributes")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_supported_entry_attributes")]
         public static partial Attribute GetSupportedEntryAttributes(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_to_string")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_to_string")]
         public static partial sourcepp.String ToString(void* handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_close")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_close")]
         public static partial void Close(void** handle);
 
-        [LibraryImport("vpkppc", EntryPoint = "vpkpp_escape_entry_path_for_write")]
+        [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_escape_entry_path_for_write")]
         public static partial sourcepp.String EscapeEntryPathForWrite([MarshalAs(UnmanagedType.LPStr)] string path);
     }
 

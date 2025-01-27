@@ -1,11 +1,12 @@
+// These tests should be run manually outside CI
+#if 0
+
 #include <gtest/gtest.h>
 
 #include <fspp/fspp.h>
 
 using namespace fspp;
 using namespace sourcepp;
-
-#if 0
 
 TEST(fspp, open_portal2) {
 	auto fs = FileSystem::load(620, "portal2");

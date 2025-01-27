@@ -9,22 +9,22 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class PAK
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_create")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_create")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_create_with_options")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_create_with_options")]
 			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, int hrot);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_guid")]
 			public static partial sourcepp.String GUID();
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_is_hrot")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_is_hrot")]
 			public static partial int IsHROT(void* handle);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_pak_set_hrot")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_set_hrot")]
 			public static partial void SetHROT(void* handle, int hrot);
 		}
     }

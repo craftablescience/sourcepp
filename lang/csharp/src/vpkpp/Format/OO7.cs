@@ -9,10 +9,10 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class OO7
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_007_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_007_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_007_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_007_guid")]
 			public static partial sourcepp.String GUID();
 		}
 	}

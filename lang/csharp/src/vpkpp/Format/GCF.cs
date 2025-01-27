@@ -9,10 +9,10 @@ namespace vpkpp.Format
     {
 		internal static unsafe partial class GCF
 		{
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gcf_open")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_open")]
 			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
 
-			[LibraryImport("vpkppc", EntryPoint = "vpkpp_gcf_guid")]
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_guid")]
 			public static partial sourcepp.String GUID();
 		}
 	}
