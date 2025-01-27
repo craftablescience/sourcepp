@@ -114,9 +114,10 @@ public:
 	/// Get the nth keyvalue of the entity with the given key
 	[[nodiscard]] const Element& operator()(std::string_view childKey, unsigned int n) const;
 
-	/// Get the nth keyvalue of the element with the given key, or create a new entity if it doesn't exist
+	/// Get the nth keyvalue of the entity with the given key, or create a new entity if it doesn't exist
 	[[nodiscard]] Element& operator()(std::string_view childKey, unsigned int n);
 
+	/// Add a new keyvalue to the entity
 	template<BSPEntityKeyValueType V = std::string_view>
 	Element& addKeyValue(std::string_view key_, V value_ = {}) {
 		Element elem;
@@ -125,6 +126,9 @@ public:
 		this->keyvalues.push_back(elem);
 		return this->keyvalues.back();
 	}
+
+	/// Remove a keyvalue from the entity. -1 means all keyvalues with the given key
+	void removeKeyValue(std::string_view childKey, int n = -1);
 
 	[[nodiscard]] std::string bake(bool useEscapes) const;
 

@@ -106,6 +106,21 @@ BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view chi
 	return this->addKeyValue(childKey);
 }
 
+void BSPEntityKeyValues::removeKeyValue(std::string_view childKey, int n) {
+	unsigned int count = 0;
+	for (auto element = this->keyvalues.begin(); element != this->keyvalues.end(); ++element) {
+		if (sourcepp::string::iequals(element->getKey(), childKey)) {
+			if (n < 0 || count == n) {
+				element = this->keyvalues.erase(element);
+				if (count == n) {
+					return;
+				}
+			}
+			++count;
+		}
+	}
+}
+
 std::string BSPEntityKeyValues::bake(bool useEscapes) const {
 	std::string out = "{\n";
 	for (const auto& elem : this->keyvalues) {
