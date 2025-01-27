@@ -18,6 +18,7 @@
 namespace bsppp {
 
 constexpr auto BSP_SIGNATURE = sourcepp::parser::binary::makeFourCC("VBSP");
+constexpr auto BSP_CONSOLE_SIGNATURE = sourcepp::parser::binary::makeFourCC("PSBV");
 
 enum class BSPLump : int32_t {
 	UNKNOWN = -1,
@@ -156,6 +157,14 @@ public:
 
 	void setMapRevision(uint32_t mapRevision);
 
+	[[nodiscard]] bool isL4D2() const;
+
+	void setL4D2(bool isL4D2);
+
+	[[nodiscard]] bool isConsole() const;
+
+	void setConsole(bool isConsole);
+
 	[[nodiscard]] bool hasLump(BSPLump lumpIndex) const;
 
 	[[nodiscard]] bool isLumpCompressed(BSPLump lumpIndex) const;
@@ -258,7 +267,9 @@ protected:
 	uint32_t stagedMapRevision{};
 
 	// Slightly different header despite using the same version just to be quirky
-	bool isL4D2 = false;
+	bool l4d2 = false;
+	// BSP is mostly big-endian
+	bool console = false;
 };
 
 } // namespace bsppp
