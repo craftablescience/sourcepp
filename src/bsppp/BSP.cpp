@@ -23,6 +23,7 @@ template<BufferStreamPODType T>
 	}
 
 	BufferStreamReadOnly stream{*data};
+	stream.set_big_endian(bsp.isConsole());
 	std::vector<T> out;
 	callback(bsp, stream, out);
 	return out;
@@ -102,6 +103,22 @@ uint32_t BSP::getMapRevision() const {
 
 void BSP::setMapRevision(uint32_t mapRevision) {
 	this->stagedMapRevision = mapRevision;
+}
+
+bool BSP::isL4D2() const {
+	return this->l4d2;
+}
+
+void BSP::setL4D2(bool isL4D2) {
+	this->l4d2 = isL4D2;
+}
+
+bool BSP::isConsole() const {
+	return this->console;
+}
+
+void BSP::setConsole(bool isConsole) {
+	this->console = isConsole;
 }
 
 bool BSP::hasLump(BSPLump lumpIndex) const {
@@ -351,6 +368,7 @@ bool BSP::bake(std::string_view outputPath) {
 
 	std::vector<std::byte> out;
 	BufferStream stream{out};
+	stream.set_big_endian(this->console);
 
 	stream << BSP_SIGNATURE << this->stagedVersion;
 	if (this->stagedVersion == 27) {
@@ -421,7 +439,7 @@ bool BSP::bake(std::string_view outputPath) {
 
 			const auto curPos = stream.tell();
 			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
-			if (!this->isL4D2) {
+			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(gameLumpOffset)
 					.write<uint32_t>(curPos - gameLumpOffset)
@@ -442,7 +460,7 @@ bool BSP::bake(std::string_view outputPath) {
 			const auto& lumpPair = this->stagedLumps.at(i);
 			const auto curPos = stream.tell();
 			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
-			if (!this->isL4D2) {
+			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(curPos)
 					.write<uint32_t>(lumpPair.second.size())
@@ -466,7 +484,7 @@ bool BSP::bake(std::string_view outputPath) {
 			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
 
 			auto& lump = this->header.lumps[i];
-			if (!this->isL4D2) {
+			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(curPos)
 					.write<uint32_t>(lump.length)
@@ -494,7 +512,7 @@ bool BSP::bake(std::string_view outputPath) {
 		}
 	}
 
-	out.resize(stream.tell());
+	out.resize(stream.size());
 	if (!fs::writeFileBuffer(outputPath.empty() ? this->path : std::string{outputPath}, out)) {
 		return false;
 	}
@@ -511,9 +529,12 @@ bool BSP::readHeader() {
 	}
 	reader.seek_in(0);
 
-	if (reader.read<uint32_t>() != BSP_SIGNATURE) {
+	if (auto signature = reader.read<uint32_t>(); signature != BSP_SIGNATURE && signature != BSP_CONSOLE_SIGNATURE) {
 		// File is not a BSP
 		return false;
+	} else if (signature == BSP_CONSOLE_SIGNATURE) {
+		this->console = true;
+		reader.set_big_endian(true);
 	}
 	this->header.version = reader.read<uint32_t>();
 
@@ -539,8 +560,8 @@ bool BSP::readHeader() {
 				break;
 			}
 		}
-		this->isL4D2 = i == BSP_LUMP_COUNT;
-		if (this->isL4D2) {
+		this->l4d2 = i == BSP_LUMP_COUNT;
+		if (this->l4d2) {
 			// Swap fields around
 			for (i = 0; i < BSP_LUMP_COUNT; i++) {
 				std::swap(this->header.lumps[i].offset, this->header.lumps[i].version);
@@ -693,6 +714,7 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 		return lumps;
 	}
 	BufferStreamReadOnly stream{*gameLumpData};
+	stream.set_big_endian(this->console);
 
 	lumps.resize(stream.read<uint32_t>());
 	for (auto& lump : lumps) {

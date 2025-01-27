@@ -270,6 +270,8 @@ inline void register_python(py::module_& m) {
 		.def_static("create", &BSP::create, py::arg("path"), py::arg("version") = 21, py::arg("map_revision") = 0)
 		.def_prop_rw("version", &BSP::getVersion, &BSP::setVersion)
 		.def_prop_rw("map_revision", &BSP::getMapRevision, &BSP::setMapRevision)
+		.def_prop_rw("l4d2", &BSP::isL4D2, &BSP::setL4D2)
+		.def_prop_rw("console", &BSP::isConsole, &BSP::setConsole)
 		.def("has_lump", &BSP::hasLump, py::arg("lump_index"))
 		.def("is_lump_compressed", &BSP::isLumpCompressed, py::arg("lump_index"))
 		.def("get_lump_version", &BSP::getLumpVersion, py::arg("lump_index"))
