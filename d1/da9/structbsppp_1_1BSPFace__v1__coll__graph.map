@@ -1,8 +1,8 @@
 <map id="bsppp::BSPFace_v1" name="bsppp::BSPFace_v1">
-<area shape="rect" id="node1" title=" " alt="" coords="161,181,308,207"/>
+<area shape="rect" id="node1" title=" " alt="" coords="161,137,308,163"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,80,31"/>
 <area shape="rect" id="node3" title=" " alt="" coords="112,5,179,31"/>
 <area shape="rect" id="node4" title=" " alt="" coords="203,5,269,31"/>
-<area shape="rect" id="node5" title=" " alt="" coords="377,5,444,31"/>
-<area shape="rect" id="node6" title=" " alt="" coords="539,5,613,31"/>
+<area shape="rect" id="node5" title=" " alt="" coords="311,5,377,31"/>
+<area shape="rect" id="node6" title=" " alt="" coords="472,5,547,31"/>
 </map>

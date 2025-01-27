@@ -10,7 +10,7 @@ var searchData=
   ['checksummapentry_7',['ChecksumMapEntry',['../d3/def/structvpkpp_1_1GCF_1_1ChecksumMapEntry.html',1,'vpkpp::GCF']]],
   ['checksummapheader_8',['ChecksumMapHeader',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html',1,'vpkpp::GCF']]],
   ['checksums_9',['checksums',['../d1/d01/classvpkpp_1_1GCF.html#aca05709523d90c06a021f90cb4a0f555',1,'vpkpp::GCF']]],
-  ['children_10',['children',['../d8/d37/structbsppp_1_1BSPNode__v0.html#a82f0f80f2145f7a1dca3da1eb67b71fb',1,'bsppp::BSPNode_v0::children()'],['../d7/dd7/structbsppp_1_1BSPNode__v1.html#a8d75fab46963d9e876b98cc4302a8721',1,'bsppp::BSPNode_v1::children()'],['../de/d62/classkvpp_1_1KV1ElementBase.html#ad2a516f9df58e6be07753b0660609ac0',1,'kvpp::KV1ElementBase::children()']]],
+  ['children_10',['children',['../d8/d37/structbsppp_1_1BSPNode__v0.html#a6063724da8dc3b18c3f759f02b2e8f08',1,'bsppp::BSPNode_v0::children()'],['../d7/dd7/structbsppp_1_1BSPNode__v1.html#a80d63a359c845a63746f5e6848cd8d5c',1,'bsppp::BSPNode_v1::children()'],['../de/d62/classkvpp_1_1KV1ElementBase.html#ad2a516f9df58e6be07753b0660609ac0',1,'kvpp::KV1ElementBase::children()']]],
   ['chksum_5fmap_11',['chksum_map',['../d1/d01/classvpkpp_1_1GCF.html#a3727f7c53c225fbbe3f0375c42eb603b',1,'vpkpp::GCF']]],
   ['choice_12',['choice',['../db/d88/classtoolpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#abcfc6de0a17cd8c8671c34663969a2ad',1,'toolpp::FGDWriter::EntityWriter::KeyValueChoicesWriter']]],
   ['choice_13',['Choice',['../dd/d3e/structtoolpp_1_1FGD_1_1Entity_1_1FieldChoices_1_1Choice.html',1,'toolpp::FGD::Entity::FieldChoices']]],

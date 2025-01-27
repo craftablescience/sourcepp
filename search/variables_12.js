@@ -24,7 +24,7 @@ var searchData=
   ['stripgroups_21',['stripGroups',['../de/d89/structmdlpp_1_1VTX_1_1Mesh.html#a4f1c331adfb27060d61a92312002de32',1,'mdlpp::VTX::Mesh']]],
   ['strips_22',['strips',['../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#ad622100c28500a35cbf3be3bb1cd3505',1,'mdlpp::VTX::StripGroup']]],
   ['stubguid_23',['stubGUID',['../dc/d06/structdmxpp_1_1Value_1_1Element.html#a7637b37b5fe9751c17dc31f19db5fb85',1,'dmxpp::Value::Element']]],
-  ['styles_24',['styles',['../d6/d98/structbsppp_1_1BSPFace__v1.html#aaa5aeb8352e3263e4cac44f9ee4724ac',1,'bsppp::BSPFace_v1::styles()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#aa9c8f862119edc2e446bfa86796a08eb',1,'bsppp::BSPFace_v2::styles()']]],
+  ['styles_24',['styles',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a22d294242401038a445a5785483d556d',1,'bsppp::BSPFace_v1::styles()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#ab34eb670cc2a800aa040f9d69374a6e4',1,'bsppp::BSPFace_v2::styles()']]],
   ['surfacefogvolumeid_25',['surfaceFogVolumeID',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a2a33d959b95642c9f06afae388765e74',1,'bsppp::BSPFace_v1::surfaceFogVolumeID()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#a20d9a90a18e3d9a32bf9b3df673e9f0f',1,'bsppp::BSPFace_v2::surfaceFogVolumeID()']]],
   ['surfacepropname_26',['surfacePropName',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#ade739f2599d48c9e58878ef23edcee69',1,'mdlpp::MDL::Bone']]],
   ['surfedge_27',['surfEdge',['../df/d2e/structbsppp_1_1BSPSurfEdge__v0.html#a12c84d2b9f7c8267a95d8e98970d396c',1,'bsppp::BSPSurfEdge_v0']]],
