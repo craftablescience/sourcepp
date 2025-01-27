@@ -45,6 +45,7 @@ var namespacevtfpp =
       [ "setResizedDims", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a2c8bc6e0d781ad7eb30294063a7da865", null ]
     ] ],
     [ "ImageDimensions", "d6/d38/namespacevtfpp_1_1ImageDimensions.html", [
+      [ "getActualMipCountForDimsOnConsole", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#acc9f92f33851509e9b596a128a776e45", null ],
       [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b", null ],
       [ "getRecommendedMipCountForDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#acef2e68e33078497b3669fa1c07bb954", null ]
     ] ],
@@ -75,7 +76,8 @@ var namespacevtfpp =
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
     [ "CompressionMethod", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0", [
       [ "DEFLATE", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc", null ],
-      [ "ZSTD", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234", null ]
+      [ "ZSTD", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234", null ],
+      [ "CONSOLE_LZMA", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a432394ed84a3a02d5b611ebf69857e27", null ]
     ] ],
     [ "ImageFormat", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c", [
       [ "RGBA8888", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca165f06116e7b8d9b2481dfc805db4619", null ],
@@ -117,9 +119,22 @@ var namespacevtfpp =
       [ "RGBA1010102", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cafb6bc1db823ed8912946ddec2cc408bd", null ],
       [ "BGRA1010102", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab8888976a4b1f837d414b2c36caac49a", null ],
       [ "R16F", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca8dfbaada0d68227f5c299c2aa637df68", null ],
+      [ "CONSOLE_BGRX8888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab1b0e62fb3fab89981b266ebd9f111b9", null ],
+      [ "CONSOLE_RGBA8888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cabbd9c4417663ee1222b556c8b9fbe4e9", null ],
+      [ "CONSOLE_ABGR8888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caca7e09273a40b875f1fd13cf9e5932f3", null ],
+      [ "CONSOLE_ARGB8888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca934066e2404bf3cef03866fe30523dad", null ],
+      [ "CONSOLE_BGRA8888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cae16b200e2694b5ed086c2fc8e17caa49", null ],
+      [ "CONSOLE_RGB888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca28ed72bcd7cbc0a111f9f866a88be577", null ],
+      [ "CONSOLE_BGR888_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca44c1d85b2e84048ff47df298e84d6971", null ],
+      [ "CONSOLE_BGRX5551_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cad2591e33d4300d2084aadfcfa4ce8a5b", null ],
+      [ "CONSOLE_I8_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca3adb5f50ca6d9bfe55f3b1e219ec18aa", null ],
+      [ "CONSOLE_RGBA16161616_LINEAR", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caed778d9c59c3a80710150a01f2cec5fe", null ],
+      [ "CONSOLE_BGRX8888_LE", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caa95478ddf51d79a877043cdab1a63ef5", null ],
+      [ "CONSOLE_BGRA8888_LE", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caf64b1a7097819bd829d4d8eadf3d19f4", null ],
       [ "R8", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cacfff813d86d447fa2a9c858650ebbb90", null ],
       [ "BC7", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593", null ],
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
-    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ]
+    [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
+    [ "VTFX_SIGNATURE", "de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0", null ]
 ];

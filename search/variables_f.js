@@ -24,11 +24,12 @@ var searchData=
   ['pk3_5fextension_21',['PK3_EXTENSION',['../d5/d29/namespacevpkpp.html#ad4d41789f3009280940d92748b4c7c77',1,'vpkpp']]],
   ['pk4_5fextension_22',['PK4_EXTENSION',['../d5/d29/namespacevpkpp.html#afeedd18a08eaae034ad7e699567590f4',1,'vpkpp']]],
   ['planenum_23',['planeNum',['../d8/d85/structbsppp_1_1BSPFace__v2.html#a1ec79ee99188cb2188935c6114ba2aae',1,'bsppp::BSPFace_v2::planeNum()'],['../d6/d98/structbsppp_1_1BSPFace__v1.html#accdc134c1c5efc868499c31f5a9c9cc4',1,'bsppp::BSPFace_v1::planeNum()'],['../d7/dd7/structbsppp_1_1BSPNode__v1.html#a49f47101588ea7ccb0626c3f0835463d',1,'bsppp::BSPNode_v1::planeNum()'],['../d8/d37/structbsppp_1_1BSPNode__v0.html#a61e6ec8b823bfbe75e266193ae712be1',1,'bsppp::BSPNode_v0::planeNum()']]],
-  ['posetobose_24',['poseToBose',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#ad992b4badb79933d247a3e9fbb5518fc',1,'mdlpp::MDL::Bone']]],
-  ['position_25',['position',['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#a8463e62fa3487a549d28f5bd85e076a3',1,'mdlpp::VVD::Vertex::position()'],['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a20bf121e2ede742b196b28d5b4a07e2a',1,'mdlpp::MDL::Bone::position()'],['../d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#a281fab08400d7750b68444c17076151b',1,'mdlpp::BakedModel::Vertex::position()'],['../d2/d27/structbsppp_1_1BSPVertex__v0.html#ad311dc1d20fd85c55bdc11a5a83835f8',1,'bsppp::BSPVertex_v0::position()']]],
-  ['positionscale_26',['positionScale',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a15a4d1f9abde695e48c44b64375ba47f',1,'mdlpp::MDL::Bone']]],
-  ['prev_5fblock_5fentry_5findex_27',['prev_block_entry_index',['../d4/d3e/structvpkpp_1_1GCF_1_1Block.html#aeb54150fe9ae0dbdd48070b8f1267416',1,'vpkpp::GCF::Block']]],
-  ['procindex_28',['procIndex',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a85de32cd634cf9101fb7ce3992a0dff4',1,'mdlpp::MDL::Bone']]],
-  ['proctype_29',['procType',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a7b110acb3a6d99215f67216549a6db8c',1,'mdlpp::MDL::Bone']]],
-  ['publickey_30',['publicKey',['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#a80549fe08bbb4381fa7d1f2a7623c48b',1,'vpkpp::VPK::Footer2']]]
+  ['platform_24',['platform',['../d8/df2/classvtfpp_1_1VTF.html#af470ff1e626accb1198be7b6d3d87625',1,'vtfpp::VTF::platform()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#af6044e685de8911779438d3fd9a79db0',1,'vtfpp::VTF::CreationOptions::platform()']]],
+  ['posetobose_25',['poseToBose',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#ad992b4badb79933d247a3e9fbb5518fc',1,'mdlpp::MDL::Bone']]],
+  ['position_26',['position',['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#a8463e62fa3487a549d28f5bd85e076a3',1,'mdlpp::VVD::Vertex::position()'],['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a20bf121e2ede742b196b28d5b4a07e2a',1,'mdlpp::MDL::Bone::position()'],['../d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#a281fab08400d7750b68444c17076151b',1,'mdlpp::BakedModel::Vertex::position()'],['../d2/d27/structbsppp_1_1BSPVertex__v0.html#ad311dc1d20fd85c55bdc11a5a83835f8',1,'bsppp::BSPVertex_v0::position()']]],
+  ['positionscale_27',['positionScale',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a15a4d1f9abde695e48c44b64375ba47f',1,'mdlpp::MDL::Bone']]],
+  ['prev_5fblock_5fentry_5findex_28',['prev_block_entry_index',['../d4/d3e/structvpkpp_1_1GCF_1_1Block.html#aeb54150fe9ae0dbdd48070b8f1267416',1,'vpkpp::GCF::Block']]],
+  ['procindex_29',['procIndex',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a85de32cd634cf9101fb7ce3992a0dff4',1,'mdlpp::MDL::Bone']]],
+  ['proctype_30',['procType',['../d2/dbf/structmdlpp_1_1MDL_1_1Bone.html#a7b110acb3a6d99215f67216549a6db8c',1,'mdlpp::MDL::Bone']]],
+  ['publickey_31',['publicKey',['../d5/dde/structvpkpp_1_1VPK_1_1Footer2.html#a80549fe08bbb4381fa7d1f2a7623c48b',1,'vpkpp::VPK::Footer2']]]
 ];

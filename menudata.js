@@ -177,6 +177,7 @@ var menudata={children:[
 {text:"Enumerations",url:"functions_enum.html"},
 {text:"Enumerator",url:"functions_eval.html",children:[
 {text:"f",url:"functions_eval.html#index_f"},
+{text:"p",url:"functions_eval.html#index_p"},
 {text:"s",url:"functions_eval.html#index_s"},
 {text:"t",url:"functions_eval.html#index_t"}]},
 {text:"Related Functions",url:"functions_rela.html"}]}]},

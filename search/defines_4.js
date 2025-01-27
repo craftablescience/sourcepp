@@ -8,8 +8,9 @@ var searchData=
   ['vtfpp_5fconvert_5',['VTFPP_CONVERT',['../d4/df2/ImageConversion_8cpp.html#af9b79d882b0c4660fab6f2a8a0dbfbe4',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#a26f25100f223e861a73967d5117c8d20',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#af9b79d882b0c4660fab6f2a8a0dbfbe4',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#a26f25100f223e861a73967d5117c8d20',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#a26f25100f223e861a73967d5117c8d20',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#af9b79d882b0c4660fab6f2a8a0dbfbe4',1,'VTFPP_CONVERT():&#160;ImageConversion.cpp']]],
   ['vtfpp_5fconvert_5fdetail_6',['VTFPP_CONVERT_DETAIL',['../d4/df2/ImageConversion_8cpp.html#ab2d1a570bf74c66dd41ec5336d0bba77',1,'VTFPP_CONVERT_DETAIL():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#ab2d1a570bf74c66dd41ec5336d0bba77',1,'VTFPP_CONVERT_DETAIL():&#160;ImageConversion.cpp'],['../d4/df2/ImageConversion_8cpp.html#ab2d1a570bf74c66dd41ec5336d0bba77',1,'VTFPP_CONVERT_DETAIL():&#160;ImageConversion.cpp']]],
   ['vtfpp_5fconvert_5fremap_7',['VTFPP_CONVERT_REMAP',['../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9',1,'ImageConversion.cpp']]],
-  ['vtfpp_5fremap_5ffrom_5f16_8',['VTFPP_REMAP_FROM_16',['../d4/df2/ImageConversion_8cpp.html#af31a769d157fe3f3cb8226ba9c34525d',1,'ImageConversion.cpp']]],
-  ['vtfpp_5fremap_5ffrom_5f8_9',['VTFPP_REMAP_FROM_8',['../d4/df2/ImageConversion_8cpp.html#ad36f25671f1f3a7cb0c2f6ddcdb4849f',1,'ImageConversion.cpp']]],
-  ['vtfpp_5fremap_5fto_5f16_10',['VTFPP_REMAP_TO_16',['../d4/df2/ImageConversion_8cpp.html#a40548058a64cd4c6322ff0c3a2124196',1,'ImageConversion.cpp']]],
-  ['vtfpp_5fremap_5fto_5f8_11',['VTFPP_REMAP_TO_8',['../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240',1,'ImageConversion.cpp']]]
+  ['vtfpp_5fformat_5finherited_8',['VTFPP_FORMAT_INHERITED',['../da/d01/ImageConversion_8h.html#ae4fe6fa414cc22314ddc48edeadf7611',1,'ImageConversion.h']]],
+  ['vtfpp_5fremap_5ffrom_5f16_9',['VTFPP_REMAP_FROM_16',['../d4/df2/ImageConversion_8cpp.html#af31a769d157fe3f3cb8226ba9c34525d',1,'ImageConversion.cpp']]],
+  ['vtfpp_5fremap_5ffrom_5f8_10',['VTFPP_REMAP_FROM_8',['../d4/df2/ImageConversion_8cpp.html#ad36f25671f1f3a7cb0c2f6ddcdb4849f',1,'ImageConversion.cpp']]],
+  ['vtfpp_5fremap_5fto_5f16_11',['VTFPP_REMAP_TO_16',['../d4/df2/ImageConversion_8cpp.html#a40548058a64cd4c6322ff0c3a2124196',1,'ImageConversion.cpp']]],
+  ['vtfpp_5fremap_5fto_5f8_12',['VTFPP_REMAP_TO_8',['../d4/df2/ImageConversion_8cpp.html#ac8f1056856457e1688aab2605f2af240',1,'ImageConversion.cpp']]]
 ];

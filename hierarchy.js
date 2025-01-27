@@ -142,9 +142,7 @@ var hierarchy =
     [ "vtfpp::ImagePixel::ABGR8888", "d3/d83/structvtfpp_1_1ImagePixel_1_1ABGR8888.html", null ],
     [ "vtfpp::ImagePixel::ARGB8888", "d6/dd0/structvtfpp_1_1ImagePixel_1_1ARGB8888.html", null ],
     [ "vtfpp::ImagePixel::BGR565", "d9/d48/structvtfpp_1_1ImagePixel_1_1BGR565.html", null ],
-    [ "vtfpp::ImagePixel::BGR888", "d8/d63/structvtfpp_1_1ImagePixel_1_1BGR888.html", [
-      [ "vtfpp::ImagePixel::BGR888_BLUESCREEN", "d2/dd2/structvtfpp_1_1ImagePixel_1_1BGR888__BLUESCREEN.html", null ]
-    ] ],
+    [ "vtfpp::ImagePixel::BGR888", "d8/d63/structvtfpp_1_1ImagePixel_1_1BGR888.html", null ],
     [ "vtfpp::ImagePixel::BGRA1010102", "de/d7c/structvtfpp_1_1ImagePixel_1_1BGRA1010102.html", null ],
     [ "vtfpp::ImagePixel::BGRA4444", "d0/d1c/structvtfpp_1_1ImagePixel_1_1BGRA4444.html", null ],
     [ "vtfpp::ImagePixel::BGRA5551", "dd/d5e/structvtfpp_1_1ImagePixel_1_1BGRA5551.html", null ],
@@ -161,9 +159,7 @@ var hierarchy =
     [ "vtfpp::ImagePixel::RG3232F", "db/d93/structvtfpp_1_1ImagePixel_1_1RG3232F.html", null ],
     [ "vtfpp::ImagePixel::RGB323232F", "d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html", null ],
     [ "vtfpp::ImagePixel::RGB565", "d0/d92/structvtfpp_1_1ImagePixel_1_1RGB565.html", null ],
-    [ "vtfpp::ImagePixel::RGB888", "d0/d24/structvtfpp_1_1ImagePixel_1_1RGB888.html", [
-      [ "vtfpp::ImagePixel::RGB888_BLUESCREEN", "d1/d7e/structvtfpp_1_1ImagePixel_1_1RGB888__BLUESCREEN.html", null ]
-    ] ],
+    [ "vtfpp::ImagePixel::RGB888", "d0/d24/structvtfpp_1_1ImagePixel_1_1RGB888.html", null ],
     [ "vtfpp::ImagePixel::RGBA1010102", "d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102.html", null ],
     [ "vtfpp::ImagePixel::RGBA16161616", "d9/d32/structvtfpp_1_1ImagePixel_1_1RGBA16161616.html", null ],
     [ "vtfpp::ImagePixel::RGBA16161616F", "d0/de9/structvtfpp_1_1ImagePixel_1_1RGBA16161616F.html", null ],

@@ -205,6 +205,21 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cafb6bc1db823ed8912946ddec2cc408bd">RGBA1010102</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab8888976a4b1f837d414b2c36caac49a">BGRA1010102</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca8dfbaada0d68227f5c299c2aa637df68">R16F</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab1b0e62fb3fab89981b266ebd9f111b9">CONSOLE_BGRX8888_LINEAR</a> = 42
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cabbd9c4417663ee1222b556c8b9fbe4e9">CONSOLE_RGBA8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caca7e09273a40b875f1fd13cf9e5932f3">CONSOLE_ABGR8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca934066e2404bf3cef03866fe30523dad">CONSOLE_ARGB8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cae16b200e2694b5ed086c2fc8e17caa49">CONSOLE_BGRA8888_LINEAR</a>
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca28ed72bcd7cbc0a111f9f866a88be577">CONSOLE_RGB888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca44c1d85b2e84048ff47df298e84d6971">CONSOLE_BGR888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cad2591e33d4300d2084aadfcfa4ce8a5b">CONSOLE_BGRX5551_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca3adb5f50ca6d9bfe55f3b1e219ec18aa">CONSOLE_I8_LINEAR</a>
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caed778d9c59c3a80710150a01f2cec5fe">CONSOLE_RGBA16161616_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caa95478ddf51d79a877043cdab1a63ef5">CONSOLE_BGRX8888_LE</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caf64b1a7097819bd829d4d8eadf3d19f4">CONSOLE_BGRA8888_LE</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cacfff813d86d447fa2a9c858650ebbb90">R8</a> = 69
 , <br />
 &#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593">BC7</a>
@@ -214,6 +229,7 @@ Enumerations</h2></td></tr>
 <tr class="separator:aec3345feb8c8d1832efd60bd78ba336c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaa9ee6c4a6f4d2068390a0b36ae5c2e0"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0">CompressionMethod</a> : int16_t { <a class="el" href="../../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc">DEFLATE</a> = 8
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234">ZSTD</a> = 93
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a432394ed84a3a02d5b611ebf69857e27">CONSOLE_LZMA</a> = 0x360
  }</td></tr>
 <tr class="separator:aaa9ee6c4a6f4d2068390a0b36ae5c2e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -221,6 +237,8 @@ Enumerations</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a1e1c52fc9b46a7b77835b125b9372575"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575">VTF_SIGNATURE</a> = <a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a>(&quot;VTF\0&quot;)</td></tr>
 <tr class="separator:a1e1c52fc9b46a7b77835b125b9372575"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a534130e52cb10a651b616db23c5428e0"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0">VTFX_SIGNATURE</a> = <a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a>(&quot;VTFX&quot;)</td></tr>
+<tr class="separator:a534130e52cb10a651b616db23c5428e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="aaa9ee6c4a6f4d2068390a0b36ae5c2e0" name="aaa9ee6c4a6f4d2068390a0b36ae5c2e0"></a>
@@ -245,9 +263,10 @@ Variables</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc" name="aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc"></a>DEFLATE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234" name="aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234"></a>ZSTD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aaa9ee6c4a6f4d2068390a0b36ae5c2e0a432394ed84a3a02d5b611ebf69857e27" name="aaa9ee6c4a6f4d2068390a0b36ae5c2e0a432394ed84a3a02d5b611ebf69857e27"></a>CONSOLE_LZMA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00022">22</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00023">23</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -310,6 +329,18 @@ Variables</h2></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cafb6bc1db823ed8912946ddec2cc408bd" name="aec3345feb8c8d1832efd60bd78ba336cafb6bc1db823ed8912946ddec2cc408bd"></a>RGBA1010102&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cab8888976a4b1f837d414b2c36caac49a" name="aec3345feb8c8d1832efd60bd78ba336cab8888976a4b1f837d414b2c36caac49a"></a>BGRA1010102&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336ca8dfbaada0d68227f5c299c2aa637df68" name="aec3345feb8c8d1832efd60bd78ba336ca8dfbaada0d68227f5c299c2aa637df68"></a>R16F&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cab1b0e62fb3fab89981b266ebd9f111b9" name="aec3345feb8c8d1832efd60bd78ba336cab1b0e62fb3fab89981b266ebd9f111b9"></a>CONSOLE_BGRX8888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cabbd9c4417663ee1222b556c8b9fbe4e9" name="aec3345feb8c8d1832efd60bd78ba336cabbd9c4417663ee1222b556c8b9fbe4e9"></a>CONSOLE_RGBA8888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caca7e09273a40b875f1fd13cf9e5932f3" name="aec3345feb8c8d1832efd60bd78ba336caca7e09273a40b875f1fd13cf9e5932f3"></a>CONSOLE_ABGR8888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336ca934066e2404bf3cef03866fe30523dad" name="aec3345feb8c8d1832efd60bd78ba336ca934066e2404bf3cef03866fe30523dad"></a>CONSOLE_ARGB8888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cae16b200e2694b5ed086c2fc8e17caa49" name="aec3345feb8c8d1832efd60bd78ba336cae16b200e2694b5ed086c2fc8e17caa49"></a>CONSOLE_BGRA8888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336ca28ed72bcd7cbc0a111f9f866a88be577" name="aec3345feb8c8d1832efd60bd78ba336ca28ed72bcd7cbc0a111f9f866a88be577"></a>CONSOLE_RGB888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336ca44c1d85b2e84048ff47df298e84d6971" name="aec3345feb8c8d1832efd60bd78ba336ca44c1d85b2e84048ff47df298e84d6971"></a>CONSOLE_BGR888_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cad2591e33d4300d2084aadfcfa4ce8a5b" name="aec3345feb8c8d1832efd60bd78ba336cad2591e33d4300d2084aadfcfa4ce8a5b"></a>CONSOLE_BGRX5551_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336ca3adb5f50ca6d9bfe55f3b1e219ec18aa" name="aec3345feb8c8d1832efd60bd78ba336ca3adb5f50ca6d9bfe55f3b1e219ec18aa"></a>CONSOLE_I8_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caed778d9c59c3a80710150a01f2cec5fe" name="aec3345feb8c8d1832efd60bd78ba336caed778d9c59c3a80710150a01f2cec5fe"></a>CONSOLE_RGBA16161616_LINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caa95478ddf51d79a877043cdab1a63ef5" name="aec3345feb8c8d1832efd60bd78ba336caa95478ddf51d79a877043cdab1a63ef5"></a>CONSOLE_BGRX8888_LE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caf64b1a7097819bd829d4d8eadf3d19f4" name="aec3345feb8c8d1832efd60bd78ba336caf64b1a7097819bd829d4d8eadf3d19f4"></a>CONSOLE_BGRA8888_LE&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336cacfff813d86d447fa2a9c858650ebbb90" name="aec3345feb8c8d1832efd60bd78ba336cacfff813d86d447fa2a9c858650ebbb90"></a>R8&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593" name="aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593"></a>BC7&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94" name="aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94"></a>BC6H&#160;</td><td class="fielddoc"></td></tr>
@@ -341,6 +372,30 @@ Variables</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00020">20</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+
+</div>
+</div>
+<a id="a534130e52cb10a651b616db23c5428e0" name="a534130e52cb10a651b616db23c5428e0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a534130e52cb10a651b616db23c5428e0">&#9670;&#160;</a></span>VTFX_SIGNATURE</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t vtfpp::VTFX_SIGNATURE = <a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">sourcepp::parser::binary::makeFourCC</a>(&quot;VTFX&quot;)</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00021">21</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>

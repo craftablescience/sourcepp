@@ -225,6 +225,21 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cafb6bc1db823ed8912946ddec2cc408bd">vtfpp::RGBA1010102</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab8888976a4b1f837d414b2c36caac49a">vtfpp::BGRA1010102</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca8dfbaada0d68227f5c299c2aa637df68">vtfpp::R16F</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cab1b0e62fb3fab89981b266ebd9f111b9">vtfpp::CONSOLE_BGRX8888_LINEAR</a> = 42
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cabbd9c4417663ee1222b556c8b9fbe4e9">vtfpp::CONSOLE_RGBA8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caca7e09273a40b875f1fd13cf9e5932f3">vtfpp::CONSOLE_ABGR8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca934066e2404bf3cef03866fe30523dad">vtfpp::CONSOLE_ARGB8888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cae16b200e2694b5ed086c2fc8e17caa49">vtfpp::CONSOLE_BGRA8888_LINEAR</a>
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca28ed72bcd7cbc0a111f9f866a88be577">vtfpp::CONSOLE_RGB888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca44c1d85b2e84048ff47df298e84d6971">vtfpp::CONSOLE_BGR888_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cad2591e33d4300d2084aadfcfa4ce8a5b">vtfpp::CONSOLE_BGRX5551_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336ca3adb5f50ca6d9bfe55f3b1e219ec18aa">vtfpp::CONSOLE_I8_LINEAR</a>
+, <br />
+&#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caed778d9c59c3a80710150a01f2cec5fe">vtfpp::CONSOLE_RGBA16161616_LINEAR</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caa95478ddf51d79a877043cdab1a63ef5">vtfpp::CONSOLE_BGRX8888_LE</a>
+, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caf64b1a7097819bd829d4d8eadf3d19f4">vtfpp::CONSOLE_BGRA8888_LE</a>
 , <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336cacfff813d86d447fa2a9c858650ebbb90">vtfpp::R8</a> = 69
 , <br />
 &#160;&#160;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593">vtfpp::BC7</a>
@@ -269,6 +284,8 @@ Functions</h2></td></tr>
 <tr class="separator:a7e32bf316fe267f7c83158cddd55c66b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acef2e68e33078497b3669fa1c07bb954"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d38/namespacevtfpp_1_1ImageDimensions.html#acef2e68e33078497b3669fa1c07bb954">vtfpp::ImageDimensions::getRecommendedMipCountForDims</a> (ImageFormat format, uint16_t width, uint16_t height)</td></tr>
 <tr class="separator:acef2e68e33078497b3669fa1c07bb954"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acc9f92f33851509e9b596a128a776e45"><td class="memItemLeft" align="right" valign="top">constexpr uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d38/namespacevtfpp_1_1ImageDimensions.html#acc9f92f33851509e9b596a128a776e45">vtfpp::ImageDimensions::getActualMipCountForDimsOnConsole</a> (uint16_t width, uint16_t height)</td></tr>
+<tr class="separator:acc9f92f33851509e9b596a128a776e45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a708dc57f5c69e5ed309f780548df41b6"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a708dc57f5c69e5ed309f780548df41b6">vtfpp::ImageFormatDetails::getDataLength</a> (ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount=1)</td></tr>
 <tr class="separator:a708dc57f5c69e5ed309f780548df41b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac43c99ecb4fb3b6970bc87890d98c8ad"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad">vtfpp::ImageFormatDetails::getDataLength</a> (ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount=1)</td></tr>

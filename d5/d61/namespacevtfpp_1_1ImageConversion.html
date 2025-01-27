@@ -241,7 +241,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725" name="ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725"></a>EXR&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00333">333</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00339">339</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -271,7 +271,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a5958476a157c26336cb52c3055cffb53a529e9e0beb5f85d1f132917c1a09860c" name="a5958476a157c26336cb52c3055cffb53a529e9e0beb5f85d1f132917c1a09860c"></a>ZERO&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00351">351</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00357">357</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -303,7 +303,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d" name="a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d"></a>MITCHELL&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00359">359</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00365">365</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -333,7 +333,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35" name="a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35"></a>POWER_OF_TWO_NEAREST&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00371">371</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00377">377</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -375,7 +375,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Applies a single channel to the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00419">419</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00425">425</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -423,7 +423,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01291">1291</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01351">1351</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -480,7 +480,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Converts an HDRI into a cubemap. </p>
 <p>The output image data is in the same image format as the input. The output images have the following order: front, back, left, right, down, up. Resolution is the output size (width, height) of each image slice. 0 leaves it at the input size, the height of the HDRI. Fails (returns empty vectors) if the input data is empty, the given width is not 2x the height, or an error was encountered. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00959">959</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01019">1019</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -530,7 +530,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Converts image data to the given file format (PNG or EXR by default). </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01080">1080</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01140">1140</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -580,7 +580,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Converts an image from one format to another. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00856">856</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00916">916</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -654,7 +654,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Converts several images from one format to another. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00932">932</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00992">992</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -722,7 +722,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01808">1808</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01869">1869</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -757,7 +757,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Extracts a single channel from the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00398">398</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00404">404</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -779,7 +779,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>PNG for integer formats, EXR for floating point formats. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01075">1075</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01135">1135</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -811,7 +811,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Get the new image size given a resize method. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01767">1767</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01827">1827</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -885,7 +885,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Resize given image data to the new dimensions. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01782">1782</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01842">1842</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -983,7 +983,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Resize given image data to the new dimensions, where the new width and height are governed by the resize methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01799">1799</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01859">1859</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -1027,7 +1027,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Set the new image dimensions given a resize method. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01777">1777</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01837">1837</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>

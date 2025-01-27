@@ -6,11 +6,15 @@ var searchData=
   ['physcollide_3',['PHYSCOLLIDE',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a246e84d36905de295b76bd7cc2277d8e',1,'bsppp']]],
   ['physdisp_4',['PHYSDISP',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a788d8f638e60561afa5c3a11b4d5cbb0',1,'bsppp']]],
   ['planes_5',['PLANES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a30cfe32790c0d4e0130e3869466dd0a1',1,'bsppp']]],
-  ['png_6',['PNG',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a55505ba281b015ec31f03ccb151b2a34',1,'vtfpp::ImageConversion']]],
-  ['power_5fof_5ftwo_5fbigger_7',['POWER_OF_TWO_BIGGER',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65',1,'vtfpp::ImageConversion']]],
-  ['power_5fof_5ftwo_5fnearest_8',['POWER_OF_TWO_NEAREST',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35',1,'vtfpp::ImageConversion']]],
-  ['power_5fof_5ftwo_5fsmaller_9',['POWER_OF_TWO_SMALLER',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801',1,'vtfpp::ImageConversion']]],
-  ['primindices_10',['PRIMINDICES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e',1,'bsppp']]],
-  ['primitives_11',['PRIMITIVES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80',1,'bsppp']]],
-  ['primverts_12',['PRIMVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520',1,'bsppp']]]
+  ['platform_5fpc_6',['PLATFORM_PC',['../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a2ea94a62a83e185cfbb8dbe847d97058',1,'vtfpp::VTF']]],
+  ['platform_5fps3_7',['PLATFORM_PS3',['../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a0e3e4c341f4018c38b30114cb19e5f27',1,'vtfpp::VTF']]],
+  ['platform_5funknown_8',['PLATFORM_UNKNOWN',['../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15ac7d9ee78b0cae2122d45c6f7b670ea90',1,'vtfpp::VTF']]],
+  ['platform_5fx360_9',['PLATFORM_X360',['../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a4d77ec24b9d34eeef8af10816d1387eb',1,'vtfpp::VTF']]],
+  ['png_10',['PNG',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a55505ba281b015ec31f03ccb151b2a34',1,'vtfpp::ImageConversion']]],
+  ['power_5fof_5ftwo_5fbigger_11',['POWER_OF_TWO_BIGGER',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca031c88c036239982ac58910651896e65',1,'vtfpp::ImageConversion']]],
+  ['power_5fof_5ftwo_5fnearest_12',['POWER_OF_TWO_NEAREST',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35',1,'vtfpp::ImageConversion']]],
+  ['power_5fof_5ftwo_5fsmaller_13',['POWER_OF_TWO_SMALLER',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3ccae5514cd16d3c890918248a4424426801',1,'vtfpp::ImageConversion']]],
+  ['primindices_14',['PRIMINDICES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0abc04be796e74328be9c361b7055f937e',1,'bsppp']]],
+  ['primitives_15',['PRIMITIVES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a29a46a72c9b58f7c7c8aa0a6ff2b9d80',1,'bsppp']]],
+  ['primverts_16',['PRIMVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0acaa9013358c2118c0253e71d4e2b3520',1,'bsppp']]]
 ];
