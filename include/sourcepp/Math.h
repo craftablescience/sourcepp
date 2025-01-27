@@ -40,11 +40,11 @@ template<Arithmetic T>
 	return value * h2 / h1;
 }
 
-[[nodiscard]] constexpr bool isPowerOf2(std::integral auto n) {
+[[nodiscard]] constexpr bool isPowerOf2(std::unsigned_integral auto n) {
 	return n && !(n & (n - 1));
 }
 
-template<std::integral T>
+template<std::unsigned_integral T>
 [[nodiscard]] constexpr T nearestPowerOf2(T n) {
 	if (isPowerOf2(n)) {
 		return n;
