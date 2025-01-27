@@ -194,7 +194,7 @@ endif()
 
 
 # Add libraries
-add_sourcepp_library(bsppp                    NO_TEST      ) # sourcepp::bsppp
+add_sourcepp_library(bsppp             PYTHON NO_TEST      ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                                 ) # sourcepp::dmxpp
 add_sourcepp_library(fspp                                  ) # sourcepp::fspp
 add_sourcepp_library(gamepp   C        PYTHON              ) # sourcepp::gamepp
@@ -237,6 +237,7 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     # We need to manually write out each module :(
     set(${SOURCEPP_PYTHON_NAME}_MODULES
             "sourcepp._sourcepp_impl"
+            "sourcepp._sourcepp_impl.bsppp"
             "sourcepp._sourcepp_impl.gamepp"
             "sourcepp._sourcepp_impl.sourcepp"
             "sourcepp._sourcepp_impl.sourcepp.math"

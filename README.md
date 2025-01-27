@@ -26,7 +26,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://developer.valvesoftware.com/wiki/BSP_(Source)">BSP</a> v17-27</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="1" align="center"></td>
+    <td rowspan="1" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>

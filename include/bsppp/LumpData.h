@@ -48,9 +48,9 @@ using BSPVertex = BSPVertex_v0;
 
 struct BSPNode_v0 {
 	uint32_t planeNum;
-	int32_t children[2];
-	int16_t mins[3];
-	int16_t maxs[3];
+	sourcepp::math::Vec2i children;
+	sourcepp::math::Vec3i16 mins;
+	sourcepp::math::Vec3i16 maxs;
 	uint16_t firstFace;
 	uint16_t numFaces;
 	int16_t area;
@@ -59,9 +59,9 @@ struct BSPNode_v0 {
 
 struct BSPNode_v1 {
 	uint32_t planeNum;
-	int32_t children[2];
-	float mins[3];
-	float maxs[3];
+	sourcepp::math::Vec2i children;
+	sourcepp::math::Vec3f mins;
+	sourcepp::math::Vec3f maxs;
 	uint32_t firstFace;
 	uint32_t numFaces;
 	int16_t area;
@@ -97,8 +97,10 @@ using BSPNode = BSPNode_v1;
 //region Lump 6 (Texture Info)
 
 struct BSPTextureInfo_v0 {
-	sourcepp::math::Vec4f textureVectors[2];
-	sourcepp::math::Vec4f lightmapVectors[2];
+	sourcepp::math::Vec4f textureVector1;
+	sourcepp::math::Vec4f textureVector2;
+	sourcepp::math::Vec4f lightmapVector1;
+	sourcepp::math::Vec4f lightmapVector2;
 	int32_t flags;
 	int32_t textureData;
 };
@@ -118,11 +120,11 @@ struct BSPFace_v1 {
 	int16_t texInfo;
 	int16_t dispInfo;
 	int16_t surfaceFogVolumeID;
-	uint8_t styles[4];
+	sourcepp::math::Vec4ui8 styles;
 	int32_t lightOffset;
 	float area;
-	int32_t lightmapTextureMinsInLuxels[2];
-	int32_t lightmapTextureSizeInLuxels[2];
+	sourcepp::math::Vec2i lightmapTextureMinsInLuxels;
+	sourcepp::math::Vec2i lightmapTextureSizeInLuxels;
 	int32_t originalFace;
 	uint16_t numPrims;
 	uint16_t firstPrimID;
@@ -138,11 +140,11 @@ struct BSPFace_v2 {
 	int32_t texInfo;
 	int32_t dispInfo;
 	int32_t surfaceFogVolumeID;
-	uint8_t styles[4];
+	sourcepp::math::Vec4ui8 styles;
 	int32_t lightOffset;
 	float area;
-	int32_t lightmapTextureMinsInLuxels[2];
-	int32_t lightmapTextureSizeInLuxels[2];
+	sourcepp::math::Vec2i lightmapTextureMinsInLuxels;
+	sourcepp::math::Vec2i lightmapTextureSizeInLuxels;
 	int32_t originalFace;
 	uint32_t enableShadows : 1;
 	uint32_t numPrims : 31;
@@ -159,16 +161,22 @@ struct BSPFace_v2 {
 			old.texInfo,
 			old.dispInfo,
 			old.surfaceFogVolumeID,
-			old.styles[0],
-			old.styles[1],
-			old.styles[2],
-			old.styles[3],
+			{
+				old.styles[0],
+				old.styles[1],
+				old.styles[2],
+				old.styles[3],
+			},
 			old.lightOffset,
 			old.area,
-			old.lightmapTextureMinsInLuxels[0],
-			old.lightmapTextureMinsInLuxels[1],
-			old.lightmapTextureSizeInLuxels[0],
-			old.lightmapTextureSizeInLuxels[1],
+			{
+				old.lightmapTextureMinsInLuxels[0],
+				old.lightmapTextureMinsInLuxels[1],
+			},
+			{
+				old.lightmapTextureSizeInLuxels[0],
+				old.lightmapTextureSizeInLuxels[1],
+			},
 			old.originalFace,
 			1,
 			old.numPrims,

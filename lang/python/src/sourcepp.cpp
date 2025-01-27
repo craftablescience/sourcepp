@@ -1,5 +1,9 @@
 #include "sourcepp.h"
 
+#ifdef BSPPP
+#include "bsppp.h"
+#endif
+
 #ifdef GAMEPP
 #include "gamepp.h"
 #endif
@@ -24,6 +28,12 @@ NB_MODULE(_sourcepp_impl, m) {
 	m.doc() = "SourcePP: A Python wrapper around several modern C++20 libraries for sanely parsing Valve's formats.";
 
 	sourcepp::register_python(m);
+
+#ifdef BSPPP
+	bsppp::register_python(m);
+#else
+	m.def_submodule("bsppp");
+#endif
 
 #ifdef GAMEPP
 	gamepp::register_python(m);
