@@ -58,7 +58,7 @@ namespace vpkpp.test
 			{
 				if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
 				{
-					return @"D:\SteamLibrary\steamapps\common\Portal\portal\";
+					return @"D:/SteamLibrary/steamapps/common/Portal/portal/";
 				}
 				if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
 				{

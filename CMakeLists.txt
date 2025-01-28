@@ -74,6 +74,13 @@ if(MSVC)
 endif()
 
 
+# Versioning published bindings
+if((SOURCEPP_BUILD_CSHARP_WRAPPERS OR SOURCEPP_BUILD_PYTHON_WRAPPERS) AND NOT SOURCEPP_VERSION)
+    set(SOURCEPP_VERSION "0.0.1")
+    message(AUTHOR_WARNING "SOURCEPP_VERSION is not defined, do not release this build publicly! Defaulting it to ${SOURCEPP_VERSION}...")
+endif()
+
+
 # Set defaults after project call
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
@@ -114,10 +121,6 @@ endif()
 # Python bindings, part 1
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
-    if(NOT SOURCEPP_PYTHON_VERSION)
-        set(SOURCEPP_PYTHON_VERSION "0.0.1dev1")
-        message(WARNING "SOURCEPP_PYTHON_VERSION is not defined, do not release this build publicly! Defaulting it to ${SOURCEPP_PYTHON_VERSION}...")
-    endif()
     find_package(Python REQUIRED
             COMPONENTS Interpreter Development.Module
             OPTIONAL_COMPONENTS Development.SABIModule)

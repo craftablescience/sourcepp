@@ -5,7 +5,7 @@ build-backend = "scikit_build_core.build"
 
 [project]
 name = "sourcepp"
-version = "${SOURCEPP_PYTHON_VERSION}"
+version = "${SOURCEPP_VERSION}"
 authors = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 maintainers = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 description = "Several modern C++20 libraries for sanely parsing Valve formats."

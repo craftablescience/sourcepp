@@ -4,17 +4,44 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <Title>SourcePP (${TARGET})</Title>
+    <Version>${SOURCEPP_VERSION}</Version>
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+
+    <Authors>craftablescience</Authors>
+    <PackageProjectUrl>https://github.com/craftablescience/sourcepp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/craftablescience/sourcepp</RepositoryUrl>
+    <PackageTags>sourcepp;source;source-engine</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(IsWindows)'=='true'">
-    <None Update="sourcepp_${TARGET}c.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+  <ItemGroup>
+    <None Include="../../../../LICENSE" Pack="True" PackagePath="./" />
+    <None Include="../../../../README.md" Pack="True" PackagePath="./" />
   </ItemGroup>
-  <ItemGroup Condition="'$(IsLinux)'=='true'">
-    <None Update="sourcepp_${TARGET}c.so">
+
+  <PropertyGroup>
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_${TARGET}c.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_${TARGET}c.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
