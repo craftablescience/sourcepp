@@ -42,7 +42,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td rowspan="1"><code>fspp</code><sup>*</sup></td>
-    <td>(WIP) Source 1 filesystem accessor</td>
+    <td>Source 1 filesystem accessor</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
     <td rowspan="1" align="center"></td>
@@ -80,6 +80,18 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/VVD">VVD</a> v4</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr>
+    <td rowspan="2"><code>sndpp</code><sup>*</sup></td>
+    <td>WAV</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+    <td rowspan="2" align="center"></td>
+  </tr>
+  <tr>
+    <td>XWV v4</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>

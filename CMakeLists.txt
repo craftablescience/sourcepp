@@ -22,6 +22,7 @@ option(SOURCEPP_USE_FSPP           "Build fspp library"                  ${SOURC
 option(SOURCEPP_USE_GAMEPP         "Build gamepp library"                ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_KVPP           "Build kvpp library"                  ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_MDLPP          "Build mdlpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_SNDPP          "Build sndpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_STEAMPP        "Build steampp library"               ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_TOOLPP         "Build toolpp library"                ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURCEPP_LIBS_START_ENABLED})
@@ -203,6 +204,7 @@ add_sourcepp_library(fspp                                  ) # sourcepp::fspp
 add_sourcepp_library(gamepp   C        PYTHON              ) # sourcepp::gamepp
 add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
+add_sourcepp_library(sndpp                                 ) # sourcepp::sndpp
 add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON              ) # sourcepp::toolpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
@@ -270,7 +272,7 @@ endif()
 
 # Print options
 print_options(OPTIONS
-        USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
+        USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
         BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
