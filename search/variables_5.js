@@ -8,10 +8,10 @@ var searchData=
   ['enabled_5',['enabled',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a45c401d4ac28f9bd4aa76f93e81e3626',1,'toolpp::CmdSeq::Command']]],
   ['enabledbydefault_6',['enabledByDefault',['../de/d58/structtoolpp_1_1FGD_1_1Entity_1_1FieldFlags_1_1Flag.html#a3984ddd203a0e1cc8599f2690acc923c',1,'toolpp::FGD::Entity::FieldFlags::Flag']]],
   ['enableshadows_7',['enableShadows',['../d8/d85/structbsppp_1_1BSPFace__v2.html#aaee92a1addfd44130234cfe6776297f7',1,'bsppp::BSPFace_v2']]],
-  ['end_8',['end',['../d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#a0f3864739615819bbc10aa9ce2a47306',1,'mdlpp::MDL::BoneController']]],
+  ['end_8',['end',['../d7/dcc/structsndpp_1_1WAV_1_1ChunkSMPL_1_1SampleLoop.html#af545d50204e4176942665d4dfa429fb9',1,'sndpp::WAV::ChunkSMPL::SampleLoop::end()'],['../d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#a0f3864739615819bbc10aa9ce2a47306',1,'mdlpp::MDL::BoneController::end()']]],
   ['endframe_9',['endFrame',['../d1/dbd/structmdlpp_1_1Movement.html#a487c040063cbeb14889521d4d097f891',1,'mdlpp::Movement']]],
   ['ensurefileexists_10',['ensureFileExists',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a0799751e543bd6135f297cbb10366060',1,'toolpp::CmdSeq::Command']]],
-  ['entities_11',['entities',['../d2/d4c/classtoolpp_1_1FGD.html#a7736240d887f11df318b49ce73395a1c',1,'toolpp::FGD::entities()'],['../d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html#a09a0acb11e6762721882e5bc3155a494',1,'toolpp::FGD::AutoVisGroup::entities()']]],
+  ['entities_11',['entities',['../d0/dcf/structtoolpp_1_1FGD_1_1AutoVisGroup.html#a09a0acb11e6762721882e5bc3155a494',1,'toolpp::FGD::AutoVisGroup::entities()'],['../d2/d4c/classtoolpp_1_1FGD.html#a7736240d887f11df318b49ce73395a1c',1,'toolpp::FGD::entities()']]],
   ['entries_12',['entries',['../d2/dd2/classvpkpp_1_1PackFile.html#a65e0817ce01fc83fbe68a7624192808a',1,'vpkpp::PackFile']]],
   ['entry_5freal_13',['entry_real',['../dd/de9/structvpkpp_1_1GCF_1_1DirectoryEntry2.html#afaae8cc63fa2086f4ea06d05174659c2',1,'vpkpp::GCF::DirectoryEntry2']]],
   ['entry_5ftype_14',['entry_type',['../d4/d3e/structvpkpp_1_1GCF_1_1Block.html#a52e67731b3593b772c9f5ff77265e539',1,'vpkpp::GCF::Block']]],
@@ -21,6 +21,7 @@ var searchData=
   ['executable_5fextension0_18',['EXECUTABLE_EXTENSION0',['../d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54',1,'vpkpp']]],
   ['executable_5fextension1_19',['EXECUTABLE_EXTENSION1',['../d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7',1,'vpkpp']]],
   ['executable_5fextension2_20',['EXECUTABLE_EXTENSION2',['../d5/d29/namespacevpkpp.html#a775dc7575afded7ae13cf8f5049c2a29',1,'vpkpp']]],
-  ['extradata_21',['extraData',['../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df',1,'vpkpp::Entry']]],
-  ['eyeposition_22',['eyePosition',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a4d3f33b7872467719acfcd862337341f',1,'mdlpp::MDL::MDL']]]
+  ['extracompressioninfo_21',['extraCompressionInfo',['../d9/d80/structsndpp_1_1WAV_1_1ChunkFACT.html#a23dbad5cbd5992f9b2af2009b15625b2',1,'sndpp::WAV::ChunkFACT::extraCompressionInfo()'],['../d6/d2c/structsndpp_1_1WAV_1_1ChunkFMT.html#ac1d16e39c79cc952c96ad398e17181ee',1,'sndpp::WAV::ChunkFMT::extraCompressionInfo()']]],
+  ['extradata_22',['extraData',['../d9/d6b/classvpkpp_1_1Entry.html#a9803d648446058ede8b2c9f8a34786df',1,'vpkpp::Entry']]],
+  ['eyeposition_23',['eyePosition',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a4d3f33b7872467719acfcd862337341f',1,'mdlpp::MDL::MDL']]]
 ];

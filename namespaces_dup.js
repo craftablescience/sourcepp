@@ -6,6 +6,7 @@ var namespaces_dup =
     [ "gamepp", "de/d04/namespacegamepp.html", "de/d04/namespacegamepp" ],
     [ "kvpp", "d8/d57/namespacekvpp.html", "d8/d57/namespacekvpp" ],
     [ "mdlpp", "d1/d8e/namespacemdlpp.html", "d1/d8e/namespacemdlpp" ],
+    [ "sndpp", "d3/db4/namespacesndpp.html", "d3/db4/namespacesndpp" ],
     [ "sourcepp", "d2/deb/namespacesourcepp.html", "d2/deb/namespacesourcepp" ],
     [ "steampp", "d7/d4d/namespacesteampp.html", "d7/d4d/namespacesteampp" ],
     [ "toolpp", "d6/d4a/namespacetoolpp.html", "d6/d4a/namespacetoolpp" ],

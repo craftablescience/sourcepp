@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['zero_0',['zero',['../d6/d21/structsourcepp_1_1math_1_1Vec.html#a7d4059d35446104bb28906b0603d93d6',1,'sourcepp::math::Vec']]],
-  ['zip_1',['ZIP',['../da/de7/classvpkpp_1_1ZIP.html#a1bc1ecd6e1a7b9585fa4f36e92ba45b3',1,'vpkpp::ZIP']]]
+  ['xwv_0',['XWV',['../d9/d12/classsndpp_1_1XWV.html#aa69d95f95d138435b397c91df5ebc0db',1,'sndpp::XWV::XWV(std::span&lt; const std::byte &gt; xwvData)'],['../d9/d12/classsndpp_1_1XWV.html#a52a53a3070b1997fd8d9befb1efc3af7',1,'sndpp::XWV::XWV(const std::string &amp;xwvPath)']]]
 ];

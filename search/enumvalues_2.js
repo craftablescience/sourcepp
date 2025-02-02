@@ -22,6 +22,8 @@ var searchData=
   ['copy_5ffile_5fif_5fexists_19',['COPY_FILE_IF_EXISTS',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181a6fe67a13d21c07a17ac0fbdeffb69842',1,'toolpp::CmdSeq::Command']]],
   ['count_20',['COUNT',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a4905ac9d6a22bdfc1ae096094ce6248d',1,'bsppp']]],
   ['crc32_21',['CRC32',['../d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daea19c122b00447f21a2938e2602d53ceab',1,'vpkpp']]],
-  ['cubemaps_22',['CUBEMAPS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54',1,'bsppp']]],
-  ['cubic_5fbspline_23',['CUBIC_BSPLINE',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77',1,'vtfpp::ImageConversion']]]
+  ['cset_22',['CSET',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a0ee2eff1cc531c6d7882dcc455cb342f',1,'sndpp::WAV']]],
+  ['cubemaps_23',['CUBEMAPS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a13e0a3d98379f31a91e563053119da54',1,'bsppp']]],
+  ['cubic_5fbspline_24',['CUBIC_BSPLINE',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77',1,'vtfpp::ImageConversion']]],
+  ['cue_25',['CUE',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a13b1e122c7bb2180335974c89c132432',1,'sndpp::WAV']]]
 ];

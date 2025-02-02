@@ -75,6 +75,10 @@ var annotated_dup =
       [ "Movement", "d1/dbd/structmdlpp_1_1Movement.html", "d1/dbd/structmdlpp_1_1Movement" ],
       [ "StudioModel", "db/dee/structmdlpp_1_1StudioModel.html", "db/dee/structmdlpp_1_1StudioModel" ]
     ] ],
+    [ "sndpp", "d3/db4/namespacesndpp.html", [
+      [ "WAV", "df/dc5/classsndpp_1_1WAV.html", "df/dc5/classsndpp_1_1WAV" ],
+      [ "XWV", "d9/d12/classsndpp_1_1XWV.html", "d9/d12/classsndpp_1_1XWV" ]
+    ] ],
     [ "sourcepp", "d2/deb/namespacesourcepp.html", [
       [ "detail", "dc/daf/namespacesourcepp_1_1detail.html", [
         [ "member_type_helper", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", null ],
