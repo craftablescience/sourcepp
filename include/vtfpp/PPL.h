@@ -19,7 +19,7 @@ public:
 		std::vector<std::byte> data;
 	};
 
-	explicit PPL(uint32_t checksum_, ImageFormat format_ = ImageFormat::RGB888, uint32_t version_ = 0);
+	explicit PPL(uint32_t modelChecksum, ImageFormat format_ = ImageFormat::RGB888, uint32_t version_ = 0);
 
 	explicit PPL(std::span<const std::byte> pplData);
 
@@ -31,9 +31,9 @@ public:
 
 	void setVersion(uint32_t newVersion);
 
-	[[nodiscard]] uint32_t getChecksum() const;
+	[[nodiscard]] uint32_t getModelChecksum() const;
 
-	void setChecksum(uint32_t newChecksum);
+	void setModelChecksum(uint32_t newChecksum);
 
 	[[nodiscard]] ImageFormat getFormat() const;
 

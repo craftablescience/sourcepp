@@ -212,14 +212,14 @@ void register_python(py::module_& m) {
 		});
 
 	cPPL
-		.def(py::init<uint32_t, ImageFormat, uint32_t>(), py::arg("checksum"), py::arg("format") = ImageFormat::RGB888, py::arg("version") = 0)
+		.def(py::init<uint32_t, ImageFormat, uint32_t>(), py::arg("model_checksum"), py::arg("format") = ImageFormat::RGB888, py::arg("version") = 0)
 		.def("__init__", [](PPL* self, const py::bytes& pplData) {
 			return new(self) PPL{{reinterpret_cast<const std::byte*>(pplData.data()), pplData.size()}};
 		}, py::arg("ppl_data"))
 		.def(py::init<const std::string&>(), py::arg("path"))
 		.def("__bool__", &PPL::operator bool, py::is_operator())
 		.def_prop_rw("version", &PPL::getVersion, &PPL::setVersion)
-		.def_prop_rw("checksum", &PPL::getChecksum, &PPL::setChecksum)
+		.def_prop_rw("model_checksum", &PPL::getModelChecksum, &PPL::setModelChecksum)
 		.def_prop_rw("format", &PPL::getFormat, &PPL::setFormat)
 		.def("has_image_for_lod", &PPL::hasImageForLOD, py::arg("lod"))
 		.def_prop_ro("image_lods", &PPL::getImageLODs)

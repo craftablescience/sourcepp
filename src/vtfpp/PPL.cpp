@@ -7,9 +7,9 @@
 using namespace sourcepp;
 using namespace vtfpp;
 
-PPL::PPL(uint32_t checksum_, ImageFormat format_, uint32_t version_)
+PPL::PPL(uint32_t modelChecksum, ImageFormat format_, uint32_t version_)
 		: version(version_)
-		, checksum(checksum_)
+		, checksum(modelChecksum)
 		, format(format_) {}
 
 PPL::PPL(std::span<const std::byte> pplData) {
@@ -49,11 +49,11 @@ void PPL::setVersion(uint32_t newVersion) {
 	this->version = newVersion;
 }
 
-uint32_t PPL::getChecksum() const {
+uint32_t PPL::getModelChecksum() const {
 	return this->checksum;
 }
 
-void PPL::setChecksum(uint32_t newChecksum) {
+void PPL::setModelChecksum(uint32_t newChecksum) {
 	this->checksum = newChecksum;
 }
 
