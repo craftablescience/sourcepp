@@ -38,11 +38,11 @@ SOURCEPP_API sourcepp_string_t vpkpp_zip_guid(vpkpp_pack_file_handle_t handle) {
 }
 
 SOURCEPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
-	SOURCEPP_EARLY_RETURN_VAL(path, ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
+	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
+	SOURCEPP_EARLY_RETURN_VAL(path, VPKPP_ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
 
 	auto* zip = Convert::packFile(handle);
-	SOURCEPP_EARLY_RETURN_VAL(zip->isInstanceOf<ZIP>(), ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
+	SOURCEPP_EARLY_RETURN_VAL(zip->isInstanceOf<ZIP>(), VPKPP_ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
 
 	return static_cast<vpkpp_entry_compression_type_e>(dynamic_cast<ZIP*>(zip)->getEntryCompressionType(path));
 }
