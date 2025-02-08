@@ -11,13 +11,13 @@ TEST(vtfpp, read_write_ppl) {
 
 	PPL reader{in};
 	EXPECT_EQ(reader.getVersion(), 0);
-	EXPECT_EQ(reader.getChecksum(), 0xa9230a52);
+	EXPECT_EQ(reader.getModelChecksum(), 0xa9230a52);
 	EXPECT_EQ(reader.getFormat(), ImageFormat::RGB888);
 
 	const auto* image = reader.getImageRaw();
 	ASSERT_TRUE(reader);
 
-	PPL writer{reader.getChecksum(), reader.getFormat(), reader.getVersion()};
+	PPL writer{reader.getModelChecksum(), reader.getFormat(), reader.getVersion()};
 	writer.setImage(image->data, reader.getFormat(), image->width, image->height);
 
 	auto out = writer.bake();
