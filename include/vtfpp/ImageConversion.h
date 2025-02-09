@@ -370,8 +370,7 @@ enum class ResizeFilter {
 	CUBIC_BSPLINE,
 	CATMULLROM,
 	MITCHELL,
-	// Disabled for now, see https://github.com/nothings/stb/issues/1678
-	//POINT_SAMPLE,
+	POINT_SAMPLE,
 };
 
 enum class ResizeMethod {
