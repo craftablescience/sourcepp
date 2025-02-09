@@ -13,6 +13,10 @@ typedef struct {
 
 #define SOURCEPP_BUFFER_INVALID (sourcepp_buffer_t{.size = -1, .data = NULL})
 
+// Aliases
+typedef sourcepp_buffer_t sourcepp_buffer_uint32_t;
+typedef sourcepp_buffer_t sourcepp_buffer_uint64_t;
+
 #ifdef __cplusplus
 } // extern "C"
 #endif

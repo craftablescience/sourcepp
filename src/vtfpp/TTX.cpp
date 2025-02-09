@@ -171,6 +171,8 @@ std::pair<std::vector<std::byte>, std::vector<std::byte>> TTX::bake() const {
 bool TTX::bake(const std::string& tthPath, const std::string& ttzPath) const {
 	const auto data = this->bake();
 	const bool tth = fs::writeFileBuffer(tthPath, data.first);
-	const bool ttz = fs::writeFileBuffer(ttzPath, data.second);
-	return tth && ttz;
+	if (!data.second.empty()) {
+		return fs::writeFileBuffer(ttzPath, data.second) && tth;
+	}
+	return tth;
 }
