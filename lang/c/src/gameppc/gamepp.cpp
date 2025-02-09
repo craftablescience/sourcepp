@@ -17,6 +17,8 @@ SOURCEPP_API gamepp_game_instance_handle_t gamepp_find_game_instance() {
 }
 
 SOURCEPP_API gamepp_game_instance_handle_t gamepp_find_game_instance_with_name(const char* windowNameOverride) {
+	SOURCEPP_EARLY_RETURN_VAL(windowNameOverride, nullptr);
+
 	auto instance = GameInstance::find(windowNameOverride);
 	if (!instance) {
 		return nullptr;

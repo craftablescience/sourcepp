@@ -231,7 +231,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="16" align="center">Python</td>
+    <td rowspan="16" align="center">C<br>Python</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
