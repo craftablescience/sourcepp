@@ -236,11 +236,11 @@ void register_python(py::module_& m) {
 		.def("set_image", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t lod = 0) {
 			self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod);
 		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("lod") = 0)
-		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR) {
+		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT) {
 			self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter);
-		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR)
+		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def("set_image_from_file", py::overload_cast<const std::string&, uint32_t>(&PPL::setImage), py::arg("image_path"), py::arg("lod") = 0)
-		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter>(&PPL::setImage), py::arg("image_path"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR)
+		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter>(&PPL::setImage), py::arg("image_path"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def("save_image", [](const PPL& self, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(lod, fileFormat);
 			return py::bytes{d.data(), d.size()};
@@ -430,10 +430,10 @@ void register_python(py::module_& m) {
 		.def("add_flags", &VTF::addFlags, py::arg("flags"))
 		.def("remove_flags", &VTF::removeFlags, py::arg("flags"))
 		.def_prop_ro("format", &VTF::getFormat)
-		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR)
+		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)
 		.def("set_recommended_mip_count", &VTF::setRecommendedMipCount)
-		.def("compute_mips", &VTF::computeMips, py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR)
+		.def("compute_mips", &VTF::computeMips, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def_prop_rw("frame_count", &VTF::getFrameCount, &VTF::setFrameCount)
 		.def_prop_ro("face_count", &VTF::getFaceCount)
 		.def("set_face_count", &VTF::setFaceCount, py::arg("is_cubemap"), py::arg("has_spheremap") = false)
@@ -489,10 +489,10 @@ void register_python(py::module_& m) {
 			const auto d = self.getImageDataAsRGBA8888(mip, frame, face, slice);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
-		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
+		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
 			return self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("filter"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
-		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t>(&VTF::setImage), py::arg("image_path"), py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
+		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t>(&VTF::setImage), py::arg("image_path"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
 		.def("save_image", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(mip, frame, face, slice, fileFormat);
 			return py::bytes{d.data(), d.size()};
@@ -514,7 +514,7 @@ void register_python(py::module_& m) {
 		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
 			return self.setThumbnail({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"))
-		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::BILINEAR)
+		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def("remove_thumbnail", &VTF::removeThumbnail)
 		.def("save_thumbnail", [](const VTF& self, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveThumbnailToFile(fileFormat);

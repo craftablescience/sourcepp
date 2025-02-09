@@ -175,7 +175,7 @@ public:
 		ImageFormat outputFormat = FORMAT_DEFAULT;
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
-		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR;
+		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT;
 		Flags flags = FLAG_NONE;
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
@@ -267,7 +267,7 @@ public:
 
 	[[nodiscard]] ImageFormat getFormat() const;
 
-	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
+	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
 
 	[[nodiscard]] uint8_t getMipCount() const;
 
@@ -275,7 +275,7 @@ public:
 
 	bool setRecommendedMipCount();
 
-	void computeMips(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
+	void computeMips(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
 
 	[[nodiscard]] uint16_t getFrameCount() const;
 
@@ -362,9 +362,9 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
-	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
+	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
 
-	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
+	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
@@ -380,7 +380,7 @@ public:
 
 	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_);
 
-	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
+	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
 
 	void removeThumbnail();
 
@@ -403,7 +403,7 @@ protected:
 
 	void removeResourceInternal(Resource::Type type);
 
-	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::BILINEAR);
+	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
 
 	bool opened = false;
 
