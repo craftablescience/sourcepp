@@ -545,7 +545,7 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	if (options.computeMips) {
 		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
-		writer.computeMips();
+		writer.computeMips(options.filter);
 	}
 	if (options.computeReflectivity) {
 		writer.computeReflectivity();
