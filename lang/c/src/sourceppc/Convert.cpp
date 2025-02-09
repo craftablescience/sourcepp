@@ -1,11 +1,5 @@
 #include <sourceppc/Convert.hpp>
 
-sourcepp_buffer_t Convert::toBuffer(const std::vector<std::byte>& vec) {
-	auto buf = sourcepp_buffer_new(vec.size());
-	std::memcpy(buf.data, vec.data(), vec.size());
-	return buf;
-}
-
 sourcepp_string_t Convert::toString(std::string_view str) {
 	auto newStr = sourcepp_string_new(str.size());
 	std::memcpy(newStr.data, str.data(), str.size());
