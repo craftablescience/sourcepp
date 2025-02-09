@@ -6,8 +6,9 @@
 ### Future Improvements
 
 - External
-  - Move from cryptopp to a maintained cryptography library
+  - Strip down cryptopp and stop downloading it at CMake configuration time
   - Move from compressonator to something that isn't a pile of garbage
+    - There is literally nothing else that supports BC6H
   - Fork minizip-ng and change how it handles dependencies
 - `bsppp`
   - Support parsing more lumps
@@ -31,6 +32,7 @@
   - Parse animations/sequences
   - Make something to construct StudioModel objects from a given model file like obj/glTF?
   - Add a save method to write the constituent parts of a StudioModel to disk
+  - Add an SMD parser/writer
 - `sndpp`
   - WAV write support
   - XWV write support
