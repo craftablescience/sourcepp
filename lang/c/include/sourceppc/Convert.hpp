@@ -19,7 +19,13 @@
 
 namespace Convert {
 
-sourcepp_buffer_t toBuffer(const std::vector<std::byte>& vec);
+template<typename T>
+requires (std::is_trivially_copyable_v<T> && !std::is_pointer_v<T>)
+sourcepp_buffer_t toBuffer(const std::vector<T>& vec) {
+	auto buf = sourcepp_buffer_new(vec.size() * sizeof(T));
+	std::memcpy(buf.data, vec.data(), vec.size() * sizeof(T));
+	return buf;
+}
 
 sourcepp_string_t toString(std::string_view str);
 

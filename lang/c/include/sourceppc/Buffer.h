@@ -8,7 +8,7 @@ extern "C" {
 
 typedef struct {
 	int64_t size;
-	uint8_t* data;
+	void* data;
 } sourcepp_buffer_t;
 
 #define SOURCEPP_BUFFER_INVALID (sourcepp_buffer_t{.size = -1, .data = NULL})
