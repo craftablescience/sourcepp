@@ -215,15 +215,15 @@ public:
 
 	[[nodiscard]] explicit operator bool() const;
 
-	static void create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+	static bool create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
 
-	static void create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+	static bool create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
 
 	[[nodiscard]] static VTF create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
 
 	[[nodiscard]] static VTF create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
 
-	static void create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
+	static bool create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
 
 	[[nodiscard]] static VTF create(const std::string& imagePath, CreationOptions options);
 

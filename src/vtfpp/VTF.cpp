@@ -555,20 +555,20 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	writer.setCompressionMethod(options.compressionMethod);
 }
 
-void VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
 	VTF writer;
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imageData, format, width, height, options.filter);
 	createInternal(writer, options);
-	writer.bake(vtfPath);
+	return writer.bake(vtfPath);
 }
 
-void VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
 	std::vector<std::byte> imageData;
 	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
-	create(imageData, format, width, height, vtfPath, options);
+	return create(imageData, format, width, height, vtfPath, options);
 }
 
 VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
@@ -587,14 +587,14 @@ VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, CreationOpt
 	return create(imageData, format, width, height, options);
 }
 
-void VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
 	VTF writer;
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imagePath, options.filter);
 	createInternal(writer, options);
-	writer.bake(vtfPath);
+	return writer.bake(vtfPath);
 }
 
 VTF VTF::create(const std::string& imagePath, CreationOptions options) {
