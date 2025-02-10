@@ -21,7 +21,7 @@
 
 #include <Compressonator.h>
 #include <sourcepp/Macros.h>
-#include <sourcepp/Math.h>
+#include <sourcepp/MathExtended.h>
 
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC
@@ -1558,17 +1558,17 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	// APNG
 	{
 		stbi__context s;
-		stbi__start_mem(&s, reinterpret_cast<const stbi_uc*>(fileData.data()), fileData.size());
+		stbi__start_mem(&s, reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()));
 		if (stbi__png_test(&s)) {
 			// We know it's a PNG, but is it an APNG? You'll have to scroll past the decoder to find out!
 			const auto apngDecoder = [&format, &width, &height, &frameCount]<typename P>(const auto& stbImage, std::size_t dirOffset) -> std::vector<std::byte> {
-				stbi__apng_directory* dir = reinterpret_cast<stbi__apng_directory*>(stbImage.get() + dirOffset);
+				auto* dir = reinterpret_cast<stbi__apng_directory*>(stbImage.get() + dirOffset);
 				if (dir->type != STBI__STRUCTURE_TYPE_APNG_DIRECTORY) {
 					return {}; // Malformed
 				}
 
 				format = P::FORMAT;
-				frameCount = dir->num_frames;
+				frameCount = static_cast<int>(dir->num_frames);
 
 				static constexpr auto calcPixelOffset = [](uint32_t offsetX, uint32_t offsetY, uint32_t width) {
 					return ((offsetY * width) + offsetX) * sizeof(P);
@@ -1843,16 +1843,63 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
+
+	STBIR_RESIZE resize;
+	const auto setEdgeModesAndFiltersAndDoResize = [edge, filter, &resize] {
+		stbir_set_edgemodes(&resize, static_cast<stbir_edge>(edge), static_cast<stbir_edge>(edge));
+		switch (filter) {
+			case ResizeFilter::DEFAULT:
+			case ResizeFilter::BOX:
+			case ResizeFilter::BILINEAR:
+			case ResizeFilter::CUBIC_BSPLINE:
+			case ResizeFilter::CATMULLROM:
+			case ResizeFilter::MITCHELL:
+			case ResizeFilter::POINT_SAMPLE: {
+				stbir_set_filters(&resize, static_cast<stbir_filter>(filter), static_cast<stbir_filter>(filter));
+				break;
+			}
+			case ResizeFilter::KAISER: {
+				static constexpr auto KAISER_BETA = [](float s) {
+					if (s >= 1.f) {
+						return 5.f;
+					}
+					if (s >= 0.5f) {
+						return 6.5f;
+					}
+					return 8.f;
+				};
+				static constexpr auto KAISER_FILTER = [](float x, float s, void*) -> float {
+					if (x < -1.f || x > 1.f) {
+						return 0.f;
+					}
+					return static_cast<float>(math::kaiserWindow(x * s, KAISER_BETA(s)));
+				};
+				static constexpr auto KAISER_SUPPORT = [](float s, void*) -> float {
+					float baseSupport = KAISER_BETA(s) / 2.f;
+					if (s > 1.f) {
+						return std::max(2.f, baseSupport - 0.5f);
+					}
+					return std::max(3.f, baseSupport);
+				};
+				stbir_set_filter_callbacks(&resize, KAISER_FILTER, KAISER_SUPPORT, KAISER_FILTER, KAISER_SUPPORT);
+				break;
+			}
+		}
+		stbir_resize_extended(&resize);
+	};
+
 	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format);
 	if (pixelLayout == -1) {
 		const auto containerFormat = ImageFormatDetails::containerFormat(format);
 		const auto in = convertImageDataToFormat(imageData, format, containerFormat, width, height);
 		std::vector<std::byte> intermediary(ImageFormatDetails::getDataLength(containerFormat, newWidth, newHeight));
-		stbir_resize(in.data(), width, height, ImageFormatDetails::bpp(containerFormat) / 8 * width, intermediary.data(), newWidth, newHeight, ImageFormatDetails::bpp(containerFormat) / 8 * newWidth, static_cast<stbir_pixel_layout>(::imageFormatToSTBIRPixelLayout(containerFormat)), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(containerFormat, srgb)), STBIR_EDGE_CLAMP, static_cast<stbir_filter>(filter));
+		stbir_resize_init(&resize, in.data(), width, height, ImageFormatDetails::bpp(containerFormat) / 8 * width, intermediary.data(), newWidth, newHeight, ImageFormatDetails::bpp(containerFormat) / 8 * newWidth, static_cast<stbir_pixel_layout>(::imageFormatToSTBIRPixelLayout(containerFormat)), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(containerFormat, srgb)));
+		setEdgeModesAndFiltersAndDoResize();
 		return convertImageDataToFormat(intermediary, containerFormat, format, newWidth, newHeight);
 	}
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, newWidth, newHeight));
-	stbir_resize(imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8 * width, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8 * newWidth, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)), static_cast<stbir_edge>(edge), static_cast<stbir_filter>(filter));
+	stbir_resize_init(&resize, imageData.data(), width, height, ImageFormatDetails::bpp(format) / 8 * width, out.data(), newWidth, newHeight, ImageFormatDetails::bpp(format) / 8 * newWidth, static_cast<stbir_pixel_layout>(pixelLayout), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(format, srgb)));
+	setEdgeModesAndFiltersAndDoResize();
 	return out;
 }
 

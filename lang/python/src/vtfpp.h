@@ -168,6 +168,7 @@ void register_python(py::module_& m) {
 			.value("CATMULLROM",    ResizeFilter::CATMULLROM)
 			.value("MITCHELL",      ResizeFilter::MITCHELL)
 			.value("POINT_SAMPLE",  ResizeFilter::POINT_SAMPLE)
+			.value("KAISER",        ResizeFilter::KAISER)
 			.export_values();
 
 		py::enum_<ResizeMethod>(ImageConversion, "ResizeMethod")

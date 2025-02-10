@@ -371,6 +371,9 @@ enum class ResizeFilter {
 	CATMULLROM,
 	MITCHELL,
 	POINT_SAMPLE,
+
+	// User-defined
+	KAISER = 100,
 };
 
 enum class ResizeMethod {
