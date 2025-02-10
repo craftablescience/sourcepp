@@ -165,7 +165,7 @@ void register_python(py::module_& m) {
 			.value("BOX",           ResizeFilter::BOX)
 			.value("BILINEAR",      ResizeFilter::BILINEAR)
 			.value("CUBIC_BSPLINE", ResizeFilter::CUBIC_BSPLINE)
-			.value("CATMULLROM",    ResizeFilter::CATMULLROM)
+			.value("CATMULL_ROM",   ResizeFilter::CATMULL_ROM)
 			.value("MITCHELL",      ResizeFilter::MITCHELL)
 			.value("POINT_SAMPLE",  ResizeFilter::POINT_SAMPLE)
 			.value("KAISER",        ResizeFilter::KAISER)
