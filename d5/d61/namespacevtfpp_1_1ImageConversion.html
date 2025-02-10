@@ -159,6 +159,7 @@ Enumerations</h2></td></tr>
 &#160;&#160;<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255">CATMULLROM</a>
 , <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d">MITCHELL</a>
 , <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea4e3f33496451c375be5947e7c1fbd3ea">POINT_SAMPLE</a>
+, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26bea9b49d8a6d505b416c90acf00e67acc83">KAISER</a> = 100
 <br />
  }</td></tr>
 <tr class="separator:a69415c9957b5d27602eeb20f862d26be"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -303,6 +304,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255" name="a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255"></a>CATMULLROM&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d" name="a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d"></a>MITCHELL&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26bea4e3f33496451c375be5947e7c1fbd3ea" name="a69415c9957b5d27602eeb20f862d26bea4e3f33496451c375be5947e7c1fbd3ea"></a>POINT_SAMPLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a69415c9957b5d27602eeb20f862d26bea9b49d8a6d505b416c90acf00e67acc83" name="a69415c9957b5d27602eeb20f862d26bea9b49d8a6d505b416c90acf00e67acc83"></a>KAISER&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00365">365</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
@@ -335,7 +337,7 @@ Functions</h2></td></tr>
 <tr><td class="fieldname"><a id="a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35" name="a9008d2944fc178ec39a2a406536dc3cca6226c6d508bb91cbae45d6587a730d35"></a>POWER_OF_TWO_NEAREST&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00376">376</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00379">379</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -377,7 +379,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Applies a single channel to the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00424">424</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00427">427</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -724,7 +726,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01869">1869</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01916">1916</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
@@ -759,7 +761,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Extracts a single channel from the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00403">403</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00406">406</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -985,7 +987,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 
 <p>Resize given image data to the new dimensions, where the new width and height are governed by the resize methods. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01859">1859</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01906">1906</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>

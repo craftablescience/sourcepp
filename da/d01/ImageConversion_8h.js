@@ -56,7 +56,8 @@ var ImageConversion_8h =
       [ "CUBIC_BSPLINE", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26bea4f26471b24cdbc8abab5a814289cbf77", null ],
       [ "CATMULLROM", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26beac6e29fde1c8c00ccf96d918a1144c255", null ],
       [ "MITCHELL", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26bea8ca9bf69e1cc136c1a531cbd13e0759d", null ],
-      [ "POINT_SAMPLE", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26bea4e3f33496451c375be5947e7c1fbd3ea", null ]
+      [ "POINT_SAMPLE", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26bea4e3f33496451c375be5947e7c1fbd3ea", null ],
+      [ "KAISER", "da/d01/ImageConversion_8h.html#a69415c9957b5d27602eeb20f862d26bea9b49d8a6d505b416c90acf00e67acc83", null ]
     ] ],
     [ "ResizeMethod", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3cc", [
       [ "NONE", "da/d01/ImageConversion_8h.html#a9008d2944fc178ec39a2a406536dc3ccab50339a10e1de285ac99d4c3990b8693", null ],

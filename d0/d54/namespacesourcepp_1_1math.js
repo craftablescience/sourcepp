@@ -1,5 +1,9 @@
 var namespacesourcepp_1_1math =
 [
+    [ "detail", "dd/da6/namespacesourcepp_1_1math_1_1detail.html", [
+      [ "besselI0A", "dd/da6/namespacesourcepp_1_1math_1_1detail.html#af685570753bc91cfe8eda7e55d7b9a5b", null ],
+      [ "besselI0B", "dd/da6/namespacesourcepp_1_1math_1_1detail.html#ad70ed939b6bd5e98aa9cb9aa2da36cd3", null ]
+    ] ],
     [ "Mat", "d5/d89/classsourcepp_1_1math_1_1Mat.html", "d5/d89/classsourcepp_1_1math_1_1Mat" ],
     [ "QuatCompressed48", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html", "d7/d84/structsourcepp_1_1math_1_1QuatCompressed48" ],
     [ "QuatCompressed64", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html", "d4/daf/structsourcepp_1_1math_1_1QuatCompressed64" ],
@@ -7,7 +11,10 @@ var namespacesourcepp_1_1math =
     [ "Arithmetic", "da/dd4/conceptsourcepp_1_1math_1_1Arithmetic.html", null ],
     [ "EulerAngles", "d0/d54/namespacesourcepp_1_1math.html#a4567339d60c6b18585b7b92f33d761f8", null ],
     [ "Quat", "d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922", null ],
+    [ "besselI0", "d0/d54/namespacesourcepp_1_1math.html#a6bd05037af1686d8945cf52bcc3fe593", null ],
+    [ "chebyshev", "d0/d54/namespacesourcepp_1_1math.html#aec4223d8eba2c7c9ca3b94a1b55f6c0b", null ],
     [ "isPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a327fdedfce01c437e2a0429f802bba45", null ],
+    [ "kaiserWindow", "d0/d54/namespacesourcepp_1_1math.html#a89d700cb8358ffb04fd0e8d6378e8501", null ],
     [ "nearestPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a1bdf52cb659232b552995cb6940689af", null ],
     [ "paddingForAlignment", "d0/d54/namespacesourcepp_1_1math.html#a87270826c1117276963e26cfffc13408", null ],
     [ "remap", "d0/d54/namespacesourcepp_1_1math.html#aeb822b72bb06c58f134ef0e58e3f9824", null ],

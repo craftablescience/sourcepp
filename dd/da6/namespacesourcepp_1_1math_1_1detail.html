@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: sourcepp::math::detail Namespace Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('dd/da6/namespacesourcepp_1_1math_1_1detail.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#var-members">Variables</a>  </div>
+  <div class="headertitle"><div class="title">sourcepp::math::detail Namespace Reference</div></div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:af685570753bc91cfe8eda7e55d7b9a5b"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; double, 30 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da6/namespacesourcepp_1_1math_1_1detail.html#af685570753bc91cfe8eda7e55d7b9a5b">besselI0A</a></td></tr>
+<tr class="separator:af685570753bc91cfe8eda7e55d7b9a5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70ed939b6bd5e98aa9cb9aa2da36cd3"><td class="memItemLeft" align="right" valign="top">constexpr std::array&lt; double, 25 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/da6/namespacesourcepp_1_1math_1_1detail.html#ad70ed939b6bd5e98aa9cb9aa2da36cd3">besselI0B</a></td></tr>
+<tr class="separator:ad70ed939b6bd5e98aa9cb9aa2da36cd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<h2 class="groupheader">Variable Documentation</h2>
+<a id="af685570753bc91cfe8eda7e55d7b9a5b" name="af685570753bc91cfe8eda7e55d7b9a5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af685570753bc91cfe8eda7e55d7b9a5b">&#9670;&#160;</a></span>besselI0A</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::array&lt;double, 30&gt; sourcepp::math::detail::besselI0A</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    -4.41534164647933937950E-18, 3.33079451882223809783E-17,  -2.43127984654795469359E-16,</div>
+<div class="line">    1.71539128555513303061E-15,  -1.16853328779934516808E-14, 7.67618549860493561688E-14,</div>
+<div class="line">    -4.85644678311192946090E-13, 2.95505266312963983461E-12,  -1.72682629144155570723E-11,</div>
+<div class="line">    9.67580903537323691224E-11,  -5.18979560163526290666E-10, 2.65982372468238665035E-9,</div>
+<div class="line">    -1.30002500998624804212E-8,  6.04699502254191894932E-8,   -2.67079385394061173391E-7,</div>
+<div class="line">    1.11738753912010371815E-6,   -4.41673835845875056359E-6,  1.64484480707288970893E-5,</div>
+<div class="line">    -5.75419501008210370398E-5,  1.88502885095841655729E-4,   -5.76375574538582365885E-4,</div>
+<div class="line">    1.63947561694133579842E-3,   -4.32430999505057594430E-3,  1.05464603945949983183E-2,</div>
+<div class="line">    -2.37374148058994688156E-2,  4.93052842396707084878E-2,   -9.49010970480476444210E-2,</div>
+<div class="line">    1.71620901522208775349E-1,   -3.04682672343198398683E-1,  6.76795274409476084995E-1,</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d3/d48/MathExtended_8h_source.html#l00037">37</a> of file <a class="el" href="../../d3/d48/MathExtended_8h_source.html">MathExtended.h</a>.</p>
+
+</div>
+</div>
+<a id="ad70ed939b6bd5e98aa9cb9aa2da36cd3" name="ad70ed939b6bd5e98aa9cb9aa2da36cd3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad70ed939b6bd5e98aa9cb9aa2da36cd3">&#9670;&#160;</a></span>besselI0B</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr std::array&lt;double, 25&gt; sourcepp::math::detail::besselI0B</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">    -7.23318048787475395456E-18, -4.83050448594418207126E-18, 4.46562142029675999901E-17,</div>
+<div class="line">    3.46122286769746109310E-17,  -2.82762398051658348494E-16, -3.42548561967721913462E-16,</div>
+<div class="line">    1.77256013305652638360E-15,  3.81168066935262242075E-15,  -9.55484669882830764870E-15,</div>
+<div class="line">    -4.15056934728722208663E-14, 1.54008621752140982691E-14,  3.85277838274214270114E-13,</div>
+<div class="line">    7.18012445138366623367E-13,  -1.79417853150680611778E-12, -1.32158118404477131188E-11,</div>
+<div class="line">    -3.14991652796324136454E-11, 1.18891471078464383424E-11,  4.94060238822496958910E-10,</div>
+<div class="line">    3.39623202570838634515E-9,   2.26666899049817806459E-8,   2.04891858946906374183E-7,</div>
+<div class="line">    2.89137052083475648297E-6,   6.88975834691682398426E-5,   3.36911647825569408990E-3,</div>
+<div class="line">    8.04490411014108831608E-1,</div>
+<div class="line">}</div>
+</div><!-- fragment -->
+<p class="definition">Definition at line <a class="el" href="../../d3/d48/MathExtended_8h_source.html#l00055">55</a> of file <a class="el" href="../../d3/d48/MathExtended_8h_source.html">MathExtended.h</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d2/deb/namespacesourcepp.html">sourcepp</a></li><li class="navelem"><a class="el" href="../../d0/d54/namespacesourcepp_1_1math.html">math</a></li><li class="navelem"><a class="el" href="../../dd/da6/namespacesourcepp_1_1math_1_1detail.html">detail</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

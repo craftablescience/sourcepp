@@ -9,9 +9,10 @@ var searchData=
   ['beginentity_6',['beginEntity',['../d5/d25/classtoolpp_1_1FGDWriter.html#afa8ce19697eb97ec69c1c39d7553b2e8',1,'toolpp::FGDWriter']]],
   ['beginkeyvaluechoices_7',['beginKeyValueChoices',['../d4/da2/classtoolpp_1_1FGDWriter_1_1EntityWriter.html#a063963f6bb4166c949cc0df11fb25849',1,'toolpp::FGDWriter::EntityWriter']]],
   ['beginkeyvalueflags_8',['beginKeyValueFlags',['../d4/da2/classtoolpp_1_1FGDWriter_1_1EntityWriter.html#abc4d7124f769496d40a0f1744b7b5491',1,'toolpp::FGDWriter::EntityWriter']]],
-  ['blue_9',['blue',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0',1,'vtfpp::ImageFormatDetails']]],
-  ['bpp_10',['bpp',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#acc53a7285be1b23a4cc06d28cee7f9e2',1,'vtfpp::ImageFormatDetails']]],
-  ['bsp_11',['BSP',['../d5/dba/classbsppp_1_1BSP.html#a79565eac09e3a56bf2417e35905dc753',1,'bsppp::BSP']]],
-  ['bspentitykeyvalues_12',['BSPEntityKeyValues',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a4e29f9363b8608a6168dd336ecbbd541',1,'bsppp::BSPEntityKeyValues']]],
-  ['bytetoid_13',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]]
+  ['besseli0_9',['besselI0',['../d0/d54/namespacesourcepp_1_1math.html#a6bd05037af1686d8945cf52bcc3fe593',1,'sourcepp::math']]],
+  ['blue_10',['blue',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0',1,'vtfpp::ImageFormatDetails']]],
+  ['bpp_11',['bpp',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#acc53a7285be1b23a4cc06d28cee7f9e2',1,'vtfpp::ImageFormatDetails']]],
+  ['bsp_12',['BSP',['../d5/dba/classbsppp_1_1BSP.html#a79565eac09e3a56bf2417e35905dc753',1,'bsppp::BSP']]],
+  ['bspentitykeyvalues_13',['BSPEntityKeyValues',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#a4e29f9363b8608a6168dd336ecbbd541',1,'bsppp::BSPEntityKeyValues']]],
+  ['bytetoid_14',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]]
 ];
