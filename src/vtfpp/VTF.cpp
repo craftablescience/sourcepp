@@ -560,7 +560,9 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imageData, format, width, height, options.filter);
+	if (!writer.setImage(imageData, format, width, height, options.filter)) {
+		return false;
+	}
 	createInternal(writer, options);
 	return writer.bake(vtfPath);
 }
@@ -592,7 +594,9 @@ bool VTF::create(const std::string& imagePath, const std::string& vtfPath, Creat
 	writer.setVersion(options.majorVersion, options.minorVersion);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imagePath, options.filter);
+	if (!writer.setImage(imagePath, options.filter)) {
+		return false;
+	}
 	createInternal(writer, options);
 	return writer.bake(vtfPath);
 }
