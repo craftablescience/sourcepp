@@ -381,9 +381,11 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 A list of projects using the `sourcepp` parser set. If you'd like to see your project here, make a PR!
 
-- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed tool that can create, extract from,
-  preview the contents of and write to several pack file formats. A CLI application is bundled with the program which replicates
+- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed GUI tool that can create, extract from,
+  preview the contents of and write to several pack file formats. A CLI tool is bundled with the program which replicates
   the functionality of Valve's `vpk.exe`.
+- [MareTF](https://github.com/craftablescience/MareTF): An open source MIT-licensed CLI tool that can create VTFs, with more
+  features and a companion GUI tool planned. Replicates the functionality of Valve's `vtex.exe`.
 - [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp`
   libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from
   a user project or from installed Source games.
