@@ -1852,7 +1852,7 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 			case ResizeFilter::BOX:
 			case ResizeFilter::BILINEAR:
 			case ResizeFilter::CUBIC_BSPLINE:
-			case ResizeFilter::CATMULLROM:
+			case ResizeFilter::CATMULL_ROM:
 			case ResizeFilter::MITCHELL:
 			case ResizeFilter::POINT_SAMPLE: {
 				stbir_set_filters(&resize, static_cast<stbir_filter>(filter), static_cast<stbir_filter>(filter));
