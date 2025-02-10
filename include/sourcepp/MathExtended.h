@@ -8,11 +8,12 @@
 #include "Math.h"
 
 #include <array>
+#include <cstddef>
 
 namespace sourcepp::math {
 
 // Evaluate Chebyshev series
-template<uint64_t L>
+template<std::size_t L>
 [[nodiscard]] constexpr double chebyshev(double x, const std::array<double, L>& array) {
 	const double* p = array.data();
 	double b0 = *p++;
