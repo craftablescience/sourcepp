@@ -78,7 +78,11 @@ constexpr double besselI0(double x) {
 }
 
 constexpr double kaiserWindow(double x, double b) {
-	return besselI0(b * std::sqrt(1 - x * x)) / besselI0(b);
+	const auto d = besselI0(b);
+	if (d == 0.0) {
+		return 0.0;
+	}
+	return besselI0(b * std::sqrt(1 - x * x)) / d;
 }
 
 } // namespace sourcepp::math
