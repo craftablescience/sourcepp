@@ -65,7 +65,7 @@ var classvtfpp_1_1VTF =
     [ "getBumpMapScale", "d8/df2/classvtfpp_1_1VTF.html#a4998bea1f7a756450f35bda657b23b8e", null ],
     [ "getCompressionLevel", "d8/df2/classvtfpp_1_1VTF.html#ae2b37e52579d747fdd60eaf9ffb42fb9", null ],
     [ "getCompressionMethod", "d8/df2/classvtfpp_1_1VTF.html#ac54ab6af8d9db4a5b311704f38bb95f8", null ],
-    [ "getDefaultFormat", "d8/df2/classvtfpp_1_1VTF.html#a2cf08e41d6d0c2efadc07dc00c837c89", null ],
+    [ "getDefaultCompressedFormat", "d8/df2/classvtfpp_1_1VTF.html#a1df02b22892de727d7429368825a5882", null ],
     [ "getFaceCount", "d8/df2/classvtfpp_1_1VTF.html#a5de74d05732902e4d4fab96a62fa09d2", null ],
     [ "getFlags", "d8/df2/classvtfpp_1_1VTF.html#af477ec94a8a813124c39c285f46d785a", null ],
     [ "getFormat", "d8/df2/classvtfpp_1_1VTF.html#a1b510b1ac3b83b0e3dcf79061f7f9c75", null ],
