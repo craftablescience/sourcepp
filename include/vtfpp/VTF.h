@@ -265,6 +265,8 @@ public:
 
 	void removeFlags(Flags flags_);
 
+	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion);
+
 	[[nodiscard]] ImageFormat getFormat() const;
 
 	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
@@ -393,8 +395,6 @@ public:
 	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
-	[[nodiscard]] ImageFormat getDefaultFormat() const;
-
 	static void createInternal(VTF& writer, CreationOptions options);
 
 	[[nodiscard]] Resource* getResourceInternal(Resource::Type type);

@@ -516,18 +516,6 @@ VTF::operator bool() const {
 	return this->opened;
 }
 
-ImageFormat VTF::getDefaultFormat() const {
-	if (this->format != ImageFormat::EMPTY) {
-		if (ImageFormatDetails::decompressedAlpha(this->format) > 0) {
-			if (this->majorVersion >= 7 && this->minorVersion >= 6) {
-				return ImageFormat::BC7;
-			}
-			return ImageFormat::DXT5;
-		}
-	}
-	return ImageFormat::DXT1;
-}
-
 void VTF::createInternal(VTF& writer, CreationOptions options) {
 	writer.setPlatform(options.platform);
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
@@ -541,7 +529,7 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
 		options.outputFormat = writer.getFormat();
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
-		options.outputFormat = writer.getDefaultFormat();
+		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getMajorVersion(), writer.getMinorVersion());
 	}
 	if (options.computeMips) {
 		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
@@ -742,6 +730,18 @@ void VTF::removeFlags(Flags flags_) {
 	this->flags &= static_cast<Flags>(~flags_ | FLAG_MASK_GENERATED);
 }
 
+ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion) {
+	if (inputFormat != ImageFormat::EMPTY) {
+		if (ImageFormatDetails::decompressedAlpha(inputFormat) > 0) {
+			if (majorVersion >= 7 && minorVersion >= 6) {
+				return ImageFormat::BC7;
+			}
+			return ImageFormat::DXT5;
+		}
+	}
+	return ImageFormat::DXT1;
+}
+
 ImageFormat VTF::getFormat() const {
 	return this->format;
 }
@@ -751,7 +751,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		return;
 	}
 	if (newFormat == VTF::FORMAT_DEFAULT) {
-		newFormat = this->getDefaultFormat();
+		newFormat = VTF::getDefaultCompressedFormat(this->format, this->majorVersion, this->minorVersion);
 	}
 	if (!this->hasImageData()) {
 		this->format = newFormat;
