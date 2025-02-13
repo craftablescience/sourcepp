@@ -35,6 +35,7 @@ var namespacevpkpp =
       [ "ZSTD", "d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a8406cc2302e19183037b61249546b234", null ],
       [ "XZ", "d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a27db3b98d01e664c17a6620b222c6469", null ]
     ] ],
+    [ "BEE_EXTENSION", "d5/d29/namespacevpkpp.html#acdb9523a63e0f9daada00f3639fb38b3", null ],
     [ "BMZ_EXTENSION", "d5/d29/namespacevpkpp.html#af80785db5464d702cb39ae2712fa02fd", null ],
     [ "EXAMPLE_EXTENSION", "d5/d29/namespacevpkpp.html#a5d2f9e88caa61407f218c763d0af0256", null ],
     [ "EXECUTABLE_EXTENSION0", "d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54", null ],

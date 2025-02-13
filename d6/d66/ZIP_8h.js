@@ -1,6 +1,7 @@
 var ZIP_8h =
 [
     [ "vpkpp::ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ],
+    [ "BEE_EXTENSION", "d6/d66/ZIP_8h.html#acdb9523a63e0f9daada00f3639fb38b3", null ],
     [ "BMZ_EXTENSION", "d6/d66/ZIP_8h.html#af80785db5464d702cb39ae2712fa02fd", null ],
     [ "PK3_EXTENSION", "d6/d66/ZIP_8h.html#ad4d41789f3009280940d92748b4c7c77", null ],
     [ "PK4_EXTENSION", "d6/d66/ZIP_8h.html#afeedd18a08eaae034ad7e699567590f4", null ],
