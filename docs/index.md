@@ -211,6 +211,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
       <br> &bull; FPK (Tactical Intervention)
       <br> &bull; <a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)
       <br> &bull; <a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)
+      <br> &bull; PKZ (Quake II RTX)
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
