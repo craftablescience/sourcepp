@@ -1,10 +1,12 @@
 var classvtfpp_1_1TTX =
 [
+    [ "TTX", "df/d47/classvtfpp_1_1TTX.html#adf4b7d4176a05b1d0e40fb5543f90873", null ],
     [ "TTX", "df/d47/classvtfpp_1_1TTX.html#aa0e687e3a32e72550f78f307ba9f3d35", null ],
     [ "TTX", "df/d47/classvtfpp_1_1TTX.html#a194cf0397f26b826a82fd1387bde9f52", null ],
     [ "bake", "df/d47/classvtfpp_1_1TTX.html#abe89c3a71ae94f8f78c49c2dae09902c", null ],
     [ "bake", "df/d47/classvtfpp_1_1TTX.html#a77d4d1ba0bd18454ab81e825013ce601", null ],
     [ "getAspectRatioType", "df/d47/classvtfpp_1_1TTX.html#a86dc54563e5498ccd1829bd02760135e", null ],
+    [ "getCompressionLevel", "df/d47/classvtfpp_1_1TTX.html#aa9728275691ed6198a87454fbbfb5cbe", null ],
     [ "getMajorVersion", "df/d47/classvtfpp_1_1TTX.html#a7f6a758e41f4739aa50d5e9fbe8009ec", null ],
     [ "getMinorVersion", "df/d47/classvtfpp_1_1TTX.html#a370c281b00d814bb3f1e1d9e92491c52", null ],
     [ "getMipFlags", "df/d47/classvtfpp_1_1TTX.html#ad036d31df161222095b3b755e6b8559e", null ],

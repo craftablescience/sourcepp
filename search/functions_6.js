@@ -35,7 +35,7 @@ var searchData=
   ['getchunks_32',['getChunks',['../df/dc5/classsndpp_1_1WAV.html#a51d701ebc1201e807c30f845580c7b4b',1,'sndpp::WAV::getChunks() const'],['../df/dc5/classsndpp_1_1WAV.html#a3359f63a0a766a15f7e0642ee12cb0a1',1,'sndpp::WAV::getChunks()']]],
   ['getchunksize_33',['getChunkSize',['../d5/d8b/classvpkpp_1_1VPK.html#a49990f489f2a451f04f8f5415ca21242',1,'vpkpp::VPK']]],
   ['getchunksmpl_34',['getChunkSMPL',['../df/dc5/classsndpp_1_1WAV.html#aa80125ec50b86561932a2202e774fda2',1,'sndpp::WAV']]],
-  ['getcompressionlevel_35',['getCompressionLevel',['../d8/df2/classvtfpp_1_1VTF.html#ae2b37e52579d747fdd60eaf9ffb42fb9',1,'vtfpp::VTF']]],
+  ['getcompressionlevel_35',['getCompressionLevel',['../d8/df2/classvtfpp_1_1VTF.html#ae2b37e52579d747fdd60eaf9ffb42fb9',1,'vtfpp::VTF::getCompressionLevel()'],['../df/d47/classvtfpp_1_1TTX.html#aa9728275691ed6198a87454fbbfb5cbe',1,'vtfpp::TTX::getCompressionLevel()']]],
   ['getcompressionmethod_36',['getCompressionMethod',['../d8/df2/classvtfpp_1_1VTF.html#ac54ab6af8d9db4a5b311704f38bb95f8',1,'vtfpp::VTF']]],
   ['getconditional_37',['getConditional',['../de/d62/classkvpp_1_1KV1ElementBase.html#a61cd447f0c8da4ed7deb7284bd73bc66',1,'kvpp::KV1ElementBase']]],
   ['getdata_38',['getData',['../d9/d12/classsndpp_1_1XWV.html#a617c9a8b2919ebc036ba64acaf58abe5',1,'sndpp::XWV']]],
