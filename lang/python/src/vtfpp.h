@@ -1,7 +1,5 @@
 #pragma once
 
-#include <tuple>
-
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/array.h>
 #include <nanobind/stl/pair.h>
@@ -291,6 +289,33 @@ void register_python(py::module_& m) {
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&>(&SHT::bake, py::const_), py::arg("sht_path"));
 
+	vtfpp.attr("TTH_SIGNATURE") = TTH_SIGNATURE;
+
+	auto cVTF = py::class_<VTF>(vtfpp, "VTF");
+
+	py::class_<TTX>(vtfpp, "TTX")
+		.def(py::init<VTF&&>(), py::arg("vtf"))
+		.def("__init__", [](TTX* self, const py::bytes& tthData, const py::bytes& ttzData) {
+			return new(self) TTX{{reinterpret_cast<const std::byte*>(tthData.data()), tthData.size()}, {reinterpret_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
+		}, py::arg("tth_data"), py::arg("ttz_data"))
+		.def(py::init<const std::string&, const std::string&>(), py::arg("tth_path"), py::arg("ttz_path"))
+		.def("__bool__", &TTX::operator bool, py::is_operator())
+		.def_prop_rw("version_major", &TTX::getMajorVersion, &TTX::setMajorVersion)
+		.def_prop_rw("version_minor", &TTX::getMinorVersion, &TTX::setMinorVersion)
+		.def_prop_rw("aspect_ratio_type", &TTX::getAspectRatioType, &TTX::setAspectRatioType)
+		.def_prop_rw("mip_flags", py::overload_cast<>(&TTX::getMipFlags, py::const_), [](TTX& self, const std::vector<uint64_t>& mipFlags) {
+			self.getMipFlags() = mipFlags;
+		}, py::rv_policy::reference_internal)
+		.def_prop_rw("vtf", py::overload_cast<>(&TTX::getVTF, py::const_), [](TTX& self, const VTF& vtf) {
+			self.getVTF() = vtf;
+		}, py::rv_policy::reference_internal)
+		.def_prop_rw("compression_level", &TTX::getCompressionLevel, &TTX::setCompressionLevel)
+		.def("bake", [](const TTX& self) -> std::pair<py::bytes, py::bytes> {
+			const auto d = self.bake();
+			return {py::bytes{d.first.data(), d.first.size()}, py::bytes{d.second.data(), d.second.size()}};
+		})
+		.def("bake_to_file", py::overload_cast<const std::string&, const std::string&>(&TTX::bake, py::const_), py::arg("tth_path"), py::arg("ttz_path"));
+
 	vtfpp.attr("VTF_SIGNATURE") = VTF_SIGNATURE;
 
 	py::enum_<CompressionMethod>(vtfpp, "CompressionMethod", py::is_arithmetic())
@@ -329,8 +354,6 @@ void register_python(py::module_& m) {
 		.def("get_data_as_aux_compression_level",  &Resource::getDataAsAuxCompressionLevel)
 		.def("get_data_as_aux_compression_method", &Resource::getDataAsAuxCompressionMethod)
 		.def("get_data_as_aux_compression_length", &Resource::getDataAsAuxCompressionLength, py::arg("mip"), py::arg("mip_count"), py::arg("frame"), py::arg("frame_count"), py::arg("face"), py::arg("face_count"));
-
-	auto cVTF = py::class_<VTF>(vtfpp, "VTF");
 
 	py::enum_<VTF::Flags>(cVTF, "Flags", py::is_flag())
 		.value("NONE",                                    VTF::FLAG_NONE)
