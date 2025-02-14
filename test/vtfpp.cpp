@@ -37,8 +37,8 @@ TEST(vtfpp, read_write_ttx) {
 		// Header
 		EXPECT_EQ(ttx.getMajorVersion(), 1);
 		EXPECT_EQ(ttx.getMinorVersion(), 0);
-		EXPECT_EQ(ttx.getAspectRatioType(), 3);
 		ASSERT_EQ(ttx.getMipFlags().size(), 11);
+		EXPECT_EQ(ttx.getAspectRatioType(), 3);
 		EXPECT_EQ(ttx.getMipFlags()[0], 192);
 		EXPECT_EQ(ttx.getMipFlags()[1], 200);
 		EXPECT_EQ(ttx.getMipFlags()[2], 208);
@@ -81,8 +81,8 @@ TEST(vtfpp, read_write_ttx) {
 		// Header
 		EXPECT_EQ(ttx.getMajorVersion(), 1);
 		EXPECT_EQ(ttx.getMinorVersion(), 0);
-		EXPECT_EQ(ttx.getAspectRatioType(), 3);
 		ASSERT_EQ(ttx.getMipFlags().size(), 11);
+		EXPECT_EQ(ttx.getAspectRatioType(), 3);
 		EXPECT_EQ(ttx.getMipFlags()[0], 192);
 		EXPECT_EQ(ttx.getMipFlags()[1], 200);
 		EXPECT_EQ(ttx.getMipFlags()[2], 208);
@@ -116,6 +116,43 @@ TEST(vtfpp, read_write_ttx) {
 		EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 		EXPECT_EQ(vtf.getThumbnailHeight(), 16);
 	}
+}
+
+TEST(vtfpp, read_ttx_no_ttz) {
+	TTX ttx{ASSET_ROOT "vtfpp/ttx/cablenormalmap.tth"};
+	ASSERT_TRUE(ttx);
+
+	// Header
+	EXPECT_EQ(ttx.getMajorVersion(), 1);
+	EXPECT_EQ(ttx.getMinorVersion(), 0);
+	ASSERT_EQ(ttx.getMipFlags().size(), 5);
+	EXPECT_EQ(ttx.getAspectRatioType(), 5);
+	EXPECT_EQ(ttx.getMipFlags()[0], 96);
+	EXPECT_EQ(ttx.getMipFlags()[1], 99);
+	EXPECT_EQ(ttx.getMipFlags()[2], 105);
+	EXPECT_EQ(ttx.getMipFlags()[3], 117);
+	EXPECT_EQ(ttx.getMipFlags()[4], 165);
+
+	// VTF
+	const auto& vtf = ttx.getVTF();
+	EXPECT_EQ(vtf.getMajorVersion(), 7);
+	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getWidth(), 16);
+	EXPECT_EQ(vtf.getHeight(), 4);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_CLAMP_S | VTF::FLAG_SRGB | VTF::FLAG_NORMAL);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::BGR888);
+	EXPECT_EQ(vtf.getMipCount(), 5);
+	EXPECT_EQ(vtf.getFrameCount(), 1);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), static_cast<uint16_t>(-1));
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.32940885f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21175662f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.74329108f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 4);
 }
 
 #if 0

@@ -46,7 +46,7 @@ public:
 
 	[[nodiscard]] std::pair<std::vector<std::byte>, std::vector<std::byte>> bake() const;
 
-	bool bake(const std::string& tthPath, const std::string& ttzPath) const;
+	bool bake(const std::string& tthPath, const std::string& ttzPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	bool opened = false;

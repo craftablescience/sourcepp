@@ -48,11 +48,11 @@ TTX::TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData)
 			return;
 		}
 		vtfStream << additionalDataUncompressed;
-		vtfData.resize(vtfStream.size());
-		this->vtf = VTF{vtfData};
-		if (!this->vtf) {
-			return;
-		}
+	}
+	vtfData.resize(vtfStream.size());
+	this->vtf = VTF{vtfData};
+	if (!this->vtf) {
+		return;
 	}
 
 	this->opened = true;
