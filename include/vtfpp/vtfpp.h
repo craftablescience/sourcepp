@@ -9,4 +9,5 @@
 #include "ImageFormats.h"
 #include "PPL.h"
 #include "SHT.h"
+#include "TTX.h"
 #include "VTF.h"

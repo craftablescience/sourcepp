@@ -5,12 +5,14 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/PPL.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/SHT.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/TTX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/VTF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
         SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/ImageConversion.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PPL.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SHT.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/TTX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/VTF.cpp")
 
 sourcepp_add_opencl(sourcepp_vtfpp)

@@ -28,6 +28,96 @@ TEST(vtfpp, read_write_ppl) {
 	}
 }
 
+TEST(vtfpp, read_write_ttx) {
+	std::pair<std::vector<std::byte>, std::vector<std::byte>> writtenData;
+	{
+		TTX ttx{ASSET_ROOT "vtfpp/ttx/gloflra.tth", ASSET_ROOT "vtfpp/ttx/gloflra.ttz"};
+		ASSERT_TRUE(ttx);
+
+		// Header
+		EXPECT_EQ(ttx.getMajorVersion(), 1);
+		EXPECT_EQ(ttx.getMinorVersion(), 0);
+		EXPECT_EQ(ttx.getAspectRatioType(), 3);
+		ASSERT_EQ(ttx.getMipFlags().size(), 11);
+		EXPECT_EQ(ttx.getMipFlags()[0], 192);
+		EXPECT_EQ(ttx.getMipFlags()[1], 200);
+		EXPECT_EQ(ttx.getMipFlags()[2], 208);
+		EXPECT_EQ(ttx.getMipFlags()[3], 216);
+		EXPECT_EQ(ttx.getMipFlags()[4], 188978561272);
+		EXPECT_EQ(ttx.getMipFlags()[5], 734439407992);
+		EXPECT_EQ(ttx.getMipFlags()[6], 2740189135736);
+		EXPECT_EQ(ttx.getMipFlags()[7], 9620726745976);
+		EXPECT_EQ(ttx.getMipFlags()[8], 36378373008248);
+		EXPECT_EQ(ttx.getMipFlags()[9], 145384643013496);
+		EXPECT_EQ(ttx.getMipFlags()[10], 577557137369976);
+
+		// VTF
+		const auto& vtf = ttx.getVTF();
+		EXPECT_EQ(vtf.getMajorVersion(), 7);
+		EXPECT_EQ(vtf.getMinorVersion(), 1);
+		EXPECT_EQ(vtf.getWidth(), 1024);
+		EXPECT_EQ(vtf.getHeight(), 1024);
+		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+		EXPECT_EQ(vtf.getMipCount(), 11);
+		EXPECT_EQ(vtf.getFrameCount(), 1);
+		EXPECT_EQ(vtf.getFaceCount(), 1);
+		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getStartFrame(), 0);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.20940751f);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21449225f);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.18495138f);
+		EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+		EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+		EXPECT_EQ(vtf.getThumbnailWidth(), 16);
+		EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+
+		writtenData = ttx.bake();
+	}
+	{
+		TTX ttx{writtenData.first, writtenData.second};
+		ASSERT_TRUE(ttx);
+
+		// Header
+		EXPECT_EQ(ttx.getMajorVersion(), 1);
+		EXPECT_EQ(ttx.getMinorVersion(), 0);
+		EXPECT_EQ(ttx.getAspectRatioType(), 3);
+		ASSERT_EQ(ttx.getMipFlags().size(), 11);
+		EXPECT_EQ(ttx.getMipFlags()[0], 192);
+		EXPECT_EQ(ttx.getMipFlags()[1], 200);
+		EXPECT_EQ(ttx.getMipFlags()[2], 208);
+		EXPECT_EQ(ttx.getMipFlags()[3], 216);
+		EXPECT_EQ(ttx.getMipFlags()[4], 188978561272);
+		EXPECT_EQ(ttx.getMipFlags()[5], 734439407992);
+		EXPECT_EQ(ttx.getMipFlags()[6], 2740189135736);
+		EXPECT_EQ(ttx.getMipFlags()[7], 9620726745976);
+		EXPECT_EQ(ttx.getMipFlags()[8], 36378373008248);
+		EXPECT_EQ(ttx.getMipFlags()[9], 145384643013496);
+		EXPECT_EQ(ttx.getMipFlags()[10], 577557137369976);
+
+		// VTF
+		const auto& vtf = ttx.getVTF();
+		EXPECT_EQ(vtf.getMajorVersion(), 7);
+		EXPECT_EQ(vtf.getMinorVersion(), 1);
+		EXPECT_EQ(vtf.getWidth(), 1024);
+		EXPECT_EQ(vtf.getHeight(), 1024);
+		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+		EXPECT_EQ(vtf.getMipCount(), 11);
+		EXPECT_EQ(vtf.getFrameCount(), 1);
+		EXPECT_EQ(vtf.getFaceCount(), 1);
+		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getStartFrame(), 0);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.20940751f);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21449225f);
+		EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.18495138f);
+		EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+		EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+		EXPECT_EQ(vtf.getThumbnailWidth(), 16);
+		EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	}
+}
+
 #if 0
 
 #define TEST_WRITE_FMT(Format, Flags) \

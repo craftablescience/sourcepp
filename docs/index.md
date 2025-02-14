@@ -215,11 +215,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="15"><code>vtfpp</code></td>
+    <td rowspan="16"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="15" align="center">Python</td>
+    <td rowspan="16" align="center">Python</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
@@ -278,6 +278,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>TTX (TTH, TTZ) v1.0</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

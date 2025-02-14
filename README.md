@@ -244,11 +244,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="29"><code>vtfpp</code></td>
+    <td rowspan="31"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="29" align="center">Python</td>
+    <td rowspan="31" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -319,6 +319,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/Truevision_TGA">TGA</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>TTX (TTH, TTZ) v1.0</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
