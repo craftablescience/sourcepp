@@ -234,8 +234,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr>
     <td>
       ZIP, and some of its aliases:
-      <br> &bull; <a href="">BEE_PACK</a> (BEE2.4 Package)
+      <br> &bull; <a href="https://github.com/BEEmod/BEE2-items">BEE_PACK</a> (BEE2.4 Package)
       <br> &bull; <a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a> (Source 1 Bonus Maps)
+      <br> &bull; FPK (Tactical Intervention)
       <br> &bull; <a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)
       <br> &bull; <a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)
     </td>

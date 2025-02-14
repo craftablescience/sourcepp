@@ -6,6 +6,7 @@ namespace vpkpp {
 
 constexpr std::string_view BEE_EXTENSION  = ".bee_pack";
 constexpr std::string_view BMZ_EXTENSION  = ".bmz";
+constexpr std::string_view FPK_EXTENSION  = ".fpk";
 constexpr std::string_view PK3_EXTENSION  = ".pk3";
 constexpr std::string_view PK4_EXTENSION  = ".pk4";
 constexpr std::string_view ZIP_EXTENSION  = ".zip";
@@ -72,6 +73,7 @@ protected:
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(BEE_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(BMZ_EXTENSION, &ZIP::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(FPK_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(PK3_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(PK4_EXTENSION, &ZIP::open);
 	VPKPP_REGISTER_PACKFILE_OPEN(ZIP_EXTENSION, &ZIP::open);
