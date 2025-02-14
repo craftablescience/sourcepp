@@ -75,6 +75,7 @@ var namespacevtfpp =
     [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "SHT", "db/dde/classvtfpp_1_1SHT.html", "db/dde/classvtfpp_1_1SHT" ],
+    [ "TTX", "df/d47/classvtfpp_1_1TTX.html", "df/d47/classvtfpp_1_1TTX" ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html", "d8/df2/classvtfpp_1_1VTF" ],
     [ "CompressionMethod", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0", [
       [ "DEFLATE", "de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0af17e827fa227b759dc5c053b334d77cc", null ],
@@ -137,6 +138,7 @@ var namespacevtfpp =
       [ "BC7", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaa51ef981f910b0ec9ed8b82c65be593", null ],
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
+    [ "TTH_SIGNATURE", "de/d90/namespacevtfpp.html#ac8b795eaf266d5ec86358e15213c97da", null ],
     [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
     [ "VTFX_SIGNATURE", "de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0", null ]
 ];

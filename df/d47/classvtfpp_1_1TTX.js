@@ -1,0 +1,27 @@
+var classvtfpp_1_1TTX =
+[
+    [ "TTX", "df/d47/classvtfpp_1_1TTX.html#aa0e687e3a32e72550f78f307ba9f3d35", null ],
+    [ "TTX", "df/d47/classvtfpp_1_1TTX.html#a194cf0397f26b826a82fd1387bde9f52", null ],
+    [ "bake", "df/d47/classvtfpp_1_1TTX.html#abe89c3a71ae94f8f78c49c2dae09902c", null ],
+    [ "bake", "df/d47/classvtfpp_1_1TTX.html#a77d4d1ba0bd18454ab81e825013ce601", null ],
+    [ "getAspectRatioType", "df/d47/classvtfpp_1_1TTX.html#a86dc54563e5498ccd1829bd02760135e", null ],
+    [ "getMajorVersion", "df/d47/classvtfpp_1_1TTX.html#a7f6a758e41f4739aa50d5e9fbe8009ec", null ],
+    [ "getMinorVersion", "df/d47/classvtfpp_1_1TTX.html#a370c281b00d814bb3f1e1d9e92491c52", null ],
+    [ "getMipFlags", "df/d47/classvtfpp_1_1TTX.html#ad036d31df161222095b3b755e6b8559e", null ],
+    [ "getMipFlags", "df/d47/classvtfpp_1_1TTX.html#a2c32996beaa30f2921c6f0fc8d4cc07e", null ],
+    [ "getVTF", "df/d47/classvtfpp_1_1TTX.html#afa1a7cc0fd523530f4f83639f6a462b0", null ],
+    [ "getVTF", "df/d47/classvtfpp_1_1TTX.html#a0d20b0cba59754fb36325b05d9137c8c", null ],
+    [ "operator bool", "df/d47/classvtfpp_1_1TTX.html#a1e6b67e4faa4b3f7a9bc7db4b7b7ad9c", null ],
+    [ "setAspectRatioType", "df/d47/classvtfpp_1_1TTX.html#aab7b94ee65686053bb542da1e071c0d0", null ],
+    [ "setCompressionLevel", "df/d47/classvtfpp_1_1TTX.html#ac73778d42fcad8d8c1c6d1b9dcfabcb3", null ],
+    [ "setMajorVersion", "df/d47/classvtfpp_1_1TTX.html#af3e755ed7280a1d7e04fbb20ed479608", null ],
+    [ "setMinorVersion", "df/d47/classvtfpp_1_1TTX.html#aa083cc64eadd32ec17f852dd4be74c1e", null ],
+    [ "setVersion", "df/d47/classvtfpp_1_1TTX.html#a8da2a948a9e80fe4b72a0f083ad94f06", null ],
+    [ "aspectRatioType", "df/d47/classvtfpp_1_1TTX.html#a57c4e2158a1ae6b15df9b00d6e5bb9cb", null ],
+    [ "compressionLevel", "df/d47/classvtfpp_1_1TTX.html#ae1d34b448ca933e21400202fcb8b88f5", null ],
+    [ "majorVersion", "df/d47/classvtfpp_1_1TTX.html#af7b0c8689be134acb5387bac85a1b64f", null ],
+    [ "minorVersion", "df/d47/classvtfpp_1_1TTX.html#a6d2eafccda08de776caaa5eea53b17e7", null ],
+    [ "mipFlags", "df/d47/classvtfpp_1_1TTX.html#a37c27ac7075ea719bcb4b7ea2c9f5c8b", null ],
+    [ "opened", "df/d47/classvtfpp_1_1TTX.html#a6004bc6ba61fe3c4131113de79af74c2", null ],
+    [ "vtf", "df/d47/classvtfpp_1_1TTX.html#a5ce0073b6d6945a15a32abcf56389c39", null ]
+];
