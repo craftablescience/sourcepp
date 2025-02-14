@@ -62,6 +62,7 @@ var namespacevpkpp =
     [ "PCK_SIGNATURE", "d5/d29/namespacevpkpp.html#a9403d19e08235c1f62f9e0fe8f3d4eb8", null ],
     [ "PK3_EXTENSION", "d5/d29/namespacevpkpp.html#ad4d41789f3009280940d92748b4c7c77", null ],
     [ "PK4_EXTENSION", "d5/d29/namespacevpkpp.html#afeedd18a08eaae034ad7e699567590f4", null ],
+    [ "PKZ_EXTENSION", "d5/d29/namespacevpkpp.html#a973639d0493df7b80be51d8b4de902f9", null ],
     [ "VPK_DEFAULT_CHUNK_SIZE", "d5/d29/namespacevpkpp.html#ad2c63ed50a7426ba45599efdf439c36b", null ],
     [ "VPK_DIR_INDEX", "d5/d29/namespacevpkpp.html#ae106f3654acbc26d2c3cbc241c567078", null ],
     [ "VPK_DIR_SUFFIX", "d5/d29/namespacevpkpp.html#a41acece59031847553d1fdac8d3e400f", null ],
