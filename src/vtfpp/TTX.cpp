@@ -7,6 +7,14 @@
 using namespace sourcepp;
 using namespace vtfpp;
 
+TTX::TTX(VTF&& vtf_)
+		: vtf(std::move(vtf_))
+		, aspectRatioType(3) {
+	this->mipFlags.resize(this->vtf.getMipCount());
+
+	this->opened = true;
+}
+
 TTX::TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData) {
 	BufferStreamReadOnly header{tthData.data(), tthData.size()};
 
@@ -100,6 +108,10 @@ const VTF& TTX::getVTF() const {
 
 VTF& TTX::getVTF() {
 	return this->vtf;
+}
+
+int16_t TTX::getCompressionLevel() const {
+	return this->compressionLevel;
 }
 
 void TTX::setCompressionLevel(int16_t newCompressionLevel) {

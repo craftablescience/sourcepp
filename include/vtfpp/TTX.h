@@ -10,6 +10,8 @@ constexpr uint32_t TTH_SIGNATURE = sourcepp::parser::binary::makeFourCC("TTH\0")
 
 class TTX {
 public:
+	explicit TTX(VTF&& vtf_);
+
 	explicit TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData = {});
 
 	explicit TTX(const std::string& tthPath, const std::string& ttzPath = "");
@@ -38,6 +40,8 @@ public:
 
 	[[nodiscard]] VTF& getVTF();
 
+	[[nodiscard]] int16_t getCompressionLevel() const;
+
 	void setCompressionLevel(int16_t newCompressionLevel);
 
 	[[nodiscard]] std::pair<std::vector<std::byte>, std::vector<std::byte>> bake() const;
@@ -50,8 +54,8 @@ protected:
 
 	VTF vtf;
 
-	uint8_t majorVersion{};
-	uint8_t minorVersion{};
+	uint8_t majorVersion = 1;
+	uint8_t minorVersion = 0;
 	uint8_t aspectRatioType{};
 	std::vector<uint64_t> mipFlags;
 };
