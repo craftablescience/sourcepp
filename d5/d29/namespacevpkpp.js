@@ -41,6 +41,7 @@ var namespacevpkpp =
     [ "EXECUTABLE_EXTENSION0", "d5/d29/namespacevpkpp.html#a15e9ee05896c196e63abf2deafe49a54", null ],
     [ "EXECUTABLE_EXTENSION1", "d5/d29/namespacevpkpp.html#a05b5908a562a1f3e7bff1b1ca8d04fb7", null ],
     [ "EXECUTABLE_EXTENSION2", "d5/d29/namespacevpkpp.html#a775dc7575afded7ae13cf8f5049c2a29", null ],
+    [ "FPK_EXTENSION", "d5/d29/namespacevpkpp.html#a045adbad8ec8e401b529884cc9b039de", null ],
     [ "FPX_DIR_SUFFIX", "d5/d29/namespacevpkpp.html#a7f9a7752945a1d999a623a53dd8a437d", null ],
     [ "FPX_EXTENSION", "d5/d29/namespacevpkpp.html#ad3ac0b954f926869f2944a7cedb3299f", null ],
     [ "FPX_SIGNATURE", "d5/d29/namespacevpkpp.html#a6d80296a8530736c6a73fa8f9a01d18e", null ],
