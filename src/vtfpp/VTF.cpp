@@ -1303,7 +1303,7 @@ bool VTF::hasImageData() const {
 }
 
 bool VTF::imageDataIsSRGB() const {
-	return !ImageFormatDetails::large(this->format) && (this->flags & FLAG_SRGB);
+	return !ImageFormatDetails::large(this->format) && (this->flags & FLAG_MASK_SRGB);
 }
 
 std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
@@ -1529,7 +1529,6 @@ std::vector<std::byte> VTF::bake() const {
 			::swapImageDataEndianForConsole(imageResourceData, this->format, this->width, this->height, this->platform);
 
 			// Compression has only been observed in X360 VTFs so far
-			// todo(vtfpp): go through all PS3 VTFs and check this is correct
 			if (this->platform == VTF::PLATFORM_X360 && (hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA)) {
 				auto fixedCompressionLevel = this->compressionLevel;
 				if (this->compressionLevel == 0) {

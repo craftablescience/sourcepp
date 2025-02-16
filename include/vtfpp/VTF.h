@@ -125,42 +125,43 @@ SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
 class VTF {
 public:
 	enum Flags : int32_t {
-		FLAG_NONE                                    = 0,
-		FLAG_POINT_SAMPLE                            = 1 <<  0,
-		FLAG_TRILINEAR                               = 1 <<  1,
-		FLAG_CLAMP_S                                 = 1 <<  2,
-		FLAG_CLAMP_T                                 = 1 <<  3,
-		FLAG_ANISOTROPIC                             = 1 <<  4,
-		FLAG_HINT_DXT5                               = 1 <<  5,
-		FLAG_SRGB                                    = 1 <<  6,
-		FLAG_NO_COMPRESS                             = FLAG_SRGB, // Internal to vtex, removed
-		FLAG_NORMAL                                  = 1 <<  7,
-		FLAG_NO_MIP                                  = 1 <<  8, // Added at VTF creation time
-		FLAG_NO_LOD                                  = 1 <<  9, // Added at VTF creation time
-		FLAG_LOAD_LOWEST_MIPS                        = 1 << 10,
-		FLAG_PROCEDURAL                              = 1 << 11,
-		FLAG_ONE_BIT_ALPHA                           = 1 << 12, // Added at VTF creation time
-		FLAG_MULTI_BIT_ALPHA                         = 1 << 13, // Added at VTF creation time
-		FLAG_ENVMAP                                  = 1 << 14, // Added at VTF creation time
-		FLAG_RENDERTARGET                            = 1 << 15,
-		FLAG_DEPTH_RENDERTARGET                      = 1 << 16,
-		FLAG_NO_DEBUG_OVERRIDE                       = 1 << 17,
-		FLAG_SINGLE_COPY                             = 1 << 18,
-		FLAG_ONE_OVER_MIP_LEVEL_IN_ALPHA             = 1 << 19, // Internal to vtex, removed
-		FLAG_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL = 1 << 20, // Internal to vtex, removed
-		FLAG_NORMAL_TO_DUDV                          = 1 << 21, // Internal to vtex, removed
-		FLAG_ALPHA_TEST_MIP_GENERATION               = 1 << 22, // Internal to vtex, removed
-		FLAG_NO_DEPTH_BUFFER                         = 1 << 23,
-		FLAG_NICE_FILTERED                           = 1 << 24, // Internal to vtex, removed
-		FLAG_CLAMP_U                                 = 1 << 25,
-		FLAG_VERTEX_TEXTURE                          = 1 << 26,
-		FLAG_SSBUMP                                  = 1 << 27,
-		FLAG_UNFILTERABLE_OK                         = 1 << 28, // Removed
-		FLAG_BORDER                                  = 1 << 29,
-		FLAG_SPECVAR_RED                             = 1 << 30, // Removed
-		FLAG_SPECVAR_ALPHA                           = 1 << 31, // Removed
+		FLAG_NONE                       = 0,
+		FLAG_POINT_SAMPLE               = 1 <<  0,
+		FLAG_TRILINEAR                  = 1 <<  1,
+		FLAG_CLAMP_S                    = 1 <<  2,
+		FLAG_CLAMP_T                    = 1 <<  3,
+		FLAG_ANISOTROPIC                = 1 <<  4,
+		FLAG_HINT_DXT5                  = 1 <<  5,
+		FLAG_PWL_CORRECTED              = 1 <<  6,
+		FLAG_NORMAL                     = 1 <<  7,
+		FLAG_NO_MIP                     = 1 <<  8, // Applied at VTF bake time
+		FLAG_NO_LOD                     = 1 <<  9, // Applied at VTF bake time
+		FLAG_LOAD_ALL_MIPS              = 1 << 10,
+		FLAG_PROCEDURAL                 = 1 << 11,
+		FLAG_ONE_BIT_ALPHA              = 1 << 12, // Applied at VTF bake time
+		FLAG_MULTI_BIT_ALPHA            = 1 << 13, // Applied at VTF bake time
+		FLAG_ENVMAP                     = 1 << 14, // Applied at VTF bake time
+		FLAG_RENDERTARGET               = 1 << 15,
+		FLAG_DEPTH_RENDERTARGET         = 1 << 16,
+		FLAG_NO_DEBUG_OVERRIDE          = 1 << 17,
+		FLAG_SINGLE_COPY                = 1 << 18, // Unused
+		FLAG_SRGB                       = 1 << 19,
+		FLAG_DEFAULT_POOL               = 1 << 20,
+		FLAG_COMBINED                   = 1 << 21,
+		FLAG_ASYNC_DOWNLOAD             = 1 << 22,
+		FLAG_NO_DEPTH_BUFFER            = 1 << 23,
+		FLAG_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
+		FLAG_CLAMP_U                    = 1 << 25,
+		FLAG_VERTEX_TEXTURE             = 1 << 26,
+		FLAG_SSBUMP                     = 1 << 27,
+		FLAG_LOAD_MOST_MIPS             = 1 << 28,
+		FLAG_BORDER                     = 1 << 29,
+		FLAG_YCOCG                      = 1 << 30,
+		FLAG_ASYNC_SKIP_INITIAL_LOW_RES = 1 << 31,
 	};
+	static constexpr std::underlying_type_t<Flags> FLAG_MASK_AFTER_V7_3 = FLAG_LOAD_ALL_MIPS | FLAG_SRGB | FLAG_DEFAULT_POOL | FLAG_COMBINED | FLAG_ASYNC_DOWNLOAD | FLAG_SKIP_INITIAL_DOWNLOAD | FLAG_LOAD_MOST_MIPS | FLAG_YCOCG | FLAG_ASYNC_SKIP_INITIAL_LOW_RES;
 	static constexpr std::underlying_type_t<Flags> FLAG_MASK_GENERATED = FLAG_NO_MIP | FLAG_NO_LOD | FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA | FLAG_ENVMAP;
+	static constexpr std::underlying_type_t<Flags> FLAG_MASK_SRGB = FLAG_PWL_CORRECTED | FLAG_SRGB;
 
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN = 0,
