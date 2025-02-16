@@ -792,8 +792,10 @@ TEST(vtfpp, read_v75) {
 	ASSERT_TRUE(lodControlInfo);
 	EXPECT_EQ(lodControlInfo->flags, Resource::FLAG_LOCAL_DATA);
 	auto lodControlInfoData = lodControlInfo->getDataAsLODControlInfo();
-	EXPECT_EQ(lodControlInfoData.first, 31);
-	EXPECT_EQ(lodControlInfoData.second, 31);
+	EXPECT_EQ(std::get<0>(lodControlInfoData), 31);
+	EXPECT_EQ(std::get<1>(lodControlInfoData), 31);
+	EXPECT_EQ(std::get<2>(lodControlInfoData), 0);
+	EXPECT_EQ(std::get<3>(lodControlInfoData), 0);
 
 	const auto* keyValues = vtf.getResource(Resource::TYPE_KEYVALUES_DATA);
 	ASSERT_TRUE(keyValues);
