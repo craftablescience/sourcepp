@@ -9,7 +9,7 @@
 
 namespace vcryptpp::VFONT {
 
-constexpr std::string_view IDENTIFIER = "VFONT1";
+constexpr std::string_view SIGNATURE = "VFONT1";
 
 constexpr uint8_t MAGIC = 167;
 

@@ -17,7 +17,7 @@ inline void register_python(py::module_& m) {
 		auto VFONT = vcryptpp.def_submodule("VFONT");
 		using namespace VFONT;
 
-		VFONT.attr("IDENTIFIER") = IDENTIFIER;
+		VFONT.attr("SIGNATURE") = SIGNATURE;
 
 		VFONT.attr("MAGIC") = MAGIC;
 
