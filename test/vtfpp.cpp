@@ -981,7 +981,7 @@ TEST(vtfpp, read_x360) {
 	EXPECT_EQ(vtf.getMinorVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 512);
 	EXPECT_EQ(vtf.getHeight(), 512);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_SRGB | VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_PWL_CORRECTED | VTF::FLAG_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
