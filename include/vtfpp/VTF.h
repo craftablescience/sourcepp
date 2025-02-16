@@ -56,7 +56,7 @@ struct Resource {
 		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 		SHT, // Particle Sheet
 		uint32_t, // CRC, TSO
-		std::pair<uint8_t, uint8_t>, // LOD
+		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
 		std::span<uint32_t> // AXC
 	>;
@@ -74,8 +74,8 @@ struct Resource {
 		return std::get<uint32_t>(this->convertData());
 	}
 
-	[[nodiscard]] std::pair<uint8_t, uint8_t> getDataAsLODControlInfo() const {
-		return std::get<std::pair<uint8_t, uint8_t>>(this->convertData());
+	[[nodiscard]] std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> getDataAsLODControlInfo() const {
+		return std::get<std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>>(this->convertData());
 	}
 
 	[[nodiscard]] std::string getDataAsKeyValuesData() const {
@@ -335,7 +335,7 @@ public:
 
 	void removeCRCResource();
 
-	void setLODResource(uint8_t u, uint8_t v);
+	void setLODResource(uint8_t u, uint8_t v, uint8_t u360 = 0, uint8_t v360 = 0);
 
 	void removeLODResource();
 

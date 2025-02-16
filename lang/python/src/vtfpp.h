@@ -493,7 +493,7 @@ void register_python(py::module_& m) {
 		.def("remove_particle_sheet_resource", &VTF::removeParticleSheetResource)
 		.def("set_crc_resource", &VTF::setCRCResource, py::arg("value"))
 		.def("remove_crc_resource", &VTF::removeCRCResource)
-		.def("set_lod_resource", &VTF::setLODResource, py::arg("u"), py::arg("v"))
+		.def("set_lod_resource", &VTF::setLODResource, py::arg("u"), py::arg("v"), py::arg("u360") = 0, py::arg("v360") = 0)
 		.def("remove_lod_resource", &VTF::removeLODResource)
 		.def("set_extended_flags_resource", &VTF::setExtendedFlagsResource, py::arg("value"))
 		.def("remove_extended_flags_resource", &VTF::removeExtendedFlagsResource)

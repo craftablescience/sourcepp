@@ -149,9 +149,11 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
-			return std::make_pair(
+			return std::make_tuple(
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 0),
-					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1));
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 1),
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 2),
+					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 3));
 		case TYPE_KEYVALUES_DATA:
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
@@ -1217,30 +1219,20 @@ void VTF::removeParticleSheetResource() {
 }
 
 void VTF::setCRCResource(uint32_t value) {
-	std::vector<std::byte> crcData;
-	BufferStream writer{crcData};
-
-	writer.write<uint32_t>(value);
-	crcData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_CRC, crcData);
+	this->setResourceInternal(Resource::TYPE_CRC, {reinterpret_cast<const std::byte*>(&value), sizeof(value)});
 }
 
 void VTF::removeCRCResource() {
 	this->removeResourceInternal(Resource::TYPE_CRC);
 }
 
-void VTF::setLODResource(uint8_t u, uint8_t v) {
-	std::vector<std::byte> lodData;
-	BufferStream writer{lodData};
+void VTF::setLODResource(uint8_t u, uint8_t v, uint8_t u360, uint8_t v360) {
+	uint32_t lodData;
+	BufferStream writer{&lodData, sizeof(lodData)};
 
-	writer
-		.write<uint8_t>(u)
-		.write<uint8_t>(v)
-		.write<uint16_t>(0);
-	lodData.resize(writer.size());
+	writer << u << v << u360 << v360;
 
-	this->setResourceInternal(Resource::TYPE_LOD_CONTROL_INFO, lodData);
+	this->setResourceInternal(Resource::TYPE_LOD_CONTROL_INFO, {reinterpret_cast<const std::byte*>(&lodData), sizeof(lodData)});
 }
 
 void VTF::removeLODResource() {
@@ -1248,13 +1240,7 @@ void VTF::removeLODResource() {
 }
 
 void VTF::setExtendedFlagsResource(uint32_t value) {
-	std::vector<std::byte> extendedFlagsData;
-	BufferStream writer{extendedFlagsData};
-
-	writer.write<uint32_t>(value);
-	extendedFlagsData.resize(writer.size());
-
-	this->setResourceInternal(Resource::TYPE_EXTENDED_FLAGS, extendedFlagsData);
+	this->setResourceInternal(Resource::TYPE_EXTENDED_FLAGS, {reinterpret_cast<const std::byte*>(&value), sizeof(value)});
 }
 
 void VTF::removeExtendedFlagsResource() {
