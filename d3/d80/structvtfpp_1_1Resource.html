@@ -165,12 +165,12 @@ Public Types</h2></td></tr>
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a">FLAG_LOCAL_DATA</a> = 1 &lt;&lt; 1
  }</td></tr>
 <tr class="separator:aa5bb79f3e1a48d5c6d0ade0e4fc4ec34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac73df361994ee19deea44661a95fe3c0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0">ConvertedData</a> = std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::pair&lt; uint8_t, uint8_t &gt;, std::string, std::span&lt; uint32_t &gt; &gt;</td></tr>
-<tr class="separator:ac73df361994ee19deea44661a95fe3c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a212085aa1014a0738458d24661db4719"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">ConvertedData</a> = std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt; uint8_t, uint8_t, uint8_t, uint8_t &gt;, std::string, std::span&lt; uint32_t &gt; &gt;</td></tr>
+<tr class="separator:a212085aa1014a0738458d24661db4719"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0">ConvertedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a452f64cd7c868d1b03e43e9830d4d9a7">convertData</a> () const</td></tr>
+<tr class="memitem:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">ConvertedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a452f64cd7c868d1b03e43e9830d4d9a7">convertData</a> () const</td></tr>
 <tr class="separator:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a162cf70a3c7acd75eadf7402ad1e9e72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72">getDataAsParticleSheet</a> () const</td></tr>
 <tr class="separator:a162cf70a3c7acd75eadf7402ad1e9e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -178,8 +178,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a9a20fce67f256aafbdeaf6f99a094ba8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa17db7c16ce4914583168cc5c8966b9d"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa17db7c16ce4914583168cc5c8966b9d">getDataAsExtendedFlags</a> () const</td></tr>
 <tr class="separator:aa17db7c16ce4914583168cc5c8966b9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4f1603eddf872798fc306fb651f1f1ba"><td class="memItemLeft" align="right" valign="top">std::pair&lt; uint8_t, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a4f1603eddf872798fc306fb651f1f1ba">getDataAsLODControlInfo</a> () const</td></tr>
-<tr class="separator:a4f1603eddf872798fc306fb651f1f1ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6daa33ea618be36306e42de792eabe67"><td class="memItemLeft" align="right" valign="top">std::tuple&lt; uint8_t, uint8_t, uint8_t, uint8_t &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a6daa33ea618be36306e42de792eabe67">getDataAsLODControlInfo</a> () const</td></tr>
+<tr class="separator:a6daa33ea618be36306e42de792eabe67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e37adb4ee39a3e91c2ff84a9aad54a1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a6e37adb4ee39a3e91c2ff84a9aad54a1">getDataAsKeyValuesData</a> () const</td></tr>
 <tr class="separator:a6e37adb4ee39a3e91c2ff84a9aad54a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0fe1bb03f1fd615bbef629fad9160c7"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac0fe1bb03f1fd615bbef629fad9160c7">getDataAsAuxCompressionLevel</a> () const</td></tr>
@@ -207,14 +207,14 @@ Public Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00032">32</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="ac73df361994ee19deea44661a95fe3c0" name="ac73df361994ee19deea44661a95fe3c0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac73df361994ee19deea44661a95fe3c0">&#9670;&#160;</a></span>ConvertedData</h2>
+<a id="a212085aa1014a0738458d24661db4719" name="a212085aa1014a0738458d24661db4719"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a212085aa1014a0738458d24661db4719">&#9670;&#160;</a></span>ConvertedData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0">vtfpp::Resource::ConvertedData</a> =  std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::pair&lt;uint8_t, uint8_t&gt;, std::string, std::span&lt;uint32_t&gt; &gt;</td>
+          <td class="memname">using <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">vtfpp::Resource::ConvertedData</a> =  std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt;uint8_t, uint8_t, uint8_t, uint8_t&gt;, std::string, std::span&lt;uint32_t&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -279,7 +279,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac73df361994ee19deea44661a95fe3c0">Resource::ConvertedData</a> Resource::convertData </td>
+          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">Resource::ConvertedData</a> Resource::convertData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -488,8 +488,8 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a4f1603eddf872798fc306fb651f1f1ba" name="a4f1603eddf872798fc306fb651f1f1ba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4f1603eddf872798fc306fb651f1f1ba">&#9670;&#160;</a></span>getDataAsLODControlInfo()</h2>
+<a id="a6daa33ea618be36306e42de792eabe67" name="a6daa33ea618be36306e42de792eabe67"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6daa33ea618be36306e42de792eabe67">&#9670;&#160;</a></span>getDataAsLODControlInfo()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -498,7 +498,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::pair&lt; uint8_t, uint8_t &gt; vtfpp::Resource::getDataAsLODControlInfo </td>
+          <td class="memname">std::tuple&lt; uint8_t, uint8_t, uint8_t, uint8_t &gt; vtfpp::Resource::getDataAsLODControlInfo </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>

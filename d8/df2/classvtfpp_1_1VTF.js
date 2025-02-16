@@ -130,7 +130,7 @@ var classvtfpp_1_1VTF =
     [ "setImageResizeMethods", "d8/df2/classvtfpp_1_1VTF.html#a4516cc15d7b77cf9ab6887002c4bb14b", null ],
     [ "setImageWidthResizeMethod", "d8/df2/classvtfpp_1_1VTF.html#a3953eb9b93d03e43f3b3e52989b86ea4", null ],
     [ "setKeyValuesDataResource", "d8/df2/classvtfpp_1_1VTF.html#ad73192ade9864f05a556aa38aad664d8", null ],
-    [ "setLODResource", "d8/df2/classvtfpp_1_1VTF.html#a4fc5fa11583e9b4c8c3caa93b535381b", null ],
+    [ "setLODResource", "d8/df2/classvtfpp_1_1VTF.html#a9eaa4b3f825ce1893bf45fe82141555b", null ],
     [ "setMajorVersion", "d8/df2/classvtfpp_1_1VTF.html#a48e5eccd8809efc07acc7d3fe1a26782", null ],
     [ "setMinorVersion", "d8/df2/classvtfpp_1_1VTF.html#a0f88be9da3ef300daef0bb0d381648dc", null ],
     [ "setMipCount", "d8/df2/classvtfpp_1_1VTF.html#ac389999940394b4e16dcbe9b2f7f0c9b", null ],

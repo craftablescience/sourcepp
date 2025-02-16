@@ -32,7 +32,7 @@ var searchData=
   ['setkey_29',['setKey',['../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#aacbac0fa82215b8ad45567b375069ee9',1,'bsppp::BSPEntityKeyValues::Element::setKey()'],['../de/d75/classkvpp_1_1KV1ElementWritable.html#a0b0a6a70b3608a4fb91b8a0ffa6a4c4e',1,'kvpp::KV1ElementWritable::setKey()']]],
   ['setkeyvaluesdataresource_30',['setKeyValuesDataResource',['../d8/df2/classvtfpp_1_1VTF.html#ad73192ade9864f05a556aa38aad664d8',1,'vtfpp::VTF']]],
   ['setl4d2_31',['setL4D2',['../d5/dba/classbsppp_1_1BSP.html#a3161c82ac12d887caa103d71a1c97c6e',1,'bsppp::BSP']]],
-  ['setlodresource_32',['setLODResource',['../d8/df2/classvtfpp_1_1VTF.html#a4fc5fa11583e9b4c8c3caa93b535381b',1,'vtfpp::VTF']]],
+  ['setlodresource_32',['setLODResource',['../d8/df2/classvtfpp_1_1VTF.html#a9eaa4b3f825ce1893bf45fe82141555b',1,'vtfpp::VTF']]],
   ['setlump_33',['setLump',['../d5/dba/classbsppp_1_1BSP.html#ae7ffe826291a0a9e5c682bb2b7d53091',1,'bsppp::BSP::setLump(BSPLump lumpIndex, uint32_t version, std::span&lt; const std::byte &gt; data, uint8_t compressLevel=0)'],['../d5/dba/classbsppp_1_1BSP.html#a4d97f5d244a97487ba8f46fa523c7c9f',1,'bsppp::BSP::setLump(uint32_t version, std::span&lt; const BSPEntityKeyValues &gt; data, uint8_t compressLevel=0)']]],
   ['setlumpfrompatchfile_34',['setLumpFromPatchFile',['../d5/dba/classbsppp_1_1BSP.html#adfc3cd6f400923d229acb80331b1a6b2',1,'bsppp::BSP']]],
   ['setmajorversion_35',['setMajorVersion',['../d8/df2/classvtfpp_1_1VTF.html#a48e5eccd8809efc07acc7d3fe1a26782',1,'vtfpp::VTF::setMajorVersion()'],['../df/d47/classvtfpp_1_1TTX.html#af3e755ed7280a1d7e04fbb20ed479608',1,'vtfpp::TTX::setMajorVersion()']]],

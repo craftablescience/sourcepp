@@ -58,7 +58,7 @@ var searchData=
   ['getdataascrc_55',['getDataAsCRC',['../d3/d80/structvtfpp_1_1Resource.html#a9a20fce67f256aafbdeaf6f99a094ba8',1,'vtfpp::Resource']]],
   ['getdataasextendedflags_56',['getDataAsExtendedFlags',['../d3/d80/structvtfpp_1_1Resource.html#aa17db7c16ce4914583168cc5c8966b9d',1,'vtfpp::Resource']]],
   ['getdataaskeyvaluesdata_57',['getDataAsKeyValuesData',['../d3/d80/structvtfpp_1_1Resource.html#a6e37adb4ee39a3e91c2ff84a9aad54a1',1,'vtfpp::Resource']]],
-  ['getdataaslodcontrolinfo_58',['getDataAsLODControlInfo',['../d3/d80/structvtfpp_1_1Resource.html#a4f1603eddf872798fc306fb651f1f1ba',1,'vtfpp::Resource']]],
+  ['getdataaslodcontrolinfo_58',['getDataAsLODControlInfo',['../d3/d80/structvtfpp_1_1Resource.html#a6daa33ea618be36306e42de792eabe67',1,'vtfpp::Resource']]],
   ['getdataasparticlesheet_59',['getDataAsParticleSheet',['../d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72',1,'vtfpp::Resource']]],
   ['getdatalength_60',['getDataLength',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad',1,'vtfpp::ImageFormatDetails::getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount=1)'],['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a708dc57f5c69e5ed309f780548df41b6',1,'vtfpp::ImageFormatDetails::getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount=1)']]],
   ['getdataposition_61',['getDataPosition',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aa00fc65d120a4ed1710f96e3965aaff1',1,'vtfpp::ImageFormatDetails']]],
