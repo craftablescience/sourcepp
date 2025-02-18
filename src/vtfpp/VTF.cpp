@@ -533,6 +533,9 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getMajorVersion(), writer.getMinorVersion());
 	}
+	if (options.computeTransparencyFlags) {
+		writer.computeTransparencyFlags();
+	}
 	if (options.computeMips) {
 		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
 		writer.computeMips(options.filter);
@@ -721,15 +724,30 @@ VTF::Flags VTF::getFlags() const {
 }
 
 void VTF::setFlags(Flags flags_) {
-	this->flags = static_cast<Flags>((this->flags & FLAG_MASK_GENERATED) | (flags_ & ~FLAG_MASK_GENERATED));
+	this->flags = (this->flags & FLAG_MASK_INTERNAL) | (flags_ & ~FLAG_MASK_INTERNAL);
 }
 
 void VTF::addFlags(Flags flags_) {
-	this->flags |= static_cast<Flags>(flags_ & ~FLAG_MASK_GENERATED);
+	this->flags |= flags_ & ~FLAG_MASK_INTERNAL;
 }
 
 void VTF::removeFlags(Flags flags_) {
-	this->flags &= static_cast<Flags>(~flags_ | FLAG_MASK_GENERATED);
+	this->flags &= ~flags_ | FLAG_MASK_INTERNAL;
+}
+
+void VTF::computeTransparencyFlags() {
+	if (ImageFormatDetails::transparent(this->format)) {
+		if (ImageFormatDetails::decompressedAlpha(this->format) > 1) {
+			this->flags &= ~VTF::FLAG_ONE_BIT_ALPHA;
+			this->flags |= VTF::FLAG_MULTI_BIT_ALPHA;
+		} else {
+			this->flags |= VTF::FLAG_ONE_BIT_ALPHA;
+			this->flags &= ~VTF::FLAG_MULTI_BIT_ALPHA;
+		}
+	} else {
+		this->flags &= ~VTF::FLAG_ONE_BIT_ALPHA;
+		this->flags &= ~VTF::FLAG_MULTI_BIT_ALPHA;
+	}
 }
 
 ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion) {

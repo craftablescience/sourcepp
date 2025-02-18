@@ -160,7 +160,7 @@ public:
 		FLAG_ASYNC_SKIP_INITIAL_LOW_RES = 1 << 31,
 	};
 	static constexpr std::underlying_type_t<Flags> FLAG_MASK_AFTER_V7_3 = FLAG_LOAD_ALL_MIPS | FLAG_SRGB | FLAG_DEFAULT_POOL | FLAG_COMBINED | FLAG_ASYNC_DOWNLOAD | FLAG_SKIP_INITIAL_DOWNLOAD | FLAG_LOAD_MOST_MIPS | FLAG_YCOCG | FLAG_ASYNC_SKIP_INITIAL_LOW_RES;
-	static constexpr std::underlying_type_t<Flags> FLAG_MASK_GENERATED = FLAG_NO_MIP | FLAG_NO_LOD | FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA | FLAG_ENVMAP;
+	static constexpr std::underlying_type_t<Flags> FLAG_MASK_INTERNAL = FLAG_NO_MIP | FLAG_ENVMAP;
 	static constexpr std::underlying_type_t<Flags> FLAG_MASK_SRGB = FLAG_PWL_CORRECTED | FLAG_SRGB;
 
 	enum Platform : uint32_t {
@@ -183,6 +183,7 @@ public:
 		bool isCubeMap = false;
 		bool hasSphereMap = false;
 		uint16_t initialSliceCount = 1;
+		bool computeTransparencyFlags = true;
 		bool computeMips = true;
 		bool computeThumbnail = true;
 		bool computeReflectivity = true;
@@ -265,6 +266,8 @@ public:
 	void addFlags(Flags flags_);
 
 	void removeFlags(Flags flags_);
+
+	void computeTransparencyFlags();
 
 	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion);
 
