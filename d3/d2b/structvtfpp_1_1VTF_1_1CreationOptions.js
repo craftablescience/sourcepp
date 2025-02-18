@@ -6,6 +6,7 @@ var structvtfpp_1_1VTF_1_1CreationOptions =
     [ "computeMips", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a6ba1592ec3959f26a43734fb81637aa6", null ],
     [ "computeReflectivity", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac4afacbf1c465f456bb1d5c2c9701696", null ],
     [ "computeThumbnail", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a41cfabefcbda38bfb302d54217751d15", null ],
+    [ "computeTransparencyFlags", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abad5b9ed69de37e0fdce3b177ba34b3c", null ],
     [ "filter", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abc68ffca02d11580254d524c59cecfd2", null ],
     [ "flags", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac04b371682934a1c017f2b84b3dcf4df", null ],
     [ "hasSphereMap", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#aaaa3470e5cd06c175d5a2a98e769f2b8", null ],
