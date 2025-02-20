@@ -41,7 +41,8 @@ var classvtfpp_1_1VTF =
     [ "Platform", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15", [
       [ "PLATFORM_UNKNOWN", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15ac7d9ee78b0cae2122d45c6f7b670ea90", null ],
       [ "PLATFORM_PC", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a2ea94a62a83e185cfbb8dbe847d97058", null ],
-      [ "PLATFORM_PS3", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a0e3e4c341f4018c38b30114cb19e5f27", null ],
+      [ "PLATFORM_PS3_PORTAL2", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a6c05e73de770b7266bb2af75d96782c8", null ],
+      [ "PLATFORM_PS3_ORANGEBOX", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a6e8ab31c0322681751c31234dbc549a8", null ],
       [ "PLATFORM_X360", "d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a4d77ec24b9d34eeef8af10816d1387eb", null ]
     ] ],
     [ "VTF", "d8/df2/classvtfpp_1_1VTF.html#a1912934028ebbf660de560e6bed5b192", null ],

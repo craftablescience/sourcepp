@@ -8,6 +8,7 @@ var VTF_8h =
       [ "ZSTD", "d4/d91/VTF_8h.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a8406cc2302e19183037b61249546b234", null ],
       [ "CONSOLE_LZMA", "d4/d91/VTF_8h.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0a432394ed84a3a02d5b611ebf69857e27", null ]
     ] ],
+    [ "VTF3_SIGNATURE", "d4/d91/VTF_8h.html#a62b9c897925746f89abe8a1222a0317b", null ],
     [ "VTF_SIGNATURE", "d4/d91/VTF_8h.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
     [ "VTFX_SIGNATURE", "d4/d91/VTF_8h.html#a534130e52cb10a651b616db23c5428e0", null ]
 ];

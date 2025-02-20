@@ -139,6 +139,7 @@ var namespacevtfpp =
       [ "BC6H", "de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336caaad676c687f275f58d8aad95bf9b1b94", null ]
     ] ],
     [ "TTH_SIGNATURE", "de/d90/namespacevtfpp.html#ac8b795eaf266d5ec86358e15213c97da", null ],
+    [ "VTF3_SIGNATURE", "de/d90/namespacevtfpp.html#a62b9c897925746f89abe8a1222a0317b", null ],
     [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
     [ "VTFX_SIGNATURE", "de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0", null ]
 ];
