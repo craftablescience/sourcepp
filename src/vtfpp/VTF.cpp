@@ -198,15 +198,19 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		if (this->majorVersion != 7 || this->minorVersion > 6) {
 			return;
 		}
-	} else if (signature == VTFX_SIGNATURE) {
+	} else if (signature == VTFX_SIGNATURE || signature == VTF3_SIGNATURE) {
 		stream.set_big_endian(true);
 		uint32_t minorConsoleVersion = 0;
 		stream >> this->platform >> minorConsoleVersion;
 		if (minorConsoleVersion != 8) {
 			return;
 		}
+		if (signature == VTF3_SIGNATURE) {
+			this->platform = PLATFORM_PS3_PORTAL2;
+		}
 		switch (this->platform) {
-			case PLATFORM_PS3:
+			case PLATFORM_PS3_PORTAL2:
+			case PLATFORM_PS3_ORANGEBOX:
 			case PLATFORM_X360:
 				this->majorVersion = 7;
 				this->minorVersion = 4;
@@ -299,6 +303,10 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			.read(this->format)
 			.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
 			.skip<uint32_t>(); // compressedLength
+
+		if (this->platform == PLATFORM_PS3_PORTAL2) {
+			stream.skip<uint32_t>();
+		}
 
 		this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
 
@@ -609,7 +617,7 @@ VTF::Platform VTF::getPlatform() const {
 }
 
 void VTF::setPlatform(Platform newPlatform) {
-	if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3) {
+	if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2 || this->platform == PLATFORM_PS3_ORANGEBOX) {
 		this->setVersion(7, 4);
 
 		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
@@ -1495,12 +1503,15 @@ std::vector<std::byte> VTF::bake() const {
 	};
 
 	if (this->platform != PLATFORM_PC) {
-		writer << VTFX_SIGNATURE;
+		writer << (this->platform == PLATFORM_PS3_PORTAL2 ? VTF3_SIGNATURE : VTFX_SIGNATURE);
 		writer.set_big_endian(true);
 
-		writer
-			.write(this->platform)
-			.write<uint32_t>(8);
+		if (this->platform == PLATFORM_PS3_PORTAL2) {
+			writer << PLATFORM_PS3_ORANGEBOX;
+		} else {
+			writer << this->platform;
+		}
+		writer.write<uint32_t>(8);
 		const auto headerLengthPos = writer.tell();
 		writer
 			.write<uint32_t>(0)
@@ -1525,6 +1536,11 @@ std::vector<std::byte> VTF::bake() const {
 			.write<uint8_t>(255);
 		const auto compressionPos = writer.tell();
 		writer.write<uint32_t>(0); // compressed length
+
+		if (this->platform == PLATFORM_PS3_PORTAL2) {
+			// 16 byte aligned
+			writer.write<uint32_t>(0);
+		}
 
 		std::vector<std::byte> imageResourceData;
 		bool hasCompression = false;

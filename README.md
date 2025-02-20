@@ -342,7 +342,8 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>
-      <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> (X360, PS3)
+      <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> X360, PS3 (Orange Box)
+      <br> &bull; PS3 (Portal 2, CS:GO) modifications
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>

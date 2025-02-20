@@ -394,10 +394,11 @@ void register_python(py::module_& m) {
 		.export_values();
 
 	py::enum_<VTF::Platform>(cVTF, "Platform")
-		.value("UNKNOWN", VTF::PLATFORM_UNKNOWN)
-		.value("PC",      VTF::PLATFORM_PC)
-		.value("PS3",     VTF::PLATFORM_PS3)
-		.value("X360",    VTF::PLATFORM_X360)
+		.value("UNKNOWN",       VTF::PLATFORM_UNKNOWN)
+		.value("PC",            VTF::PLATFORM_PC)
+		.value("PS3_PORTAL2",   VTF::PLATFORM_PS3_PORTAL2)
+		.value("PS3_ORANGEBOX", VTF::PLATFORM_PS3_ORANGEBOX)
+		.value("X360",          VTF::PLATFORM_X360)
 		.export_values();
 
 	py::class_<VTF::CreationOptions>(cVTF, "CreationOptions")
