@@ -5725,9 +5725,11 @@ static int stbi__apng_load_main(stbi__png *p, int *x, int *y, int *comp, int req
       *y = p->s->img_y;
 
       if (comp) *comp = p->s->img_n;
+
+      return 1;
    }
 
-   return 1;
+   return 0;
 }
 
 stbi_uc *stbi__apng_load_8bit(stbi__context *s, int *x, int *y, int *comp, int req_comp, size_t *dir_offset)
