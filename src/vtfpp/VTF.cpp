@@ -208,12 +208,14 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		if (signature == VTF3_SIGNATURE) {
 			this->platform = PLATFORM_PS3_PORTAL2;
 		}
+		this->majorVersion = 7;
 		switch (this->platform) {
-			case PLATFORM_PS3_PORTAL2:
 			case PLATFORM_PS3_ORANGEBOX:
 			case PLATFORM_X360:
-				this->majorVersion = 7;
 				this->minorVersion = 4;
+				break;
+			case PLATFORM_PS3_PORTAL2:
+				this->minorVersion = 5;
 				break;
 			default:
 				this->platform = PLATFORM_UNKNOWN;

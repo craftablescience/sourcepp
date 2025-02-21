@@ -983,7 +983,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		// Header
 		EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_PS3_PORTAL2);
 		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 4);
+		EXPECT_EQ(vtf.getMinorVersion(), 5);
 		EXPECT_EQ(vtf.getWidth(), 256);
 		EXPECT_EQ(vtf.getHeight(), 512);
 		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
@@ -1016,7 +1016,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		// Header
 		EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_PS3_PORTAL2);
 		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 4);
+		EXPECT_EQ(vtf.getMinorVersion(), 5);
 		EXPECT_EQ(vtf.getWidth(), 256);
 		EXPECT_EQ(vtf.getHeight(), 512);
 		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NORMAL | VTF::FLAG_MULTI_BIT_ALPHA);
