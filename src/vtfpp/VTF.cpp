@@ -617,8 +617,12 @@ VTF::Platform VTF::getPlatform() const {
 }
 
 void VTF::setPlatform(Platform newPlatform) {
-	if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2 || this->platform == PLATFORM_PS3_ORANGEBOX) {
-		this->setVersion(7, 4);
+	if (this->platform != PLATFORM_PC) {
+		if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_ORANGEBOX) {
+			this->setVersion(7, 4);
+		} else /*if (this->platform == PLATFORM_PS3_PORTAL2)*/ {
+			this->setVersion(7, 5);
+		}
 
 		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
 		if (this->mipCount != recommendedCount) {
@@ -1548,8 +1552,9 @@ std::vector<std::byte> VTF::bake() const {
 			imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
 			::swapImageDataEndianForConsole(imageResourceData, this->format, this->width, this->height, this->platform);
 
-			// Compression has only been observed in X360 VTFs so far
-			if (this->platform == VTF::PLATFORM_X360 && (hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA)) {
+			// Compression has only been observed in X360 and PS3_PORTAL2 VTFs so far
+			// todo(vtfpp): check PS3_ORANGEBOX cubemaps for compression
+			if ((this->platform == VTF::PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2) && (hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA)) {
 				auto fixedCompressionLevel = this->compressionLevel;
 				if (this->compressionLevel == 0) {
 					// Compression level defaults to 0, so it works differently on console.
