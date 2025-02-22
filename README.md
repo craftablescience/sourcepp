@@ -157,11 +157,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="23"><code>vpkpp</code></td>
+    <td rowspan="25"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="23" align="center">C<br>C#</td>
+    <td rowspan="25" align="center">C<br>C#</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -223,6 +223,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>VPK (Vampire: The Masquerade - Bloodlines)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>VPP (Red Faction)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -369,6 +375,7 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
 - `vpkpp`'s OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
+- `vpkpp`'s VPP parser was contributed by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`'s SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
 - `vtfpp`'s VTF write support is loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
