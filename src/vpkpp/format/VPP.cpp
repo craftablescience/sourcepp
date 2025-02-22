@@ -20,27 +20,19 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 	reader.seek_in(0);
 
 	// Verify signature
-	auto signature = reader.read<uint32_t>();
-	if (signature == VPP_SIGNATURE_BIG) {
+	if (const auto signature = reader.read<uint32_t>(); signature == VPP_SIGNATURE_BIG) {
 		reader.set_big_endian(true);
 	} else if (signature != VPP_SIGNATURE_LIL) {
 		return nullptr;
 	}
 
-	// Verify version
-	auto version = reader.read<uint32_t>();
-	if (version < VPP_VERSION_MIN || version > VPP_VERSION_MAX) {
-		return nullptr;
-	}
-
 	// Create entries
-	if (version == 1) {
+	if (const auto version = reader.read<uint32_t>(); version == 1) {
 		// Get header fields
-		auto num_files = reader.read<uint32_t>();
-		auto len_vpp = reader.read<uint32_t>();
+		const auto entryCount = reader.read<uint32_t>();
 
 		// Verify file size
-		if (len_vpp != std::filesystem::file_size(path)) {
+		if (reader.read<uint32_t>() != std::filesystem::file_size(path)) {
 			return nullptr;
 		}
 
@@ -49,10 +41,10 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Get first file offset
 		// 64 is the byte size of each file directory entry
-		uint32_t entryOffset = VPP_ALIGNMENT + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, 64 * num_files);
+		uint32_t entryOffset = VPP_ALIGNMENT + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, 64 * entryCount);
 
 		// Read file entries
-		for (uint32_t i = 0; i < num_files; i++) {
+		for (uint32_t i = 0; i < entryCount; i++) {
 			Entry entry = createNewEntry();
 
 			// Get file path
@@ -72,6 +64,8 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 				callback(entryPath, entry);
 			}
 		}
+	} else {
+		return nullptr;
 	}
 
 	return packFile;
