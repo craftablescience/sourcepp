@@ -122,6 +122,7 @@ var annotated_dup =
       [ "PCK", "d5/db5/classvpkpp_1_1PCK.html", "d5/db5/classvpkpp_1_1PCK" ],
       [ "VPK", "d5/d8b/classvpkpp_1_1VPK.html", "d5/d8b/classvpkpp_1_1VPK" ],
       [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", "d4/ddb/classvpkpp_1_1VPK__VTMB" ],
+      [ "VPP", "d6/d17/classvpkpp_1_1VPP.html", "d6/d17/classvpkpp_1_1VPP" ],
       [ "WAD3", "d1/da5/classvpkpp_1_1WAD3.html", "d1/da5/classvpkpp_1_1WAD3" ],
       [ "ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ]
     ] ],

@@ -149,7 +149,8 @@ var hierarchy =
         [ "vpkpp::GCF", "d1/d01/classvpkpp_1_1GCF.html", null ],
         [ "vpkpp::OL", "d4/d47/classvpkpp_1_1OL.html", null ],
         [ "vpkpp::OO7", "d3/dec/classvpkpp_1_1OO7.html", null ],
-        [ "vpkpp::ORE", "d8/d00/classvpkpp_1_1ORE.html", null ]
+        [ "vpkpp::ORE", "d8/d00/classvpkpp_1_1ORE.html", null ],
+        [ "vpkpp::VPP", "d6/d17/classvpkpp_1_1VPP.html", null ]
       ] ],
       [ "vpkpp::VPK", "d5/d8b/classvpkpp_1_1VPK.html", [
         [ "vpkpp::FPX", "da/d42/classvpkpp_1_1FPX.html", null ]

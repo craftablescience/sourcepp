@@ -1,22 +1,23 @@
 <map id="include/vpkpp/vpkpp.h" name="include/vpkpp/vpkpp.h">
-<area shape="rect" id="node1" title=" " alt="" coords="689,5,858,31"/>
-<area shape="rect" id="node2" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="88,79,195,104"/>
-<area shape="rect" id="node3" href="$d3/d5a/VPK_8h.html" title=" " alt="" coords="173,152,233,177"/>
-<area shape="rect" id="node5" href="$d3/df4/PackFile_8h.html" title=" " alt="" coords="532,225,631,251"/>
+<area shape="rect" id="node1" title=" " alt="" coords="718,5,887,31"/>
+<area shape="rect" id="node2" href="$dd/d63/FPX_8h.html" title=" " alt="" coords="107,79,213,104"/>
+<area shape="rect" id="node3" href="$d3/d5a/VPK_8h.html" title=" " alt="" coords="221,152,281,177"/>
+<area shape="rect" id="node5" href="$d3/df4/PackFile_8h.html" title=" " alt="" coords="556,225,655,251"/>
 <area shape="rect" id="node16" href="$d4/d08/Attribute_8h.html" title=" " alt="" coords="5,299,96,324"/>
 <area shape="rect" id="node17" href="$d4/d42/Entry_8h.html" title=" " alt="" coords="1049,299,1116,324"/>
 <area shape="rect" id="node27" href="$d5/d76/Options_8h.html" title=" " alt="" coords="1290,299,1374,324"/>
-<area shape="rect" id="node28" href="$df/d32/GCF_8h.html" title=" " alt="" coords="675,79,781,104"/>
-<area shape="rect" id="node29" href="$d1/dbf/GMA_8h.html" title=" " alt="" coords="741,152,854,177"/>
-<area shape="rect" id="node32" href="$d4/dd1/OO7_8h.html" title=" " alt="" coords="257,152,367,177"/>
-<area shape="rect" id="node33" href="$de/d09/OL_8h.html" title=" " alt="" coords="879,152,977,177"/>
-<area shape="rect" id="node34" href="$dc/ddf/ORE_8h.html" title=" " alt="" coords="1001,152,1111,177"/>
-<area shape="rect" id="node35" href="$dc/da5/PAK_8h.html" title=" " alt="" coords="1135,152,1241,177"/>
-<area shape="rect" id="node36" href="$dd/dae/PCK_8h.html" title=" " alt="" coords="1266,152,1374,177"/>
-<area shape="rect" id="node37" href="$d7/d1d/VPK__VTMB_8h.html" title=" " alt="" coords="497,79,650,104"/>
-<area shape="rect" id="node38" href="$dd/d02/WAD3_8h.html" title=" " alt="" coords="595,152,717,177"/>
-<area shape="rect" id="node39" href="$d6/d66/ZIP_8h.html" title=" " alt="" coords="320,79,421,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="229,225,285,251"/>
+<area shape="rect" id="node28" href="$df/d32/GCF_8h.html" title=" " alt="" coords="419,79,525,104"/>
+<area shape="rect" id="node29" href="$d1/dbf/GMA_8h.html" title=" " alt="" coords="1203,152,1317,177"/>
+<area shape="rect" id="node32" href="$d4/dd1/OO7_8h.html" title=" " alt="" coords="86,152,197,177"/>
+<area shape="rect" id="node33" href="$de/d09/OL_8h.html" title=" " alt="" coords="1341,152,1440,177"/>
+<area shape="rect" id="node34" href="$dc/ddf/ORE_8h.html" title=" " alt="" coords="661,152,771,177"/>
+<area shape="rect" id="node35" href="$dc/da5/PAK_8h.html" title=" " alt="" coords="795,152,901,177"/>
+<area shape="rect" id="node36" href="$dd/dae/PCK_8h.html" title=" " alt="" coords="926,152,1034,177"/>
+<area shape="rect" id="node37" href="$d7/d1d/VPK__VTMB_8h.html" title=" " alt="" coords="726,79,879,104"/>
+<area shape="rect" id="node38" href="$d1/d4f/VPP_8h.html" title=" " alt="" coords="289,79,394,104"/>
+<area shape="rect" id="node39" href="$dd/d02/WAD3_8h.html" title=" " alt="" coords="1058,152,1179,177"/>
+<area shape="rect" id="node40" href="$d6/d66/ZIP_8h.html" title=" " alt="" coords="549,79,651,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="168,225,224,251"/>
 <area shape="rect" id="node6" title=" " alt="" coords="837,299,923,324"/>
 <area shape="rect" id="node7" title=" " alt="" coords="120,299,197,324"/>
 <area shape="rect" id="node8" title=" " alt="" coords="323,299,397,324"/>
@@ -36,6 +37,6 @@
 <area shape="rect" id="node24" title=" " alt="" coords="1055,445,1121,471"/>
 <area shape="rect" id="node25" title=" " alt="" coords="1146,445,1225,471"/>
 <area shape="rect" id="node26" title=" " alt="" coords="1249,445,1324,471"/>
-<area shape="rect" id="node30" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="1026,225,1209,251"/>
+<area shape="rect" id="node30" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="1066,225,1249,251"/>
 <area shape="rect" id="node31" title=" " alt="" coords="1141,299,1214,324"/>
 </map>
