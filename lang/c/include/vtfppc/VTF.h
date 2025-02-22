@@ -112,7 +112,7 @@ typedef struct {
 	float bumpMapScale;
 } vtfpp_vtf_creation_options_t;
 
-#define VTFPP_VTF_CREATION_OPTIONS_DEFAULT (vtfpp_vtf_creation_options_t{ \
+#define VTFPP_VTF_CREATION_OPTIONS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_vtf_creation_options_t) { \
 	.majorVersion = 7, \
 	.minorVersion = 4, \
 	.outputFormat = VTFPP_VTF_FORMAT_DEFAULT, \

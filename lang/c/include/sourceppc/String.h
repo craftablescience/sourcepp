@@ -11,14 +11,14 @@ typedef struct {
 	uint8_t* data;
 } sourcepp_string_t;
 
-#define SOURCEPP_STRING_INVALID (sourcepp_string_t{.size = -1, .data = NULL})
+#define SOURCEPP_STRING_INVALID (SOURCEPP_CAST_CTOR(sourcepp_string_t) {.size = -1, .data = NULL})
 
 typedef struct {
 	int64_t size;
 	char** data;
 } sourcepp_string_array_t;
 
-#define SOURCEPP_STRING_ARRAY_INVALID (sourcepp_string_array_t{.size = -1, .data = NULL})
+#define SOURCEPP_STRING_ARRAY_INVALID (SOURCEPP_CAST_CTOR(sourcepp_string_array_t) {.size = -1, .data = NULL})
 
 #ifdef __cplusplus
 } // extern "C"
