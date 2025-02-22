@@ -10,6 +10,7 @@
 
 #ifdef __cplusplus
 	#define SOURCEPP_API extern "C" SOURCEPP_EXPORT
+	#define SOURCEPP_CAST_CTOR(name) name
 	#include <cstddef>
 	#include <cstdint>
 	using std::size_t;
@@ -23,6 +24,7 @@
 	using std::uint64_t;
 #else
 	#define SOURCEPP_API SOURCEPP_EXPORT
+	#define SOURCEPP_CAST_CTOR(name) (name)
 	#include <stddef.h>
 	#include <stdint.h>
 #endif

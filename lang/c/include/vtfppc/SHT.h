@@ -19,7 +19,7 @@ typedef struct {
 	vtfpp_sht_frame_bounds_t bounds[4];
 } vtfpp_sht_frame_t;
 
-#define VTFPP_SHT_FRAME_INVALID (vtfpp_sht_frame_t{.duration = 0.f})
+#define VTFPP_SHT_FRAME_INVALID (SOURCEPP_CAST_CTOR(vtfpp_sht_frame_t) {.duration = 0.f})
 
 typedef struct {
 	uint32_t id;
@@ -28,7 +28,7 @@ typedef struct {
 	float durationTotal;
 } vtfpp_sht_sequence_t;
 
-#define VTFPP_SHT_SEQUENCE_INVALID (vtfpp_sht_sequence_t{.id = 0, .loop = 0, .frameCount = 0, .durationTotal = 0.f})
+#define VTFPP_SHT_SEQUENCE_INVALID (SOURCEPP_CAST_CTOR(vtfpp_sht_sequence_t) {.id = 0, .loop = 0, .frameCount = 0, .durationTotal = 0.f})
 
 typedef void* vtfpp_sht_handle_t;
 
