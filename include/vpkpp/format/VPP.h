@@ -1,15 +1,11 @@
 #pragma once
 
-#include <sourcepp/parser/Binary.h>
-
 #include "../PackFile.h"
 
 namespace vpkpp {
 
-constexpr uint32_t VPP_SIGNATURE_LIL = 0x51890ace;
-constexpr uint32_t VPP_SIGNATURE_BIG = 0xce0a8951;
-constexpr uint32_t VPP_VERSION_MIN = 1;
-constexpr uint32_t VPP_VERSION_MAX = 1;
+constexpr uint32_t VPP_SIGNATURE_LIL = 0x51890ACE;
+constexpr uint32_t VPP_SIGNATURE_BIG = 0xCE0A8951;
 constexpr uint32_t VPP_ALIGNMENT = 2048;
 constexpr std::string_view VPP_EXTENSION = ".vpp";
 
