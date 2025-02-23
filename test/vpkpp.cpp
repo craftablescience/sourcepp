@@ -11,8 +11,14 @@ TEST(vpkpp, hog_read) {
 	EXPECT_EQ(hog->getEntryCount(), 5);
 }
 
-TEST(vpkpp, vpp_read) {
+TEST(vpkpp, vpp_v1_read) {
 	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v1.vpp");
 	ASSERT_TRUE(vpp);
 	EXPECT_EQ(vpp->getEntryCount(), 29);
+}
+
+TEST(vpkpp, vpp_v2_read) {
+	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v2.vpp");
+	ASSERT_TRUE(vpp);
+	EXPECT_EQ(vpp->getEntryCount(), 32);
 }
