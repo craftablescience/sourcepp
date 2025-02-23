@@ -1,9 +1,5 @@
 var NAVTREEINDEX20 =
 {
-"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69afcf59b6e660e1548e9adce37237f8a66":[3,0,6,0,18,2],
-"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69afcf59b6e660e1548e9adce37237f8a66":[1,4,6,0,18,2],
-"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69aff365f7b81760e46f1a32affd0ec7cbe":[3,0,6,0,18,21],
-"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69aff365f7b81760e46f1a32affd0ec7cbe":[1,4,6,0,18,21],
 "df/dc5/classsndpp_1_1WAV.html#a684d601c1a04ac6a3cb6df839a4a4886":[3,0,6,0,40],
 "df/dc5/classsndpp_1_1WAV.html#a684d601c1a04ac6a3cb6df839a4a4886":[1,4,6,0,40],
 "df/dc5/classsndpp_1_1WAV.html#a800515de0f3f483a64c74111775242d4":[3,0,6,0,25],
@@ -249,5 +245,9 @@ var NAVTREEINDEX20 =
 "namespacemembers_c.html":[1,5,0,2],
 "namespacemembers_d.html":[1,5,0,3],
 "namespacemembers_e.html":[1,5,0,4],
-"namespacemembers_enum.html":[1,5,4]
+"namespacemembers_enum.html":[1,5,4],
+"namespacemembers_f.html":[1,5,0,5],
+"namespacemembers_func.html":[1,5,1],
+"namespacemembers_g.html":[1,5,0,6],
+"namespacemembers_h.html":[1,5,0,7]
 };
