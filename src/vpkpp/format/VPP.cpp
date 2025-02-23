@@ -38,13 +38,11 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		}
 
 		// Get file table offset
-		// 16 is the byte size of the header
-		uint32_t headerSize = 16;
+		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
 		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
 		// Get first file offset
-		// 64 is the byte size of each file directory entry
-		uint32_t fileTableSize = 64 * entryCount;
+		const uint32_t fileTableSize = (60 + sizeof(uint32_t)) * entryCount;
 		uint32_t entryOffset = reader.tell_in() + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Read file entries
@@ -78,13 +76,11 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		}
 
 		// Get file table offset
-		// 16 is the byte size of the header
-		uint32_t headerSize = 16;
+		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
 		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
 		// Get first file offset
-		// 32 is the byte size of each file directory entry
-		uint32_t fileTableSize = 32 * entryCount;
+		const uint32_t fileTableSize = (24 + sizeof(uint32_t) * 2) * entryCount;
 		uint32_t entryOffset = reader.tell_in() + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Read file entries
