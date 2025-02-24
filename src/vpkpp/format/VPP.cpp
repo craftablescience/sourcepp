@@ -4,6 +4,8 @@
 
 #include <FileStream.h>
 
+#include <miniz.h>
+
 using namespace sourcepp;
 using namespace vpkpp;
 
@@ -41,9 +43,14 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
 		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
-		// Get first file offset
+		// Get base file offset
 		const uint32_t fileTableSize = (60 + sizeof(uint32_t)) * entryCount;
-		uint32_t entryOffset = reader.tell_in() + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = 0;
+		vpp->entryBaseOffset += headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize);
+		vpp->entryBaseOffset += fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+
+		// Get first file offset
+		uint32_t entryOffset = 0;
 
 		// Read file entries
 		for (uint32_t i = 0; i < entryCount; i++) {
@@ -79,9 +86,14 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
 		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
-		// Get first file offset
+		// Get base file offset
 		const uint32_t fileTableSize = (24 + sizeof(uint32_t) * 2) * entryCount;
-		uint32_t entryOffset = reader.tell_in() + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = 0;
+		vpp->entryBaseOffset += headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize);
+		vpp->entryBaseOffset += fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+
+		// Get first file offset
+		uint32_t entryOffset = 0;
 
 		// Read file entries
 		for (uint32_t i = 0; i < entryCount; i++) {
@@ -111,6 +123,95 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 				callback(entryPath, entry);
 			}
 		}
+	} else if (version == 3) {
+		// Skip unused header data
+		reader.skip_in(64 + 256 + sizeof(uint32_t));
+
+		// Get package flags
+		reader >> vpp->flags;
+
+		// Remove compressed flag if we're also condensed
+		if (vpp->flags & FLAG_CONDENSED) {
+			vpp->flags &= ~FLAG_COMPRESSED;
+		}
+
+		// ??
+		reader.skip_in<uint32_t>();
+
+		// Get number of entries
+		const auto entryCount = reader.read<uint32_t>();
+
+		// Verify file size
+		if (reader.read<uint32_t>() != std::filesystem::file_size(path)) {
+			return nullptr;
+		}
+
+		// Get sizes
+		const auto entryDirectorySize = reader.read<uint32_t>();
+		const auto entryNamesSize = reader.read<uint32_t>();
+
+		// Check if we have compression
+		const auto entryDataSizeUncompressed = reader.read<uint32_t>();
+		const auto entryDataSizeCompressed = reader.read<uint32_t>();
+
+		// Set base data offset
+		vpp->entryBaseOffset = VPP_ALIGNMENT
+				+ entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
+				+ entryNamesSize     + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
+
+		// Seek to file directory (alignment boundary)
+		reader.seek_in(VPP_ALIGNMENT);
+
+		// Read file entries
+		for (uint32_t i = 0; i < entryCount; i++) {
+			Entry entry = createNewEntry();
+
+			// Get file name offset
+			const auto entryNameOffset = reader.read<uint32_t>();
+
+			// ??
+			reader.skip_in<uint32_t>();
+
+			// Get file offset
+			entry.offset = reader.read<uint32_t>();
+
+			// ??
+			reader.skip_in<uint32_t>();
+
+			// Get file size
+			entry.length = reader.read<uint32_t>();
+			entry.compressedLength = reader.read<uint32_t>();
+
+			// Not compressed
+			if (entry.compressedLength == 0xFFFFFFFF || !(vpp->flags & FLAG_COMPRESSED)) {
+				entry.compressedLength = 0;
+			}
+
+			// ??
+			reader.skip_in<uint32_t>();
+
+			// Get file name
+			const auto lastPos = reader.tell_in();
+			reader.seek_in(VPP_ALIGNMENT + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) + entryNameOffset);
+			const auto entryPath = vpp->cleanEntryPath(reader.read_string(entryNamesSize - entryNameOffset));
+			reader.seek_in_u(lastPos);
+
+			// Put it in
+			vpp->entries.emplace(entryPath, entry);
+
+			if (callback) {
+				callback(entryPath, entry);
+			}
+		}
+
+		// Uncondense data
+		if (vpp->flags & FLAG_CONDENSED) {
+			reader.seek_in(vpp->entryBaseOffset);
+			vpp->uncondensedData.resize(entryDataSizeUncompressed);
+			auto compressedData = reader.read_bytes(entryDataSizeCompressed);
+			mz_ulong uncompressedLength = entryDataSizeUncompressed;
+			mz_uncompress(reinterpret_cast<unsigned char*>(vpp->uncondensedData.data()), &uncompressedLength, reinterpret_cast<const unsigned char*>(compressedData.data()), entryDataSizeCompressed);
+		}
 	} else {
 		return nullptr;
 	}
@@ -128,13 +229,35 @@ std::optional<std::vector<std::byte>> VPP::readEntry(const std::string& path_) c
 		return readUnbakedEntry(*entry);
 	}
 
-	// It's baked into the file on disk
-	FileStream stream{this->fullFilePath};
-	if (!stream) {
-		return std::nullopt;
+	if (this->flags & FLAG_CONDENSED) {
+		// Condensed entry
+		BufferStreamReadOnly stream{this->uncondensedData.data(), this->uncondensedData.size()};
+		stream.seek_u(entry->offset);
+		return stream.read_bytes(entry->length);
+	} else if (this->flags & FLAG_COMPRESSED) {
+		// Compressed entry
+		if (!entry->compressedLength) {
+			return std::nullopt;
+		}
+		FileStream stream{this->fullFilePath};
+		if (!stream) {
+			return std::nullopt;
+		}
+		stream.seek_in_u(this->entryBaseOffset + entry->offset);
+		auto compressedData = stream.read_bytes(entry->compressedLength);
+		mz_ulong uncompressedLength = entry->length;
+		std::vector<std::byte> uncompressedData(uncompressedLength);
+		mz_uncompress(reinterpret_cast<unsigned char*>(uncompressedData.data()), &uncompressedLength, reinterpret_cast<const unsigned char*>(compressedData.data()), entry->compressedLength);
+		return uncompressedData;
+	} else {
+		// Uncompressed entry
+		FileStream stream{this->fullFilePath};
+		if (!stream) {
+			return std::nullopt;
+		}
+		stream.seek_in_u(this->entryBaseOffset + entry->offset);
+		return stream.read_bytes(entry->length);
 	}
-	stream.seek_in_u(entry->offset);
-	return stream.read_bytes(entry->length);
 }
 
 Attribute VPP::getSupportedEntryAttributes() const {
