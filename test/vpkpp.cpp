@@ -22,3 +22,19 @@ TEST(vpkpp, vpp_v2_read) {
 	ASSERT_TRUE(vpp);
 	EXPECT_EQ(vpp->getEntryCount(), 32);
 }
+
+TEST(vpkpp, vpp_v3_lil_read) {
+	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v3.vpp_pc");
+	ASSERT_TRUE(vpp);
+	EXPECT_EQ(vpp->getEntryCount(), 128);
+	const auto data = vpp->readEntry("ACTIVE.rfgvpx.str2_pc");
+	ASSERT_TRUE(data);
+}
+
+TEST(vpkpp, vpp_v3_big_read) {
+	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v3.vpp_xbox2");
+	ASSERT_TRUE(vpp);
+	EXPECT_EQ(vpp->getEntryCount(), 20);
+	const auto data = vpp->readEntry("ai_debug.txt");
+	ASSERT_TRUE(data);
+}
