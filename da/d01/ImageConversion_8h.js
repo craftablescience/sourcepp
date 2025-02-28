@@ -70,7 +70,7 @@ var ImageConversion_8h =
     [ "convertHDRIToCubeMap", "da/d01/ImageConversion_8h.html#a30fb0fa055a416e7f1642b99b04a090a", null ],
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
     [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
-    [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#a6daac8f2694c03062cdf794542c3ee93", null ],
+    [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#aea795449a42d2076a8bb795d37faaec9", null ],
     [ "cropImageData", "da/d01/ImageConversion_8h.html#ac7cd00a5275611b373c7b7651d0d5a39", null ],
     [ "extractChannelFromImageData", "da/d01/ImageConversion_8h.html#aad3b3ca83929b12ec4abad257d5f1648", null ],
     [ "getDefaultFileFormatForImageFormat", "da/d01/ImageConversion_8h.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],

@@ -37,7 +37,7 @@ var namespacevtfpp =
       [ "convertHDRIToCubeMap", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a30fb0fa055a416e7f1642b99b04a090a", null ],
       [ "convertImageDataToFile", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
       [ "convertImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303", null ],
-      [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6daac8f2694c03062cdf794542c3ee93", null ],
+      [ "convertSeveralImageDataToFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#aea795449a42d2076a8bb795d37faaec9", null ],
       [ "cropImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39", null ],
       [ "extractChannelFromImageData", "d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648", null ],
       [ "getDefaultFileFormatForImageFormat", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
