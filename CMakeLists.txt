@@ -198,18 +198,18 @@ endif()
 
 
 # Add libraries
-add_sourcepp_library(bsppp             PYTHON NO_TEST      ) # sourcepp::bsppp
-add_sourcepp_library(dmxpp                                 ) # sourcepp::dmxpp
-add_sourcepp_library(fspp                                  ) # sourcepp::fspp
-add_sourcepp_library(gamepp   C        PYTHON              ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                             BENCH) # sourcepp::kvpp
-add_sourcepp_library(mdlpp                                 ) # sourcepp::mdlpp
-add_sourcepp_library(sndpp                                 ) # sourcepp::sndpp
-add_sourcepp_library(steampp  C        PYTHON              ) # sourcepp::steampp
-add_sourcepp_library(toolpp            PYTHON              ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP PYTHON              ) # sourcepp::vcryptpp
-add_sourcepp_library(vpkpp    C CSHARP                     ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp    C        PYTHON         BENCH) # sourcepp::vtfpp
+add_sourcepp_library(bsppp             PYTHON           ) # sourcepp::bsppp
+add_sourcepp_library(dmxpp                    TEST      ) # sourcepp::dmxpp
+add_sourcepp_library(fspp                     TEST      ) # sourcepp::fspp
+add_sourcepp_library(gamepp   C        PYTHON TEST      ) # sourcepp::gamepp
+add_sourcepp_library(kvpp                     TEST BENCH) # sourcepp::kvpp
+add_sourcepp_library(mdlpp                    TEST      ) # sourcepp::mdlpp
+add_sourcepp_library(sndpp                    TEST      ) # sourcepp::sndpp
+add_sourcepp_library(steampp  C        PYTHON TEST      ) # sourcepp::steampp
+add_sourcepp_library(toolpp            PYTHON TEST      ) # sourcepp::toolpp
+add_sourcepp_library(vcryptpp C CSHARP PYTHON TEST      ) # sourcepp::vcryptpp
+add_sourcepp_library(vpkpp    C CSHARP        TEST      ) # sourcepp::vpkpp
+add_sourcepp_library(vtfpp    C CSHARP PYTHON TEST BENCH) # sourcepp::vtfpp
 
 
 # Tests, part 2

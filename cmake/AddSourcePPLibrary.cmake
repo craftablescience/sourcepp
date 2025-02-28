@@ -1,5 +1,5 @@
 function(add_sourcepp_library TARGET)
-    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C;CSHARP;PYTHON;NO_TEST;BENCH" "" "")
+    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C;CSHARP;PYTHON;TEST;BENCH" "" "")
     string(TOUPPER ${TARGET} TARGET_UPPER)
     if(SOURCEPP_USE_${TARGET_UPPER})
         set(PROPAGATE_VARS "")
@@ -31,7 +31,7 @@ function(add_sourcepp_library TARGET)
         endif()
 
         # Add tests
-        if(SOURCEPP_BUILD_TESTS AND NOT OPTIONS_NO_TEST)
+        if(SOURCEPP_BUILD_TESTS AND OPTIONS_TEST)
             list(APPEND ${SOURCEPP_TEST_NAME}_DEPS sourcepp::${TARGET})
             list(APPEND ${SOURCEPP_TEST_NAME}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/test/${TARGET}.cpp")
             list(APPEND PROPAGATE_VARS ${SOURCEPP_TEST_NAME}_DEPS ${SOURCEPP_TEST_NAME}_SOURCES)

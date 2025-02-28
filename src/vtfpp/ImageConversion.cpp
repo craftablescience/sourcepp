@@ -989,7 +989,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	return newData;
 }
 
-std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
+std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
 	if (imageData.empty() || oldFormat == ImageFormat::EMPTY) {
 		return {};
 	}

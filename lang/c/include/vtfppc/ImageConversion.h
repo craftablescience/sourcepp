@@ -29,13 +29,14 @@ typedef enum {
 } vtfpp_image_conversion_resize_edge_e;
 
 typedef enum {
-	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT,
+	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT = 0,
 	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_BOX,
 	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_BILINEAR,
 	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_CUBIC_BSPLINE,
-	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_CATMULLROM,
+	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_CATMULL_ROM,
 	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_MITCHELL,
-	//VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_POINT_SAMPLE,
+	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_POINT_SAMPLE,
+	VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_KAISER = 100,
 } vtfpp_image_conversion_resize_filter_e;
 
 typedef enum {
@@ -53,7 +54,7 @@ typedef enum {
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint16_t width, uint16_t height);
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount);
+SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount);
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height);
