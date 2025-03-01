@@ -196,9 +196,10 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 					entry.length += preloadedDataSize;
 				}
 
-				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > vpk->numArchives) {
-					vpk->numArchives = entry.archiveIndex;
+				if (entry.archiveIndex != VPK_DIR_INDEX && std::cmp_greater(entry.archiveIndex, vpk->numArchives)) {
+					vpk->numArchives = static_cast<int32_t>(entry.archiveIndex);
 				}
+
 
 				vpk->entries.emplace(entryPath, entry);
 

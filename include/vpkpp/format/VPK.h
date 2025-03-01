@@ -140,7 +140,7 @@ protected:
 
 	[[nodiscard]] uint32_t getHeaderLength() const;
 
-	uint32_t numArchives = -1;
+	int32_t numArchives = -1;
 	uint32_t currentlyFilledChunkSize = 0;
 	uint32_t chunkSize = VPK_DEFAULT_CHUNK_SIZE;
 
