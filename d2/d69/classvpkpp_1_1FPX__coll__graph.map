@@ -1,20 +1,21 @@
 <map id="vpkpp::FPX" name="vpkpp::FPX">
-<area shape="rect" id="node1" title=" " alt="" coords="1216,163,1311,189"/>
-<area shape="rect" id="node2" href="$d5/d8b/classvpkpp_1_1VPK.html" title=" " alt="" coords="1071,234,1167,259"/>
-<area shape="rect" id="node3" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="797,33,919,58"/>
-<area shape="rect" id="node4" title=" " alt="" coords="437,22,523,47"/>
+<area shape="rect" id="node1" title=" " alt="" coords="1219,118,1313,143"/>
+<area shape="rect" id="node2" href="$d5/d8b/classvpkpp_1_1VPK.html" title=" " alt="" coords="1073,213,1169,238"/>
+<area shape="rect" id="node3" href="$d2/dd2/classvpkpp_1_1PackFile.html" title=" " alt="" coords="797,14,919,39"/>
+<area shape="rect" id="node4" title=" " alt="" coords="437,13,523,38"/>
 <area shape="rect" id="node5" title=" " alt="" coords="25,5,164,45"/>
-<area shape="rect" id="node6" title=" " alt="" coords="795,91,921,117"/>
-<area shape="rect" id="node7" title=" " alt="" coords="397,83,563,123"/>
-<area shape="rect" id="node8" title=" " alt="" coords="57,373,132,398"/>
-<area shape="rect" id="node10" href="$d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html" title=" " alt="" coords="389,513,571,538"/>
-<area shape="rect" id="node12" href="$d2/d67/structvpkpp_1_1VPK_1_1Header1.html" title=" " alt="" coords="596,362,755,387"/>
-<area shape="rect" id="node13" href="$d2/d8d/structvpkpp_1_1VPK_1_1Header2.html" title=" " alt="" coords="596,445,755,470"/>
-<area shape="rect" id="node18" href="$dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html" title=" " alt="" coords="396,291,564,317"/>
-<area shape="rect" id="node9" title=" " alt="" coords="780,484,936,524"/>
-<area shape="rect" id="node11" title=" " alt="" coords="57,567,132,593"/>
-<area shape="rect" id="node14" href="$d5/dde/structvpkpp_1_1VPK_1_1Footer2.html" title=" " alt="" coords="403,147,557,173"/>
-<area shape="rect" id="node15" title=" " alt="" coords="15,160,175,200"/>
-<area shape="rect" id="node16" title=" " alt="" coords="5,70,184,95"/>
-<area shape="rect" id="node17" title=" " alt="" coords="785,284,931,324"/>
+<area shape="rect" id="node6" title=" " alt="" coords="795,70,921,95"/>
+<area shape="rect" id="node7" title=" " alt="" coords="397,63,563,103"/>
+<area shape="rect" id="node8" title=" " alt="" coords="825,187,891,213"/>
+<area shape="rect" id="node9" title=" " alt="" coords="57,377,132,402"/>
+<area shape="rect" id="node11" href="$d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html" title=" " alt="" coords="389,517,571,542"/>
+<area shape="rect" id="node13" href="$d2/d67/structvpkpp_1_1VPK_1_1Header1.html" title=" " alt="" coords="596,366,755,391"/>
+<area shape="rect" id="node14" href="$d2/d8d/structvpkpp_1_1VPK_1_1Header2.html" title=" " alt="" coords="596,449,755,474"/>
+<area shape="rect" id="node19" href="$dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html" title=" " alt="" coords="396,295,564,321"/>
+<area shape="rect" id="node10" title=" " alt="" coords="780,488,936,528"/>
+<area shape="rect" id="node12" title=" " alt="" coords="57,571,132,597"/>
+<area shape="rect" id="node15" href="$d5/dde/structvpkpp_1_1VPK_1_1Footer2.html" title=" " alt="" coords="403,127,557,153"/>
+<area shape="rect" id="node16" title=" " alt="" coords="15,164,175,204"/>
+<area shape="rect" id="node17" title=" " alt="" coords="5,74,184,99"/>
+<area shape="rect" id="node18" title=" " alt="" coords="785,288,931,328"/>
 </map>

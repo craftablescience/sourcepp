@@ -21,7 +21,7 @@ var searchData=
   ['note_18',['NOTE',['../da/dd5/structsndpp_1_1WAV_1_1ChunkADTL_1_1NOTE.html',1,'sndpp::WAV::ChunkADTL']]],
   ['notes_19',['notes',['../d4/d47/classvpkpp_1_1OL.html#a58f7f7c7fc67828fcbc8ac6f74830a7c',1,'vpkpp::OL::notes()'],['../dc/ded/structsndpp_1_1WAV_1_1ChunkADTL.html#a1d67ad4a66b44c72fc2461aa5203764a',1,'sndpp::WAV::ChunkADTL::notes()']]],
   ['nuclear_5fdawn_20',['NUCLEAR_DAWN',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#add37351aa5f12b3aa9cc92a6a4989734',1,'vcryptpp::VICE::KnownCodes']]],
-  ['numarchives_21',['numArchives',['../d5/d8b/classvpkpp_1_1VPK.html#ab6f13dc9bbee32873cc853e95eed76ea',1,'vpkpp::VPK']]],
+  ['numarchives_21',['numArchives',['../d5/d8b/classvpkpp_1_1VPK.html#aa36d6f2ad244cfbe17809d73a82fe57c',1,'vpkpp::VPK']]],
   ['numedges_22',['numEdges',['../d8/d85/structbsppp_1_1BSPFace__v2.html#a2c1d88f8654b5236e2a458cafc21becd',1,'bsppp::BSPFace_v2::numEdges()'],['../d6/d98/structbsppp_1_1BSPFace__v1.html#a7e2854487a06dee462929bd9d22b00e9',1,'bsppp::BSPFace_v1::numEdges()']]],
   ['numfaces_23',['numFaces',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a5f4f579fa359070693f7cb07acf71e87',1,'bsppp::BSPBrushModel_v0::numFaces()'],['../d7/dd7/structbsppp_1_1BSPNode__v1.html#a214c526aab0e2db16eabfcfcc67f96e2',1,'bsppp::BSPNode_v1::numFaces()'],['../d8/d37/structbsppp_1_1BSPNode__v0.html#a034af0bacc668baf8586420974ebfd2e',1,'bsppp::BSPNode_v0::numFaces()']]],
   ['numlods_24',['numLODs',['../d5/dd3/structmdlpp_1_1VTX_1_1VTX.html#a260397683682e76f16fa4eac44920da5',1,'mdlpp::VTX::VTX::numLODs()'],['../d0/de2/structmdlpp_1_1VVD_1_1VVD.html#a99400b8c15708b19d25fdacd972279a6',1,'mdlpp::VVD::VVD::numLODs()']]],

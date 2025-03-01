@@ -44,5 +44,5 @@ var classvpkpp_1_1VPK =
     [ "header1", "d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8", null ],
     [ "header2", "d5/d8b/classvpkpp_1_1VPK.html#aaceee6cf5bd879b3c4b03cb88d2f317c", null ],
     [ "md5Entries", "d5/d8b/classvpkpp_1_1VPK.html#accb10b72844a73220ca9331603b06843", null ],
-    [ "numArchives", "d5/d8b/classvpkpp_1_1VPK.html#ab6f13dc9bbee32873cc853e95eed76ea", null ]
+    [ "numArchives", "d5/d8b/classvpkpp_1_1VPK.html#aa36d6f2ad244cfbe17809d73a82fe57c", null ]
 ];
