@@ -155,7 +155,7 @@ TEST(vtfpp, read_ttx_no_ttz) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 4);
 }
 
-#if 0
+#ifdef SOURCEPP_BUILD_TESTS_EXTRA
 
 #define TEST_WRITE_FMT(Format, Flags) \
 		TEST(vtfpp, write_fmt_##Format) { \

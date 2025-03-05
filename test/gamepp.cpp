@@ -1,4 +1,4 @@
-#if 0
+#ifdef SOURCEPP_BUILD_TESTS_EXTRA
 
 #include <gtest/gtest.h>
 
@@ -8,7 +8,11 @@ using namespace gamepp;
 
 TEST(gamepp, commandsBlocking) {
 	auto game = GameInstance::find();
-	ASSERT_TRUE(game);
+	if (!game) {
+		// We won't fail here because this is expected to fail unless its specifically being tested
+		std::cerr << "Failed to find game!" << std::endl;
+		return SUCCEED();
+	}
 
 	// For Portal 2 - it can *almost* play through the whole map
 	(*game)
