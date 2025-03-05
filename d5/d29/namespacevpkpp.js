@@ -79,6 +79,8 @@ var namespacevpkpp =
     [ "VPK_VTMB_EXTENSION", "d5/d29/namespacevpkpp.html#a360e36d001b917a2a73828b315116cc0", null ],
     [ "VPP_ALIGNMENT", "d5/d29/namespacevpkpp.html#a1b72704e049b7943f0066cebe7e7164b", null ],
     [ "VPP_EXTENSION", "d5/d29/namespacevpkpp.html#a872097ede65869c7c177c110a46b782c", null ],
+    [ "VPP_EXTENSION_PC", "d5/d29/namespacevpkpp.html#a26922e97c0aabcec7aa45090dff94a1d", null ],
+    [ "VPP_EXTENSION_XBOX2", "d5/d29/namespacevpkpp.html#ac41d8e270555099c9f78faa1155e4f43", null ],
     [ "VPP_SIGNATURE_BIG", "d5/d29/namespacevpkpp.html#a53f18f3fa835588ef3e02b1daddfc962", null ],
     [ "VPP_SIGNATURE_LIL", "d5/d29/namespacevpkpp.html#ac31889124904f9e48dd42b8f4cfe2f57", null ],
     [ "WAD3_EXTENSION", "d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2", null ],
