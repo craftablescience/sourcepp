@@ -1,5 +1,4 @@
-// These tests should be run manually outside CI
-#if 0
+#ifdef SOURCEPP_BUILD_TESTS_EXTRA
 
 #include <gtest/gtest.h>
 

@@ -37,6 +37,7 @@ option(SOURCEPP_BUILD_WITH_OPENCL     "Build with support for GPU compute"      
 option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"         OFF)
 option(SOURCEPP_BUILD_WITH_THREADS    "Build with support for threading"               ON)
 option(SOURCEPP_BUILD_TESTS           "Build tests for supported libraries"           OFF)
+option(SOURCEPP_BUILD_TESTS_EXTRA     "Build extra tests that can't be run in CI"     OFF)
 option(SOURCEPP_BUILD_WIN7_COMPAT     "Build with Windows 7 compatibility"            OFF)
 
 option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
@@ -217,6 +218,9 @@ if(SOURCEPP_BUILD_TESTS)
     add_executable(${SOURCEPP_TEST_NAME} ${${SOURCEPP_TEST_NAME}_SOURCES})
     target_link_libraries(${SOURCEPP_TEST_NAME} PUBLIC ${${SOURCEPP_TEST_NAME}_DEPS})
     target_compile_definitions(${SOURCEPP_TEST_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
+    if(SOURCEPP_BUILD_TESTS_EXTRA)
+        target_compile_definitions(${SOURCEPP_TEST_NAME} PUBLIC SOURCEPP_BUILD_TESTS_EXTRA)
+    endif()
     include(GoogleTest)
     gtest_discover_tests(${SOURCEPP_TEST_NAME})
 endif()
@@ -273,6 +277,6 @@ endif()
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_WIN7_COMPAT
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)
