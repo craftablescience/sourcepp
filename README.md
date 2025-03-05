@@ -234,7 +234,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td>VPP v1-2 (Red Faction)</td>
+    <td>VPP v1-3 (Red Faction)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>

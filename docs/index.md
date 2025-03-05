@@ -206,7 +206,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td>VPP v1-2 (Red Faction)</td>
+    <td>VPP v1-3 (Red Faction)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
