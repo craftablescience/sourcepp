@@ -159,11 +159,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="27"><code>vpkpp</code></td>
+    <td rowspan="29"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="27" align="center">C<br>C#</td>
+    <td rowspan="29" align="center">C<br>C#</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -215,6 +215,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html">PCK</a> v1-2 (Godot Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>SPK v5125 (Strata Source)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
