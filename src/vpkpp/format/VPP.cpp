@@ -45,9 +45,8 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Get base file offset
 		const uint32_t fileTableSize = (60 + sizeof(uint32_t)) * entryCount;
-		vpp->entryBaseOffset = 0;
-		vpp->entryBaseOffset += headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize);
-		vpp->entryBaseOffset += fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = headerSize    + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
+		                     + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Get first file offset
 		uint32_t entryOffset = 0;
@@ -88,9 +87,8 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Get base file offset
 		const uint32_t fileTableSize = (24 + sizeof(uint32_t) * 2) * entryCount;
-		vpp->entryBaseOffset = 0;
-		vpp->entryBaseOffset += headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize);
-		vpp->entryBaseOffset += fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = headerSize    + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
+		                     + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Get first file offset
 		uint32_t entryOffset = 0;
@@ -156,8 +154,8 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Set base data offset
 		vpp->entryBaseOffset = VPP_ALIGNMENT
-				+ entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
-				+ entryNamesSize     + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
+		                     + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
+		                     + entryNamesSize     + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
 
 		// Seek to file directory (alignment boundary)
 		reader.seek_in(VPP_ALIGNMENT);
