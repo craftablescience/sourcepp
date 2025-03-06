@@ -41,12 +41,12 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Get file table offset
 		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
-		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
+		reader.seek_in(headerSize + math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
 		// Get base file offset
 		const uint32_t fileTableSize = (60 + sizeof(uint32_t)) * entryCount;
-		vpp->entryBaseOffset = headerSize    + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
-		                     + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = headerSize    + math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
+		                     + fileTableSize + math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Get first file offset
 		uint32_t entryOffset = 0;
@@ -63,7 +63,7 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 			// Calculate file offset
 			entry.offset = entryOffset;
-			entryOffset += entry.length + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entry.length);
+			entryOffset += entry.length + math::paddingForAlignment(VPP_ALIGNMENT, entry.length);
 
 			// Put it in
 			vpp->entries.emplace(entryPath, entry);
@@ -83,12 +83,12 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Get file table offset
 		static constexpr uint32_t headerSize = sizeof(uint32_t) * 4;
-		reader.seek_in(headerSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
+		reader.seek_in(headerSize + math::paddingForAlignment(VPP_ALIGNMENT, headerSize));
 
 		// Get base file offset
 		const uint32_t fileTableSize = (24 + sizeof(uint32_t) * 2) * entryCount;
-		vpp->entryBaseOffset = headerSize    + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
-		                     + fileTableSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
+		vpp->entryBaseOffset = headerSize    + math::paddingForAlignment(VPP_ALIGNMENT, headerSize)
+		                     + fileTableSize + math::paddingForAlignment(VPP_ALIGNMENT, fileTableSize);
 
 		// Get first file offset
 		uint32_t entryOffset = 0;
@@ -112,7 +112,7 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 			// Calculate file offset
 			entry.offset = entryOffset;
-			entryOffset += entry.length + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entry.length);
+			entryOffset += entry.length + math::paddingForAlignment(VPP_ALIGNMENT, entry.length);
 
 			// Put it in
 			vpp->entries.emplace(entryPath, entry);
@@ -159,11 +159,11 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 		// Set base data offset
 		vpp->entryBaseOffset = VPP_ALIGNMENT
-		                     + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
-		                     + entryNamesSize     + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
+		                     + entryDirectorySize + math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
+		                     + entryNamesSize     + math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
 
 		if (version == 4) {
-			vpp->entryBaseOffset += entryExtensionsSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryExtensionsSize);
+			vpp->entryBaseOffset += entryExtensionsSize + math::paddingForAlignment(VPP_ALIGNMENT, entryExtensionsSize);
 		}
 
 		// Seek to file directory (alignment boundary)
@@ -212,7 +212,7 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 				// Version 4
 				reader.seek_in(
 					VPP_ALIGNMENT +
-					entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
+					entryDirectorySize + math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
 					entryNameOffset
 				);
 
@@ -220,8 +220,8 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 				reader.seek_in(
 					VPP_ALIGNMENT +
-					entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
-					entryNamesSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize) +
+					entryDirectorySize + math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
+					entryNamesSize     + math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize) +
 					entryExtensionOffset
 				);
 
@@ -230,7 +230,7 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 				entryPath = vpp->cleanEntryPath(entryName + "." + entryExtension);
 			} else {
 				// Version 3
-				reader.seek_in(VPP_ALIGNMENT + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) + entryNameOffset);
+				reader.seek_in(VPP_ALIGNMENT + entryDirectorySize + math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) + entryNameOffset);
 				entryPath = vpp->cleanEntryPath(reader.read_string(entryNamesSize - entryNameOffset));
 			}
 
