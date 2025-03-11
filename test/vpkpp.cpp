@@ -19,6 +19,14 @@ TEST(vpkpp, hog_read) {
 	EXPECT_TRUE(hog->hasEntry("chaos1.rdl"));
 }
 
+TEST(vpkpp, ore_read) {
+	const auto ore = PackFile::open(ASSET_ROOT "vpkpp/ore/file.ore");
+	ASSERT_TRUE(ore);
+	VPKPP_PRINT_ALL_PATHS(ore);
+	EXPECT_EQ(ore->getEntryCount(), 147);
+	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
+}
+
 TEST(vpkpp, vpp_v1_read) {
 	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v1.vpp");
 	ASSERT_TRUE(vpp);
