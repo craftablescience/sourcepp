@@ -121,7 +121,7 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 				callback(entryPath, entry);
 			}
 		}
-	} else if (version == 3) {
+	} else if (version == 3 || version == 4) {
 		// Skip unused header data
 		reader.skip_in(64 + 256 + sizeof(uint32_t));
 
@@ -147,6 +147,11 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		// Get sizes
 		const auto entryDirectorySize = reader.read<uint32_t>();
 		const auto entryNamesSize = reader.read<uint32_t>();
+		uint32_t entryExtensionsSize = 0;
+
+		if (version == 4) {
+			entryExtensionsSize = reader.read<uint32_t>();
+		}
 
 		// Check if we have compression
 		const auto entryDataSizeUncompressed = reader.read<uint32_t>();
@@ -157,6 +162,10 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 		                     + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize)
 		                     + entryNamesSize     + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize);
 
+		if (version == 4) {
+			vpp->entryBaseOffset += entryExtensionsSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryExtensionsSize);
+		}
+
 		// Seek to file directory (alignment boundary)
 		reader.seek_in(VPP_ALIGNMENT);
 
@@ -166,6 +175,10 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 			// Get file name offset
 			const auto entryNameOffset = reader.read<uint32_t>();
+			uint32_t entryExtensionOffset = 0;
+			if (version == 4) {
+				entryExtensionOffset = reader.read<uint32_t>();
+			}
 
 			// ??
 			reader.skip_in<uint32_t>();
@@ -174,7 +187,9 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 			entry.offset = reader.read<uint32_t>();
 
 			// ??
-			reader.skip_in<uint32_t>();
+			if (version == 3) {
+				reader.skip_in<uint32_t>();
+			}
 
 			// Get file size
 			entry.length = reader.read<uint32_t>();
@@ -190,8 +205,35 @@ std::unique_ptr<PackFile> VPP::open(const std::string& path, const EntryCallback
 
 			// Get file name
 			const auto lastPos = reader.tell_in();
-			reader.seek_in(VPP_ALIGNMENT + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) + entryNameOffset);
-			const auto entryPath = vpp->cleanEntryPath(reader.read_string(entryNamesSize - entryNameOffset));
+
+			std::string entryPath;
+
+			if (version == 4) {
+				// Version 4
+				reader.seek_in(
+					VPP_ALIGNMENT +
+					entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
+					entryNameOffset
+				);
+
+				std::string entryName = reader.read_string(entryNamesSize - entryNameOffset);
+
+				reader.seek_in(
+					VPP_ALIGNMENT +
+					entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) +
+					entryNamesSize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryNamesSize) +
+					entryExtensionOffset
+				);
+
+				std::string entryExtension = reader.read_string(entryExtensionsSize - entryExtensionOffset);
+
+				entryPath = vpp->cleanEntryPath(entryName + "." + entryExtension);
+			} else {
+				// Version 3
+				reader.seek_in(VPP_ALIGNMENT + entryDirectorySize + sourcepp::math::paddingForAlignment(VPP_ALIGNMENT, entryDirectorySize) + entryNameOffset);
+				entryPath = vpp->cleanEntryPath(reader.read_string(entryNamesSize - entryNameOffset));
+			}
+
 			reader.seek_in_u(lastPos);
 
 			// Put it in
