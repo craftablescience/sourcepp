@@ -15,4 +15,4 @@
 	url = https://github.com/richgel999/miniz
 [submodule "ext/minizip-ng"]
 	path = ext/minizip-ng
-	url = https://github.com/zlib-ng/minizip-ng
+	url = https://github.com/craftablescience/minizip-ng

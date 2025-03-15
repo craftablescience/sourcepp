@@ -1,6 +1,6 @@
 // half - IEEE 754-based half-precision floating-point library.
 //
-// Copyright (c) 2012-2021 Christian Rau <rauy@users.sourceforge.net>
+// Copyright (c) 2012-2025 Christian Rau <rauy@users.sourceforge.net>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation 
 // files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, 
@@ -14,7 +14,7 @@
 // COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, 
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-// Version 2.2.0
+// Version 2.2.1
 
 /// \file
 /// Main header file for half-precision functionality.
@@ -284,7 +284,7 @@
 #ifdef HALF_DOXYGEN_ONLY
 /// Type for internal floating-point computations.
 /// This can be predefined to a built-in floating-point type (`float`, `double` or `long double`) to override the internal 
-/// half-precision implementation to use this type for computing arithmetic operations and mathematical function (if available). 
+/// half-precision implementation to use this type for computing arithmetic operations and mathematical functions (if available). 
 /// This can result in improved performance for arithmetic operators and mathematical functions but might cause results to 
 /// deviate from the specified half-precision rounding mode and inhibits proper detection of half-precision exceptions.
 #define HALF_ARITHMETIC_TYPE (undefined)
@@ -337,14 +337,14 @@
 
 #ifndef HALF_ERRHANDLING_OVERFLOW_TO_INEXACT
 /// Raise INEXACT exception on overflow.
-/// Defining this to 1 (default) causes overflow errors to automatically raise inexact exceptions in addition.
+/// Defining this to 1 (default) causes overflow errors to also raise inexact exceptions.
 /// These will be raised after any possible handling of the underflow exception.
 #define HALF_ERRHANDLING_OVERFLOW_TO_INEXACT	1
 #endif
 
 #ifndef HALF_ERRHANDLING_UNDERFLOW_TO_INEXACT
 /// Raise INEXACT exception on underflow.
-/// Defining this to 1 (default) causes underflow errors to automatically raise inexact exceptions in addition.
+/// Defining this to 1 (default) causes underflow errors to also raise inexact exceptions.
 /// These will be raised after any possible handling of the underflow exception.
 ///
 /// **Note:** This will actually cause underflow (and the accompanying inexact) exceptions to be raised *only* when the result 
@@ -525,7 +525,7 @@ namespace half_float
 	#endif
 
 	#ifdef HALF_ARITHMETIC_TYPE
-		/// Type to use for arithmetic computations and mathematic functions internally.
+		/// Type to use for arithmetic computations and mathematical functions internally.
 		typedef HALF_ARITHMETIC_TYPE internal_t;
 	#endif
 
@@ -661,11 +661,11 @@ namespace half_float
 		#endif
 		#if HALF_ERRHANDLING_UNDERFLOW_TO_INEXACT
 			if((flags & FE_UNDERFLOW) && !(flags & FE_INEXACT))
-				raise(FE_INEXACT);
+				detail::raise(FE_INEXACT);
 		#endif
 		#if HALF_ERRHANDLING_OVERFLOW_TO_INEXACT
 			if((flags & FE_OVERFLOW) && !(flags & FE_INEXACT))
-				raise(FE_INEXACT);
+				detail::raise(FE_INEXACT);
 		#endif
 		#endif
 		}
@@ -679,7 +679,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR bool compsignal(unsigned int x, unsigned int y)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_INVALID, (x&0x7FFF)>0x7C00 || (y&0x7FFF)>0x7C00);
+			detail::raise(FE_INVALID, (x&0x7FFF)>0x7C00 || (y&0x7FFF)>0x7C00);
 		#endif
 			return (x&0x7FFF) > 0x7C00 || (y&0x7FFF) > 0x7C00;
 		}
@@ -691,7 +691,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int signal(unsigned int nan)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_INVALID, !(nan&0x200));
+			detail::raise(FE_INVALID, !(nan&0x200));
 		#endif
 			return nan | 0x200;
 		}
@@ -704,7 +704,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int signal(unsigned int x, unsigned int y)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_INVALID, ((x&0x7FFF)>0x7C00 && !(x&0x200)) || ((y&0x7FFF)>0x7C00 && !(y&0x200)));
+			detail::raise(FE_INVALID, ((x&0x7FFF)>0x7C00 && !(x&0x200)) || ((y&0x7FFF)>0x7C00 && !(y&0x200)));
 		#endif
 			return ((x&0x7FFF)>0x7C00) ? (x|0x200) : (y|0x200);
 		}
@@ -718,7 +718,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int signal(unsigned int x, unsigned int y, unsigned int z)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_INVALID, ((x&0x7FFF)>0x7C00 && !(x&0x200)) || ((y&0x7FFF)>0x7C00 && !(y&0x200)) || ((z&0x7FFF)>0x7C00 && !(z&0x200)));
+			detail::raise(FE_INVALID, ((x&0x7FFF)>0x7C00 && !(x&0x200)) || ((y&0x7FFF)>0x7C00 && !(y&0x200)) || ((z&0x7FFF)>0x7C00 && !(z&0x200)));
 		#endif
 			return ((x&0x7FFF)>0x7C00) ? (x|0x200) : ((y&0x7FFF)>0x7C00) ? (y|0x200) : (z|0x200);
 		}
@@ -731,7 +731,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int select(unsigned int x, unsigned int HALF_UNUSED_NOERR(y))
 		{
 		#if HALF_ERRHANDLING
-			return (((y&0x7FFF)>0x7C00) && !(y&0x200)) ? signal(y) : x;
+			return (((y&0x7FFF)>0x7C00) && !(y&0x200)) ? detail::signal(y) : x;
 		#else
 			return x;
 		#endif
@@ -743,7 +743,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int invalid()
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_INVALID);
+			detail::raise(FE_INVALID);
 		#endif
 			return 0x7FFF;
 		}
@@ -755,7 +755,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int pole(unsigned int sign = 0)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_DIVBYZERO);
+			detail::raise(FE_DIVBYZERO);
 		#endif
 			return sign | 0x7C00;
 		}
@@ -767,7 +767,7 @@ namespace half_float
 		inline HALF_CONSTEXPR_NOERR unsigned int check_underflow(unsigned int arg)
 		{
 		#if HALF_ERRHANDLING && !HALF_ERRHANDLING_UNDERFLOW_TO_INEXACT
-			raise(FE_UNDERFLOW, !(arg&0x7C00));
+			detail::raise(FE_UNDERFLOW, !(arg&0x7C00));
 		#endif
 			return arg;
 		}
@@ -784,7 +784,7 @@ namespace half_float
 		template<std::float_round_style R> HALF_CONSTEXPR_NOERR unsigned int overflow(unsigned int sign = 0)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_OVERFLOW);
+			detail::raise(FE_OVERFLOW);
 		#endif
 			return	(R==std::round_toward_infinity) ? (sign+0x7C00-(sign>>15)) :
 					(R==std::round_toward_neg_infinity) ? (sign+0x7BFF+(sign>>15)) :
@@ -800,7 +800,7 @@ namespace half_float
 		template<std::float_round_style R> HALF_CONSTEXPR_NOERR unsigned int underflow(unsigned int sign = 0)
 		{
 		#if HALF_ERRHANDLING
-			raise(FE_UNDERFLOW);
+			detail::raise(FE_UNDERFLOW);
 		#endif
 			return	(R==std::round_toward_infinity) ? (sign+1-(sign>>15)) :
 					(R==std::round_toward_neg_infinity) ? (sign+(sign>>15)) :
@@ -824,11 +824,11 @@ namespace half_float
 						(R==std::round_toward_infinity) ? (~(value>>15)&(g|s)) :
 						(R==std::round_toward_neg_infinity) ? ((value>>15)&(g|s)) : 0;
 			if((value&0x7C00) == 0x7C00)
-				raise(FE_OVERFLOW);
+				detail::raise(FE_OVERFLOW);
 			else if(value & 0x7C00)
-				raise(FE_INEXACT, I || (g|s)!=0);
+				detail::raise(FE_INEXACT, I || (g|s)!=0);
 			else
-				raise(FE_UNDERFLOW, !(HALF_ERRHANDLING_UNDERFLOW_TO_INEXACT) || I || (g|s)!=0);
+				detail::raise(FE_UNDERFLOW, !(HALF_ERRHANDLING_UNDERFLOW_TO_INEXACT) || I || (g|s)!=0);
 			return value;
 		#else
 			return	(R==std::round_to_nearest) ? (value+(g&(s|value))) :
@@ -843,7 +843,7 @@ namespace half_float
 		/// \tparam E `true` for round to even, `false` for round away from zero
 		/// \tparam I `true` to raise INEXACT exception (if inexact), `false` to never raise it
 		/// \param value half-precision value to round
-		/// \return half-precision bits for nearest integral value
+		/// \return nearest integral half-precision value
 		/// \exception FE_INVALID for signaling NaN
 		/// \exception FE_INEXACT if value had to be rounded and \a I is `true`
 		template<std::float_round_style R,bool E,bool I> unsigned int integral(unsigned int value)
@@ -851,16 +851,16 @@ namespace half_float
 			unsigned int abs = value & 0x7FFF;
 			if(abs < 0x3C00)
 			{
-				raise(FE_INEXACT, I);
+				detail::raise(FE_INEXACT, I);
 				return ((R==std::round_to_nearest) ? (0x3C00&-static_cast<unsigned>(abs>=(0x3800+E))) :
 						(R==std::round_toward_infinity) ? (0x3C00&-(~(value>>15)&(abs!=0))) :
 						(R==std::round_toward_neg_infinity) ? (0x3C00&-static_cast<unsigned>(value>0x8000)) :
 						0) | (value&0x8000);
 			}
 			if(abs >= 0x6400)
-				return (abs>0x7C00) ? signal(value) : value;
+				return (abs>0x7C00) ? detail::signal(value) : value;
 			unsigned int exp = 25 - (abs>>10), mask = (1<<exp) - 1;
-			raise(FE_INEXACT, I && (value&mask));
+			detail::raise(FE_INEXACT, I && (value&mask));
 			return ((	(R==std::round_to_nearest) ? ((1<<(exp-1))-(~(value>>exp)&E)) :
 						(R==std::round_toward_infinity) ? (mask&((value>>15)-1)) :
 						(R==std::round_toward_neg_infinity) ? (mask&-(value>>15)) :
@@ -892,8 +892,8 @@ namespace half_float
 			if(N)
 				for(; m<(static_cast<uint32>(1)<<F) && exp; m<<=1,--exp) ;
 			else if(exp < 0)
-				return rounded<R,I>(sign+(m>>(F-10-exp)), (m>>(F-11-exp))&1, s|((m&((static_cast<uint32>(1)<<(F-11-exp))-1))!=0));
-			return rounded<R,I>(sign+(exp<<10)+(m>>(F-10)), (m>>(F-11))&1, s|((m&((static_cast<uint32>(1)<<(F-11))-1))!=0));
+				return rounded<R,I>(sign+static_cast<unsigned int>(m>>(F-10-exp)), static_cast<int>((m>>(F-11-exp))&1), s|((m&((static_cast<uint32>(1)<<(F-11-exp))-1))!=0));
+			return rounded<R,I>(sign+(exp<<10)+static_cast<unsigned int>(m>>(F-10)), static_cast<int>((m>>(F-11))&1), s|((m&((static_cast<uint32>(1)<<(F-11))-1))!=0));
 		}
 
 		/// Convert IEEE single-precision to half-precision.
@@ -1008,12 +1008,12 @@ namespace half_float
 			if(hi >= 0x40F00000)
 				return overflow<R>(sign);
 			if(hi >= 0x3F100000)
-				return rounded<R,false>(sign|(((hi>>20)-1008)<<10)|((hi>>10)&0x3FF), (hi>>9)&1, ((hi&0x1FF)|lo)!=0);
+				return rounded<R,false>(sign|static_cast<unsigned int>(((hi>>20)-1008)<<10)|static_cast<unsigned int>((hi>>10)&0x3FF), static_cast<unsigned int>((hi>>9)&1), ((hi&0x1FF)|lo)!=0);
 			if(hi >= 0x3E600000)
 			{
-				int i = 1018 - (hi>>20);
+				int i = static_cast<int>(1018 - (hi>>20));
 				hi = (hi&0xFFFFF) | 0x100000;
-				return rounded<R,false>(sign|(hi>>(i+1)), (hi>>i)&1, ((hi&((static_cast<uint32>(1)<<i)-1))|lo)!=0);
+				return rounded<R,false>(sign|static_cast<unsigned int>(hi>>(i+1)), static_cast<unsigned int>((hi>>i)&1), ((hi&((static_cast<uint32>(1)<<i)-1))|lo)!=0);
 			}
 			if((hi|lo) != 0)
 				return underflow<R>(sign);
@@ -1078,15 +1078,15 @@ namespace half_float
 			unsigned int bits = static_cast<unsigned>(value<0) << 15;
 			if(!value)
 				return bits;
-			if(bits)
-				value = -value;
-			if(value > 0xFFFF)
+			if(value > 0xFFE0 || (bits&&value < -0xFFE0))
 				return overflow<R>(bits);
 			unsigned int m = static_cast<unsigned int>(value), exp = 24;
+			if(bits)
+				m = -m;
 			for(; m<0x400; m<<=1,--exp) ;
 			for(; m>0x7FF; m>>=1,++exp) ;
 			bits |= (exp<<10) + m;
-			return (exp>24) ? rounded<R,false>(bits, (value>>(exp-25))&1, (((1<<(exp-25))-1)&value)!=0) : bits;
+			return (exp>24) ? rounded<R,false>(bits, static_cast<int>(value>>(exp-25))&1, (((1<<(exp-25))-1)&value)!=0) : bits;
 		}
 
 		/// Convert half-precision to IEEE single-precision.
@@ -1319,12 +1319,12 @@ namespace half_float
 			unsigned int abs = value & 0x7FFF;
 			if(abs >= 0x7C00)
 			{
-				raise(FE_INVALID);
+				detail::raise(FE_INVALID);
 				return (value&0x8000) ? std::numeric_limits<T>::min() : std::numeric_limits<T>::max();
 			}
 			if(abs < 0x3800)
 			{
-				raise(FE_INEXACT, I);
+				detail::raise(FE_INEXACT, I);
 				return	(R==std::round_toward_infinity) ? T(~(value>>15)&(abs!=0)) :
 						(R==std::round_toward_neg_infinity) ? -T(value>0x8000) :
 						T();
@@ -1337,9 +1337,9 @@ namespace half_float
 				(R==std::round_toward_neg_infinity) ? (((1<<exp)-1)&-(value>>15)) : 0))>>exp));
 			if((!std::numeric_limits<T>::is_signed && (value&0x8000)) || (std::numeric_limits<T>::digits<16 &&
 				((value&0x8000) ? (-i<std::numeric_limits<T>::min()) : (i>std::numeric_limits<T>::max()))))
-				raise(FE_INVALID);
+				detail::raise(FE_INVALID);
 			else if(I && exp > 0 && (m&((1<<exp)-1)))
-				raise(FE_INEXACT);
+				detail::raise(FE_INEXACT);
 			return static_cast<T>((value&0x8000) ? -i : i);
 		}
 
@@ -1658,7 +1658,7 @@ namespace half_float
 			}
 			else
 			{
-				exp = mx >> (45-e);
+				exp = static_cast<int>(mx >> (45-e));
 				mx = (mx<<(e-14)) & 0x7FFFFFFF;
 			}
 			mx = exp2(mx, n);
@@ -1676,7 +1676,7 @@ namespace half_float
 
 		/// Postprocessing for binary exponential.
 		/// \tparam R rounding mode to use
-		/// \param m fractional part of as Q0.31
+		/// \param m fractional part of exponent as Q0.31
 		/// \param exp absolute value of unbiased exponent
 		/// \param esign sign of actual exponent
 		/// \param sign sign bit of result
@@ -1744,7 +1744,7 @@ namespace half_float
 		/// \exception FE_INEXACT if value had to be rounded
 		template<std::float_round_style R> unsigned int hypot_post(uint32 r, int exp)
 		{
-			int i = r >> 31;
+			int i = static_cast<int>(r >> 31);
 			if((exp+=i) > 46)
 				return overflow<R>();
 			if(exp < -34)
@@ -1787,13 +1787,13 @@ namespace half_float
 		/// \exception FE_INEXACT if no other exception occurred
 		template<std::float_round_style R,bool S> unsigned int area(unsigned int arg)
 		{
-			int abs = arg & 0x7FFF, expx = (abs>>10) + (abs<=0x3FF) - 15, expy = -15, ilog, i;
+			int abs = arg & 0x7FFF, expx = (abs>>10) + (abs<=0x3FF) - 15, expy = -15, ilog;
 			uint32 mx = static_cast<uint32>((abs&0x3FF)|((abs>0x3FF)<<10)) << 20, my, r;
 			for(; abs<0x400; abs<<=1,--expy) ;
 			expy += abs >> 10;
 			r = ((abs&0x3FF)|0x400) << 5;
 			r *= r;
-			i = r >> 31;
+			int i = static_cast<int>(r >> 31);
 			expy = 2*expy + i;
 			r >>= i;
 			if(S)
@@ -1806,7 +1806,7 @@ namespace half_float
 				else
 				{
 					r += 0x40000000 >> expy;
-					i = r >> 31;
+					i = static_cast<int>(r >> 31);
 					r = (r>>i) | (r&i);
 					expy += i;
 				}
@@ -1829,7 +1829,7 @@ namespace half_float
 				ilog = expx;
 			}
 			my += mx;
-			i = my >> 31;
+			i = static_cast<int>(my >> 31);
 			static const int G = S && (R==std::round_to_nearest);
 			return log2_post<R,0xB8AA3B2A>(log2(my>>i, 26+S+G)+(G<<3), ilog+i, 17, arg&(static_cast<unsigned>(S)<<15));
 		}
@@ -1886,7 +1886,7 @@ namespace half_float
 			friend f31 operator*(f31 a, f31 b)
 			{
 				uint32 m = multiply64(a.m, b.m);
-				int i = m >> 31;
+				int i = static_cast<int>(m >> 31);
 				return f31(m<<(1-i), a.exp + b.exp + i);
 			}
 
@@ -1920,7 +1920,7 @@ namespace half_float
 			unsigned int abs = arg & 0x7FFF, sign = arg & 0x8000;
 			f31 x(abs), x2 = x * x * f31(0xB8AA3B29, 0), t = f31(0x80000000, 0) / (f31(0x80000000, 0)+f31(0xA7BA054A, -2)*x), t2 = t * t;
 			f31 e = ((f31(0x87DC2213, 0)*t2+f31(0xB5F0E2AE, 0))*t2+f31(0x82790637, -2)-(f31(0xBA00E2B8, 0)*t2+f31(0x91A98E62, -2))*t) * t /
-					((x2.exp<0) ? f31(exp2((x2.exp>-32) ? (x2.m>>-x2.exp) : 0, 30), 0) : f31(exp2((x2.m<<x2.exp)&0x7FFFFFFF, 22), x2.m>>(31-x2.exp)));
+					((x2.exp<0) ? f31(exp2((x2.exp>-32) ? (x2.m>>-x2.exp) : 0, 30), 0) : f31(exp2((x2.m<<x2.exp)&0x7FFFFFFF, 22), static_cast<int>(x2.m>>(31-x2.exp))));
 			return (!C || sign) ? fixed2half<R,31,false,true,true>(0x80000000-(e.m>>(C-e.exp)), 14+C, sign&(C-1U)) :
 					(e.exp<-25) ? underflow<R>() : fixed2half<R,30,false,false,true>(e.m>>1, e.exp+14, 0, e.m&1);
 		}
@@ -2010,7 +2010,7 @@ namespace half_float
 				else
 				{
 					m = (s.m<<s.exp) & 0x7FFFFFFF;
-					s.exp = (s.m>>(31-s.exp));
+					s.exp = static_cast<int>(s.m>>(31-s.exp));
 				}
 				s.m = exp2(m, 27);
 				if(!x.exp)
@@ -2024,7 +2024,7 @@ namespace half_float
 						return underflow<R>(sign);
 				}
 				else if(z.exp > 0 && !(z.m&((1<<(31-z.exp))-1)))
-					return ((s.exp+14)<<10) + (s.m>>21);
+					return ((s.exp+14)<<10) + static_cast<unsigned int>(s.m>>21);
 				if(s.exp > 15)
 					return overflow<R>(sign);
 			}
@@ -2292,7 +2292,7 @@ namespace half_float
 		template<typename U,std::float_round_style R> struct half_caster<half,U,R>
 		{
 		#if HALF_ENABLE_CPP11_STATIC_ASSERT && HALF_ENABLE_CPP11_TYPE_TRAITS
-			static_assert(std::is_arithmetic<U>::value, "half_cast from non-arithmetic type unsupported");
+			static_assert(std::is_arithmetic<U>::value, "half_cast from non-arithmetic type not supported");
 		#endif
 
 			static half cast(U arg) { return cast_impl(arg, is_float<U>()); };
@@ -2304,7 +2304,7 @@ namespace half_float
 		template<typename T,std::float_round_style R> struct half_caster<T,half,R>
 		{
 		#if HALF_ENABLE_CPP11_STATIC_ASSERT && HALF_ENABLE_CPP11_TYPE_TRAITS
-			static_assert(std::is_arithmetic<T>::value, "half_cast to non-arithmetic type unsupported");
+			static_assert(std::is_arithmetic<T>::value, "half_cast to non-arithmetic type not supported");
 		#endif
 
 			static T cast(half arg) { return cast_impl(arg, is_float<T>()); }
@@ -2361,7 +2361,7 @@ namespace std
 		/// Supports subnormal values.
 		static HALF_CONSTEXPR_CONST float_denorm_style has_denorm = denorm_present;
 
-		/// Supports no denormalization detection.
+		/// Does not support denormalization detection.
 		static HALF_CONSTEXPR_CONST bool has_denorm_loss = false;
 
 	#if HALF_ERRHANDLING_THROWS
@@ -2371,7 +2371,7 @@ namespace std
 		static HALF_CONSTEXPR_CONST bool traps = false;
 	#endif
 
-		/// Does not support no pre-rounding underflow detection.
+		/// Does not support pre-rounding underflow detection.
 		static HALF_CONSTEXPR_CONST bool tinyness_before = false;
 
 		/// Rounding mode.
@@ -2630,7 +2630,7 @@ namespace half_float
 		for(; absx<0x400; absx<<=1,--exp) ;
 		for(; absy<0x400; absy<<=1,--exp) ;
 		detail::uint32 m = static_cast<detail::uint32>((absx&0x3FF)|0x400) * static_cast<detail::uint32>((absy&0x3FF)|0x400);
-		int i = m >> 21, s = m & i;
+		int i = static_cast<int>(m >> 21), s = static_cast<int>(m & i);
 		exp += (absx>>10) + (absy>>10) + i;
 		if(exp > 29)
 			return half(detail::binary, detail::overflow<half::round_style>(sign));
@@ -2828,7 +2828,7 @@ namespace half_float
 		for(; absx<0x400; absx<<=1,--exp) ;
 		for(; absy<0x400; absy<<=1,--exp) ;
 		detail::uint32 m = static_cast<detail::uint32>((absx&0x3FF)|0x400) * static_cast<detail::uint32>((absy&0x3FF)|0x400);
-		int i = m >> 21;
+		int i = static_cast<int>(m >> 21);
 		exp += (absx>>10) + (absy>>10) + i;
 		m <<= 3 - i;
 		if(absz)
@@ -2856,7 +2856,7 @@ namespace half_float
 			else
 			{
 				m += mz;
-				i = m >> 24;
+				i = static_cast<int>(m >> 24);
 				m = (m>>i) | (m&i);
 				exp += i;
 			}
@@ -2953,7 +2953,7 @@ namespace half_float
 		}
 		else
 		{
-			exp = m >> (45-e);
+			exp = static_cast<int>(m >> (45-e));
 			m = (m<<(e-14)) & 0x7FFFFFFF;
 		}
 		return half(detail::binary, detail::exp2_post<half::round_style>(m, exp, (arg.data_&0x8000)!=0, 0, 26));
@@ -3014,7 +3014,7 @@ namespace half_float
 		}
 		else
 		{
-			exp = m >> (45-e);
+			exp = static_cast<unsigned int>(m >> (45-e));
 			m = (m<<(e-14)) & 0x7FFFFFFF;
 		}
 		m = detail::exp2(m);
@@ -3034,7 +3034,7 @@ namespace half_float
 		for(exp+=14; m<0x80000000 && exp; m<<=1,--exp) ;
 		if(exp > 29)
 			return half(detail::binary, detail::overflow<half::round_style>());
-		return half(detail::binary, detail::rounded<half::round_style,true>(sign+(exp<<10)+(m>>21), (m>>20)&1, (m&0xFFFFF)!=0));
+		return half(detail::binary, detail::rounded<half::round_style,true>(sign+(exp<<10)+static_cast<unsigned int>(m>>21), static_cast<int>((m>>20)&1), (m&0xFFFFF)!=0));
 	#endif
 	}
 
@@ -3181,7 +3181,7 @@ namespace half_float
 			else
 			{
 				m += 0x40000000 >> exp;
-				int i = m >> 31;
+				int i = static_cast<int>(m >> 31);
 				m >>= i;
 				exp += i;
 			}
@@ -3241,14 +3241,14 @@ namespace half_float
 		   (half::round_style != std::round_to_nearest && (frac == 0x15A || frac == 0x3FC || frac == 0x401 || frac == 0x402 || frac == 0x67B)))
 			return pow(arg, half(detail::binary, 0xB800));
 		detail::uint32 f = 0x17376 - abs, mx = (abs&0x3FF) | 0x400, my = ((f>>1)&0x3FF) | 0x400, mz = my * my;
-		int expy = (f>>11) - 31, expx = 32 - (abs>>10), i = mz >> 21;
+		int expy = static_cast<int>(f>>11) - 31, expx = 32 - (abs>>10), i = static_cast<int>(mz >> 21);
 		for(mz=0x60000000-(((mz>>i)*mx)>>(expx-2*expy-i)); mz<0x40000000; mz<<=1,--expy) ;
-		i = (my*=mz>>10) >> 31;
+		i = static_cast<int>((my*=mz>>10) >> 31);
 		expy += i;
 		my = (my>>(20+i)) + 1;
-		i = (mz=my*my) >> 21;
+		i = static_cast<int>((mz=my*my) >> 21);
 		for(mz=0x60000000-(((mz>>i)*mx)>>(expx-2*expy-i)); mz<0x40000000; mz<<=1,--expy) ;
-		i = (my*=(mz>>10)+1) >> 31;
+		i = static_cast<int>((my*=(mz>>10)+1) >> 31);
 		return half(detail::binary, detail::fixed2half<half::round_style,30,false,false,true>(my>>i, expy+i+14));
 	#endif
 	}
@@ -3274,7 +3274,7 @@ namespace half_float
 			(((ilog<<27)+(detail::log2(static_cast<detail::uint32>((abs&0x3FF)|0x400)<<20, 24)>>4))^sign) - sign;
 		for(exp=2; m<0x80000000; m<<=1,--exp) ;
 		m = detail::multiply64(m, 0xAAAAAAAB);
-		int i = m >> 31, s;
+		int i = static_cast<int>(m >> 31), s;
 		exp += i;
 		m <<= 1 - i;
 		if(exp < 0)
@@ -3285,7 +3285,7 @@ namespace half_float
 		else
 		{
 			f = (m<<exp) & 0x7FFFFFFF;
-			exp = m >> (31-exp);
+			exp = static_cast<int>(m >> (31-exp));
 		}
 		m = detail::exp2(f, (half::round_style==std::round_to_nearest) ? 29 : 26);
 		if(sign)
@@ -3337,7 +3337,7 @@ namespace half_float
 		detail::uint32 mx = (absx&0x3FF) | 0x400, my = (absy&0x3FF) | 0x400;
 		mx *= mx;
 		my *= my;
-		int ix = mx >> 21, iy = my >> 21;
+		int ix = static_cast<int>(mx >> 21), iy = static_cast<int>(my >> 21);
 		expx = 2*(expx+(absx>>10)) - 15 + ix;
 		expy = 2*(expy+(absy>>10)) - 15 + iy;
 		mx <<= 10 - ix;
@@ -3389,7 +3389,7 @@ namespace half_float
 		mx *= mx;
 		my *= my;
 		mz *= mz;
-		int ix = mx >> 21, iy = my >> 21, iz = mz >> 21;
+		int ix = static_cast<int>(mx >> 21), iy = static_cast<int>(my >> 21), iz = static_cast<int>(mz >> 21);
 		expx = 2*(expx+(absx>>10)) - 15 + ix;
 		expy = 2*(expy+(absy>>10)) - 15 + iy;
 		expz = 2*(expz+(absz>>10)) - 15 + iz;
@@ -3457,7 +3457,7 @@ namespace half_float
 		for(exp=-11; m<0x80000000; m<<=1,--exp) ;
 		for(; absy<0x400; absy<<=1,--exp) ;
 		m = detail::multiply64(m, static_cast<detail::uint32>((absy&0x3FF)|0x400)<<21);
-		int i = m >> 31;
+		int i = static_cast<int>(m >> 31);
 		exp += (absy>>10) + i;
 		m <<= 1 - i;
 		if(exp < 0)
@@ -3468,7 +3468,7 @@ namespace half_float
 		else
 		{
 			f = (m<<exp) & 0x7FFFFFFF;
-			exp = m >> (31-exp);
+			exp = static_cast<int>(m >> (31-exp));
 		}
 		return half(detail::binary, detail::exp2_post<half::round_style>(f, exp, ((msign&1)^(y.data_>>15))!=0, sign));
 	#endif
@@ -3829,7 +3829,8 @@ namespace half_float
 		if(abs >= 0x7C00)
 			return half(detail::binary, (abs>0x7C00) ? detail::signal(arg.data_) : 0x7C00);
 		std::pair<detail::uint32,detail::uint32> mm = detail::hyperbolic_args(abs, exp, (half::round_style==std::round_to_nearest) ? 23 : 26);
-		detail::uint32 m = mm.first + mm.second, i = (~m&0xFFFFFFFF) >> 31;
+		detail::uint32 m = mm.first + mm.second;
+		int i = static_cast<int>((~m & 0xFFFFFFFF) >> 31);
 		m = (m>>i) | (m&i) | 0x80000000;
 		if((exp+=13+i) > 29)
 			return half(detail::binary, detail::overflow<half::round_style>());
@@ -3862,7 +3863,8 @@ namespace half_float
 		if(half::round_style != std::round_to_nearest && abs == 0x2D3F)
 			return half(detail::binary, detail::rounded<half::round_style,true>(arg.data_-3, 0, 1));
 		std::pair<detail::uint32,detail::uint32> mm = detail::hyperbolic_args(abs, exp, 27);
-		detail::uint32 my = mm.first - mm.second - (half::round_style!=std::round_to_nearest), mx = mm.first + mm.second, i = (~mx&0xFFFFFFFF) >> 31;
+		detail::uint32 my = mm.first - mm.second - (half::round_style!=std::round_to_nearest), mx = mm.first + mm.second;
+		int i = static_cast<int>((~mx&0xFFFFFFFF) >> 31);
 		for(exp=13; my<0x80000000; my<<=1,--exp) ;
 		mx = (mx>>i) | 0x80000000;
 		return half(detail::binary, detail::tangent_post<half::round_style>(my, mx, exp-i, arg.data_&0x8000));
