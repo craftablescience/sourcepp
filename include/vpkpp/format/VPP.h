@@ -16,7 +16,8 @@ public:
 	enum Flags : uint32_t {
 		FLAG_NONE       = 0,
 		FLAG_COMPRESSED = 1 << 0,
-		FLAG_CONDENSED  = 1 << 1
+		FLAG_CONDENSED  = 1 << 1,
+		FLAG_UNK5       = 1 << 5, // v4.vpp_xbox2
 	};
 
 	/// Open a VPP file
