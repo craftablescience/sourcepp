@@ -142,11 +142,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">❌</td>
   </tr>
   <tr>
-    <td rowspan="14"><code>vpkpp</code></td>
+    <td rowspan="15"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="14" align="center">C<br>C#</td>
+    <td rowspan="15" align="center">C<br>C#</td>
   </tr>
   <tr>
     <td>FPX v10 (Tactical Intervention)</td>
@@ -214,6 +214,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>WAD v3</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>XZP v6 (Half-Life 2 for XBOX)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr>
     <td>

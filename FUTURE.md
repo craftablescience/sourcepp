@@ -41,7 +41,7 @@
   - Add VFONT write support
 - `vpkpp`
   - Cache file handles so they're not constantly getting closed/opened
-  - XZP support
+  - XZP write support
 - `vtfpp`
   - Add a MKS parser/writer
   - Add DPID resize filter
