@@ -14,5 +14,6 @@ var dir_256f2a21b4d0891abc24ecc71b798a28 =
     [ "VPK_VTMB.cpp", "d0/ded/VPK__VTMB_8cpp.html", null ],
     [ "VPP.cpp", "d8/d3d/VPP_8cpp.html", null ],
     [ "WAD3.cpp", "d8/d40/WAD3_8cpp.html", "d8/d40/WAD3_8cpp" ],
+    [ "XZP.cpp", "d1/d58/XZP_8cpp.html", null ],
     [ "ZIP.cpp", "d9/d2a/ZIP_8cpp.html", null ]
 ];

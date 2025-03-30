@@ -19,6 +19,7 @@ var namespacevpkpp =
     [ "VPK_VTMB", "d4/ddb/classvpkpp_1_1VPK__VTMB.html", "d4/ddb/classvpkpp_1_1VPK__VTMB" ],
     [ "VPP", "d6/d17/classvpkpp_1_1VPP.html", "d6/d17/classvpkpp_1_1VPP" ],
     [ "WAD3", "d1/da5/classvpkpp_1_1WAD3.html", "d1/da5/classvpkpp_1_1WAD3" ],
+    [ "XZP", "d8/ddc/classvpkpp_1_1XZP.html", "d8/ddc/classvpkpp_1_1XZP" ],
     [ "ZIP", "da/de7/classvpkpp_1_1ZIP.html", "da/de7/classvpkpp_1_1ZIP" ],
     [ "Attribute", "d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838dae", [
       [ "NONE", "d5/d29/namespacevpkpp.html#a63727a96905643976a73888dcc838daeab50339a10e1de285ac99d4c3990b8693", null ],
@@ -86,5 +87,8 @@ var namespacevpkpp =
     [ "WAD3_EXTENSION", "d5/d29/namespacevpkpp.html#abd5b02cf9e01ea5d3963472b723eb5d2", null ],
     [ "WAD3_FILENAME_MAX_SIZE", "d5/d29/namespacevpkpp.html#a3f54913e752f9a3a56fde4d6275088ad", null ],
     [ "WAD3_SIGNATURE", "d5/d29/namespacevpkpp.html#a5a2508634eaac01ad4202913a7fb95c6", null ],
+    [ "XZP_EXTENSION", "d5/d29/namespacevpkpp.html#a1bc6f981fa9cf0abeccba163a58674e3", null ],
+    [ "XZP_FOOTER_SIGNATURE", "d5/d29/namespacevpkpp.html#a74750d2fbea3bb4a9151b34cf4f3c497", null ],
+    [ "XZP_HEADER_SIGNATURE", "d5/d29/namespacevpkpp.html#a74646767af365951ba682e2fd4becf9f", null ],
     [ "ZIP_EXTENSION", "d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21", null ]
 ];

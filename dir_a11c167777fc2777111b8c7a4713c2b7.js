@@ -13,5 +13,6 @@ var dir_a11c167777fc2777111b8c7a4713c2b7 =
     [ "VPK_VTMB.h", "d7/d1d/VPK__VTMB_8h.html", "d7/d1d/VPK__VTMB_8h" ],
     [ "VPP.h", "d1/d4f/VPP_8h.html", "d1/d4f/VPP_8h" ],
     [ "WAD3.h", "dd/d02/WAD3_8h.html", "dd/d02/WAD3_8h" ],
+    [ "XZP.h", "dd/d01/XZP_8h.html", "dd/d01/XZP_8h" ],
     [ "ZIP.h", "d6/d66/ZIP_8h.html", "d6/d66/ZIP_8h" ]
 ];
