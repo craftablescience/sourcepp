@@ -18,6 +18,7 @@
 #include "format/VPK_VTMB.h"
 #include "format/VPP.h"
 #include "format/WAD3.h"
+#include "format/XZP.h"
 #include "format/ZIP.h"
 #include "Attribute.h"
 #include "Entry.h"
