@@ -1,5 +1,8 @@
 #include <bsppp/EntityLump.h>
 
+#include <sourcepp/parser/Text.h>
+#include <sourcepp/String.h>
+
 using namespace bsppp;
 using namespace sourcepp;
 

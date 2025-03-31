@@ -46,6 +46,9 @@ std::unique_ptr<PackFile> PakLump::open(const std::string& path, const EntryCall
 			// Extract the paklump to a temp file
 			FileStream writer{bsp->tempPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 			writer.write(*pakFileLump);
+		} else if (auto xzpLump = reader.getLumpData(BSPLump::XBOX_XZIPPAKFILE); xzpLump && bsp->version == 19) {
+			// Xbox pak lump, bail so other code can handle it
+			return nullptr;
 		} else {
 			// No paklump, create an empty zip
 			if (!ZIP::create(bsp->tempPakLumpPath)) {

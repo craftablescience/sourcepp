@@ -7,7 +7,9 @@ add_pretty_parser(bsppp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/EntityLump.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/LumpData.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/PakLump.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/bsppp/PakLumpXbox.h"
         SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/BSP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/EntityLump.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/PakLump.cpp")
+        "${CMAKE_CURRENT_LIST_DIR}/PakLump.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/PakLumpXbox.cpp")

@@ -6,8 +6,6 @@
 #include <vector>
 
 #include <BufferStream.h>
-#include <sourcepp/parser/Text.h>
-#include <sourcepp/String.h>
 
 namespace bsppp {
 
