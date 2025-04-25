@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 (
   cd bufferstream || exit
   git checkout main
@@ -20,6 +21,6 @@
 )
 (
   cd minizip-ng || exit
-  git checkout master
+  git checkout develop
   git pull
 )

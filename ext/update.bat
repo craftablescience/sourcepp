@@ -19,6 +19,6 @@ git pull
 cd ..
 
 cd minizip-ng
-git checkout master
+git checkout develop
 git pull
 cd ..
