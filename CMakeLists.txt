@@ -38,7 +38,7 @@ option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"   
 option(SOURCEPP_BUILD_WITH_THREADS    "Build with support for threading"               ON)
 option(SOURCEPP_BUILD_TESTS           "Build tests for supported libraries"           OFF)
 option(SOURCEPP_BUILD_TESTS_EXTRA     "Build extra tests that can't be run in CI"     OFF)
-option(SOURCEPP_BUILD_WIN7_COMPAT     "Build with Windows 7 compatibility"            OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT     "Build with Windows 7 compatibility"             ON)
 
 option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
 
@@ -76,8 +76,8 @@ if(MSVC)
 endif()
 
 
-# Versioning published bindings
-if((SOURCEPP_BUILD_CSHARP_WRAPPERS OR SOURCEPP_BUILD_PYTHON_WRAPPERS) AND NOT SOURCEPP_VERSION)
+# Versioning published builds
+if(PROJECT_IS_TOP_LEVEL AND NOT SOURCEPP_VERSION)
     set(SOURCEPP_VERSION "0.0.1")
     message(AUTHOR_WARNING "SOURCEPP_VERSION is not defined, do not release this build publicly! Defaulting it to ${SOURCEPP_VERSION}...")
 endif()
