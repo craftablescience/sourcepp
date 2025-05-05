@@ -173,11 +173,7 @@ if(SOURCEPP_BUILD_TESTS)
             GIT_REPOSITORY "https://github.com/craftablescience/sourcepp_assets.git"
             GIT_TAG "origin/main"
             GIT_SHALLOW ON
-            SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/res"
-            CONFIGURE_COMMAND ""
-            BUILD_COMMAND ""
-            INSTALL_COMMAND ""
-            TEST_COMMAND "")
+            SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/test/res")
     FetchContent_MakeAvailable(${PROJECT_NAME}_assets)
 endif()
 
