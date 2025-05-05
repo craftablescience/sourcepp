@@ -20,6 +20,7 @@ namespace vtfpp {
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
 constexpr uint32_t VTFX_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTFX");
 constexpr uint32_t VTF3_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF3");
+constexpr uint32_t XTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("XTF\0");
 
 enum class CompressionMethod : int16_t {
 	// Strata Source v7.6 defines
@@ -171,6 +172,7 @@ public:
 		PLATFORM_PC            = 0x001,
 		PLATFORM_PS3_PORTAL2   = 0x003,
 		PLATFORM_PS3_ORANGEBOX = 0x333,
+		PLATFORM_XBOX          = 0x359,
 		PLATFORM_X360          = 0x360,
 	};
 

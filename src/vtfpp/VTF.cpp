@@ -95,7 +95,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 			if (platform != VTF::PLATFORM_X360) {
 				break;
 			}
-			std::span<uint16_t> dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
+			std::span dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
 			std::for_each(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 					std::execution::par_unseq,
@@ -198,6 +198,12 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		if (this->majorVersion != 7 || this->minorVersion > 6) {
 			return;
 		}
+	} else if (signature == XTF_SIGNATURE) {
+		stream >> this->majorVersion >> this->minorVersion;
+		if (this->majorVersion != 5 || this->minorVersion > 0) {
+			return;
+		}
+		this->setPlatform(PLATFORM_XBOX);
 	} else if (signature == VTFX_SIGNATURE || signature == VTF3_SIGNATURE) {
 		stream.set_big_endian(true);
 		uint32_t minorConsoleVersion = 0;
@@ -226,6 +232,68 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	}
 
 	const auto headerSize = stream.read<uint32_t>();
+
+	if (this->platform == PLATFORM_XBOX) {
+		uint16_t imageOffset = 0;
+		uint8_t mipSkip = 0;
+		stream
+			.read(this->flags)
+			.read(this->width)
+			.read(this->height)
+			.read(this->sliceCount)
+			.read(this->frameCount)
+			.skip<uint16_t>() // preload
+			.read<uint16_t>(imageOffset)
+			.read(this->reflectivity[0])
+			.read(this->reflectivity[1])
+			.read(this->reflectivity[2])
+			.read(this->bumpMapScale)
+			.read(this->format)
+			.skip<uint8_t>(2) // low-res image
+			.read(this->thumbnailWidth)
+			.read(this->thumbnailHeight)
+			.read(mipSkip)
+			.skip<uint8_t>(); // padding
+
+		if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+			this->thumbnailFormat = ImageFormat::EMPTY;
+		} else {
+			this->thumbnailFormat = ImageFormat::DXT1;
+		}
+
+		this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+
+		this->opened = stream.tell() == headerSize;
+		if (parseHeaderOnly) {
+			return;
+		}
+
+		// Can't use getFaceCount yet because there's no image data!
+		const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
+
+		// todo: process preload data
+
+		std::vector<std::byte> reorderedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
+		BufferStream reorderedStream{reorderedImageData};
+		for (int i = this->mipCount - 1; i >= 0; i--) {
+			for (int j = 0; j < this->frameCount; j++) {
+				for (int k = 0; k < faceCount; k++) {
+					for (int l = 0; l < this->sliceCount; l++) {
+						uint32_t oldOffset, length;
+						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
+							this->opened = false;
+							return;
+						}
+						auto imageData = stream.at_bytes(length, imageOffset + oldOffset);
+						::swapImageDataEndianForConsole(imageData, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, this->height), this->platform);
+						reorderedStream << imageData;
+					}
+				}
+			}
+		}
+		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+		return;
+	}
 
 	const auto readResources = [this, &stream](uint32_t resourceCount) {
 		// Read resource header info
@@ -336,7 +404,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 			}
 
-			// Note: LOD, CRC, TSO may be incorrect - I can't find a sample of any in official console VTFs
+			// Note: LOD, TSO may be incorrect - I can't find a sample of any in official console VTFs
 			// If tweaking this switch, tweak the one in bake as well
 			switch (resource.type) {
 				default:
@@ -619,20 +687,41 @@ VTF::Platform VTF::getPlatform() const {
 }
 
 void VTF::setPlatform(Platform newPlatform) {
-	if (this->platform != PLATFORM_PC) {
-		if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_ORANGEBOX) {
-			this->setVersion(7, 4);
-		} else /*if (this->platform == PLATFORM_PS3_PORTAL2)*/ {
-			this->setVersion(7, 5);
-		}
-
-		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
-		if (this->mipCount != recommendedCount) {
-			this->setMipCount(recommendedCount);
-		}
+	if (newPlatform == PLATFORM_UNKNOWN) {
+		return;
 	}
+
+	Platform oldPlatform = this->platform;
 	this->platform = newPlatform;
 	this->setCompressionMethod(this->compressionMethod);
+
+	switch (newPlatform) {
+		case PLATFORM_UNKNOWN:
+		case PLATFORM_PC:
+			break;
+		case PLATFORM_XBOX:
+			this->setVersion(7, 2);
+			break;
+		case PLATFORM_X360:
+		case PLATFORM_PS3_ORANGEBOX:
+			this->setVersion(7, 4);
+			break;
+		case PLATFORM_PS3_PORTAL2:
+			this->setVersion(7, 5);
+			break;
+	}
+
+	if (newPlatform != PLATFORM_PC) {
+		const auto requiredMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+		if (this->mipCount != requiredMipCount) {
+			this->setMipCount(requiredMipCount);
+		}
+	} else if (oldPlatform != PLATFORM_PC && newPlatform == PLATFORM_PC) {
+		const auto recommendedMipCount = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height);
+		if (this->mipCount > recommendedMipCount) {
+			this->setMipCount(recommendedMipCount);
+		}
+	}
 }
 
 uint32_t VTF::getMajorVersion() const {
@@ -649,16 +738,10 @@ void VTF::setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion) {
 }
 
 void VTF::setMajorVersion(uint32_t newMajorVersion) {
-	if (this->platform != PLATFORM_PC) {
-		return;
-	}
 	this->majorVersion = newMajorVersion;
 }
 
 void VTF::setMinorVersion(uint32_t newMinorVersion) {
-	if (this->platform != PLATFORM_PC) {
-		return;
-	}
 	if (this->hasImageData()) {
 		auto faceCount = this->getFaceCount();
 		if (faceCount == 7 && (newMinorVersion < 1 || newMinorVersion > 4)) {
@@ -1307,9 +1390,9 @@ CompressionMethod VTF::getCompressionMethod() const {
 }
 
 void VTF::setCompressionMethod(CompressionMethod newCompressionMethod) {
-	if (newCompressionMethod == CompressionMethod::CONSOLE_LZMA && this->platform == VTF::PLATFORM_PC) {
+	if (newCompressionMethod == CompressionMethod::CONSOLE_LZMA && (this->platform == VTF::PLATFORM_PC || this->platform == VTF::PLATFORM_XBOX)) {
 		this->compressionMethod = CompressionMethod::ZSTD;
-	} else if (newCompressionMethod != CompressionMethod::CONSOLE_LZMA && this->platform != VTF::PLATFORM_PC) {
+	} else if (newCompressionMethod != CompressionMethod::CONSOLE_LZMA && (this->platform != VTF::PLATFORM_PC && this->platform != VTF::PLATFORM_XBOX)) {
 		this->compressionMethod = CompressionMethod::CONSOLE_LZMA;
 	} else {
 		this->compressionMethod = newCompressionMethod;
@@ -1508,7 +1591,20 @@ std::vector<std::byte> VTF::bake() const {
 		writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
 	};
 
-	if (this->platform != PLATFORM_PC) {
+	if (this->platform == PLATFORM_XBOX) {
+		static constexpr auto HEADER_SIZE = sizeof(uint32_t) * 6 + sizeof(float) * 4 + sizeof(uint16_t) * 6 + sizeof(uint8_t) * 6;
+		writer
+			.write(XTF_SIGNATURE)
+			.write<uint32_t>(5)
+			.write<uint32_t>(0)
+			.write<uint32_t>(HEADER_SIZE)
+			.write(this->flags)
+			.write(this->width)
+			.write(this->height)
+			.write(this->sliceCount)
+			.write(this->frameCount);
+		// todo: not done here
+	} else if (this->platform != PLATFORM_PC) {
 		writer << (this->platform == PLATFORM_PS3_PORTAL2 ? VTF3_SIGNATURE : VTFX_SIGNATURE);
 		writer.set_big_endian(true);
 
@@ -1556,7 +1652,7 @@ std::vector<std::byte> VTF::bake() const {
 
 			// Compression has only been observed in X360 and PS3_PORTAL2 VTFs so far
 			// todo(vtfpp): check PS3_ORANGEBOX cubemaps for compression
-			if ((this->platform == VTF::PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2) && (hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA)) {
+			if ((this->platform == VTF::PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2) && ((hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA))) {
 				auto fixedCompressionLevel = this->compressionLevel;
 				if (this->compressionLevel == 0) {
 					// Compression level defaults to 0, so it works differently on console.
