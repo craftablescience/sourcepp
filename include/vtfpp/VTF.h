@@ -195,6 +195,7 @@ public:
 		int16_t compressionLevel = -1;
 		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 		float bumpMapScale = 1.f;
+		bool invertGreenChannel = false;
 	};
 
 	/// This value is only valid when passed to VTF::create through CreationOptions
@@ -403,7 +404,7 @@ public:
 	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
-	static void createInternal(VTF& writer, CreationOptions options);
+	static bool createInternal(VTF& writer, CreationOptions options);
 
 	[[nodiscard]] Resource* getResourceInternal(Resource::Type type);
 

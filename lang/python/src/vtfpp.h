@@ -427,7 +427,8 @@ void register_python(py::module_& m) {
 		.def_rw("compute_reflectivity",       &VTF::CreationOptions::computeReflectivity)
 		.def_rw("compression_level",          &VTF::CreationOptions::compressionLevel)
 		.def_rw("compression_method",         &VTF::CreationOptions::compressionMethod)
-		.def_rw("bumpmap_scale",              &VTF::CreationOptions::bumpMapScale);
+		.def_rw("bumpmap_scale",              &VTF::CreationOptions::bumpMapScale)
+		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel);
 
 	cVTF
 		.def_ro_static("FLAG_MASK_AFTER_V7_3", &VTF::FLAG_MASK_AFTER_V7_3)

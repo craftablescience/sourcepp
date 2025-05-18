@@ -528,10 +528,18 @@ VTF::operator bool() const {
 	return this->opened;
 }
 
-void VTF::createInternal(VTF& writer, CreationOptions options) {
+bool VTF::createInternal(VTF& writer, CreationOptions options) {
+	bool out = true;
+	if (writer.hasImageData() && options.invertGreenChannel) {
+		if (!writer.setImage(ImageConversion::invertGreenChannel(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight()), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
+			out = false;
+		}
+	}
 	writer.setPlatform(options.platform);
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.hasSphereMap, options.initialSliceCount);
+		if (!writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.hasSphereMap, options.initialSliceCount)) {
+			out = false;
+		}
 	}
 	writer.setStartFrame(options.startFrame);
 	writer.setBumpMapScale(options.bumpMapScale);
@@ -547,7 +555,9 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 		writer.computeTransparencyFlags();
 	}
 	if (options.computeMips) {
-		writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()));
+		if (!writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()))) {
+			out = false;
+		}
 		writer.computeMips(options.filter);
 	}
 	if (options.computeReflectivity) {
@@ -556,6 +566,7 @@ void VTF::createInternal(VTF& writer, CreationOptions options) {
 	writer.setFormat(options.outputFormat);
 	writer.setCompressionLevel(options.compressionLevel);
 	writer.setCompressionMethod(options.compressionMethod);
+	return out;
 }
 
 bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
@@ -566,7 +577,9 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	if (!writer.setImage(imageData, format, width, height, options.filter)) {
 		return false;
 	}
-	createInternal(writer, options);
+	if (!createInternal(writer, options)) {
+		return false;
+	}
 	return writer.bake(vtfPath);
 }
 
@@ -600,7 +613,9 @@ bool VTF::create(const std::string& imagePath, const std::string& vtfPath, Creat
 	if (!writer.setImage(imagePath, options.filter)) {
 		return false;
 	}
-	createInternal(writer, options);
+	if (!createInternal(writer, options)) {
+		return false;
+	}
 	return writer.bake(vtfPath);
 }
 

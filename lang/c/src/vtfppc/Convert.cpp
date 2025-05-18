@@ -109,6 +109,7 @@ VTF::CreationOptions Convert::vtfCreationOptions(vtfpp_vtf_creation_options_t op
 		.compressionLevel = options.compressionLevel,
 		.compressionMethod = Convert::compressionMethod(options.compressionMethod),
 		.bumpMapScale = options.bumpMapScale,
+		.invertGreenChannel = static_cast<bool>(options.invertGreenChannel),
 	};
 }
 

@@ -110,6 +110,7 @@ typedef struct {
 	int16_t compressionLevel;
 	vtfpp_compression_method_e compressionMethod;
 	float bumpMapScale;
+	int invertGreenChannel;
 } vtfpp_vtf_creation_options_t;
 
 #define VTFPP_VTF_CREATION_OPTIONS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_vtf_creation_options_t) { \
