@@ -11,7 +11,7 @@ var searchData=
   ['inputend_8',['inputEnd',['../d2/dc0/classgamepp_1_1GameInstance.html#ac4a10f313a51302c5f6b18de7f50ca46',1,'gamepp::GameInstance']]],
   ['inputhold_9',['inputHold',['../d2/dc0/classgamepp_1_1GameInstance.html#a0a628987ecb89bf16c5abd9a7887bf75',1,'gamepp::GameInstance']]],
   ['inputonce_10',['inputOnce',['../d2/dc0/classgamepp_1_1GameInstance.html#abec8430c17acbcb8c8d7a17a80d2ac4f',1,'gamepp::GameInstance']]],
-  ['invertgreenchannel_11',['invertGreenChannel',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1188e5638ec1f0284f891627146d8147',1,'vtfpp::ImageConversion']]],
+  ['invertgreenchannelforimagedata_11',['invertGreenChannelForImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aeec89cbbd5eba9056520d45bd555a252',1,'vtfpp::ImageConversion']]],
   ['isappinstalled_12',['isAppInstalled',['../d9/d81/classsteampp_1_1Steam.html#a755f58814c4c7d147f9f4083bce33598',1,'steampp::Steam']]],
   ['isappusinggoldsrcengine_13',['isAppUsingGoldSrcEngine',['../d9/d81/classsteampp_1_1Steam.html#a1f23b89cb2c68e2fefaa7e39902d643b',1,'steampp::Steam']]],
   ['isappusingsource2engine_14',['isAppUsingSource2Engine',['../d9/d81/classsteampp_1_1Steam.html#a543131c303f06c4a5830770bd881c7c3',1,'steampp::Steam']]],

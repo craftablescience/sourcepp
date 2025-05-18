@@ -250,11 +250,23 @@ Macros</h2></td></tr>
 <tr class="separator:a26f25100f223e861a73967d5117c8d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67c49915eaaba45b1eb9e857b2ac1d74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a67c49915eaaba45b1eb9e857b2ac1d74">VTFPP_CASE_CONVERT_AND_BREAK</a>(InputType, ...)&#160;&#160;&#160;		case InputType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#af9b79d882b0c4660fab6f2a8a0dbfbe4">VTFPP_CONVERT</a>(InputType, __VA_ARGS__); } break</td></tr>
 <tr class="separator:a67c49915eaaba45b1eb9e857b2ac1d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e2fe9aaef5189d1e67fa8aa34410d8d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a6e2fe9aaef5189d1e67fa8aa34410d8d">VTFPP_CREATE_GAMMA_LUTS</a>(InputType)</td></tr>
+<tr class="separator:a6e2fe9aaef5189d1e67fa8aa34410d8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d800ea070fc2c1429b290647111edb"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a64d800ea070fc2c1429b290647111edb">VTFPP_APPLY_GAMMA_RED</a>(value)&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::red(PIXEL_TYPE::FORMAT))[value])</td></tr>
+<tr class="separator:a64d800ea070fc2c1429b290647111edb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a81c67251b90cac89cd8a05ef0685926d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a81c67251b90cac89cd8a05ef0685926d">VTFPP_APPLY_GAMMA_GREEN</a>(value)&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::green(PIXEL_TYPE::FORMAT))[value])</td></tr>
+<tr class="separator:a81c67251b90cac89cd8a05ef0685926d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a339973ea78d3667aa5ce9ecf19fa38ac"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a339973ea78d3667aa5ce9ecf19fa38ac">VTFPP_APPLY_GAMMA_BLUE</a>(value)&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::blue(PIXEL_TYPE::FORMAT))[value])</td></tr>
+<tr class="separator:a339973ea78d3667aa5ce9ecf19fa38ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a172a11efd8e0f5dde3407a543bd28759"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a172a11efd8e0f5dde3407a543bd28759">VTFPP_GAMMA_CORRECT</a>(InputType, ...)</td></tr>
+<tr class="separator:a172a11efd8e0f5dde3407a543bd28759"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c5b20e145bafe4e0cf73d5fabe44355"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a4c5b20e145bafe4e0cf73d5fabe44355">VTFPP_CASE_GAMMA_CORRECT_AND_BREAK</a>(InputType, ...)&#160;&#160;&#160;		case InputType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a6e2fe9aaef5189d1e67fa8aa34410d8d">VTFPP_CREATE_GAMMA_LUTS</a>(InputType) <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a172a11efd8e0f5dde3407a543bd28759">VTFPP_GAMMA_CORRECT</a>(InputType, __VA_ARGS__); } break</td></tr>
+<tr class="separator:a4c5b20e145bafe4e0cf73d5fabe44355"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a82b44179c559f59b822a9ca17421785d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType,  ChannelName, ...)</td></tr>
 <tr class="separator:a82b44179c559f59b822a9ca17421785d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa5073ff9e590754bbacffd2a60bd81e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#afa5073ff9e590754bbacffd2a60bd81e">VTFPP_INVERT_GREEN_CASE</a>(PixelType)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); break; }</td></tr>
+<tr class="memitem:afa5073ff9e590754bbacffd2a60bd81e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#afa5073ff9e590754bbacffd2a60bd81e">VTFPP_INVERT_GREEN_CASE</a>(PixelType)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); } break</td></tr>
 <tr class="separator:afa5073ff9e590754bbacffd2a60bd81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a636c6a0dc1cb6f45a7b414bf9b13b1e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a636c6a0dc1cb6f45a7b414bf9b13b1e7">VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE</a>(PixelType,  ChannelName)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); break; }</td></tr>
+<tr class="memitem:a636c6a0dc1cb6f45a7b414bf9b13b1e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a636c6a0dc1cb6f45a7b414bf9b13b1e7">VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE</a>(PixelType,  ChannelName)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); } break</td></tr>
 <tr class="separator:a636c6a0dc1cb6f45a7b414bf9b13b1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
@@ -431,6 +443,60 @@ Macros</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l00045">45</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a339973ea78d3667aa5ce9ecf19fa38ac" name="a339973ea78d3667aa5ce9ecf19fa38ac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a339973ea78d3667aa5ce9ecf19fa38ac">&#9670;&#160;</a></span>VTFPP_APPLY_GAMMA_BLUE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_APPLY_GAMMA_BLUE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::blue(PIXEL_TYPE::FORMAT))[value])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81c67251b90cac89cd8a05ef0685926d" name="a81c67251b90cac89cd8a05ef0685926d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81c67251b90cac89cd8a05ef0685926d">&#9670;&#160;</a></span>VTFPP_APPLY_GAMMA_GREEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_APPLY_GAMMA_GREEN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::green(PIXEL_TYPE::FORMAT))[value])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a64d800ea070fc2c1429b290647111edb" name="a64d800ea070fc2c1429b290647111edb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64d800ea070fc2c1429b290647111edb">&#9670;&#160;</a></span>VTFPP_APPLY_GAMMA_RED</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_APPLY_GAMMA_RED</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">value</td><td>)</td>
+          <td>&#160;&#160;&#160;		static_cast&lt;decltype(value)&gt;(gammaLUTs.at(ImageFormatDetails::red(PIXEL_TYPE::FORMAT))[value])</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -703,6 +769,34 @@ Macros</h2></td></tr>
 <div class="line">        <span class="keywordflow">break</span></div>
 <div class="ttc" id="aImageConversion_8cpp_html_a27b5d8a26575dd559dc1e5f6e07b32b9"><div class="ttname"><a href="../../d4/df2/ImageConversion_8cpp.html#a27b5d8a26575dd559dc1e5f6e07b32b9">VTFPP_CONVERT_REMAP</a></div><div class="ttdeci">#define VTFPP_CONVERT_REMAP(InputType, r, g, b, a)</div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a4c5b20e145bafe4e0cf73d5fabe44355" name="a4c5b20e145bafe4e0cf73d5fabe44355"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4c5b20e145bafe4e0cf73d5fabe44355">&#9670;&#160;</a></span>VTFPP_CASE_GAMMA_CORRECT_AND_BREAK</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_CASE_GAMMA_CORRECT_AND_BREAK</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">InputType, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;		case InputType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a6e2fe9aaef5189d1e67fa8aa34410d8d">VTFPP_CREATE_GAMMA_LUTS</a>(InputType) <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a172a11efd8e0f5dde3407a543bd28759">VTFPP_GAMMA_CORRECT</a>(InputType, __VA_ARGS__); } break</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a id="af9b79d882b0c4660fab6f2a8a0dbfbe4" name="af9b79d882b0c4660fab6f2a8a0dbfbe4"></a>
@@ -1180,6 +1274,74 @@ Macros</h2></td></tr>
 </div><!-- fragment -->
 </div>
 </div>
+<a id="a6e2fe9aaef5189d1e67fa8aa34410d8d" name="a6e2fe9aaef5189d1e67fa8aa34410d8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e2fe9aaef5189d1e67fa8aa34410d8d">&#9670;&#160;</a></span>VTFPP_CREATE_GAMMA_LUTS</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_CREATE_GAMMA_LUTS</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">InputType</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">        std::unordered_map&lt;uint8_t, std::array&lt;uint8_t, 256&gt;&gt; gammaLUTs; \</div>
+<div class="line">        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType) &gt; 0) { \</div>
+<div class="line">            if (!gammaLUTs.contains(<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType))) { \</div>
+<div class="line">                gammaLUTs[<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType)] = calculateGammaLUT(gamma, <a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">ImageFormatDetails::red</a>(ImageFormat::InputType)); \</div>
+<div class="line">            } \</div>
+<div class="line">        } \</div>
+<div class="line">        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType) &gt; 0) { \</div>
+<div class="line">            if (!gammaLUTs.contains(<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType))) { \</div>
+<div class="line">                gammaLUTs[<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType)] = calculateGammaLUT(gamma, <a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImageFormat::InputType)); \</div>
+<div class="line">            } \</div>
+<div class="line">        } \</div>
+<div class="line">        <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType) &gt; 0) { \</div>
+<div class="line">            if (!gammaLUTs.contains(<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType))) { \</div>
+<div class="line">                gammaLUTs[<a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType)] = calculateGammaLUT(gamma, <a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">ImageFormatDetails::blue</a>(ImageFormat::InputType)); \</div>
+<div class="line">            } \</div>
+<div class="line">        }</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="a172a11efd8e0f5dde3407a543bd28759" name="a172a11efd8e0f5dde3407a543bd28759"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a172a11efd8e0f5dde3407a543bd28759">&#9670;&#160;</a></span>VTFPP_GAMMA_CORRECT</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_GAMMA_CORRECT</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">InputType, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">        std::span imageDataSpan{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>ImagePixel::InputType*<span class="keyword">&gt;</span>(imageData.data()), imageData.size() / <span class="keyword">sizeof</span>(ImagePixel::InputType)}; \</div>
+<div class="line">        std::span outSpan{<span class="keyword">reinterpret_cast&lt;</span>ImagePixel::InputType*<span class="keyword">&gt;</span>(out.data()), out.size() / <span class="keyword">sizeof</span>(ImagePixel::InputType)}; \</div>
+<div class="line">        std::transform(imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -&gt; ImagePixel::InputType { \</div>
+<div class="line">            using PIXEL_TYPE = ImagePixel::InputType; \</div>
+<div class="line">            return __VA_ARGS__; \</div>
+<div class="line">        })</div>
+</div><!-- fragment -->
+</div>
+</div>
 <a id="a82b44179c559f59b822a9ca17421785d" name="a82b44179c559f59b822a9ca17421785d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a82b44179c559f59b822a9ca17421785d">&#9670;&#160;</a></span>VTFPP_INVERT_GREEN</h2>
 
@@ -1240,7 +1402,7 @@ Macros</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">PixelType</td><td>)</td>
-          <td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); break; }</td>
+          <td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); } break</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -1268,7 +1430,7 @@ Macros</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); break; }</td>
+          <td></td><td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); } break</td>
         </tr>
       </table>
 </div><div class="memdoc">
