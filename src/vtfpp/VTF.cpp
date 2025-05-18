@@ -530,12 +530,20 @@ VTF::operator bool() const {
 
 bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	bool out = true;
-	if (writer.hasImageData()) {
-		if (options.invertGreenChannel && !writer.setImage(ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight()), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
-			out = false;
-		}
-		if (options.gammaCorrection != 1.f && !writer.setImage(ImageConversion::gammaCorrectImageData(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight(), options.gammaCorrection), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
-			out = false;
+	if (writer.hasImageData() && (options.invertGreenChannel || options.gammaCorrection != 1.f)) {
+		for (int i = 1; i < writer.mipCount; i++) {
+			for (int j = 0; j < writer.frameCount; j++) {
+				for (int k = 0; k < writer.getFaceCount(); k++) {
+					for (int l = 0; l < writer.sliceCount; l++) {
+						if (options.invertGreenChannel && !writer.setImage(ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i)), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), ImageConversion::ResizeFilter::DEFAULT, i, j, k, l)) {
+							out = false;
+						}
+						if (options.gammaCorrection != 1.f && !writer.setImage(ImageConversion::gammaCorrectImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), options.gammaCorrection), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), ImageConversion::ResizeFilter::DEFAULT, i, j, k, l)) {
+							out = false;
+						}
+					}
+				}
+			}
 		}
 	}
 	writer.setPlatform(options.platform);
