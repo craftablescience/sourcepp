@@ -8,6 +8,8 @@
 #include <nanobind/stl/tuple.h>
 #include <nanobind/stl/vector.h>
 
+#include "../../../include/vtfpp/ImageConversion.h"
+
 namespace py = nanobind;
 
 #include <vtfpp/vtfpp.h>
@@ -198,8 +200,12 @@ void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("x_offset"), py::arg("height"), py::arg("new_height"), py::arg("y_offset"));
 
+		ImageConversion.def("invert_green_channel", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
+			const auto d = invertGreenChannel({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"));
+
 		// Skip extractChannelFromImageData, difficult to bind
-		// Skip applyChannelToImageData, difficult to bind
 	}
 
 	auto cPPL = py::class_<PPL>(vtfpp, "PPL");

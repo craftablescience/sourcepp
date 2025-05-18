@@ -1930,3 +1930,93 @@ std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte>
 	}
 	return out;
 }
+
+// NOLINTNEXTLINE(*-no-recursion)
+std::vector<std::byte> ImageConversion::invertGreenChannel(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+	if (imageData.empty() || format == ImageFormat::EMPTY || ImageFormatDetails::decompressedGreen(format) == 0) {
+		return {};
+	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do?
+		const auto container = ImageFormatDetails::containerFormat(format);
+		return convertImageDataToFormat(invertGreenChannel(convertImageDataToFormat(imageData, format, container, width, height), container, width, height), container, format, width, height);
+	}
+
+	#define VTFPP_INVERT_GREEN(PixelType, ChannelName, ...) \
+		static constexpr auto channelSize = ImageFormatDetails::green(ImagePixel::PixelType::FORMAT); \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixel::PixelType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::PixelType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixel::PixelType*>(out.data()), out.size() / sizeof(ImagePixel::PixelType)}; \
+		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
+			if constexpr (std::same_as<decltype(pixel.ChannelName), float> || std::same_as<decltype(pixel.ChannelName), half>) { \
+				pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName)); \
+			} else { \
+				if constexpr (channelSize >= sizeof(uint32_t) * 8) { \
+					pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>((static_cast<uint64_t>(1) << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName)); \
+				} else { \
+					pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>(static_cast<uint32_t>(1 << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName)); \
+				} \
+			} \
+			return pixel; \
+		})
+#ifdef SOURCEPP_BUILD_WITH_TBB
+	#define VTFPP_INVERT_GREEN_CASE(PixelType) \
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g, std::execution::par_unseq); break; }
+	#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(PixelType, ChannelName) \
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName, std::execution::par_unseq); break; }
+#else
+	#define VTFPP_INVERT_GREEN_CASE(PixelType) \
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g); break; }
+	#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(PixelType, ChannelName) \
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName); break; }
+#endif
+
+	std::vector<std::byte> out(imageData.size());
+	switch (format) {
+		VTFPP_INVERT_GREEN_CASE(RGBA8888);
+		VTFPP_INVERT_GREEN_CASE(ABGR8888);
+		VTFPP_INVERT_GREEN_CASE(RGB888);
+		VTFPP_INVERT_GREEN_CASE(BGR888);
+		VTFPP_INVERT_GREEN_CASE(RGB565);
+		VTFPP_INVERT_GREEN_CASE(RGB888_BLUESCREEN);
+		VTFPP_INVERT_GREEN_CASE(BGR888_BLUESCREEN);
+		VTFPP_INVERT_GREEN_CASE(ARGB8888);
+		VTFPP_INVERT_GREEN_CASE(BGRA8888);
+		VTFPP_INVERT_GREEN_CASE(BGRX8888);
+		VTFPP_INVERT_GREEN_CASE(BGR565);
+		VTFPP_INVERT_GREEN_CASE(BGRX5551);
+		VTFPP_INVERT_GREEN_CASE(BGRA4444);
+		VTFPP_INVERT_GREEN_CASE(BGRA5551);
+		VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(UV88, v);
+		VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(UVWQ8888, v);
+		VTFPP_INVERT_GREEN_CASE(RGBA16161616F);
+		VTFPP_INVERT_GREEN_CASE(RGBA16161616);
+		VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(UVLX8888, v);
+		VTFPP_INVERT_GREEN_CASE(RGB323232F);
+		VTFPP_INVERT_GREEN_CASE(RGBA32323232F);
+		VTFPP_INVERT_GREEN_CASE(RG1616F);
+		VTFPP_INVERT_GREEN_CASE(RG3232F);
+		VTFPP_INVERT_GREEN_CASE(RGBX8888);
+		VTFPP_INVERT_GREEN_CASE(RGBA1010102);
+		VTFPP_INVERT_GREEN_CASE(BGRA1010102);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRX8888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_RGBA8888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_ABGR8888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_ARGB8888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRA8888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_RGB888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGR888_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRX5551_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_RGBA16161616_LINEAR);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRX8888_LE);
+		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRA8888_LE);
+		default:
+			SOURCEPP_DEBUG_BREAK;
+			break;
+	}
+
+	#undef VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE
+	#undef VTFPP_INVERT_GREEN_CASE
+	#undef VTFPP_INVERT_GREEN
+
+	return out;
+}
