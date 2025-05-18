@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <bit>
+#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <memory>
@@ -1985,7 +1986,7 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 	std::vector<std::byte> out(imageData.size());
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, ...) \
+	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
 		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
 		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
 		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
