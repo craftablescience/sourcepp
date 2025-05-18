@@ -84,4 +84,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(c
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_crop_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset);
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_invert_green_channel(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height);
+SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_gamma_correct_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float gamma);
+
+// REQUIRES MANUAL FREE: sourcepp_buffer_free
+SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_invert_green_channel_for_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height);

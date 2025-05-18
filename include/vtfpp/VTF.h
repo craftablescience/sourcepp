@@ -195,6 +195,7 @@ public:
 		int16_t compressionLevel = -1;
 		CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 		float bumpMapScale = 1.f;
+		float gammaCorrection = 1.f;
 		bool invertGreenChannel = false;
 	};
 

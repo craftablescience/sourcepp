@@ -621,6 +621,28 @@ namespace ImageFormatDetails {
 	return !transparent(format);
 }
 
+[[nodiscard]] constexpr bool console(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case CONSOLE_BGRX8888_LINEAR:
+		case CONSOLE_RGBA8888_LINEAR:
+		case CONSOLE_ABGR8888_LINEAR:
+		case CONSOLE_ARGB8888_LINEAR:
+		case CONSOLE_BGRA8888_LINEAR:
+		case CONSOLE_RGB888_LINEAR:
+		case CONSOLE_BGR888_LINEAR:
+		case CONSOLE_BGRX5551_LINEAR:
+		case CONSOLE_I8_LINEAR:
+		case CONSOLE_RGBA16161616_LINEAR:
+		case CONSOLE_BGRX8888_LE:
+		case CONSOLE_BGRA8888_LE:
+			return true;
+		default:
+			break;
+	}
+	return false;
+}
+
 } // namespace ImageFormatDetails
 
 namespace ImageDimensions {

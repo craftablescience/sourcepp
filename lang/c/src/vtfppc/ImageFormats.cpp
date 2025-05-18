@@ -66,6 +66,10 @@ SOURCEPP_API int vtfpp_image_format_details_opaque(vtfpp_image_format_e format) 
 	return ImageFormatDetails::opaque(static_cast<ImageFormat>(format));
 }
 
+SOURCEPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format) {
+	return ImageFormatDetails::console(static_cast<ImageFormat>(format));
+}
+
 SOURCEPP_API uint32_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim) {
 	return ImageDimensions::getMipDim(mip, dim);
 }

@@ -530,8 +530,11 @@ VTF::operator bool() const {
 
 bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	bool out = true;
-	if (writer.hasImageData() && options.invertGreenChannel) {
-		if (!writer.setImage(ImageConversion::invertGreenChannel(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight()), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
+	if (writer.hasImageData()) {
+		if (options.invertGreenChannel && !writer.setImage(ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight()), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
+			out = false;
+		}
+		if (options.gammaCorrection != 1.f && !writer.setImage(ImageConversion::gammaCorrectImageData(writer.getImageDataRaw(), writer.getFormat(), writer.getWidth(), writer.getHeight(), options.gammaCorrection), writer.getFormat(), writer.getWidth(), writer.getHeight())) {
 			out = false;
 		}
 	}

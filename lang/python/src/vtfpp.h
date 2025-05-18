@@ -84,7 +84,8 @@ void register_python(py::module_& m) {
 			.def("decimal",           &decimal,           py::arg("format"))
 			.def("compressed",        &compressed,        py::arg("format"))
 			.def("transparent",       &transparent,       py::arg("format"))
-			.def("opaque",            &opaque,            py::arg("format"));
+			.def("opaque",            &opaque,            py::arg("format"))
+			.def("console",           &console,           py::arg("format"));
 
 		ImageFormatDetails
 			.def("get_data_length", py::overload_cast<ImageFormat, uint16_t, uint16_t, uint16_t>(&getDataLength), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("slice_count") = 1)
@@ -200,8 +201,13 @@ void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("x_offset"), py::arg("height"), py::arg("new_height"), py::arg("y_offset"));
 
-		ImageConversion.def("invert_green_channel", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
-			const auto d = invertGreenChannel({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
+		ImageConversion.def("gamma_correct_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
+			const auto d = gammaCorrectImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, gamma);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("gamma"));
+
+		ImageConversion.def("invert_green_channel_for_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
+			const auto d = invertGreenChannelForImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"));
 
@@ -428,6 +434,7 @@ void register_python(py::module_& m) {
 		.def_rw("compression_level",          &VTF::CreationOptions::compressionLevel)
 		.def_rw("compression_method",         &VTF::CreationOptions::compressionMethod)
 		.def_rw("bumpmap_scale",              &VTF::CreationOptions::bumpMapScale)
+		.def_rw("gamma_correction",           &VTF::CreationOptions::gammaCorrection)
 		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel);
 
 	cVTF

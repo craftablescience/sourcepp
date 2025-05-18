@@ -1918,7 +1918,7 @@ std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte>
 		return {};
 	}
 	if (ImageFormatDetails::compressed(format)) {
-		// This is horrible but what can you do? Don't crop compressed formats! Don't do it!
+		// This is horrible but what can you do?
 		const auto container = ImageFormatDetails::containerFormat(format);
 		return convertImageDataToFormat(cropImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, newWidth, xOffset, height, newHeight, yOffset), container, format, newWidth, newHeight);
 	}
@@ -1932,14 +1932,118 @@ std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte>
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-std::vector<std::byte> ImageConversion::invertGreenChannel(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
+	if (imageData.empty() || format == ImageFormat::EMPTY) {
+		return {};
+	}
+	if (gamma == 1.f || ImageFormatDetails::large(format) || ImageFormatDetails::console(format) || format == ImageFormat::P8 || format == ImageFormat::A8 || format == ImageFormat::UV88 || format == ImageFormat::UVLX8888 || format == ImageFormat::UVWQ8888) {
+		// No gamma correction for you! You are supposed to be linear! Or specialized...
+		return {imageData.begin(), imageData.end()};
+	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do?
+		const auto container = ImageFormatDetails::containerFormat(format);
+		return convertImageDataToFormat(gammaCorrectImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, height, gamma), container, format, width, height);
+	}
+
+	static constexpr auto calculateGammaLUT = [](float gamma_, uint8_t channelSize) -> std::array<uint8_t, 256> {
+		const auto maxSize = static_cast<float>((1 << channelSize) - 1);
+		std::array<uint8_t, 256> gammaLUT{};
+		for (int i = 0; i < gammaLUT.size(); i++) {
+			gammaLUT[i] = static_cast<uint8_t>(std::clamp(std::powf((static_cast<float>(i) + 0.5f) / maxSize, gamma_) * maxSize - 0.5f, 0.f, maxSize));
+		}
+		return gammaLUT;
+	};
+
+	#define VTFPP_CREATE_GAMMA_LUTS(InputType) \
+		std::unordered_map<uint8_t, std::array<uint8_t, 256>> gammaLUTs; \
+		if constexpr (ImageFormatDetails::red(ImageFormat::InputType) > 0) { \
+			if (!gammaLUTs.contains(ImageFormatDetails::red(ImageFormat::InputType))) { \
+				gammaLUTs[ImageFormatDetails::red(ImageFormat::InputType)] = calculateGammaLUT(gamma, ImageFormatDetails::red(ImageFormat::InputType)); \
+			} \
+		} \
+		if constexpr (ImageFormatDetails::green(ImageFormat::InputType) > 0) { \
+			if (!gammaLUTs.contains(ImageFormatDetails::green(ImageFormat::InputType))) { \
+				gammaLUTs[ImageFormatDetails::green(ImageFormat::InputType)] = calculateGammaLUT(gamma, ImageFormatDetails::green(ImageFormat::InputType)); \
+			} \
+		} \
+		if constexpr (ImageFormatDetails::blue(ImageFormat::InputType) > 0) { \
+			if (!gammaLUTs.contains(ImageFormatDetails::blue(ImageFormat::InputType))) { \
+				gammaLUTs[ImageFormatDetails::blue(ImageFormat::InputType)] = calculateGammaLUT(gamma, ImageFormatDetails::blue(ImageFormat::InputType)); \
+			} \
+		}
+
+	#define VTFPP_APPLY_GAMMA_RED(value) \
+		static_cast<decltype(value)>(gammaLUTs.at(ImageFormatDetails::red(PIXEL_TYPE::FORMAT))[value])
+
+	#define VTFPP_APPLY_GAMMA_GREEN(value) \
+		static_cast<decltype(value)>(gammaLUTs.at(ImageFormatDetails::green(PIXEL_TYPE::FORMAT))[value])
+
+	#define VTFPP_APPLY_GAMMA_BLUE(value) \
+		static_cast<decltype(value)>(gammaLUTs.at(ImageFormatDetails::blue(PIXEL_TYPE::FORMAT))[value])
+
+	std::vector<std::byte> out(imageData.size());
+
+#ifdef SOURCEPP_BUILD_WITH_TBB
+	#define VTFPP_CONVERT(InputType, ...) \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gamma](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+			return __VA_ARGS__; \
+		})
+#else
+	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
+		std::transform(imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+			using PIXEL_TYPE = ImagePixel::InputType; \
+			return __VA_ARGS__; \
+		})
+#endif
+	#define VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(InputType, ...) \
+		case InputType: { VTFPP_CREATE_GAMMA_LUTS(InputType) VTFPP_GAMMA_CORRECT(InputType, __VA_ARGS__); } break
+
+	switch (format) {
+		using enum ImageFormat;
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ABGR8888,          {pixel.a,                         VTFPP_APPLY_GAMMA_BLUE(pixel.b),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888,            {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888_BLUESCREEN, pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff ? ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff} : ImagePixel::RGB888_BLUESCREEN{VTFPP_APPLY_GAMMA_RED(pixel.r), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888,            {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888_BLUESCREEN, pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff ? ImagePixel::BGR888_BLUESCREEN{0, 0, 0xff} : ImagePixel::BGR888_BLUESCREEN{VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB565,            {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(I8,                {VTFPP_APPLY_GAMMA_RED(pixel.i)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(IA88,              {VTFPP_APPLY_GAMMA_RED(pixel.i),  pixel.a});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ARGB8888,          {pixel.a,                         VTFPP_APPLY_GAMMA_RED(pixel.r),   VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA8888,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX8888,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   0xff});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR565,            {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA5551,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX5551,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   1});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA4444,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGBX8888,          {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b),  0xff});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(R8,                {VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		default: SOURCEPP_DEBUG_BREAK; break;
+	}
+
+	#undef VTFPP_CASE_GAMMA_CORRECT_AND_BREAK
+	#undef VTFPP_GAMMA_CORRECT
+	#undef VTFPP_APPLY_GAMMA_BLUE
+	#undef VTFPP_APPLY_GAMMA_GREEN
+	#undef VTFPP_APPLY_GAMMA_RED
+	#undef VTFPP_CREATE_GAMMA_LUTS
+
+	return out;
+}
+
+// NOLINTNEXTLINE(*-no-recursion)
+std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
 	if (imageData.empty() || format == ImageFormat::EMPTY || ImageFormatDetails::decompressedGreen(format) == 0) {
 		return {};
 	}
 	if (ImageFormatDetails::compressed(format)) {
 		// This is horrible but what can you do?
 		const auto container = ImageFormatDetails::containerFormat(format);
-		return convertImageDataToFormat(invertGreenChannel(convertImageDataToFormat(imageData, format, container, width, height), container, width, height), container, format, width, height);
+		return convertImageDataToFormat(invertGreenChannelForImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, height), container, format, width, height);
 	}
 
 	#define VTFPP_INVERT_GREEN(PixelType, ChannelName, ...) \
@@ -1965,9 +2069,9 @@ std::vector<std::byte> ImageConversion::invertGreenChannel(std::span<const std::
 		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName, std::execution::par_unseq); break; }
 #else
 	#define VTFPP_INVERT_GREEN_CASE(PixelType) \
-		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g); break; }
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g); } break
 	#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(PixelType, ChannelName) \
-		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName); break; }
+		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName); } break
 #endif
 
 	std::vector<std::byte> out(imageData.size());
@@ -2009,9 +2113,7 @@ std::vector<std::byte> ImageConversion::invertGreenChannel(std::span<const std::
 		VTFPP_INVERT_GREEN_CASE(CONSOLE_RGBA16161616_LINEAR);
 		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRX8888_LE);
 		VTFPP_INVERT_GREEN_CASE(CONSOLE_BGRA8888_LE);
-		default:
-			SOURCEPP_DEBUG_BREAK;
-			break;
+		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
 	#undef VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE

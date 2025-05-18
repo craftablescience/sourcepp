@@ -110,6 +110,7 @@ typedef struct {
 	int16_t compressionLevel;
 	vtfpp_compression_method_e compressionMethod;
 	float bumpMapScale;
+	float gammaCorrection;
 	int invertGreenChannel;
 } vtfpp_vtf_creation_options_t;
 
@@ -134,6 +135,8 @@ typedef struct {
 	.compressionLevel = -1, \
 	.compressionMethod = VTFPP_COMPRESSION_METHOD_ZSTD, \
 	.bumpMapScale = 1.f, \
+	.gammaCorrection = 1.f, \
+	.invertGreenChannel = 0, \
 })
 
 typedef void* vtfpp_vtf_handle_t;
