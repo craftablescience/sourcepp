@@ -1988,7 +1988,8 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
 		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gamma](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+			using PIXEL_TYPE = ImagePixel::InputType; \
 			return __VA_ARGS__; \
 		})
 #else
