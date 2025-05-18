@@ -13,6 +13,7 @@ var structvtfpp_1_1VTF_1_1CreationOptions =
     [ "heightResizeMethod", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac26ed8e6bcb15408c99d8562f63374b7", null ],
     [ "initialFrameCount", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a12cf74165936d5f2ff1239aa00a0afd3", null ],
     [ "initialSliceCount", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a4689cf620be30181df735192656d861c", null ],
+    [ "invertGreenChannel", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a2ab86248385d2a8f7f2ddc0174d77606", null ],
     [ "isCubeMap", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c", null ],
     [ "majorVersion", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a7cc61a7b6a8560c89d76b75f894b2845", null ],
     [ "minorVersion", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3697bca5e9413dc3ccd89730a307ed83", null ],

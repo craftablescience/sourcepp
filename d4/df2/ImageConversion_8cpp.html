@@ -250,6 +250,12 @@ Macros</h2></td></tr>
 <tr class="separator:a26f25100f223e861a73967d5117c8d20"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a67c49915eaaba45b1eb9e857b2ac1d74"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a67c49915eaaba45b1eb9e857b2ac1d74">VTFPP_CASE_CONVERT_AND_BREAK</a>(InputType, ...)&#160;&#160;&#160;		case InputType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#af9b79d882b0c4660fab6f2a8a0dbfbe4">VTFPP_CONVERT</a>(InputType, __VA_ARGS__); } break</td></tr>
 <tr class="separator:a67c49915eaaba45b1eb9e857b2ac1d74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82b44179c559f59b822a9ca17421785d"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType,  ChannelName, ...)</td></tr>
+<tr class="separator:a82b44179c559f59b822a9ca17421785d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa5073ff9e590754bbacffd2a60bd81e"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#afa5073ff9e590754bbacffd2a60bd81e">VTFPP_INVERT_GREEN_CASE</a>(PixelType)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); break; }</td></tr>
+<tr class="separator:afa5073ff9e590754bbacffd2a60bd81e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a636c6a0dc1cb6f45a7b414bf9b13b1e7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a636c6a0dc1cb6f45a7b414bf9b13b1e7">VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE</a>(PixelType,  ChannelName)&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); break; }</td></tr>
+<tr class="separator:a636c6a0dc1cb6f45a7b414bf9b13b1e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a18372412ad2fc3ce1e3240b3cf0efe78" name="a18372412ad2fc3ce1e3240b3cf0efe78"></a>
@@ -1172,6 +1178,101 @@ Macros</h2></td></tr>
 <div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_aae8552792bf4ad0d4bc182cc34eba04a"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aae8552792bf4ad0d4bc182cc34eba04a">vtfpp::ImageFormatDetails::red</a></div><div class="ttdeci">constexpr int8_t red(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00077">ImageFormats.h:77</a></div></div>
 <div class="ttc" id="anamespacevtfpp_1_1ImageFormatDetails_html_afdde59368c730fcecf3d3c15028f75b0"><div class="ttname"><a href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afdde59368c730fcecf3d3c15028f75b0">vtfpp::ImageFormatDetails::blue</a></div><div class="ttdeci">constexpr int8_t blue(ImageFormat format)</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d2d/ImageFormats_8h_source.html#l00256">ImageFormats.h:256</a></div></div>
 </div><!-- fragment -->
+</div>
+</div>
+<a id="a82b44179c559f59b822a9ca17421785d" name="a82b44179c559f59b822a9ca17421785d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a82b44179c559f59b822a9ca17421785d">&#9670;&#160;</a></span>VTFPP_INVERT_GREEN</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_INVERT_GREEN</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">PixelType, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ChannelName, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<b>Value:</b><div class="fragment"><div class="line">        <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keyword">auto</span> channelSize = <a class="code hl_function" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b">ImageFormatDetails::green</a>(ImagePixel::PixelType::FORMAT); \</div>
+<div class="line">        std::span imageDataSpan{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span>ImagePixel::PixelType*<span class="keyword">&gt;</span>(imageData.data()), imageData.size() / <span class="keyword">sizeof</span>(ImagePixel::PixelType)}; \</div>
+<div class="line">        std::span outSpan{<span class="keyword">reinterpret_cast&lt;</span>ImagePixel::PixelType*<span class="keyword">&gt;</span>(out.data()), out.size() / <span class="keyword">sizeof</span>(ImagePixel::PixelType)}; \</div>
+<div class="line">        std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixel::PixelType pixel) -&gt; ImagePixel::PixelType { \</div>
+<div class="line">            if constexpr (std::same_as&lt;decltype(pixel.ChannelName), float&gt; || std::same_as&lt;decltype(pixel.ChannelName), half&gt;) { \</div>
+<div class="line">                pixel.ChannelName = static_cast&lt;decltype(pixel.ChannelName)&gt;(static_cast&lt;float&gt;(static_cast&lt;uint64_t&gt;(1) &lt;&lt; channelSize) - 1.f - static_cast&lt;float&gt;(pixel.ChannelName)); \</div>
+<div class="line">            } <span class="keywordflow">else</span> { \</div>
+<div class="line">                if constexpr (channelSize &gt;= sizeof(uint32_t) * 8) { \</div>
+<div class="line">                    pixel.ChannelName = static_cast&lt;decltype(pixel.ChannelName)&gt;((static_cast&lt;uint64_t&gt;(1) &lt;&lt; channelSize) - 1 - static_cast&lt;uint32_t&gt;(pixel.ChannelName)); \</div>
+<div class="line">                } <span class="keywordflow">else</span> { \</div>
+<div class="line">                    pixel.ChannelName = static_cast&lt;decltype(pixel.ChannelName)&gt;(static_cast&lt;uint32_t&gt;(1 &lt;&lt; channelSize) - 1 - static_cast&lt;uint32_t&gt;(pixel.ChannelName)); \</div>
+<div class="line">                } \</div>
+<div class="line">            } \</div>
+<div class="line">            <span class="keywordflow">return</span> pixel; \</div>
+<div class="line">        })</div>
+</div><!-- fragment -->
+</div>
+</div>
+<a id="afa5073ff9e590754bbacffd2a60bd81e" name="afa5073ff9e590754bbacffd2a60bd81e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa5073ff9e590754bbacffd2a60bd81e">&#9670;&#160;</a></span>VTFPP_INVERT_GREEN_CASE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_INVERT_GREEN_CASE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">PixelType</td><td>)</td>
+          <td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, g); break; }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a636c6a0dc1cb6f45a7b414bf9b13b1e7" name="a636c6a0dc1cb6f45a7b414bf9b13b1e7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a636c6a0dc1cb6f45a7b414bf9b13b1e7">&#9670;&#160;</a></span>VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE</td>
+          <td>(</td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">PixelType, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname">ChannelName&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td>&#160;&#160;&#160;		case ImageFormat::PixelType: { <a class="el" href="../../d4/df2/ImageConversion_8cpp.html#a82b44179c559f59b822a9ca17421785d">VTFPP_INVERT_GREEN</a>(PixelType, ChannelName); break; }</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
 </div>
 </div>
 <a id="af31a769d157fe3f3cb8226ba9c34525d" name="af31a769d157fe3f3cb8226ba9c34525d"></a>

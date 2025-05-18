@@ -64,7 +64,7 @@ var classvtfpp_1_1VTF =
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#a9f9d89f89dfa786b7753560e60e2418f", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#ae23d87a8424b6badcab3d88be015bd92", null ],
     [ "create", "d8/df2/classvtfpp_1_1VTF.html#a03a484b820cdd9b605c97cac35a5b166", null ],
-    [ "createInternal", "d8/df2/classvtfpp_1_1VTF.html#a87c1d812b72d708cd9efa13ec6510766", null ],
+    [ "createInternal", "d8/df2/classvtfpp_1_1VTF.html#a2ea587ffbe8b4aef90fbe7d8665c8e21", null ],
     [ "getBumpMapScale", "d8/df2/classvtfpp_1_1VTF.html#a4998bea1f7a756450f35bda657b23b8e", null ],
     [ "getCompressionLevel", "d8/df2/classvtfpp_1_1VTF.html#ae2b37e52579d747fdd60eaf9ffb42fb9", null ],
     [ "getCompressionMethod", "d8/df2/classvtfpp_1_1VTF.html#ac54ab6af8d9db4a5b311704f38bb95f8", null ],

@@ -15,10 +15,11 @@ var searchData=
   ['inputfield_12',['inputField',['../d3/d2f/structmdlpp_1_1MDL_1_1BoneController.html#ae3f420bf7c5af6e36f4679970cfcce22',1,'mdlpp::MDL::BoneController']]],
   ['inputs_13',['inputs',['../d8/dc3/structtoolpp_1_1FGD_1_1Entity.html#a3cfc90550f7088f895a1bac751665393',1,'toolpp::FGD::Entity']]],
   ['insurgency_14',['INSURGENCY',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a96a0fdab313634e59d7011bb5dbb689d',1,'vcryptpp::VICE::KnownCodes']]],
-  ['iscompressed_15',['isCompressed',['../d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71',1,'bsppp::BSPGameLump']]],
-  ['iscubemap_16',['isCubeMap',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c',1,'vtfpp::VTF::CreationOptions']]],
-  ['ishrot_5f_17',['isHROT_',['../d9/daf/classvpkpp_1_1PAK.html#ab7c09816b3154c03e886701622575c1f',1,'vpkpp::PAK']]],
-  ['item_5fcount_18',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
-  ['itemcount_19',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
-  ['itemsize_20',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]]
+  ['invertgreenchannel_15',['invertGreenChannel',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a2ab86248385d2a8f7f2ddc0174d77606',1,'vtfpp::VTF::CreationOptions']]],
+  ['iscompressed_16',['isCompressed',['../d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71',1,'bsppp::BSPGameLump']]],
+  ['iscubemap_17',['isCubeMap',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c',1,'vtfpp::VTF::CreationOptions']]],
+  ['ishrot_5f_18',['isHROT_',['../d9/daf/classvpkpp_1_1PAK.html#ab7c09816b3154c03e886701622575c1f',1,'vpkpp::PAK']]],
+  ['item_5fcount_19',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
+  ['itemcount_20',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
+  ['itemsize_21',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]]
 ];

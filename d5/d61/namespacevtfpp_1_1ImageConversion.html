@@ -204,14 +204,13 @@ Functions</h2></td></tr>
 <tr class="memitem:ac7cd00a5275611b373c7b7651d0d5a39"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac7cd00a5275611b373c7b7651d0d5a39">cropImageData</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset)</td></tr>
 <tr class="memdesc:ac7cd00a5275611b373c7b7651d0d5a39"><td class="mdescLeft">&#160;</td><td class="mdescRight">Crops the given image to the new dimensions. If the image format is compressed it will be converted to its container format before the crop, and converted back before returning.  <br /></td></tr>
 <tr class="separator:ac7cd00a5275611b373c7b7651d0d5a39"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1188e5638ec1f0284f891627146d8147"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1188e5638ec1f0284f891627146d8147">invertGreenChannel</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t height)</td></tr>
+<tr class="memdesc:a1188e5638ec1f0284f891627146d8147"><td class="mdescLeft">&#160;</td><td class="mdescRight">Invert the green channel. Meant for converting normal maps between OpenGL and DirectX formats.  <br /></td></tr>
+<tr class="separator:a1188e5638ec1f0284f891627146d8147"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad3b3ca83929b12ec4abad257d5f1648"><td class="memTemplParams" colspan="2">template&lt;ImagePixel::PixelType P&gt; </td></tr>
 <tr class="memitem:aad3b3ca83929b12ec4abad257d5f1648"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648">extractChannelFromImageData</a> (std::span&lt; const std::byte &gt; imageData, auto P::*channel)</td></tr>
 <tr class="memdesc:aad3b3ca83929b12ec4abad257d5f1648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a single channel from the given image data.  <br /></td></tr>
 <tr class="separator:aad3b3ca83929b12ec4abad257d5f1648"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afa611e565a510988372aeb5ba3de37b0"><td class="memTemplParams" colspan="2">template&lt;ImagePixel::PixelType P&gt; </td></tr>
-<tr class="memitem:afa611e565a510988372aeb5ba3de37b0"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#afa611e565a510988372aeb5ba3de37b0">applyChannelToImageData</a> (std::span&lt; std::byte &gt; imageData, std::span&lt; const std::byte &gt; channelData, auto P::*channel)</td></tr>
-<tr class="memdesc:afa611e565a510988372aeb5ba3de37b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Applies a single channel to the given image data.  <br /></td></tr>
-<tr class="separator:afa611e565a510988372aeb5ba3de37b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
 <a id="ac86b05f9f4f7148b3a4ea53c6bfd0409" name="ac86b05f9f4f7148b3a4ea53c6bfd0409"></a>
@@ -342,47 +341,6 @@ Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="afa611e565a510988372aeb5ba3de37b0" name="afa611e565a510988372aeb5ba3de37b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa611e565a510988372aeb5ba3de37b0">&#9670;&#160;</a></span>applyChannelToImageData()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;ImagePixel::PixelType P&gt; </div>
-      <table class="memname">
-        <tr>
-          <td class="memname">bool vtfpp::ImageConversion::applyChannelToImageData </td>
-          <td>(</td>
-          <td class="paramtype">std::span&lt; std::byte &gt;&#160;</td>
-          <td class="paramname"><em>imageData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
-          <td class="paramname"><em>channelData</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">auto P::*&#160;</td>
-          <td class="paramname"><em>channel</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Applies a single channel to the given image data. </p>
-<p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
-
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00427">427</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
-
-</div>
-</div>
 <a id="a0e35b062eaaf17c3235b7fb03b05e9bf" name="a0e35b062eaaf17c3235b7fb03b05e9bf"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a0e35b062eaaf17c3235b7fb03b05e9bf">&#9670;&#160;</a></span>convertFileToImageData()</h2>
 
@@ -761,7 +719,7 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Extracts a single channel from the given image data. </p>
 <p>May have unexpected behavior if called on formats that use bitfields like BGRA5551! Data is packed according to pixel channel C++ type size (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data) </p>
 
-<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00406">406</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../da/d01/ImageConversion_8h_source.html#l00409">409</a> of file <a class="el" href="../../da/d01/ImageConversion_8h_source.html">ImageConversion.h</a>.</p>
 
 </div>
 </div>
@@ -816,6 +774,50 @@ template&lt;ImagePixel::PixelType P&gt; </div>
 <p>Get the new image size given a resize method. </p>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01827">1827</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1188e5638ec1f0284f891627146d8147" name="a1188e5638ec1f0284f891627146d8147"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1188e5638ec1f0284f891627146d8147">&#9670;&#160;</a></span>invertGreenChannel()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; vtfpp::ImageConversion::invertGreenChannel </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
+          <td class="paramname"><em>imageData</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>height</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Invert the green channel. Meant for converting normal maps between OpenGL and DirectX formats. </p>
+
+<p class="definition">Definition at line <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html#l01935">1935</a> of file <a class="el" href="../../d4/df2/ImageConversion_8cpp_source.html">ImageConversion.cpp</a>.</p>
 
 </div>
 </div>
