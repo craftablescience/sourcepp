@@ -1951,7 +1951,7 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 		const auto maxSize = static_cast<float>((1 << channelSize) - 1);
 		std::array<uint8_t, 256> gammaLUT{};
 		for (int i = 0; i < gammaLUT.size(); i++) {
-			gammaLUT[i] = static_cast<uint8_t>(std::clamp(std::powf((static_cast<float>(i) + 0.5f) / maxSize, gamma_) * maxSize - 0.5f, 0.f, maxSize));
+			gammaLUT[i] = static_cast<uint8_t>(std::clamp(std::pow((static_cast<float>(i) + 0.5f) / maxSize, gamma_) * maxSize - 0.5f, 0.f, maxSize));
 		}
 		return gammaLUT;
 	};
