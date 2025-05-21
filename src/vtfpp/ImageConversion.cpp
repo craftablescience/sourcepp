@@ -427,9 +427,9 @@ namespace {
 		using enum ImageFormat;
 		VTFPP_CASE_CONVERT_AND_BREAK(ABGR8888,                {pixel.a, pixel.b, pixel.g, pixel.r});
 		VTFPP_CASE_CONVERT_AND_BREAK(RGB888,                  {pixel.r, pixel.g, pixel.b});
-		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_BLUESCREEN,       pixel.a < 0xff ? ImagePixel::RGB888_BLUESCREEN{pixel.r, pixel.g, pixel.b} : ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff});
+		VTFPP_CASE_CONVERT_AND_BREAK(RGB888_BLUESCREEN,       pixel.a == 0xff ? ImagePixel::RGB888_BLUESCREEN{pixel.r, pixel.g, pixel.b} : ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff});
 		VTFPP_CASE_CONVERT_AND_BREAK(BGR888,                  {pixel.b, pixel.g, pixel.r});
-		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN,       pixel.a < 0xff ? ImagePixel::BGR888_BLUESCREEN{pixel.b, pixel.g, pixel.r} : ImagePixel::BGR888_BLUESCREEN{0xff, 0, 0});
+		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN,       pixel.a == 0xff ? ImagePixel::BGR888_BLUESCREEN{pixel.b, pixel.g, pixel.r} : ImagePixel::BGR888_BLUESCREEN{0xff, 0, 0});
 		VTFPP_CASE_CONVERT_AND_BREAK(RGB565,                  {VTFPP_REMAP_FROM_8(pixel.r, 5), VTFPP_REMAP_FROM_8(pixel.g, 6), VTFPP_REMAP_FROM_8(pixel.b, 5)});
 		VTFPP_CASE_CONVERT_AND_BREAK(P8,                      {pixel.r});
 		VTFPP_CASE_CONVERT_AND_BREAK(I8,                      {pixel.r});
