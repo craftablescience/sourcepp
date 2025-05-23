@@ -6,5 +6,7 @@
  */
 
 #include "BSP.h"
+#include "EntityLump.h"
 #include "LumpData.h"
 #include "PakLump.h"
+#include "PakLumpXbox.h"
