@@ -21,6 +21,11 @@
 #endif
 
 #include <Compressonator.h>
+
+#define QOI_IMPLEMENTATION
+#define QOI_NO_STDIO
+#include <qoi.h>
+
 #include <sourcepp/Macros.h>
 #include <sourcepp/MathExtended.h>
 
@@ -1165,7 +1170,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 			break;
 		}
-		case FileFormat::JPEG: {
+		case FileFormat::JPG: {
 			if (format == ImageFormat::RGB888) {
 				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data(), 95);
 			} else {
@@ -1200,6 +1205,37 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
 				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), rgba.data());
 			}
+			break;
+		}
+		case FileFormat::QOI: {
+			qoi_desc descriptor{
+				.width = width,
+				.height = height,
+				.channels = 0,
+				.colorspace = QOI_SRGB,
+			};
+			void* qoiData = nullptr;
+			int qoiDataLen = 0;
+			if (format == ImageFormat::RGB888) {
+				descriptor.channels = 3;
+				qoiData = qoi_encode(imageData.data(), &descriptor, &qoiDataLen);
+			} else if (format == ImageFormat::RGBA8888) {
+				descriptor.channels = 4;
+				qoiData = qoi_encode(imageData.data(), &descriptor, &qoiDataLen);
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				descriptor.channels = 3;
+				qoiData = qoi_encode(rgb.data(), &descriptor, &qoiDataLen);
+			} else {
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				descriptor.channels = 4;
+				qoiData = qoi_encode(rgba.data(), &descriptor, &qoiDataLen);
+			}
+			if (qoiData && qoiDataLen) {
+				out.resize(qoiDataLen);
+				std::memcpy(out.data(), qoiData, qoiDataLen);
+			}
+			std::free(qoiData);
 			break;
 		}
 		case FileFormat::HDR: {
@@ -1737,6 +1773,27 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				}
 			}
 		}
+	}
+
+	// QOI header
+	if (fileData.size() >= 26 && *reinterpret_cast<const uint32_t*>(fileData.data()) == parser::binary::makeFourCC("fioq")) {
+		qoi_desc descriptor;
+		const ::stb_ptr<std::byte> qoiImage{
+			static_cast<std::byte*>(qoi_decode(fileData.data(), fileData.size(), &descriptor, 0)),
+			&std::free,
+		};
+		if (!qoiImage) {
+			return {};
+		}
+		width = descriptor.width;
+		height = descriptor.height;
+		channels = descriptor.channels;
+		switch (channels) {
+			case 3:  format = ImageFormat::RGB888;   break;
+			case 4:  format = ImageFormat::RGBA8888; break;
+			default: return {};
+		}
+		return {qoiImage.get(), qoiImage.get() + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
 	// 16-bit single-frame image

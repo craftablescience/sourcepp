@@ -22,3 +22,8 @@ cd minizip-ng
 git checkout develop
 git pull
 cd ..
+
+cd qoi
+git checkout master
+git pull
+cd ..

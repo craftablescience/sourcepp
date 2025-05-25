@@ -83,6 +83,11 @@ function(sourcepp_add_opencl TARGET)
 endfunction()
 
 
+# qoi
+add_library(sourcepp_qoi INTERFACE "${CMAKE_CURRENT_LIST_DIR}/qoi/qoi.h")
+target_include_directories(sourcepp_qoi INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/qoi>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+
+
 # stb
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
 

@@ -13,3 +13,6 @@
 [submodule "ext/minizip-ng"]
 	path = ext/minizip-ng
 	url = https://github.com/craftablescience/minizip-ng
+[submodule "ext/qoi"]
+	path = ext/qoi
+	url = https://github.com/phoboslab/qoi

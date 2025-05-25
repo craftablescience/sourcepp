@@ -24,3 +24,8 @@
   git checkout develop
   git pull
 )
+(
+  cd qoi || exit
+  git checkout master
+  git pull
+)

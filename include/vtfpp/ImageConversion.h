@@ -339,9 +339,10 @@ namespace ImageConversion {
 enum class FileFormat {
 	DEFAULT,
 	PNG,
-	JPEG,
+	JPG,
 	BMP,
 	TGA,
+	QOI,
 	HDR,
 	EXR,
 };

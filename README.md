@@ -266,11 +266,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="31"><code>vtfpp</code></td>
+    <td rowspan="33"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="31" align="center">C<br>Python</td>
+    <td rowspan="33" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -331,6 +331,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html">PSD</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://qoiformat.org">QOI</a></td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>

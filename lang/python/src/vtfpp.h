@@ -133,9 +133,10 @@ void register_python(py::module_& m) {
 		py::enum_<FileFormat>(ImageConversion, "FileFormat")
 			.value("DEFAULT", FileFormat::DEFAULT)
 			.value("PNG",     FileFormat::PNG)
-			.value("JPEG",    FileFormat::JPEG)
+			.value("JPG",     FileFormat::JPG)
 			.value("BMP",     FileFormat::BMP)
 			.value("TGA",     FileFormat::TGA)
+			.value("QOI",     FileFormat::QOI)
 			.value("HDR",     FileFormat::HDR)
 			.value("EXR",     FileFormat::EXR)
 			.export_values();
