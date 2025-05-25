@@ -1,5 +1,9 @@
 var NAVTREEINDEX21 =
 {
+"functions_q.html":[3,3,0,17],
+"functions_r.html":[3,3,0,18],
+"functions_rela.html":[3,3,6],
+"functions_s.html":[3,3,0,19],
 "functions_t.html":[3,3,0,20],
 "functions_type.html":[3,3,3],
 "functions_u.html":[3,3,0,21],

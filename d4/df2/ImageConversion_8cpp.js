@@ -1,5 +1,7 @@
 var ImageConversion_8cpp =
 [
+    [ "QOI_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#aade8b4dbc336c88d4ac4f0dd5615fa9c", null ],
+    [ "QOI_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a0dfc677e515463d1a7ea361dde423f1f", null ],
     [ "STB_IMAGE_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#a18372412ad2fc3ce1e3240b3cf0efe78", null ],
     [ "STB_IMAGE_RESIZE_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#aa6a7b41350a14f718b619164bc2b8fdf", null ],
     [ "STB_IMAGE_RESIZE_STATIC", "d4/df2/ImageConversion_8cpp.html#a24cc5fc010a392e6e332938bf374bd6f", null ],
