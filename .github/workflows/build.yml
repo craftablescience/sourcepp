@@ -28,14 +28,6 @@ jobs:
           arch: x64
           spectre: true
 
-      - name: Install Dependencies [macOS]
-        if: matrix.os == 'macos-latest'
-        run: brew install ninja
-
-      - name: Install Dependencies [Linux]
-        if: matrix.os == 'ubuntu-latest'
-        run: sudo apt update && sudo apt install -y ninja-build
-
       - name: Configure CMake
         run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
 
