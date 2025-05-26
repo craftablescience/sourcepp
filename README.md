@@ -398,6 +398,7 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 - `vpkpp`'s ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s VPP parser was contributed by [@erysdren](https://github.com/erysdren).
 - `vpkpp`'s WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
+- `vtfpp`'s NICE/Lanczos-3 resize filter support was contributed by [@koerismo](https://github.com/koerismo).
 - `vtfpp`'s SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
 - `vtfpp`'s VTF write support is loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
 - `vtfpp`'s HDRI to cubemap conversion code is modified from the [HdriToCubemap](https://github.com/ivarout/HdriToCubemap) library by [@ivarout](https://github.com/ivarout).
