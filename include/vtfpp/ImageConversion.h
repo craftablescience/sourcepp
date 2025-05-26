@@ -375,6 +375,8 @@ enum class ResizeFilter {
 
 	// User-defined
 	KAISER = 100,
+	/// Valve NICE filtering, equivalent to Lanczos-3
+	NICE = 101,
 };
 
 enum class ResizeMethod {
