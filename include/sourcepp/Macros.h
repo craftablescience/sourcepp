@@ -23,50 +23,50 @@
 #define SOURCEPP_UNIQUE_NAME(base) SOURCEPP_CONCAT(base, __LINE__)
 
 /// Defines bitwise operators for an enum or enum class
-#define SOURCEPP_BITFLAGS_ENUM(Enum)                                \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum operator|(Enum lhs, T rhs) {              \
-        return static_cast<Enum>(                                   \
-            static_cast<std::underlying_type_t<Enum>>(lhs) |        \
-            static_cast<std::underlying_type_t<Enum>>(rhs));        \
-    }                                                               \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum operator&(Enum lhs, T rhs) {              \
-        return static_cast<Enum>(                                   \
-            static_cast<std::underlying_type_t<Enum>>(lhs) &        \
-            static_cast<std::underlying_type_t<Enum>>(rhs));        \
-    }                                                               \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum operator^(Enum lhs, T rhs) {              \
-        return static_cast<Enum>(                                   \
-            static_cast<std::underlying_type_t<Enum>>(lhs) ^        \
-            static_cast<std::underlying_type_t<Enum>>(rhs));        \
-    }                                                               \
-    constexpr inline Enum operator~(Enum e) {                       \
-        return static_cast<Enum>(                                   \
-            ~static_cast<std::underlying_type_t<Enum>>(e));         \
-    }                                                               \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum& operator|=(Enum& lhs, T rhs) {           \
-        return lhs = static_cast<Enum>(                             \
-                   static_cast<std::underlying_type_t<Enum>>(lhs) | \
-                   static_cast<std::underlying_type_t<Enum>>(rhs)); \
-    }                                                               \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum& operator&=(Enum& lhs, T rhs) {           \
-        return lhs = static_cast<Enum>(                             \
-                   static_cast<std::underlying_type_t<Enum>>(lhs) & \
-                   static_cast<std::underlying_type_t<Enum>>(rhs)); \
-    }                                                               \
-    template<typename T>                                            \
-	requires std::is_same_v<T, Enum> || std::is_integral_v<T>       \
-    constexpr inline Enum& operator^=(Enum& lhs, T rhs) {           \
-        return lhs = static_cast<Enum>(                             \
-                   static_cast<std::underlying_type_t<Enum>>(lhs) ^ \
-                   static_cast<std::underlying_type_t<Enum>>(rhs)); \
+#define SOURCEPP_BITFLAGS_ENUM(Enum)                          \
+	template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+	inline constexpr Enum operator|(Enum lhs, T rhs) {        \
+		return static_cast<Enum>(                             \
+			static_cast<std::underlying_type_t<Enum>>(lhs) |  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
+	}                                                         \
+	template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+	inline constexpr Enum operator&(Enum lhs, T rhs) {        \
+		return static_cast<Enum>(                             \
+			static_cast<std::underlying_type_t<Enum>>(lhs) &  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
+	}                                                         \
+	template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+    inline constexpr Enum operator^(Enum lhs, T rhs) {        \
+		return static_cast<Enum>(                             \
+			static_cast<std::underlying_type_t<Enum>>(lhs) ^  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
+    }                                                         \
+    inline constexpr Enum operator~(Enum e) {                 \
+		return static_cast<Enum>(                             \
+			~static_cast<std::underlying_type_t<Enum>>(e));   \
+    }                                                         \
+    template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+    inline constexpr Enum& operator|=(Enum& lhs, T rhs) {     \
+		return lhs = static_cast<Enum>(                       \
+			static_cast<std::underlying_type_t<Enum>>(lhs) |  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
+    }                                                         \
+    template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+    inline constexpr Enum& operator&=(Enum& lhs, T rhs) {     \
+		return lhs = static_cast<Enum>(                       \
+			static_cast<std::underlying_type_t<Enum>>(lhs) &  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
+    }                                                         \
+    template<typename T>                                      \
+	requires std::is_same_v<T, Enum> || std::is_integral_v<T> \
+    inline constexpr Enum& operator^=(Enum& lhs, T rhs) {     \
+		return lhs = static_cast<Enum>(                       \
+			static_cast<std::underlying_type_t<Enum>>(lhs) ^  \
+			static_cast<std::underlying_type_t<Enum>>(rhs));  \
     }

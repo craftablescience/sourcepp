@@ -693,7 +693,7 @@ void VTF::setMinorVersion(uint32_t newMinorVersion) {
 		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->sliceCount);
 	}
 	if (this->minorVersion <= 3 && newMinorVersion > 3) {
-		this->flags &= ~VTF::FLAG_MASK_AFTER_V7_3;
+		this->flags &= static_cast<VTF::Flags>(~VTF::FLAG_MASK_AFTER_V7_3);
 		if (this->flags & VTF::FLAG_PWL_CORRECTED) {
 			this->flags &= ~VTF::FLAG_PWL_CORRECTED;
 			this->flags |= VTF::FLAG_SRGB;
@@ -702,7 +702,7 @@ void VTF::setMinorVersion(uint32_t newMinorVersion) {
 		if (this->flags & VTF::FLAG_SRGB) {
 			this->flags |= VTF::FLAG_PWL_CORRECTED;
 		}
-		this->flags &= ~VTF::FLAG_MASK_AFTER_V7_3;
+		this->flags &= static_cast<VTF::Flags>(~VTF::FLAG_MASK_AFTER_V7_3);
 	}
 	this->minorVersion = newMinorVersion;
 }
