@@ -852,17 +852,17 @@ void convertHDRIToCubeMapCPUFallback(std::span<const float> imageDataRGBA3232323
 		for (int row = 0; row < resolution; row++) {
 			for (int col = 0; col < resolution; col++) {
 				math::Vec3f pixelDirection3d{
-					start[0] + ((float) col * 2.f + 0.5f) / (float) resolution * right[0] + ((float) row * 2.f + 0.5f) / (float) resolution * up[0],
-					start[1] + ((float) col * 2.f + 0.5f) / (float) resolution * right[1] + ((float) row * 2.f + 0.5f) / (float) resolution * up[1],
-					start[2] + ((float) col * 2.f + 0.5f) / (float) resolution * right[2] + ((float) row * 2.f + 0.5f) / (float) resolution * up[2],
+					start[0] + (static_cast<float>(col) * 2.f + 0.5f) / static_cast<float>(resolution) * right[0] + (static_cast<float>(row) * 2.f + 0.5f) / static_cast<float>(resolution) * up[0],
+					start[1] + (static_cast<float>(col) * 2.f + 0.5f) / static_cast<float>(resolution) * right[1] + (static_cast<float>(row) * 2.f + 0.5f) / static_cast<float>(resolution) * up[1],
+					start[2] + (static_cast<float>(col) * 2.f + 0.5f) / static_cast<float>(resolution) * right[2] + (static_cast<float>(row) * 2.f + 0.5f) / static_cast<float>(resolution) * up[2],
 				};
 				float azimuth = std::atan2(pixelDirection3d[0], -pixelDirection3d[2]) + math::pi_f32; // add pi to move range to 0-360 deg
 				float elevation = std::atan(pixelDirection3d[1] / std::sqrt(pixelDirection3d[0] * pixelDirection3d[0] + pixelDirection3d[2] * pixelDirection3d[2])) + math::pi_f32 / 2.f;
-				float colHdri = (azimuth / math::pi_f32 / 2.f) * (float) width; // add pi to azimuth to move range to 0-360 deg
-				float rowHdri = (elevation / math::pi_f32) * (float) height;
+				float colHdri = (azimuth / math::pi_f32 / 2.f) * static_cast<float>(width); // add pi to azimuth to move range to 0-360 deg
+				float rowHdri = (elevation / math::pi_f32) * static_cast<float>(height);
 				if (!bilinear) {
-					int colNearest = std::clamp((int) colHdri, 0, width - 1);
-					int rowNearest = std::clamp((int) rowHdri, 0, height - 1);
+					int colNearest = std::clamp(static_cast<int>(colHdri), 0, width - 1);
+					int rowNearest = std::clamp(static_cast<int>(rowHdri), 0, height - 1);
 					face[col * 4 + resolution * row * 4 + 0] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 0];
 					face[col * 4 + resolution * row * 4 + 1] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 1];
 					face[col * 4 + resolution * row * 4 + 2] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 2];
@@ -900,13 +900,11 @@ void convertHDRIToCubeMapCPUFallback(std::span<const float> imageDataRGBA3232323
 					float f3 = (1 - factorRow) * factorCol;
 					float f4 = factorRow * factorCol;
 					for (int j = 0; j < 4; j++) {
-						auto interpolatedValue = static_cast<uint8_t>(
-							face[low_idx_column * 4  + width * low_idx_row  * 4 + j] * f1 +
-							face[low_idx_column * 4  + width * high_idx_row * 4 + j] * f2 +
-							face[high_idx_column * 4 + width * low_idx_row  * 4 + j] * f3 +
-							face[high_idx_column * 4 + width * high_idx_row * 4 + j] * f4
-						);
-						face[col * 4 + resolution * row * 4 + j] = std::clamp<uint8_t>(interpolatedValue, 0, 255);
+						face[col * 4 + resolution * row * 4 + j] =
+							imageDataRGBA32323232F[low_idx_column  * 4 + width * low_idx_row  * 4 + j] * f1 +
+							imageDataRGBA32323232F[low_idx_column  * 4 + width * high_idx_row * 4 + j] * f2 +
+							imageDataRGBA32323232F[high_idx_column * 4 + width * low_idx_row  * 4 + j] * f3 +
+							imageDataRGBA32323232F[high_idx_column * 4 + width * high_idx_row * 4 + j] * f4;
 					}
 				}
 			}
