@@ -5,7 +5,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
-#include <future>
 #include <memory>
 #include <span>
 #include <string_view>
@@ -13,6 +12,10 @@
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 #include <execution>
+#endif
+
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+#include <future>
 #endif
 
 #include <Compressonator.h>
@@ -970,7 +973,11 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 
 	std::array<std::vector<std::byte>, 6> faceData;
 
+#ifdef SOURCEPP_BUILD_WITH_THREADS
 	const auto faceExtraction = [&](int i) {
+#else
+	for (int i = 0; i < faceData.size(); i++) {
+#endif
 		const auto start = startRightUp[i][0];
 		const auto right = startRightUp[i][1];
 		const auto up    = startRightUp[i][2];
@@ -1041,8 +1048,9 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		if (format != ImageFormat::RGBA32323232F) {
 			faceData[i] = convertImageDataToFormat(faceData[i], ImageFormat::RGBA32323232F, format, resolution, resolution);
 		}
-	};
-
+	}
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+	;
 	std::array<std::future<void>, 6> faceFutures{
 		std::async(std::launch::async, faceExtraction, 0),
 		std::async(std::launch::async, faceExtraction, 1),
@@ -1054,6 +1062,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 	for (auto& future : faceFutures) {
 		future.get();
 	}
+#endif
 
 	return faceData;
 }
