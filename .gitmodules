@@ -7,6 +7,9 @@
 [submodule "ext/hat-trie"]
 	path = ext/hat-trie
 	url = https://github.com/Tessil/hat-trie
+[submodule "ext/libwebp"]
+	path = ext/libwebp
+	url = https://github.com/webmproject/libwebp
 [submodule "ext/miniz"]
 	path = ext/miniz
 	url = https://github.com/richgel999/miniz
