@@ -474,7 +474,7 @@ void register_python(py::module_& m) {
 		.def("add_flags", &VTF::addFlags, py::arg("flags"))
 		.def("remove_flags", &VTF::removeFlags, py::arg("flags"))
 		.def("compute_transparency_flags", &VTF::computeTransparencyFlags)
-		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, py::arg("input_format"), py::arg("major_version"), py::arg("minor_version"))
+		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, py::arg("input_format"), py::arg("major_version"), py::arg("minor_version"), py::arg("is_cubemap"))
 		.def_prop_ro("format", &VTF::getFormat)
 		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)

@@ -272,8 +272,8 @@ SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle
 	Convert::vtf(handle)->computeTransparencyFlags();
 }
 
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion) {
-	return Convert::imageFormat(VTF::getDefaultCompressedFormat(Convert::imageFormat(inputFormat), majorVersion, minorVersion));
+SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion, int isCubeMap) {
+	return Convert::imageFormat(VTF::getDefaultCompressedFormat(Convert::imageFormat(inputFormat), majorVersion, minorVersion, isCubeMap));
 }
 
 SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle) {
@@ -330,10 +330,10 @@ SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle) {
 	return Convert::vtf(handle)->getFaceCount();
 }
 
-SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubemap) {
+SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::vtf(handle)->setFaceCount(isCubemap);
+	return Convert::vtf(handle)->setFaceCount(isCubeMap);
 }
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_slice_count(vtfpp_vtf_handle_t handle) {
@@ -348,10 +348,10 @@ SOURCEPP_API int vtfpp_vtf_set_slice_count(vtfpp_vtf_handle_t handle, uint16_t s
 	return Convert::vtf(handle)->setSliceCount(sliceCount);
 }
 
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubemap, uint16_t sliceCount) {
+SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t sliceCount) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::vtf(handle)->setFrameFaceAndSliceCount(frameCount, isCubemap, sliceCount);
+	return Convert::vtf(handle)->setFrameFaceAndSliceCount(frameCount, isCubeMap, sliceCount);
 }
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle) {

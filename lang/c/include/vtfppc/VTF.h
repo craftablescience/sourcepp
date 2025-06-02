@@ -234,7 +234,7 @@ SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_fl
 
 SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion);
+SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion, int isCubeMap);
 
 SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
 
@@ -254,13 +254,13 @@ SOURCEPP_API int vtfpp_vtf_set_frame_count(vtfpp_vtf_handle_t handle, uint16_t f
 
 SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubemap);
+SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_slice_count(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API int vtfpp_vtf_set_slice_count(vtfpp_vtf_handle_t handle, uint16_t sliceCount);
 
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubemap, uint16_t sliceCount);
+SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t sliceCount);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
 

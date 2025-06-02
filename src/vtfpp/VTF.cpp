@@ -563,7 +563,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
 		options.outputFormat = writer.getFormat();
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
-		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getMajorVersion(), writer.getMinorVersion());
+		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getMajorVersion(), writer.getMinorVersion(), options.isCubeMap);
 	}
 	if (options.computeTransparencyFlags) {
 		writer.computeTransparencyFlags();
@@ -802,8 +802,11 @@ void VTF::computeTransparencyFlags() {
 	}
 }
 
-ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion) {
+ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion, bool isCubeMap) {
 	if (inputFormat != ImageFormat::EMPTY) {
+		if (majorVersion >= 7 && minorVersion >= 6 && isCubeMap) {
+			return ImageFormat::BC6H;
+		}
 		if (ImageFormatDetails::decompressedAlpha(inputFormat) > 0) {
 			if (majorVersion >= 7 && minorVersion >= 6) {
 				return ImageFormat::BC7;
@@ -823,7 +826,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		return;
 	}
 	if (newFormat == VTF::FORMAT_DEFAULT) {
-		newFormat = VTF::getDefaultCompressedFormat(this->format, this->majorVersion, this->minorVersion);
+		newFormat = VTF::getDefaultCompressedFormat(this->format, this->majorVersion, this->minorVersion, this->getFaceCount() > 1);
 	}
 	if (!this->hasImageData()) {
 		this->format = newFormat;

@@ -274,7 +274,7 @@ public:
 
 	void computeTransparencyFlags();
 
-	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion);
+	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion, bool isCubeMap);
 
 	[[nodiscard]] ImageFormat getFormat() const;
 
@@ -294,13 +294,13 @@ public:
 
 	[[nodiscard]] uint8_t getFaceCount() const;
 
-	bool setFaceCount(bool isCubemap);
+	bool setFaceCount(bool isCubeMap);
 
 	[[nodiscard]] uint16_t getSliceCount() const;
 
 	bool setSliceCount(uint16_t newSliceCount);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubeMap, uint16_t newSliceCount = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
