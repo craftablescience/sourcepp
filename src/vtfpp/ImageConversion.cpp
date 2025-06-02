@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
+#include <future>
 #include <memory>
 #include <span>
 #include <string_view>
@@ -969,7 +970,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 
 	std::array<std::vector<std::byte>, 6> faceData;
 
-	for (int i = 0; i < 6; i++) {
+	const auto faceExtraction = [&](int i) {
 		const auto start = startRightUp[i][0];
 		const auto right = startRightUp[i][1];
 		const auto up    = startRightUp[i][2];
@@ -1040,6 +1041,18 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		if (format != ImageFormat::RGBA32323232F) {
 			faceData[i] = convertImageDataToFormat(faceData[i], ImageFormat::RGBA32323232F, format, resolution, resolution);
 		}
+	};
+
+	std::array<std::future<void>, 6> faceFutures{
+		std::async(std::launch::async, faceExtraction, 0),
+		std::async(std::launch::async, faceExtraction, 1),
+		std::async(std::launch::async, faceExtraction, 2),
+		std::async(std::launch::async, faceExtraction, 3),
+		std::async(std::launch::async, faceExtraction, 4),
+		std::async(std::launch::async, faceExtraction, 5),
+	};
+	for (auto& future : faceFutures) {
+		future.get();
 	}
 
 	return faceData;
