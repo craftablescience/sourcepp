@@ -548,7 +548,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setPlatform(options.platform);
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		if (!writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.hasSphereMap, options.initialSliceCount)) {
+		if (!writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.initialSliceCount)) {
 			out = false;
 		}
 	}
@@ -953,11 +953,11 @@ uint8_t VTF::getFaceCount() const {
 	return 1;
 }
 
-bool VTF::setFaceCount(bool isCubemap, bool hasSphereMap) {
+bool VTF::setFaceCount(bool isCubemap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4 && hasSphereMap) ? 7 : 6) : 1, this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4) ? 7 : 6) : 1, this->sliceCount);
 	return true;
 }
 
@@ -973,11 +973,11 @@ bool VTF::setSliceCount(uint16_t newSliceCount) {
 	return true;
 }
 
-bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, bool hasSphereMap, uint16_t newSliceCount) {
+bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, uint16_t newSliceCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4 && hasSphereMap) ? 7 : 6) : 1, newSliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4) ? 7 : 6) : 1, newSliceCount);
 	return true;
 }
 

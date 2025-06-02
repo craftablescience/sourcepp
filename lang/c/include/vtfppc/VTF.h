@@ -100,7 +100,6 @@ typedef struct {
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
 	int isCubeMap;
-	int hasSphereMap;
 	uint16_t initialSliceCount;
 	int computeTransparencyFlags;
 	int computeMips;
@@ -255,13 +254,13 @@ SOURCEPP_API int vtfpp_vtf_set_frame_count(vtfpp_vtf_handle_t handle, uint16_t f
 
 SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubemap, int hasSphereMap);
+SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubemap);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_slice_count(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API int vtfpp_vtf_set_slice_count(vtfpp_vtf_handle_t handle, uint16_t sliceCount);
 
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubemap, int hasSphereMap, uint16_t sliceCount);
+SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubemap, uint16_t sliceCount);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
 

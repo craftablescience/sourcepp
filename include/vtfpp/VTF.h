@@ -185,7 +185,6 @@ public:
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
 		bool isCubeMap = false;
-		bool hasSphereMap = false;
 		uint16_t initialSliceCount = 1;
 		bool computeTransparencyFlags = true;
 		bool computeMips = true;
@@ -295,13 +294,13 @@ public:
 
 	[[nodiscard]] uint8_t getFaceCount() const;
 
-	bool setFaceCount(bool isCubemap, bool hasSphereMap = false);
+	bool setFaceCount(bool isCubemap);
 
 	[[nodiscard]] uint16_t getSliceCount() const;
 
 	bool setSliceCount(uint16_t newSliceCount);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, bool hasSphereMap = false, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, uint16_t newSliceCount = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
