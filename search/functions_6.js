@@ -50,7 +50,7 @@ var searchData=
   ['getdatalength_47',['getDataLength',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad',1,'vtfpp::ImageFormatDetails::getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount=1)'],['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a708dc57f5c69e5ed309f780548df41b6',1,'vtfpp::ImageFormatDetails::getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount=1)']]],
   ['getdataposition_48',['getDataPosition',['../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aa00fc65d120a4ed1710f96e3965aaff1',1,'vtfpp::ImageFormatDetails']]],
   ['getdecodedsamplecount_49',['getDecodedSampleCount',['../d9/d12/classsndpp_1_1XWV.html#af494cbe2d783c1982866a97ca48d488d',1,'sndpp::XWV']]],
-  ['getdefaultcompressedformat_50',['getDefaultCompressedFormat',['../d8/df2/classvtfpp_1_1VTF.html#a1df02b22892de727d7429368825a5882',1,'vtfpp::VTF']]],
+  ['getdefaultcompressedformat_50',['getDefaultCompressedFormat',['../d8/df2/classvtfpp_1_1VTF.html#adfe416d7b1c74867d4844c6874a407df',1,'vtfpp::VTF']]],
   ['getdefaultfileformatforimageformat_51',['getDefaultFileFormatForImageFormat',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a6bbe3db800f111c09ce579e0b9d4a37e',1,'vtfpp::ImageConversion']]],
   ['getelements_52',['getElements',['../d1/d5f/classdmxpp_1_1DMX.html#a719f74bfdbf8ede25e19ad1ea203c7eb',1,'dmxpp::DMX']]],
   ['getencodingtype_53',['getEncodingType',['../d1/d5f/classdmxpp_1_1DMX.html#abd2f692503e98e666fccf3f3795b7e6d',1,'dmxpp::DMX']]],

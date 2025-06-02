@@ -83,7 +83,7 @@ var NAVTREEINDEX =
 "d6/d21/structsourcepp_1_1math_1_1Vec.html#ab37372ee9c117c397d044efdd35f2a5e",
 "d7/d6a/RSA_8h.html#a0a4ed283db62e7c750a5085db1a60ee6",
 "d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397",
-"d8/df2/classvtfpp_1_1VTF.html#a6c0645b2b8dd4271c4a5ad0bab6b4284",
+"d8/df2/classvtfpp_1_1VTF.html#a6c3c9989a6f44a35dbd9bb4b776909b5",
 "d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01",
 "d9/dba/String_8h.html#aaf798c726dd8f8fca2ad6bdc72e6e1f7",
 "da/de7/classvpkpp_1_1ZIP.html#a3d6bf2cd919a565ac29ac6308610c614",

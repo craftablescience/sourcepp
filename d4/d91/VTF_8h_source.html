@@ -400,7 +400,7 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00274" name="l00274"></a><span class="lineno">  274</span> </div>
 <div class="line"><a id="l00275" name="l00275"></a><span class="lineno">  275</span>    <span class="keywordtype">void</span> computeTransparencyFlags();</div>
 <div class="line"><a id="l00276" name="l00276"></a><span class="lineno">  276</span> </div>
-<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    [[nodiscard]] static <a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> getDefaultCompressedFormat(<a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> inputFormat, uint32_t majorVersion, uint32_t minorVersion);</div>
+<div class="line"><a id="l00277" name="l00277"></a><span class="lineno">  277</span>    [[nodiscard]] static <a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> getDefaultCompressedFormat(<a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> inputFormat, uint32_t majorVersion, uint32_t minorVersion, <span class="keywordtype">bool</span> isCubeMap);</div>
 <div class="line"><a id="l00278" name="l00278"></a><span class="lineno">  278</span> </div>
 <div class="line"><a id="l00279" name="l00279"></a><span class="lineno">  279</span>    [[nodiscard]] <a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> getFormat() const;</div>
 <div class="line"><a id="l00280" name="l00280"></a><span class="lineno">  280</span> </div>
@@ -420,13 +420,13 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00294" name="l00294"></a><span class="lineno">  294</span> </div>
 <div class="line"><a id="l00295" name="l00295"></a><span class="lineno">  295</span>    [[nodiscard]] uint8_t getFaceCount() const;</div>
 <div class="line"><a id="l00296" name="l00296"></a><span class="lineno">  296</span> </div>
-<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    <span class="keywordtype">bool</span> setFaceCount(<span class="keywordtype">bool</span> isCubemap);</div>
+<div class="line"><a id="l00297" name="l00297"></a><span class="lineno">  297</span>    <span class="keywordtype">bool</span> setFaceCount(<span class="keywordtype">bool</span> isCubeMap);</div>
 <div class="line"><a id="l00298" name="l00298"></a><span class="lineno">  298</span> </div>
 <div class="line"><a id="l00299" name="l00299"></a><span class="lineno">  299</span>    [[nodiscard]] uint16_t getSliceCount() const;</div>
 <div class="line"><a id="l00300" name="l00300"></a><span class="lineno">  300</span> </div>
 <div class="line"><a id="l00301" name="l00301"></a><span class="lineno">  301</span>    <span class="keywordtype">bool</span> setSliceCount(uint16_t newSliceCount);</div>
 <div class="line"><a id="l00302" name="l00302"></a><span class="lineno">  302</span> </div>
-<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordtype">bool</span> setFrameFaceAndSliceCount(uint16_t newFrameCount, <span class="keywordtype">bool</span> isCubemap, uint16_t newSliceCount = 1);</div>
+<div class="line"><a id="l00303" name="l00303"></a><span class="lineno">  303</span>    <span class="keywordtype">bool</span> setFrameFaceAndSliceCount(uint16_t newFrameCount, <span class="keywordtype">bool</span> isCubeMap, uint16_t newSliceCount = 1);</div>
 <div class="line"><a id="l00304" name="l00304"></a><span class="lineno">  304</span> </div>
 <div class="line"><a id="l00305" name="l00305"></a><span class="lineno">  305</span>    [[nodiscard]] uint16_t getStartFrame() const;</div>
 <div class="line"><a id="l00306" name="l00306"></a><span class="lineno">  306</span> </div>
