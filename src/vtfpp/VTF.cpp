@@ -547,6 +547,9 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		}
 	}
 	writer.setPlatform(options.platform);
+	if (options.computeReflectivity) {
+		writer.computeReflectivity();
+	}
 	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
 		if (!writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.initialSliceCount)) {
 			out = false;
@@ -570,9 +573,6 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 			out = false;
 		}
 		writer.computeMips(options.filter);
-	}
-	if (options.computeReflectivity) {
-		writer.computeReflectivity();
 	}
 	writer.setFormat(options.outputFormat);
 	writer.setCompressionLevel(options.compressionLevel);
