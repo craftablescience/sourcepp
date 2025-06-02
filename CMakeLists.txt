@@ -33,7 +33,6 @@ option(SOURCEPP_BUILD_BENCHMARKS      "Build benchmarks for supported libraries"
 option(SOURCEPP_BUILD_C_WRAPPERS      "Build C wrappers for supported libraries"      OFF)
 option(SOURCEPP_BUILD_CSHARP_WRAPPERS "Build C# wrappers for supported libraries"     OFF)
 option(SOURCEPP_BUILD_PYTHON_WRAPPERS "Build Python wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_WITH_OPENCL     "Build with support for GPU compute"            OFF)
 option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"         OFF)
 option(SOURCEPP_BUILD_WITH_THREADS    "Build with support for threading"               ON)
 option(SOURCEPP_BUILD_TESTS           "Build tests for supported libraries"           OFF)
@@ -273,6 +272,6 @@ endif()
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_OPENCL BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT
+        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT
         LINK_STATIC_MSVC_RUNTIME
         VPKPP_SUPPORT_VPK_V54)

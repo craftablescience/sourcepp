@@ -67,22 +67,6 @@ if(NOT TARGET MINIZIP::minizip)
 endif()
 
 
-# OpenCL
-if(SOURCEPP_BUILD_WITH_OPENCL AND NOT TARGET OpenCL::OpenCL)
-    find_package(OpenCL)
-    if(NOT OpenCL_FOUND)
-        set(SOURCEPP_BUILD_WITH_OPENCL OFF CACHE INTERNAL "" FORCE)
-    endif()
-endif()
-
-function(sourcepp_add_opencl TARGET)
-    if(SOURCEPP_BUILD_WITH_OPENCL)
-        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_OPENCL)
-        target_link_libraries(${TARGET} PRIVATE OpenCL::OpenCL)
-    endif()
-endfunction()
-
-
 # qoi
 add_library(sourcepp_qoi INTERFACE "${CMAKE_CURRENT_LIST_DIR}/qoi/qoi.h")
 target_include_directories(sourcepp_qoi INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/qoi>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
