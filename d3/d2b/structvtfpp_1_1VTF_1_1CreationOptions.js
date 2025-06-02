@@ -10,7 +10,6 @@ var structvtfpp_1_1VTF_1_1CreationOptions =
     [ "filter", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abc68ffca02d11580254d524c59cecfd2", null ],
     [ "flags", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac04b371682934a1c017f2b84b3dcf4df", null ],
     [ "gammaCorrection", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#afdcc69ba4d0980975acc067499df0c9c", null ],
-    [ "hasSphereMap", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#aaaa3470e5cd06c175d5a2a98e769f2b8", null ],
     [ "heightResizeMethod", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac26ed8e6bcb15408c99d8562f63374b7", null ],
     [ "initialFrameCount", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a12cf74165936d5f2ff1239aa00a0afd3", null ],
     [ "initialSliceCount", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a4689cf620be30181df735192656d861c", null ],
