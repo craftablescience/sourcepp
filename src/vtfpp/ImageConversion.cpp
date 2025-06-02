@@ -1011,7 +1011,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 					int low_idx_row = static_cast<int>(intRow);
 					int low_idx_column = static_cast<int>(intCol);
 					int high_idx_column;
-					if (factorCol < 0.0f) {
+					if (factorCol < 0.f) {
 						// modf can only give a negative value if the azimuth falls in the first pixel, left of the
 						// center, so we have to mix with the pixel on the opposite side of the panoramic image
 						high_idx_column = width - 1;
@@ -1022,10 +1022,9 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 						high_idx_column = low_idx_column + 1;
 					}
 					int high_idx_row;
-					if (factorRow < 0.0f) {
-						high_idx_row = height - 1;
-					} else if (low_idx_row == height - 1) {
-						high_idx_row = 0;
+					if (factorRow < 0.f || low_idx_row == height - 1) {
+						high_idx_row = low_idx_row;
+						factorRow = 0.f;
 					} else {
 						high_idx_row = low_idx_row + 1;
 					}
