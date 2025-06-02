@@ -946,6 +946,11 @@ uint8_t VTF::getFaceCount() const {
 	if (!(this->flags & VTF::FLAG_ENVMAP)) {
 		return 1;
 	}
+	if (this->minorVersion >= 6) {
+		// All v7.6 VTFs are sane, and we need this special case to fix a bug in the parser where
+		// it won't recognize cubemaps as cubemaps because the image resource is compressed!
+		return 6;
+	}
 	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->sliceCount);
 	if (this->majorVersion == 7 && this->minorVersion >= 1 && this->minorVersion <= 4 && expectedLength < image->data.size()) {
 		return 7;
