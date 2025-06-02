@@ -342,6 +342,7 @@ enum class FileFormat {
 	JPG,
 	BMP,
 	TGA,
+	WEBP,
 	QOI,
 	HDR,
 	EXR,

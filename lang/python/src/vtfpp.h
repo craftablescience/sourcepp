@@ -136,6 +136,7 @@ void register_python(py::module_& m) {
 			.value("JPG",     FileFormat::JPG)
 			.value("BMP",     FileFormat::BMP)
 			.value("TGA",     FileFormat::TGA)
+			.value("WEBP",    FileFormat::WEBP)
 			.value("QOI",     FileFormat::QOI)
 			.value("HDR",     FileFormat::HDR)
 			.value("EXR",     FileFormat::EXR)

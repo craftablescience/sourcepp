@@ -266,11 +266,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="33"><code>vtfpp</code></td>
+    <td rowspan="35"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="33" align="center">C<br>Python</td>
+    <td rowspan="35" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -371,6 +371,12 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
       <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> X360, PS3 (Orange Box)
       <br> &bull; PS3 (Portal 2, CS:GO) modifications
     </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://developers.google.com/speed/webp">WebP</a></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

@@ -50,6 +50,9 @@
 #endif
 #include <tinyexr.h>
 
+#include <webp/decode.h>
+#include <webp/encode.h>
+
 using namespace sourcepp;
 using namespace vtfpp;
 
@@ -1135,6 +1138,53 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 			break;
 		}
+		case FileFormat::WEBP: {
+			WebPConfig config;
+			WebPConfigInit(&config);
+			WebPConfigPreset(&config, WEBP_PRESET_DRAWING, 75.f);
+			WebPConfigLosslessPreset(&config, 6);
+
+			WebPPicture pic;
+			if (!WebPPictureInit(&pic)) {
+				return {};
+			}
+			pic.width = width;
+			pic.height = height;
+			if (!WebPPictureAlloc(&pic)) {
+				return {};
+			}
+
+			if (format == ImageFormat::RGB888) {
+				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixel::RGB888)));
+			} else if (format == ImageFormat::RGBA8888) {
+				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixel::RGBA8888)));
+			} else if (ImageFormatDetails::opaque(format)) {
+				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(rgb.data()), static_cast<int>(width * sizeof(ImagePixel::RGB888)));
+			} else {
+				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(rgba.data()), static_cast<int>(width * sizeof(ImagePixel::RGBA8888)));
+			}
+
+			WebPMemoryWriter writer;
+			WebPMemoryWriterInit(&writer);
+			pic.writer = &WebPMemoryWrite;
+			pic.custom_ptr = &writer;
+
+			int ok = WebPEncode(&config, &pic);
+			WebPPictureFree(&pic);
+			if (!ok) {
+				WebPMemoryWriterClear(&writer);
+				return {};
+			}
+
+			if (writer.mem && writer.size) {
+				out.resize(writer.size);
+				std::memcpy(out.data(), writer.mem, writer.size);
+			}
+			WebPMemoryWriterClear(&writer);
+			break;
+		}
 		case FileFormat::QOI: {
 			qoi_desc descriptor{
 				.width = width,
@@ -1501,8 +1551,32 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
+	// WebP
+	if (WebPBitstreamFeatures features; fileData.size() > 12 && static_cast<char>(fileData[8]) == 'W' && static_cast<char>(fileData[9]) == 'E' && static_cast<char>(fileData[10]) == 'B' && static_cast<char>(fileData[11]) == 'P' && WebPGetFeatures(reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size(), &features) == VP8_STATUS_OK) {
+		width = features.width;
+		height = features.height;
+		// We don't process animated WebP right now
+		frameCount = 1;
+
+		std::vector<std::byte> out;
+		if (features.has_alpha) {
+			format = ImageFormat::RGBA8888;
+			out.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+			if (!WebPDecodeRGBAInto(reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size(), reinterpret_cast<uint8_t*>(out.data()), out.size(), width * (ImageFormatDetails::bpp(format) / 8))) {
+				return {};
+			}
+		} else {
+			format = ImageFormat::RGB888;
+			out.resize(width * height * (ImageFormatDetails::bpp(format) / 8));
+			if (!WebPDecodeRGBInto(reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size(), reinterpret_cast<uint8_t*>(out.data()), out.size(), width * (ImageFormatDetails::bpp(format) / 8))) {
+				return {};
+			}
+		}
+		return out;
+	}
+
 	// GIF
-	if (fileData.size() >= 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
+	if (fileData.size() > 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
 		const ::stb_ptr<stbi_uc> stbImage{
 			stbi_load_gif_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()), nullptr, &width, &height, &frameCount, &channels, 0),
 			&stbi_image_free,
