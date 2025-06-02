@@ -1040,12 +1040,12 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 	// For each face, contains the 3d starting point (corresponding to left bottom pixel), right direction,
 	// and up direction in 3d space, corresponding to pixel x,y coordinates of each face
 	static constexpr std::array<std::array<math::Vec3f, 3>, 6> startRightUp = {{
-		{{{-1.0f, -1.0f, -1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 1.0f,  0.0f}}}, // front
-		{{{ 1.0f, -1.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}, {0.0f, 1.0f,  0.0f}}}, // back
-		{{{-1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, {0.0f, 1.0f,  0.0f}}}, // left
-		{{{ 1.0f, -1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, {0.0f, 1.0f,  0.0f}}}, // right
-		{{{-1.0f,  1.0f, -1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 0.0f,  1.0f}}}, // up
-		{{{-1.0f, -1.0f,  1.0f}, { 1.0f, 0.0f,  0.0f}, {0.0f, 0.0f, -1.0f}}}, // down
+		{{{ 1.0f, -1.0f, -1.0f}, { 0.0f, 1.0f,  0.0f}, {-1.0f, 0.0f,  0.0f}}}, // front
+		{{{ 1.0f,  1.0f,  1.0f}, { 0.0f,-1.0f,  0.0f}, {-1.0f, 0.0f,  0.0f}}}, // back
+		{{{ 1.0f,  1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, { 0.0f,-1.0f,  0.0f}}}, // right
+		{{{-1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, { 0.0f, 1.0f,  0.0f}}}, // left
+		{{{ 1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, {-1.0f, 0.0f,  0.0f}}}, // up
+		{{{ 1.0f,  1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}}}, // down
 	}};
 
 	std::array<std::vector<std::byte>, 6> faceData;
