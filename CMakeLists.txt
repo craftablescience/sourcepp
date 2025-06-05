@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
 
 
 # Set defaults before project call
-if(PROJECT_IS_TOP_LEVEL)
+if(APPLE AND CMAKE_CURRENT_LIST_DIR STREQUAL CMAKE_SOURCE_DIR)
     set(CMAKE_OSX_ARCHITECTURES "x86_64;arm64" CACHE INTERNAL "" FORCE)
 endif()
 
