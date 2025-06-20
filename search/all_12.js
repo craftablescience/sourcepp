@@ -30,7 +30,7 @@ var searchData=
   ['removedirectory_27',['removeDirectory',['../d5/d8b/classvpkpp_1_1VPK.html#a097bb8a52c68ca1253b1e1b9817f230d',1,'vpkpp::VPK::removeDirectory()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a2baa28d03d0c0892319547b10957d343',1,'vpkpp::PackFile::removeDirectory()']]],
   ['removeentry_28',['removeEntry',['../d5/d8b/classvpkpp_1_1VPK.html#aa1e0ac4d125dd6e1129bee61a3653750',1,'vpkpp::VPK::removeEntry()'],['../d2/dd2/classvpkpp_1_1PackFile.html#aed35a45b68bff1eedcc3a217cf7563b7',1,'vpkpp::PackFile::removeEntry()']]],
   ['removeextendedflagsresource_29',['removeExtendedFlagsResource',['../d8/df2/classvtfpp_1_1VTF.html#af755344235b5be0b013e74318bd84f09',1,'vtfpp::VTF']]],
-  ['removeflags_30',['removeFlags',['../d8/df2/classvtfpp_1_1VTF.html#a52441a1c6dbf2c3c05be654a3523c7b7',1,'vtfpp::VTF']]],
+  ['removeflags_30',['removeFlags',['../d8/df2/classvtfpp_1_1VTF.html#ae3af74e20855c6358be399fbe74c0f10',1,'vtfpp::VTF']]],
   ['removekeyvalue_31',['removeKeyValue',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ab70608763413a9a13ee07508d4578b19',1,'bsppp::BSPEntityKeyValues']]],
   ['removekeyvaluesdataresource_32',['removeKeyValuesDataResource',['../d8/df2/classvtfpp_1_1VTF.html#a0bd0be99c748ad55ced24d94f38a16fe',1,'vtfpp::VTF']]],
   ['removelodresource_33',['removeLODResource',['../d8/df2/classvtfpp_1_1VTF.html#a63aeb9ba4db09adc5dcd7b1fa61579bc',1,'vtfpp::VTF']]],

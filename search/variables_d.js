@@ -1,7 +1,7 @@
 var searchData=
 [
   ['magic_0',['MAGIC',['../de/dbc/namespacevcryptpp_1_1VFONT.html#a2055c803010923eab82b4adb82e63b74',1,'vcryptpp::VFONT']]],
-  ['majorversion_1',['majorVersion',['../df/d47/classvtfpp_1_1TTX.html#af7b0c8689be134acb5387bac85a1b64f',1,'vtfpp::TTX::majorVersion()'],['../d3/dec/classvpkpp_1_1OO7.html#a33c1c87dad1eefd5809d867f090ddfde',1,'vpkpp::OO7::majorVersion()'],['../d8/df2/classvtfpp_1_1VTF.html#a0a965e011712efeb6f5da71644d44d03',1,'vtfpp::VTF::majorVersion()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a7cc61a7b6a8560c89d76b75f894b2845',1,'vtfpp::VTF::CreationOptions::majorVersion()']]],
+  ['majorversion_1',['majorVersion',['../df/d47/classvtfpp_1_1TTX.html#af7b0c8689be134acb5387bac85a1b64f',1,'vtfpp::TTX::majorVersion()'],['../d3/dec/classvpkpp_1_1OO7.html#a33c1c87dad1eefd5809d867f090ddfde',1,'vpkpp::OO7::majorVersion()']]],
   ['manufacturer_2',['manufacturer',['../de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html#ad0307b9fb2a0c8ef5dcab8287b1f5869',1,'sndpp::WAV::ChunkSMPL']]],
   ['maprevision_3',['mapRevision',['../d4/daf/classbsppp_1_1PakLump.html#a3efe1c5070372a693916aa6d770e2787',1,'bsppp::PakLump']]],
   ['mapsize_4',['mapSize',['../d2/d4c/classtoolpp_1_1FGD.html#adcb9902c94fa7b90b6ca61723ffba737',1,'toolpp::FGD']]],
@@ -31,7 +31,7 @@ var searchData=
   ['midipitchfraction_28',['midiPitchFraction',['../de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html#aaa06e1ce28bfadbb3ecb8b640428d6de',1,'sndpp::WAV::ChunkSMPL']]],
   ['midiunitynote_29',['midiUnityNote',['../de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html#a5bac9f663dfd1d99b1fc6a658cb1d0b5',1,'sndpp::WAV::ChunkSMPL']]],
   ['min_30',['min',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a915bd54c2238c2a1d8f57b2a3ca11a95',1,'bsppp::BSPBrushModel_v0']]],
-  ['minorversion_31',['minorVersion',['../d3/dec/classvpkpp_1_1OO7.html#a2104f31f9d9f43f89b6e728e2b40d46a',1,'vpkpp::OO7::minorVersion()'],['../df/d47/classvtfpp_1_1TTX.html#a6d2eafccda08de776caaa5eea53b17e7',1,'vtfpp::TTX::minorVersion()'],['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a3697bca5e9413dc3ccd89730a307ed83',1,'vtfpp::VTF::CreationOptions::minorVersion()'],['../d8/df2/classvtfpp_1_1VTF.html#a711449358dff7c686b033a882550fe62',1,'vtfpp::VTF::minorVersion()']]],
+  ['minorversion_31',['minorVersion',['../d3/dec/classvpkpp_1_1OO7.html#a2104f31f9d9f43f89b6e728e2b40d46a',1,'vpkpp::OO7::minorVersion()'],['../df/d47/classvtfpp_1_1TTX.html#a6d2eafccda08de776caaa5eea53b17e7',1,'vtfpp::TTX::minorVersion()']]],
   ['mins_32',['mins',['../d8/d37/structbsppp_1_1BSPNode__v0.html#a6b1718c033fd86ecae91ff9eb0d674c1',1,'bsppp::BSPNode_v0::mins()'],['../d7/dd7/structbsppp_1_1BSPNode__v1.html#a57f81c3e69e8e31826fb10acac82bf39',1,'bsppp::BSPNode_v1::mins()']]],
   ['mipcount_33',['mipCount',['../d8/df2/classvtfpp_1_1VTF.html#a2cc48570ed0ac9afad13e992837276ea',1,'vtfpp::VTF']]],
   ['mipflags_34',['mipFlags',['../df/d47/classvtfpp_1_1TTX.html#a37c27ac7075ea719bcb4b7ea2c9f5c8b',1,'vtfpp::TTX']]],
