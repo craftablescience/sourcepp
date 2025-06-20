@@ -37,66 +37,92 @@ typedef enum {
 typedef const void* vtfpp_resource_handle_t;
 
 typedef enum {
-	VTFPP_VTF_FLAG_NONE                       = 0,
-	VTFPP_VTF_FLAG_POINT_SAMPLE               = 1 <<  0,
-	VTFPP_VTF_FLAG_TRILINEAR                  = 1 <<  1,
-	VTFPP_VTF_FLAG_CLAMP_S                    = 1 <<  2,
-	VTFPP_VTF_FLAG_CLAMP_T                    = 1 <<  3,
-	VTFPP_VTF_FLAG_ANISOTROPIC                = 1 <<  4,
-	VTFPP_VTF_FLAG_HINT_DXT5                  = 1 <<  5,
-	VTFPP_VTF_FLAG_PWL_CORRECTED              = 1 <<  6,
-	VTFPP_VTF_FLAG_NORMAL                     = 1 <<  7,
-	VTFPP_VTF_FLAG_NO_MIP                     = 1 <<  8,
-	VTFPP_VTF_FLAG_NO_LOD                     = 1 <<  9,
-	VTFPP_VTF_FLAG_LOAD_ALL_MIPS              = 1 << 10,
-	VTFPP_VTF_FLAG_PROCEDURAL                 = 1 << 11,
-	VTFPP_VTF_FLAG_ONE_BIT_ALPHA              = 1 << 12,
-	VTFPP_VTF_FLAG_MULTI_BIT_ALPHA            = 1 << 13,
-	VTFPP_VTF_FLAG_ENVMAP                     = 1 << 14,
-	VTFPP_VTF_FLAG_RENDERTARGET               = 1 << 15,
-	VTFPP_VTF_FLAG_DEPTH_RENDERTARGET         = 1 << 16,
-	VTFPP_VTF_FLAG_NO_DEBUG_OVERRIDE          = 1 << 17,
-	VTFPP_VTF_FLAG_SINGLE_COPY                = 1 << 18,
-	VTFPP_VTF_FLAG_SRGB                       = 1 << 19,
-	VTFPP_VTF_FLAG_DEFAULT_POOL               = 1 << 20,
-	VTFPP_VTF_FLAG_COMBINED                   = 1 << 21,
-	VTFPP_VTF_FLAG_ASYNC_DOWNLOAD             = 1 << 22,
-	VTFPP_VTF_FLAG_NO_DEPTH_BUFFER            = 1 << 23,
-	VTFPP_VTF_FLAG_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
-	VTFPP_VTF_FLAG_CLAMP_U                    = 1 << 25,
-	VTFPP_VTF_FLAG_VERTEX_TEXTURE             = 1 << 26,
-	VTFPP_VTF_FLAG_XBOX_PRESWIZZLED           = 1 << 26,
-	VTFPP_VTF_FLAG_SSBUMP                     = 1 << 27,
-	VTFPP_VTF_FLAG_XBOX_CACHEABLE             = 1 << 27,
-	VTFPP_VTF_FLAG_LOAD_MOST_MIPS             = 1 << 28,
-	VTFPP_VTF_FLAG_BORDER                     = 1 << 29,
-	VTFPP_VTF_FLAG_YCOCG                      = 1 << 30,
-	VTFPP_VTF_FLAG_ASYNC_SKIP_INITIAL_LOW_RES = 1 << 31,
-} vtfpp_vtf_flags_e;
+	VTFPP_VTF_FLAG_POINT_SAMPLE                  = 1 <<  0,
+	VTFPP_VTF_FLAG_TRILINEAR                     = 1 <<  1,
+	VTFPP_VTF_FLAG_CLAMP_S                       = 1 <<  2,
+	VTFPP_VTF_FLAG_CLAMP_T                       = 1 <<  3,
+	VTFPP_VTF_FLAG_ANISOTROPIC                   = 1 <<  4,
+	VTFPP_VTF_FLAG_HINT_DXT5                     = 1 <<  5,
+	VTFPP_VTF_FLAG_NORMAL                        = 1 <<  7,
+	VTFPP_VTF_FLAG_NO_MIP                        = 1 <<  8, // Controlled by mip count
+	VTFPP_VTF_FLAG_NO_LOD                        = 1 <<  9,
+	VTFPP_VTF_FLAG_MIN_MIP                       = 1 << 10,
+	VTFPP_VTF_FLAG_PROCEDURAL                    = 1 << 11,
+	VTFPP_VTF_FLAG_ONE_BIT_ALPHA                 = 1 << 12,
+	VTFPP_VTF_FLAG_MULTI_BIT_ALPHA               = 1 << 13,
+	VTFPP_VTF_FLAG_ENVMAP                        = 1 << 14, // Controlled by face count
+	VTFPP_VTF_FLAG_RENDERTARGET                  = 1 << 15,
+	VTFPP_VTF_FLAG_DEPTH_RENDERTARGET            = 1 << 16,
+	VTFPP_VTF_FLAG_NO_DEBUG_OVERRIDE             = 1 << 17,
+	VTFPP_VTF_FLAG_SINGLE_COPY                   = 1 << 18,
+} vtfpp_vtf_flags_v0_e;
+#define VTFPP_VTF_FLAGS_MASK_V0 (VTFPP_VTF_FLAG_POINT_SAMPLE | VTFPP_VTF_FLAG_TRILINEAR | VTFPP_VTF_FLAG_CLAMP_S | VTFPP_VTF_FLAG_CLAMP_T | VTFPP_VTF_FLAG_ANISOTROPIC | VTFPP_VTF_FLAG_HINT_DXT5 | VTFPP_VTF_FLAG_NORMAL | VTFPP_VTF_FLAG_NO_MIP | VTFPP_VTF_FLAG_NO_LOD | VTFPP_VTF_FLAG_MIN_MIP | VTFPP_VTF_FLAG_PROCEDURAL | VTFPP_VTF_FLAG_ONE_BIT_ALPHA | VTFPP_VTF_FLAG_MULTI_BIT_ALPHA | VTFPP_VTF_FLAG_ENVMAP | VTFPP_VTF_FLAG_RENDERTARGET | FLAG_DEPTH_RENDERTARGET | VTFPP_VTF_FLAG_NO_DEBUG_OVERRIDE | VTFPP_VTF_FLAG_SINGLE_COPY)
 
-#define VTFPP_VTF_FLAGS_MASK_AFTER_V7_3 (VTFPP_VTF_FLAG_FLAG_LOAD_ALL_MIPS | VTFPP_VTF_FLAG_SRGB | VTFPP_VTF_FLAG_DEFAULT_POOL | VTFPP_VTF_FLAG_COMBINED | VTFPP_VTF_FLAG_ASYNC_DOWNLOAD | VTFPP_VTF_FLAG_SKIP_INITIAL_DOWNLOAD | VTFPP_VTF_FLAG_LOAD_MOST_MIPS | VTFPP_VTF_FLAG_YCOCG | VTFPP_VTF_FLAG_ASYNC_SKIP_INITIAL_LOW_RES)
-#define VTFPP_VTF_FLAGS_MASK_INTERNAL   (VTFPP_VTF_FLAG_NO_MIP | VTFPP_VTF_FLAG_ENVMAP)
-#define VTFPP_VTF_FLAGS_MASK_SRGB       (VTFPP_VTF_FLAG_PWL_CORRECTED | VTFPP_VTF_FLAG_SRGB)
+typedef enum {
+	VTFPP_VTF_FLAG_V2_NO_DEPTH_BUFFER            = 1 << 23,
+	VTFPP_VTF_FLAG_V2_CLAMP_U                    = 1 << 25,
+} vtfpp_vtf_flags_v2_e;
+#define VTFPP_VTF_FLAGS_MASK_V2 (VTFPP_VTF_FLAG_V2_NO_DEPTH_BUFFER | VTFPP_VTF_FLAG_V2_CLAMP_U)
+
+enum FlagsV3 : uint32_t {
+	VTFPP_VTF_FLAG_V3_LOAD_ALL_MIPS              = 1 << 10,
+	VTFPP_VTF_FLAG_V3_VERTEX_TEXTURE             = 1 << 26,
+	VTFPP_VTF_FLAG_V3_SSBUMP                     = 1 << 27,
+	VTFPP_VTF_FLAG_V3_BORDER                     = 1 << 29,
+};
+#define VTFPP_VTF_FLAGS_MASK_V3 (VTFPP_VTF_FLAG_V3_LOAD_ALL_MIPS | VTFPP_VTF_FLAG_V3_VERTEX_TEXTURE | VTFPP_VTF_FLAG_V3_SSBUMP | VTFPP_VTF_FLAG_V3_BORDER)
+
+typedef enum {
+	FLAG_V4_SRGB                       = 1 <<  6,
+} vtfpp_vtf_flags_v4_e;
+#define VTFPP_VTF_FLAGS_MASK_V4 (VTFPP_VTF_FLAG_V4_SRGB)
+
+typedef enum {
+	VTFPP_VTF_FLAG_V4_TF2_STAGING_MEMORY         = 1 << 19,
+	VTFPP_VTF_FLAG_V4_TF2_IMMEDIATE_CLEANUP      = 1 << 20,
+	VTFPP_VTF_FLAG_V4_TF2_IGNORE_PICMIP          = 1 << 21,
+	VTFPP_VTF_FLAG_V4_TF2_STREAMABLE_COARSE      = 1 << 30,
+	VTFPP_VTF_FLAG_V4_TF2_STREAMABLE_FINE        = 1 << 31,
+} vtfpp_vtf_flags_v4_tf2_e;
+#define VTFPP_VTF_FLAGS_MASK_V4_TF2 (VTFPP_VTF_FLAG_V4_TF2_STAGING_MEMORY | VTFPP_VTF_FLAG_V4_TF2_IMMEDIATE_CLEANUP | VTFPP_VTF_FLAG_V4_TF2_IGNORE_PICMIP | VTFPP_VTF_FLAG_V4_TF2_STREAMABLE_COARSE | VTFPP_VTF_FLAG_V4_TF2_STREAMABLE_FINE)
+
+typedef enum {
+	VTFPP_VTF_FLAG_V5_PWL_CORRECTED              = 1 <<  6,
+	VTFPP_VTF_FLAG_V5_SRGB                       = 1 << 19,
+	VTFPP_VTF_FLAG_V5_DEFAULT_POOL               = 1 << 20,
+	VTFPP_VTF_FLAG_V5_LOAD_MOST_MIPS             = 1 << 28,
+} vtfpp_vtf_flags_v5_e;
+#define VTFPP_VTF_FLAGS_MASK_V5 (VTFPP_VTF_FLAG_V5_PWL_CORRECTED | VTFPP_VTF_FLAG_V5_SRGB | VTFPP_VTF_FLAG_V5_DEFAULT_POOL | VTFPP_VTF_FLAG_V5_LOAD_MOST_MIPS)
+
+typedef enum {
+	VTFPP_VTF_FLAG_V5_CSGO_COMBINED                   = 1 << 21,
+	VTFPP_VTF_FLAG_V5_CSGO_ASYNC_DOWNLOAD             = 1 << 22,
+	VTFPP_VTF_FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
+	VTFPP_VTF_FLAG_V5_CSGO_YCOCG                      = 1 << 30,
+	VTFPP_VTF_FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES = 1 << 31,
+} vtfpp_vtf_flags_v5_csgo_e;
+#define VTFPP_VTF_FLAGS_MASK_V5_CSGO (VTFPP_VTF_FLAG_V5_CSGO_COMBINED | VTFPP_VTF_FLAG_V5_CSGO_ASYNC_DOWNLOAD | VTFPP_VTF_FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD | VTFPP_VTF_FLAG_V5_CSGO_YCOCG | VTFPP_VTF_FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES)
+
+#define VTFPP_VTF_FLAGS_MASK_INTERNAL (VTFPP_VTF_FLAG_NO_MIP | VTFPP_VTF_FLAG_ENVMAP)
 
 typedef enum {
 	VTFPP_VTF_PLATFORM_UNKNOWN       = 0x000,
 	VTFPP_VTF_PLATFORM_PC            = 0x001,
-	VTFPP_VTF_PLATFORM_PS3_PORTAL2   = 0x003,
-	VTFPP_VTF_PLATFORM_PS3_ORANGEBOX = 0x333,
 	VTFPP_VTF_PLATFORM_X360          = 0x360,
+	VTFPP_VTF_PLATFORM_PS3_ORANGEBOX = 0x333,
+	VTFPP_VTF_PLATFORM_PS3_PORTAL2   = 0x003,
 } vtfpp_vtf_platform_e;
 
 #define VTFPP_VTF_FORMAT_UNCHANGED ((vtfpp_image_format_e) -2)
 #define VTFPP_VTF_FORMAT_DEFAULT   ((vtfpp_image_format_e) -1)
 
 typedef struct {
-	uint32_t majorVersion;
-	uint32_t minorVersion;
+	uint32_t version;
 	vtfpp_image_format_e outputFormat;
 	vtfpp_image_conversion_resize_method_e widthResizeMethod;
 	vtfpp_image_conversion_resize_method_e heightResizeMethod;
 	vtfpp_image_conversion_resize_filter_e filter;
-	vtfpp_vtf_flags_e flags;
+	uint32_t flags;
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
 	int isCubeMap;
@@ -114,13 +140,12 @@ typedef struct {
 } vtfpp_vtf_creation_options_t;
 
 #define VTFPP_VTF_CREATION_OPTIONS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_vtf_creation_options_t) { \
-	.majorVersion = 7, \
-	.minorVersion = 4, \
+	.version = 4, \
 	.outputFormat = VTFPP_VTF_FORMAT_DEFAULT, \
 	.widthResizeMethod = VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_BIGGER, \
 	.heightResizeMethod = VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_BIGGER, \
     .filter = VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT, \
-    .flags = VTFPP_VTF_FLAG_NONE, \
+    .flags = 0, \
     .initialFrameCount = 1, \
     .startFrame = 0, \
     .isCubeMap = 0, \
@@ -198,15 +223,9 @@ SOURCEPP_API vtfpp_vtf_platform_e vtfpp_vtf_get_platform(vtfpp_vtf_handle_t hand
 
 SOURCEPP_API void vtfpp_vtf_set_platform(vtfpp_vtf_handle_t handle, vtfpp_vtf_platform_e platform);
 
-SOURCEPP_API uint32_t vtfpp_vtf_get_major_version(vtfpp_vtf_handle_t handle);
+SOURCEPP_API uint32_t vtfpp_vtf_get_version(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API uint32_t vtfpp_vtf_get_minor_version(vtfpp_vtf_handle_t handle);
-
-SOURCEPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t majorVersion, uint32_t minorVersion);
-
-SOURCEPP_API void vtfpp_vtf_set_major_version(vtfpp_vtf_handle_t handle, uint32_t majorVersion);
-
-SOURCEPP_API void vtfpp_vtf_set_minor_version(vtfpp_vtf_handle_t handle, uint32_t minorVersion);
+SOURCEPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t version);
 
 SOURCEPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_width_resize_method(vtfpp_vtf_handle_t handle);
 
@@ -224,17 +243,21 @@ SOURCEPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mi
 
 SOURCEPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter);
 
-SOURCEPP_API vtfpp_vtf_flags_e vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle);
+SOURCEPP_API uint32_t vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags);
+SOURCEPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
 
-SOURCEPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags);
+SOURCEPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
 
-SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags);
+SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
+
+SOURCEPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle);
+
+SOURCEPP_API void vtfpp_vtf_set_srgb(vtfpp_vtf_handle_t handle, int srgb);
 
 SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion, int isCubeMap);
+SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap);
 
 SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
 
@@ -326,8 +349,6 @@ SOURCEPP_API vtfpp_compression_method_e vtfpp_vtf_get_compression_method(vtfpp_v
 SOURCEPP_API void vtfpp_vtf_set_compression_method(vtfpp_vtf_handle_t handle, vtfpp_compression_method_e compressionMethod);
 
 SOURCEPP_API int vtfpp_vtf_has_image_data(vtfpp_vtf_handle_t handle);
-
-SOURCEPP_API int vtfpp_vtf_image_data_is_srgb(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice);
 

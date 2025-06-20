@@ -49,10 +49,6 @@ vtfpp_resource_flags_e resourceFlags(vtfpp::Resource::Flags flags);
 
 const vtfpp::Resource* resource(vtfpp_resource_handle_t resource);
 
-vtfpp::VTF::Flags vtfFlags(vtfpp_vtf_flags_e flags);
-
-vtfpp_vtf_flags_e vtfFlags(vtfpp::VTF::Flags flags);
-
 vtfpp::VTF::Platform vtfPlatform(vtfpp_vtf_platform_e platform);
 
 vtfpp_vtf_platform_e vtfPlatform(vtfpp::VTF::Platform platform);

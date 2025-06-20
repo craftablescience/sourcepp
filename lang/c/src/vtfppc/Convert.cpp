@@ -71,14 +71,6 @@ const Resource* Convert::resource(vtfpp_resource_handle_t resource) {
 	return static_cast<const Resource*>(resource);
 }
 
-VTF::Flags Convert::vtfFlags(vtfpp_vtf_flags_e flags) {
-	return static_cast<VTF::Flags>(flags);
-}
-
-vtfpp_vtf_flags_e Convert::vtfFlags(VTF::Flags flags) {
-	return static_cast<vtfpp_vtf_flags_e>(flags);
-}
-
 VTF::Platform Convert::vtfPlatform(vtfpp_vtf_platform_e platform) {
 	return static_cast<VTF::Platform>(platform);
 }
@@ -89,13 +81,12 @@ vtfpp_vtf_platform_e Convert::vtfPlatform(VTF::Platform platform) {
 
 VTF::CreationOptions Convert::vtfCreationOptions(vtfpp_vtf_creation_options_t options) {
 	return {
-		.majorVersion = options.majorVersion,
-		.minorVersion = options.minorVersion,
+		.version = options.version,
 		.outputFormat = Convert::imageFormat(options.outputFormat),
 		.widthResizeMethod = Convert::resizeMethod(options.widthResizeMethod),
 		.heightResizeMethod = Convert::resizeMethod(options.heightResizeMethod),
 		.filter = Convert::resizeFilter(options.filter),
-		.flags = Convert::vtfFlags(options.flags),
+		.flags = options.flags,
 		.initialFrameCount = options.initialFrameCount,
 		.startFrame = options.startFrame,
 		.isCubeMap = static_cast<bool>(options.isCubeMap),

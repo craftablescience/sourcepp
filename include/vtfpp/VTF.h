@@ -125,63 +125,90 @@ SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
  */
 class VTF {
 public:
-	enum Flags : int32_t {
-		FLAG_NONE                       = 0,
-		FLAG_POINT_SAMPLE               = 1 <<  0,
-		FLAG_TRILINEAR                  = 1 <<  1,
-		FLAG_CLAMP_S                    = 1 <<  2,
-		FLAG_CLAMP_T                    = 1 <<  3,
-		FLAG_ANISOTROPIC                = 1 <<  4,
-		FLAG_HINT_DXT5                  = 1 <<  5,
-		FLAG_PWL_CORRECTED              = 1 <<  6,
-		FLAG_NORMAL                     = 1 <<  7,
-		FLAG_NO_MIP                     = 1 <<  8, // Controlled by mip count
-		FLAG_NO_LOD                     = 1 <<  9,
-		FLAG_LOAD_ALL_MIPS              = 1 << 10,
-		FLAG_PROCEDURAL                 = 1 << 11,
-		FLAG_ONE_BIT_ALPHA              = 1 << 12,
-		FLAG_MULTI_BIT_ALPHA            = 1 << 13,
-		FLAG_ENVMAP                     = 1 << 14, // Controlled by face count
-		FLAG_RENDERTARGET               = 1 << 15,
-		FLAG_DEPTH_RENDERTARGET         = 1 << 16,
-		FLAG_NO_DEBUG_OVERRIDE          = 1 << 17,
-		FLAG_SINGLE_COPY                = 1 << 18, // Unused
-		FLAG_SRGB                       = 1 << 19,
-		FLAG_DEFAULT_POOL               = 1 << 20,
-		FLAG_COMBINED                   = 1 << 21,
-		FLAG_ASYNC_DOWNLOAD             = 1 << 22,
-		FLAG_NO_DEPTH_BUFFER            = 1 << 23,
-		FLAG_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
-		FLAG_CLAMP_U                    = 1 << 25,
-		FLAG_VERTEX_TEXTURE             = 1 << 26,
-		FLAG_XBOX_PRESWIZZLED           = 1 << 26,
-		FLAG_SSBUMP                     = 1 << 27,
-		FLAG_XBOX_CACHEABLE             = 1 << 27,
-		FLAG_LOAD_MOST_MIPS             = 1 << 28,
-		FLAG_BORDER                     = 1 << 29,
-		FLAG_YCOCG                      = 1 << 30,
-		FLAG_ASYNC_SKIP_INITIAL_LOW_RES = 1 << 31,
+	enum FlagsV0 : uint32_t {
+		FLAG_POINT_SAMPLE                  = 1 <<  0,
+		FLAG_TRILINEAR                     = 1 <<  1,
+		FLAG_CLAMP_S                       = 1 <<  2,
+		FLAG_CLAMP_T                       = 1 <<  3,
+		FLAG_ANISOTROPIC                   = 1 <<  4,
+		FLAG_HINT_DXT5                     = 1 <<  5,
+		FLAG_NORMAL                        = 1 <<  7,
+		FLAG_NO_MIP                        = 1 <<  8, // Controlled by mip count
+		FLAG_NO_LOD                        = 1 <<  9,
+		FLAG_MIN_MIP                       = 1 << 10,
+		FLAG_PROCEDURAL                    = 1 << 11,
+		FLAG_ONE_BIT_ALPHA                 = 1 << 12,
+		FLAG_MULTI_BIT_ALPHA               = 1 << 13,
+		FLAG_ENVMAP                        = 1 << 14, // Controlled by face count
+		FLAG_RENDERTARGET                  = 1 << 15,
+		FLAG_DEPTH_RENDERTARGET            = 1 << 16,
+		FLAG_NO_DEBUG_OVERRIDE             = 1 << 17,
+		FLAG_SINGLE_COPY                   = 1 << 18,
 	};
-	static constexpr std::underlying_type_t<Flags> FLAG_MASK_AFTER_V7_3 = FLAG_LOAD_ALL_MIPS | FLAG_SRGB | FLAG_DEFAULT_POOL | FLAG_COMBINED | FLAG_ASYNC_DOWNLOAD | FLAG_SKIP_INITIAL_DOWNLOAD | FLAG_LOAD_MOST_MIPS | FLAG_YCOCG | FLAG_ASYNC_SKIP_INITIAL_LOW_RES;
-	static constexpr std::underlying_type_t<Flags> FLAG_MASK_INTERNAL = FLAG_NO_MIP | FLAG_ENVMAP;
-	static constexpr std::underlying_type_t<Flags> FLAG_MASK_SRGB = FLAG_PWL_CORRECTED | FLAG_SRGB;
+	static constexpr uint32_t FLAGS_MASK_V0 = FLAG_POINT_SAMPLE | FLAG_TRILINEAR | FLAG_CLAMP_S | FLAG_CLAMP_T | FLAG_ANISOTROPIC | FLAG_HINT_DXT5 | FLAG_NORMAL | FLAG_NO_MIP | FLAG_NO_LOD | FLAG_MIN_MIP | FLAG_PROCEDURAL | FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA | FLAG_ENVMAP | FLAG_RENDERTARGET | FLAG_DEPTH_RENDERTARGET | FLAG_NO_DEBUG_OVERRIDE | FLAG_SINGLE_COPY;
+
+	enum FlagsV2 : uint32_t {
+		FLAG_V2_NO_DEPTH_BUFFER            = 1 << 23,
+		FLAG_V2_CLAMP_U                    = 1 << 25,
+	};
+	static constexpr uint32_t FLAGS_MASK_V2 = FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_CLAMP_U;
+
+	enum FlagsV3 : uint32_t {
+		FLAG_V3_LOAD_ALL_MIPS              = 1 << 10,
+		FLAG_V3_VERTEX_TEXTURE             = 1 << 26,
+		FLAG_V3_SSBUMP                     = 1 << 27,
+		FLAG_V3_BORDER                     = 1 << 29,
+	};
+	static constexpr uint32_t FLAGS_MASK_V3 = FLAG_V3_LOAD_ALL_MIPS | FLAG_V3_VERTEX_TEXTURE | FLAG_V3_SSBUMP | FLAG_V3_BORDER;
+
+	enum FlagsV4 : uint32_t {
+		FLAG_V4_SRGB                       = 1 <<  6,
+	};
+	static constexpr uint32_t FLAGS_MASK_V4 = FLAG_V4_SRGB;
+
+	enum FlagsV4_TF2 : uint32_t {
+		FLAG_V4_TF2_STAGING_MEMORY         = 1 << 19,
+		FLAG_V4_TF2_IMMEDIATE_CLEANUP      = 1 << 20,
+		FLAG_V4_TF2_IGNORE_PICMIP          = 1 << 21,
+		FLAG_V4_TF2_STREAMABLE_COARSE      = 1 << 30,
+		FLAG_V4_TF2_STREAMABLE_FINE        = static_cast<uint32_t>(1 << 31),
+	};
+	static constexpr uint32_t FLAGS_MASK_V4_TF2 = FLAG_V4_TF2_STAGING_MEMORY | FLAG_V4_TF2_IMMEDIATE_CLEANUP | FLAG_V4_TF2_IGNORE_PICMIP | FLAG_V4_TF2_STREAMABLE_COARSE | FLAG_V4_TF2_STREAMABLE_FINE;
+
+	enum FlagsV5 : uint32_t {
+		FLAG_V5_PWL_CORRECTED              = 1 <<  6,
+		FLAG_V5_SRGB                       = 1 << 19,
+		FLAG_V5_DEFAULT_POOL               = 1 << 20,
+		FLAG_V5_LOAD_MOST_MIPS             = 1 << 28,
+	};
+	static constexpr uint32_t FLAGS_MASK_V5 = FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB | FLAG_V5_DEFAULT_POOL | FLAG_V5_LOAD_MOST_MIPS;
+
+	enum FlagsV5_CSGO : uint32_t {
+		FLAG_V5_CSGO_COMBINED                   = 1 << 21,
+		FLAG_V5_CSGO_ASYNC_DOWNLOAD             = 1 << 22,
+		FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
+		FLAG_V5_CSGO_YCOCG                      = 1 << 30,
+		FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES = static_cast<uint32_t>(1 << 31),
+	};
+	static constexpr uint32_t FLAGS_MASK_V5_CSGO = FLAG_V5_CSGO_COMBINED | FLAG_V5_CSGO_ASYNC_DOWNLOAD | FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD | FLAG_V5_CSGO_YCOCG | FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES;
+
+	static constexpr uint32_t FLAGS_MASK_INTERNAL = FLAG_NO_MIP | FLAG_ENVMAP;
 
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
 		PLATFORM_PC            = 0x001,
-		PLATFORM_PS3_PORTAL2   = 0x003,
-		PLATFORM_PS3_ORANGEBOX = 0x333,
 		PLATFORM_X360          = 0x360,
+		PLATFORM_PS3_ORANGEBOX = 0x333,
+		PLATFORM_PS3_PORTAL2   = 0x003,
 	};
 
 	struct CreationOptions {
-		uint32_t majorVersion = 7;
-		uint32_t minorVersion = 4;
+		uint32_t version = 4;
 		ImageFormat outputFormat = FORMAT_DEFAULT;
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT;
-		Flags flags = FLAG_NONE;
+		uint32_t flags = 0;
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
 		bool isCubeMap = false;
@@ -238,15 +265,9 @@ public:
 
 	void setPlatform(Platform newPlatform);
 
-	[[nodiscard]] uint32_t getMajorVersion() const;
+	[[nodiscard]] uint32_t getVersion() const;
 
-	[[nodiscard]] uint32_t getMinorVersion() const;
-
-	void setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion);
-
-	void setMajorVersion(uint32_t newMajorVersion);
-
-	void setMinorVersion(uint32_t newMinorVersion);
+	void setVersion(uint32_t newVersion);
 
 	[[nodiscard]] ImageConversion::ResizeMethod getImageWidthResizeMethod() const;
 
@@ -264,17 +285,21 @@ public:
 
 	void setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter);
 
-	[[nodiscard]] Flags getFlags() const;
+	[[nodiscard]] uint32_t getFlags() const;
 
-	void setFlags(Flags flags_);
+	void setFlags(uint32_t flags_);
 
-	void addFlags(Flags flags_);
+	void addFlags(uint32_t flags_);
 
-	void removeFlags(Flags flags_);
+	void removeFlags(uint32_t flags_);
+
+	[[nodiscard]] bool isSRGB() const;
+
+	void setSRGB(bool srgb);
 
 	void computeTransparencyFlags();
 
-	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion, bool isCubeMap);
+	[[nodiscard]] static ImageFormat getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t version, bool isCubeMap);
 
 	[[nodiscard]] ImageFormat getFormat() const;
 
@@ -365,8 +390,6 @@ public:
 
 	[[nodiscard]] bool hasImageData() const;
 
-	[[nodiscard]] bool imageDataIsSRGB() const;
-
 	[[nodiscard]] std::span<const std::byte> getImageDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
@@ -419,13 +442,12 @@ protected:
 	std::vector<std::byte> data;
 
 	//uint32_t signature;
-	uint32_t majorVersion{};
-	uint32_t minorVersion{};
+	uint32_t version{};
 	//uint32_t headerSize;
 
 	uint16_t width{};
 	uint16_t height{};
-	Flags flags{};
+	uint32_t flags{};
 
 	uint16_t frameCount = 1;
 	uint16_t startFrame{};
@@ -458,6 +480,5 @@ protected:
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 };
-SOURCEPP_BITFLAGS_ENUM(VTF::Flags)
 
 } // namespace vtfpp

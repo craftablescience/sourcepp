@@ -90,7 +90,7 @@ void BM_vtfpp_create_2048x2048_compressed(benchmark::State& state) {
 
 	for ([[maybe_unused]] auto _: state) {
 		benchmark::DoNotOptimize(VTF::create(imageData, ImageFormat::RGBA8888, 2048, 2048, {
-			.minorVersion = 6,
+			.version = 6,
 			.outputFormat = ImageFormat::RGBA8888,
 			.compressionLevel = 9,
 		}));

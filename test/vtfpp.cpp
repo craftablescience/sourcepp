@@ -53,11 +53,10 @@ TEST(vtfpp, read_write_ttx) {
 
 		// VTF
 		const auto& vtf = ttx.getVTF();
-		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 1);
+		EXPECT_EQ(vtf.getVersion(), 1);
 		EXPECT_EQ(vtf.getWidth(), 1024);
 		EXPECT_EQ(vtf.getHeight(), 1024);
-		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+		EXPECT_EQ(vtf.getFlags(), 0);
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 		EXPECT_EQ(vtf.getMipCount(), 11);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -97,11 +96,10 @@ TEST(vtfpp, read_write_ttx) {
 
 		// VTF
 		const auto& vtf = ttx.getVTF();
-		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 1);
+		EXPECT_EQ(vtf.getVersion(), 1);
 		EXPECT_EQ(vtf.getWidth(), 1024);
 		EXPECT_EQ(vtf.getHeight(), 1024);
-		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+		EXPECT_EQ(vtf.getFlags(), 0);
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 		EXPECT_EQ(vtf.getMipCount(), 11);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -135,8 +133,7 @@ TEST(vtfpp, read_ttx_no_ttz) {
 
 	// VTF
 	const auto& vtf = ttx.getVTF();
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 16);
 	EXPECT_EQ(vtf.getHeight(), 4);
 	EXPECT_EQ(vtf.getFlags(), 196); // VTF flags are probably different on this engine branch
@@ -173,7 +170,7 @@ TEST(vtfpp, read_ttx_no_ttz) {
 
 TEST_WRITE_FMT(RGBA8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
 TEST_WRITE_FMT(ABGR8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(RGB888,             VTF::FLAG_NONE)
+TEST_WRITE_FMT(RGB888,             0)
 TEST_WRITE_FMT(BGR888,             VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
 TEST_WRITE_FMT(RGB565,             VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
 TEST_WRITE_FMT(I8,                 VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
@@ -206,11 +203,10 @@ TEST(vtfpp, write_non_po2) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 4);
+	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 136);
 	EXPECT_EQ(vtf.getHeight(), 148);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 2);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -231,11 +227,10 @@ TEST(vtfpp, read_v70) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 0);
+	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -266,16 +261,15 @@ TEST(vtfpp, read_v70) {
 
 TEST(vtfpp, write_v70) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
-		.minorVersion = 0,
+		.version = 0,
 	});
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 0);
+	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -296,8 +290,7 @@ TEST(vtfpp, read_v70_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 0);
+	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -334,11 +327,10 @@ TEST(vtfpp, read_v70_nothumb) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 0);
+	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -370,8 +362,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 0);
+	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -406,11 +397,10 @@ TEST(vtfpp, read_v71) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -441,16 +431,15 @@ TEST(vtfpp, read_v71) {
 
 TEST(vtfpp, write_v71) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
-		.minorVersion = 1,
+		.version = 1,
 	});
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -471,8 +460,7 @@ TEST(vtfpp, read_v71_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -509,11 +497,10 @@ TEST(vtfpp, read_v71_nothumb) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -545,8 +532,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 1);
+	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -581,11 +567,10 @@ TEST(vtfpp, read_v72) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 2);
+	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -616,16 +601,15 @@ TEST(vtfpp, read_v72) {
 
 TEST(vtfpp, write_v72) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
-		.minorVersion = 2,
+		.version = 2,
 	});
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 2);
+	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -646,8 +630,7 @@ TEST(vtfpp, read_v72_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 2);
+	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -684,11 +667,10 @@ TEST(vtfpp, read_v72_nothumb) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 2);
+	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -720,8 +702,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 2);
+	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -756,11 +737,10 @@ TEST(vtfpp, read_v75) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 5);
+	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -806,16 +786,15 @@ TEST(vtfpp, read_v75) {
 
 TEST(vtfpp, write_v75) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
-		.minorVersion = 5,
+		.version = 5,
 	});
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 5);
+	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -836,8 +815,7 @@ TEST(vtfpp, read_v75_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 5);
+	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -874,11 +852,10 @@ TEST(vtfpp, read_v75_nothumb) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 5);
+	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -910,8 +887,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 5);
+	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -947,8 +923,7 @@ TEST(vtfpp, read_ps3_orangebox) {
 
 	// Header
 	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_PS3_ORANGEBOX);
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 4);
+	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 1024);
 	EXPECT_EQ(vtf.getHeight(), 1024);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
@@ -982,11 +957,10 @@ TEST(vtfpp, read_ps3_portal2) {
 
 		// Header
 		EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_PS3_PORTAL2);
-		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 5);
+		EXPECT_EQ(vtf.getVersion(), 5);
 		EXPECT_EQ(vtf.getWidth(), 256);
 		EXPECT_EQ(vtf.getHeight(), 512);
-		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+		EXPECT_EQ(vtf.getFlags(), 0);
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 		EXPECT_EQ(vtf.getMipCount(), 10);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1015,8 +989,7 @@ TEST(vtfpp, read_ps3_portal2) {
 
 		// Header
 		EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_PS3_PORTAL2);
-		EXPECT_EQ(vtf.getMajorVersion(), 7);
-		EXPECT_EQ(vtf.getMinorVersion(), 5);
+		EXPECT_EQ(vtf.getVersion(), 5);
 		EXPECT_EQ(vtf.getWidth(), 256);
 		EXPECT_EQ(vtf.getHeight(), 512);
 		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NORMAL | VTF::FLAG_MULTI_BIT_ALPHA);
@@ -1050,11 +1023,10 @@ TEST(vtfpp, read_x360) {
 
 	// Header
 	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_X360);
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 4);
+	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 512);
 	EXPECT_EQ(vtf.getHeight(), 512);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_PWL_CORRECTED | VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), static_cast<uint32_t>(VTF::FLAG_V5_PWL_CORRECTED) | VTF::FLAG_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1083,8 +1055,7 @@ TEST(vtfpp, read_v76_c9) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 6);
+	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_MULTI_BIT_ALPHA);
@@ -1120,16 +1091,15 @@ TEST(vtfpp, read_v76_c9) {
 
 TEST(vtfpp, write_v76_c6) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
-		.minorVersion = 6,
+		.version = 6,
 	});
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 6);
+	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NONE);
+	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1152,8 +1122,7 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	ASSERT_TRUE(vtf);
 
 	// Header
-	EXPECT_EQ(vtf.getMajorVersion(), 7);
-	EXPECT_EQ(vtf.getMinorVersion(), 6);
+	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA);

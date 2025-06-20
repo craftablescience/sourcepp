@@ -171,8 +171,7 @@ Resource::ConvertedData Resource::convertData() const {
 }
 
 VTF::VTF() {
-	this->majorVersion = 7;
-	this->minorVersion = 4;
+	this->version = 4;
 
 	this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
 
@@ -194,8 +193,11 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 	if (auto signature = stream.read<uint32_t>(); signature == VTF_SIGNATURE) {
 		this->platform = PLATFORM_PC;
-		stream >> this->majorVersion >> this->minorVersion;
-		if (this->majorVersion != 7 || this->minorVersion > 6) {
+		if (stream.read<uint32_t>() != 7) {
+			return;
+		}
+		stream >> this->version;
+		if (this->version > 6) {
 			return;
 		}
 	} else if (signature == VTFX_SIGNATURE || signature == VTF3_SIGNATURE) {
@@ -208,14 +210,13 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		if (signature == VTF3_SIGNATURE) {
 			this->platform = PLATFORM_PS3_PORTAL2;
 		}
-		this->majorVersion = 7;
 		switch (this->platform) {
 			case PLATFORM_PS3_ORANGEBOX:
 			case PLATFORM_X360:
-				this->minorVersion = 4;
+				this->version = 4;
 				break;
 			case PLATFORM_PS3_PORTAL2:
-				this->minorVersion = 5;
+				this->version = 5;
 				break;
 			default:
 				this->platform = PLATFORM_UNKNOWN;
@@ -387,7 +388,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		this->thumbnailFormat = ImageFormat::DXT1;
 	}
 
-	if (this->minorVersion < 2) {
+	if (this->version < 2) {
 		this->sliceCount = 1;
 	} else {
 		stream.read(this->sliceCount);
@@ -398,7 +399,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		return;
 	}
 
-	if (this->minorVersion >= 3) {
+	if (this->version >= 3) {
 		stream.skip(3);
 		auto resourceCount = stream.read<uint32_t>();
 		stream.skip(8);
@@ -406,7 +407,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 		this->opened = stream.tell() == headerSize;
 
-		if (this->opened && this->minorVersion >= 6) {
+		if (this->opened && this->version >= 6) {
 			const auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
 			const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
 			if (auxResource && imageResource) {
@@ -491,8 +492,7 @@ VTF::VTF(const VTF& other) {
 VTF& VTF::operator=(const VTF& other) {
 	this->opened = other.opened;
 	this->data = other.data;
-	this->majorVersion = other.majorVersion;
-	this->minorVersion = other.minorVersion;
+	this->version = other.version;
 	this->width = other.width;
 	this->height = other.height;
 	this->flags = other.flags;
@@ -563,7 +563,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
 		options.outputFormat = writer.getFormat();
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
-		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getMajorVersion(), writer.getMinorVersion(), options.isCubeMap);
+		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeTransparencyFlags) {
 		writer.computeTransparencyFlags();
@@ -582,7 +582,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 
 bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
 	VTF writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (!writer.setImage(imageData, format, width, height, options.filter)) {
@@ -602,7 +602,7 @@ bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std:
 
 VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
 	VTF writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imageData, format, width, height, options.filter);
@@ -618,7 +618,7 @@ VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, CreationOpt
 
 bool VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
 	VTF writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (!writer.setImage(imagePath, options.filter)) {
@@ -632,7 +632,7 @@ bool VTF::create(const std::string& imagePath, const std::string& vtfPath, Creat
 
 VTF VTF::create(const std::string& imagePath, CreationOptions options) {
 	VTF writer;
-	writer.setVersion(options.majorVersion, options.minorVersion);
+	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	writer.setImage(imagePath, options.filter);
@@ -647,9 +647,9 @@ VTF::Platform VTF::getPlatform() const {
 void VTF::setPlatform(Platform newPlatform) {
 	if (this->platform != PLATFORM_PC) {
 		if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_ORANGEBOX) {
-			this->setVersion(7, 4);
+			this->setVersion(4);
 		} else /*if (this->platform == PLATFORM_PS3_PORTAL2)*/ {
-			this->setVersion(7, 5);
+			this->setVersion(5);
 		}
 
 		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
@@ -661,50 +661,41 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 }
 
-uint32_t VTF::getMajorVersion() const {
-	return this->majorVersion;
+uint32_t VTF::getVersion() const {
+	return this->version;
 }
 
-uint32_t VTF::getMinorVersion() const {
-	return this->minorVersion;
-}
-
-void VTF::setVersion(uint32_t newMajorVersion, uint32_t newMinorVersion) {
-	this->setMajorVersion(newMajorVersion);
-	this->setMinorVersion(newMinorVersion);
-}
-
-void VTF::setMajorVersion(uint32_t newMajorVersion) {
-	if (this->platform != PLATFORM_PC) {
-		return;
-	}
-	this->majorVersion = newMajorVersion;
-}
-
-void VTF::setMinorVersion(uint32_t newMinorVersion) {
+void VTF::setVersion(uint32_t newVersion) {
 	if (this->platform != PLATFORM_PC) {
 		return;
 	}
 	if (this->hasImageData()) {
 		auto faceCount = this->getFaceCount();
-		if (faceCount == 7 && (newMinorVersion < 1 || newMinorVersion > 4)) {
+		if (faceCount == 7 && (newVersion < 1 || newVersion > 4)) {
 			faceCount = 6;
 		}
 		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->sliceCount);
 	}
-	if (this->minorVersion <= 3 && newMinorVersion > 3) {
-		this->flags &= static_cast<VTF::Flags>(~VTF::FLAG_MASK_AFTER_V7_3);
-		if (this->flags & VTF::FLAG_PWL_CORRECTED) {
-			this->flags &= ~VTF::FLAG_PWL_CORRECTED;
-			this->flags |= VTF::FLAG_SRGB;
-		}
-	} else if (this->minorVersion > 3 && newMinorVersion <= 3) {
-		if (this->flags & VTF::FLAG_SRGB) {
-			this->flags |= VTF::FLAG_PWL_CORRECTED;
-		}
-		this->flags &= static_cast<VTF::Flags>(~VTF::FLAG_MASK_AFTER_V7_3);
+
+	// Fix up flags
+	bool srgb = this->isSRGB();
+	if ((this->version < 2 && newVersion >= 2) || (this->version >= 2 && newVersion < 2)) {
+		this->removeFlags(VTF::FLAGS_MASK_V2);
 	}
-	this->minorVersion = newMinorVersion;
+	if ((this->version < 3 && newVersion >= 3) || (this->version >= 3 && newVersion < 3)) {
+		this->removeFlags(VTF::FLAGS_MASK_V3);
+	}
+	if ((this->version < 4 && newVersion >= 4) || (this->version >= 4 && newVersion < 4)) {
+		this->removeFlags(VTF::FLAGS_MASK_V4);
+		this->removeFlags(VTF::FLAGS_MASK_V4_TF2);
+	}
+	if ((this->version < 5 && newVersion >= 5) || (this->version >= 5 && newVersion < 5)) {
+		this->removeFlags(VTF::FLAGS_MASK_V5);
+		this->removeFlags(VTF::FLAGS_MASK_V5_CSGO);
+	}
+	this->setSRGB(srgb);
+
+	this->version = newVersion;
 }
 
 ImageConversion::ResizeMethod VTF::getImageWidthResizeMethod() const {
@@ -771,20 +762,40 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 	}
 }
 
-VTF::Flags VTF::getFlags() const {
+uint32_t VTF::getFlags() const {
 	return this->flags;
 }
 
-void VTF::setFlags(Flags flags_) {
-	this->flags = (this->flags & FLAG_MASK_INTERNAL) | (flags_ & ~FLAG_MASK_INTERNAL);
+void VTF::setFlags(uint32_t flags_) {
+	this->flags = (this->flags & FLAGS_MASK_INTERNAL) | (flags_ & ~FLAGS_MASK_INTERNAL);
 }
 
-void VTF::addFlags(Flags flags_) {
-	this->flags |= flags_ & ~FLAG_MASK_INTERNAL;
+void VTF::addFlags(uint32_t flags_) {
+	this->flags |= flags_ & ~FLAGS_MASK_INTERNAL;
 }
 
-void VTF::removeFlags(Flags flags_) {
-	this->flags &= ~flags_ | FLAG_MASK_INTERNAL;
+void VTF::removeFlags(uint32_t flags_) {
+	this->flags &= ~flags_ | FLAGS_MASK_INTERNAL;
+}
+
+bool VTF::isSRGB() const {
+	return !ImageFormatDetails::large(this->format) && (this->version < 4 ? false : this->version < 5 ? this->flags & FLAG_V4_SRGB : this->flags & FLAG_V5_PWL_CORRECTED || this->flags & FLAG_V5_SRGB);
+}
+
+void VTF::setSRGB(bool srgb) {
+	if (srgb) {
+		if (this->version >= 5) {
+			this->addFlags(FLAG_V5_SRGB);
+		} else if (this->version >= 4) {
+			this->addFlags(FLAG_V4_SRGB);
+		}
+	} else {
+		if (this->version >= 5) {
+			this->removeFlags(FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB);
+		} else if (this->version >= 4) {
+			this->removeFlags(FLAG_V4_SRGB);
+		}
+	}
 }
 
 void VTF::computeTransparencyFlags() {
@@ -802,13 +813,13 @@ void VTF::computeTransparencyFlags() {
 	}
 }
 
-ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t majorVersion, uint32_t minorVersion, bool isCubeMap) {
+ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t version, bool isCubeMap) {
 	if (inputFormat != ImageFormat::EMPTY) {
-		if (majorVersion >= 7 && minorVersion >= 6 && isCubeMap) {
+		if (version >= 6 && isCubeMap) {
 			return ImageFormat::BC6H;
 		}
 		if (ImageFormatDetails::decompressedAlpha(inputFormat) > 0) {
-			if (majorVersion >= 7 && minorVersion >= 6) {
+			if (version >= 6) {
 				return ImageFormat::BC7;
 			}
 			return ImageFormat::DXT5;
@@ -826,7 +837,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		return;
 	}
 	if (newFormat == VTF::FORMAT_DEFAULT) {
-		newFormat = VTF::getDefaultCompressedFormat(this->format, this->majorVersion, this->minorVersion, this->getFaceCount() > 1);
+		newFormat = VTF::getDefaultCompressedFormat(this->format, this->version, this->getFaceCount() > 1);
 	}
 	if (!this->hasImageData()) {
 		this->format = newFormat;
@@ -899,7 +910,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 				futures.push_back(std::async(std::launch::async, [this, filter, outputDataPtr, faceCount, j, k, l] {
 #endif
 					for (int i = 1; i < this->mipCount; i++) {
-						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->imageDataIsSRGB(), filter);
+						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->isSRGB(), filter);
 						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
 							std::memcpy(outputDataPtr + offset, mip.data(), length);
 						}
@@ -946,13 +957,13 @@ uint8_t VTF::getFaceCount() const {
 	if (!(this->flags & VTF::FLAG_ENVMAP)) {
 		return 1;
 	}
-	if (this->minorVersion >= 6) {
+	if (this->version >= 6) {
 		// All v7.6 VTFs are sane, and we need this special case to fix a bug in the parser where
 		// it won't recognize cubemaps as cubemaps because the image resource is compressed!
 		return 6;
 	}
 	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->sliceCount);
-	if (this->majorVersion == 7 && this->minorVersion >= 1 && this->minorVersion <= 4 && expectedLength < image->data.size()) {
+	if (this->version >= 1 && this->version <= 4 && expectedLength < image->data.size()) {
 		return 7;
 	}
 	if (expectedLength == image->data.size()) {
@@ -965,7 +976,7 @@ bool VTF::setFaceCount(bool isCubemap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4) ? 7 : 6) : 1, this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->sliceCount);
 	return true;
 }
 
@@ -985,7 +996,7 @@ bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, uint
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->minorVersion >= 1 && this->minorVersion <= 4) ? 7 : 6) : 1, newSliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, newSliceCount);
 	return true;
 }
 
@@ -1197,7 +1208,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 								auto imageSpan = this->getImageDataRaw(i, j, k, l);
 								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
 								if (this->width != newWidth || this->height != newHeight) {
-									image = ImageConversion::resizeImageData(image, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, newWidth), ImageDimensions::getMipDim(i, this->height), ImageDimensions::getMipDim(i, newHeight), this->imageDataIsSRGB(), filter);
+									image = ImageConversion::resizeImageData(image, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, newWidth), ImageDimensions::getMipDim(i, this->height), ImageDimensions::getMipDim(i, newHeight), this->isSRGB(), filter);
 								}
 								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newSliceCount) && image.size() == length) {
 									std::memcpy(newImageData.data() + offset, image.data(), length);
@@ -1366,10 +1377,6 @@ bool VTF::hasImageData() const {
 	return this->format != ImageFormat::EMPTY && this->width > 0 && this->height > 0;
 }
 
-bool VTF::imageDataIsSRGB() const {
-	return !ImageFormatDetails::large(this->format) && (this->flags & FLAG_MASK_SRGB);
-}
-
 std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
 	if (const auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
@@ -1406,7 +1413,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		if (const auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
-		if (face > 6 || (face == 6 && (this->minorVersion < 1 || this->minorVersion > 4))) {
+		if (face > 6 || (face == 6 && (this->version < 1 || this->version > 4))) {
 			return false;
 		}
 		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face ? (face < 5 ? 5 : face) : 0, slice + 1);
@@ -1426,7 +1433,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		const auto newWidth = ImageDimensions::getMipDim(mip, this->width);
 		const auto newHeight = ImageDimensions::getMipDim(mip, this->height);
 		if (width_ != newWidth || height_ != newHeight) {
-			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->imageDataIsSRGB(), filter);
+			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), filter);
 		}
 		if (format_ != this->format) {
 			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight);
@@ -1517,7 +1524,7 @@ void VTF::computeThumbnail(ImageConversion::ResizeFilter filter) {
 	this->thumbnailFormat = ImageFormat::DXT1;
 	this->thumbnailWidth = 16;
 	this->thumbnailHeight = 16;
-	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->flags & FLAG_SRGB, filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
+	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
 }
 
 void VTF::removeThumbnail() {
@@ -1677,7 +1684,11 @@ std::vector<std::byte> VTF::bake() const {
 		return out;
 	}
 
-	writer << VTF_SIGNATURE << this->majorVersion << this->minorVersion;
+	writer
+		.write(VTF_SIGNATURE)
+		.write<int32_t>(7)
+		.write(this->version);
+
 	const auto headerLengthPos = writer.tell();
 	writer.write<uint32_t>(0);
 
@@ -1697,11 +1708,11 @@ std::vector<std::byte> VTF::bake() const {
 		.write(this->thumbnailWidth)
 		.write(this->thumbnailHeight);
 
-	if (this->minorVersion >= 2) {
+	if (this->version >= 2) {
 		writer << this->sliceCount;
 	}
 
-	if (this->minorVersion < 3) {
+	if (this->version < 3) {
 		const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
 		for (uint16_t i = 0; i < headerAlignment; i++) {
 			writer.write<std::byte>({});
@@ -1720,7 +1731,7 @@ std::vector<std::byte> VTF::bake() const {
 		std::vector<std::byte> compressedImageResourceData;
 		bool hasAuxCompression = false;
 		if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-			hasAuxCompression = this->minorVersion >= 6 && this->compressionLevel != 0;
+			hasAuxCompression = this->version >= 6 && this->compressionLevel != 0;
 			if (hasAuxCompression) {
 				const auto faceCount = this->getFaceCount();
 				auxCompressionResourceData.resize((this->mipCount * this->frameCount * faceCount + 2) * sizeof(uint32_t));

@@ -8,8 +8,6 @@
 #include <nanobind/stl/tuple.h>
 #include <nanobind/stl/vector.h>
 
-#include "../../../include/vtfpp/ImageConversion.h"
-
 namespace py = nanobind;
 
 #include <vtfpp/vtfpp.h>
@@ -370,19 +368,17 @@ void register_python(py::module_& m) {
 		.def("get_data_as_aux_compression_method", &Resource::getDataAsAuxCompressionMethod)
 		.def("get_data_as_aux_compression_length", &Resource::getDataAsAuxCompressionLength, py::arg("mip"), py::arg("mip_count"), py::arg("frame"), py::arg("frame_count"), py::arg("face"), py::arg("face_count"));
 
-	py::enum_<VTF::Flags>(cVTF, "Flags", py::is_flag())
-		.value("NONE",                       VTF::FLAG_NONE)
+	py::enum_<VTF::FlagsV0>(cVTF, "FlagsV0", py::is_flag())
 		.value("POINT_SAMPLE",               VTF::FLAG_POINT_SAMPLE)
 		.value("TRILINEAR",                  VTF::FLAG_TRILINEAR)
 		.value("CLAMP_S",                    VTF::FLAG_CLAMP_S)
 		.value("CLAMP_T",                    VTF::FLAG_CLAMP_T)
 		.value("ANISOTROPIC",                VTF::FLAG_ANISOTROPIC)
 		.value("HINT_DXT5",                  VTF::FLAG_HINT_DXT5)
-		.value("PWL_CORRECTED",              VTF::FLAG_PWL_CORRECTED)
 		.value("NORMAL",                     VTF::FLAG_NORMAL)
 		.value("NO_MIP",                     VTF::FLAG_NO_MIP)
 		.value("NO_LOD",                     VTF::FLAG_NO_LOD)
-		.value("LOAD_ALL_MIPS",              VTF::FLAG_LOAD_ALL_MIPS)
+		.value("MIN_MIP",                    VTF::FLAG_MIN_MIP)
 		.value("PROCEDURAL",                 VTF::FLAG_PROCEDURAL)
 		.value("ONE_BIT_ALPHA",              VTF::FLAG_ONE_BIT_ALPHA)
 		.value("MULTI_BIT_ALPHA",            VTF::FLAG_MULTI_BIT_ALPHA)
@@ -391,35 +387,58 @@ void register_python(py::module_& m) {
 		.value("DEPTH_RENDERTARGET",         VTF::FLAG_DEPTH_RENDERTARGET)
 		.value("NO_DEBUG_OVERRIDE",          VTF::FLAG_NO_DEBUG_OVERRIDE)
 		.value("SINGLE_COPY",                VTF::FLAG_SINGLE_COPY)
-		.value("SRGB",                       VTF::FLAG_SRGB)
-		.value("DEFAULT_POOL",               VTF::FLAG_DEFAULT_POOL)
-		.value("COMBINED",                   VTF::FLAG_COMBINED)
-		.value("ASYNC_DOWNLOAD",             VTF::FLAG_ASYNC_DOWNLOAD)
-		.value("NO_DEPTH_BUFFER",            VTF::FLAG_NO_DEPTH_BUFFER)
-		.value("SKIP_INITIAL_DOWNLOAD",      VTF::FLAG_SKIP_INITIAL_DOWNLOAD)
-		.value("CLAMP_U",                    VTF::FLAG_CLAMP_U)
-		.value("VERTEX_TEXTURE",             VTF::FLAG_VERTEX_TEXTURE)
-		.value("XBOX_PRESWIZZLED",           VTF::FLAG_XBOX_PRESWIZZLED)
-		.value("SSBUMP",                     VTF::FLAG_SSBUMP)
-		.value("XBOX_CACHEABLE",             VTF::FLAG_XBOX_CACHEABLE)
-		.value("LOAD_MOST_MIPS",             VTF::FLAG_LOAD_MOST_MIPS)
-		.value("BORDER",                     VTF::FLAG_BORDER)
-		.value("YCOCG",                      VTF::FLAG_YCOCG)
-		.value("ASYNC_SKIP_INITIAL_LOW_RES", VTF::FLAG_ASYNC_SKIP_INITIAL_LOW_RES)
+		.export_values();
+
+	py::enum_<VTF::FlagsV2>(cVTF, "FlagsV2", py::is_flag())
+		.value("NO_DEPTH_BUFFER",            VTF::FLAG_V2_NO_DEPTH_BUFFER)
+		.value("CLAMP_U",                    VTF::FLAG_V2_CLAMP_U)
+		.export_values();
+
+	py::enum_<VTF::FlagsV3>(cVTF, "FlagsV3", py::is_flag())
+		.value("LOAD_ALL_MIPS",              VTF::FLAG_V3_LOAD_ALL_MIPS)
+		.value("VERTEX_TEXTURE",             VTF::FLAG_V3_VERTEX_TEXTURE)
+		.value("SSBUMP",                     VTF::FLAG_V3_SSBUMP)
+		.value("BORDER",                     VTF::FLAG_V3_BORDER)
+		.export_values();
+
+	py::enum_<VTF::FlagsV4>(cVTF, "FlagsV4", py::is_flag())
+		.value("SRGB",                       VTF::FLAG_V4_SRGB)
+		.export_values();
+
+	py::enum_<VTF::FlagsV4_TF2>(cVTF, "FlagsV4_TF2", py::is_flag())
+		.value("STAGING_MEMORY",             VTF::FLAG_V4_TF2_STAGING_MEMORY)
+		.value("IMMEDIATE_CLEANUP",          VTF::FLAG_V4_TF2_IMMEDIATE_CLEANUP)
+		.value("IGNORE_PICMIP",              VTF::FLAG_V4_TF2_IGNORE_PICMIP)
+		.value("STREAMABLE_COARSE",          VTF::FLAG_V4_TF2_STREAMABLE_COARSE)
+		.value("STREAMABLE_FINE",            VTF::FLAG_V4_TF2_STREAMABLE_FINE)
+		.export_values();
+
+	py::enum_<VTF::FlagsV5>(cVTF, "FlagsV5", py::is_flag())
+		.value("PWL_CORRECTED",              VTF::FLAG_V5_PWL_CORRECTED)
+		.value("SRGB",                       VTF::FLAG_V5_SRGB)
+		.value("DEFAULT_POOL",               VTF::FLAG_V5_DEFAULT_POOL)
+		.value("LOAD_MOST_MIPS",             VTF::FLAG_V5_LOAD_MOST_MIPS)
+		.export_values();
+
+	py::enum_<VTF::FlagsV5_CSGO>(cVTF, "FlagsV5_CSGO", py::is_flag())
+		.value("COMBINED",                   VTF::FLAG_V5_CSGO_COMBINED)
+		.value("ASYNC_DOWNLOAD",             VTF::FLAG_V5_CSGO_ASYNC_DOWNLOAD)
+		.value("SKIP_INITIAL_DOWNLOAD",      VTF::FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD)
+		.value("YCOCG",                      VTF::FLAG_V5_CSGO_YCOCG)
+		.value("ASYNC_SKIP_INITIAL_LOW_RES", VTF::FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES)
 		.export_values();
 
 	py::enum_<VTF::Platform>(cVTF, "Platform")
 		.value("UNKNOWN",       VTF::PLATFORM_UNKNOWN)
 		.value("PC",            VTF::PLATFORM_PC)
-		.value("PS3_PORTAL2",   VTF::PLATFORM_PS3_PORTAL2)
-		.value("PS3_ORANGEBOX", VTF::PLATFORM_PS3_ORANGEBOX)
 		.value("X360",          VTF::PLATFORM_X360)
+		.value("PS3_ORANGEBOX", VTF::PLATFORM_PS3_ORANGEBOX)
+		.value("PS3_PORTAL2",   VTF::PLATFORM_PS3_PORTAL2)
 		.export_values();
 
 	py::class_<VTF::CreationOptions>(cVTF, "CreationOptions")
 		.def(py::init<>())
-		.def_rw("major_version",              &VTF::CreationOptions::majorVersion)
-		.def_rw("minor_version",              &VTF::CreationOptions::minorVersion)
+		.def_rw("version",                    &VTF::CreationOptions::version)
 		.def_rw("output_format",              &VTF::CreationOptions::outputFormat)
 		.def_rw("width_resize_method",        &VTF::CreationOptions::widthResizeMethod)
 		.def_rw("height_resize_method",       &VTF::CreationOptions::heightResizeMethod)
@@ -440,9 +459,14 @@ void register_python(py::module_& m) {
 		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel);
 
 	cVTF
-		.def_ro_static("FLAG_MASK_AFTER_V7_3", &VTF::FLAG_MASK_AFTER_V7_3)
-		.def_ro_static("FLAG_MASK_INTERNAL",   &VTF::FLAG_MASK_INTERNAL)
-		.def_ro_static("FLAG_MASK_SRGB",       &VTF::FLAG_MASK_SRGB)
+		.def_ro_static("FLAGS_MASK_V0",        &VTF::FLAGS_MASK_V0)
+		.def_ro_static("FLAGS_MASK_V2",        &VTF::FLAGS_MASK_V2)
+		.def_ro_static("FLAGS_MASK_V3",        &VTF::FLAGS_MASK_V3)
+		.def_ro_static("FLAGS_MASK_V4",        &VTF::FLAGS_MASK_V4)
+		.def_ro_static("FLAGS_MASK_V4_TF2",    &VTF::FLAGS_MASK_V4_TF2)
+		.def_ro_static("FLAGS_MASK_V5",        &VTF::FLAGS_MASK_V5)
+		.def_ro_static("FLAGS_MASK_V5_CSGO",   &VTF::FLAGS_MASK_V5_CSGO)
+		.def_ro_static("FLAGS_MASK_INTERNAL",  &VTF::FLAGS_MASK_INTERNAL)
 		.def_ro_static("FORMAT_UNCHANGED",     &VTF::FORMAT_UNCHANGED)
 		.def_ro_static("FORMAT_DEFAULT",       &VTF::FORMAT_DEFAULT)
 		.def(py::init<>())
@@ -462,8 +486,7 @@ void register_python(py::module_& m) {
 		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_from_file", py::overload_cast<const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_prop_rw("platform", &VTF::getPlatform, &VTF::setPlatform)
-		.def_prop_rw("version_major", &VTF::getMajorVersion, &VTF::setMajorVersion)
-		.def_prop_rw("version_minor", &VTF::getMinorVersion, &VTF::setMinorVersion)
+		.def_prop_rw("version", &VTF::getVersion, &VTF::setVersion)
 		.def_prop_rw("image_width_resize_method", &VTF::getImageWidthResizeMethod, &VTF::setImageWidthResizeMethod)
 		.def_prop_rw("image_height_resize_method", &VTF::getImageHeightResizeMethod, &VTF::setImageHeightResizeMethod)
 		.def_prop_ro("width", &VTF::getWidth)
@@ -474,8 +497,10 @@ void register_python(py::module_& m) {
 		.def_prop_rw("flags", &VTF::getFlags, &VTF::setFlags)
 		.def("add_flags", &VTF::addFlags, py::arg("flags"))
 		.def("remove_flags", &VTF::removeFlags, py::arg("flags"))
+		.def("is_srgb", &VTF::isSRGB)
+		.def("set_srgb", &VTF::setSRGB, py::arg("srgb"))
 		.def("compute_transparency_flags", &VTF::computeTransparencyFlags)
-		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, py::arg("input_format"), py::arg("major_version"), py::arg("minor_version"), py::arg("is_cubemap"))
+		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, py::arg("input_format"), py::arg("version"), py::arg("is_cubemap"))
 		.def_prop_ro("format", &VTF::getFormat)
 		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)
@@ -523,7 +548,6 @@ void register_python(py::module_& m) {
 		.def_prop_rw("compression_level", &VTF::getCompressionLevel, &VTF::setCompressionLevel)
 		.def_prop_rw("compression_method", &VTF::getCompressionMethod, &VTF::setCompressionMethod)
 		.def("has_image_data", &VTF::hasImageData)
-		.def("image_data_is_srgb", &VTF::imageDataIsSRGB)
 		.def("get_image_data_raw", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
 			const auto d = self.getImageDataRaw(mip, frame, face, slice);
 			return py::bytes{d.data(), d.size()};

@@ -164,34 +164,16 @@ SOURCEPP_API void vtfpp_vtf_set_platform(vtfpp_vtf_handle_t handle, vtfpp_vtf_pl
 	Convert::vtf(handle)->setPlatform(Convert::vtfPlatform(platform));
 }
 
-SOURCEPP_API uint32_t vtfpp_vtf_get_major_version(vtfpp_vtf_handle_t handle) {
+SOURCEPP_API uint32_t vtfpp_vtf_get_version(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::vtf(handle)->getMajorVersion();
+	return Convert::vtf(handle)->getVersion();
 }
 
-SOURCEPP_API uint32_t vtfpp_vtf_get_minor_version(vtfpp_vtf_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
-
-	return Convert::vtf(handle)->getMinorVersion();
-}
-
-SOURCEPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t majorVersion, uint32_t minorVersion) {
+SOURCEPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t version) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	return Convert::vtf(handle)->setVersion(majorVersion, minorVersion);
-}
-
-SOURCEPP_API void vtfpp_vtf_set_major_version(vtfpp_vtf_handle_t handle, uint32_t majorVersion) {
-	SOURCEPP_EARLY_RETURN(handle);
-
-	return Convert::vtf(handle)->setMajorVersion(majorVersion);
-}
-
-SOURCEPP_API void vtfpp_vtf_set_minor_version(vtfpp_vtf_handle_t handle, uint32_t minorVersion) {
-	SOURCEPP_EARLY_RETURN(handle);
-
-	return Convert::vtf(handle)->setMinorVersion(minorVersion);
+	return Convert::vtf(handle)->setVersion(version);
 }
 
 SOURCEPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_width_resize_method(vtfpp_vtf_handle_t handle) {
@@ -242,28 +224,40 @@ SOURCEPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, 
 	Convert::vtf(handle)->setSize(width, height, Convert::resizeFilter(filter));
 }
 
-SOURCEPP_API vtfpp_vtf_flags_e vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, VTFPP_VTF_FLAG_NONE);
+SOURCEPP_API uint32_t vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::vtfFlags(Convert::vtf(handle)->getFlags());
+	return Convert::vtf(handle)->getFlags();
 }
 
-SOURCEPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags) {
+SOURCEPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, uint32_t flags) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::vtf(handle)->setFlags(Convert::vtfFlags(flags));
+	Convert::vtf(handle)->setFlags(flags);
 }
 
-SOURCEPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags) {
+SOURCEPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, uint32_t flags) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::vtf(handle)->addFlags(Convert::vtfFlags(flags));
+	Convert::vtf(handle)->addFlags(flags);
 }
 
-SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, vtfpp_vtf_flags_e flags) {
+SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::vtf(handle)->removeFlags(Convert::vtfFlags(flags));
+	Convert::vtf(handle)->removeFlags(flags);
+}
+
+SOURCEPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+
+	return Convert::vtf(handle)->isSRGB();
+}
+
+SOURCEPP_API void vtfpp_vtf_set_srgb(vtfpp_vtf_handle_t handle, int srgb) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	Convert::vtf(handle)->setSRGB(srgb);
 }
 
 SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle) {
@@ -272,8 +266,8 @@ SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle
 	Convert::vtf(handle)->computeTransparencyFlags();
 }
 
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t majorVersion, uint32_t minorVersion, int isCubeMap) {
-	return Convert::imageFormat(VTF::getDefaultCompressedFormat(Convert::imageFormat(inputFormat), majorVersion, minorVersion, isCubeMap));
+SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap) {
+	return Convert::imageFormat(VTF::getDefaultCompressedFormat(Convert::imageFormat(inputFormat), version, isCubeMap));
 }
 
 SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle) {
@@ -551,12 +545,6 @@ SOURCEPP_API int vtfpp_vtf_has_image_data(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
 	return Convert::vtf(handle)->hasImageData();
-}
-
-SOURCEPP_API int vtfpp_vtf_image_data_is_srgb(vtfpp_vtf_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, false);
-
-	return Convert::vtf(handle)->imageDataIsSRGB();
 }
 
 SOURCEPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
