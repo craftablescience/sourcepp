@@ -77,6 +77,7 @@ var namespacevtfpp =
       [ "transparent", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a78ae08639944704fc3005980477e7e56", null ]
     ] ],
     [ "ImagePixel", "dd/d73/namespacevtfpp_1_1ImagePixel.html", "dd/d73/namespacevtfpp_1_1ImagePixel" ],
+    [ "HOT", "da/d9a/classvtfpp_1_1HOT.html", "da/d9a/classvtfpp_1_1HOT" ],
     [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
     [ "SHT", "db/dde/classvtfpp_1_1SHT.html", "db/dde/classvtfpp_1_1SHT" ],

@@ -162,6 +162,7 @@ var annotated_dup =
         [ "UVLX8888", "d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888.html", "d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888" ],
         [ "UVWQ8888", "dd/d9f/structvtfpp_1_1ImagePixel_1_1UVWQ8888.html", "dd/d9f/structvtfpp_1_1ImagePixel_1_1UVWQ8888" ]
       ] ],
+      [ "HOT", "da/d9a/classvtfpp_1_1HOT.html", "da/d9a/classvtfpp_1_1HOT" ],
       [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
       [ "SHT", "db/dde/classvtfpp_1_1SHT.html", "db/dde/classvtfpp_1_1SHT" ],

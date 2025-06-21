@@ -4,5 +4,6 @@ var searchData=
   ['header1_1',['Header1',['../d2/d67/structvpkpp_1_1VPK_1_1Header1.html',1,'vpkpp::VPK']]],
   ['header2_2',['Header2',['../d2/d8d/structvpkpp_1_1VPK_1_1Header2.html',1,'vpkpp::VPK']]],
   ['hitboxset_3',['HitboxSet',['../d0/db5/structmdlpp_1_1MDL_1_1HitboxSet.html',1,'mdlpp::MDL']]],
-  ['hog_4',['HOG',['../dd/d46/classvpkpp_1_1HOG.html',1,'vpkpp']]]
+  ['hog_4',['HOG',['../dd/d46/classvpkpp_1_1HOG.html',1,'vpkpp']]],
+  ['hot_5',['HOT',['../da/d9a/classvtfpp_1_1HOT.html',1,'vtfpp']]]
 ];

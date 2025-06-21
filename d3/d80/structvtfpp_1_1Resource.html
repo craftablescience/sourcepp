@@ -157,7 +157,8 @@ Public Types</h2></td></tr>
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0">TYPE_EXTENDED_FLAGS</a> = sourcepp::parser::binary::makeFourCC("TSO\0")
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54">TYPE_KEYVALUES_DATA</a> = sourcepp::parser::binary::makeFourCC("KVD\0")
 , <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = sourcepp::parser::binary::makeFourCC("AXC\0")
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850">TYPE_HOTSPOT_DATA</a> = sourcepp::parser::binary::makeFourCC("HOT\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = sourcepp::parser::binary::makeFourCC("AXC\0")
 <br />
  }</td></tr>
 <tr class="separator:acd09d7ee06a97ae24066966fa8408e69"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -165,12 +166,12 @@ Public Types</h2></td></tr>
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a">FLAG_LOCAL_DATA</a> = 1 &lt;&lt; 1
  }</td></tr>
 <tr class="separator:aa5bb79f3e1a48d5c6d0ade0e4fc4ec34"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a212085aa1014a0738458d24661db4719"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">ConvertedData</a> = std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt; uint8_t, uint8_t, uint8_t, uint8_t &gt;, std::string, std::span&lt; uint32_t &gt; &gt;</td></tr>
-<tr class="separator:a212085aa1014a0738458d24661db4719"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa03885ea0d6d7f134e3d8c53efe75922"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa03885ea0d6d7f134e3d8c53efe75922">ConvertedData</a> = std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt; uint8_t, uint8_t, uint8_t, uint8_t &gt;, std::string, <a class="el" href="../../da/d9a/classvtfpp_1_1HOT.html">HOT</a>, std::span&lt; uint32_t &gt; &gt;</td></tr>
+<tr class="separator:aa03885ea0d6d7f134e3d8c53efe75922"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">ConvertedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a452f64cd7c868d1b03e43e9830d4d9a7">convertData</a> () const</td></tr>
+<tr class="memitem:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa03885ea0d6d7f134e3d8c53efe75922">ConvertedData</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a452f64cd7c868d1b03e43e9830d4d9a7">convertData</a> () const</td></tr>
 <tr class="separator:a452f64cd7c868d1b03e43e9830d4d9a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a162cf70a3c7acd75eadf7402ad1e9e72"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72">getDataAsParticleSheet</a> () const</td></tr>
 <tr class="separator:a162cf70a3c7acd75eadf7402ad1e9e72"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -182,6 +183,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a6daa33ea618be36306e42de792eabe67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e37adb4ee39a3e91c2ff84a9aad54a1"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a6e37adb4ee39a3e91c2ff84a9aad54a1">getDataAsKeyValuesData</a> () const</td></tr>
 <tr class="separator:a6e37adb4ee39a3e91c2ff84a9aad54a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac771281b15028b00ae139bea86991592"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/d9a/classvtfpp_1_1HOT.html">HOT</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac771281b15028b00ae139bea86991592">getDataAsHotspotData</a> () const</td></tr>
+<tr class="separator:ac771281b15028b00ae139bea86991592"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0fe1bb03f1fd615bbef629fad9160c7"><td class="memItemLeft" align="right" valign="top">int16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#ac0fe1bb03f1fd615bbef629fad9160c7">getDataAsAuxCompressionLevel</a> () const</td></tr>
 <tr class="separator:ac0fe1bb03f1fd615bbef629fad9160c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a217c96ef66c09133d3020c7799a4e46a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../de/d90/namespacevtfpp.html#aaa9ee6c4a6f4d2068390a0b36ae5c2e0">CompressionMethod</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a217c96ef66c09133d3020c7799a4e46a">getDataAsAuxCompressionMethod</a> () const</td></tr>
@@ -191,8 +194,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:aee66bbde0c1b346e7580dedceda08fe6"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 8 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aee66bbde0c1b346e7580dedceda08fe6">getOrder</a> ()</td></tr>
-<tr class="separator:aee66bbde0c1b346e7580dedceda08fe6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a109d9cfb1366fe99875adc4acf2b5dcf"><td class="memItemLeft" align="right" valign="top">static const std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 9 &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a109d9cfb1366fe99875adc4acf2b5dcf">getOrder</a> ()</td></tr>
+<tr class="separator:a109d9cfb1366fe99875adc4acf2b5dcf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -205,21 +208,21 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00033">33</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00034">34</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
-<a id="a212085aa1014a0738458d24661db4719" name="a212085aa1014a0738458d24661db4719"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a212085aa1014a0738458d24661db4719">&#9670;&#160;</a></span>ConvertedData</h2>
+<a id="aa03885ea0d6d7f134e3d8c53efe75922" name="aa03885ea0d6d7f134e3d8c53efe75922"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa03885ea0d6d7f134e3d8c53efe75922">&#9670;&#160;</a></span>ConvertedData</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">using <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">vtfpp::Resource::ConvertedData</a> =  std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt;uint8_t, uint8_t, uint8_t, uint8_t&gt;, std::string, std::span&lt;uint32_t&gt; &gt;</td>
+          <td class="memname">using <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa03885ea0d6d7f134e3d8c53efe75922">vtfpp::Resource::ConvertedData</a> =  std::variant&lt; std::monostate, <a class="el" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>, uint32_t, std::tuple&lt;uint8_t, uint8_t, uint8_t, uint8_t&gt;, std::string, <a class="el" href="../../da/d9a/classvtfpp_1_1HOT.html">HOT</a>, std::span&lt;uint32_t&gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00056">56</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00058">58</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -240,7 +243,7 @@ Public Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a" name="aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a"></a>FLAG_LOCAL_DATA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00047">47</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00049">49</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -264,10 +267,11 @@ Public Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f" name="acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f"></a>TYPE_LOD_CONTROL_INFO&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0" name="acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0"></a>TYPE_EXTENDED_FLAGS&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54" name="acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54"></a>TYPE_KEYVALUES_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850" name="acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850"></a>TYPE_HOTSPOT_DATA&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27" name="acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27"></a>TYPE_AUX_COMPRESSION&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00034">34</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00035">35</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -279,7 +283,7 @@ Public Attributes</h2></td></tr>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a212085aa1014a0738458d24661db4719">Resource::ConvertedData</a> Resource::convertData </td>
+          <td class="memname"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#aa03885ea0d6d7f134e3d8c53efe75922">Resource::ConvertedData</a> Resource::convertData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -287,7 +291,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00135">135</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00136">136</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -349,7 +353,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00098">98</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00105">105</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -376,7 +380,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00086">86</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00093">93</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -403,7 +407,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00090">90</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00097">97</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -430,7 +434,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00070">70</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00073">73</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -457,7 +461,34 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00074">74</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00077">77</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+
+</div>
+</div>
+<a id="ac771281b15028b00ae139bea86991592" name="ac771281b15028b00ae139bea86991592"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac771281b15028b00ae139bea86991592">&#9670;&#160;</a></span>getDataAsHotspotData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/d9a/classvtfpp_1_1HOT.html">HOT</a> vtfpp::Resource::getDataAsHotspotData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00089">89</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -484,7 +515,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00082">82</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00085">85</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -511,7 +542,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00078">78</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00081">81</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -538,12 +569,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00066">66</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00069">69</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
-<a id="aee66bbde0c1b346e7580dedceda08fe6" name="aee66bbde0c1b346e7580dedceda08fe6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aee66bbde0c1b346e7580dedceda08fe6">&#9670;&#160;</a></span>getOrder()</h2>
+<a id="a109d9cfb1366fe99875adc4acf2b5dcf" name="a109d9cfb1366fe99875adc4acf2b5dcf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a109d9cfb1366fe99875adc4acf2b5dcf">&#9670;&#160;</a></span>getOrder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -552,7 +583,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Resource::Type</a>, 8 &gt; &amp; Resource::getOrder </td>
+          <td class="memname">const std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Resource::Type</a>, 9 &gt; &amp; Resource::getOrder </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -582,7 +613,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00054">54</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00056">56</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -598,7 +629,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00053">53</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00055">55</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -614,7 +645,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00052">52</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00054">54</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>

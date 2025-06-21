@@ -169,6 +169,8 @@ var hierarchy =
     [ "vpkpp::VPK::Header1", "d2/d67/structvpkpp_1_1VPK_1_1Header1.html", null ],
     [ "vpkpp::VPK::Header2", "d2/d8d/structvpkpp_1_1VPK_1_1Header2.html", null ],
     [ "vpkpp::VPK::MD5Entry", "dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html", null ],
+    [ "vtfpp::HOT", "da/d9a/classvtfpp_1_1HOT.html", null ],
+    [ "vtfpp::HOT::Rect", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html", null ],
     [ "vtfpp::ImagePixel::A8", "d1/d9a/structvtfpp_1_1ImagePixel_1_1A8.html", null ],
     [ "vtfpp::ImagePixel::ABGR8888", "d3/d83/structvtfpp_1_1ImagePixel_1_1ABGR8888.html", null ],
     [ "vtfpp::ImagePixel::ARGB8888", "d6/dd0/structvtfpp_1_1ImagePixel_1_1ARGB8888.html", null ],

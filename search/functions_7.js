@@ -10,5 +10,6 @@ var searchData=
   ['haslump_7',['hasLump',['../d5/dba/classbsppp_1_1BSP.html#a1d241766eb0f3f22d436e24556b3b489',1,'bsppp::BSP']]],
   ['haspackfilechecksum_8',['hasPackFileChecksum',['../d6/d2c/classvpkpp_1_1GMA.html#a8e1b42953add9309894e1aa75567318e',1,'vpkpp::GMA::hasPackFileChecksum()'],['../d3/dec/classvpkpp_1_1OO7.html#abb435858d785a8c2241280fd1462a983',1,'vpkpp::OO7::hasPackFileChecksum()'],['../d5/d8b/classvpkpp_1_1VPK.html#a780e1cc48325e7294c2791872edcc227',1,'vpkpp::VPK::hasPackFileChecksum()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a6a34e06dd55959ef95b88d2763cc5d1a',1,'vpkpp::PackFile::hasPackFileChecksum()']]],
   ['haspackfilesignature_9',['hasPackFileSignature',['../d5/d8b/classvpkpp_1_1VPK.html#a6785961c081d6fb0be4e1408703e2229',1,'vpkpp::VPK::hasPackFileSignature()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a25621c2a03fbf947b4a46176dc63eb23',1,'vpkpp::PackFile::hasPackFileSignature()']]],
-  ['hasthumbnaildata_10',['hasThumbnailData',['../d8/df2/classvtfpp_1_1VTF.html#a72b1941e945d8e21733e6f37d27506a4',1,'vtfpp::VTF']]]
+  ['hasthumbnaildata_10',['hasThumbnailData',['../d8/df2/classvtfpp_1_1VTF.html#a72b1941e945d8e21733e6f37d27506a4',1,'vtfpp::VTF']]],
+  ['hot_11',['HOT',['../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4',1,'vtfpp::HOT::HOT()'],['../da/d9a/classvtfpp_1_1HOT.html#a7488b833e1cacf193626bd2e5668fff1',1,'vtfpp::HOT::HOT(std::span&lt; const std::byte &gt; hotData)'],['../da/d9a/classvtfpp_1_1HOT.html#af86f0ca87461be95109ecfaf1f222e28',1,'vtfpp::HOT::HOT(const std::string &amp;hotPath)']]]
 ];

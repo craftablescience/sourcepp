@@ -1,0 +1,221 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: include/vtfpp/HOT.h Source File</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('d0/de2/HOT_8h_source.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="headertitle"><div class="title">HOT.h</div></div>
+</div><!--header-->
+<div class="contents">
+<a href="../../d0/de2/HOT_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;cstddef&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;span&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="../../db/d8a/Math_8h.html">sourcepp/Math.h</a>&gt;</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../de/d90/namespacevtfpp.html">   10</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="../../de/d90/namespacevtfpp.html">vtfpp</a> {</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../da/d9a/classvtfpp_1_1HOT.html">   12</a></span><span class="keyword">class </span><a class="code hl_class" href="../../da/d9a/classvtfpp_1_1HOT.html">HOT</a> {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html">   14</a></span>    <span class="keyword">struct </span><a class="code hl_struct" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html">Rect</a> {</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595">   15</a></span>        <span class="keyword">enum</span> <a class="code hl_enumeration" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595">Flags</a> : uint8_t {</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595af569f72d09ffc46fd6d603000fddce9f">   16</a></span>            <a class="code hl_enumvalue" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595af569f72d09ffc46fd6d603000fddce9f">FLAG_NONE</a>              = 0,</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a09b902a737a824a07f77607f80636ea4">   17</a></span>            <a class="code hl_enumvalue" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a09b902a737a824a07f77607f80636ea4">FLAG_ENABLE_ROTATION</a>   = 1 &lt;&lt; 0,</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595adcfe51f9f921bfa779174c54daf4b99e">   18</a></span>            <a class="code hl_enumvalue" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595adcfe51f9f921bfa779174c54daf4b99e">FLAG_ENABLE_REFLECTION</a> = 1 &lt;&lt; 1,</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#acfd4c3692dc157dc975da04aec966db4">   19</a></span>        } <a class="code hl_variable" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#acfd4c3692dc157dc975da04aec966db4">flags</a>;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a4b9472a225f7ce4aa66d8c4263dfd54b">   20</a></span>        uint16_t <a class="code hl_variable" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a4b9472a225f7ce4aa66d8c4263dfd54b">x1</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#aad10995a71aedb1cdd787e9de87b3017">   21</a></span>        uint16_t <a class="code hl_variable" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#aad10995a71aedb1cdd787e9de87b3017">y1</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a6688887351db599a19f30ef68dc18ce0">   22</a></span>        uint16_t <a class="code hl_variable" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a6688887351db599a19f30ef68dc18ce0">x2</a>;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a1ec3159a2e0e053bcb63ed4c706c5695">   23</a></span>        uint16_t <a class="code hl_variable" href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a1ec3159a2e0e053bcb63ed4c706c5695">y2</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    };</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4">HOT</a>();</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4">HOT</a>(std::span&lt;const std::byte&gt; hotData);</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">explicit</span> <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4">HOT</a>(<span class="keyword">const</span> std::string&amp; hotPath);</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    [[nodiscard]] <span class="keyword">explicit</span> <span class="keyword">operator</span> bool() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    [[nodiscard]] uint8_t <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#afdca4d20e9f88cf902a1924eaefe05cd">getVersion</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a09b24867b76d1f224dc59d6982601af2">setVersion</a>(uint8_t v);</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    [[nodiscard]] uint8_t <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#ab1a7adb325b8029393b7221c0341aefa">getFlags</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#ab2e7bdc94081fefd6fa9ec0ed4c361ef">setFlags</a>(uint8_t f);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    [[nodiscard]] <span class="keyword">const</span> std::vector&lt;Rect&gt;&amp; <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#aa4b4d1d5044f7c7e5ed8de1ec935e3d4">getRects</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    [[nodiscard]] std::vector&lt;Rect&gt;&amp; <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#aa4b4d1d5044f7c7e5ed8de1ec935e3d4">getRects</a>();</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    [[nodiscard]] std::vector&lt;std::byte&gt; <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a077d9c2556152500789805b0d2156042">bake</a>() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordtype">bool</span> <a class="code hl_function" href="../../da/d9a/classvtfpp_1_1HOT.html#a077d9c2556152500789805b0d2156042">bake</a>(<span class="keyword">const</span> std::string&amp; hotPath) <span class="keyword">const</span>; <span class="comment">// NOLINT(*-use-nodiscard)</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span><span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="../../da/d9a/classvtfpp_1_1HOT.html#ab8116a2dbe8dca434e0d8b18a4f46dce">   51</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#ab8116a2dbe8dca434e0d8b18a4f46dce">opened</a>;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="../../da/d9a/classvtfpp_1_1HOT.html#aee472b877201681ab2658a5a1a3772b1">   53</a></span>    uint8_t <a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#aee472b877201681ab2658a5a1a3772b1">version</a> = 1;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="../../da/d9a/classvtfpp_1_1HOT.html#aedc446272e6b34c0a35e669ef7d7aaaf">   54</a></span>    uint8_t <a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#aedc446272e6b34c0a35e669ef7d7aaaf">flags</a> = 0;</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">   55</a></span>    std::vector&lt;Rect&gt; <a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>};</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>} <span class="comment">// namespace vtfpp</span></div>
+<div class="ttc" id="aMath_8h_html"><div class="ttname"><a href="../../db/d8a/Math_8h.html">Math.h</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html">vtfpp::HOT</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00012">HOT.h:12</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_a077d9c2556152500789805b0d2156042"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#a077d9c2556152500789805b0d2156042">vtfpp::HOT::bake</a></div><div class="ttdeci">std::vector&lt; std::byte &gt; bake() const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00061">HOT.cpp:61</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_a09b24867b76d1f224dc59d6982601af2"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#a09b24867b76d1f224dc59d6982601af2">vtfpp::HOT::setVersion</a></div><div class="ttdeci">void setVersion(uint8_t v)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00038">HOT.cpp:38</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_a3791d60669e5f42902ed7a4facd3aaf4"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4">vtfpp::HOT::HOT</a></div><div class="ttdeci">HOT()</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00008">HOT.cpp:8</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_a386577e7f06918e8bf7e6dd18b1a93be"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">vtfpp::HOT::rects</a></div><div class="ttdeci">std::vector&lt; Rect &gt; rects</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00055">HOT.h:55</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_aa4b4d1d5044f7c7e5ed8de1ec935e3d4"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#aa4b4d1d5044f7c7e5ed8de1ec935e3d4">vtfpp::HOT::getRects</a></div><div class="ttdeci">const std::vector&lt; Rect &gt; &amp; getRects() const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00053">HOT.cpp:53</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_ab1a7adb325b8029393b7221c0341aefa"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#ab1a7adb325b8029393b7221c0341aefa">vtfpp::HOT::getFlags</a></div><div class="ttdeci">uint8_t getFlags() const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00045">HOT.cpp:45</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_ab2e7bdc94081fefd6fa9ec0ed4c361ef"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#ab2e7bdc94081fefd6fa9ec0ed4c361ef">vtfpp::HOT::setFlags</a></div><div class="ttdeci">void setFlags(uint8_t f)</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00049">HOT.cpp:49</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_ab8116a2dbe8dca434e0d8b18a4f46dce"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#ab8116a2dbe8dca434e0d8b18a4f46dce">vtfpp::HOT::opened</a></div><div class="ttdeci">bool opened</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00051">HOT.h:51</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_aedc446272e6b34c0a35e669ef7d7aaaf"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#aedc446272e6b34c0a35e669ef7d7aaaf">vtfpp::HOT::flags</a></div><div class="ttdeci">uint8_t flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00054">HOT.h:54</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_aee472b877201681ab2658a5a1a3772b1"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#aee472b877201681ab2658a5a1a3772b1">vtfpp::HOT::version</a></div><div class="ttdeci">uint8_t version</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00053">HOT.h:53</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1HOT_html_afdca4d20e9f88cf902a1924eaefe05cd"><div class="ttname"><a href="../../da/d9a/classvtfpp_1_1HOT.html#afdca4d20e9f88cf902a1924eaefe05cd">vtfpp::HOT::getVersion</a></div><div class="ttdeci">uint8_t getVersion() const</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dfb/HOT_8cpp_source.html#l00034">HOT.cpp:34</a></div></div>
+<div class="ttc" id="anamespacevtfpp_html"><div class="ttname"><a href="../../de/d90/namespacevtfpp.html">vtfpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00010">HOT.h:10</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html">vtfpp::HOT::Rect</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00014">HOT.h:14</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a1ec3159a2e0e053bcb63ed4c706c5695"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a1ec3159a2e0e053bcb63ed4c706c5695">vtfpp::HOT::Rect::y2</a></div><div class="ttdeci">uint16_t y2</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00023">HOT.h:23</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a4b9472a225f7ce4aa66d8c4263dfd54b"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a4b9472a225f7ce4aa66d8c4263dfd54b">vtfpp::HOT::Rect::x1</a></div><div class="ttdeci">uint16_t x1</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00020">HOT.h:20</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a6688887351db599a19f30ef68dc18ce0"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a6688887351db599a19f30ef68dc18ce0">vtfpp::HOT::Rect::x2</a></div><div class="ttdeci">uint16_t x2</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00022">HOT.h:22</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a98c7824e082ef61e2a30946bf6670595"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595">vtfpp::HOT::Rect::Flags</a></div><div class="ttdeci">Flags</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00015">HOT.h:15</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a98c7824e082ef61e2a30946bf6670595a09b902a737a824a07f77607f80636ea4"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a09b902a737a824a07f77607f80636ea4">vtfpp::HOT::Rect::FLAG_ENABLE_ROTATION</a></div><div class="ttdeci">@ FLAG_ENABLE_ROTATION</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00017">HOT.h:17</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a98c7824e082ef61e2a30946bf6670595adcfe51f9f921bfa779174c54daf4b99e"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595adcfe51f9f921bfa779174c54daf4b99e">vtfpp::HOT::Rect::FLAG_ENABLE_REFLECTION</a></div><div class="ttdeci">@ FLAG_ENABLE_REFLECTION</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00018">HOT.h:18</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_a98c7824e082ef61e2a30946bf6670595af569f72d09ffc46fd6d603000fddce9f"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595af569f72d09ffc46fd6d603000fddce9f">vtfpp::HOT::Rect::FLAG_NONE</a></div><div class="ttdeci">@ FLAG_NONE</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00016">HOT.h:16</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_aad10995a71aedb1cdd787e9de87b3017"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#aad10995a71aedb1cdd787e9de87b3017">vtfpp::HOT::Rect::y1</a></div><div class="ttdeci">uint16_t y1</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00021">HOT.h:21</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1HOT_1_1Rect_html_acfd4c3692dc157dc975da04aec966db4"><div class="ttname"><a href="../../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#acfd4c3692dc157dc975da04aec966db4">vtfpp::HOT::Rect::flags</a></div><div class="ttdeci">enum vtfpp::HOT::Rect::Flags flags</div></div>
+</div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../dir_d44c64559bbebec7f509842c48db8b23.html">include</a></li><li class="navelem"><a class="el" href="../../dir_1048b7a737d6aa74557401fa3784cf25.html">vtfpp</a></li><li class="navelem"><a class="el" href="../../d0/de2/HOT_8h.html">HOT.h</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>
