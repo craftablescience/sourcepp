@@ -5,6 +5,7 @@
  * include it the same way as any of the other SourcePP libraries.
  */
 
+#include "HOT.h"
 #include "ImageConversion.h"
 #include "ImageFormats.h"
 #include "PPL.h"
