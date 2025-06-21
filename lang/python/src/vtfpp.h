@@ -14,9 +14,41 @@ namespace py = nanobind;
 
 namespace vtfpp {
 
-void register_python(py::module_& m) {
+inline void register_python(py::module_& m) {
 	using namespace vtfpp;
 	auto vtfpp = m.def_submodule("vtfpp");
+
+	auto cHOT = py::class_<HOT>(vtfpp, "HOT");
+	auto cHOTRect = py::class_<HOT::Rect>(cHOT, "Rect");
+
+	py::enum_<HOT::Rect::Flags>(cHOTRect, "Flags", py::is_flag())
+		.value("NONE",              HOT::Rect::FLAG_NONE)
+		.value("ENABLE_ROTATION",   HOT::Rect::FLAG_ENABLE_ROTATION)
+		.value("ENABLE_REFLECTION", HOT::Rect::FLAG_ENABLE_REFLECTION)
+		.export_values();
+
+	cHOTRect
+		.def_rw("flags", &HOT::Rect::flags)
+		.def_rw("x1",    &HOT::Rect::x1)
+		.def_rw("y1",    &HOT::Rect::y1)
+		.def_rw("x2",    &HOT::Rect::x2)
+		.def_rw("y2",    &HOT::Rect::y2);
+
+	cHOT
+		.def(py::init<>())
+		.def("__init__", [](HOT* self, const py::bytes& hotData) {
+			return new(self) HOT{{static_cast<const std::byte*>(hotData.data()), hotData.size()}};
+		}, py::arg("hot_data"))
+		.def(py::init<const std::string&>(), py::arg("hot_path"))
+		.def("__bool__", &HOT::operator bool, py::is_operator())
+		.def_prop_rw("version", &HOT::getVersion, &HOT::setVersion)
+		.def_prop_rw("flags", &HOT::getFlags, &HOT::setFlags)
+		.def_prop_rw("rects", [](const HOT& self) -> std::vector<HOT::Rect> { return self.getRects(); }, [](HOT& self, const std::vector<HOT::Rect>& rects) { self.getRects() = rects; })
+		.def("bake", [](const HOT& self) {
+			const auto d = self.bake();
+			return py::bytes{d.data(), d.size()};
+		})
+		.def("bake_to_file", py::overload_cast<const std::string&>(&HOT::bake, py::const_), py::arg("hot_path"));
 
 	py::enum_<ImageFormat>(vtfpp, "ImageFormat")
 		.value("RGBA8888",           ImageFormat::RGBA8888)
@@ -114,17 +146,17 @@ void register_python(py::module_& m) {
 		auto ImageConversion = vtfpp.def_submodule("ImageConversion");
 
 		ImageConversion.def("convert_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
-			const auto d = convertImageDataToFormat({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, width, height);
+			const auto d = convertImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, width, height);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("width"), py::arg("height"));
 
 		ImageConversion.def("convert_several_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
-			const auto d = convertSeveralImageDataToFormat({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, sliceCount);
+			const auto d = convertSeveralImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, sliceCount);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count"));
 
 		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
-			const auto ds = convertHDRIToCubeMap({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
+			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
 			return {py::bytes{ds[0].data(), ds[0].size()}, py::bytes{ds[1].data(), ds[1].size()}, py::bytes{ds[2].data(), ds[2].size()}, py::bytes{ds[3].data(), ds[3].size()}, py::bytes{ds[4].data(), ds[4].size()}, py::bytes{ds[5].data(), ds[5].size()}};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resolution") = 0, py::arg("bilinear") = true);
 
@@ -143,14 +175,14 @@ void register_python(py::module_& m) {
 		ImageConversion.def("get_default_file_format_for_image_format", &getDefaultFileFormatForImageFormat, py::arg("format"));
 
 		ImageConversion.def("convert_image_data_to_file", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT) {
-			const auto d = convertImageDataToFile({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, fileFormat);
+			const auto d = convertImageDataToFile({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, fileFormat);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("file_format") = FileFormat::DEFAULT);
 
 		ImageConversion.def("convert_file_to_image_data", [](const py::bytes& fileData) -> std::tuple<py::bytes, ImageFormat, int, int, int> {
 			ImageFormat format;
 			int width, height, frame;
-			const auto d = convertFileToImageData({reinterpret_cast<const std::byte*>(fileData.data()), fileData.size()}, format, width, height, frame);
+			const auto d = convertFileToImageData({static_cast<const std::byte*>(fileData.data()), fileData.size()}, format, width, height, frame);
 			return {py::bytes{d.data(), d.size()}, format, width, height, frame};
 		}, py::arg("file_data"));
 
@@ -187,28 +219,28 @@ void register_python(py::module_& m) {
 		}, py::arg("width"), py::arg("resize_width"), py::arg("height"), py::arg("resize_height"));
 
 		ImageConversion.def("resize_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) {
-			const auto d = resizeImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, height, newHeight, srgb, filter, edge);
+			const auto d = resizeImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, height, newHeight, srgb, filter, edge);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("height"), py::arg("new_height"), py::arg("srgb"), py::arg("filter"), py::arg("edge") = ResizeEdge::CLAMP);
 
 		ImageConversion.def("resize_image_data_strict", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) -> std::tuple<py::bytes, int, int> {
 			uint16_t widthOut, heightOut;
-			const auto d = resizeImageDataStrict({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, widthOut, widthResize, height, newHeight, heightOut, heightResize, srgb, filter, edge);
+			const auto d = resizeImageDataStrict({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, widthOut, widthResize, height, newHeight, heightOut, heightResize, srgb, filter, edge);
 			return {py::bytes{d.data(), d.size()}, widthOut, heightOut};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("width_resize"), py::arg("height"), py::arg("new_height"), py::arg("height_resize"), py::arg("srgb"), py::arg("filter"), py::arg("edge") = ResizeEdge::CLAMP);
 
 		ImageConversion.def("crop_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {
-			const auto d = cropImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, xOffset, height, newHeight, yOffset);
+			const auto d = cropImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, xOffset, height, newHeight, yOffset);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("new_width"), py::arg("x_offset"), py::arg("height"), py::arg("new_height"), py::arg("y_offset"));
 
 		ImageConversion.def("gamma_correct_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
-			const auto d = gammaCorrectImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, gamma);
+			const auto d = gammaCorrectImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, gamma);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("gamma"));
 
 		ImageConversion.def("invert_green_channel_for_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
-			const auto d = invertGreenChannelForImageData({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
+			const auto d = invertGreenChannelForImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"));
 
@@ -227,7 +259,7 @@ void register_python(py::module_& m) {
 	cPPL
 		.def(py::init<uint32_t, ImageFormat, uint32_t>(), py::arg("model_checksum"), py::arg("format") = ImageFormat::RGB888, py::arg("version") = 0)
 		.def("__init__", [](PPL* self, const py::bytes& pplData) {
-			return new(self) PPL{{reinterpret_cast<const std::byte*>(pplData.data()), pplData.size()}};
+			return new(self) PPL{{static_cast<const std::byte*>(pplData.data()), pplData.size()}};
 		}, py::arg("ppl_data"))
 		.def(py::init<const std::string&>(), py::arg("path"))
 		.def("__bool__", &PPL::operator bool, py::is_operator())
@@ -246,10 +278,10 @@ void register_python(py::module_& m) {
 		.def("get_image_as", &PPL::getImageAs, py::arg("new_format"), py::arg("lod"))
 		.def("get_image_as_rgb888", &PPL::getImageAsRGB888, py::arg("lod"))
 		.def("set_image", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t lod = 0) {
-			self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod);
+			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod);
 		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("lod") = 0)
 		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT) {
-			self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter);
+			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter);
 		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def("set_image_from_file", py::overload_cast<const std::string&, uint32_t>(&PPL::setImage), py::arg("image_path"), py::arg("lod") = 0)
 		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter>(&PPL::setImage), py::arg("image_path"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
@@ -288,7 +320,7 @@ void register_python(py::module_& m) {
 	cSHT
 		.def(py::init<>())
 		.def("__init__", [](SHT* self, const py::bytes& shtData) {
-			return new(self) SHT{{reinterpret_cast<const std::byte*>(shtData.data()), shtData.size()}};
+			return new(self) SHT{{static_cast<const std::byte*>(shtData.data()), shtData.size()}};
 		}, py::arg("sht_data"))
 		.def(py::init<const std::string&>(), py::arg("sht_path"))
 		.def("__bool__", &SHT::operator bool, py::is_operator())
@@ -309,7 +341,7 @@ void register_python(py::module_& m) {
 	py::class_<TTX>(vtfpp, "TTX")
 		.def(py::init<VTF&&>(), py::arg("vtf"))
 		.def("__init__", [](TTX* self, const py::bytes& tthData, const py::bytes& ttzData) {
-			return new(self) TTX{{reinterpret_cast<const std::byte*>(tthData.data()), tthData.size()}, {reinterpret_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
+			return new(self) TTX{{static_cast<const std::byte*>(tthData.data()), tthData.size()}, {static_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
 		}, py::arg("tth_data"), py::arg("ttz_data"))
 		.def(py::init<const std::string&, const std::string&>(), py::arg("tth_path"), py::arg("ttz_path"))
 		.def("__bool__", &TTX::operator bool, py::is_operator())
@@ -324,16 +356,17 @@ void register_python(py::module_& m) {
 		}, py::rv_policy::reference_internal)
 		.def_prop_rw("compression_level", &TTX::getCompressionLevel, &TTX::setCompressionLevel)
 		.def("bake", [](const TTX& self) -> std::pair<py::bytes, py::bytes> {
-			const auto d = self.bake();
-			return {py::bytes{d.first.data(), d.first.size()}, py::bytes{d.second.data(), d.second.size()}};
+			const auto [d1, d2] = self.bake();
+			return {py::bytes{d1.data(), d1.size()}, py::bytes{d2.data(), d2.size()}};
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&, const std::string&>(&TTX::bake, py::const_), py::arg("tth_path"), py::arg("ttz_path"));
 
 	vtfpp.attr("VTF_SIGNATURE") = VTF_SIGNATURE;
 
 	py::enum_<CompressionMethod>(vtfpp, "CompressionMethod", py::is_arithmetic())
-		.value("DEFLATE", CompressionMethod::DEFLATE)
-		.value("ZSTD",    CompressionMethod::ZSTD)
+		.value("DEFLATE",      CompressionMethod::DEFLATE)
+		.value("ZSTD",         CompressionMethod::ZSTD)
+		.value("CONSOLE_LZMA", CompressionMethod::CONSOLE_LZMA)
 		.export_values();
 
 	auto cResource = py::class_<Resource>(vtfpp, "Resource");
@@ -347,6 +380,7 @@ void register_python(py::module_& m) {
 		.value("LOD_CONTROL_INFO",    Resource::TYPE_LOD_CONTROL_INFO)
 		.value("EXTENDED_FLAGS",      Resource::TYPE_EXTENDED_FLAGS)
 		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA)
+		.value("HOTSPOT_DATA",        Resource::TYPE_HOTSPOT_DATA)
 		.value("AUX_COMPRESSION",     Resource::TYPE_AUX_COMPRESSION)
 		.export_values();
 
@@ -364,6 +398,7 @@ void register_python(py::module_& m) {
 		.def("get_data_as_extended_flags",         &Resource::getDataAsExtendedFlags)
 		.def("get_data_as_lod_control_info",       &Resource::getDataAsLODControlInfo)
 		.def("get_data_as_keyvalues_data",         &Resource::getDataAsKeyValuesData)
+		.def("get_data_as_hotspot_data",           &Resource::getDataAsHotspotData)
 		.def("get_data_as_aux_compression_level",  &Resource::getDataAsAuxCompressionLevel)
 		.def("get_data_as_aux_compression_method", &Resource::getDataAsAuxCompressionMethod)
 		.def("get_data_as_aux_compression_length", &Resource::getDataAsAuxCompressionLength, py::arg("mip"), py::arg("mip_count"), py::arg("frame"), py::arg("frame_count"), py::arg("face"), py::arg("face_count"));
@@ -471,16 +506,16 @@ void register_python(py::module_& m) {
 		.def_ro_static("FORMAT_DEFAULT",       &VTF::FORMAT_DEFAULT)
 		.def(py::init<>())
 		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false) {
-			return new(self) VTF{std::span{reinterpret_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
+			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
 		}, py::arg("vtf_data"), py::arg("parse_header_only") = false)
 		.def(py::init<const std::string&, bool>(), py::arg("vtf_path"), py::arg("parse_header_only") = false)
 		.def("__bool__", &VTF::operator bool, py::is_operator())
 		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, VTF::CreationOptions options) {
-			VTF::create({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, vtfPath, options);
+			VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, vtfPath, options);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_blank_and_bake", py::overload_cast<ImageFormat, uint16_t, uint16_t, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, VTF::CreationOptions options) {
-			return VTF::create({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, options);
+			return VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, options);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_blank", py::overload_cast<ImageFormat, uint16_t, uint16_t, VTF::CreationOptions>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
@@ -545,6 +580,8 @@ void register_python(py::module_& m) {
 		.def("remove_extended_flags_resource", &VTF::removeExtendedFlagsResource)
 		.def("set_keyvalues_data_resource", &VTF::setKeyValuesDataResource, py::arg("value"))
 		.def("remove_keyvalues_data_resource", &VTF::removeKeyValuesDataResource)
+		.def("set_hotspot_resource", &VTF::setHotspotResource, py::arg("value"))
+		.def("remove_hotspot_resource", &VTF::removeHotspotResource)
 		.def_prop_rw("compression_level", &VTF::getCompressionLevel, &VTF::setCompressionLevel)
 		.def_prop_rw("compression_method", &VTF::getCompressionMethod, &VTF::setCompressionMethod)
 		.def("has_image_data", &VTF::hasImageData)
@@ -561,7 +598,7 @@ void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
 		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
-			return self.setImage({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice);
+			return self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("filter"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
 		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t>(&VTF::setImage), py::arg("image_path"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
 		.def("save_image", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
@@ -583,7 +620,7 @@ void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		})
 		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
-			return self.setThumbnail({reinterpret_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
+			return self.setThumbnail({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"))
 		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
 		.def("remove_thumbnail", &VTF::removeThumbnail)

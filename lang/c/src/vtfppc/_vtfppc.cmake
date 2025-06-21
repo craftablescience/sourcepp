@@ -1,5 +1,6 @@
 add_pretty_parser(vtfpp C
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/ImageFormats.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/PPL.h"
@@ -10,6 +11,7 @@ add_pretty_parser(vtfpp C
         SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/Convert.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/Convert.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/HOT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageConversion.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageFormats.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PPL.cpp"

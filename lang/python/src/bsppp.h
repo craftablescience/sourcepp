@@ -173,7 +173,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("data", [](const BSPGameLump& self) {
 			return py::bytes{self.data.data(), self.data.size()};
 		}, [](BSPGameLump& self, const py::bytes& data) {
-			self.data = {reinterpret_cast<const std::byte*>(data.data()), reinterpret_cast<const std::byte*>(data.data()) + data.size()};
+			self.data = {static_cast<const std::byte*>(data.data()), static_cast<const std::byte*>(data.data()) + data.size()};
 		});
 
 	bsppp.attr("BSP_SIGNATURE") = BSP_SIGNATURE;
@@ -292,7 +292,7 @@ inline void register_python(py::module_& m) {
 		.def("get_lump_data_for_originalfaces", &BSP::getLumpData<BSPLump::ORIGINALFACES>)
 		.def("get_lump_data_for_game_lump", &BSP::getLumpData<BSPLump::GAME_LUMP>)
 		.def("set_lump", [](BSP& self, BSPLump lumpIndex, uint32_t version, const py::bytes& data, uint8_t compressLevel = 0) {
-			self.setLump(lumpIndex, version, {reinterpret_cast<const std::byte*>(data.data()), data.size()}, compressLevel);
+			self.setLump(lumpIndex, version, {static_cast<const std::byte*>(data.data()), data.size()}, compressLevel);
 		}, py::arg("lump_index"), py::arg("version"), py::arg("data"), py::arg("compress_level") = 0)
 		.def("set_lump_for_entities", [](BSP& self, uint32_t version, const std::vector<BSPEntityKeyValues>& data, uint8_t compressLevel = 0) {
 			self.setLump(version, data, compressLevel);

@@ -4,6 +4,7 @@
 #include <sourceppc/Buffer.h>
 #include <sourceppc/String.h>
 
+#include "HOT.h"
 #include "ImageConversion.h"
 #include "SHT.h"
 
@@ -26,6 +27,7 @@ typedef enum {
 	VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO,
 	VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS,
 	VTFPP_RESOURCE_TYPE_KEYVALUES_DATA,
+	VTFPP_RESOURCE_TYPE_HOTSPOT_DATA,
 	VTFPP_RESOURCE_TYPE_AUX_COMPRESSION,
 } vtfpp_resource_type_e;
 
@@ -187,6 +189,9 @@ SOURCEPP_API void vtfpp_resource_get_data_as_lod(vtfpp_resource_handle_t handle,
 // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_resource_handle_t handle);
 
+// REQUIRES MANUAL FREE: vtfpp_hot_close
+SOURCEPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle);
+
 SOURCEPP_API int16_t vtfpp_resource_get_data_as_aux_compression_level(vtfpp_resource_handle_t handle);
 
 SOURCEPP_API vtfpp_compression_method_e vtfpp_resource_get_data_as_aux_compression_method(vtfpp_resource_handle_t handle);
@@ -339,6 +344,10 @@ SOURCEPP_API void vtfpp_vtf_remove_extended_flags_resource(vtfpp_vtf_handle_t ha
 SOURCEPP_API void vtfpp_vtf_set_keyvalues_data_resource(vtfpp_vtf_handle_t handle, const char* value);
 
 SOURCEPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handle);
+
+SOURCEPP_API void vtfpp_vtf_set_hotspot_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
+
+SOURCEPP_API void vtfpp_vtf_remove_hotspot_resource(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle);
 

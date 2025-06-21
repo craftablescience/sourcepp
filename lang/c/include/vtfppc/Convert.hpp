@@ -29,6 +29,8 @@ vtfpp::ImageFormat imageFormat(vtfpp_image_format_e format);
 
 vtfpp_image_format_e imageFormat(vtfpp::ImageFormat format);
 
+vtfpp::HOT* hot(vtfpp_hot_handle_t handle);
+
 vtfpp::PPL* ppl(vtfpp_ppl_handle_t handle);
 
 vtfpp::SHT* sht(vtfpp_sht_handle_t handle);

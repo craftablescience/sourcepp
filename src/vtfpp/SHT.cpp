@@ -114,6 +114,6 @@ std::vector<std::byte> SHT::bake() const {
     return sheetData;
 }
 
-bool SHT::bake(const std::string& path) const {
-    return fs::writeFileBuffer(path, this->bake());
+bool SHT::bake(const std::string& shtPath) const {
+    return fs::writeFileBuffer(shtPath, this->bake());
 }

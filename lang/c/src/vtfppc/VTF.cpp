@@ -73,6 +73,12 @@ SOURCEPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_r
 	return Convert::toString(Convert::resource(handle)->getDataAsKeyValuesData());
 }
 
+SOURCEPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, nullptr);
+
+	return new HOT{Convert::resource(handle)->getDataAsHotspotData()};
+}
+
 SOURCEPP_API int16_t vtfpp_resource_get_data_as_aux_compression_level(vtfpp_resource_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
@@ -458,6 +464,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba88
 
 SOURCEPP_API void vtfpp_vtf_set_particle_sheet_resource(vtfpp_vtf_handle_t handle, vtfpp_sht_handle_t sht) {
 	SOURCEPP_EARLY_RETURN(handle);
+	SOURCEPP_EARLY_RETURN(sht);
 
 	Convert::vtf(handle)->setParticleSheetResource(*Convert::sht(sht));
 }
@@ -515,6 +522,19 @@ SOURCEPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t ha
 	SOURCEPP_EARLY_RETURN(handle);
 
 	Convert::vtf(handle)->removeKeyValuesDataResource();
+}
+
+SOURCEPP_API void vtfpp_vtf_set_hotspot_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot) {
+	SOURCEPP_EARLY_RETURN(handle);
+	SOURCEPP_EARLY_RETURN(hot);
+
+	Convert::vtf(handle)->setHotspotResource(*Convert::hot(hot));
+}
+
+SOURCEPP_API void vtfpp_vtf_remove_hotspot_resource(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	Convert::vtf(handle)->removeHotspotResource();
 }
 
 SOURCEPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle) {

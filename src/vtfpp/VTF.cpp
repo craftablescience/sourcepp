@@ -113,8 +113,8 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 
 } // namespace
 
-const std::array<Resource::Type, 8>& Resource::getOrder() {
-	static constinit std::array<Type, 8> typeArray{
+const std::array<Resource::Type, 9>& Resource::getOrder() {
+	static constinit std::array<Type, 9> typeArray{
 		TYPE_THUMBNAIL_DATA,
 		TYPE_IMAGE_DATA,
 		TYPE_PARTICLE_SHEET_DATA,
@@ -122,6 +122,7 @@ const std::array<Resource::Type, 8>& Resource::getOrder() {
 		TYPE_LOD_CONTROL_INFO,
 		TYPE_EXTENDED_FLAGS,
 		TYPE_KEYVALUES_DATA,
+		TYPE_HOTSPOT_DATA,
 		TYPE_AUX_COMPRESSION,
 	};
 	static bool unsorted = true;
@@ -1295,9 +1296,8 @@ void VTF::setParticleSheetResource(const SHT& value) {
 	std::vector<std::byte> particleSheetData;
 	BufferStream writer{particleSheetData};
 
-	auto bakedSheet = value.bake();
-	writer.write<uint32_t>(bakedSheet.size());
-	writer.write(bakedSheet);
+	const auto bakedSheet = value.bake();
+	writer.write<uint32_t>(bakedSheet.size()).write(bakedSheet);
 	particleSheetData.resize(writer.size());
 
 	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, particleSheetData);
@@ -1340,8 +1340,7 @@ void VTF::setKeyValuesDataResource(const std::string& value) {
 	std::vector<std::byte> keyValuesData;
 	BufferStream writer{keyValuesData};
 
-	writer.write<uint32_t>(value.size());
-	writer.write(value, false);
+	writer.write<uint32_t>(value.size()).write(value, false);
 	keyValuesData.resize(writer.size());
 
 	this->setResourceInternal(Resource::TYPE_KEYVALUES_DATA, keyValuesData);
@@ -1349,6 +1348,21 @@ void VTF::setKeyValuesDataResource(const std::string& value) {
 
 void VTF::removeKeyValuesDataResource() {
 	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
+}
+
+void VTF::setHotspotResource(const HOT& value) {
+	std::vector<std::byte> hotspotData;
+	BufferStream writer{hotspotData};
+
+	const auto bakedHotspotData = value.bake();
+	writer.write<uint32_t>(bakedHotspotData.size()).write(bakedHotspotData);
+	hotspotData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_HOTSPOT_DATA, hotspotData);
+}
+
+void VTF::removeHotspotResource() {
+	this->removeResourceInternal(Resource::TYPE_HOTSPOT_DATA);
 }
 
 int16_t VTF::getCompressionLevel() const {

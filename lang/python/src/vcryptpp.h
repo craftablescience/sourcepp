@@ -22,7 +22,7 @@ inline void register_python(py::module_& m) {
 		VFONT.attr("MAGIC") = MAGIC;
 
 		VFONT.def("decrypt_bytes", [](const py::bytes& data) {
-			const auto d = decrypt({reinterpret_cast<const std::byte*>(data.data()), data.size()});
+			const auto d = decrypt({static_cast<const std::byte*>(data.data()), data.size()});
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("data"));
 	}
@@ -67,7 +67,7 @@ inline void register_python(py::module_& m) {
 		}
 
 		VICE.def("decrypt_bytes", [](const py::bytes& data, std::string_view code = KnownCodes::DEFAULT) {
-			const auto d = decrypt({reinterpret_cast<const std::byte*>(data.data()), data.size()}, code);
+			const auto d = decrypt({static_cast<const std::byte*>(data.data()), data.size()}, code);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
 
@@ -77,7 +77,7 @@ inline void register_python(py::module_& m) {
 		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
 
 		VICE.def("encrypt_bytes", [](const py::bytes& data, std::string_view code = KnownCodes::DEFAULT) {
-			const auto d = encrypt({reinterpret_cast<const std::byte*>(data.data()), data.size()}, code);
+			const auto d = encrypt({static_cast<const std::byte*>(data.data()), data.size()}, code);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
 

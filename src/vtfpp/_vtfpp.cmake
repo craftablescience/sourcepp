@@ -1,6 +1,7 @@
 add_pretty_parser(vtfpp
         DEPS miniz libzstd_static sourcepp_compression sourcepp_parser sourcepp_qoi sourcepp_stb sourcepp_tinyexr webp
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/PPL.h"
@@ -9,6 +10,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/VTF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
         SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/HOT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageConversion.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PPL.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SHT.cpp"

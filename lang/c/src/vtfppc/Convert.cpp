@@ -31,6 +31,10 @@ vtfpp_image_format_e Convert::imageFormat(vtfpp::ImageFormat format) {
 	return static_cast<vtfpp_image_format_e>(format);
 }
 
+HOT* Convert::hot(vtfpp_hot_handle_t handle) {
+	return static_cast<HOT*>(handle);
+}
+
 PPL* Convert::ppl(vtfpp_ppl_handle_t handle) {
 	return static_cast<PPL*>(handle);
 }

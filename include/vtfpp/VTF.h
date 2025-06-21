@@ -12,6 +12,7 @@
 #include <sourcepp/parser/Binary.h>
 #include <sourcepp/Macros.h>
 
+#include "HOT.h"
 #include "ImageConversion.h"
 #include "SHT.h"
 
@@ -40,9 +41,10 @@ struct Resource {
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TSO\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
+		TYPE_HOTSPOT_DATA        = sourcepp::parser::binary::makeFourCC("HOT\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 	};
-	static const std::array<Type, 8>& getOrder();
+	static const std::array<Type, 9>& getOrder();
 
 	enum Flags : uint8_t {
 		FLAG_NONE       = 0,
@@ -59,6 +61,7 @@ struct Resource {
 		uint32_t, // CRC, TSO
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
+		HOT, // Hotspot data
 		std::span<uint32_t> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
@@ -81,6 +84,10 @@ struct Resource {
 
 	[[nodiscard]] std::string getDataAsKeyValuesData() const {
 		return std::get<std::string>(this->convertData());
+	}
+
+	[[nodiscard]] HOT getDataAsHotspotData() const {
+		return std::get<HOT>(this->convertData());
 	}
 
 	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
@@ -379,6 +386,10 @@ public:
 	void setKeyValuesDataResource(const std::string& value);
 
 	void removeKeyValuesDataResource();
+
+	void setHotspotResource(const HOT& value);
+
+	void removeHotspotResource();
 
 	[[nodiscard]] int16_t getCompressionLevel() const;
 
