@@ -160,6 +160,11 @@ Resource::ConvertedData Resource::convertData() const {
 				return "";
 			}
 			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data()));
+		case TYPE_HOTSPOT_DATA:
+			if (this->data.size() <= sizeof(uint32_t)) {
+				return {};
+			}
+			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
 		case TYPE_AUX_COMPRESSION:
 			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
 				return {};
