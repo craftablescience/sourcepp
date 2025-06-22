@@ -39,7 +39,7 @@ struct Resource {
 		TYPE_PARTICLE_SHEET_DATA = sourcepp::parser::binary::makeFourCC("\x10\0\0\0"),
 		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
-		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TSO\0"),
+		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TS0\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 		TYPE_HOTSPOT_DATA        = sourcepp::parser::binary::makeFourCC("HOT\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
@@ -58,7 +58,7 @@ struct Resource {
 	using ConvertedData = std::variant<
 		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 		SHT, // Particle Sheet
-		uint32_t, // CRC, TSO
+		uint32_t, // CRC, TS0
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
 		HOT, // Hotspot data

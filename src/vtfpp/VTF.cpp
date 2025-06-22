@@ -338,7 +338,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 			}
 
-			// Note: LOD, CRC, TSO may be incorrect - I can't find a sample of any in official console VTFs
+			// Note: LOD, CRC, TS0 may be incorrect - I can't find a sample of any in official console VTFs
 			// If tweaking this switch, tweak the one in bake as well
 			switch (resource.type) {
 				default:
