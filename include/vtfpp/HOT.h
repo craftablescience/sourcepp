@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <sourcepp/Macros.h>
 #include <sourcepp/Math.h>
 
 namespace vtfpp {
@@ -55,5 +56,6 @@ protected:
 	uint8_t flags = 0;
 	std::vector<Rect> rects;
 };
+SOURCEPP_BITFLAGS_ENUM(HOT::Rect::Flags)
 
 } // namespace vtfpp

@@ -491,5 +491,12 @@ protected:
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 };
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV0)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV2)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV3)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV4)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV4_TF2)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV5)
+SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV5_CSGO)
 
 } // namespace vtfpp
