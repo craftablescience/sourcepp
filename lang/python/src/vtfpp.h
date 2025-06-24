@@ -23,8 +23,8 @@ inline void register_python(py::module_& m) {
 
 	py::enum_<HOT::Rect::Flags>(cHOTRect, "Flags", py::is_flag())
 		.value("NONE", HOT::Rect::FLAG_NONE)
-		.value("ALLOW_RANDOM_ROTATION", HOT::Rect::FLAG_ALLOW_RANDOM_ROTATION)
-		.value("ALLOW_RANDOM_REFLECTION", HOT::Rect::FLAG_ALLOW_RANDOM_REFLECTION)
+		.value("RANDOM_ROTATION", HOT::Rect::FLAG_RANDOM_ROTATION)
+		.value("RANDOM_REFLECTION", HOT::Rect::FLAG_RANDOM_REFLECTION)
 		.value("IS_ALTERNATE", HOT::Rect::FLAG_IS_ALTERNATE)
 		.export_values();
 

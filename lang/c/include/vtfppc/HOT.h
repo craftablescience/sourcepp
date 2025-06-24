@@ -8,10 +8,10 @@ extern "C" {
 #endif
 
 typedef enum {
-	VTFPP_HOT_RECT_FLAG_NONE                    = 0,
-	VTFPP_HOT_RECT_FLAG_ALLOW_RANDOM_ROTATION   = 1 << 0,
-	VTFPP_HOT_RECT_FLAG_ALLOW_RANDOM_REFLECTION = 1 << 1,
-	VTFPP_HOT_RECT_FLAG_IS_ALTERNATE            = 1 << 2,
+	VTFPP_HOT_RECT_FLAG_NONE              = 0,
+	VTFPP_HOT_RECT_FLAG_RANDOM_ROTATION   = 1 << 0,
+	VTFPP_HOT_RECT_FLAG_RANDOM_REFLECTION = 1 << 1,
+	VTFPP_HOT_RECT_FLAG_IS_ALTERNATE      = 1 << 2,
 } vtfpp_hot_rect_flags_e;
 
 typedef struct {
