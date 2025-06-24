@@ -345,9 +345,9 @@ SOURCEPP_API void vtfpp_vtf_set_keyvalues_data_resource(vtfpp_vtf_handle_t handl
 
 SOURCEPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API void vtfpp_vtf_set_hotspot_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
+SOURCEPP_API void vtfpp_vtf_set_hotspot_data_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
 
-SOURCEPP_API void vtfpp_vtf_remove_hotspot_resource(vtfpp_vtf_handle_t handle);
+SOURCEPP_API void vtfpp_vtf_remove_hotspot_data_resource(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle);
 

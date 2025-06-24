@@ -13,9 +13,10 @@ class HOT {
 public:
 	struct Rect {
 		enum Flags : uint8_t {
-			FLAG_NONE              = 0,
-			FLAG_ENABLE_ROTATION   = 1 << 0,
-			FLAG_ENABLE_REFLECTION = 1 << 1,
+			FLAG_NONE                    = 0,
+			FLAG_ALLOW_RANDOM_ROTATION   = 1 << 0,
+			FLAG_ALLOW_RANDOM_REFLECTION = 1 << 1,
+			FLAG_IS_ALTERNATE            = 1 << 2,
 		} flags;
 		uint16_t x1;
 		uint16_t y1;

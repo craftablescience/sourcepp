@@ -8,9 +8,10 @@ extern "C" {
 #endif
 
 typedef enum {
-	VTFPP_HOT_RECT_FLAG_NONE              = 0,
-	VTFPP_HOT_RECT_FLAG_ENABLE_ROTATION   = 1 << 0,
-	VTFPP_HOT_RECT_FLAG_ENABLE_REFLECTION = 1 << 1,
+	VTFPP_HOT_RECT_FLAG_NONE                    = 0,
+	VTFPP_HOT_RECT_FLAG_ALLOW_RANDOM_ROTATION   = 1 << 0,
+	VTFPP_HOT_RECT_FLAG_ALLOW_RANDOM_REFLECTION = 1 << 1,
+	VTFPP_HOT_RECT_FLAG_IS_ALTERNATE            = 1 << 2,
 } vtfpp_hot_rect_flags_e;
 
 typedef struct {
@@ -21,7 +22,7 @@ typedef struct {
 	uint16_t y2;
 } vtfpp_hot_rect_t;
 
-#define VTFPP_HOT_RECT_INVALID (SOURCEPP_CAST_CTOR(vtfpp_hot_rect_t) {.flags = 0, .x1 = 0, .y1 = 0, .x2 = 0, .y2 = 0})
+#define VTFPP_HOT_RECT_INVALID (SOURCEPP_CAST_CTOR(vtfpp_hot_rect_t) {.flags = VTFPP_HOT_RECT_FLAG_NONE, .x1 = 0, .y1 = 0, .x2 = 0, .y2 = 0})
 
 typedef void* vtfpp_hot_handle_t;
 

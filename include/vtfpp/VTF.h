@@ -387,9 +387,9 @@ public:
 
 	void removeKeyValuesDataResource();
 
-	void setHotspotResource(const HOT& value);
+	void setHotspotDataResource(const HOT& value);
 
-	void removeHotspotResource();
+	void removeHotspotDataResource();
 
 	[[nodiscard]] int16_t getCompressionLevel() const;
 

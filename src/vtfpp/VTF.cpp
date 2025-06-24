@@ -1355,7 +1355,7 @@ void VTF::removeKeyValuesDataResource() {
 	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
 }
 
-void VTF::setHotspotResource(const HOT& value) {
+void VTF::setHotspotDataResource(const HOT& value) {
 	std::vector<std::byte> hotspotData;
 	BufferStream writer{hotspotData};
 
@@ -1366,7 +1366,7 @@ void VTF::setHotspotResource(const HOT& value) {
 	this->setResourceInternal(Resource::TYPE_HOTSPOT_DATA, hotspotData);
 }
 
-void VTF::removeHotspotResource() {
+void VTF::removeHotspotDataResource() {
 	this->removeResourceInternal(Resource::TYPE_HOTSPOT_DATA);
 }
 

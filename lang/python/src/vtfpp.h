@@ -22,9 +22,10 @@ inline void register_python(py::module_& m) {
 	auto cHOTRect = py::class_<HOT::Rect>(cHOT, "Rect");
 
 	py::enum_<HOT::Rect::Flags>(cHOTRect, "Flags", py::is_flag())
-		.value("NONE",              HOT::Rect::FLAG_NONE)
-		.value("ENABLE_ROTATION",   HOT::Rect::FLAG_ENABLE_ROTATION)
-		.value("ENABLE_REFLECTION", HOT::Rect::FLAG_ENABLE_REFLECTION)
+		.value("NONE", HOT::Rect::FLAG_NONE)
+		.value("ALLOW_RANDOM_ROTATION", HOT::Rect::FLAG_ALLOW_RANDOM_ROTATION)
+		.value("ALLOW_RANDOM_REFLECTION", HOT::Rect::FLAG_ALLOW_RANDOM_REFLECTION)
+		.value("IS_ALTERNATE", HOT::Rect::FLAG_IS_ALTERNATE)
 		.export_values();
 
 	cHOTRect
@@ -580,8 +581,8 @@ inline void register_python(py::module_& m) {
 		.def("remove_extended_flags_resource", &VTF::removeExtendedFlagsResource)
 		.def("set_keyvalues_data_resource", &VTF::setKeyValuesDataResource, py::arg("value"))
 		.def("remove_keyvalues_data_resource", &VTF::removeKeyValuesDataResource)
-		.def("set_hotspot_resource", &VTF::setHotspotResource, py::arg("value"))
-		.def("remove_hotspot_resource", &VTF::removeHotspotResource)
+		.def("set_hotspot_data_resource", &VTF::setHotspotDataResource, py::arg("value"))
+		.def("remove_hotspot_data_resource", &VTF::removeHotspotDataResource)
 		.def_prop_rw("compression_level", &VTF::getCompressionLevel, &VTF::setCompressionLevel)
 		.def_prop_rw("compression_method", &VTF::getCompressionMethod, &VTF::setCompressionMethod)
 		.def("has_image_data", &VTF::hasImageData)
