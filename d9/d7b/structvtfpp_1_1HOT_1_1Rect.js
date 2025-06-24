@@ -2,8 +2,9 @@ var structvtfpp_1_1HOT_1_1Rect =
 [
     [ "Flags", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595", [
       [ "FLAG_NONE", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595af569f72d09ffc46fd6d603000fddce9f", null ],
-      [ "FLAG_ENABLE_ROTATION", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a09b902a737a824a07f77607f80636ea4", null ],
-      [ "FLAG_ENABLE_REFLECTION", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595adcfe51f9f921bfa779174c54daf4b99e", null ]
+      [ "FLAG_ALLOW_RANDOM_ROTATION", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a7e15b036d654d95b694443a575e92cb8", null ],
+      [ "FLAG_ALLOW_RANDOM_REFLECTION", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595af46be27e347ab1a53cc926c03d740ee7", null ],
+      [ "FLAG_IS_ALTERNATE", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a98c7824e082ef61e2a30946bf6670595a04dc12fcf29bc0034f90e366f4f02924", null ]
     ] ],
     [ "flags", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#acfd4c3692dc157dc975da04aec966db4", null ],
     [ "x1", "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a4b9472a225f7ce4aa66d8c4263dfd54b", null ],

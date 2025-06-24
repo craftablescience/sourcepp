@@ -22,7 +22,7 @@ var searchData=
   ['removeentry_19',['removeEntry',['../d5/d8b/classvpkpp_1_1VPK.html#aa1e0ac4d125dd6e1129bee61a3653750',1,'vpkpp::VPK::removeEntry()'],['../d2/dd2/classvpkpp_1_1PackFile.html#aed35a45b68bff1eedcc3a217cf7563b7',1,'vpkpp::PackFile::removeEntry()']]],
   ['removeextendedflagsresource_20',['removeExtendedFlagsResource',['../d8/df2/classvtfpp_1_1VTF.html#af755344235b5be0b013e74318bd84f09',1,'vtfpp::VTF']]],
   ['removeflags_21',['removeFlags',['../d8/df2/classvtfpp_1_1VTF.html#ae3af74e20855c6358be399fbe74c0f10',1,'vtfpp::VTF']]],
-  ['removehotspotresource_22',['removeHotspotResource',['../d8/df2/classvtfpp_1_1VTF.html#aaefbf4f97722d5a30b6c1e6a1d843504',1,'vtfpp::VTF']]],
+  ['removehotspotdataresource_22',['removeHotspotDataResource',['../d8/df2/classvtfpp_1_1VTF.html#a7b765eae4ddf6350ab8013953ed29d48',1,'vtfpp::VTF']]],
   ['removekeyvalue_23',['removeKeyValue',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ab70608763413a9a13ee07508d4578b19',1,'bsppp::BSPEntityKeyValues']]],
   ['removekeyvaluesdataresource_24',['removeKeyValuesDataResource',['../d8/df2/classvtfpp_1_1VTF.html#a0bd0be99c748ad55ced24d94f38a16fe',1,'vtfpp::VTF']]],
   ['removelodresource_25',['removeLODResource',['../d8/df2/classvtfpp_1_1VTF.html#a63aeb9ba4db09adc5dcd7b1fa61579bc',1,'vtfpp::VTF']]],
