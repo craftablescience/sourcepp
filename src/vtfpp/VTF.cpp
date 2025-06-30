@@ -113,26 +113,6 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 
 } // namespace
 
-const std::array<Resource::Type, 9>& Resource::getOrder() {
-	static constinit std::array<Type, 9> typeArray{
-		TYPE_THUMBNAIL_DATA,
-		TYPE_IMAGE_DATA,
-		TYPE_PARTICLE_SHEET_DATA,
-		TYPE_CRC,
-		TYPE_LOD_CONTROL_INFO,
-		TYPE_EXTENDED_FLAGS,
-		TYPE_KEYVALUES_DATA,
-		TYPE_HOTSPOT_DATA,
-		TYPE_AUX_COMPRESSION,
-	};
-	static bool unsorted = true;
-	if (unsorted) {
-		std::sort(typeArray.begin(), typeArray.end());
-		unsorted = false;
-	}
-	return typeArray;
-}
-
 Resource::ConvertedData Resource::convertData() const {
 	switch (this->type) {
 		case TYPE_PARTICLE_SHEET_DATA:

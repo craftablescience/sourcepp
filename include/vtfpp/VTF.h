@@ -34,17 +34,29 @@ enum class CompressionMethod : int16_t {
 struct Resource {
 	enum Type : uint32_t {
 		TYPE_UNKNOWN             = 0,   // Unknown
-		TYPE_THUMBNAIL_DATA      = sourcepp::parser::binary::makeFourCC("\x01\0\0\0"),
-		TYPE_IMAGE_DATA          = sourcepp::parser::binary::makeFourCC("\x30\0\0\0"),
-		TYPE_PARTICLE_SHEET_DATA = sourcepp::parser::binary::makeFourCC("\x10\0\0\0"),
-		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
-		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
+		TYPE_THUMBNAIL_DATA      = 1,
+		TYPE_PARTICLE_SHEET_DATA = 16,
+		TYPE_HOTSPOT_DATA        = 43,
+		TYPE_IMAGE_DATA          = 48,
 		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TS0\0"),
-		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
-		TYPE_HOTSPOT_DATA        = sourcepp::parser::binary::makeFourCC("HOT\0"),
+		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
+		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
+		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 	};
-	static const std::array<Type, 9>& getOrder();
+	static consteval std::array<Type, 9> getOrder() {
+		return {
+			TYPE_THUMBNAIL_DATA,
+			TYPE_PARTICLE_SHEET_DATA,
+			TYPE_HOTSPOT_DATA,
+			TYPE_IMAGE_DATA,
+			TYPE_EXTENDED_FLAGS,
+			TYPE_CRC,
+			TYPE_AUX_COMPRESSION,
+			TYPE_LOD_CONTROL_INFO,
+			TYPE_KEYVALUES_DATA,
+		};
+	}
 
 	enum Flags : uint8_t {
 		FLAG_NONE       = 0,

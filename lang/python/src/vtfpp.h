@@ -375,14 +375,14 @@ inline void register_python(py::module_& m) {
 	py::enum_<Resource::Type>(cResource, "Type")
 		.value("UNKNOWN",             Resource::TYPE_UNKNOWN)
 		.value("THUMBNAIL_DATA",      Resource::TYPE_THUMBNAIL_DATA)
-		.value("IMAGE_DATA",          Resource::TYPE_IMAGE_DATA)
 		.value("PARTICLE_SHEET_DATA", Resource::TYPE_PARTICLE_SHEET_DATA)
-		.value("CRC",                 Resource::TYPE_CRC)
-		.value("LOD_CONTROL_INFO",    Resource::TYPE_LOD_CONTROL_INFO)
-		.value("EXTENDED_FLAGS",      Resource::TYPE_EXTENDED_FLAGS)
-		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA)
 		.value("HOTSPOT_DATA",        Resource::TYPE_HOTSPOT_DATA)
+		.value("IMAGE_DATA",          Resource::TYPE_IMAGE_DATA)
+		.value("EXTENDED_FLAGS",      Resource::TYPE_EXTENDED_FLAGS)
+		.value("CRC",                 Resource::TYPE_CRC)
 		.value("AUX_COMPRESSION",     Resource::TYPE_AUX_COMPRESSION)
+		.value("LOD_CONTROL_INFO",    Resource::TYPE_LOD_CONTROL_INFO)
+		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA)
 		.export_values();
 
 	py::enum_<Resource::Flags>(cResource, "Flags", py::is_flag())
@@ -391,7 +391,7 @@ inline void register_python(py::module_& m) {
 		.export_values();
 
 	cResource
-		.def_static("get_order", &Resource::getOrder)
+		.def_static("get_order", [] { return Resource::getOrder(); })
 		.def_ro("type",  &Resource::type)
 		.def_ro("flags", &Resource::flags)
 		.def("get_data_as_particle_sheet",         &Resource::getDataAsParticleSheet)
