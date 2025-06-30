@@ -113,7 +113,7 @@ var searchData=
   ['getnotes_110',['getNotes',['../d4/d47/classvpkpp_1_1OL.html#afe37de315d9491468c1dc3a4b2cb89de',1,'vpkpp::OL']]],
   ['getopenableextensions_111',['getOpenableExtensions',['../d2/dd2/classvpkpp_1_1PackFile.html#add05e90df56f7e66a8badebf73026519',1,'vpkpp::PackFile']]],
   ['getopenextensionregistry_112',['getOpenExtensionRegistry',['../d2/dd2/classvpkpp_1_1PackFile.html#a2e541d69be3e1766034ac44fe020bc1a',1,'vpkpp::PackFile']]],
-  ['getorder_113',['getOrder',['../d3/d80/structvtfpp_1_1Resource.html#a109d9cfb1366fe99875adc4acf2b5dcf',1,'vtfpp::Resource']]],
+  ['getorder_113',['getOrder',['../d3/d80/structvtfpp_1_1Resource.html#a17cb81caaa11c6fe58b16930f2da32d3',1,'vtfpp::Resource']]],
   ['getparticlesheetframedataas_114',['getParticleSheetFrameDataAs',['../d8/df2/classvtfpp_1_1VTF.html#a4762f5149ec1878ea1e04920a98f8cb3',1,'vtfpp::VTF']]],
   ['getparticlesheetframedataasrgba8888_115',['getParticleSheetFrameDataAsRGBA8888',['../d8/df2/classvtfpp_1_1VTF.html#a2ec5502e2535c5b8562fa447bf8af974',1,'vtfpp::VTF']]],
   ['getparticlesheetframedataraw_116',['getParticleSheetFrameDataRaw',['../d8/df2/classvtfpp_1_1VTF.html#af62c31665a13df6bd8e74dad064849c2',1,'vtfpp::VTF']]],
