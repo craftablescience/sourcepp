@@ -1,11 +1,12 @@
 #include <mdlpp/structs/VVD.h>
 
 #include <BufferStream.h>
+#include <sourcepp/parser/Binary.h>
 
 using namespace mdlpp::VVD;
 using namespace sourcepp;
 
-constexpr int32_t VVD_ID = 'I' + ('D' << 8) + ('S' << 16) + ('V' << 24);
+constexpr int32_t VVD_ID = parser::binary::makeFourCC("IDSV");
 
 bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStreamReadOnly stream{data, size};

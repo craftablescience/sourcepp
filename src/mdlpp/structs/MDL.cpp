@@ -6,7 +6,7 @@
 using namespace mdlpp::MDL;
 using namespace sourcepp;
 
-constexpr int32_t MDL_ID = 'I' + ('D' << 8) + ('S' << 16) + ('T' << 24);
+constexpr int32_t MDL_ID = parser::binary::makeFourCC("IDST");
 
 bool MDL::open(const std::byte* data, std::size_t size) {
 	BufferStreamReadOnly stream{data, size};
