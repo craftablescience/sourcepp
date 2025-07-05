@@ -1,3 +1,16 @@
+# bc7enc_rdo
+add_library(sourcepp_bc7enc_rdo STATIC
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/bc7decomp.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/bc7decomp.h"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/bc7enc.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/bc7enc.h"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/rgbcx.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/rgbcx.h"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/rgbcx_table4.h"
+        "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo/rgbcx_table4_small.h")
+target_include_directories(sourcepp_bc7enc_rdo PUBLIC "${CMAKE_CURRENT_LIST_DIR}/bc7enc_rdo")
+
+
 # bufferstream
 if(NOT TARGET bufferstream)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/bufferstream")

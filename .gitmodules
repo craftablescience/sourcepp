@@ -1,3 +1,6 @@
+[submodule "ext/bc7enc_rdo"]
+	path = ext/bc7enc_rdo
+	url = https://github.com/richgel999/bc7enc_rdo
 [submodule "ext/bufferstream"]
 	path = ext/bufferstream
 	url = https://github.com/craftablescience/BufferStream

@@ -1,3 +1,8 @@
+cd bc7enc_rdo
+git checkout master
+git pull
+cd ..
+
 cd bufferstream
 git checkout main
 git pull

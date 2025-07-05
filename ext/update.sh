@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 (
+  cd bc7enc_rdo || exit
+  git checkout master
+  git pull
+)
+(
   cd bufferstream || exit
   git checkout main
   git pull

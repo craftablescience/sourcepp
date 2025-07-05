@@ -18,7 +18,8 @@
 #include <future>
 #endif
 
-#include <Compressonator.h>
+//#include <Compressonator.h>
+#include <rgbcx.h>
 
 #define QOI_IMPLEMENTATION
 #define QOI_NO_STDIO
@@ -52,6 +53,8 @@
 
 #include <webp/decode.h>
 #include <webp/encode.h>
+
+#include "bc7enc.h"
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -839,6 +842,71 @@ namespace {
 	});
 
 	return newData;
+}
+
+[[nodiscard]] bool initializeRGBCX() {
+	rgbcx::init(rgbcx::bc1_approx_mode::cBC1Ideal);
+	bc7enc_compress_block_init();
+	return true;
+}
+// Need this to run at init because the converter may be multithreaded
+bool g_initializeRGBCX = ::initializeRGBCX();
+
+[[nodiscard]] std::vector<std::byte> convertImageDataToCompressedFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+	if (imageData.empty() || oldFormat == newFormat || !ImageFormatDetails::compressed(newFormat)) {
+		return {};
+	}
+
+	// Need to figure out what to use for these instead of Compressonator
+	if (newFormat == ImageFormat::DXT1_ONE_BIT_ALPHA || newFormat == ImageFormat::DXT3 || newFormat == ImageFormat::BC7 || newFormat == ImageFormat::BC6H) {
+		return ::convertImageDataUsingCompressonator(imageData, oldFormat, newFormat, width, height);
+	}
+
+	// Put this here so the fucking thing hopefully doesn't get optimized out, and as a sanity check
+	if (!g_initializeRGBCX) [[unlikely]] {
+		g_initializeRGBCX = ::initializeRGBCX();
+	}
+
+	std::vector<std::byte> out;
+	out.resize(ImageFormatDetails::getDataLength(newFormat, width, height));
+	switch (newFormat) {
+		using enum ImageFormat;
+		case DXT1: { // BC1
+			if (oldFormat == RGBA8888) {
+				rgbcx::encode_bc1(rgbcx::MAX_LEVEL, out.data(), reinterpret_cast<const uint8_t*>(imageData.data()), true, false);
+			} else {
+				const auto rgba8888 = ::convertImageDataToRGBA8888(imageData, oldFormat);
+				rgbcx::encode_bc1(rgbcx::MAX_LEVEL, out.data(), reinterpret_cast<const uint8_t*>(rgba8888.data()), true, false);
+			}
+		}
+		case DXT5: { // BC3
+			if (oldFormat == RGBA8888) {
+				rgbcx::encode_bc3_hq(rgbcx::MAX_LEVEL, out.data(), reinterpret_cast<const uint8_t*>(imageData.data()));
+			} else {
+				const auto rgba8888 = ::convertImageDataToRGBA8888(imageData, oldFormat);
+				rgbcx::encode_bc3_hq(rgbcx::MAX_LEVEL, out.data(), reinterpret_cast<const uint8_t*>(rgba8888.data()));
+			}
+		}
+		case ATI1N: { // BC4
+			if (oldFormat == RGBA8888) {
+				rgbcx::encode_bc4_hq(out.data(), reinterpret_cast<const uint8_t*>(imageData.data()));
+			} else {
+				const auto rgba8888 = ::convertImageDataToRGBA8888(imageData, oldFormat);
+				rgbcx::encode_bc4_hq(out.data(), reinterpret_cast<const uint8_t*>(rgba8888.data()));
+			}
+		}
+		case ATI2N: { // BC5
+			if (oldFormat == RGBA8888) {
+				rgbcx::encode_bc5_hq(out.data(), reinterpret_cast<const uint8_t*>(imageData.data()));
+			} else {
+				const auto rgba8888 = ::convertImageDataToRGBA8888(imageData, oldFormat);
+				rgbcx::encode_bc5_hq(out.data(), reinterpret_cast<const uint8_t*>(rgba8888.data()));
+			}
+		}
+		default:
+			break;
+	}
+	return out;
 }
 
 } // namespace
