@@ -276,6 +276,13 @@ public:
 		return this->addChild(childKey);
 	}
 
+	/// Remove a child element from the element.
+	void removeChild(unsigned int n) {
+		if (this->children.size() > n) {
+			this->children.erase(this->children.begin() + n);
+		}
+	}
+
 	/// Remove a child element from the element. -1 means all children with the given key
 	void removeChild(std::string_view childKey, int n = -1) {
 		unsigned int count = 0;
