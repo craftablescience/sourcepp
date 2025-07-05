@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-SOURCEPP_API sourcepp_string_t sourcepp_string_new(size_t size) {
+SOURCEPP_STATIC(sourcepp, string, sourcepp_string_t, new, size_t size) {
 	sourcepp_string_t str;
 	if (size > 0) {
 		str.size = static_cast<int64_t>(size);
@@ -15,7 +15,7 @@ SOURCEPP_API sourcepp_string_t sourcepp_string_new(size_t size) {
 	return str;
 }
 
-SOURCEPP_API void sourcepp_string_free(sourcepp_string_t* str) {
+SOURCEPP_STATIC(sourcepp, string, void, free, sourcepp_string_t* str) {
 	if (str->data) {
 		std::free(str->data);
 		str->data = nullptr;
@@ -23,7 +23,7 @@ SOURCEPP_API void sourcepp_string_free(sourcepp_string_t* str) {
 	str->size = 0;
 }
 
-SOURCEPP_API sourcepp_string_array_t sourcepp_string_array_new(size_t size) {
+SOURCEPP_STATIC(sourcepp, string_array, sourcepp_string_array_t, new, size_t size) {
 	sourcepp_string_array_t array;
 	if (size > 0) {
 		array.size = static_cast<int64_t>(size);
@@ -35,7 +35,7 @@ SOURCEPP_API sourcepp_string_array_t sourcepp_string_array_new(size_t size) {
 	return array;
 }
 
-SOURCEPP_API void sourcepp_string_array_free(sourcepp_string_array_t* array) {
+SOURCEPP_STATIC(sourcepp, string_array, void, free, sourcepp_string_array_t* array) {
 	if (array->data) {
 		for (size_t i = 0; i < array->size; i++) {
 			if (char* str = array->data[i]) {

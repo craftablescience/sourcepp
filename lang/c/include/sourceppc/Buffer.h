@@ -2,25 +2,16 @@
 
 #include "API.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-typedef struct {
-	int64_t size;
-	void* data;
-} sourcepp_buffer_t;
+SOURCEPP_STRUCT_BEGIN() {
+	SOURCEPP_STRUCT_FIELD(int64_t, size, -1);
+	SOURCEPP_STRUCT_FIELD(void*,   data, NULL);
+} SOURCEPP_STRUCT_END(sourcepp, buffer);
 
 #define SOURCEPP_BUFFER_INVALID (SOURCEPP_CAST_CTOR(sourcepp_buffer_t) {.size = -1, .data = NULL})
 
-// Aliases
-typedef sourcepp_buffer_t sourcepp_buffer_uint32_t;
-typedef sourcepp_buffer_t sourcepp_buffer_uint64_t;
+SOURCEPP_STATIC(sourcepp, buffer, sourcepp_buffer_t, new, size_t size);
+SOURCEPP_STATIC(sourcepp, buffer,              void, free, sourcepp_buffer_t* buffer);
 
-#ifdef __cplusplus
-} // extern "C"
-#endif
-
-SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size);
-
-SOURCEPP_API void sourcepp_buffer_free(sourcepp_buffer_t* buffer);
+// These really only exist as a bit of a hack to tell the user the data type they contain
+SOURCEPP_TYPEDF(sourcepp, buffer_uint32, sourcepp_buffer_t);
+SOURCEPP_TYPEDF(sourcepp, buffer_uint64, sourcepp_buffer_t);
