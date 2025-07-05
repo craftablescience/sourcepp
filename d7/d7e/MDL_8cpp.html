@@ -162,7 +162,7 @@ Include dependency graph for MDL.cpp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a83860f189f2b674ab7e54d6fc65ea6ac"><td class="memItemLeft" align="right" valign="top">constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/MDL_8cpp.html#a83860f189f2b674ab7e54d6fc65ea6ac">MDL_ID</a> = 'I' + ('D' &lt;&lt; 8) + ('S' &lt;&lt; 16) + ('T' &lt;&lt; 24)</td></tr>
+<tr class="memitem:a83860f189f2b674ab7e54d6fc65ea6ac"><td class="memItemLeft" align="right" valign="top">constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d7e/MDL_8cpp.html#a83860f189f2b674ab7e54d6fc65ea6ac">MDL_ID</a> = parser::binary::makeFourCC(&quot;IDST&quot;)</td></tr>
 <tr class="separator:a83860f189f2b674ab7e54d6fc65ea6ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -176,7 +176,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr int32_t MDL_ID = 'I' + ('D' &lt;&lt; 8) + ('S' &lt;&lt; 16) + ('T' &lt;&lt; 24)</td>
+          <td class="memname">constexpr int32_t MDL_ID = parser::binary::makeFourCC(&quot;IDST&quot;)</td>
         </tr>
       </table>
   </td>

@@ -130,29 +130,32 @@ $(document).ready(function(){initNavTree('d4/d35/VVD_8cpp.html','../../'); initR
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="../../db/d47/VVD_8h_source.html">mdlpp/structs/VVD.h</a>&gt;</code><br />
 <code>#include &lt;BufferStream.h&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d9/db1/Binary_8h_source.html">sourcepp/parser/Binary.h</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for VVD.cpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d2/d33/VVD_8cpp__incl.png" border="0" usemap="#asrc_2mdlpp_2structs_2VVD_8cpp" alt=""/></div>
 <map name="asrc_2mdlpp_2structs_2VVD_8cpp" id="asrc_2mdlpp_2structs_2VVD_8cpp">
-<area shape="rect" title=" " alt="" coords="373,5,567,31"/>
-<area shape="rect" href="../../db/d47/VVD_8h.html" title=" " alt="" coords="313,79,467,104"/>
-<area shape="rect" title=" " alt="" coords="491,79,611,104"/>
-<area shape="rect" title=" " alt="" coords="141,225,197,251"/>
-<area shape="rect" title=" " alt="" coords="221,225,292,251"/>
-<area shape="rect" title=" " alt="" coords="578,372,645,397"/>
-<area shape="rect" title=" " alt="" coords="527,225,589,251"/>
-<area shape="rect" href="../../da/d9c/MDL_8h.html" title=" " alt="" coords="359,152,421,177"/>
-<area shape="rect" title=" " alt="" coords="393,299,451,324"/>
-<area shape="rect" href="../../df/d6a/Generic_8h.html" title=" " alt="" coords="316,225,400,251"/>
-<area shape="rect" href="../../df/d0a/Macros_8h.html" title=" " alt="" coords="33,299,177,324"/>
-<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="238,299,369,324"/>
-<area shape="rect" title=" " alt="" coords="5,372,97,397"/>
-<area shape="rect" title=" " alt="" coords="121,372,160,397"/>
-<area shape="rect" title=" " alt="" coords="185,372,265,397"/>
-<area shape="rect" title=" " alt="" coords="289,372,352,397"/>
-<area shape="rect" title=" " alt="" coords="376,372,455,397"/>
-<area shape="rect" title=" " alt="" coords="479,372,554,397"/>
+<area shape="rect" title=" " alt="" coords="316,5,510,31"/>
+<area shape="rect" href="../../db/d47/VVD_8h.html" title=" " alt="" coords="173,79,328,104"/>
+<area shape="rect" title=" " alt="" coords="353,79,473,104"/>
+<area shape="rect" href="../../d9/db1/Binary_8h.html" title=" " alt="" coords="419,152,602,177"/>
+<area shape="rect" title=" " alt="" coords="25,225,81,251"/>
+<area shape="rect" title=" " alt="" coords="402,225,472,251"/>
+<area shape="rect" title=" " alt="" coords="85,372,152,397"/>
+<area shape="rect" title=" " alt="" coords="315,225,378,251"/>
+<area shape="rect" href="../../da/d9c/MDL_8h.html" title=" " alt="" coords="218,152,280,177"/>
+<area shape="rect" title=" " alt="" coords="156,299,214,324"/>
+<area shape="rect" href="../../df/d6a/Generic_8h.html" title=" " alt="" coords="207,225,291,251"/>
+<area shape="rect" href="../../df/d0a/Macros_8h.html" title=" " alt="" coords="238,299,382,324"/>
+<area shape="rect" href="../../db/d8a/Math_8h.html" title=" " alt="" coords="420,299,550,324"/>
+<area shape="rect" title=" " alt="" coords="250,372,342,397"/>
+<area shape="rect" title=" " alt="" coords="466,372,504,397"/>
+<area shape="rect" title=" " alt="" coords="529,372,609,397"/>
+<area shape="rect" title=" " alt="" coords="634,372,696,397"/>
+<area shape="rect" title=" " alt="" coords="720,372,799,397"/>
+<area shape="rect" title=" " alt="" coords="366,372,441,397"/>
+<area shape="rect" title=" " alt="" coords="548,225,622,251"/>
 </map>
 </div>
 </div>
@@ -160,7 +163,7 @@ Include dependency graph for VVD.cpp:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae5ad1bf6bb2dedb149bda20eedeee9ed"><td class="memItemLeft" align="right" valign="top">constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d35/VVD_8cpp.html#ae5ad1bf6bb2dedb149bda20eedeee9ed">VVD_ID</a> = 'I' + ('D' &lt;&lt; 8) + ('S' &lt;&lt; 16) + ('V' &lt;&lt; 24)</td></tr>
+<tr class="memitem:ae5ad1bf6bb2dedb149bda20eedeee9ed"><td class="memItemLeft" align="right" valign="top">constexpr int32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d35/VVD_8cpp.html#ae5ad1bf6bb2dedb149bda20eedeee9ed">VVD_ID</a> = parser::binary::makeFourCC(&quot;IDSV&quot;)</td></tr>
 <tr class="separator:ae5ad1bf6bb2dedb149bda20eedeee9ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Variable Documentation</h2>
@@ -174,7 +177,7 @@ Variables</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr int32_t VVD_ID = 'I' + ('D' &lt;&lt; 8) + ('S' &lt;&lt; 16) + ('V' &lt;&lt; 24)</td>
+          <td class="memname">constexpr int32_t VVD_ID = parser::binary::makeFourCC(&quot;IDSV&quot;)</td>
         </tr>
       </table>
   </td>
@@ -184,7 +187,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d35/VVD_8cpp_source.html#l00008">8</a> of file <a class="el" href="../../d4/d35/VVD_8cpp_source.html">VVD.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d35/VVD_8cpp_source.html#l00009">9</a> of file <a class="el" href="../../d4/d35/VVD_8cpp_source.html">VVD.cpp</a>.</p>
 
 </div>
 </div>
