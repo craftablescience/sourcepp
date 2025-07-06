@@ -36,6 +36,10 @@ void trim(std::string& s);
 
 [[nodiscard]] std::string_view trim(std::string_view s);
 
+void trimInternal(std::string& s);
+
+[[nodiscard]] std::string trimInternal(std::string_view s);
+
 void ltrim(std::string& s, std::string_view chars);
 
 [[nodiscard]] std::string_view ltrim(std::string_view s, std::string_view chars);
@@ -47,6 +51,10 @@ void rtrim(std::string& s, std::string_view chars);
 void trim(std::string& s, std::string_view chars);
 
 [[nodiscard]] std::string_view trim(std::string_view s, std::string_view chars);
+
+void trimInternal(std::string& s, std::string_view chars);
+
+[[nodiscard]] std::string trimInternal(std::string_view s, std::string_view chars);
 
 [[nodiscard]] std::vector<std::string> split(std::string_view s, char delim);
 

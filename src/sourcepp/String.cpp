@@ -95,6 +95,16 @@ std::string_view string::trim(std::string_view s) {
 	return ltrim(rtrim(s));
 }
 
+void string::trimInternal(std::string& s) {
+	s.erase(std::ranges::unique(s, [](char lhs, char rhs) { return lhs == rhs && std::isspace(lhs); }).begin(), s.end());
+}
+
+std::string string::trimInternal(std::string_view s) {
+	std::string out{s};
+	trimInternal(out);
+	return out;
+}
+
 void string::ltrim(std::string& s, std::string_view chars) {
 	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [chars](char c) {
 		return !contains(chars, c);
@@ -128,6 +138,16 @@ void string::trim(std::string& s, std::string_view chars) {
 
 std::string_view string::trim(std::string_view s, std::string_view chars) {
 	return ltrim(rtrim(s, chars), chars);
+}
+
+void string::trimInternal(std::string& s, std::string_view chars) {
+	s.erase(std::ranges::unique(s, [chars](char lhs, char rhs) { return lhs == rhs && std::ranges::find(chars, lhs) != chars.end(); }).begin(), s.end());
+}
+
+std::string string::trimInternal(std::string_view s, std::string_view chars) {
+	std::string out{s};
+	trimInternal(out, chars);
+	return out;
 }
 
 // https://stackoverflow.com/a/46931770
