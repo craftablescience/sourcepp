@@ -87,6 +87,26 @@ public:
 		return this->children;
 	}
 
+	using iterator = typename std::vector<K>::iterator;
+
+	[[nodiscard]] iterator begin() {
+		return this->children.begin();
+	}
+
+	[[nodiscard]] iterator end() {
+		return this->children.end();
+	}
+
+	using const_iterator = typename std::vector<K>::const_iterator;
+
+	[[nodiscard]] const_iterator begin() const {
+		return this->children.begin();
+	}
+
+	[[nodiscard]] const_iterator end() const {
+		return this->children.end();
+	}
+
 	/// Get the child element of the element at the given index
 	[[nodiscard]] const KV1ElementBase& operator[](unsigned int n) const {
 		return this->children.at(n);
