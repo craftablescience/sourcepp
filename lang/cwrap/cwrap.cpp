@@ -141,7 +141,7 @@ void translateTokens(kvpp::KV1ElementWritable<>& file, const TokenInternalStream
 			}
 			case STRUCT_END: {
 				auto& st = file(token2str(Token::STRUCT), file.getChildCount(token2str(Token::STRUCT)) - 1);
-				st["class"] = params[1];
+				st["name"] = params[1];
 				break;
 			}
 			case ENUM_BEGIN: {
@@ -170,7 +170,7 @@ void translateTokens(kvpp::KV1ElementWritable<>& file, const TokenInternalStream
 			}
 			case ENUM_END: {
 				auto& en = file(token2str(Token::ENUM), file.getChildCount(token2str(Token::ENUM)) - 1);
-				en["enum"] = params[1];
+				en["name"] = params[1];
 				break;
 			}
 			case GLOBAL_EXT: {
