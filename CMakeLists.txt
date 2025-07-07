@@ -237,35 +237,6 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
 
     add_custom_target(${SOURCEPP_PYTHON_NAME}_all)
     add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME})
-
-    # We need to manually write out each module :(
-    set(${SOURCEPP_PYTHON_NAME}_MODULES
-            "sourcepp._sourcepp_impl"
-            "sourcepp._sourcepp_impl.bsppp"
-            "sourcepp._sourcepp_impl.gamepp"
-            "sourcepp._sourcepp_impl.sourcepp"
-            "sourcepp._sourcepp_impl.sourcepp.math"
-            "sourcepp._sourcepp_impl.steampp"
-            "sourcepp._sourcepp_impl.toolpp"
-            "sourcepp._sourcepp_impl.vcryptpp"
-            "sourcepp._sourcepp_impl.vcryptpp.VFONT"
-            "sourcepp._sourcepp_impl.vcryptpp.VICE"
-            "sourcepp._sourcepp_impl.vtfpp"
-            "sourcepp._sourcepp_impl.vtfpp.ImageFormatDetails"
-            "sourcepp._sourcepp_impl.vtfpp.ImageDimensions"
-            "sourcepp._sourcepp_impl.vtfpp.ImageConversion")
-    foreach(MODULE ${${SOURCEPP_PYTHON_NAME}_MODULES})
-        string(REPLACE "." "/" MODULE_DIR "${MODULE}")
-        string(REPLACE "." "_" MODULE_NAME_NORMALIZED "${MODULE}")
-        set(MODULE_NAME_NORMALIZED "${MODULE_NAME_NORMALIZED}_stub")
-        nanobind_add_stub("${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED}"
-                DEPENDS ${SOURCEPP_PYTHON_NAME}
-                MODULE "${MODULE}"
-                OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi"
-                PYTHON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src")
-        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi" DESTINATION "./${MODULE_DIR}/..")
-        add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED})
-    endforeach()
 endif()
 
 
