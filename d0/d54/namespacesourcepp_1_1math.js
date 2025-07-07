@@ -15,6 +15,7 @@ var namespacesourcepp_1_1math =
     [ "chebyshev", "d0/d54/namespacesourcepp_1_1math.html#aec4223d8eba2c7c9ca3b94a1b55f6c0b", null ],
     [ "isPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a327fdedfce01c437e2a0429f802bba45", null ],
     [ "kaiserWindow", "d0/d54/namespacesourcepp_1_1math.html#a89d700cb8358ffb04fd0e8d6378e8501", null ],
+    [ "log2ceil", "d0/d54/namespacesourcepp_1_1math.html#aa334cde714777e4046f45137a4826d28", null ],
     [ "nearestPowerOf2", "d0/d54/namespacesourcepp_1_1math.html#a1bdf52cb659232b552995cb6940689af", null ],
     [ "paddingForAlignment", "d0/d54/namespacesourcepp_1_1math.html#a87270826c1117276963e26cfffc13408", null ],
     [ "remap", "d0/d54/namespacesourcepp_1_1math.html#aeb822b72bb06c58f134ef0e58e3f9824", null ],
