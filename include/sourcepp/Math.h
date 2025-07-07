@@ -54,6 +54,10 @@ template<std::unsigned_integral T>
 	return (n - smaller) < (bigger - n) ? smaller : bigger;
 }
 
+[[nodiscard]] constexpr uint32_t log2ceil(uint32_t value) {
+	return ((std::bit_cast<uint32_t>(static_cast<float>(value)) >> 23) & 0xff) - 127;
+}
+
 [[nodiscard]] constexpr uint16_t paddingForAlignment(uint16_t alignment, uint64_t n) {
 	if (const auto rest = n % alignment; rest > 0) {
 		return alignment - rest;
