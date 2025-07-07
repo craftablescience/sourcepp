@@ -15,8 +15,10 @@ constexpr std::string_view DEFAULT_STRING_START              = "\"";
 constexpr std::string_view DEFAULT_STRING_END                = "\"";
 
 using EscapeSequenceMap = std::unordered_map<char, char>;
-extern const EscapeSequenceMap DEFAULT_ESCAPE_SEQUENCES;
-extern const EscapeSequenceMap NO_ESCAPE_SEQUENCES;
+
+[[nodiscard]] const EscapeSequenceMap& getDefaultEscapeSequences();
+
+[[nodiscard]] const EscapeSequenceMap& getDefaultEscapeSequencesOrNone(bool useEscapes);
 
 /**
  * If a char is a newline character.
@@ -136,7 +138,7 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
 
 /**
  * Read a string starting at the current stream position.
@@ -145,7 +147,7 @@ std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing,
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
 
 /**
  * Read a string starting at the current stream position.
@@ -155,7 +157,7 @@ std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& 
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = DEFAULT_ESCAPE_SEQUENCES);
+std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
 
 class syntax_error : public std::runtime_error {
 public:

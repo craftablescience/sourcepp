@@ -7,32 +7,34 @@
 
 using namespace sourcepp;
 
-namespace sourcepp::parser::text {
+const parser::text::EscapeSequenceMap& parser::text::getDefaultEscapeSequences() {
+	static const EscapeSequenceMap defaultEscapeSequences{
+			{'\'', '\''},
+			{'\"', '\"'},
+			{'?',   '?'},
+			{'\\', '\\'},
+			{'a',  '\a'},
+			{'b',  '\b'},
+			{'f',  '\f'},
+			{'n',  '\n'},
+			{'r',  '\r'},
+			{'t',  '\t'},
+			{'v',  '\v'},
+	};
+	return defaultEscapeSequences;
+}
 
-const EscapeSequenceMap DEFAULT_ESCAPE_SEQUENCES = {
-		{'\'', '\''},
-		{'\"', '\"'},
-		{'?',   '?'},
-		{'\\', '\\'},
-		{'a',  '\a'},
-		{'b',  '\b'},
-		{'f',  '\f'},
-		{'n',  '\n'},
-		{'r',  '\r'},
-		{'t',  '\t'},
-		{'v',  '\v'},
-};
-
-const EscapeSequenceMap NO_ESCAPE_SEQUENCES = {};
-
-} // namespace parser::text
+const parser::text::EscapeSequenceMap& parser::text::getDefaultEscapeSequencesOrNone(bool useEscapes) {
+	static const EscapeSequenceMap noEscapeSequences{};
+	return useEscapes ? getDefaultEscapeSequences() : noEscapeSequences;
+}
 
 bool parser::text::isNewLine(char c) {
 	return c == '\n' || c == '\r';
 }
 
 bool parser::text::isNewLine(std::string_view str) {
-	return std::all_of(str.begin(), str.end(), [](char c) { return isNewLine(c); });
+	return std::ranges::all_of(str, [](char c) { return isNewLine(c); });
 }
 
 bool parser::text::isWhitespace(char c) {
@@ -40,7 +42,7 @@ bool parser::text::isWhitespace(char c) {
 }
 
 bool parser::text::isWhitespace(std::string_view str) {
-	return std::all_of(str.begin(), str.end(), [](char c) { return isWhitespace(c); });
+	return std::ranges::all_of(str, [](char c) { return isWhitespace(c); });
 }
 
 bool parser::text::isNumber(char c) {
@@ -48,7 +50,7 @@ bool parser::text::isNumber(char c) {
 }
 
 bool parser::text::isNumber(std::string_view str) {
-	return std::all_of(str.begin(), str.end(), [](char c) { return isNumber(c); });
+	return std::ranges::all_of(str, [](char c) { return isNumber(c); });
 }
 
 std::string parser::text::convertSpecialCharsToEscapes(std::string_view str, const EscapeSequenceMap& escapeSequences) {

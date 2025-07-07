@@ -15,6 +15,6 @@ KV1::KV1(std::string_view kv1Data, bool useEscapeSequences_)
 	this->backingData.resize(kv1Data.size() * 2);
 	BufferStream backing{this->backingData, false};
 	try {
-		read(stream, backing, this->children, this->useEscapeSequences ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+		read(stream, backing, this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
 	} catch (const std::overflow_error&) {}
 }

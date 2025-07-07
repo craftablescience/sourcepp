@@ -619,7 +619,7 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 				// Read key
 				{
 					BufferStream keyStream{key};
-					parser::text::readStringToBuffer(stream, keyStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+					parser::text::readStringToBuffer(stream, keyStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, parser::text::getDefaultEscapeSequencesOrNone(useEscapes));
 					key.resize(keyStream.tell() - 1);
 					parser::text::eatWhitespaceAndSingleLineComments(stream);
 				}
@@ -627,7 +627,7 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 				// Read value
 				{
 					BufferStream valueStream{value};
-					parser::text::readStringToBuffer(stream, valueStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+					parser::text::readStringToBuffer(stream, valueStream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, parser::text::getDefaultEscapeSequencesOrNone(useEscapes));
 					value.resize(valueStream.tell() - 1);
 					parser::text::eatWhitespaceAndSingleLineComments(stream);
 				}

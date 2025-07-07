@@ -37,7 +37,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 		char c = stream.read<char>();
 		if (c != '\"') {
 			stream.seek(-1, std::ios::cur);
-			const auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::NO_ESCAPE_SEQUENCES);
+			const auto out = parser::text::readUnquotedStringToBuffer(stream, backing, ":", parser::text::EscapeSequenceMap{});
 			if (stream.seek(-1, std::ios::cur).peek<char>() != ':') {
 				stream.skip();
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -86,7 +86,7 @@ void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& versi
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 	}
-	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES)};
+	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{})};
 	string::trim(versionString);
 	string::toInt(versionString, version);
 }
@@ -98,7 +98,7 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 	}
-	const auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{});
 	auto mapSizes = string::split(mapSizeString, ',');
 	if (mapSizes.size() != 2) {
 		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -148,7 +148,7 @@ void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FG
 
 	while (stream.peek<char>() != '=') {
 		FGD::Entity::ClassProperty classProperty;
-		classProperty.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+		classProperty.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::EscapeSequenceMap{});
 		classProperty.arguments = "";
 
 		if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
@@ -170,14 +170,14 @@ void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FG
 
 void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity, bool input) {
 	auto& io = input ? entity.inputs.emplace_back() : entity.outputs.emplace_back();
-	io.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+	io.name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::EscapeSequenceMap{});
 	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 	}
-	io.valueType = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::NO_ESCAPE_SEQUENCES);
+	io.valueType = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{});
 
 	if (!::tryToEatSeparator(stream, ':')) {
 		io.description = "";
@@ -217,7 +217,7 @@ void readEntityFieldModifiers(BufferStreamReadOnly& stream, BufferStream& backin
 
 void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Entity& entity) {
 	// Key and value type (looks like "key(valueType)", or "input key(valueType)" for i/o)
-	const auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto name = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::EscapeSequenceMap{});
 	parser::text::eatWhitespace(stream);
 	if (string::iequals(name, "input")) {
 		::readEntityIO(stream, backing, entity, true);
@@ -227,7 +227,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		::readEntityIO(stream, backing, entity, false);
 		return;
 	}
-	const auto valueType = parser::text::readUnquotedStringToBuffer(stream, backing, ")", parser::text::NO_ESCAPE_SEQUENCES);
+	const auto valueType = parser::text::readUnquotedStringToBuffer(stream, backing, ")", parser::text::EscapeSequenceMap{});
 	// If there is a space after the value type, we need to get rid of the parenthesis here
 	parser::text::eatWhitespace(stream);
 	if (stream.peek<char>() == ')') {
@@ -552,7 +552,7 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, st
 			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
 		}
 
-		const auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::NO_ESCAPE_SEQUENCES);
+		const auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::EscapeSequenceMap{});
 		if (string::iequals(classType, "include")) {
 			parser::text::eatWhitespace(stream);
 			// Assume the include path is relative to the current file being processed

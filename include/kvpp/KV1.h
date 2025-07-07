@@ -377,14 +377,14 @@ public:
 		std::string backingData(kv1Data.size() * 2, '\0');
 		BufferStream backing{backingData, false};
 		try {
-			KV1ElementBase<S, KV1ElementWritable<S>>::read(stream, backing, this->children, this->useEscapeSequences ? sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES : sourcepp::parser::text::NO_ESCAPE_SEQUENCES);
+			KV1ElementBase<S, KV1ElementWritable<S>>::read(stream, backing, this->children, sourcepp::parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
 		} catch (const std::overflow_error&) {}
 	}
 
 	[[nodiscard]] std::string bake() {
 		std::string buffer;
 		BufferStream stream{buffer};
-		KV1ElementWritable<S>::write(stream, this->children, 0, this->useEscapeSequences ? sourcepp::parser::text::DEFAULT_ESCAPE_SEQUENCES : sourcepp::parser::text::NO_ESCAPE_SEQUENCES);
+		KV1ElementWritable<S>::write(stream, this->children, 0, sourcepp::parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
 		buffer.resize(stream.size());
 		return buffer;
 	}

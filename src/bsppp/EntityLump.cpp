@@ -125,9 +125,9 @@ std::string BSPEntityKeyValues::bake(bool useEscapes) const {
 	std::string out = "{\n";
 	for (const auto& elem : this->keyvalues) {
 		out += "\t\"";
-		out += parser::text::convertSpecialCharsToEscapes(elem.getKey(), useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+		out += parser::text::convertSpecialCharsToEscapes(elem.getKey(), parser::text::getDefaultEscapeSequencesOrNone(useEscapes));
 		out += "\" \"";
-		out += parser::text::convertSpecialCharsToEscapes(elem.getValue(), useEscapes ? parser::text::DEFAULT_ESCAPE_SEQUENCES : parser::text::NO_ESCAPE_SEQUENCES);
+		out += parser::text::convertSpecialCharsToEscapes(elem.getValue(), parser::text::getDefaultEscapeSequencesOrNone(useEscapes));
 		out += "\"\n";
 	}
 	out += "}";
