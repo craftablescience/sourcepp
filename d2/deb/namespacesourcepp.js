@@ -52,7 +52,11 @@ var namespacesourcepp =
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6", null ],
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22", null ],
       [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a3f42811d591cf1dcb5576c20daf682c3", null ],
-      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0", null ]
+      [ "trim", "d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0", null ],
+      [ "trimInternal", "d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112", null ],
+      [ "trimInternal", "d0/d5a/namespacesourcepp_1_1string.html#a0a15be36f8e5825621c6551a60755f78", null ],
+      [ "trimInternal", "d0/d5a/namespacesourcepp_1_1string.html#a3e7bd3b0582932b9943ec3e3a75fd9ff", null ],
+      [ "trimInternal", "d0/d5a/namespacesourcepp_1_1string.html#ab888485442c835a8d5019e374b8cb8c2", null ]
     ] ],
     [ "member_type", "d1/dc0/structsourcepp_1_1member__type.html", null ],
     [ "member_type_t", "d2/deb/namespacesourcepp.html#af05c7c214cd15e75c782e80ef948579b", null ]

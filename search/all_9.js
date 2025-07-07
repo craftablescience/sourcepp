@@ -35,7 +35,7 @@ var searchData=
   ['include_32',['include',['../d5/d25/classtoolpp_1_1FGDWriter.html#ae922f0ade17f926ae18d5046405ae547',1,'toolpp::FGDWriter']]],
   ['index_33',['index',['../dc/d06/structdmxpp_1_1Value_1_1Element.html#af94bd799af3d14d2c6b5bba61131cee8',1,'dmxpp::Value::Element']]],
   ['index_2emd_34',['index.md',['../df/dcf/index_8md.html',1,'']]],
-  ['indices_35',['indices',['../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a9a9ad411825f48506383469de61d8fe3',1,'mdlpp::VTX::StripGroup::indices()'],['../d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html#a70b675d41e2211fb81932a29f9a35248',1,'mdlpp::BakedModel::Mesh::indices()'],['../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a5c34ebd532999f86697b6dc8c07d51d2',1,'mdlpp::VTX::Strip::indices()']]],
+  ['indices_35',['indices',['../d2/d2f/structmdlpp_1_1BakedModel_1_1Mesh.html#a70b675d41e2211fb81932a29f9a35248',1,'mdlpp::BakedModel::Mesh::indices()'],['../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a5c34ebd532999f86697b6dc8c07d51d2',1,'mdlpp::VTX::Strip::indices()'],['../da/d15/structmdlpp_1_1VTX_1_1StripGroup.html#a9a9ad411825f48506383469de61d8fe3',1,'mdlpp::VTX::StripGroup::indices()']]],
   ['indicesoffset_36',['indicesOffset',['../d3/db9/structmdlpp_1_1VTX_1_1Strip.html#a2dbfa2ed6b17b60ae837fd691d1893a7',1,'mdlpp::VTX::Strip']]],
   ['info_37',['INFO',['../df/dc5/classsndpp_1_1WAV.html#aa8608801d511e755cb89a0a91b21c016a551b723eafd6a31d444fcb2f5920fbd3',1,'sndpp::WAV']]],
   ['info1count_38',['info1count',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a6c09fe4d9feb0d6048b815b8334c3231',1,'vpkpp::GCF::DirectoryHeader']]],
@@ -65,7 +65,7 @@ var searchData=
   ['isappusingsourceengine_62',['isAppUsingSourceEngine',['../d9/d81/classsteampp_1_1Steam.html#a0f8f3ef88f56857da60664f209c2804d',1,'steampp::Steam']]],
   ['isarray_63',['isArray',['../dc/d56/structdmxpp_1_1DMXAttribute.html#ad1da03677d84197d4a8f4ac1c3193816',1,'dmxpp::DMXAttribute']]],
   ['isbj_64',['ISBJ',['../df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69a184dc5edb1897b6961c311edfe03603a',1,'sndpp::WAV']]],
-  ['iscasesensitive_65',['isCaseSensitive',['../d2/d8b/classvpkpp_1_1EXAMPLE.html#a381d934661caf2b885806d7600d0d0fb',1,'vpkpp::EXAMPLE::isCaseSensitive()'],['../d5/db5/classvpkpp_1_1PCK.html#a6f64b4b24de57344e4e352284d87c2d2',1,'vpkpp::PCK::isCaseSensitive()'],['../da/de7/classvpkpp_1_1ZIP.html#ac14f026b842487b431f2fca23d24b78d',1,'vpkpp::ZIP::isCaseSensitive()'],['../d3/dec/classvpkpp_1_1OO7.html#a63652a3f040cbfaf2fd2a51e3e8ce1e4',1,'vpkpp::OO7::isCaseSensitive()'],['../d4/d47/classvpkpp_1_1OL.html#a6eebf939e7eab3742f73fa09299688de',1,'vpkpp::OL::isCaseSensitive()'],['../d1/d01/classvpkpp_1_1GCF.html#a824e7840477a2bfba8cd9a5d724dfb97',1,'vpkpp::GCF::isCaseSensitive()'],['../d4/daf/classbsppp_1_1PakLump.html#a84b41c309a5f5d1d0510dcd01133595d',1,'bsppp::PakLump::isCaseSensitive()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a7f418df3fcc249e927ed122592ccee46',1,'vpkpp::PackFile::isCaseSensitive()']]],
+  ['iscasesensitive_65',['isCaseSensitive',['../d4/daf/classbsppp_1_1PakLump.html#a84b41c309a5f5d1d0510dcd01133595d',1,'bsppp::PakLump::isCaseSensitive()'],['../d1/d01/classvpkpp_1_1GCF.html#a824e7840477a2bfba8cd9a5d724dfb97',1,'vpkpp::GCF::isCaseSensitive()'],['../d4/d47/classvpkpp_1_1OL.html#a6eebf939e7eab3742f73fa09299688de',1,'vpkpp::OL::isCaseSensitive()'],['../d3/dec/classvpkpp_1_1OO7.html#a63652a3f040cbfaf2fd2a51e3e8ce1e4',1,'vpkpp::OO7::isCaseSensitive()'],['../d5/db5/classvpkpp_1_1PCK.html#a6f64b4b24de57344e4e352284d87c2d2',1,'vpkpp::PCK::isCaseSensitive()'],['../da/de7/classvpkpp_1_1ZIP.html#ac14f026b842487b431f2fca23d24b78d',1,'vpkpp::ZIP::isCaseSensitive()'],['../d2/dd2/classvpkpp_1_1PackFile.html#a7f418df3fcc249e927ed122592ccee46',1,'vpkpp::PackFile::isCaseSensitive()'],['../d2/d8b/classvpkpp_1_1EXAMPLE.html#a381d934661caf2b885806d7600d0d0fb',1,'vpkpp::EXAMPLE::isCaseSensitive()']]],
   ['iscompressed_66',['isCompressed',['../d6/d07/structbsppp_1_1BSPGameLump.html#ab5ff8d7ba65cf5a261cd19f21d159e71',1,'bsppp::BSPGameLump']]],
   ['isconsole_67',['isConsole',['../d5/dba/classbsppp_1_1BSP.html#af802d1405be35bad721e9dc57276f633',1,'bsppp::BSP']]],
   ['iscubemap_68',['isCubeMap',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c',1,'vtfpp::VTF::CreationOptions']]],
@@ -75,7 +75,7 @@ var searchData=
   ['ishrot_72',['isHROT',['../d9/daf/classvpkpp_1_1PAK.html#a446420927b4d1ed8aeed5bf0e471b10a',1,'vpkpp::PAK']]],
   ['ishrot_5f_73',['isHROT_',['../d9/daf/classvpkpp_1_1PAK.html#ab7c09816b3154c03e886701622575c1f',1,'vpkpp::PAK']]],
   ['isinstanceof_74',['isInstanceOf',['../d2/dd2/classvpkpp_1_1PackFile.html#a3c16675c5d81cc6944d5023a1e8e23b6',1,'vpkpp::PackFile']]],
-  ['isinvalid_75',['isInvalid',['../de/d62/classkvpp_1_1KV1ElementBase.html#a675bb3af6a884b1c818a7f2f14f0578b',1,'kvpp::KV1ElementBase::isInvalid()'],['../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b',1,'bsppp::BSPEntityKeyValues::Element::isInvalid()']]],
+  ['isinvalid_75',['isInvalid',['../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#a6de217152cbcd606b439e9854188490b',1,'bsppp::BSPEntityKeyValues::Element::isInvalid()'],['../de/d62/classkvpp_1_1KV1ElementBase.html#a675bb3af6a884b1c818a7f2f14f0578b',1,'kvpp::KV1ElementBase::isInvalid()']]],
   ['isl4d2_76',['isL4D2',['../d5/dba/classbsppp_1_1BSP.html#a8cfaf97ab187fc6a10a2f2912fac3adf',1,'bsppp::BSP']]],
   ['islumpcompressed_77',['isLumpCompressed',['../d5/dba/classbsppp_1_1BSP.html#a363f77650392f206a3d2e2087aea6234',1,'bsppp::BSP']]],
   ['ismp_78',['ISMP',['../df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69aff365f7b81760e46f1a32affd0ec7cbe',1,'sndpp::WAV']]],
@@ -92,5 +92,6 @@ var searchData=
   ['item_5fcount_89',['item_count',['../dc/db5/structvpkpp_1_1GCF_1_1ChecksumMapHeader.html#a28fe36bf0400951c63c3f0339b24bc7a',1,'vpkpp::GCF::ChecksumMapHeader']]],
   ['itemcount_90',['itemcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a253376ee80545479e5fa32efa1b898e8',1,'vpkpp::GCF::DirectoryHeader']]],
   ['itemsize_91',['itemsize',['../d1/d62/structvpkpp_1_1GCF_1_1DirectoryEntry.html#afa80da226b5bdb1b627c312d0a7f595d',1,'vpkpp::GCF::DirectoryEntry']]],
-  ['itrk_92',['ITRK',['../df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69a519b998961f97c0813df1f4260a61c2c',1,'sndpp::WAV']]]
+  ['iterator_92',['iterator',['../de/d62/classkvpp_1_1KV1ElementBase.html#a383f6a76b3d3557c9ad9db19e2ef2754',1,'kvpp::KV1ElementBase']]],
+  ['itrk_93',['ITRK',['../df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69a519b998961f97c0813df1f4260a61c2c',1,'sndpp::WAV']]]
 ];

@@ -27,5 +27,9 @@ var String_8h =
     [ "trim", "d9/dba/String_8h.html#adf068b2ce737cec15272334d4b704db6", null ],
     [ "trim", "d9/dba/String_8h.html#a15e63c1ab06cbcbf336bc87191d99a22", null ],
     [ "trim", "d9/dba/String_8h.html#a3f42811d591cf1dcb5576c20daf682c3", null ],
-    [ "trim", "d9/dba/String_8h.html#a696dfaae8a570aee1870092baaa65ee0", null ]
+    [ "trim", "d9/dba/String_8h.html#a696dfaae8a570aee1870092baaa65ee0", null ],
+    [ "trimInternal", "d9/dba/String_8h.html#ab341659bdd09ebfe800050eb1e464112", null ],
+    [ "trimInternal", "d9/dba/String_8h.html#a0a15be36f8e5825621c6551a60755f78", null ],
+    [ "trimInternal", "d9/dba/String_8h.html#a3e7bd3b0582932b9943ec3e3a75fd9ff", null ],
+    [ "trimInternal", "d9/dba/String_8h.html#ab888485442c835a8d5019e374b8cb8c2", null ]
 ];

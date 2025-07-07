@@ -223,156 +223,177 @@ $(document).ready(function(){initNavTree('d7/db3/String_8cpp_source.html','../..
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">ltrim</a>(<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">rtrim</a>(s));</div>
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>}</div>
 <div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span> </div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2921eb99eb12a40ad6d74fd6072e1f23">   98</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">string::ltrim</a>(std::string&amp; s, std::string_view chars) {</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [chars](<span class="keywordtype">char</span> c) {</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>        return !contains(chars, c);</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    }));</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>}</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a10e3eb9713ad6cc59351814aa564cc33">  104</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">string::ltrim</a>(std::string_view s, std::string_view chars) {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">while</span> (!s.empty() &amp;&amp; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167">contains</a>(chars, s[0])) {</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>        s.remove_prefix(1);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>    }</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    <span class="keywordflow">return</span> s;</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>}</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a55607c50daf7922ea221a4108e10c705">  111</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">string::rtrim</a>(std::string&amp; s, std::string_view chars) {</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    s.erase(std::find_if(s.rbegin(), s.rend(), [chars](<span class="keywordtype">char</span> c) {</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>        return !contains(chars, c);</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    }).base(), s.end());</div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a1301f2148bb8f8a71bf7f7f6f15b722a">  117</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">string::rtrim</a>(std::string_view s, std::string_view chars) {</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">while</span> (!s.empty() &amp;&amp; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167">contains</a>(chars, s[s.size() - 1])) {</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        s.remove_suffix(1);</div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span>    }</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    <span class="keywordflow">return</span> s;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>}</div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22">  124</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">string::trim</a>(std::string&amp; s, std::string_view chars) {</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">rtrim</a>(s, chars);</div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">ltrim</a>(s, chars);</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span>}</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0">  129</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">string::trim</a>(std::string_view s, std::string_view chars) {</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">ltrim</a>(<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">rtrim</a>(s, chars), chars);</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>}</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span> </div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span><span class="comment">// https://stackoverflow.com/a/46931770</span></div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">  135</a></span>std::vector&lt;std::string&gt; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">string::split</a>(std::string_view s, <span class="keywordtype">char</span> delim) {</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    std::vector&lt;std::string&gt; result;</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    std::stringstream ss(std::string{s});</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>    std::string item;</div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span>    <span class="keywordflow">while</span> (std::getline(ss, item, delim)) {</div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        result.push_back(item);</div>
-<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>    }</div>
-<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>}</div>
-<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span> </div>
-<div class="line"><a id="l00145" name="l00145"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">  145</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">string::toLower</a>(std::string&amp; input) {</div>
-<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>    std::transform(input.begin(), input.end(), input.begin(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c){ return std::tolower(c); });</div>
-<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>}</div>
-<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span> </div>
-<div class="line"><a id="l00149" name="l00149"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#aaf798c726dd8f8fca2ad6bdc72e6e1f7">  149</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">string::toLower</a>(std::string_view input) {</div>
-<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    std::string out{input};</div>
-<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">toLower</a>(out);</div>
-<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>}</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">   98</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">string::trimInternal</a>(std::string&amp; s) {</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>    s.erase(std::ranges::unique(s, [](<span class="keywordtype">char</span> lhs, <span class="keywordtype">char</span> rhs) { <span class="keywordflow">return</span> lhs == rhs &amp;&amp; std::isspace(lhs); }).begin(), s.end());</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>}</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span> </div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3e7bd3b0582932b9943ec3e3a75fd9ff">  102</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">string::trimInternal</a>(std::string_view s) {</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>    std::string out{s};</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">trimInternal</a>(out);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>}</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2921eb99eb12a40ad6d74fd6072e1f23">  108</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">string::ltrim</a>(std::string&amp; s, std::string_view chars) {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [chars](<span class="keywordtype">char</span> c) {</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        return !contains(chars, c);</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }));</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a10e3eb9713ad6cc59351814aa564cc33">  114</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">string::ltrim</a>(std::string_view s, std::string_view chars) {</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>    <span class="keywordflow">while</span> (!s.empty() &amp;&amp; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167">contains</a>(chars, s[0])) {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>        s.remove_prefix(1);</div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>    }</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> s;</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a55607c50daf7922ea221a4108e10c705">  121</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">string::rtrim</a>(std::string&amp; s, std::string_view chars) {</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    s.erase(std::find_if(s.rbegin(), s.rend(), [chars](<span class="keywordtype">char</span> c) {</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>        return !contains(chars, c);</div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    }).base(), s.end());</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a1301f2148bb8f8a71bf7f7f6f15b722a">  127</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">string::rtrim</a>(std::string_view s, std::string_view chars) {</div>
+<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span>    <span class="keywordflow">while</span> (!s.empty() &amp;&amp; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167">contains</a>(chars, s[s.size() - 1])) {</div>
+<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span>        s.remove_suffix(1);</div>
+<div class="line"><a id="l00130" name="l00130"></a><span class="lineno">  130</span>    }</div>
+<div class="line"><a id="l00131" name="l00131"></a><span class="lineno">  131</span>    <span class="keywordflow">return</span> s;</div>
+<div class="line"><a id="l00132" name="l00132"></a><span class="lineno">  132</span>}</div>
+<div class="line"><a id="l00133" name="l00133"></a><span class="lineno">  133</span> </div>
+<div class="line"><a id="l00134" name="l00134"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a15e63c1ab06cbcbf336bc87191d99a22">  134</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">string::trim</a>(std::string&amp; s, std::string_view chars) {</div>
+<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">rtrim</a>(s, chars);</div>
+<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">ltrim</a>(s, chars);</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>}</div>
+<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span> </div>
+<div class="line"><a id="l00139" name="l00139"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0">  139</a></span>std::string_view <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">string::trim</a>(std::string_view s, std::string_view chars) {</div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">ltrim</a>(<a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">rtrim</a>(s, chars), chars);</div>
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno">  141</span>}</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span> </div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0a15be36f8e5825621c6551a60755f78">  143</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">string::trimInternal</a>(std::string&amp; s, std::string_view chars) {</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>    s.erase(std::ranges::unique(s, [chars](<span class="keywordtype">char</span> lhs, <span class="keywordtype">char</span> rhs) { <span class="keywordflow">return</span> lhs == rhs &amp;&amp; std::ranges::find(chars, lhs) != chars.end(); }).begin(), s.end());</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>}</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span> </div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab888485442c835a8d5019e374b8cb8c2">  147</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">string::trimInternal</a>(std::string_view s, std::string_view chars) {</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>    std::string out{s};</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">trimInternal</a>(out, chars);</div>
+<div class="line"><a id="l00150" name="l00150"></a><span class="lineno">  150</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno">  151</span>}</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span> </div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span><span class="comment">// https://stackoverflow.com/a/46931770</span></div>
 <div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
-<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">  155</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">string::toUpper</a>(std::string&amp; input) {</div>
-<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    std::transform(input.begin(), input.end(), input.begin(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c){ return std::toupper(c); });</div>
-<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>}</div>
-<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span> </div>
-<div class="line"><a id="l00159" name="l00159"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3b2c5c714a90f9277af81ee27476b3c0">  159</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">string::toUpper</a>(std::string_view input) {</div>
-<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>    std::string out{input};</div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">toUpper</a>(out);</div>
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">  155</a></span>std::vector&lt;std::string&gt; <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">string::split</a>(std::string_view s, <span class="keywordtype">char</span> delim) {</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno">  156</span>    std::vector&lt;std::string&gt; result;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span>    std::stringstream ss(std::string{s});</div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    std::string item;</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordflow">while</span> (std::getline(ss, item, delim)) {</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span>        result.push_back(item);</div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>    }</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno">  162</span>    <span class="keywordflow">return</span> result;</div>
 <div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>}</div>
 <div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span> </div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">  165</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">string::createRandom</a>(uint16_t length, std::string_view chars) {</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <span class="keyword">auto</span>&amp; generator = ::getRandomGenerator();</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    std::uniform_int_distribution distribution{0, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(chars.length() - 1)};</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">  165</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">string::toLower</a>(std::string&amp; input) {</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    std::transform(input.begin(), input.end(), input.begin(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c){ return std::tolower(c); });</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>}</div>
 <div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span> </div>
-<div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span>    std::string out;</div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; length; i++) {</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>        out += chars[distribution(generator)];</div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    }</div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span> </div>
-<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span>}</div>
-<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span> </div>
-<div class="line"><a id="l00177" name="l00177"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">  177</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">string::generateUUIDv4</a>() {</div>
-<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::string_view chars = <span class="stringliteral">&quot;0123456789abcdef&quot;</span>;</div>
-<div class="line"><a id="l00179" name="l00179"></a><span class="lineno">  179</span> </div>
-<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    <span class="keyword">auto</span>&amp; generator = ::getRandomGenerator();</div>
-<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    std::uniform_int_distribution distribution{0, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(chars.length() - 1)};</div>
-<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span> </div>
-<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>    std::string out;</div>
-<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 8; i++) {</div>
-<div class="line"><a id="l00185" name="l00185"></a><span class="lineno">  185</span>        out += chars[distribution(generator)];</div>
-<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    }</div>
-<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    out += <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 3; i++) {</div>
-<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>        <span class="keywordflow">for</span> (uint16_t j = 0; j &lt; 4; j++) {</div>
-<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>            out += chars[distribution(generator)];</div>
-<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        }</div>
-<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>        out += <span class="charliteral">&#39;-&#39;</span>;</div>
-<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span>    }</div>
-<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 12; i++) {</div>
-<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>        out += chars[distribution(generator)];</div>
-<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span>    }</div>
-<div class="line"><a id="l00197" name="l00197"></a><span class="lineno">  197</span> </div>
-<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keywordflow">return</span> out;</div>
-<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>}</div>
-<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span> </div>
-<div class="line"><a id="l00201" name="l00201"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">  201</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">string::padNumber</a>(int64_t number, <span class="keywordtype">int</span> width, <span class="keywordtype">char</span> pad) {</div>
-<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    <span class="keyword">const</span> <span class="keyword">auto</span> numStr = std::to_string(number);</div>
-<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    <span class="keywordflow">return</span> std::string(width - std::min&lt;std::string::size_type&gt;(width, numStr.length()), pad) + numStr;</div>
-<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>}</div>
-<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span> </div>
-<div class="line"><a id="l00206" name="l00206"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">  206</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">string::normalizeSlashes</a>(std::string&amp; path, <span class="keywordtype">bool</span> stripSlashPrefix, <span class="keywordtype">bool</span> stripSlashSuffix) {</div>
-<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    std::replace(path.begin(), path.end(), <span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
-<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keywordflow">if</span> (stripSlashPrefix &amp;&amp; path.starts_with(<span class="charliteral">&#39;/&#39;</span>)) {</div>
-<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        path = path.substr(1);</div>
-<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>    }</div>
-<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>    <span class="keywordflow">if</span> (stripSlashSuffix &amp;&amp; path.ends_with(<span class="charliteral">&#39;/&#39;</span>)) {</div>
-<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        path.pop_back();</div>
+<div class="line"><a id="l00169" name="l00169"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#aaf798c726dd8f8fca2ad6bdc72e6e1f7">  169</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">string::toLower</a>(std::string_view input) {</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    std::string out{input};</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">toLower</a>(out);</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>}</div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">  175</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">string::toUpper</a>(std::string&amp; input) {</div>
+<div class="line"><a id="l00176" name="l00176"></a><span class="lineno">  176</span>    std::transform(input.begin(), input.end(), input.begin(), [](<span class="keywordtype">unsigned</span> <span class="keywordtype">char</span> c){ return std::toupper(c); });</div>
+<div class="line"><a id="l00177" name="l00177"></a><span class="lineno">  177</span>}</div>
+<div class="line"><a id="l00178" name="l00178"></a><span class="lineno">  178</span> </div>
+<div class="line"><a id="l00179" name="l00179"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3b2c5c714a90f9277af81ee27476b3c0">  179</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">string::toUpper</a>(std::string_view input) {</div>
+<div class="line"><a id="l00180" name="l00180"></a><span class="lineno">  180</span>    std::string out{input};</div>
+<div class="line"><a id="l00181" name="l00181"></a><span class="lineno">  181</span>    <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">toUpper</a>(out);</div>
+<div class="line"><a id="l00182" name="l00182"></a><span class="lineno">  182</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00183" name="l00183"></a><span class="lineno">  183</span>}</div>
+<div class="line"><a id="l00184" name="l00184"></a><span class="lineno">  184</span> </div>
+<div class="line"><a id="l00185" name="l00185"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">  185</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">string::createRandom</a>(uint16_t length, std::string_view chars) {</div>
+<div class="line"><a id="l00186" name="l00186"></a><span class="lineno">  186</span>    <span class="keyword">auto</span>&amp; generator = ::getRandomGenerator();</div>
+<div class="line"><a id="l00187" name="l00187"></a><span class="lineno">  187</span>    std::uniform_int_distribution distribution{0, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(chars.length() - 1)};</div>
+<div class="line"><a id="l00188" name="l00188"></a><span class="lineno">  188</span> </div>
+<div class="line"><a id="l00189" name="l00189"></a><span class="lineno">  189</span>    std::string out;</div>
+<div class="line"><a id="l00190" name="l00190"></a><span class="lineno">  190</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; length; i++) {</div>
+<div class="line"><a id="l00191" name="l00191"></a><span class="lineno">  191</span>        out += chars[distribution(generator)];</div>
+<div class="line"><a id="l00192" name="l00192"></a><span class="lineno">  192</span>    }</div>
+<div class="line"><a id="l00193" name="l00193"></a><span class="lineno">  193</span> </div>
+<div class="line"><a id="l00194" name="l00194"></a><span class="lineno">  194</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00195" name="l00195"></a><span class="lineno">  195</span>}</div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span> </div>
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">  197</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">string::generateUUIDv4</a>() {</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>    <span class="keyword">static</span> <span class="keyword">constexpr</span> std::string_view chars = <span class="stringliteral">&quot;0123456789abcdef&quot;</span>;</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span> </div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>    <span class="keyword">auto</span>&amp; generator = ::getRandomGenerator();</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    std::uniform_int_distribution distribution{0, <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(chars.length() - 1)};</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span> </div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    std::string out;</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 8; i++) {</div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>        out += chars[distribution(generator)];</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>    }</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span>    out += <span class="charliteral">&#39;-&#39;</span>;</div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 3; i++) {</div>
+<div class="line"><a id="l00209" name="l00209"></a><span class="lineno">  209</span>        <span class="keywordflow">for</span> (uint16_t j = 0; j &lt; 4; j++) {</div>
+<div class="line"><a id="l00210" name="l00210"></a><span class="lineno">  210</span>            out += chars[distribution(generator)];</div>
+<div class="line"><a id="l00211" name="l00211"></a><span class="lineno">  211</span>        }</div>
+<div class="line"><a id="l00212" name="l00212"></a><span class="lineno">  212</span>        out += <span class="charliteral">&#39;-&#39;</span>;</div>
 <div class="line"><a id="l00213" name="l00213"></a><span class="lineno">  213</span>    }</div>
-<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>}</div>
-<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span> </div>
-<div class="line"><a id="l00216" name="l00216"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">  216</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">string::denormalizeSlashes</a>(std::string&amp; path, <span class="keywordtype">bool</span> stripSlashPrefix, <span class="keywordtype">bool</span> stripSlashSuffix) {</div>
-<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span>    std::replace(path.begin(), path.end(), <span class="charliteral">&#39;/&#39;</span>, <span class="charliteral">&#39;\\&#39;</span>);</div>
-<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">if</span> (stripSlashPrefix &amp;&amp; path.starts_with(<span class="charliteral">&#39;\\&#39;</span>)) {</div>
-<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>        path = path.substr(1);</div>
-<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span>    }</div>
-<div class="line"><a id="l00221" name="l00221"></a><span class="lineno">  221</span>    <span class="keywordflow">if</span> (stripSlashSuffix &amp;&amp; path.ends_with(<span class="charliteral">&#39;\\&#39;</span>)) {</div>
-<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>        path.pop_back();</div>
-<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    }</div>
+<div class="line"><a id="l00214" name="l00214"></a><span class="lineno">  214</span>    <span class="keywordflow">for</span> (uint16_t i = 0; i &lt; 12; i++) {</div>
+<div class="line"><a id="l00215" name="l00215"></a><span class="lineno">  215</span>        out += chars[distribution(generator)];</div>
+<div class="line"><a id="l00216" name="l00216"></a><span class="lineno">  216</span>    }</div>
+<div class="line"><a id="l00217" name="l00217"></a><span class="lineno">  217</span> </div>
+<div class="line"><a id="l00218" name="l00218"></a><span class="lineno">  218</span>    <span class="keywordflow">return</span> out;</div>
+<div class="line"><a id="l00219" name="l00219"></a><span class="lineno">  219</span>}</div>
+<div class="line"><a id="l00220" name="l00220"></a><span class="lineno">  220</span> </div>
+<div class="line"><a id="l00221" name="l00221"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">  221</a></span>std::string <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">string::padNumber</a>(int64_t number, <span class="keywordtype">int</span> width, <span class="keywordtype">char</span> pad) {</div>
+<div class="line"><a id="l00222" name="l00222"></a><span class="lineno">  222</span>    <span class="keyword">const</span> <span class="keyword">auto</span> numStr = std::to_string(number);</div>
+<div class="line"><a id="l00223" name="l00223"></a><span class="lineno">  223</span>    <span class="keywordflow">return</span> std::string(width - std::min&lt;std::string::size_type&gt;(width, numStr.length()), pad) + numStr;</div>
 <div class="line"><a id="l00224" name="l00224"></a><span class="lineno">  224</span>}</div>
 <div class="line"><a id="l00225" name="l00225"></a><span class="lineno">  225</span> </div>
-<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">  226</a></span>std::from_chars_result <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(std::string_view number, <span class="keywordtype">bool</span>&amp; out, <span class="keywordtype">int</span> base) {</div>
-<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    uint8_t tmp;</div>
-<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keyword">const</span> <span class="keyword">auto</span> result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);</div>
-<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>    out = tmp;</div>
-<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    <span class="keywordflow">return</span> result;</div>
-<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>}</div>
+<div class="line"><a id="l00226" name="l00226"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">  226</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">string::normalizeSlashes</a>(std::string&amp; path, <span class="keywordtype">bool</span> stripSlashPrefix, <span class="keywordtype">bool</span> stripSlashSuffix) {</div>
+<div class="line"><a id="l00227" name="l00227"></a><span class="lineno">  227</span>    std::replace(path.begin(), path.end(), <span class="charliteral">&#39;\\&#39;</span>, <span class="charliteral">&#39;/&#39;</span>);</div>
+<div class="line"><a id="l00228" name="l00228"></a><span class="lineno">  228</span>    <span class="keywordflow">if</span> (stripSlashPrefix &amp;&amp; path.starts_with(<span class="charliteral">&#39;/&#39;</span>)) {</div>
+<div class="line"><a id="l00229" name="l00229"></a><span class="lineno">  229</span>        path = path.substr(1);</div>
+<div class="line"><a id="l00230" name="l00230"></a><span class="lineno">  230</span>    }</div>
+<div class="line"><a id="l00231" name="l00231"></a><span class="lineno">  231</span>    <span class="keywordflow">if</span> (stripSlashSuffix &amp;&amp; path.ends_with(<span class="charliteral">&#39;/&#39;</span>)) {</div>
+<div class="line"><a id="l00232" name="l00232"></a><span class="lineno">  232</span>        path.pop_back();</div>
+<div class="line"><a id="l00233" name="l00233"></a><span class="lineno">  233</span>    }</div>
+<div class="line"><a id="l00234" name="l00234"></a><span class="lineno">  234</span>}</div>
+<div class="line"><a id="l00235" name="l00235"></a><span class="lineno">  235</span> </div>
+<div class="line"><a id="l00236" name="l00236"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">  236</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">string::denormalizeSlashes</a>(std::string&amp; path, <span class="keywordtype">bool</span> stripSlashPrefix, <span class="keywordtype">bool</span> stripSlashSuffix) {</div>
+<div class="line"><a id="l00237" name="l00237"></a><span class="lineno">  237</span>    std::replace(path.begin(), path.end(), <span class="charliteral">&#39;/&#39;</span>, <span class="charliteral">&#39;\\&#39;</span>);</div>
+<div class="line"><a id="l00238" name="l00238"></a><span class="lineno">  238</span>    <span class="keywordflow">if</span> (stripSlashPrefix &amp;&amp; path.starts_with(<span class="charliteral">&#39;\\&#39;</span>)) {</div>
+<div class="line"><a id="l00239" name="l00239"></a><span class="lineno">  239</span>        path = path.substr(1);</div>
+<div class="line"><a id="l00240" name="l00240"></a><span class="lineno">  240</span>    }</div>
+<div class="line"><a id="l00241" name="l00241"></a><span class="lineno">  241</span>    <span class="keywordflow">if</span> (stripSlashSuffix &amp;&amp; path.ends_with(<span class="charliteral">&#39;\\&#39;</span>)) {</div>
+<div class="line"><a id="l00242" name="l00242"></a><span class="lineno">  242</span>        path.pop_back();</div>
+<div class="line"><a id="l00243" name="l00243"></a><span class="lineno">  243</span>    }</div>
+<div class="line"><a id="l00244" name="l00244"></a><span class="lineno">  244</span>}</div>
+<div class="line"><a id="l00245" name="l00245"></a><span class="lineno">  245</span> </div>
+<div class="line"><a id="l00246" name="l00246"></a><span class="lineno"><a class="line" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">  246</a></span>std::from_chars_result <a class="code hl_function" href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">string::toBool</a>(std::string_view number, <span class="keywordtype">bool</span>&amp; out, <span class="keywordtype">int</span> base) {</div>
+<div class="line"><a id="l00247" name="l00247"></a><span class="lineno">  247</span>    uint8_t tmp;</div>
+<div class="line"><a id="l00248" name="l00248"></a><span class="lineno">  248</span>    <span class="keyword">const</span> <span class="keyword">auto</span> result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);</div>
+<div class="line"><a id="l00249" name="l00249"></a><span class="lineno">  249</span>    out = tmp;</div>
+<div class="line"><a id="l00250" name="l00250"></a><span class="lineno">  250</span>    <span class="keywordflow">return</span> result;</div>
+<div class="line"><a id="l00251" name="l00251"></a><span class="lineno">  251</span>}</div>
 <div class="ttc" id="aString_8h_html"><div class="ttname"><a href="../../d9/dba/String_8h.html">String.h</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_a0e29b51a2811b4d21820292eeb2ecd1d"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">sourcepp::string::createRandom</a></div><div class="ttdeci">std::string createRandom(uint16_t length=32, std::string_view chars=&quot;0123456789_abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00165">String.cpp:165</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a0e29b51a2811b4d21820292eeb2ecd1d"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a0e29b51a2811b4d21820292eeb2ecd1d">sourcepp::string::createRandom</a></div><div class="ttdeci">std::string createRandom(uint16_t length=32, std::string_view chars=&quot;0123456789_abcdefghijklmnopqrstuvwxyz-ABCDEFGHIJKLMNOPQRSTUVWXYZ&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00185">String.cpp:185</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_a2f58d784a789f28e1ad06595287ab167"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a2f58d784a789f28e1ad06595287ab167">sourcepp::string::contains</a></div><div class="ttdeci">bool contains(std::string_view s, char c)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00020">String.cpp:20</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_a4106f9c1c6da69c3d53de30d61a29cf8"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">sourcepp::string::normalizeSlashes</a></div><div class="ttdeci">void normalizeSlashes(std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00206">String.cpp:206</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_a53edfd6de4431dccfbd39818163cc438"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">sourcepp::string::toBool</a></div><div class="ttdeci">std::from_chars_result toBool(std::string_view number, bool &amp;out, int base=10)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00226">String.cpp:226</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a4106f9c1c6da69c3d53de30d61a29cf8"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a4106f9c1c6da69c3d53de30d61a29cf8">sourcepp::string::normalizeSlashes</a></div><div class="ttdeci">void normalizeSlashes(std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00226">String.cpp:226</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a53edfd6de4431dccfbd39818163cc438"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a53edfd6de4431dccfbd39818163cc438">sourcepp::string::toBool</a></div><div class="ttdeci">std::from_chars_result toBool(std::string_view number, bool &amp;out, int base=10)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00246">String.cpp:246</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_a56584ba389f86fa656f845042a113c1a"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a56584ba389f86fa656f845042a113c1a">sourcepp::string::ltrim</a></div><div class="ttdeci">void ltrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00067">String.cpp:67</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_a6fbbb19114593ab251e37fb7961ef1ca"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">sourcepp::string::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(std::string_view s, char delim)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00135">String.cpp:135</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_a96b8df923d8c84b65a0a10afe6dd1648"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">sourcepp::string::denormalizeSlashes</a></div><div class="ttdeci">void denormalizeSlashes(std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00216">String.cpp:216</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a6fbbb19114593ab251e37fb7961ef1ca"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">sourcepp::string::split</a></div><div class="ttdeci">std::vector&lt; std::string &gt; split(std::string_view s, char delim)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00155">String.cpp:155</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_a96b8df923d8c84b65a0a10afe6dd1648"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#a96b8df923d8c84b65a0a10afe6dd1648">sourcepp::string::denormalizeSlashes</a></div><div class="ttdeci">void denormalizeSlashes(std::string &amp;path, bool stripSlashPrefix=false, bool stripSlashSuffix=true)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00236">String.cpp:236</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_aa64841c9eccc61cf36fffaea7170f8ca"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#aa64841c9eccc61cf36fffaea7170f8ca">sourcepp::string::matches</a></div><div class="ttdeci">bool matches(std::string_view in, std::string_view search)</div><div class="ttdoc">A very basic regex-like pattern checker for ASCII strings.</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00024">String.cpp:24</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_ad0311ff34cfbea8cf15726c2ffe6761e"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">sourcepp::string::padNumber</a></div><div class="ttdeci">std::string padNumber(int64_t number, int width, char pad='0')</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00201">String.cpp:201</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ab341659bdd09ebfe800050eb1e464112"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">sourcepp::string::trimInternal</a></div><div class="ttdeci">void trimInternal(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00098">String.cpp:98</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ad0311ff34cfbea8cf15726c2ffe6761e"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ad0311ff34cfbea8cf15726c2ffe6761e">sourcepp::string::padNumber</a></div><div class="ttdeci">std::string padNumber(int64_t number, int width, char pad='0')</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00221">String.cpp:221</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_ad1fec827a88b6a9fbfc14ac6ec37d78b"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ad1fec827a88b6a9fbfc14ac6ec37d78b">sourcepp::string::rtrim</a></div><div class="ttdeci">void rtrim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00078">String.cpp:78</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_ad28940ddf92c963be5ae04e461dd269e"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">sourcepp::string::toUpper</a></div><div class="ttdeci">void toUpper(std::string &amp;input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00155">String.cpp:155</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ad28940ddf92c963be5ae04e461dd269e"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ad28940ddf92c963be5ae04e461dd269e">sourcepp::string::toUpper</a></div><div class="ttdeci">void toUpper(std::string &amp;input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00175">String.cpp:175</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_adf068b2ce737cec15272334d4b704db6"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#adf068b2ce737cec15272334d4b704db6">sourcepp::string::trim</a></div><div class="ttdeci">void trim(std::string &amp;s)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00089">String.cpp:89</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1string_html_ae67855e62fdd7b2137081dd36d567637"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae67855e62fdd7b2137081dd36d567637">sourcepp::string::iequals</a></div><div class="ttdeci">bool iequals(std::string_view s1, std::string_view s2)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00061">String.cpp:61</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_ae71743f771ac2cbfd7ec52498d248614"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">sourcepp::string::toLower</a></div><div class="ttdeci">void toLower(std::string &amp;input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00145">String.cpp:145</a></div></div>
-<div class="ttc" id="anamespacesourcepp_1_1string_html_ae9a674d1d0d64b72fc90e880bc46a3f1"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">sourcepp::string::generateUUIDv4</a></div><div class="ttdeci">std::string generateUUIDv4()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00177">String.cpp:177</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ae71743f771ac2cbfd7ec52498d248614"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">sourcepp::string::toLower</a></div><div class="ttdeci">void toLower(std::string &amp;input)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00165">String.cpp:165</a></div></div>
+<div class="ttc" id="anamespacesourcepp_1_1string_html_ae9a674d1d0d64b72fc90e880bc46a3f1"><div class="ttname"><a href="../../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1">sourcepp::string::generateUUIDv4</a></div><div class="ttdeci">std::string generateUUIDv4()</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/db3/String_8cpp_source.html#l00197">String.cpp:197</a></div></div>
 <div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d25/LZMA_8h_source.html#l00011">LZMA.h:11</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

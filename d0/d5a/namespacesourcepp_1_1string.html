@@ -150,6 +150,10 @@ Functions</h2></td></tr>
 <tr class="separator:adf068b2ce737cec15272334d4b704db6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3f42811d591cf1dcb5576c20daf682c3"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3f42811d591cf1dcb5576c20daf682c3">trim</a> (std::string_view s)</td></tr>
 <tr class="separator:a3f42811d591cf1dcb5576c20daf682c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab341659bdd09ebfe800050eb1e464112"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab341659bdd09ebfe800050eb1e464112">trimInternal</a> (std::string &amp;s)</td></tr>
+<tr class="separator:ab341659bdd09ebfe800050eb1e464112"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3e7bd3b0582932b9943ec3e3a75fd9ff"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a3e7bd3b0582932b9943ec3e3a75fd9ff">trimInternal</a> (std::string_view s)</td></tr>
+<tr class="separator:a3e7bd3b0582932b9943ec3e3a75fd9ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2921eb99eb12a40ad6d74fd6072e1f23"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a2921eb99eb12a40ad6d74fd6072e1f23">ltrim</a> (std::string &amp;s, std::string_view chars)</td></tr>
 <tr class="separator:a2921eb99eb12a40ad6d74fd6072e1f23"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10e3eb9713ad6cc59351814aa564cc33"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a10e3eb9713ad6cc59351814aa564cc33">ltrim</a> (std::string_view s, std::string_view chars)</td></tr>
@@ -162,6 +166,10 @@ Functions</h2></td></tr>
 <tr class="separator:a15e63c1ab06cbcbf336bc87191d99a22"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a696dfaae8a570aee1870092baaa65ee0"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a696dfaae8a570aee1870092baaa65ee0">trim</a> (std::string_view s, std::string_view chars)</td></tr>
 <tr class="separator:a696dfaae8a570aee1870092baaa65ee0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a15be36f8e5825621c6551a60755f78"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a0a15be36f8e5825621c6551a60755f78">trimInternal</a> (std::string &amp;s, std::string_view chars)</td></tr>
+<tr class="separator:a0a15be36f8e5825621c6551a60755f78"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab888485442c835a8d5019e374b8cb8c2"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ab888485442c835a8d5019e374b8cb8c2">trimInternal</a> (std::string_view s, std::string_view chars)</td></tr>
+<tr class="separator:ab888485442c835a8d5019e374b8cb8c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6fbbb19114593ab251e37fb7961ef1ca"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#a6fbbb19114593ab251e37fb7961ef1ca">split</a> (std::string_view s, char delim)</td></tr>
 <tr class="separator:a6fbbb19114593ab251e37fb7961ef1ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae71743f771ac2cbfd7ec52498d248614"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d5a/namespacesourcepp_1_1string.html#ae71743f771ac2cbfd7ec52498d248614">toLower</a> (std::string &amp;input)</td></tr>
@@ -246,7 +254,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00165">165</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00185">185</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -282,7 +290,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00216">216</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00236">236</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -301,7 +309,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00177">177</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00197">197</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -381,7 +389,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00108">108</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -431,7 +439,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00104">104</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00114">114</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -500,7 +508,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00206">206</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00226">226</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -536,7 +544,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00201">201</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00221">221</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -586,7 +594,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00111">111</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00121">121</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -636,7 +644,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00117">117</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00127">127</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -666,7 +674,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00135">135</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00155">155</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -702,7 +710,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00226">226</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00246">246</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -740,7 +748,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00077">77</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00085">85</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
 
 </div>
 </div>
@@ -784,7 +792,7 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00073">73</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d9/dba/String_8h_source.html#l00081">81</a> of file <a class="el" href="../../d9/dba/String_8h_source.html">String.h</a>.</p>
 
 </div>
 </div>
@@ -804,7 +812,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00145">145</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00165">165</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -824,7 +832,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00149">149</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00169">169</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -844,7 +852,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00155">155</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00175">175</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -864,7 +872,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00159">159</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00179">179</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -914,7 +922,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00124">124</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00134">134</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>
@@ -964,7 +972,107 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00129">129</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00139">139</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab341659bdd09ebfe800050eb1e464112" name="ab341659bdd09ebfe800050eb1e464112"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab341659bdd09ebfe800050eb1e464112">&#9670;&#160;</a></span>trimInternal() <span class="overload">[1/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::string::trimInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00098">98</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a0a15be36f8e5825621c6551a60755f78" name="a0a15be36f8e5825621c6551a60755f78"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a15be36f8e5825621c6551a60755f78">&#9670;&#160;</a></span>trimInternal() <span class="overload">[2/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void sourcepp::string::trimInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::string &amp;&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>chars</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00143">143</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a3e7bd3b0582932b9943ec3e3a75fd9ff" name="a3e7bd3b0582932b9943ec3e3a75fd9ff"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3e7bd3b0582932b9943ec3e3a75fd9ff">&#9670;&#160;</a></span>trimInternal() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sourcepp::string::trimInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00102">102</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab888485442c835a8d5019e374b8cb8c2" name="ab888485442c835a8d5019e374b8cb8c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab888485442c835a8d5019e374b8cb8c2">&#9670;&#160;</a></span>trimInternal() <span class="overload">[4/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string sourcepp::string::trimInternal </td>
+          <td>(</td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string_view&#160;</td>
+          <td class="paramname"><em>chars</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d7/db3/String_8cpp_source.html#l00147">147</a> of file <a class="el" href="../../d7/db3/String_8cpp_source.html">String.cpp</a>.</p>
 
 </div>
 </div>

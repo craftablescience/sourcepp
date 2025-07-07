@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['searchpathmapdir_0',['SearchPathMapDir',['../d7/dca/classfspp_1_1FileSystem.html#a9cf9a1b1185ab8b6c35c9134e3c693d1',1,'fspp::FileSystem']]],
-  ['searchpathmapvpk_1',['SearchPathMapVPK',['../d7/dca/classfspp_1_1FileSystem.html#aaa9c18ace54b07e5a29fbb062caf02e8',1,'fspp::FileSystem']]]
+  ['quat_0',['Quat',['../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922',1,'sourcepp::math']]],
+  ['quaternion_1',['Quaternion',['../d7/d45/namespacedmxpp_1_1Value.html#a49ae5bbbb80e170d8da45e97618225d6',1,'dmxpp::Value']]]
 ];
