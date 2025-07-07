@@ -26,6 +26,10 @@ test/res/
 test/Helpers.h
 
 
+# C
+lang/c/sourcepp.kv
+
+
 # Python
 .mypy_cache/
 .venv/
