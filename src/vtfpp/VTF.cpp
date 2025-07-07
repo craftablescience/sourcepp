@@ -26,7 +26,7 @@ using namespace vtfpp;
 
 namespace {
 
-std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t level, CompressionMethod method) {
+[[nodiscard]] std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t level, CompressionMethod method) {
 	switch (method) {
 		using enum CompressionMethod;
 		case DEFLATE: {
@@ -50,10 +50,10 @@ std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t lev
 				level = 6;
 			}
 
-			auto expectedSize = ZSTD_compressBound(data.size());
+			const auto expectedSize = ZSTD_compressBound(data.size());
 			std::vector<std::byte> out(expectedSize);
 
-			auto compressedSize = ZSTD_compress(out.data(), expectedSize, data.data(), data.size(), level);
+			const auto compressedSize = ZSTD_compress(out.data(), expectedSize, data.data(), data.size(), level);
 			if (ZSTD_isError(compressedSize)) {
 				return {};
 			}
@@ -62,8 +62,7 @@ std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t lev
 			return out;
 		}
 		case CONSOLE_LZMA: {
-			const auto out = compression::compressValveLZMA(data, level);
-			if (out) {
+			if (const auto out = compression::compressValveLZMA(data, level)) {
 				return *out;
 			}
 			return {};
@@ -72,42 +71,104 @@ std::vector<std::byte> compressData(std::span<const std::byte> data, int16_t lev
 	return {};
 }
 
-void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, VTF::Platform platform) {
+template<bool ExistingDataIsSwizzled>
+constexpr void swizzleImageDataForPS3(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
+	width *= ImageFormatDetails::bpp(format) / 32;
+	const auto zIndex = [
+		widthL2 = static_cast<int>(math::log2ceil(width)),
+		heightL2 = static_cast<int>(math::log2ceil(height)),
+		sliceL2 = static_cast<int>(math::log2ceil(slice))
+	](uint32_t x, uint32_t y, uint32_t z) {
+		auto widthL2m = widthL2;
+		auto heightL2m = heightL2;
+		auto sliceL2m = sliceL2;
+		uint32_t offset = 0;
+		uint32_t shiftCount = 0;
+		do {
+			if (sliceL2m --> 0) {
+				offset |= (z & 1) << shiftCount++;
+				z >>= 1;
+			}
+			if (heightL2m --> 0) {
+				offset |= (y & 1) << shiftCount++;
+				y >>= 1;
+			}
+			if (widthL2m --> 0) {
+				offset |= (x & 1) << shiftCount++;
+				x >>= 1;
+			}
+		} while (x | y | z);
+		return offset;
+	};
+
+	const auto* inputPtr = reinterpret_cast<const uint32_t*>(inputData.data());
+	auto* outputPtr = reinterpret_cast<uint32_t*>(outputData.data());
+	for (uint16_t x = 0; x < width; x++) {
+		for (uint16_t y = 0; y < height; y++) {
+			for (uint16_t z = 0; z < slice; z++) {
+				if constexpr (ExistingDataIsSwizzled) {
+					*outputPtr++ = reinterpret_cast<const uint32_t*>(inputData.data())[zIndex(x, y, z)];
+				} else {
+					reinterpret_cast<uint32_t*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
+				}
+			}
+		}
+	}
+}
+
+template<bool ConvertingFromSource>
+void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, VTF::Platform platform) {
 	if (imageData.empty() || format == ImageFormat::EMPTY || platform == VTF::PLATFORM_PC) {
 		return;
 	}
 
-	switch (format) {
-		using enum ImageFormat;
-		case BGRA8888:
-		case BGRX8888:
-		case UVWQ8888:
-		case UVLX8888: {
-			const auto newData = ImageConversion::convertImageDataToFormat(imageData, ImageFormat::ARGB8888, ImageFormat::BGRA8888, width, height);
-			std::copy(newData.begin(), newData.end(), imageData.begin());
-			break;
-		}
-		case DXT1:
-		case DXT1_ONE_BIT_ALPHA:
-		case DXT3:
-		case DXT5:
-		case UV88: {
-			if (platform != VTF::PLATFORM_X360) {
+	if (platform == VTF::PLATFORM_X360) {
+		switch (format) {
+			using enum ImageFormat;
+			case BGRA8888:
+			case BGRX8888:
+			case UVWQ8888:
+			case UVLX8888: {
+				const auto newData = ImageConversion::convertSeveralImageDataToFormat(imageData, ARGB8888, BGRA8888, mipCount, frameCount, faceCount, width, height, sliceCount);
+				std::ranges::copy(newData, imageData.begin());
 				break;
 			}
-			std::span<uint16_t> dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
-			std::for_each(
+			case DXT1:
+			case DXT1_ONE_BIT_ALPHA:
+			case DXT3:
+			case DXT5:
+			case UV88: {
+				std::span dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
+				std::for_each(
 #ifdef SOURCEPP_BUILD_WITH_TBB
-					std::execution::par_unseq,
+						std::execution::par_unseq,
 #endif
-					dxtData.begin(), dxtData.end(), [](uint16_t& value) {
-				BufferStream::swap_endian(&value);
-			});
+						dxtData.begin(), dxtData.end(), [](uint16_t& value) {
+					BufferStream::swap_endian(&value);
+				});
+				break;
+			}
+			default:
 			break;
 		}
-		default:
-			// SOURCEPP_DEBUG_BREAK;
-			break;
+	}
+
+	if ((platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && ImageFormatDetails::bpp(format) % 32 == 0) {
+		std::vector<std::byte> out(imageData.size());
+		for(int mip = mipCount - 1; mip >= 0; mip--) {
+			const auto mipWidth = ImageDimensions::getMipDim(mip, width);
+			const auto mipHeight = ImageDimensions::getMipDim(mip, height);
+			for (int frame = 0; frame < frameCount; frame++) {
+				for (int face = 0; face < faceCount; face++) {
+					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
+						std::span imageDataSpan{imageData.data() + offset, length * sliceCount};
+						std::span outSpan{out.data() + offset, length * sliceCount};
+						::swizzleImageDataForPS3<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+					}
+				}
+			}
+		}
+		std::memcpy(imageData.data(), out.data(), out.size());
 	}
 }
 
@@ -177,9 +238,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
 
-	if (auto signature = stream.read<uint32_t>(); signature == VTF_SIGNATURE) {
-		this->platform = PLATFORM_PC;
-		if (stream.read<uint32_t>() != 7) {
+	if (const auto signature = stream.read<uint32_t>(); signature == VTF_SIGNATURE) {
+		stream >> this->platform;
+		if (this->platform != PLATFORM_PC) {
 			return;
 		}
 		stream >> this->version;
@@ -188,25 +249,20 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	} else if (signature == VTFX_SIGNATURE || signature == VTF3_SIGNATURE) {
 		stream.set_big_endian(true);
-		uint32_t minorConsoleVersion = 0;
-		stream >> this->platform >> minorConsoleVersion;
-		if (minorConsoleVersion != 8) {
+		stream >> this->platform;
+		if (this->platform != PLATFORM_X360 && this->platform != PLATFORM_PS3_ORANGEBOX && this->platform != PLATFORM_PS3_PORTAL2) {
 			return;
 		}
+		stream >> this->version;
+		if (this->version != 8) {
+			return;
+		}
+		// Now fix up the actual version as it would be on PC
 		if (signature == VTF3_SIGNATURE) {
 			this->platform = PLATFORM_PS3_PORTAL2;
-		}
-		switch (this->platform) {
-			case PLATFORM_PS3_ORANGEBOX:
-			case PLATFORM_X360:
-				this->version = 4;
-				break;
-			case PLATFORM_PS3_PORTAL2:
-				this->version = 5;
-				break;
-			default:
-				this->platform = PLATFORM_UNKNOWN;
-				return;
+			this->version = 5;
+		} else {
+			this->version = 4;
 		}
 	} else {
 		return;
@@ -237,7 +293,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		// Sort resources by their offset, in case certain VTFs are written
 		// weirdly and have resource data written out of order. So far I have
 		// found only one VTF in an official Valve game where this is the case
-		std::sort(this->resources.begin(), this->resources.end(), [](const Resource& lhs, const Resource& rhs) {
+		std::ranges::sort(this->resources, [](const Resource& lhs, const Resource& rhs) {
 			if ((lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
 				return lhs.type < rhs.type;
 			}
@@ -255,9 +311,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		for (auto& resource : this->resources) {
 			if (!(resource.flags & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
-					auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
-					auto curPos = stream.tell();
+					const auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
+					const auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
+					const auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
 					stream.seek(static_cast<int64_t>(curPos));
@@ -274,194 +330,187 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	};
 
-	if (this->platform != PLATFORM_PC) {
-		uint8_t resourceCount;
-		stream
-			.read(this->flags)
-			.read(this->width)
-			.read(this->height)
-			.read(this->sliceCount)
-			.read(this->frameCount)
-			.skip<uint16_t>() // preload
-			.skip<uint8_t>() // skip high mip levels
-			.read(resourceCount)
-			.read(this->reflectivity[0])
-			.read(this->reflectivity[1])
-			.read(this->reflectivity[2])
-			.read(this->bumpMapScale)
-			.read(this->format)
-			.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
-			.skip<uint32_t>(); // compressedLength
-
-		if (this->platform == PLATFORM_PS3_PORTAL2) {
-			stream.skip<uint32_t>();
-		}
-
-		this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
-
-		if (parseHeaderOnly) {
-			this->opened = true;
+	switch (this->platform) {
+		case PLATFORM_UNKNOWN:
 			return;
-		}
+		case PLATFORM_PC: {
+			stream
+				.read(this->width)
+				.read(this->height)
+				.read(this->flags)
+				.read(this->frameCount)
+				.read(this->startFrame)
+				.skip(4)
+				.read(this->reflectivity[0])
+				.read(this->reflectivity[1])
+				.read(this->reflectivity[2])
+				.skip(4)
+				.read(this->bumpMapScale)
+				.read(this->format)
+				.read(this->mipCount);
 
-		this->resources.reserve(resourceCount);
-		readResources(resourceCount);
-
-		this->opened = stream.tell() == headerSize;
-
-		// The resources vector isn't modified by setResourceInternal when we're not adding a new one, so this is fine
-		for (const auto& resource : this->resources) {
-			// Decompress LZMA resources
-			if (BufferStreamReadOnly rsrcStream{resource.data.data(), resource.data.size()}; rsrcStream.read<uint32_t>() == compression::VALVE_LZMA_SIGNATURE) {
-				if (auto decompressedData = compression::decompressValveLZMA(resource.data)) {
-					this->setResourceInternal(resource.type, *decompressedData);
-
-					if (resource.type == Resource::TYPE_IMAGE_DATA) {
-						// Do this here because compressionLength in header can be garbage on PS3
-						this->compressionMethod = CompressionMethod::CONSOLE_LZMA;
-					}
-				}
+			// This will always be DXT1
+			stream.skip<ImageFormat>();
+			stream >> this->thumbnailWidth >> this->thumbnailHeight;
+			if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+				this->thumbnailFormat = ImageFormat::EMPTY;
+			} else {
+				this->thumbnailFormat = ImageFormat::DXT1;
 			}
 
-			// Note: LOD, CRC, TS0 may be incorrect - I can't find a sample of any in official console VTFs
-			// If tweaking this switch, tweak the one in bake as well
-			switch (resource.type) {
-				default:
-				case Resource::TYPE_UNKNOWN:
-				case Resource::TYPE_CRC:
-				case Resource::TYPE_LOD_CONTROL_INFO:
-				case Resource::TYPE_AUX_COMPRESSION: // Strata-specific
-					break;
-				case Resource::TYPE_THUMBNAIL_DATA:
-					::swapImageDataEndianForConsole(resource.data, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, this->platform);
-					break;
-				case Resource::TYPE_IMAGE_DATA:
-					::swapImageDataEndianForConsole(resource.data, this->format, this->width, this->height, this->platform);
-					break;
-				case Resource::TYPE_PARTICLE_SHEET_DATA:
-				case Resource::TYPE_EXTENDED_FLAGS:
-				case Resource::TYPE_KEYVALUES_DATA:
-					if (resource.data.size() >= sizeof(uint32_t)) {
-						BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
-					}
-					break;
+			if (this->version < 2) {
+				this->sliceCount = 1;
+			} else {
+				stream.read(this->sliceCount);
 			}
-		}
-		return;
-	}
 
-	stream
-		.read(this->width)
-		.read(this->height)
-		.read(this->flags)
-		.read(this->frameCount)
-		.read(this->startFrame)
-		.skip(4)
-		.read(this->reflectivity[0])
-		.read(this->reflectivity[1])
-		.read(this->reflectivity[2])
-		.skip(4)
-		.read(this->bumpMapScale)
-		.read(this->format)
-		.read(this->mipCount);
+			if (parseHeaderOnly) {
+				this->opened = true;
+				return;
+			}
 
-	// This will always be DXT1
-	stream.skip<ImageFormat>();
-	stream >> this->thumbnailWidth >> this->thumbnailHeight;
-	if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
-		this->thumbnailFormat = ImageFormat::EMPTY;
-	} else {
-		this->thumbnailFormat = ImageFormat::DXT1;
-	}
+			if (this->version >= 3) {
+				stream.skip(3);
+				auto resourceCount = stream.read<uint32_t>();
+				stream.skip(8);
+				readResources(resourceCount);
 
-	if (this->version < 2) {
-		this->sliceCount = 1;
-	} else {
-		stream.read(this->sliceCount);
-	}
+				this->opened = stream.tell() == headerSize;
 
-	if (parseHeaderOnly) {
-		this->opened = true;
-		return;
-	}
-
-	if (this->version >= 3) {
-		stream.skip(3);
-		auto resourceCount = stream.read<uint32_t>();
-		stream.skip(8);
-		readResources(resourceCount);
-
-		this->opened = stream.tell() == headerSize;
-
-		if (this->opened && this->version >= 6) {
-			const auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
-			const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
-			if (auxResource && imageResource) {
-				if (auxResource->getDataAsAuxCompressionLevel() != 0) {
-					const auto faceCount = this->getFaceCount();
-					std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
-					uint32_t oldOffset = 0;
-					for (int i = this->mipCount - 1; i >= 0; i--) {
-						for (int j = 0; j < this->frameCount; j++) {
-							for (int k = 0; k < faceCount; k++) {
-								uint32_t oldLength = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, faceCount);
-								if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getSliceCount())) {
-									// Keep in mind that slices are compressed together
-									mz_ulong decompressedImageDataSize = newLength * this->sliceCount;
-									switch (auxResource->getDataAsAuxCompressionMethod()) {
-										using enum CompressionMethod;
-										case DEFLATE:
-											if (mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength) != MZ_OK) {
-												this->opened = false;
-												return;
+				if (this->opened && this->version >= 6) {
+					const auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
+					const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
+					if (auxResource && imageResource) {
+						if (auxResource->getDataAsAuxCompressionLevel() != 0) {
+							const auto faceCount = this->getFaceCount();
+							std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
+							uint32_t oldOffset = 0;
+							for (int i = this->mipCount - 1; i >= 0; i--) {
+								for (int j = 0; j < this->frameCount; j++) {
+									for (int k = 0; k < faceCount; k++) {
+										uint32_t oldLength = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, faceCount);
+										if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getSliceCount())) {
+											// Keep in mind that slices are compressed together
+											mz_ulong decompressedImageDataSize = newLength * this->sliceCount;
+											switch (auxResource->getDataAsAuxCompressionMethod()) {
+												using enum CompressionMethod;
+												case DEFLATE:
+													if (mz_uncompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), &decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength) != MZ_OK) {
+														this->opened = false;
+														return;
+													}
+													break;
+												case ZSTD:
+													if (auto decompressedSize = ZSTD_decompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength); ZSTD_isError(decompressedSize) || decompressedSize != decompressedImageDataSize) {
+														this->opened = false;
+														return;
+													}
+													break;
+												case CONSOLE_LZMA:
+													// Shouldn't be here!
+													SOURCEPP_DEBUG_BREAK;
+													break;
 											}
-											break;
-										case ZSTD:
-											if (auto decompressedSize = ZSTD_decompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength); ZSTD_isError(decompressedSize) || decompressedSize != decompressedImageDataSize) {
-												this->opened = false;
-												return;
-											}
-											break;
-										case CONSOLE_LZMA:
-											// Shouldn't be here!
-											SOURCEPP_DEBUG_BREAK;
-											break;
+										}
+										oldOffset += oldLength;
 									}
 								}
-								oldOffset += oldLength;
 							}
+							this->setResourceInternal(Resource::TYPE_IMAGE_DATA, decompressedImageData);
 						}
 					}
-					this->setResourceInternal(Resource::TYPE_IMAGE_DATA, decompressedImageData);
+				}
+			} else {
+				stream.skip(math::paddingForAlignment(16, stream.tell()));
+				this->opened = stream.tell() == headerSize;
+
+				this->resources.reserve(2);
+
+				if (this->hasThumbnailData()) {
+					this->resources.push_back({
+						.type = Resource::TYPE_THUMBNAIL_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
+					});
+				}
+				if (this->hasImageData()) {
+					this->resources.push_back({
+						.type = Resource::TYPE_IMAGE_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(stream.size() - stream.tell()),
+					});
 				}
 			}
-		}
-	} else {
-		stream.skip(math::paddingForAlignment(16, stream.tell()));
-		this->opened = stream.tell() == headerSize;
 
-		this->resources.reserve(2);
-
-		if (this->hasThumbnailData()) {
-			this->resources.push_back({
-				.type = Resource::TYPE_THUMBNAIL_DATA,
-				.flags = Resource::FLAG_NONE,
-				.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
-			});
+			if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
+				this->compressionLevel = resource->getDataAsAuxCompressionLevel();
+				this->compressionMethod = resource->getDataAsAuxCompressionMethod();
+				this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
+			}
+			break;
 		}
-		if (this->hasImageData()) {
-			this->resources.push_back({
-				.type = Resource::TYPE_IMAGE_DATA,
-				.flags = Resource::FLAG_NONE,
-				.data = stream.read_span<std::byte>(stream.size() - stream.tell()),
-			});
-		}
-	}
+		case PLATFORM_X360:
+		case PLATFORM_PS3_ORANGEBOX:
+		case PLATFORM_PS3_PORTAL2: {
+			uint8_t resourceCount;
+			stream
+				.read(this->flags)
+				.read(this->width)
+				.read(this->height)
+				.read(this->sliceCount)
+				.read(this->frameCount)
+				.skip<uint16_t>() // preload
+				.skip<uint8_t>() // skip high mip levels
+				.read(resourceCount)
+				.read(this->reflectivity[0])
+				.read(this->reflectivity[1])
+				.read(this->reflectivity[2])
+				.read(this->bumpMapScale)
+				.read(this->format)
+				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
+				.skip<uint32_t>(); // compressedLength
 
-	if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
-		this->compressionLevel = resource->getDataAsAuxCompressionLevel();
-		this->compressionMethod = resource->getDataAsAuxCompressionMethod();
-		this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
+			// Align to 16 bytes
+			if (this->platform == PLATFORM_PS3_PORTAL2) {
+				stream.skip<uint32_t>();
+			}
+
+			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+
+			if (parseHeaderOnly) {
+				this->opened = true;
+				return;
+			}
+
+			this->resources.reserve(resourceCount);
+			readResources(resourceCount);
+
+			this->opened = stream.tell() == headerSize;
+
+			// The resources vector isn't modified by setResourceInternal when we're not adding a new one, so this is fine
+			for (const auto& resource : this->resources) {
+				// Decompress LZMA resources
+				if (BufferStreamReadOnly rsrcStream{resource.data.data(), resource.data.size()}; rsrcStream.read<uint32_t>() == compression::VALVE_LZMA_SIGNATURE) {
+					if (auto decompressedData = compression::decompressValveLZMA(resource.data)) {
+						this->setResourceInternal(resource.type, *decompressedData);
+
+						if (resource.type == Resource::TYPE_IMAGE_DATA) {
+							// Do this here because compressionLength in header can be garbage on PS3 orange box
+							this->compressionMethod = CompressionMethod::CONSOLE_LZMA;
+						}
+					}
+				}
+
+				if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
+					::swapImageDataEndianForConsole<true>(resource.data, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
+				} else if (resource.type == Resource::TYPE_IMAGE_DATA) {
+					::swapImageDataEndianForConsole<true>(resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+				} else if (!(resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() >= sizeof(uint32_t)) {
+					BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
+				}
+			}
+			break;
+		}
 	}
 }
 
@@ -631,20 +680,28 @@ VTF::Platform VTF::getPlatform() const {
 }
 
 void VTF::setPlatform(Platform newPlatform) {
-	if (this->platform != PLATFORM_PC) {
-		if (this->platform == PLATFORM_X360 || this->platform == PLATFORM_PS3_ORANGEBOX) {
+	switch (newPlatform) {
+		case PLATFORM_UNKNOWN:
+		case PLATFORM_PC:
+			break;
+		case PLATFORM_X360:
+		case PLATFORM_PS3_ORANGEBOX:
 			this->setVersion(4);
-		} else /*if (this->platform == PLATFORM_PS3_PORTAL2)*/ {
+			break;
+		case PLATFORM_PS3_PORTAL2:
 			this->setVersion(5);
-		}
+			break;
+	}
 
+	this->platform = newPlatform;
+	this->setCompressionMethod(this->compressionMethod);
+
+	if (this->platform != PLATFORM_PC) {
 		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
 		if (this->mipCount != recommendedCount) {
 			this->setMipCount(recommendedCount);
 		}
 	}
-	this->platform = newPlatform;
-	this->setCompressionMethod(this->compressionMethod);
 }
 
 uint32_t VTF::getVersion() const {
@@ -848,7 +905,9 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
+	if (this->platform != PLATFORM_PC && newMipCount > 1) {
+		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+	} else if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
 		newMipCount = recommended;
 		if (newMipCount == 1) {
 			return false;
@@ -1560,238 +1619,244 @@ std::vector<std::byte> VTF::bake() const {
 		writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
 	};
 
-	if (this->platform != PLATFORM_PC) {
-		writer << (this->platform == PLATFORM_PS3_PORTAL2 ? VTF3_SIGNATURE : VTFX_SIGNATURE);
-		writer.set_big_endian(true);
+	switch (this->platform) {
+		case PLATFORM_UNKNOWN:
+			break;
+		case PLATFORM_PC: {
+			writer
+				.write(VTF_SIGNATURE)
+				.write<int32_t>(7)
+				.write(this->version);
 
-		if (this->platform == PLATFORM_PS3_PORTAL2) {
-			writer << PLATFORM_PS3_ORANGEBOX;
-		} else {
-			writer << this->platform;
-		}
-		writer.write<uint32_t>(8);
-		const auto headerLengthPos = writer.tell();
-		writer
-			.write<uint32_t>(0)
-			.write(this->flags)
-			.write(this->width)
-			.write(this->height)
-			.write(this->sliceCount)
-			.write(this->frameCount);
-		const auto preloadPos = writer.tell();
-		writer
-			.write<uint16_t>(0) // preload size
-			.write<uint8_t>(0) // skip higher mips
-			.write<uint8_t>(this->resources.size())
-			.write(this->reflectivity[0])
-			.write(this->reflectivity[1])
-			.write(this->reflectivity[2])
-			.write(this->bumpMapScale)
-			.write(this->format)
-			.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[0] * 255)), 0, 255))
-			.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[1] * 255)), 0, 255))
-			.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[2] * 255)), 0, 255))
-			.write<uint8_t>(255);
-		const auto compressionPos = writer.tell();
-		writer.write<uint32_t>(0); // compressed length
-
-		if (this->platform == PLATFORM_PS3_PORTAL2) {
-			// 16 byte aligned
+			const auto headerLengthPos = writer.tell();
 			writer.write<uint32_t>(0);
-		}
 
-		std::vector<std::byte> imageResourceData;
-		bool hasCompression = false;
-		if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-			imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
-			::swapImageDataEndianForConsole(imageResourceData, this->format, this->width, this->height, this->platform);
+			writer
+				.write(this->width)
+				.write(this->height)
+				.write(this->flags)
+				.write(this->frameCount)
+				.write(this->startFrame)
+				.write<uint32_t>(0) // padding
+				.write(this->reflectivity)
+				.write<uint32_t>(0) // padding
+				.write(this->bumpMapScale)
+				.write(this->format)
+				.write(this->mipCount)
+				.write(ImageFormat::DXT1)
+				.write(this->thumbnailWidth)
+				.write(this->thumbnailHeight);
 
-			// Compression has only been observed in X360 and PS3_PORTAL2 VTFs so far
-			// todo(vtfpp): check PS3_ORANGEBOX cubemaps for compression
-			if ((this->platform == VTF::PLATFORM_X360 || this->platform == PLATFORM_PS3_PORTAL2) && (hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA)) {
-				auto fixedCompressionLevel = this->compressionLevel;
-				if (this->compressionLevel == 0) {
-					// Compression level defaults to 0, so it works differently on console.
-					// Rather than not compress on 0, 0 will be replaced with the default
-					// compression level (6) if the compression method is LZMA.
-					fixedCompressionLevel = 6;
-				}
-				auto compressedData = compression::compressValveLZMA(imageResourceData, fixedCompressionLevel);
-				if (compressedData) {
-					imageResourceData.assign(compressedData->begin(), compressedData->end());
-				} else {
-					hasCompression = false;
-				}
+			if (this->version >= 2) {
+				writer << this->sliceCount;
 			}
-		}
 
-		const auto resourceStart = writer.tell();
-		const auto headerSize = resourceStart + (this->getResources().size() * sizeof(uint64_t));
-		writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
-		while (writer.tell() < headerSize) {
-			writer.write<uint64_t>(0);
-		}
-		writer.seek_u(resourceStart);
-
-		for (const auto resourceType : Resource::getOrder()) {
-			if (resourceType == Resource::TYPE_IMAGE_DATA) {
-				auto curPos = writer.tell();
-				const auto imagePos = writer.seek(0, std::ios::end).tell();
-				writer.seek_u(preloadPos).write<uint16_t>(imagePos).seek_u(curPos);
-
-				writeNonLocalResource(writer, resourceType, imageResourceData, this->platform);
-
-				if (hasCompression) {
-					curPos = writer.tell();
-					writer.seek_u(compressionPos).write<uint32_t>(imageResourceData.size()).seek_u(curPos);
+			if (this->version < 3) {
+				const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
+				for (uint16_t i = 0; i < headerAlignment; i++) {
+					writer.write<std::byte>({});
 				}
-			} else if (const auto* resource = this->getResource(resourceType)) {
-				std::vector<std::byte> resData{resource->data.begin(), resource->data.end()};
+				const auto headerSize = writer.tell();
+				writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(headerSize);
 
-				// If tweaking this switch, tweak the one in ctor as well
-				switch (resource->type) {
-					default:
-					case Resource::TYPE_UNKNOWN:
-					case Resource::TYPE_CRC:
-					case Resource::TYPE_LOD_CONTROL_INFO:
-					case Resource::TYPE_AUX_COMPRESSION: // Strata-specific
-						break;
-					case Resource::TYPE_THUMBNAIL_DATA:
-						::swapImageDataEndianForConsole(resData, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, this->platform);
-						break;
-					case Resource::TYPE_PARTICLE_SHEET_DATA:
-					case Resource::TYPE_EXTENDED_FLAGS:
-					case Resource::TYPE_KEYVALUES_DATA:
-						if (resData.size() >= sizeof(uint32_t)) {
-							BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resData.data()));
-						}
-						break;
+				if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
+					writer.write(thumbnailResource->data);
 				}
-
-				if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
-					writer.set_big_endian(false);
-					writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
-					writer.set_big_endian(true);
-					writer.write(resource->data);
-				} else {
-					writeNonLocalResource(writer, resource->type, resource->data, this->platform);
+				if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+					writer.write(imageResource->data);
 				}
-			}
-		}
+			} else {
+				std::vector<std::byte> auxCompressionResourceData;
+				std::vector<std::byte> compressedImageResourceData;
+				bool hasAuxCompression = false;
+				if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+					hasAuxCompression = this->version >= 6 && this->compressionLevel != 0;
+					if (hasAuxCompression) {
+						const auto faceCount = this->getFaceCount();
+						auxCompressionResourceData.resize((this->mipCount * this->frameCount * faceCount + 2) * sizeof(uint32_t));
+						BufferStream auxWriter{auxCompressionResourceData, false};
 
-		out.resize(writer.size());
-		return out;
-	}
+						// Format of aux resource is as follows, with each item of unspecified type being a 4 byte integer:
+						// - Size of resource in bytes, not counting this int
+						// - Compression level, method (2 byte integers)
+						// - (X times) Size of each mip-face-frame combo
+						auxWriter
+							.write<uint32_t>(auxCompressionResourceData.size() - sizeof(uint32_t))
+							.write(this->compressionLevel)
+							.write(this->compressionMethod);
 
-	writer
-		.write(VTF_SIGNATURE)
-		.write<int32_t>(7)
-		.write(this->version);
-
-	const auto headerLengthPos = writer.tell();
-	writer.write<uint32_t>(0);
-
-	writer
-		.write(this->width)
-		.write(this->height)
-		.write(this->flags)
-		.write(this->frameCount)
-		.write(this->startFrame)
-		.write<uint32_t>(0) // padding
-		.write(this->reflectivity)
-		.write<uint32_t>(0) // padding
-		.write(this->bumpMapScale)
-		.write(this->format)
-		.write(this->mipCount)
-		.write(ImageFormat::DXT1)
-		.write(this->thumbnailWidth)
-		.write(this->thumbnailHeight);
-
-	if (this->version >= 2) {
-		writer << this->sliceCount;
-	}
-
-	if (this->version < 3) {
-		const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
-		for (uint16_t i = 0; i < headerAlignment; i++) {
-			writer.write<std::byte>({});
-		}
-		const auto headerSize = writer.tell();
-		writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(headerSize);
-
-		if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
-			writer.write(thumbnailResource->data);
-		}
-		if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
-			writer.write(imageResource->data);
-		}
-	} else {
-		std::vector<std::byte> auxCompressionResourceData;
-		std::vector<std::byte> compressedImageResourceData;
-		bool hasAuxCompression = false;
-		if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-			hasAuxCompression = this->version >= 6 && this->compressionLevel != 0;
-			if (hasAuxCompression) {
-				const auto faceCount = this->getFaceCount();
-				auxCompressionResourceData.resize((this->mipCount * this->frameCount * faceCount + 2) * sizeof(uint32_t));
-				BufferStream auxWriter{auxCompressionResourceData, false};
-
-				// Format of aux resource is as follows, with each item of unspecified type being a 4 byte integer:
-				// - Size of resource in bytes, not counting this int
-				// - Compression level, method (2 byte integers)
-				// - (X times) Size of each mip-face-frame combo
-				auxWriter
-					.write<uint32_t>(auxCompressionResourceData.size() - sizeof(uint32_t))
-					.write(this->compressionLevel)
-					.write(this->compressionMethod);
-
-				for (int i = this->mipCount - 1; i >= 0; i--) {
-					for (int j = 0; j < this->frameCount; j++) {
-						for (int k = 0; k < faceCount; k++) {
-							if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
-								auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
-								compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
-								auxWriter.write<uint32_t>(compressedData.size());
+						for (int i = this->mipCount - 1; i >= 0; i--) {
+							for (int j = 0; j < this->frameCount; j++) {
+								for (int k = 0; k < faceCount; k++) {
+									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
+										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
+										compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
+										auxWriter.write<uint32_t>(compressedData.size());
+									}
+								}
 							}
 						}
 					}
 				}
-			}
-		}
 
-		writer
-			.write<uint8_t>(0) // padding
-			.write<uint8_t>(0) // padding
-			.write<uint8_t>(0) // padding
-			.write<uint32_t>(this->getResources().size() + hasAuxCompression)
-			.write<uint64_t>(0); // padding
+				writer
+					.write<uint8_t>(0) // padding
+					.write<uint8_t>(0) // padding
+					.write<uint8_t>(0) // padding
+					.write<uint32_t>(this->getResources().size() + hasAuxCompression)
+					.write<uint64_t>(0); // padding
 
-		const auto resourceStart = writer.tell();
-		const auto headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
-		writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
-		while (writer.tell() < headerSize) {
-			writer.write<uint64_t>(0);
-		}
-		writer.seek_u(resourceStart);
+				const auto resourceStart = writer.tell();
+				const auto headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
+				writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
+				while (writer.tell() < headerSize) {
+					writer.write<uint64_t>(0);
+				}
+				writer.seek_u(resourceStart);
 
-		for (const auto resourceType : Resource::getOrder()) {
-			if (hasAuxCompression && resourceType == Resource::TYPE_AUX_COMPRESSION) {
-				writeNonLocalResource(writer, resourceType, auxCompressionResourceData, this->platform);
-			} else if (hasAuxCompression && resourceType == Resource::TYPE_IMAGE_DATA) {
-				writeNonLocalResource(writer, resourceType, compressedImageResourceData, this->platform);
-			} else if (const auto* resource = this->getResource(resourceType)) {
-				if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
-					writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
-					writer.write(resource->data);
-				} else {
-					writeNonLocalResource(writer, resource->type, resource->data, this->platform);
+				for (const auto resourceType : Resource::getOrder()) {
+					if (hasAuxCompression && resourceType == Resource::TYPE_AUX_COMPRESSION) {
+						writeNonLocalResource(writer, resourceType, auxCompressionResourceData, this->platform);
+					} else if (hasAuxCompression && resourceType == Resource::TYPE_IMAGE_DATA) {
+						writeNonLocalResource(writer, resourceType, compressedImageResourceData, this->platform);
+					} else if (const auto* resource = this->getResource(resourceType)) {
+						if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
+							writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
+							writer.write(resource->data);
+						} else {
+							writeNonLocalResource(writer, resource->type, resource->data, this->platform);
+						}
+					}
 				}
 			}
+
+			out.resize(writer.size());
+			return out;
+		}
+		case PLATFORM_X360:
+		case PLATFORM_PS3_ORANGEBOX:
+		case PLATFORM_PS3_PORTAL2: {
+			if (this->platform == PLATFORM_PS3_PORTAL2) {
+				writer << VTF3_SIGNATURE;
+				writer.set_big_endian(true);
+				writer << PLATFORM_PS3_ORANGEBOX; // Intentional
+			} else {
+				writer << VTFX_SIGNATURE;
+				writer.set_big_endian(true);
+				writer << this->platform;
+			}
+
+			// Go down until top level texture is <1mb, matches makegamedata.exe output
+			uint8_t mipSkip = 0;
+			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
+				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
+					break;
+				}
+			}
+
+			writer.write<uint32_t>(8);
+			const auto headerLengthPos = writer.tell();
+			writer
+				.write<uint32_t>(0)
+				.write(this->flags)
+				.write(this->width)
+				.write(this->height)
+				.write(this->sliceCount)
+				.write(this->frameCount);
+			const auto preloadPos = writer.tell();
+			writer
+				.write<uint16_t>(0) // preload size
+				.write(mipSkip)
+				.write<uint8_t>(this->resources.size())
+				.write(this->reflectivity[0])
+				.write(this->reflectivity[1])
+				.write(this->reflectivity[2])
+				.write(this->bumpMapScale)
+				.write(this->format)
+				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[0] * 255)), 0, 255))
+				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[1] * 255)), 0, 255))
+				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[2] * 255)), 0, 255))
+				.write<uint8_t>(255);
+			const auto compressionPos = writer.tell();
+			writer.write<uint32_t>(0); // compressed length
+
+			if (this->platform == PLATFORM_PS3_PORTAL2) {
+				// 16 byte aligned
+				writer.write<uint32_t>(0);
+			}
+
+			// LZMA compression has not been observed on the PS3 copy of The Orange Box
+			// todo(vtfpp): check cubemaps
+			std::vector<std::byte> imageResourceData;
+			bool hasCompression = false;
+			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
+				imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
+				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+
+				if (this->platform != PLATFORM_PS3_ORANGEBOX) {
+					hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA;
+					if (hasCompression) {
+						auto fixedCompressionLevel = this->compressionLevel;
+						if (this->compressionLevel == 0) {
+							// Compression level defaults to 0, so it works differently on console.
+							// Rather than not compress on 0, 0 will be replaced with the default
+							// compression level (6) if the compression method is LZMA.
+							fixedCompressionLevel = 6;
+						}
+						if (const auto compressedData = compression::compressValveLZMA(imageResourceData, fixedCompressionLevel)) {
+							imageResourceData.assign(compressedData->begin(), compressedData->end());
+						} else {
+							hasCompression = false;
+						}
+					}
+				}
+			}
+
+			const auto resourceStart = writer.tell();
+			const auto headerSize = resourceStart + (this->getResources().size() * sizeof(uint64_t));
+			writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
+			while (writer.tell() < headerSize) {
+				writer.write<uint64_t>(0);
+			}
+			writer.seek_u(resourceStart);
+
+			for (const auto resourceType : Resource::getOrder()) {
+				if (resourceType == Resource::TYPE_IMAGE_DATA) {
+					auto curPos = writer.tell();
+					const auto imagePos = writer.seek(0, std::ios::end).tell();
+					writer.seek_u(preloadPos).write(std::max<uint16_t>(imagePos, 2048)).seek_u(curPos);
+
+					writeNonLocalResource(writer, resourceType, imageResourceData, this->platform);
+
+					if (hasCompression) {
+						curPos = writer.tell();
+						writer.seek_u(compressionPos).write<uint32_t>(imageResourceData.size()).seek_u(curPos);
+					}
+				} else if (const auto* resource = this->getResource(resourceType)) {
+					std::vector<std::byte> resData{resource->data.begin(), resource->data.end()};
+
+					if (resource->type == Resource::TYPE_THUMBNAIL_DATA) {
+						::swapImageDataEndianForConsole<false>(resData, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
+					} else if (!(resource->flags & Resource::FLAG_LOCAL_DATA) && resData.size() >= sizeof(uint32_t)) {
+						BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resData.data()));
+					}
+
+					if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
+						writer.set_big_endian(false);
+						writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
+						writer.set_big_endian(true);
+						writer.write(resData);
+					} else {
+						writeNonLocalResource(writer, resource->type, resData, this->platform);
+					}
+				}
+			}
+
+			out.resize(writer.size());
+			return out;
 		}
 	}
-
-	out.resize(writer.size());
-	return out;
+	return {};
 }
 
 bool VTF::bake(const std::string& vtfPath) const {

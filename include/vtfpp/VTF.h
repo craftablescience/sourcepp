@@ -215,10 +215,10 @@ public:
 
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
-		PLATFORM_PC            = 0x001,
+		PLATFORM_PC            = 0x007,
 		PLATFORM_X360          = 0x360,
 		PLATFORM_PS3_ORANGEBOX = 0x333,
-		PLATFORM_PS3_PORTAL2   = 0x003,
+		PLATFORM_PS3_PORTAL2   = 0x334,
 	};
 
 	struct CreationOptions {
