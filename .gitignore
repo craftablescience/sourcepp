@@ -26,8 +26,8 @@ test/res/
 test/Helpers.h
 
 
-# C
-lang/c/sourcepp.kv
+# CWrap
+lang/cwrap/sourcepp.kv
 
 
 # Python

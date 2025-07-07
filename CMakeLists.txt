@@ -241,9 +241,9 @@ endif()
 # Generate CWrap-generated bindings
 if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
     add_custom_target(sourcepp_generate_cwrap_bindings ALL
-            COMMAND sourcepp_cwrap "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/sourcepp.kv"
+            COMMAND sourcepp_cwrap "${CMAKE_CURRENT_SOURCE_DIR}/lang/cwrap/sourcepp.kv"
             DEPENDS sourcepp_cwrap
-            BYPRODUCTS "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/sourcepp.kv"
+            BYPRODUCTS "${CMAKE_CURRENT_SOURCE_DIR}/lang/cwrap/sourcepp.kv"
             COMMENT "Generating CWrap bindings"
             VERBATIM)
 endif()
