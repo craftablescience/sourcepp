@@ -68,7 +68,7 @@ public:
 protected:
 	bool opened;
 
-	uint32_t version;
+	uint32_t version = 0;
 	std::vector<Sequence> sequences;
 };
 

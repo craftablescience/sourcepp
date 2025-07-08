@@ -680,6 +680,13 @@ VTF::Platform VTF::getPlatform() const {
 }
 
 void VTF::setPlatform(Platform newPlatform) {
+	if (this->platform == newPlatform) {
+		return;
+	}
+
+	// hack to allow VTF::setVersion to work
+	const auto oldPlatform = this->platform;
+	this->platform = PLATFORM_PC;
 	switch (newPlatform) {
 		case PLATFORM_UNKNOWN:
 		case PLATFORM_PC:
@@ -692,7 +699,6 @@ void VTF::setPlatform(Platform newPlatform) {
 			this->setVersion(5);
 			break;
 	}
-
 	this->platform = newPlatform;
 	this->setCompressionMethod(this->compressionMethod);
 
@@ -700,6 +706,11 @@ void VTF::setPlatform(Platform newPlatform) {
 		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
 		if (this->mipCount != recommendedCount) {
 			this->setMipCount(recommendedCount);
+		}
+	} else if (oldPlatform != PLATFORM_PC) {
+		const auto recommendedMipCount = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height);
+		if (this->mipCount > recommendedMipCount) {
+			this->setMipCount(recommendedMipCount);
 		}
 	}
 }
