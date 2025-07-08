@@ -917,6 +917,39 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
+TEST(vtfpp, read_xbox) {
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/dxt1.xtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_XBOX);
+	EXPECT_EQ(vtf.getVersion(), 2);
+	EXPECT_EQ(vtf.getWidth(), 256);
+	EXPECT_EQ(vtf.getHeight(), 256);
+	EXPECT_EQ(vtf.getFlags(), /*NICE filtered*/ (1 << 24) | VTF::FLAG_XBOX_CACHEABLE);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getMipCount(), 9);
+	EXPECT_EQ(vtf.getFrameCount(), 1);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.27086672f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.26922473f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.24819961f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 8);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 8);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 1);
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+}
+
 TEST(vtfpp, read_ps3_orangebox) {
 	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/ps3_orangebox/portal.ps3.vtf")};
 	ASSERT_TRUE(vtf);
