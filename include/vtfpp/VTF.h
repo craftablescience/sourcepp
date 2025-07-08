@@ -19,6 +19,7 @@
 namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+constexpr uint32_t XTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("XTF\0");
 constexpr uint32_t VTFX_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTFX");
 constexpr uint32_t VTF3_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF3");
 
@@ -33,8 +34,9 @@ enum class CompressionMethod : int16_t {
 
 struct Resource {
 	enum Type : uint32_t {
-		TYPE_UNKNOWN             = 0,   // Unknown
+		TYPE_UNKNOWN             = 0, // Unknown
 		TYPE_THUMBNAIL_DATA      = 1,
+		TYPE_FALLBACK_DATA       = 2, // Hack for XBOX platform
 		TYPE_PARTICLE_SHEET_DATA = 16,
 		TYPE_HOTSPOT_DATA        = 43,
 		TYPE_IMAGE_DATA          = 48,
@@ -44,13 +46,15 @@ struct Resource {
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 	};
-	static consteval std::array<Type, 9> getOrder() {
+	static consteval std::array<Type, 10> getOrder() {
 		return {
 			TYPE_THUMBNAIL_DATA,
+			TYPE_FALLBACK_DATA,
 			TYPE_PARTICLE_SHEET_DATA,
 			TYPE_HOTSPOT_DATA,
 			// regular Source can't handle out of order resources, but Strata can,
-			// and it's the only branch that can read this and 7.6
+			// and it's the only branch that can read this and 7.6.
+			// Put this before the image data to fix resources being cut off when skipping mips
 			TYPE_AUX_COMPRESSION,
 			TYPE_IMAGE_DATA,
 			TYPE_EXTENDED_FLAGS,
@@ -167,6 +171,12 @@ public:
 	};
 	static constexpr uint32_t FLAGS_MASK_V2 = FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_CLAMP_U;
 
+	enum FlagsXBOX : uint32_t {
+		FLAG_XBOX_CACHEABLE                = 1 << 27,
+		FLAG_XBOX_UNFILTERABLE_OK          = 1 << 28,
+	};
+	static constexpr uint32_t FLAGS_MASK_XBOX = FLAG_XBOX_CACHEABLE | FLAG_XBOX_UNFILTERABLE_OK;
+
 	enum FlagsV3 : uint32_t {
 		FLAG_V3_LOAD_ALL_MIPS              = 1 << 10,
 		FLAG_V3_VERTEX_TEXTURE             = 1 << 26,
@@ -211,6 +221,7 @@ public:
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
 		PLATFORM_PC            = 0x007,
+		PLATFORM_XBOX          = 0x005,
 		PLATFORM_X360          = 0x360,
 		PLATFORM_PS3_ORANGEBOX = 0x333,
 		PLATFORM_PS3_PORTAL2   = 0x334,
@@ -362,6 +373,12 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
+	[[nodiscard]] ImageFormat getFallbackFormat() const;
+
+	[[nodiscard]] uint8_t getFallbackWidth() const;
+
+	[[nodiscard]] uint8_t getFallbackHeight() const;
+
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
@@ -443,6 +460,22 @@ public:
 
 	bool saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
+	[[nodiscard]] bool hasFallbackData() const;
+
+	[[nodiscard]] std::span<const std::byte> getFallbackDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
+
+	[[nodiscard]] std::vector<std::byte> getFallbackDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
+
+	[[nodiscard]] std::vector<std::byte> getFallbackDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
+
+	void computeFallback(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+
+	void removeFallback();
+
+	[[nodiscard]] std::vector<std::byte> saveFallbackToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
+
+	bool saveFallbackToFile(const std::string& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
+
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
 	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
@@ -462,35 +495,34 @@ protected:
 
 	std::vector<std::byte> data;
 
-	//uint32_t signature;
-	uint32_t version{};
-	//uint32_t headerSize;
+	uint32_t version = 4;
 
-	uint16_t width{};
-	uint16_t height{};
-	uint32_t flags{};
+	uint16_t width = 0;
+	uint16_t height = 0;
+	uint32_t flags = VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
 
 	uint16_t frameCount = 1;
-	uint16_t startFrame{};
+	uint16_t startFrame = 0;
 
 	sourcepp::math::Vec3f reflectivity{0.2f, 0.2f, 0.2f};
 
-	float bumpMapScale{};
+	float bumpMapScale = 0.f;
 	ImageFormat format = ImageFormat::EMPTY;
 	uint8_t mipCount = 1;
 
 	ImageFormat thumbnailFormat = ImageFormat::EMPTY;
-	uint8_t thumbnailWidth{};
-	uint8_t thumbnailHeight{};
+	uint8_t thumbnailWidth = 0;
+	uint8_t thumbnailHeight = 0;
+
+	ImageFormat fallbackFormat = ImageFormat::EMPTY;
+	uint8_t fallbackWidth = 0;
+	uint8_t fallbackHeight = 0;
 
 	// 1 for v7.1 and lower
 	uint16_t sliceCount = 1;
-	//uint8_t _padding2[3];
 
 	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
-	//uint32_t resourceCount;
 	std::vector<Resource> resources;
-	//uint8_t _padding3[4];
 
 	// These aren't in the header
 	Platform platform = PLATFORM_PC;
