@@ -72,7 +72,7 @@ namespace {
 }
 
 template<bool ExistingDataIsSwizzled>
-constexpr void swizzleImageDataForPS3(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
+constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
 	width *= ImageFormatDetails::bpp(format) / 32;
 	const auto zIndex = [
 		widthL2 = static_cast<int>(math::log2ceil(width)),
@@ -153,7 +153,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 		}
 	}
 
-	if ((platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && ImageFormatDetails::bpp(format) % 32 == 0) {
+	if ((platform == VTF::PLATFORM_XBOX || platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && ImageFormatDetails::bpp(format) % 32 == 0) {
 		std::vector<std::byte> out(imageData.size());
 		for(int mip = mipCount - 1; mip >= 0; mip--) {
 			const auto mipWidth = ImageDimensions::getMipDim(mip, width);
@@ -163,7 +163,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
 						std::span imageDataSpan{imageData.data() + offset, length * sliceCount};
 						std::span outSpan{out.data() + offset, length * sliceCount};
-						::swizzleImageDataForPS3<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						::swizzleUncompressedImageData<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
 					}
 				}
 			}
@@ -264,6 +264,17 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		} else {
 			this->version = 4;
 		}
+	} else if (signature == XTF_SIGNATURE) {
+		stream >> this->platform;
+		if (this->platform != PLATFORM_XBOX) {
+			return;
+		}
+		stream >> this->version;
+		if (this->version != 0) {
+			return;
+		}
+		// Now fix up the actual version as it would be on PC
+		this->version = 2;
 	} else {
 		return;
 	}
@@ -447,7 +458,74 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				this->compressionMethod = resource->getDataAsAuxCompressionMethod();
 				this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
 			}
-			break;
+			return;
+		}
+		case PLATFORM_XBOX: {
+			if (this->platform == PLATFORM_XBOX) {
+				uint16_t imageOffset = 0;
+				math::Vec2ui8 fallbackDims;
+				stream
+					.read(this->flags)
+					.read(this->width)
+					.read(this->height)
+					.read(this->sliceCount)
+					.read(this->frameCount)
+					.skip<uint16_t>() // preload
+					.read<uint16_t>(imageOffset)
+					.read(this->reflectivity[0])
+					.read(this->reflectivity[1])
+					.read(this->reflectivity[2])
+					.read(this->bumpMapScale)
+					.read(this->format)
+					.read(fallbackDims)
+					.read(this->thumbnailWidth)
+					.read(this->thumbnailHeight)
+					.skip<uint8_t>()  // skip high mip levels
+					.skip<uint8_t>(); // padding
+
+				if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+					this->thumbnailFormat = ImageFormat::EMPTY;
+				} else {
+					this->thumbnailFormat = ImageFormat::DXT1;
+				}
+
+				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+
+				this->opened = stream.tell() == headerSize;
+				if (parseHeaderOnly) {
+					return;
+				}
+
+				// Can't use getFaceCount yet because there's no image data!
+				// todo(xtf): verify 6 is correct
+				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
+
+				// todo(xtf): where is the thumbnail?
+				// todo(xtf): where is the fallback image?
+				// todo(xtf): where is the palette?
+
+				std::vector<std::byte> reorderedImageData;
+				reorderedImageData.resize(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
+				BufferStream reorderedStream{reorderedImageData};
+
+				for (int i = this->mipCount - 1; i >= 0; i--) {
+					for (int j = 0; j < this->frameCount; j++) {
+						for (int k = 0; k < faceCount; k++) {
+							for (int l = 0; l < this->sliceCount; l++) {
+								uint32_t oldOffset, length;
+								if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
+									this->opened = false;
+									return;
+								}
+								reorderedStream << stream.at_bytes(length, imageOffset + oldOffset);
+							}
+						}
+					}
+				}
+				::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, this->platform);
+				this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+				return;
+			}
 		}
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -467,7 +545,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->reflectivity[2])
 				.read(this->bumpMapScale)
 				.read(this->format)
-				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
+				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, linear color pixel)
 				.skip<uint32_t>(); // compressedLength
 
 			// Align to 16 bytes
@@ -509,7 +587,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
 				}
 			}
-			break;
+			return;
 		}
 	}
 }
@@ -691,6 +769,9 @@ void VTF::setPlatform(Platform newPlatform) {
 		case PLATFORM_UNKNOWN:
 		case PLATFORM_PC:
 			break;
+		case PLATFORM_XBOX:
+			this->setVersion(2);
+			break;
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
 			this->setVersion(4);
@@ -700,6 +781,11 @@ void VTF::setPlatform(Platform newPlatform) {
 			break;
 	}
 	this->platform = newPlatform;
+
+	if (this->platform == PLATFORM_XBOX || newPlatform == PLATFORM_XBOX) {
+		this->removeFlags(VTF::FLAGS_MASK_XBOX);
+	}
+
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
@@ -1630,7 +1716,7 @@ std::vector<std::byte> VTF::bake() const {
 
 	switch (this->platform) {
 		case PLATFORM_UNKNOWN:
-			break;
+			return out;
 		case PLATFORM_PC: {
 			writer
 				.write(VTF_SIGNATURE)
@@ -1738,9 +1824,46 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 			}
+			break;
+		}
+		case PLATFORM_XBOX: {
+			writer << XTF_SIGNATURE << PLATFORM_XBOX;
 
-			out.resize(writer.size());
-			return out;
+			// Go down until top level texture is <1mb, matches makegamedata.exe output
+			uint8_t mipSkip = 0;
+			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
+				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
+					break;
+				}
+			}
+
+			writer.write<uint32_t>(0);
+			const auto headerLengthPos = writer.tell();
+			writer
+				.write<uint32_t>(0)
+				.write(this->flags)
+				.write(this->width)
+				.write(this->height)
+				.write(this->sliceCount)
+				.write(this->frameCount);
+			const auto preloadPos = writer.tell();
+			writer.write<uint16_t>(0);
+			const auto imagePos = writer.tell();
+			writer
+				.write<uint16_t>(0)
+				.write(this->reflectivity[0])
+				.write(this->reflectivity[1])
+				.write(this->reflectivity[2])
+				.write(this->bumpMapScale)
+				.write(this->format)
+				.write<uint16_t>(0)
+				.write(this->thumbnailWidth)
+				.write(this->thumbnailHeight)
+				.write(mipSkip)
+				.write<uint8_t>(0);
+
+			// todo(xtf): baking
+			break;
 		}
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -1860,12 +1983,11 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 			}
-
-			out.resize(writer.size());
-			return out;
+			break;
 		}
 	}
-	return {};
+	out.resize(writer.size());
+	return out;
 }
 
 bool VTF::bake(const std::string& vtfPath) const {

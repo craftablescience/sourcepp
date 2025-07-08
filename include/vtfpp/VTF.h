@@ -19,6 +19,7 @@
 namespace vtfpp {
 
 constexpr uint32_t VTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF\0");
+constexpr uint32_t XTF_SIGNATURE = sourcepp::parser::binary::makeFourCC("XTF\0");
 constexpr uint32_t VTFX_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTFX");
 constexpr uint32_t VTF3_SIGNATURE = sourcepp::parser::binary::makeFourCC("VTF3");
 
@@ -172,6 +173,12 @@ public:
 	};
 	static constexpr uint32_t FLAGS_MASK_V2 = FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_CLAMP_U;
 
+	enum FlagsXBOX : uint32_t {
+		FLAG_XBOX_CACHEABLE                = 1 << 27,
+		FLAG_XBOX_UNFILTERABLE_OK          = 1 << 28,
+	};
+	static constexpr uint32_t FLAGS_MASK_XBOX = FLAG_XBOX_CACHEABLE | FLAG_XBOX_UNFILTERABLE_OK;
+
 	enum FlagsV3 : uint32_t {
 		FLAG_V3_LOAD_ALL_MIPS              = 1 << 10,
 		FLAG_V3_VERTEX_TEXTURE             = 1 << 26,
@@ -216,6 +223,7 @@ public:
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
 		PLATFORM_PC            = 0x007,
+		PLATFORM_XBOX          = 0x005,
 		PLATFORM_X360          = 0x360,
 		PLATFORM_PS3_ORANGEBOX = 0x333,
 		PLATFORM_PS3_PORTAL2   = 0x334,
