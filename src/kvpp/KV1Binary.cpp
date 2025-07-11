@@ -297,7 +297,7 @@ std::string KV1Binary::bakeText() const {
 				break;
 			case COLOR_RGBA: {
 				const auto val = *element.getValue<math::Vec4ui8>();
-				child = std::format("[{} {} {} {}]", val[0], val[1], val[2], val[3]);
+				child = std::format("{} {} {} {}", val[0], val[1], val[2], val[3]);
 				break;
 			}
 			case UINT64:
