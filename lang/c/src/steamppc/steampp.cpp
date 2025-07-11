@@ -84,6 +84,12 @@ SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_logo_path, steampp_ap
 	return Convert::toString(Convert::steam(handle)->getAppLogoPath(appID));
 }
 
+SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_hero_path, steampp_appid_t appID) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
+
+	return Convert::toString(Convert::steam(handle)->getAppHeroPath(appID));
+}
+
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_box_art_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 

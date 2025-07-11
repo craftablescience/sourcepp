@@ -18,6 +18,7 @@ SOURCEPP_METHOE(steampp, steam,              const char*, get_app_name, steampp_
 SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_install_dir, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_icon_path, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_logo_path, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
+SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_hero_path, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_box_art_path, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOE(steampp, steam,        sourcepp_string_t, get_app_store_art_path, steampp_appid_t appID); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOE(steampp, steam,                      int, is_app_using_goldsrc_engine, steampp_appid_t appID);

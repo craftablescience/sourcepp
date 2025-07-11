@@ -26,6 +26,7 @@ inline void register_python(py::module_& m) {
 		.def("get_app_install_dir",          &Steam::getAppInstallDir,        py::arg("appID"))
 		.def("get_app_icon_path",            &Steam::getAppIconPath,          py::arg("appID"))
 		.def("get_app_logo_path",            &Steam::getAppLogoPath,          py::arg("appID"))
+		.def("get_app_hero_path",            &Steam::getAppHeroPath,          py::arg("appID"))
 		.def("get_app_box_art_path",         &Steam::getAppBoxArtPath,        py::arg("appID"))
 		.def("get_app_store_art_path",       &Steam::getAppStoreArtPath,      py::arg("appID"))
 		.def("is_app_using_goldsrc_engine",  &Steam::isAppUsingGoldSrcEngine, py::arg("appID"))

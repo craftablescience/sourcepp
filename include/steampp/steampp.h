@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include <kvpp/KV1Binary.h>
 #include <sourcepp/Math.h>
 
 namespace steampp {
@@ -38,6 +39,8 @@ public:
 
 	[[nodiscard]] std::string getAppLogoPath(AppID appID) const;
 
+	[[nodiscard]] std::string getAppHeroPath(AppID appID) const;
+
 	[[nodiscard]] std::string getAppBoxArtPath(AppID appID) const;
 
 	[[nodiscard]] std::string getAppStoreArtPath(AppID appID) const;
@@ -60,6 +63,7 @@ private:
 	std::unordered_map<AppID, GameInfo> gameDetails;
 	std::string steamInstallDir;
 	std::vector<std::string> libraryDirs;
+	kvpp::KV1Binary assetCache;
 };
 
 } // namespace steampp

@@ -115,15 +115,21 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="3"><code>steampp</code></td>
+    <td rowspan="5"><code>steampp</code></td>
     <td>Find Steam install folder</td>
     <td align="center">✅</td>
     <td align="center">-</td>
-    <td rowspan="3" align="center">C<br>Python</td>
+    <td rowspan="5" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td>Find installed Steam games</td>
+    <td align="center">✅</td>
+    <td align="center">-</td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td>Find Steam game library assets</td>
     <td align="center">✅</td>
     <td align="center">-</td>
   </tr>
