@@ -1,8 +1,10 @@
 #include <gtest/gtest.h>
 
 #include <kvpp/kvpp.h>
+#include <sourcepp/FS.h>
 
 using namespace kvpp;
+using namespace sourcepp;
 
 TEST(kvpp, read_empty) {
 	KV1 kv1{""};
@@ -467,4 +469,39 @@ TEST(kvpp, write_includes) {
 	EXPECT_STREQ(kv1[1].getKey().data(), "resources\\child.res");
 	EXPECT_STREQ(kv1["resources\\child.res"].getValue().data(), "");
 	EXPECT_TRUE(kv1["resources\\child.res"].getChildren().empty());
+}
+
+TEST(kvpp, binary_read) {
+	KV1Binary kv1{fs::readFileBuffer(ASSET_ROOT "kvpp/binary.vdf")};
+	ASSERT_EQ(kv1.getChildren().size(), 1);
+	EXPECT_STREQ(kv1[0].getKey().data(), "");
+	ASSERT_EQ(kv1[0].getChildCount(), 3);
+	EXPECT_EQ(kv1[0][0].getKey(), "cache_version");
+	EXPECT_EQ(kv1[0][0].getValue<int32_t>(), 2);
+	EXPECT_EQ(kv1[0][1].getKey(), "last_cleanup_time");
+	EXPECT_EQ(kv1[0][1].getValue<int32_t>(), 1748512603);
+	EXPECT_EQ(kv1[0][2].getKey(), "0");
+	ASSERT_EQ(kv1[0][2].getChildCount(), 3486);
+	EXPECT_EQ(kv1[0][2][2].getKey(), "10");
+	ASSERT_EQ(kv1[0][2][2].getChildCount(), 10);
+	EXPECT_EQ(kv1[0][2][2][0].getKey(), "0f");
+	EXPECT_EQ(kv1[0][2][2][0].getValue<std::string>(), "library_600x900.jpg");
+	EXPECT_EQ(kv1[0][2][2][1].getKey(), "1f");
+	EXPECT_EQ(kv1[0][2][2][1].getValue<std::string>(), "library_hero.jpg");
+	EXPECT_EQ(kv1[0][2][2][2].getKey(), "2f");
+	EXPECT_EQ(kv1[0][2][2][2].getValue<std::string>(), "logo.png");
+	EXPECT_EQ(kv1[0][2][2][3].getKey(), "3f");
+	EXPECT_EQ(kv1[0][2][2][3].getValue<std::string>(), "header.jpg");
+	EXPECT_EQ(kv1[0][2][2][4].getKey(), "4f");
+	EXPECT_EQ(kv1[0][2][2][4].getValue<std::string>(), "6b0312cda02f5f777efa2f3318c307ff9acafbb5.jpg");
+	EXPECT_EQ(kv1[0][2][2][5].getKey(), "5f");
+	EXPECT_EQ(kv1[0][2][2][5].getValue<std::string>(), "library_hero_blur.jpg");
+	EXPECT_EQ(kv1[0][2][2][6].getKey(), "ma");
+	EXPECT_EQ(kv1[0][2][2][6].getValue<int32_t>(), 8);
+	EXPECT_EQ(kv1[0][2][2][7].getKey(), "change");
+	EXPECT_EQ(kv1[0][2][2][7].getValue<int32_t>(), 28611866);
+	EXPECT_EQ(kv1[0][2][2][8].getKey(), "v");
+	EXPECT_EQ(kv1[0][2][2][8].getValue<int32_t>(), 3);
+	EXPECT_EQ(kv1[0][2][2][9].getKey(), "ct");
+	EXPECT_EQ(kv1[0][2][2][9].getValue<int32_t>(), 1745898428);
 }

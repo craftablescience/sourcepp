@@ -6,3 +6,4 @@
  */
 
 #include "KV1.h"
+#include "KV1Binary.h"

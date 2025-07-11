@@ -67,11 +67,17 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>kvpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> Text v1<sup>&dagger;</sup></td>
+    <td rowspan="3"><code>kvpp</code></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1 Text<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="1" align="center"></td>
+    <td rowspan="3" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable github striped bg color --></tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues">KeyValues</a> v1 Binary</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>

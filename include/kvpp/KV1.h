@@ -14,10 +14,10 @@ namespace kvpp {
 
 template<typename V>
 concept KV1ValueType = std::convertible_to<V, std::string_view>
-        			|| std::same_as<V, bool>
-        			|| std::same_as<V, int32_t>
-        			|| std::same_as<V, int64_t>
-        			|| std::same_as<V, float>;
+                    || std::same_as<V, bool>
+                    || std::same_as<V, int32_t>
+                    || std::same_as<V, int64_t>
+                    || std::same_as<V, float>;
 
 template<typename S, typename K>
 requires std::convertible_to<S, std::string_view>
@@ -89,22 +89,30 @@ public:
 
 	using iterator = typename std::vector<K>::iterator;
 
-	[[nodiscard]] iterator begin() {
+	[[nodiscard]] constexpr iterator begin() {
 		return this->children.begin();
 	}
 
-	[[nodiscard]] iterator end() {
+	[[nodiscard]] constexpr iterator end() {
 		return this->children.end();
 	}
 
 	using const_iterator = typename std::vector<K>::const_iterator;
 
-	[[nodiscard]] const_iterator begin() const {
+	[[nodiscard]] constexpr const_iterator begin() const {
 		return this->children.begin();
 	}
 
-	[[nodiscard]] const_iterator end() const {
+	[[nodiscard]] constexpr const_iterator end() const {
 		return this->children.end();
+	}
+
+	[[nodiscard]] constexpr const_iterator cbegin() const {
+		return this->children.cbegin();
+	}
+
+	[[nodiscard]] constexpr const_iterator cend() const {
+		return this->children.cend();
 	}
 
 	/// Get the child element of the element at the given index
@@ -146,13 +154,13 @@ public:
 		return this == &getInvalid();
 	}
 
-protected:
-	KV1ElementBase() = default;
-
 	static const KV1ElementBase& getInvalid() {
 		static KV1ElementBase element;
 		return element;
 	}
+
+protected:
+	KV1ElementBase() = default;
 
 	static void read(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<K>& elements, const sourcepp::parser::text::EscapeSequenceMap& escapeSequences) {
 		using namespace sourcepp;
@@ -199,21 +207,39 @@ protected:
 	std::vector<K> children;
 };
 
-class KV1ElementReadable : public KV1ElementBase<std::string_view, KV1ElementReadable> {
-	friend class KV1ElementBase<std::string_view, KV1ElementReadable>;
+template<typename S = std::string_view>
+requires std::convertible_to<S, std::string_view>
+class KV1ElementReadable : public KV1ElementBase<S, KV1ElementReadable<S>> {
+	friend class KV1ElementBase<S, KV1ElementReadable<S>>;
 
 protected:
 	KV1ElementReadable() = default;
 };
 
-class KV1 : public KV1ElementReadable {
+template<typename S = std::string_view>
+requires std::convertible_to<S, std::string_view>
+class KV1 : public KV1ElementReadable<S> {
 public:
-	explicit KV1(std::string_view kv1Data, bool useEscapeSequences_ = false);
+	explicit KV1(std::string_view kv1Data, bool useEscapeSequences_ = false)
+			: KV1ElementReadable<S>()
+			, useEscapeSequences(useEscapeSequences_) {
+		if (kv1Data.empty()) {
+			return;
+		}
+		BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
+
+		// Multiply by 2 to ensure buffer will have enough space (very generous)
+		this->backingData.resize(kv1Data.size() * 2);
+		BufferStream backing{this->backingData, false};
+		try {
+			KV1ElementBase<S, KV1ElementReadable<S>>::read(stream, backing, this->children, sourcepp::parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+		} catch (const std::overflow_error&) {}
+	}
 
 protected:
-	using KV1ElementReadable::getKey;
-	using KV1ElementReadable::getValue;
-	using KV1ElementReadable::getConditional;
+	using KV1ElementReadable<S>::getKey;
+	using KV1ElementReadable<S>::getValue;
+	using KV1ElementReadable<S>::getConditional;
 
 	std::string backingData;
 	bool useEscapeSequences;
@@ -222,7 +248,7 @@ protected:
 template<typename S = std::string>
 requires std::convertible_to<S, std::string_view>
 class KV1ElementWritable : public KV1ElementBase<S, KV1ElementWritable<S>> {
-	friend class KV1ElementBase<std::string, KV1ElementWritable<S>>;
+	friend class KV1ElementBase<S, KV1ElementWritable<S>>;
 
 public:
 	/// Set the key associated with the element
@@ -322,7 +348,7 @@ public:
 protected:
 	KV1ElementWritable() = default;
 
-	static void write(BufferStream& stream, std::vector<KV1ElementWritable>& elements, unsigned short indentLevel, const sourcepp::parser::text::EscapeSequenceMap& escapeSequences) {
+	static void write(BufferStream& stream, const std::vector<KV1ElementWritable>& elements, unsigned short indentLevel, const sourcepp::parser::text::EscapeSequenceMap& escapeSequences) {
 		using namespace sourcepp;
 		constexpr auto writeIndentation = [](BufferStream& stream_, unsigned short indentLevel_) {
 			for (unsigned short i = 0; i < indentLevel_; i++) {
@@ -381,7 +407,7 @@ public:
 		} catch (const std::overflow_error&) {}
 	}
 
-	[[nodiscard]] std::string bake() {
+	[[nodiscard]] std::string bake() const {
 		std::string buffer;
 		BufferStream stream{buffer};
 		KV1ElementWritable<S>::write(stream, this->children, 0, sourcepp::parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
@@ -389,7 +415,7 @@ public:
 		return buffer;
 	}
 
-	void bake(const std::string& kv1Path) {
+	void bake(const std::string& kv1Path) const {
 		sourcepp::fs::writeFileText(kv1Path, this->bake());
 	}
 
@@ -398,6 +424,7 @@ protected:
 	using KV1ElementWritable<S>::setKey;
 	using KV1ElementWritable<S>::getValue;
 	using KV1ElementWritable<S>::setValue;
+	using KV1ElementWritable<S>::operator=;
 	using KV1ElementWritable<S>::getConditional;
 	using KV1ElementWritable<S>::setConditional;
 
