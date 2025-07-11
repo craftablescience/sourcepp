@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['quat_0',['Quat',['../d0/d54/namespacesourcepp_1_1math.html#a3c1646b9032a280749abf282f9dcf922',1,'sourcepp::math']]],
-  ['quaternion_1',['Quaternion',['../d7/d45/namespacedmxpp_1_1Value.html#a49ae5bbbb80e170d8da45e97618225d6',1,'dmxpp::Value']]]
+  ['openfactoryfunction_0',['OpenFactoryFunction',['../d2/dd2/classvpkpp_1_1PackFile.html#a2cf2c9a0f3b9f928d570d0ab4ccfd703',1,'vpkpp::PackFile']]]
 ];

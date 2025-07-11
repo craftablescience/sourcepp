@@ -2,6 +2,7 @@ var classsteampp_1_1Steam =
 [
     [ "Steam", "d9/d81/classsteampp_1_1Steam.html#a4d6b130a45aad2ffbe67647ff7263422", null ],
     [ "getAppBoxArtPath", "d9/d81/classsteampp_1_1Steam.html#a2a802e23653125dcc89d9b6f75abb0db", null ],
+    [ "getAppHeroPath", "d9/d81/classsteampp_1_1Steam.html#ab5c55f5948df6252d697a11961d0d37e", null ],
     [ "getAppIconPath", "d9/d81/classsteampp_1_1Steam.html#aff3fbb780ce84d9456cfc2649f2e6eae", null ],
     [ "getAppInstallDir", "d9/d81/classsteampp_1_1Steam.html#abb42aec04720c20ca4dfe160ea380710", null ],
     [ "getAppLogoPath", "d9/d81/classsteampp_1_1Steam.html#ab0976aa7c5886e9a74b496dc665d0709", null ],

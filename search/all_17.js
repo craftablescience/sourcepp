@@ -11,7 +11,7 @@ var searchData=
   ['wait_8',['wait',['../d2/dc0/classgamepp_1_1GameInstance.html#a43490a3ff971d012a78e95ea4ed6680c',1,'gamepp::GameInstance']]],
   ['waitforkeypress_9',['waitForKeypress',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#a67b46f1dba1c17afb68183ddfd5f69f9',1,'toolpp::CmdSeq::Command']]],
   ['wateroverlays_10',['WATEROVERLAYS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a62e303e962da4eacd469497bef2b522f',1,'bsppp']]],
-  ['wav_11',['WAV',['../df/dc5/classsndpp_1_1WAV.html',1,'sndpp::WAV'],['../df/dc5/classsndpp_1_1WAV.html#acfe0b895afba8c228accbb27cff3bc6c',1,'sndpp::WAV::WAV()'],['../df/dc5/classsndpp_1_1WAV.html#acc4540d4ba8f2672cdb56088290048ed',1,'sndpp::WAV::WAV(std::span&lt; const std::byte &gt; wavData)'],['../df/dc5/classsndpp_1_1WAV.html#afd6f1b3b359250ecffee0eff00c10f00',1,'sndpp::WAV::WAV(const std::string &amp;wavPath)']]],
+  ['wav_11',['WAV',['../df/dc5/classsndpp_1_1WAV.html',1,'sndpp::WAV'],['../df/dc5/classsndpp_1_1WAV.html#afd6f1b3b359250ecffee0eff00c10f00',1,'sndpp::WAV::WAV(const std::string &amp;wavPath)'],['../df/dc5/classsndpp_1_1WAV.html#acc4540d4ba8f2672cdb56088290048ed',1,'sndpp::WAV::WAV(std::span&lt; const std::byte &gt; wavData)'],['../df/dc5/classsndpp_1_1WAV.html#acfe0b895afba8c228accbb27cff3bc6c',1,'sndpp::WAV::WAV()']]],
   ['wav_2ecpp_12',['WAV.cpp',['../d9/d46/WAV_8cpp.html',1,'']]],
   ['wav_2eh_13',['WAV.h',['../df/da4/WAV_8h.html',1,'']]],
   ['wavl_14',['WAVL',['../df/dc5/classsndpp_1_1WAV.html#aa8608801d511e755cb89a0a91b21c016a3742acefc9354656fc724a8712058d02',1,'sndpp::WAV']]],
@@ -33,8 +33,9 @@ var searchData=
   ['worldlights_30',['WORLDLIGHTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0',1,'bsppp']]],
   ['worldlights_5fhdr_31',['WORLDLIGHTS_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a',1,'bsppp']]],
   ['wrap_32',['WRAP',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0',1,'vtfpp::ImageConversion']]],
-  ['write_33',['write',['../de/d75/classkvpp_1_1KV1ElementWritable.html#ade2d34e781742de364fb170cde565f78',1,'kvpp::KV1ElementWritable']]],
+  ['write_33',['write',['../d3/d03/classkvpp_1_1KV1BinaryElement.html#ae60549ffc84ec60bdde041fccb40ed65',1,'kvpp::KV1BinaryElement::write()'],['../de/d75/classkvpp_1_1KV1ElementWritable.html#a3ebe0421d0383bf89050148da9fa57b4',1,'kvpp::KV1ElementWritable::write()']]],
   ['writefilebuffer_34',['writeFileBuffer',['../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf',1,'sourcepp::fs']]],
   ['writefiletext_35',['writeFileText',['../d9/dd6/namespacesourcepp_1_1fs.html#ab41ce0a38aed111d34806b0e77640e33',1,'sourcepp::fs']]],
-  ['writer_36',['writer',['../d5/d25/classtoolpp_1_1FGDWriter.html#a334eae0ac8a9ecf35775a6f4337bef3a',1,'toolpp::FGDWriter']]]
+  ['writer_36',['writer',['../d5/d25/classtoolpp_1_1FGDWriter.html#a334eae0ac8a9ecf35775a6f4337bef3a',1,'toolpp::FGDWriter']]],
+  ['wstring_37',['WSTRING',['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ead002390d7727d576cef45267f1678ea3',1,'kvpp']]]
 ];

@@ -14,5 +14,6 @@ var searchData=
   ['wft_5fraw_11',['WFT_RAW',['../d8/d40/WAD3_8cpp.html#a915e67171e66fed68ea93b4076661204a276bcb11de6af782357c04f2acbd4d6e',1,'WAD3.cpp']]],
   ['worldlights_12',['WORLDLIGHTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a94207b1475ded3826f177a7dd6cad6c0',1,'bsppp']]],
   ['worldlights_5fhdr_13',['WORLDLIGHTS_HDR',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afd9f7709e8468e3b09e16fb121a98d4a',1,'bsppp']]],
-  ['wrap_14',['WRAP',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0',1,'vtfpp::ImageConversion']]]
+  ['wrap_14',['WRAP',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53ae1c8555fcf0ea2bb648a6fd527d658c0',1,'vtfpp::ImageConversion']]],
+  ['wstring_15',['WSTRING',['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ead002390d7727d576cef45267f1678ea3',1,'kvpp']]]
 ];

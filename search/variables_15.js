@@ -7,7 +7,7 @@ var searchData=
   ['uncondenseddata_4',['uncondensedData',['../d6/d17/classvpkpp_1_1VPP.html#abae8d1c660fd3a921e2ab327583a6418',1,'vpkpp::VPP']]],
   ['unshiftednote_5',['unshiftedNote',['../d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html#a1a68e904da51757891a60eff8fd11a13',1,'sndpp::WAV::ChunkINST']]],
   ['used_6',['used',['../d9/d14/structvpkpp_1_1GCF_1_1BlockHeader.html#aa6c65e4b2f5121d9993cc23383df2671',1,'vpkpp::GCF::BlockHeader::used()'],['../db/ddb/structvpkpp_1_1GCF_1_1DataBlockHeader.html#aac3db6d54fbf81d20a59b4f5565ed1d2',1,'vpkpp::GCF::DataBlockHeader::used()']]],
-  ['useescapesequences_7',['useEscapeSequences',['../de/d0f/classkvpp_1_1KV1.html#aba9a5b1f6bb7ac908a9d7232f3ab4913',1,'kvpp::KV1::useEscapeSequences()'],['../d4/d43/classkvpp_1_1KV1Writer.html#ae97cdd8954e16a71d98da938aa452811',1,'kvpp::KV1Writer::useEscapeSequences()']]],
+  ['useescapesequences_7',['useEscapeSequences',['../de/d0f/classkvpp_1_1KV1.html#a5f3c40b036ed27fbd641c5bd56909c8d',1,'kvpp::KV1::useEscapeSequences()'],['../d4/d43/classkvpp_1_1KV1Writer.html#ae97cdd8954e16a71d98da938aa452811',1,'kvpp::KV1Writer::useEscapeSequences()'],['../dc/d38/classkvpp_1_1KV1Binary.html#abd92ac794d4580c5d504a3632d018d0a',1,'kvpp::KV1Binary::useEscapeSequences()']]],
   ['useprocesswindow_8',['useProcessWindow',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#ad6439dbcf951d9bf118b4640aeb0dfe8',1,'toolpp::CmdSeq::Command']]],
   ['uv_9',['uv',['../d3/d83/structmdlpp_1_1BakedModel_1_1Vertex.html#a01ad18f937f49326151d5416a46a942c',1,'mdlpp::BakedModel::Vertex::uv()'],['../dc/d30/structmdlpp_1_1VVD_1_1Vertex.html#af8e6432002867fd6b0c09e6f8359cc9b',1,'mdlpp::VVD::Vertex::uv()']]]
 ];

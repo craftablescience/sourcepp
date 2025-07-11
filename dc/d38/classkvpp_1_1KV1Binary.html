@@ -1,0 +1,452 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="generator" content="Doxygen 1.9.6"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <!-- BEGIN opengraph metadata -->
+    <meta property="og:title" content="SourcePP" />
+    <!--<meta property="og:image" content="" />-->
+    <meta property="og:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <meta property="og:url" content="https://github.com/craftablescience/sourcepp" />
+    <!-- END opengraph metadata -->
+    <!-- BEGIN twitter metadata -->
+    <!--<meta name="twitter:image:src" content="" />-->
+    <meta name="twitter:title" content="SourcePP" />
+    <meta name="twitter:description" content="Several modern C++20 libraries for sanely parsing Valve&#39;s formats." />
+    <!-- END twitter metadata -->
+    <title>SourcePP: kvpp::KV1Binary Class Reference</title>
+    <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
+    <link rel="icon" type="image/x-icon" href="logo.ico"/>
+    <script type="text/javascript" src="../../jquery.js"></script>
+    <script type="text/javascript" src="../../dynsections.js"></script>
+    <!--<script type="text/javascript" src="../../doxygen-awesome-darkmode-toggle.js"></script>-->
+    <script type="text/javascript" src="../../doxygen-awesome-fragment-copy-button.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-paragraph-link.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-interactive-toc.js"></script>
+    <script type="text/javascript" src="../../doxygen-awesome-tabs.js"></script>
+    <script type="text/javascript" src="../../toggle-alternative-theme.js"></script>
+    <script type="text/javascript">
+        DoxygenAwesomeFragmentCopyButton.init()
+        // DoxygenAwesomeDarkModeToggle.init()
+        DoxygenAwesomeParagraphLink.init()
+        DoxygenAwesomeInteractiveToc.init()
+        DoxygenAwesomeTabs.init()
+    </script>
+    <link href="../../navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../resize.js"></script>
+<script type="text/javascript" src="../../navtreedata.js"></script>
+<script type="text/javascript" src="../../navtree.js"></script>
+    <link href="../../search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="../../search/searchdata.js"></script>
+<script type="text/javascript" src="../../search/search.js"></script>
+    <link href="../../doxygen.css" rel="stylesheet" type="text/css" />
+    <link href="../../doxygen-awesome.css" rel="stylesheet" type="text/css"/>
+<link href="../../doxygen-awesome-sidebar-only.css" rel="stylesheet" type="text/css"/>
+<link href="../../custom.css" rel="stylesheet" type="text/css"/>
+</head>
+<body class="dark-mode">
+<!-- https://tholman.com/github-corners/ -->
+<a href="https://github.com/craftablescience/sourcepp" class="github-corner" title="View source on GitHub" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 250 250" width="72" height="72" style="position: absolute; top: 0; border: 0; right: 0; z-index: 99;" aria-hidden="true">
+        <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+    <div id="titlearea">
+        <table cellspacing="0" cellpadding="0">
+            <tbody>
+            <tr style="height: 56px;">
+                <td id="projectlogo"><img alt="Logo" src="../../logo.png"/></td>
+                <td id="projectalign" style="padding-left: 0.5em;">
+                    <div id="projectname">SourcePP
+                    </div>
+                    <div id="projectbrief">Several modern C++20 libraries for sanely parsing Valve&#39;s formats.</div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- end header part -->
+<!-- Generated by Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "../../search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="../../menudata.js"></script>
+<script type="text/javascript" src="../../menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('../../',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(document).ready(function(){initNavTree('dc/d38/classkvpp_1_1KV1Binary.html','../../'); initResizable(); });
+/* @license-end */
+</script>
+<div id="doc-content">
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Loading...</div>
+<div class="SRStatus" id="Searching">Searching...</div>
+<div class="SRStatus" id="NoMatches">No Matches</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="../../d9/d8c/classkvpp_1_1KV1Binary-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">kvpp::KV1Binary Class Reference</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p><code>#include &lt;<a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for kvpp::KV1Binary:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d5/dcd/classkvpp_1_1KV1Binary__inherit__graph.png" border="0" usemap="#akvpp_1_1KV1Binary_inherit__map" alt="Inheritance graph"/></div>
+<map name="akvpp_1_1KV1Binary_inherit__map" id="akvpp_1_1KV1Binary_inherit__map">
+<area shape="rect" title=" " alt="" coords="32,79,163,104"/>
+<area shape="rect" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html" title=" " alt="" coords="5,5,189,31"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<div class="dynheader">
+Collaboration diagram for kvpp::KV1Binary:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../dc/d21/classkvpp_1_1KV1Binary__coll__graph.png" border="0" usemap="#akvpp_1_1KV1Binary_coll__map" alt="Collaboration graph"/></div>
+<map name="akvpp_1_1KV1Binary_coll__map" id="akvpp_1_1KV1Binary_coll__map">
+<area shape="rect" title=" " alt="" coords="5,278,136,303"/>
+<area shape="rect" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html" title=" " alt="" coords="52,183,236,208"/>
+<area shape="rect" title=" " alt="" coords="161,271,319,311"/>
+<area shape="rect" title=" " alt="" coords="101,95,187,120"/>
+<area shape="rect" title=" " alt="" coords="75,5,213,45"/>
+</map>
+<center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a4a2c3b52a60c4c1d2c56b8ac65fa8eef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#a4a2c3b52a60c4c1d2c56b8ac65fa8eef">KV1Binary</a> (std::span&lt; const std::byte &gt; kv1Data={}, bool useEscapeSequences_=false)</td></tr>
+<tr class="separator:a4a2c3b52a60c4c1d2c56b8ac65fa8eef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1135e67a46ea3f6cdbd28714a22da43c"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#a1135e67a46ea3f6cdbd28714a22da43c">bake</a> () const</td></tr>
+<tr class="separator:a1135e67a46ea3f6cdbd28714a22da43c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a327c0ab58b4265bbaec73e54c8013116"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#a327c0ab58b4265bbaec73e54c8013116">bake</a> (const std::string &amp;kv1Path) const</td></tr>
+<tr class="separator:a327c0ab58b4265bbaec73e54c8013116"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe86a9e850f776269fd2dfe9389b8234"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#afe86a9e850f776269fd2dfe9389b8234">bakeText</a> () const</td></tr>
+<tr class="separator:afe86a9e850f776269fd2dfe9389b8234"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa05e9f70c7f2ce07bc0b6500d601abbd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#aa05e9f70c7f2ce07bc0b6500d601abbd">bakeText</a> (const std::string &amp;kv1Path) const</td></tr>
+<tr class="separator:aa05e9f70c7f2ce07bc0b6500d601abbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classkvpp_1_1KV1BinaryElement"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classkvpp_1_1KV1BinaryElement')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">kvpp::KV1BinaryElement</a></td></tr>
+<tr class="memitem:a92aaf4918bbf9b5fcb21bb0b6ec05d08 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a92aaf4918bbf9b5fcb21bb0b6ec05d08">KV1BinaryElement</a> ()=default</td></tr>
+<tr class="separator:a92aaf4918bbf9b5fcb21bb0b6ec05d08 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af70c286a8635477c7c9d119ef01eeb4b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">std::string_view&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#af70c286a8635477c7c9d119ef01eeb4b">getKey</a> () const</td></tr>
+<tr class="memdesc:af70c286a8635477c7c9d119ef01eeb4b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the key associated with the element.  <br /></td></tr>
+<tr class="separator:af70c286a8635477c7c9d119ef01eeb4b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69144c0a234a1247f73e9fe1fb641ab1 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a69144c0a234a1247f73e9fe1fb641ab1">setKey</a> (std::string_view key_)</td></tr>
+<tr class="memdesc:a69144c0a234a1247f73e9fe1fb641ab1 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the key associated with the element.  <br /></td></tr>
+<tr class="separator:a69144c0a234a1247f73e9fe1fb641ab1 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7941dcc737b922fa46c8d92c094a1882 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">KV1BinaryValue</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a7941dcc737b922fa46c8d92c094a1882">getValue</a> () const</td></tr>
+<tr class="memdesc:a7941dcc737b922fa46c8d92c094a1882 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element.  <br /></td></tr>
+<tr class="separator:a7941dcc737b922fa46c8d92c094a1882 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b925c154924a821e3659839dc3c8ff6 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplParams" colspan="2">template&lt;KV1BinaryValueNoChildren V&gt; </td></tr>
+<tr class="memitem:a4b925c154924a821e3659839dc3c8ff6 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplItemLeft" align="right" valign="top">std::optional&lt; V &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a4b925c154924a821e3659839dc3c8ff6">getValue</a> () const</td></tr>
+<tr class="memdesc:a4b925c154924a821e3659839dc3c8ff6 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the value associated with the element as the given type.  <br /></td></tr>
+<tr class="separator:a4b925c154924a821e3659839dc3c8ff6 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac43aa4471cf61201a3759b679c44f83f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ac43aa4471cf61201a3759b679c44f83f">setValue</a> (<a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">KV1BinaryValue</a> value_)</td></tr>
+<tr class="memdesc:ac43aa4471cf61201a3759b679c44f83f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:ac43aa4471cf61201a3759b679c44f83f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9fd971f32a65111a49dba071b1d7fba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aa9fd971f32a65111a49dba071b1d7fba">operator=</a> (<a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">KV1BinaryValue</a> value_)</td></tr>
+<tr class="memdesc:aa9fd971f32a65111a49dba071b1d7fba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:aa9fd971f32a65111a49dba071b1d7fba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a670b3cd0bb78c8c109b3c5bbb549138c inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplParams" colspan="2">template&lt;KV1BinaryValueNoChildren V&gt; </td></tr>
+<tr class="memitem:a670b3cd0bb78c8c109b3c5bbb549138c inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a670b3cd0bb78c8c109b3c5bbb549138c">setValue</a> (V value_)</td></tr>
+<tr class="memdesc:a670b3cd0bb78c8c109b3c5bbb549138c inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:a670b3cd0bb78c8c109b3c5bbb549138c inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30178afad93b843ce14157b10643e91f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplParams" colspan="2">template&lt;KV1BinaryValueNoChildren V&gt; </td></tr>
+<tr class="memitem:a30178afad93b843ce14157b10643e91f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a30178afad93b843ce14157b10643e91f">operator=</a> (V value_)</td></tr>
+<tr class="memdesc:a30178afad93b843ce14157b10643e91f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the value associated with the element.  <br /></td></tr>
+<tr class="separator:a30178afad93b843ce14157b10643e91f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5eb94c2385b43dff32bd0a9fea00eeba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a5eb94c2385b43dff32bd0a9fea00eeba">hasChild</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:a5eb94c2385b43dff32bd0a9fea00eeba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the element has one or more children with the given name.  <br /></td></tr>
+<tr class="separator:a5eb94c2385b43dff32bd0a9fea00eeba inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97b4b095c5187fdd9bccb85c1adaf294 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a97b4b095c5187fdd9bccb85c1adaf294">getChildCount</a> () const</td></tr>
+<tr class="memdesc:a97b4b095c5187fdd9bccb85c1adaf294 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements.  <br /></td></tr>
+<tr class="separator:a97b4b095c5187fdd9bccb85c1adaf294 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a981857ecb58fc7fbea93a713a4398cd8 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a981857ecb58fc7fbea93a713a4398cd8">getChildCount</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:a981857ecb58fc7fbea93a713a4398cd8 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the number of child elements with the given key.  <br /></td></tr>
+<tr class="separator:a981857ecb58fc7fbea93a713a4398cd8 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d0d7935e13cf1cf705e4e05a35b9853 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a0d0d7935e13cf1cf705e4e05a35b9853">getChildren</a> () const</td></tr>
+<tr class="memdesc:a0d0d7935e13cf1cf705e4e05a35b9853 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child elements of the element.  <br /></td></tr>
+<tr class="separator:a0d0d7935e13cf1cf705e4e05a35b9853 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a6656ce0b9eb68eddaf3a260ac88f24 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a1a6656ce0b9eb68eddaf3a260ac88f24">addChild</a> (std::string_view key_)</td></tr>
+<tr class="memdesc:a1a6656ce0b9eb68eddaf3a260ac88f24 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a child element to the element.  <br /></td></tr>
+<tr class="separator:a1a6656ce0b9eb68eddaf3a260ac88f24 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c6b4cdd914f1c9b384a95b66423e615 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplParams" colspan="2">template&lt;KV1BinaryValueNoChildren V&gt; </td></tr>
+<tr class="memitem:a8c6b4cdd914f1c9b384a95b66423e615 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a8c6b4cdd914f1c9b384a95b66423e615">addChild</a> (std::string_view key_, V value_={})</td></tr>
+<tr class="memdesc:a8c6b4cdd914f1c9b384a95b66423e615 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a child element to the element.  <br /></td></tr>
+<tr class="separator:a8c6b4cdd914f1c9b384a95b66423e615 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb02306b3c4dfc1ff3828d2e7c586268 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#acb02306b3c4dfc1ff3828d2e7c586268">operator[]</a> (unsigned int n) const</td></tr>
+<tr class="memdesc:acb02306b3c4dfc1ff3828d2e7c586268 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child element of the element at the given index.  <br /></td></tr>
+<tr class="separator:acb02306b3c4dfc1ff3828d2e7c586268 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1374cc90748657704d6b2cbd736705c4 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a1374cc90748657704d6b2cbd736705c4">operator[]</a> (unsigned int n)</td></tr>
+<tr class="memdesc:a1374cc90748657704d6b2cbd736705c4 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the child element of the element at the given index.  <br /></td></tr>
+<tr class="separator:a1374cc90748657704d6b2cbd736705c4 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedfeeec2591f546aa08ba9cb13a5129b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aedfeeec2591f546aa08ba9cb13a5129b">operator[]</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:aedfeeec2591f546aa08ba9cb13a5129b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <br /></td></tr>
+<tr class="separator:aedfeeec2591f546aa08ba9cb13a5129b inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb0abc440e5712cb6f0808d4ab9c9b2d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#afb0abc440e5712cb6f0808d4ab9c9b2d">operator[]</a> (std::string_view childKey)</td></tr>
+<tr class="memdesc:afb0abc440e5712cb6f0808d4ab9c9b2d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key, or create a new element if it doesn't exist.  <br /></td></tr>
+<tr class="separator:afb0abc440e5712cb6f0808d4ab9c9b2d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ddb9b4dce7f31258001e18903d4070 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a26ddb9b4dce7f31258001e18903d4070">operator()</a> (std::string_view childKey) const</td></tr>
+<tr class="memdesc:a26ddb9b4dce7f31258001e18903d4070 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key.  <br /></td></tr>
+<tr class="separator:a26ddb9b4dce7f31258001e18903d4070 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa2e71c0ade570fe14afcacc444ef8682 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aa2e71c0ade570fe14afcacc444ef8682">operator()</a> (std::string_view childKey)</td></tr>
+<tr class="memdesc:aa2e71c0ade570fe14afcacc444ef8682 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the first child element of the element with the given key, or create a new element if it doesn't exist.  <br /></td></tr>
+<tr class="separator:aa2e71c0ade570fe14afcacc444ef8682 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a028ed75014fa4bbd828a8be72c8cd2be inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a028ed75014fa4bbd828a8be72c8cd2be">operator()</a> (std::string_view childKey, unsigned int n) const</td></tr>
+<tr class="memdesc:a028ed75014fa4bbd828a8be72c8cd2be inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth child element of the element with the given key.  <br /></td></tr>
+<tr class="separator:a028ed75014fa4bbd828a8be72c8cd2be inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad77ff8c7c7ed83762aa683f8bf37b47d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ad77ff8c7c7ed83762aa683f8bf37b47d">operator()</a> (std::string_view childKey, unsigned int n)</td></tr>
+<tr class="memdesc:ad77ff8c7c7ed83762aa683f8bf37b47d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the nth child element of the element with the given key, or create a new element if it doesn't exist.  <br /></td></tr>
+<tr class="separator:ad77ff8c7c7ed83762aa683f8bf37b47d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a59a6bba5ba9646f20c32769e994fb61d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a59a6bba5ba9646f20c32769e994fb61d">removeChild</a> (unsigned int n)</td></tr>
+<tr class="memdesc:a59a6bba5ba9646f20c32769e994fb61d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a child element from the element.  <br /></td></tr>
+<tr class="separator:a59a6bba5ba9646f20c32769e994fb61d inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a092d627e274655624da43e2252e02f4f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a092d627e274655624da43e2252e02f4f">removeChild</a> (std::string_view childKey, int n=-1)</td></tr>
+<tr class="memdesc:a092d627e274655624da43e2252e02f4f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a child element from the element. -1 means all children with the given key.  <br /></td></tr>
+<tr class="separator:a092d627e274655624da43e2252e02f4f inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b88258dd9897deda39dd04ffba8c358 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aad9e514f4f5483cf7b6791d7fc3ac550">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a3b88258dd9897deda39dd04ffba8c358">begin</a> ()</td></tr>
+<tr class="separator:a3b88258dd9897deda39dd04ffba8c358 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a643c43a35fff81523fd256976de57a13 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aad9e514f4f5483cf7b6791d7fc3ac550">iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a643c43a35fff81523fd256976de57a13">end</a> ()</td></tr>
+<tr class="separator:a643c43a35fff81523fd256976de57a13 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2e966c8f984b9f16bbfdb10b0e7cc61 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ada4fe9d02b3e9b3f8f0c7e299d446d71">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ae2e966c8f984b9f16bbfdb10b0e7cc61">begin</a> () const</td></tr>
+<tr class="separator:ae2e966c8f984b9f16bbfdb10b0e7cc61 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad3e9ceb576bc05ab1740c1eafc5e7a01 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ada4fe9d02b3e9b3f8f0c7e299d446d71">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ad3e9ceb576bc05ab1740c1eafc5e7a01">end</a> () const</td></tr>
+<tr class="separator:ad3e9ceb576bc05ab1740c1eafc5e7a01 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fecceab8154412cd9030129b261fcd7 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ada4fe9d02b3e9b3f8f0c7e299d446d71">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a9fecceab8154412cd9030129b261fcd7">cbegin</a> () const</td></tr>
+<tr class="separator:a9fecceab8154412cd9030129b261fcd7 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd38443fc4ce113b0dea907c04db525 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ada4fe9d02b3e9b3f8f0c7e299d446d71">const_iterator</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a1cd38443fc4ce113b0dea907c04db525">cend</a> () const</td></tr>
+<tr class="separator:a1cd38443fc4ce113b0dea907c04db525 inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad7e86a7d3a416bbcd5b34c617589e1fb inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ad7e86a7d3a416bbcd5b34c617589e1fb">isInvalid</a> () const</td></tr>
+<tr class="memdesc:ad7e86a7d3a416bbcd5b34c617589e1fb inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the given element is invalid.  <br /></td></tr>
+<tr class="separator:ad7e86a7d3a416bbcd5b34c617589e1fb inherit pub_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:abd92ac794d4580c5d504a3632d018d0a"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html#abd92ac794d4580c5d504a3632d018d0a">useEscapeSequences</a></td></tr>
+<tr class="separator:abd92ac794d4580c5d504a3632d018d0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_attribs_classkvpp_1_1KV1BinaryElement"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_classkvpp_1_1KV1BinaryElement')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">kvpp::KV1BinaryElement</a></td></tr>
+<tr class="memitem:a796ef90773fb20b000703545310aa470 inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a796ef90773fb20b000703545310aa470">key</a></td></tr>
+<tr class="separator:a796ef90773fb20b000703545310aa470 inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6093453e0146a5ecdc9caa61963b42bb inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">KV1BinaryValue</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a6093453e0146a5ecdc9caa61963b42bb">value</a></td></tr>
+<tr class="separator:a6093453e0146a5ecdc9caa61963b42bb inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a262c8656a9e1ef5303c05511ab330c02 inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a262c8656a9e1ef5303c05511ab330c02">children</a></td></tr>
+<tr class="separator:a262c8656a9e1ef5303c05511ab330c02 inherit pro_attribs_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classkvpp_1_1KV1BinaryElement"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classkvpp_1_1KV1BinaryElement')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">kvpp::KV1BinaryElement</a></td></tr>
+<tr class="memitem:aad9e514f4f5483cf7b6791d7fc3ac550 inherit pub_types_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#aad9e514f4f5483cf7b6791d7fc3ac550">iterator</a> = std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt;::iterator</td></tr>
+<tr class="separator:aad9e514f4f5483cf7b6791d7fc3ac550 inherit pub_types_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada4fe9d02b3e9b3f8f0c7e299d446d71 inherit pub_types_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ada4fe9d02b3e9b3f8f0c7e299d446d71">const_iterator</a> = std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt;::const_iterator</td></tr>
+<tr class="separator:ada4fe9d02b3e9b3f8f0c7e299d446d71 inherit pub_types_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_static_methods_classkvpp_1_1KV1BinaryElement"><td colspan="2" onclick="javascript:toggleInherit('pub_static_methods_classkvpp_1_1KV1BinaryElement')"><img src="../../closed.png" alt="-"/>&#160;Static Public Member Functions inherited from <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">kvpp::KV1BinaryElement</a></td></tr>
+<tr class="memitem:a59a25a7064f74b870370b9f7708c27f4 inherit pub_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">static const <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a59a25a7064f74b870370b9f7708c27f4">getInvalid</a> ()</td></tr>
+<tr class="separator:a59a25a7064f74b870370b9f7708c27f4 inherit pub_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pro_static_methods_classkvpp_1_1KV1BinaryElement"><td colspan="2" onclick="javascript:toggleInherit('pro_static_methods_classkvpp_1_1KV1BinaryElement')"><img src="../../closed.png" alt="-"/>&#160;Static Protected Member Functions inherited from <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">kvpp::KV1BinaryElement</a></td></tr>
+<tr class="memitem:a1c6e0c7a28fc72dce2691629c9341e6b inherit pro_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#a1c6e0c7a28fc72dce2691629c9341e6b">read</a> (BufferStreamReadOnly &amp;stream, std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt; &amp;elements, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">sourcepp::parser::text::EscapeSequenceMap</a> &amp;escapeSequences)</td></tr>
+<tr class="separator:a1c6e0c7a28fc72dce2691629c9341e6b inherit pro_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60549ffc84ec60bdde041fccb40ed65 inherit pro_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html#ae60549ffc84ec60bdde041fccb40ed65">write</a> (BufferStream &amp;stream, const std::vector&lt; <a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a> &gt; &amp;elements, const <a class="el" href="../../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a372147434dc8a65090a5be1878d23601">sourcepp::parser::text::EscapeSequenceMap</a> &amp;escapeSequences)</td></tr>
+<tr class="separator:ae60549ffc84ec60bdde041fccb40ed65 inherit pro_static_methods_classkvpp_1_1KV1BinaryElement"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock">
+<p class="definition">Definition at line <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html#l00188">188</a> of file <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a id="a4a2c3b52a60c4c1d2c56b8ac65fa8eef" name="a4a2c3b52a60c4c1d2c56b8ac65fa8eef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4a2c3b52a60c4c1d2c56b8ac65fa8eef">&#9670;&#160;</a></span>KV1Binary()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">KV1Binary::KV1Binary </td>
+          <td>(</td>
+          <td class="paramtype">std::span&lt; const std::byte &gt;&#160;</td>
+          <td class="paramname"><em>kv1Data</em> = <code>{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>useEscapeSequences_</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">explicit</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html#l00250">250</a> of file <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a1135e67a46ea3f6cdbd28714a22da43c" name="a1135e67a46ea3f6cdbd28714a22da43c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1135e67a46ea3f6cdbd28714a22da43c">&#9670;&#160;</a></span>bake() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; std::byte &gt; KV1Binary::bake </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html#l00260">260</a> of file <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a327c0ab58b4265bbaec73e54c8013116" name="a327c0ab58b4265bbaec73e54c8013116"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a327c0ab58b4265bbaec73e54c8013116">&#9670;&#160;</a></span>bake() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KV1Binary::bake </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>kv1Path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html#l00268">268</a> of file <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a>.</p>
+
+</div>
+</div>
+<a id="afe86a9e850f776269fd2dfe9389b8234" name="afe86a9e850f776269fd2dfe9389b8234"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe86a9e850f776269fd2dfe9389b8234">&#9670;&#160;</a></span>bakeText() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string KV1Binary::bakeText </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html#l00272">272</a> of file <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a>.</p>
+
+</div>
+</div>
+<a id="aa05e9f70c7f2ce07bc0b6500d601abbd" name="aa05e9f70c7f2ce07bc0b6500d601abbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa05e9f70c7f2ce07bc0b6500d601abbd">&#9670;&#160;</a></span>bakeText() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KV1Binary::bakeText </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>kv1Path</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html#l00314">314</a> of file <a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="abd92ac794d4580c5d504a3632d018d0a" name="abd92ac794d4580c5d504a3632d018d0a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd92ac794d4580c5d504a3632d018d0a">&#9670;&#160;</a></span>useEscapeSequences</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool kvpp::KV1Binary::useEscapeSequences</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html#l00201">201</a> of file <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>include/kvpp/<a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a></li>
+<li>src/kvpp/<a class="el" href="../../d6/d87/KV1Binary_8cpp_source.html">KV1Binary.cpp</a></li>
+</ul>
+</div><!-- contents -->
+</div><!-- doc-content -->
+<!-- start footer part -->
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="../../d8/d57/namespacekvpp.html">kvpp</a></li><li class="navelem"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html">KV1Binary</a></li>
+    <li class="footer">Generated by <a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6 </li>
+  </ul>
+</div>
+</body>
+</html>

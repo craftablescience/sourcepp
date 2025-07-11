@@ -1,6 +1,9 @@
 <map id="kvpp::KV1ElementBase&lt; S, K &gt;" name="kvpp::KV1ElementBase&lt; S, K &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="137,5,311,45"/>
-<area shape="rect" id="node2" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="5,93,203,133"/>
-<area shape="rect" id="node3" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="227,101,461,126"/>
-<area shape="rect" id="node4" href="$d4/d43/classkvpp_1_1KV1Writer.html" title=" " alt="" coords="261,181,427,207"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,99,180,139"/>
+<area shape="rect" id="node2" href="$d4/d2d/classkvpp_1_1KV1ElementReadable.html" title=" " alt="" coords="247,5,450,45"/>
+<area shape="rect" id="node3" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="250,69,447,109"/>
+<area shape="rect" id="node4" href="$d4/d2d/classkvpp_1_1KV1ElementReadable.html" title=" " alt="" coords="228,134,469,159"/>
+<area shape="rect" id="node6" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="231,183,466,209"/>
+<area shape="rect" id="node5" href="$de/d0f/classkvpp_1_1KV1.html" title=" " alt="" coords="537,134,664,159"/>
+<area shape="rect" id="node7" href="$d4/d43/classkvpp_1_1KV1Writer.html" title=" " alt="" coords="517,183,684,209"/>
 </map>

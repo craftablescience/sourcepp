@@ -125,7 +125,9 @@ $(document).ready(function(){initNavTree('d8/d57/namespacekvpp.html','../../'); 
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#concepts">Concepts</a>  </div>
+<a href="#concepts">Concepts</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">kvpp Namespace Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -133,6 +135,10 @@ $(document).ready(function(){initNavTree('d8/d57/namespacekvpp.html','../../'); 
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d0f/classkvpp_1_1KV1.html">KV1</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d38/classkvpp_1_1KV1Binary.html">KV1Binary</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d03/classkvpp_1_1KV1BinaryElement.html">KV1BinaryElement</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d62/classkvpp_1_1KV1ElementBase.html">KV1ElementBase</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -147,7 +153,85 @@ Classes</h2></td></tr>
 Concepts</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d6a/conceptkvpp_1_1KV1ValueType.html">KV1ValueType</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">concept &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d87/conceptkvpp_1_1KV1BinaryValueNoChildren.html">KV1BinaryValueNoChildren</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a4941105e0542c728a2311e9bf1168015"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">KV1BinaryValue</a> = std::variant&lt; std::monostate, std::string, int32_t, float, void *, std::wstring, sourcepp::math::Vec4ui8, uint64_t &gt;</td></tr>
+<tr class="separator:a4941105e0542c728a2311e9bf1168015"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
+Enumerations</h2></td></tr>
+<tr class="memitem:a3f1a728ff771b3fea18db608be9cb39e"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39e">KV1BinaryValueType</a> : uint8_t { <br />
+&#160;&#160;<a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eaa51d10e358bcd086d814edd75685c396">CHILDREN</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949">STRING</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea6495adba09844fac8eeb0aba86e6f1bf">INT32</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eae738c26bf4ce1037fa81b039a915cbf6">FLOAT</a>
+, <br />
+&#160;&#160;<a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eaa5f41c79d3f86121f0f658eba49128d5">POINTER</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ead002390d7727d576cef45267f1678ea3">WSTRING</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eacdde4a3361a810f5e98668b299d7b93d">COLOR_RGBA</a>
+, <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea6de7acf711860176ba606e9aa2b85d5f">UINT64</a>
+, <br />
+&#160;&#160;<a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea4905ac9d6a22bdfc1ae096094ce6248d">COUNT</a>
+<br />
+ }</td></tr>
+<tr class="separator:a3f1a728ff771b3fea18db608be9cb39e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="a4941105e0542c728a2311e9bf1168015" name="a4941105e0542c728a2311e9bf1168015"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4941105e0542c728a2311e9bf1168015">&#9670;&#160;</a></span>KV1BinaryValue</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d8/d57/namespacekvpp.html#a4941105e0542c728a2311e9bf1168015">kvpp::KV1BinaryValue</a> = typedef std::variant&lt; std::monostate, std::string, int32_t, float, void*, std::wstring, sourcepp::math::Vec4ui8, uint64_t &gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html#l00028">28</a> of file <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a3f1a728ff771b3fea18db608be9cb39e" name="a3f1a728ff771b3fea18db608be9cb39e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3f1a728ff771b3fea18db608be9cb39e">&#9670;&#160;</a></span>KV1BinaryValueType</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="../../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39e">kvpp::KV1BinaryValueType</a> : uint8_t</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39eaa51d10e358bcd086d814edd75685c396" name="a3f1a728ff771b3fea18db608be9cb39eaa51d10e358bcd086d814edd75685c396"></a>CHILDREN&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949" name="a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949"></a>STRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39ea6495adba09844fac8eeb0aba86e6f1bf" name="a3f1a728ff771b3fea18db608be9cb39ea6495adba09844fac8eeb0aba86e6f1bf"></a>INT32&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39eae738c26bf4ce1037fa81b039a915cbf6" name="a3f1a728ff771b3fea18db608be9cb39eae738c26bf4ce1037fa81b039a915cbf6"></a>FLOAT&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39eaa5f41c79d3f86121f0f658eba49128d5" name="a3f1a728ff771b3fea18db608be9cb39eaa5f41c79d3f86121f0f658eba49128d5"></a>POINTER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39ead002390d7727d576cef45267f1678ea3" name="a3f1a728ff771b3fea18db608be9cb39ead002390d7727d576cef45267f1678ea3"></a>WSTRING&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39eacdde4a3361a810f5e98668b299d7b93d" name="a3f1a728ff771b3fea18db608be9cb39eacdde4a3361a810f5e98668b299d7b93d"></a>COLOR_RGBA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39ea6de7acf711860176ba606e9aa2b85d5f" name="a3f1a728ff771b3fea18db608be9cb39ea6de7acf711860176ba606e9aa2b85d5f"></a>UINT64&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a3f1a728ff771b3fea18db608be9cb39ea4905ac9d6a22bdfc1ae096094ce6248d" name="a3f1a728ff771b3fea18db608be9cb39ea4905ac9d6a22bdfc1ae096094ce6248d"></a>COUNT&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html#l00016">16</a> of file <a class="el" href="../../d1/d7c/KV1Binary_8h_source.html">KV1Binary.h</a>.</p>
+
+</div>
+</div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

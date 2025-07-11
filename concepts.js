@@ -4,7 +4,8 @@ var concepts =
       [ "BSPEntityKeyValueType", "d0/dbe/conceptbsppp_1_1BSPEntityKeyValueType.html", null ]
     ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
-      [ "KV1ValueType", "d5/d6a/conceptkvpp_1_1KV1ValueType.html", null ]
+      [ "KV1ValueType", "d5/d6a/conceptkvpp_1_1KV1ValueType.html", null ],
+      [ "KV1BinaryValueNoChildren", "d2/d87/conceptkvpp_1_1KV1BinaryValueNoChildren.html", null ]
     ] ],
     [ "sourcepp", "d2/deb/namespacesourcepp.html", [
       [ "math", "d0/d54/namespacesourcepp_1_1math.html", [

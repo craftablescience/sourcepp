@@ -1,6 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/d62/classkvpp_1_1KV1ElementBase.html" title=" " alt="" coords="5,35,180,75"/>
-<area shape="rect" id="node2" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="247,5,444,45"/>
-<area shape="rect" id="node3" href="$de/d75/classkvpp_1_1KV1ElementWritable.html" title=" " alt="" coords="228,70,463,95"/>
-<area shape="rect" id="node4" href="$d4/d43/classkvpp_1_1KV1Writer.html" title=" " alt="" coords="511,70,677,95"/>
+<area shape="rect" id="node1" href="$d3/d03/classkvpp_1_1KV1BinaryElement.html" title=" " alt="" coords="5,5,189,31"/>
+<area shape="rect" id="node2" href="$dc/d38/classkvpp_1_1KV1Binary.html" title=" " alt="" coords="237,5,368,31"/>
 </map>

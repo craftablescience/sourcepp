@@ -18,6 +18,6 @@ var searchData=
   ['sl4d2_5fprophullverts_15',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
   ['sl4d2_5fproptris_16',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
   ['smpl_17',['SMPL',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a5a60d2a397d971891e04b781c9129d91',1,'sndpp::WAV']]],
-  ['string_18',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value']]],
+  ['string_18',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value::STRING()'],['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949',1,'kvpp::STRING()']]],
   ['surfedges_19',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
 ];

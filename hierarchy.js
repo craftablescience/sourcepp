@@ -27,13 +27,16 @@ var hierarchy =
     [ "fspp::FileSystemOptions", "d8/d61/structfspp_1_1FileSystemOptions.html", null ],
     [ "gamepp::GameInstance", "d2/dc0/classgamepp_1_1GameInstance.html", null ],
     [ "kvpp::KV1ElementBase< std::string, KV1ElementWritable< std::string > >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
-    [ "kvpp::KV1ElementBase< std::string_view, KV1ElementReadable >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
-      [ "kvpp::KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", [
-        [ "kvpp::KV1", "de/d0f/classkvpp_1_1KV1.html", null ]
-      ] ]
+    [ "kvpp::KV1ElementBase< std::string_view, KV1ElementReadable< std::string_view > >", "de/d62/classkvpp_1_1KV1ElementBase.html", null ],
+    [ "kvpp::KV1BinaryElement", "d3/d03/classkvpp_1_1KV1BinaryElement.html", [
+      [ "kvpp::KV1Binary", "dc/d38/classkvpp_1_1KV1Binary.html", null ]
     ] ],
     [ "kvpp::KV1ElementBase< S, K >", "de/d62/classkvpp_1_1KV1ElementBase.html", [
+      [ "kvpp::KV1ElementReadable< std::string_view >", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", null ],
       [ "kvpp::KV1ElementWritable< std::string >", "de/d75/classkvpp_1_1KV1ElementWritable.html", null ],
+      [ "kvpp::KV1ElementReadable< S >", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", [
+        [ "kvpp::KV1< S >", "de/d0f/classkvpp_1_1KV1.html", null ]
+      ] ],
       [ "kvpp::KV1ElementWritable< S >", "de/d75/classkvpp_1_1KV1ElementWritable.html", [
         [ "kvpp::KV1Writer< S >", "d4/d43/classkvpp_1_1KV1Writer.html", null ]
       ] ]

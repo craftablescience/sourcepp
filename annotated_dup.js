@@ -38,6 +38,8 @@ var annotated_dup =
     ] ],
     [ "kvpp", "d8/d57/namespacekvpp.html", [
       [ "KV1", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ],
+      [ "KV1Binary", "dc/d38/classkvpp_1_1KV1Binary.html", "dc/d38/classkvpp_1_1KV1Binary" ],
+      [ "KV1BinaryElement", "d3/d03/classkvpp_1_1KV1BinaryElement.html", "d3/d03/classkvpp_1_1KV1BinaryElement" ],
       [ "KV1ElementBase", "de/d62/classkvpp_1_1KV1ElementBase.html", "de/d62/classkvpp_1_1KV1ElementBase" ],
       [ "KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html", "d4/d2d/classkvpp_1_1KV1ElementReadable" ],
       [ "KV1ElementWritable", "de/d75/classkvpp_1_1KV1ElementWritable.html", "de/d75/classkvpp_1_1KV1ElementWritable" ],

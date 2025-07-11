@@ -1,5 +1,5 @@
 var classkvpp_1_1KV1ElementReadable =
 [
-    [ "KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html#a103da1dca3a4e653afd23d5e0c288f96", null ],
-    [ "KV1ElementBase< std::string_view, KV1ElementReadable >", "d4/d2d/classkvpp_1_1KV1ElementReadable.html#a6922c6cf2edaa38fefa2c824acbeee46", null ]
+    [ "KV1ElementReadable", "d4/d2d/classkvpp_1_1KV1ElementReadable.html#a01209642b2975f70deea1cf42d3ac54b", null ],
+    [ "KV1ElementBase< S, KV1ElementReadable< S > >", "d4/d2d/classkvpp_1_1KV1ElementReadable.html#a03166fdb648941bd5bc9f88009f721ca", null ]
 ];

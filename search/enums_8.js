@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['signature_0',['Signature',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11f',1,'bsppp::BSPGameLump']]],
-  ['special_1',['Special',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181',1,'toolpp::CmdSeq::Command']]]
+  ['resizeedge_0',['ResizeEdge',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53',1,'vtfpp::ImageConversion']]],
+  ['resizefilter_1',['ResizeFilter',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a69415c9957b5d27602eeb20f862d26be',1,'vtfpp::ImageConversion']]],
+  ['resizemethod_2',['ResizeMethod',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a9008d2944fc178ec39a2a406536dc3cc',1,'vtfpp::ImageConversion']]]
 ];
