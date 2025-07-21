@@ -58,3 +58,19 @@ TEST(vpkpp, vpp_v3_big_read) {
 	EXPECT_EQ(vpp->getEntryCount(), 20);
 	EXPECT_TRUE(vpp->hasEntry("pretty.txt"));
 }
+
+TEST(vpkpp, vpp_v4_lil_read) {
+	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v4.vpp_pc");
+	ASSERT_TRUE(vpp);
+	VPKPP_PRINT_ALL_PATHS(vpp);
+	EXPECT_EQ(vpp->getEntryCount(), 730);
+	EXPECT_TRUE(vpp->hasEntry("sr2_skybox.hmap_pc"));
+}
+
+TEST(vpkpp, vpp_v4_big_read) {
+	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v4.vpp_xbox2");
+	ASSERT_TRUE(vpp);
+	VPKPP_PRINT_ALL_PATHS(vpp);
+	EXPECT_EQ(vpp->getEntryCount(), 118);
+	EXPECT_TRUE(vpp->hasEntry("activity_level.lua"));
+}
