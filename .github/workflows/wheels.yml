@@ -70,6 +70,8 @@ jobs:
         run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DSOURCEPP_VERSION="${{inputs.version}}"
 
       - name: Build BDist
+        env:
+          CIBW_BUILD_VERBOSITY: '0'
         run: |
           python -m pip install cibuildwheel==3.1.1
           python -m cibuildwheel --output-dir dist
