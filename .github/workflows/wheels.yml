@@ -51,6 +51,7 @@ jobs:
       run:
         working-directory: '${{github.workspace}}/lang/python'
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-22.04, windows-2022]
     steps:
