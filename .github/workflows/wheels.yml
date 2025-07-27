@@ -52,7 +52,6 @@ jobs:
         working-directory: '${{github.workspace}}/lang/python'
     strategy:
       matrix:
-        # Update upload_release when these are changed!!
         os: [ubuntu-22.04, windows-2022]
     steps:
       - name: Checkout Repository
@@ -60,11 +59,25 @@ jobs:
         with:
           submodules: recursive
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
         run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DSOURCEPP_VERSION="${{inputs.version}}"
 
       - name: Build BDist
+        env:
+          CIBW_MANYLINUX_x86_64_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_pypy_x86_64_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_i686_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_pypy_i686_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_aarch64_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_pypy_aarch64_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_ppc64le_IMAGE: 'manylinux_2_34'
+          CIBW_MANYLINUX_s390x_IMAGE: 'manylinux_2_34'
         run: |
           python -m pip install cibuildwheel==2.23.3
           python -m cibuildwheel --output-dir dist
@@ -88,23 +101,12 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download SDist
+      - name: Download Wheels
         uses: actions/download-artifact@v4
         with:
-          name: dist-sdist
+          name: dist-*
           path: dist
-
-      - name: Download BDist (ubuntu-22.04)
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-bdist-ubuntu-22.04
-          path: dist
-
-      - name: Download BDist (windows-2022)
-        uses: actions/download-artifact@v4
-        with:
-          name: dist-bdist-windows-2022
-          path: dist
+          merge-multiple: true
 
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
