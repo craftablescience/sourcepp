@@ -28,6 +28,7 @@ classifiers = [
 "issue tracker" = "https://github.com/craftablescience/sourcepp/issues"
 "funding" = "https://ko-fi.com/craftablescience"
 
+
 [tool.scikit-build]
 minimum-version = "build-system.requires"
 build-dir = "build/{wheel_tag}"
@@ -44,7 +45,6 @@ logging.level = "INFO"
 [tool.cibuildwheel]
 archs = ["auto64"]
 enable = ["pypy"]
-build-verbosity = 1
 #test-command = "pytest {project}/test"
 #test-requires = "pytest"
 
