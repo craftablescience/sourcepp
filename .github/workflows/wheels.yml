@@ -42,12 +42,45 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: dist-sdist
-          path: ${{github.workspace}}/lang/python/dist/*.tar.gz
+          path: '${{github.workspace}}/lang/python/dist/*.tar.gz'
+
+  build_bdist:
+    name: Build BDist (${{matrix.os}})
+    runs-on: ${{matrix.os}}
+    defaults:
+      run:
+        working-directory: '${{github.workspace}}/lang/python'
+    strategy:
+      matrix:
+        # Update upload_release when these are changed!!
+        os: [ubuntu-22.04, windows-2022]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Configure CMake
+        working-directory: '${{github.workspace}}'
+        run: cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DSOURCEPP_VERSION="${{inputs.version}}"
+
+      - name: Build BDist
+        run: |
+          python -m pip install cibuildwheel==3.1.1
+          python -m cibuildwheel --output-dir dist
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-bdist-${{matrix.os}}
+          path: '${{github.workspace}}/lang/python/dist/*.whl'
 
   upload_release:
     name: Upload a Release
     if: inputs.release
-    needs: [build_sdist]
+    needs:
+     - build_sdist
+     - build_bdist
     runs-on: ubuntu-latest
     environment:
       name: pypi-release
@@ -55,10 +88,22 @@ jobs:
     permissions:
       id-token: write
     steps:
-      - name: Download Artifacts
+      - name: Download SDist
         uses: actions/download-artifact@v4
         with:
           name: dist-sdist
+          path: dist
+
+      - name: Download BDist (ubuntu-22.04)
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-bdist-ubuntu-22.04
+          path: dist
+
+      - name: Download BDist (windows-2022)
+        uses: actions/download-artifact@v4
+        with:
+          name: dist-bdist-windows-2022
           path: dist
 
       - name: Publish to PyPI
