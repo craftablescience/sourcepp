@@ -42,6 +42,7 @@ logging.level = "INFO"
 
 [tool.cibuildwheel]
 archs = ["auto64"]
+enable = ["pypy"]
 build-verbosity = 1
 #test-command = "pytest {project}/test"
 #test-requires = "pytest"
