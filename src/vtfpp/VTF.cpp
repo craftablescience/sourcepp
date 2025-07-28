@@ -868,16 +868,14 @@ void VTF::computeTransparencyFlags() {
 }
 
 ImageFormat VTF::getDefaultCompressedFormat(ImageFormat inputFormat, uint32_t version, bool isCubeMap) {
-	if (inputFormat != ImageFormat::EMPTY) {
-		if (version >= 6 && isCubeMap) {
+	if (version >= 6) {
+		if (isCubeMap) {
 			return ImageFormat::BC6H;
 		}
-		if (ImageFormatDetails::decompressedAlpha(inputFormat) > 0) {
-			if (version >= 6) {
-				return ImageFormat::BC7;
-			}
-			return ImageFormat::DXT5;
-		}
+		return ImageFormat::BC7;
+	}
+	if (ImageFormatDetails::decompressedAlpha(inputFormat) > 0) {
+		return ImageFormat::DXT5;
 	}
 	return ImageFormat::DXT1;
 }
