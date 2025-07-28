@@ -957,7 +957,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 	std::vector<std::future<void>> futures;
-	futures.reserve((this->mipCount - 1) * this->frameCount * faceCount * this->sliceCount);
+	futures.reserve(this->frameCount * faceCount * this->sliceCount);
 #endif
 	for (int j = 0; j < this->frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
