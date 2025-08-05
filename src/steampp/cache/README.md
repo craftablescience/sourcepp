@@ -7,12 +7,12 @@
      - https://steamdb.info/tech/Engine/Source/?sort=name_asc
    - Source 2:
      - https://steamdb.info/tech/Engine/Source2/?sort=name_asc
-2. Change "`100` entries per page" to "`All (slow)` entries per page"
+2. Change "`100` entries per page" to "`All` entries per page"
 3. Run the following code in the console:
    ```js
    let o = "";
    for (const e of document.getElementById("DataTables_Table_0").children[2].children) {
-       o += e.getAttribute("data-appid") + ", // " + e.children[2]. children[0].innerText + "\n";
+       o += e.getAttribute("data-appid") + ", // " + e.children[2].children[0].innerText.split('\n')[0] + '\n';
    }
    console.log(o);
    ```

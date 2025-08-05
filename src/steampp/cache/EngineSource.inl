@@ -230,6 +230,7 @@
 1828210, // Requiem Of Science
 1875450, // Treason Playtest
 1875500, // Treason Dedicated Server
+1950750, // KAYF-LIFE: Complete Edition
 2012840, // Portal with RTX
 2050090, // GROWTH
 2084070, // Ruby: Tunnel Vision
@@ -252,6 +253,7 @@
 2750510, // AMYGDALA: Prelude Demo
 2954780, // Nightmare House: The Original Mod
 3043220, // Portal: Lost in Aperture
+3172910, // NEOTOKYO;REBUILD
 3246910, // Vance
 3281900, // The Cleaning Game
 3361950, // Inhuman
@@ -263,4 +265,7 @@
 3581620, // Fernandez Big Mystery Demo
 3612020, // Lambda Fortress Dedicated Server
 3654230, // SourceWorld Demo
+3704420, // NEOTOKYO;REBUILD Dedicated Server
+3754860, // Lest - Deluxe 24
 3758670, // Team Fortress 2: Reborn
+3768450, // Better Fortress 2 - Open Beta
