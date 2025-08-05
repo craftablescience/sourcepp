@@ -123,7 +123,7 @@ bool isAppUsingEngine(const Steam* steam, AppID appID) {
 	if (cache.isInvalid() || !cache.hasChild(id)) {
 		return "";
 	}
-	const auto path = (std::filesystem::path{steamInstallDir} / "appcache" / "librarycache" / idStr / *cache[id].getValue<std::string>()).string();
+	auto path = (std::filesystem::path{steamInstallDir} / "appcache" / "librarycache" / idStr / *cache[id].getValue<std::string>()).string();
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
 		return "";
 	}
@@ -197,9 +197,12 @@ Steam::Steam() {
 	}
 	this->steamInstallDir = steamLocation.string();
 
-	auto libraryFoldersFilePath = steamLocation / "steamapps" / "libraryfolders.vdf";
+	auto libraryFoldersFilePath = steamLocation / "config" / "libraryfolders.vdf";
 	if (!std::filesystem::exists(libraryFoldersFilePath, ec)) {
-		return;
+		libraryFoldersFilePath = steamLocation / "steamapps" / "libraryfolders.vdf";
+		if (!std::filesystem::exists(libraryFoldersFilePath, ec)) {
+			return;
+		}
 	}
 
 	KV1 libraryFolders{fs::readFileText(libraryFoldersFilePath.string())};
