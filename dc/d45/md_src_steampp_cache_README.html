@@ -142,10 +142,10 @@ $(document).ready(function(){initNavTree('dc/d45/md_src_steampp_cache_README.htm
 </li>
 </ul>
 </li>
-<li>Change "`100` entries per page" to "`All (slow)` entries per page"</li>
+<li>Change "`100` entries per page" to "`All` entries per page"</li>
 <li>Run the following code in the console: <div class="fragment"><div class="line">let o = &quot;&quot;;</div>
 <div class="line">for (const e of document.getElementById(&quot;DataTables_Table_0&quot;).children[2].children) {</div>
-<div class="line">    o += e.getAttribute(&quot;data-appid&quot;) + &quot;, // &quot; + e.children[2]. children[0].innerText + &quot;\n&quot;;</div>
+<div class="line">    o += e.getAttribute(&quot;data-appid&quot;) + &quot;, // &quot; + e.children[2].children[0].innerText.split(&#39;\n&#39;)[0] + &#39;\n&#39;;</div>
 <div class="line">}</div>
 <div class="line">console.log(o);</div>
 </div><!-- fragment --></li>
