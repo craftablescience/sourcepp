@@ -78,7 +78,7 @@ uint32_t crypto::computeAdler32(std::span<const std::byte> buffer) {
 		len -= NMAX;
 		uint32_t n = NMAX / 16;    /* NMAX is divisible by 16 */
 		do {
-			DO16(buffer)           /* 16 sums unrolled */
+			DO16(cur)           /* 16 sums unrolled */
 			cur += 16;
 		} while (--n);
 		adler %= BASE;
@@ -89,7 +89,7 @@ uint32_t crypto::computeAdler32(std::span<const std::byte> buffer) {
 	if (len) {                  /* avoid modulos if none remaining */
 		while (len >= 16) {
 			len -= 16;
-			DO16(buffer)
+			DO16(cur)
 			cur += 16;
 		}
 		while (len--) {
