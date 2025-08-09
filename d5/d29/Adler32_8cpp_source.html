@@ -206,7 +206,7 @@ $(document).ready(function(){initNavTree('d5/d29/Adler32_8cpp_source.html','../.
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>        len -= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a>;</div>
 <div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>        uint32_t n = <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#ad5a91fdaa1c4a0f44c6c533db1bd99b3">NMAX</a> / 16;    <span class="comment">/* NMAX is divisible by 16 */</span></div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>        <span class="keywordflow">do</span> {</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)           <span class="comment">/* 16 sums unrolled */</span></div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(cur)           <span class="comment">/* 16 sums unrolled */</span></div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>            cur += 16;</div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>        } <span class="keywordflow">while</span> (--n);</div>
 <div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        adler %= <a class="code hl_variable" href="../../d5/d29/Adler32_8cpp.html#a9549fb44dc51fb8710d5d6dee5d99d10">BASE</a>;</div>
@@ -217,7 +217,7 @@ $(document).ready(function(){initNavTree('d5/d29/Adler32_8cpp_source.html','../.
 <div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    <span class="keywordflow">if</span> (len) {                  <span class="comment">/* avoid modulos if none remaining */</span></div>
 <div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>        <span class="keywordflow">while</span> (len &gt;= 16) {</div>
 <div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>            len -= 16;</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(buffer)</div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>            <a class="code hl_define" href="../../d5/d29/Adler32_8cpp.html#ac720f76bf5bff280b6733b00b2e331e5">DO16</a>(cur)</div>
 <div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>            cur += 16;</div>
 <div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        }</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        <span class="keywordflow">while</span> (len--) {</div>
