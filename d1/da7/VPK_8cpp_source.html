@@ -640,15 +640,15 @@ $(document).ready(function(){initNavTree('d1/da7/VPK_8cpp_source.html','../../')
 <div class="line"><a id="l00513" name="l00513"></a><span class="lineno">  513</span> </div>
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span>    <span class="comment">// Reconstruct data so we&#39;re not looping over it a ton of times</span></div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    std::unordered_map&lt;std::string, std::unordered_map&lt;std::string, std::vector&lt;std::pair&lt;std::string, Entry*&gt;&gt;&gt;&gt; temp;</div>
-<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>    this-&gt;<a class="code hl_function" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a818133a0eb1603d19fba7920268d04d9">runForAllEntriesInternal</a>([&amp;options, &amp;temp](<span class="keyword">const</span> std::string&amp; path, <a class="code hl_class" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry) {</div>
+<div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span>    this-&gt;<a class="code hl_function" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a818133a0eb1603d19fba7920268d04d9">runForAllEntriesInternal</a>([<span class="keyword">this</span>, &amp;options, &amp;temp](std::string path, <a class="code hl_class" href="../../d9/d6b/classvpkpp_1_1Entry.html">Entry</a>&amp; entry) {</div>
 <div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>        <span class="keyword">auto</span> fsPath = std::filesystem::path{path};</div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span>        <span class="keywordflow">if</span> (options.<a class="code hl_variable" href="../../d0/dff/structvpkpp_1_1BakeOptions.html#a5d1cb0a0e9a0289b98459a9603976067">vpk_useBuggyExtensionHandling</a> &amp;&amp; fsPath.has_extension()) {</div>
-<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            std::string ext;</div>
+<div class="line"><a id="l00519" name="l00519"></a><span class="lineno">  519</span>            const auto ext = fsPath.extension().string();</div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span>            while (!fsPath.extension().string().empty()) {</div>
-<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>                ext = fsPath.extension().string();</div>
-<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>                fsPath.replace_extension();</div>
-<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>            }</div>
-<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>            fsPath.replace_extension(ext);</div>
+<div class="line"><a id="l00521" name="l00521"></a><span class="lineno">  521</span>                fsPath.replace_extension();</div>
+<div class="line"><a id="l00522" name="l00522"></a><span class="lineno">  522</span>            }</div>
+<div class="line"><a id="l00523" name="l00523"></a><span class="lineno">  523</span>            fsPath.replace_extension(ext);</div>
+<div class="line"><a id="l00524" name="l00524"></a><span class="lineno">  524</span>            path = this-&gt;cleanEntryPath(fsPath.string());</div>
 <div class="line"><a id="l00525" name="l00525"></a><span class="lineno">  525</span>        }</div>
 <div class="line"><a id="l00526" name="l00526"></a><span class="lineno">  526</span> </div>
 <div class="line"><a id="l00527" name="l00527"></a><span class="lineno">  527</span>        <span class="keyword">auto</span> extension = fsPath.extension().<span class="keywordtype">string</span>();</div>
