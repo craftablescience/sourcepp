@@ -21,6 +21,7 @@ typedef struct {
 	int16_t zip_compressionStrength;
 	uint8_t gma_writeCRCs;
 	uint8_t vpk_generateMD5Entries;
+	uint8_t vpk_useBuggyExtensionHandling;
 }  vpkpp_bake_options_t;
 
 typedef struct {

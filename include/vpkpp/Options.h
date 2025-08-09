@@ -28,6 +28,9 @@ struct BakeOptions {
 
 	/// VPK - Generate MD5 hashes for each file (VPK v2 only)
 	bool vpk_generateMD5Entries = false;
+
+	/// VPK - Enable the stupid bug in ASw/Portal 2 to fix model VVDs not loading
+	bool vpk_useBuggyExtensionHandling = false;
 };
 
 struct EntryOptions {

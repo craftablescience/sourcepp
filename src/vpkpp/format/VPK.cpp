@@ -513,8 +513,17 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Reconstruct data so we're not looping over it a ton of times
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
-	this->runForAllEntriesInternal([&temp](const std::string& path, Entry& entry) {
-		const auto fsPath = std::filesystem::path{path};
+	this->runForAllEntriesInternal([&options, &temp](const std::string& path, Entry& entry) {
+		auto fsPath = std::filesystem::path{path};
+		if (options.vpk_useBuggyExtensionHandling && fsPath.has_extension()) {
+			std::string ext;
+			while (!fsPath.extension().string().empty()) {
+				ext = fsPath.extension().string();
+				fsPath.replace_extension();
+			}
+			fsPath.replace_extension(ext);
+		}
+
 		auto extension = fsPath.extension().string();
 		if (extension.starts_with('.')) {
 			extension = extension.substr(1);
@@ -530,7 +539,14 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		if (!temp.at(extension).contains(parentDir)) {
 			temp.at(extension)[parentDir] = {};
 		}
-		temp.at(extension).at(parentDir).emplace_back(path, &entry);
+
+		auto& files = temp.at(extension).at(parentDir);
+		if (options.vpk_useBuggyExtensionHandling && std::find_if(files.begin(), files.end(), [&path](const std::pair<std::string, Entry*>& pair) {
+			return pair.first == path;
+		}) != files.end()) {
+			return;
+		}
+		files.emplace_back(path, &entry);
 	});
 
 	// Temporarily store baked file data that's stored in the directory VPK since it's getting overwritten
