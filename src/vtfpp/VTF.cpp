@@ -330,6 +330,14 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	};
 
+	const auto postReadTransform = [this] {
+		// HACK: change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it
+		//       no source game recognizes this format, so we will do additional transform in bake
+		if (this->format == ImageFormat::DXT1 && this->flags & FLAG_ONE_BIT_ALPHA) {
+			this->format = ImageFormat::DXT1_ONE_BIT_ALPHA;
+		}
+	};
+
 	switch (this->platform) {
 		case PLATFORM_UNKNOWN:
 			return;
@@ -348,6 +356,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->bumpMapScale)
 				.read(this->format)
 				.read(this->mipCount);
+
+			postReadTransform();
 
 			// This will always be DXT1
 			stream.skip<ImageFormat>();
@@ -469,6 +479,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->format)
 				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
 				.skip<uint32_t>(); // compressedLength
+
+			postReadTransform();
 
 			// Align to 16 bytes
 			if (this->platform == PLATFORM_PS3_PORTAL2) {
@@ -1628,6 +1640,14 @@ std::vector<std::byte> VTF::bake() const {
 		writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
 	};
 
+	// HACK: no source game supports this format, but they do support the flag with reg. DXT1
+	auto bakeFormat = this->format;
+	auto bakeFlags = this->flags;
+	if (bakeFormat == ImageFormat::DXT1_ONE_BIT_ALPHA) {
+		bakeFormat = ImageFormat::DXT1;
+		bakeFlags |= FLAG_ONE_BIT_ALPHA;
+	}
+
 	switch (this->platform) {
 		case PLATFORM_UNKNOWN:
 			break;
@@ -1643,14 +1663,14 @@ std::vector<std::byte> VTF::bake() const {
 			writer
 				.write(this->width)
 				.write(this->height)
-				.write(this->flags)
+				.write(bakeFlags)
 				.write(this->frameCount)
 				.write(this->startFrame)
 				.write<uint32_t>(0) // padding
 				.write(this->reflectivity)
 				.write<uint32_t>(0) // padding
 				.write(this->bumpMapScale)
-				.write(this->format)
+				.write(bakeFormat)
 				.write(this->mipCount)
 				.write(ImageFormat::DXT1)
 				.write(this->thumbnailWidth)
@@ -1697,7 +1717,7 @@ std::vector<std::byte> VTF::bake() const {
 						for (int i = this->mipCount - 1; i >= 0; i--) {
 							for (int j = 0; j < this->frameCount; j++) {
 								for (int k = 0; k < faceCount; k++) {
-									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
+									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, bakeFormat, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
 										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
 										compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 										auxWriter.write<uint32_t>(compressedData.size());
@@ -1758,7 +1778,7 @@ std::vector<std::byte> VTF::bake() const {
 			// Go down until top level texture is <1mb, matches makegamedata.exe output
 			uint8_t mipSkip = 0;
 			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
-				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
+				if (ImageFormatDetails::getDataLength(bakeFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
 					break;
 				}
 			}
@@ -1767,7 +1787,7 @@ std::vector<std::byte> VTF::bake() const {
 			const auto headerLengthPos = writer.tell();
 			writer
 				.write<uint32_t>(0)
-				.write(this->flags)
+				.write(bakeFlags)
 				.write(this->width)
 				.write(this->height)
 				.write(this->sliceCount)
@@ -1781,7 +1801,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->reflectivity[1])
 				.write(this->reflectivity[2])
 				.write(this->bumpMapScale)
-				.write(this->format)
+				.write(bakeFormat)
 				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[0] * 255)), 0, 255))
 				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[1] * 255)), 0, 255))
 				.write<uint8_t>(std::clamp(static_cast<int>(std::roundf(this->reflectivity[2] * 255)), 0, 255))
@@ -1800,7 +1820,7 @@ std::vector<std::byte> VTF::bake() const {
 			bool hasCompression = false;
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 				imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
-				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+				::swapImageDataEndianForConsole<false>(imageResourceData, bakeFormat, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
 
 				if (this->platform != PLATFORM_PS3_ORANGEBOX) {
 					hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA;

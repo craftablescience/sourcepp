@@ -313,6 +313,9 @@ namespace {
 	CMP_CompressOptions options{};
 	options.dwSize        = sizeof(options);
 	options.bDXT1UseAlpha = oldFormat == ImageFormat::DXT1_ONE_BIT_ALPHA || newFormat == ImageFormat::DXT1_ONE_BIT_ALPHA;
+	if (options.bDXT1UseAlpha) {
+		options.nAlphaThreshold = 128;
+	}
 
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
 		return {};
