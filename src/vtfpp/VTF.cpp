@@ -600,9 +600,6 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
-	if (options.computeTransparencyFlags) {
-		writer.computeTransparencyFlags();
-	}
 	if (options.computeMips) {
 		if (!writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()))) {
 			out = false;
@@ -610,6 +607,9 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		writer.computeMips(options.filter);
 	}
 	writer.setFormat(options.outputFormat);
+	if (options.computeTransparencyFlags) {
+		writer.computeTransparencyFlags();
+	}
 	writer.setCompressionLevel(options.compressionLevel);
 	writer.setCompressionMethod(options.compressionMethod);
 	return out;
