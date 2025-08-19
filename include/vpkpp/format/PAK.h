@@ -6,18 +6,28 @@
 
 namespace vpkpp {
 
-constexpr int8_t PAK_FILENAME_MAX_SIZE = 56;
+constexpr uint8_t PAK_FILENAME_MAX_SIZE = 56;
 constexpr auto PAK_SIGNATURE = sourcepp::parser::binary::makeFourCC("PACK");
 
-constexpr int8_t PAK_HROT_FILENAME_MAX_SIZE = 120;
+constexpr uint8_t PAK_SIN_FILENAME_MAX_SIZE = 120;
+constexpr auto PAK_SIN_SIGNATURE = sourcepp::parser::binary::makeFourCC("SPAK");
+
+constexpr uint8_t PAK_HROT_FILENAME_MAX_SIZE = 120;
 constexpr auto PAK_HROT_SIGNATURE = sourcepp::parser::binary::makeFourCC("HROT");
 
 constexpr std::string_view PAK_EXTENSION = ".pak";
+constexpr std::string_view SIN_EXTENSION = ".sin";
 
 class PAK : public PackFile {
 public:
+	enum class Type {
+		PAK,
+		SIN,
+		HROT,
+	};
+
 	/// Create a PAK file
-	static std::unique_ptr<PackFile> create(const std::string& path, bool forHROT = false);
+	static std::unique_ptr<PackFile> create(const std::string& path, Type type = Type::PAK);
 
 	/// Open a PAK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
@@ -34,19 +44,24 @@ public:
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;
 
-	[[nodiscard]] bool isHROT() const;
+	[[nodiscard]] Type getType() const;
 
-	void setHROT(bool hrot);
+	void setType(Type type_);
 
 protected:
 	using PackFile::PackFile;
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
 
-	bool isHROT_ = false;
+	[[nodiscard]] uint32_t getSignature() const;
+
+	[[nodiscard]] uint8_t getFilenameLength() const;
+
+	Type type = Type::PAK;
 
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(PAK_EXTENSION, &PAK::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(SIN_EXTENSION, &PAK::open);
 };
 
 } // namespace vpkpp

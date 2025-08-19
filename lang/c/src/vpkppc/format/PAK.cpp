@@ -18,10 +18,10 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create_with_options(const char* path, int hrot) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create_with_options(const char* path, vpkpp_pak_type_e type) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = PAK::create(path, hrot);
+	auto packFile = PAK::create(path, static_cast<PAK::Type>(type));
 	if (!packFile) {
 		return nullptr;
 	}
@@ -47,20 +47,20 @@ SOURCEPP_API sourcepp_string_t vpkpp_pak_guid(vpkpp_pack_file_handle_t handle) {
 	return Convert::toString(PAK::GUID);
 }
 
-SOURCEPP_API int vpkpp_pak_is_hrot(vpkpp_pack_file_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+SOURCEPP_API vpkpp_pak_type_e vpkpp_pak_get_type(vpkpp_pack_file_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_PAK_TYPE_PAK);
 
 	auto* pak = Convert::packFile(handle);
-	SOURCEPP_EARLY_RETURN_VAL(pak->isInstanceOf<PAK>(), false);
+	SOURCEPP_EARLY_RETURN_VAL(pak->isInstanceOf<PAK>(), VPKPP_PAK_TYPE_PAK);
 
-	return dynamic_cast<PAK*>(pak)->isHROT();
+	return static_cast<vpkpp_pak_type_e>(dynamic_cast<PAK*>(pak)->getType());
 }
 
-SOURCEPP_API void vpkpp_pak_set_hrot(vpkpp_pack_file_handle_t handle, int hrot) {
+SOURCEPP_API void vpkpp_pak_set_type(vpkpp_pack_file_handle_t handle, vpkpp_pak_type_e type) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* pak = Convert::packFile(handle);
 	SOURCEPP_EARLY_RETURN(pak->isInstanceOf<PAK>());
 
-	return dynamic_cast<PAK*>(pak)->setHROT(hrot);
+	return dynamic_cast<PAK*>(pak)->setType(static_cast<PAK::Type>(type));
 }

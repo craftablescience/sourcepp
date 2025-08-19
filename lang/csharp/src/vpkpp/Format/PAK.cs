@@ -21,12 +21,19 @@ namespace vpkpp.Format
 			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_guid")]
 			public static partial sourcepp.String GUID();
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_is_hrot")]
-			public static partial int IsHROT(void* handle);
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_get_type")]
+			public static partial int GetType(void* handle);
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_set_hrot")]
-			public static partial void SetHROT(void* handle, int hrot);
+			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_set_type")]
+			public static partial void SetType(void* handle, int type);
 		}
+    }
+
+    public enum PAKType
+    {
+        PAK  = 0,
+        SIN  = 1,
+        HROT = 2,
     }
 
     public class PAK : PackFile
@@ -42,11 +49,11 @@ namespace vpkpp.Format
             }
         }
 
-        public static PAK? Create(string path, bool hrot)
+        public static PAK? Create(string path, PAKType type)
         {
             unsafe
             {
-                var handle = Extern.PAK.Create(path, Convert.ToInt32(hrot));
+                var handle = Extern.PAK.Create(path, (int) type);
                 return handle == null ? null : new PAK(handle);
             }
         }
@@ -85,20 +92,20 @@ namespace vpkpp.Format
 			}
 		}
 
-		public bool HROT
+		public PAKType Type
 		{
 			get
 			{
 				unsafe
 				{
-					return Convert.ToBoolean(Extern.PAK.IsHROT(Handle));
+					return (PAKType) Extern.PAK.GetType(Handle);
 				}
 			}
 			set
 			{
 			    unsafe
 			    {
-			        Extern.PAK.SetHROT(Handle, Convert.ToInt32(value));
+			        Extern.PAK.SetType(Handle, (int) value);
 			    }
 			}
 		}

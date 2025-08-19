@@ -217,6 +217,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr>
     <td>
       <a href="https://quakewiki.org/wiki/.pak">PAK</a> (Quake, WON Half-Life)
+      <br> &bull; <a href="https://en.wikipedia.org/wiki/Sin_(video_game)">SiN</a> modifications
       <br> &bull; <a href="https://store.steampowered.com/app/824600/HROT">HROT</a> modifications
     </td>
     <td align="center">✅</td>
