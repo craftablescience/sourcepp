@@ -134,6 +134,12 @@ public:
 
 	[[nodiscard]] explicit operator std::string() const override;
 
+	[[nodiscard]] uint32_t getVersion() const;
+
+	[[nodiscard]] uint32_t getAppID() const;
+
+	[[nodiscard]] uint32_t getAppVersion() const;
+
 protected:
 	using PackFileReadOnly::PackFileReadOnly;
 

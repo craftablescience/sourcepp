@@ -281,3 +281,15 @@ GCF::operator std::string() const {
 		" | AppID " + std::to_string(this->header.appid) +
 		" | App Version v" + std::to_string(this->header.appversion);
 }
+
+uint32_t GCF::getVersion() const {
+	return this->header.gcfversion;
+}
+
+uint32_t GCF::getAppID() const {
+	return this->header.appid;
+}
+
+uint32_t GCF::getAppVersion() const {
+	return this->header.appversion;
+}
