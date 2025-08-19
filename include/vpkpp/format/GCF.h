@@ -62,8 +62,8 @@ protected:
 		}
 
 		inline bool is_encrypted() {
-			auto bruh = static_cast<uint32_t>(get_compression_type());
-			if (bruh - 2 <= 1) {
+			auto mode = static_cast<uint32_t>(get_compression_type());
+			if (mode - 2 <= 1) {
 				return true;
 			}
 			return false;
