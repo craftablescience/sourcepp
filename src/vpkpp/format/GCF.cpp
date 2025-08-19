@@ -3,7 +3,11 @@
 #include <algorithm>
 #include <filesystem>
 
+#include <cryptopp/aes.h>
+#include <cryptopp/modes.h>
+#include <cryptopp/filters.h>
 #include <FileStream.h>
+#include <miniz.h>
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
 
@@ -60,9 +64,20 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 	}
 
 	// block headers!!!!!!
+	bool requestKey = false;
 	for (int i = 0; i < gcf->header.blockcount; i++) {
 		Block& block = gcf->blockdata.emplace_back();
 		reader.read(block);
+		if (block.isEncrypted()) {
+			requestKey = true;
+		}
+	}
+	if (requestKey) {
+		const auto key = requestProperty(gcf, OpenProperty::DECRYPTION_KEY);
+		if (key.size() != gcf->decryption_key.size()) {
+			return nullptr;
+		}
+		std::ranges::copy(key, gcf->decryption_key.begin());
 	}
 
 	// Fragmentation Map header
@@ -232,7 +247,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 
 	std::vector<Block> toread;
 	for (const auto& v : this->blockdata) {
-		if (v.dir_index == dir_index) {
+		if (v.dir_index == dir_index && (v.flags & 0x8000)) { // need to check for 0x8000 here because valve dumps uninitialized memory 
 			toread.push_back(v);
 		}
 	}
@@ -251,8 +266,9 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 	}
 
 	uint64_t remaining = entry->length;
-
-	for (const auto& block : toread) {
+	bool needs_decrypt = false;
+	auto filemode = Block::CompressionType::UNCOMPRESSED;
+	for (auto& block : toread) {
 		uint32_t currindex = block.first_data_block_index;
 		while (currindex <= this->blockheader.count) {
 			uint64_t curfilepos = static_cast<uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
@@ -265,8 +281,73 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 			currindex = this->fragmap[currindex];
 			//printf("curridx now: %lu\n", currindex);
 		}
+		needs_decrypt = block.isEncrypted();
+		filemode = block.getCompressionType();
 	}
+	if (needs_decrypt) {
+		CryptoPP::byte iv[16] = {};
+		switch (filemode) {
+			using enum Block::CompressionType;
+			case UNCOMPRESSED:
+			case COMPRESSED:
+				break;
+			case ENCRYPTED: {
+				auto real_size = filedata.size();
+				if (filedata.size() % 10 != 0) {
+					filedata.resize(filedata.size() + (0x10 - (filedata.size() % 10)), {});
+				}
+				auto remaining_encrypted = filedata.size();
+				auto offset = 0;
+				while (remaining_encrypted) {
+					CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption d;
+					d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
+					auto current_batch = std::min(remaining_encrypted, static_cast<size_t>(0x8000));
+					d.ProcessData(reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), current_batch);
+					remaining_encrypted -= current_batch;
+					offset += static_cast<int>(current_batch);
+				}
+				filedata.resize(real_size);
+				break;
+			}
+			case COMPRESSED_AND_ENCRYPTED: {
+				std::vector<std::byte> processed_data;
+				BufferStream s(filedata.data(), filedata.size());
+				while (s.size() != s.tell()) {
+					static constexpr auto allocate_block = [](std::vector<std::byte>& vec, size_t x) {
+						const size_t old = vec.size();
+						vec.resize(old + x);
+						return vec.data() + old;
+					};
 
+					auto encrypted_size = s.read<uint32_t>();
+					mz_ulong decompressed_size = s.read<uint32_t>();
+
+					auto buffer = s.read_bytes(encrypted_size);
+					auto real_size = buffer.size();
+					if (buffer.size() % 10 != 0) {
+						buffer.resize(buffer.size() + (0x10 - (buffer.size() % 10)), {});
+					}
+					CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption d;
+					d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
+					d.ProcessData(reinterpret_cast<CryptoPP::byte*>(buffer.data()), reinterpret_cast<CryptoPP::byte*>(buffer.data()), buffer.size());
+					buffer.resize(real_size);
+
+					auto start = allocate_block(processed_data, decompressed_size);
+					if (mz_uncompress(reinterpret_cast<uint8_t*>(start), &decompressed_size, reinterpret_cast<uint8_t*>(buffer.data()), buffer.size()) != MZ_OK) {
+						return std::nullopt;
+					}
+
+					//auto remaining = s.size() - s.tell();
+					if (entry->length == processed_data.size()) {
+						break;
+					}
+					s.seek_u(s.tell() + (0x8000 - s.tell() % 0x8000));
+				}
+				filedata = processed_data;
+				break;
+			}
+		}
+	}
 	return filedata;
 }
 
