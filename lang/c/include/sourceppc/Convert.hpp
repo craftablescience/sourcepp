@@ -27,6 +27,17 @@ sourcepp_buffer_t toBuffer(const std::vector<T>& vec) {
 	return buf;
 }
 
+template<typename T>
+requires (std::is_trivially_copyable_v<T> && !std::is_pointer_v<T>)
+std::vector<T> fromBuffer(const sourcepp_buffer_t& buffer) {
+	if (buffer.size % sizeof(T) != 0) {
+		return {};
+	}
+	std::vector<T> vec(buffer.size / sizeof(T));
+	std::memcpy(vec.data(), buffer.data, buffer.size / sizeof(T));
+	return vec;
+}
+
 sourcepp_string_t toString(std::string_view str);
 
 sourcepp_string_array_t toStringArray(const std::vector<std::string>& stringVec);

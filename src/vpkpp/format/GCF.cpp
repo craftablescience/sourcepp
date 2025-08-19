@@ -10,7 +10,7 @@
 using namespace sourcepp;
 using namespace vpkpp;
 
-std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback& callback) {
+std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback& callback, const OpenPropertyRequest& requestProperty) {
 	// TODO: Add v5 and perhaps v4 support
 
 	if (!std::filesystem::exists(path)) {

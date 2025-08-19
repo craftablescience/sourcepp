@@ -10,7 +10,7 @@ namespace vpkpp.Format
 		internal static unsafe partial class GCF
 		{
 			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback, IntPtr requestProperty);
 
 			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_guid")]
 			public static partial sourcepp.String GUID();
@@ -30,7 +30,7 @@ namespace vpkpp.Format
             }
         }
 
-        public new static GCF? Open(string path, EntryCallback callback)
+        public new static GCF? Open(string path, EntryCallback callback, OpenPropertyRequest requestProperty)
         {
             unsafe
             {
@@ -38,7 +38,7 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), Marshal.GetFunctionPointerForDelegate(requestProperty));
                 return handle == null ? null : new GCF(handle);
             }
         }

@@ -13,6 +13,12 @@ extern "C" {
 
 typedef void* vpkpp_pack_file_handle_t;
 
+typedef enum {
+	VPKPP_PACK_FILE_OPEN_PROPERTY_DECRYPTION_KEY,
+} vpkpp_pack_file_open_property_e;
+
+typedef sourcepp_buffer_t(*vpkpp_pack_file_open_property_request_t)(const char* guid, vpkpp_pack_file_open_property_e property);
+
 typedef void(*vpkpp_entry_callback_t)(const char* path, vpkpp_entry_handle_t entry);
 
 typedef int(*vpkpp_entry_predicate_t)(const char* path, vpkpp_entry_handle_t entry);
@@ -24,7 +30,7 @@ typedef vpkpp_entry_options_t(*vpkpp_entry_creation_t)(const char* path);
 #endif
 
 // REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_callback_t callback /*= NULL*/);
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_callback_t callback /*= NULL*/, vpkpp_pack_file_open_property_request_t requestProperty /*= NULL*/);
 
 // REQUIRES MANUAL FREE: sourcepp_string_array_free
 SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions();

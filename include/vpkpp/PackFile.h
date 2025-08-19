@@ -24,6 +24,13 @@ constexpr std::string_view EXECUTABLE_EXTENSION2 = ".x86_64"; //         | Godot
 
 class PackFile {
 public:
+	enum class OpenProperty {
+		DECRYPTION_KEY, // The pack file is encrypted
+	};
+
+	// Accepts the pack file GUID and request property, returns the requested value
+	using OpenPropertyRequest = std::function<std::vector<std::byte>(std::string_view guid, OpenProperty property)>;
+
 	/// Accepts the entry's path and metadata
 	template<typename R>
 	using EntryCallbackBase = std::function<R(const std::string& path, const Entry& entry)>;
@@ -44,7 +51,7 @@ public:
 	virtual ~PackFile() = default;
 
 	/// Open a generic pack file. The parser is selected based on the file extension
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr, const OpenPropertyRequest& requestProperty = nullptr);
 
 	/// Returns a sorted list of supported extensions for opening, e.g. {".bsp", ".vpk"}
 	[[nodiscard]] static std::vector<std::string> getOpenableExtensions();
@@ -116,7 +123,7 @@ public:
 	void addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});
 
 	/// Adds new entries using the contents of a given directory
-	void addDirectory(const std::string& entryBaseDir, const std::string& dir, const EntryCreation& creation);
+	void addDirectory(const std::string& entryBaseDir_, const std::string& dir, const EntryCreation& creation);
 
 	/// Rename an existing entry
 	virtual bool renameEntry(const std::string& oldPath_, const std::string& newPath_); // NOLINT(*-use-nodiscard)
@@ -210,9 +217,12 @@ protected:
 
 	[[nodiscard]] static std::optional<std::vector<std::byte>> readUnbakedEntry(const Entry& entry);
 
-	using OpenFactoryFunction = std::function<std::unique_ptr<PackFile>(const std::string& path, const EntryCallback& callback)>;
+	using OpenFactoryFunctionBasic = std::function<std::unique_ptr<PackFile>(const std::string& path, const EntryCallback& callback)>;
+	using OpenFactoryFunction      = std::function<std::unique_ptr<PackFile>(const std::string& path, const EntryCallback& callback, const OpenPropertyRequest& requestProperty)>;
 
 	static std::unordered_map<std::string, std::vector<OpenFactoryFunction>>& getOpenExtensionRegistry();
+
+	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunctionBasic& factory);
 
 	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory);
 

@@ -5,6 +5,13 @@ using System.Runtime.InteropServices;
 
 namespace vpkpp
 {
+    public enum OpenProperty
+    {
+        DECRYPTION_KEY = 0,
+    }
+
+    using OpenPropertyRequest = Func<string, OpenProperty, Buffer>
+
     using EntryCallback = Action<string, Entry>;
 
     using EntryPredicate = Func<string, Entry, bool>;
@@ -20,7 +27,7 @@ namespace vpkpp
     internal static unsafe partial class Extern
     {
         [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_open")]
-        public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+        public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback, IntPtr requestProperty);
 
         [LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_get_openable_extensions")]
         public static partial sourcepp.StringArray GetOpenableExtensions();
@@ -171,7 +178,7 @@ namespace vpkpp
         {
             unsafe
             {
-                var handle = Extern.Open(path, 0);
+                var handle = Extern.Open(path, 0, 0);
                 return handle == null ? null : new PackFile(handle);
             }
         }
@@ -184,7 +191,20 @@ namespace vpkpp
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
+                var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), 0);
+                return handle == null ? null : new PackFile(handle);
+            }
+        }
+
+        public static PackFile? Open(string path, EntryCallback callback, OpenPropertyRequest requestProperty)
+        {
+            unsafe
+            {
+                EntryCallbackNative callbackNative = (path, entry) =>
+                {
+                    callback(path, new Entry(entry, true));
+                };
+                var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), Marshal.GetFunctionPointerForDelegate(requestProperty));
                 return handle == null ? null : new PackFile(handle);
             }
         }

@@ -7,12 +7,14 @@
 
 using namespace vpkpp;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_gcf_open(const char* path, vpkpp_entry_callback_t callback) {
+SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_gcf_open(const char* path, vpkpp_entry_callback_t callback, vpkpp_pack_file_open_property_request_t requestProperty) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = GCF::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	} : static_cast<PackFile::EntryCallback>(nullptr));
+	} : static_cast<PackFile::EntryCallback>(nullptr), requestProperty ? [requestProperty](std::string_view guid, PackFile::OpenProperty property) {
+		return Convert::fromBuffer<std::byte>(requestProperty(guid.data(), static_cast<vpkpp_pack_file_open_property_e>(property)));
+	} : static_cast<PackFile::OpenPropertyRequest>(nullptr));
 	if (!packFile) {
 		return nullptr;
 	}

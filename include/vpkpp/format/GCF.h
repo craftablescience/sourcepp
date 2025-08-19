@@ -110,7 +110,7 @@ protected:
 #pragma pack(pop)
 
 public:
-	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
+	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr, const OpenPropertyRequest& requestProperty = nullptr);
 
 	static constexpr inline std::string_view GUID = "0C088488F666451E9361297528F2446D";
 

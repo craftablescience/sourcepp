@@ -1,8 +1,11 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <vpkpp/PackFile.h>
 
 #include <algorithm>
 #include <cstring>
 #include <filesystem>
+#include <ranges>
 #include <sstream>
 #include <utility>
 
@@ -78,16 +81,16 @@ void fixFilePathForWindows(std::string& path) {
 	::replace(path, "?", "_");
 	::replace(path, "*", "_");
 
-	std::filesystem::path filePath{path};
+	const std::filesystem::path filePath{path};
 	auto filename = filePath.filename().string();
-	auto extension = filePath.extension().string();
+	const auto extension = filePath.extension().string();
 	auto stem = filePath.stem().string();
 	string::toUpper(stem);
 
 	// Replace bad filenames
 	if (stem == "CON" || stem == "PRN" || stem == "AUX" || stem == "NUL") {
 		filename = "___" + extension;
-	} else if (stem.length() == 4 && stem[3] != '0' && ((stem.starts_with("COM") || stem.starts_with("LPT")))) {
+	} else if (stem.length() == 4 && stem[3] != '0' && (stem.starts_with("COM") || stem.starts_with("LPT"))) {
 		filename = "___";
 		filename += stem[3];
 		filename += extension;
@@ -111,13 +114,13 @@ PackFile::PackFile(std::string fullFilePath_)
 	string::normalizeSlashes(this->fullFilePath);
 }
 
-std::unique_ptr<PackFile> PackFile::open(const std::string& path, const EntryCallback& callback) {
+std::unique_ptr<PackFile> PackFile::open(const std::string& path, const EntryCallback& callback, const OpenPropertyRequest& requestProperty) {
 	auto extension = std::filesystem::path{path}.extension().string();
 	string::toLower(extension);
-	const auto& registry = PackFile::getOpenExtensionRegistry();
+	const auto& registry = getOpenExtensionRegistry();
 	if (registry.contains(extension)) {
 		for (const auto& func : registry.at(extension)) {
-			if (auto packFile = func(path, callback)) {
+			if (auto packFile = func(path, callback, requestProperty)) {
 				return packFile;
 			}
 		}
@@ -127,12 +130,12 @@ std::unique_ptr<PackFile> PackFile::open(const std::string& path, const EntryCal
 
 std::vector<std::string> PackFile::getOpenableExtensions() {
 	std::vector<std::string> out;
-	for (const auto& [extension, factoryFunctions] : PackFile::getOpenExtensionRegistry()) {
-		if (std::find(out.begin(), out.end(), extension) == out.end()) {
+	for (const auto& extension : getOpenExtensionRegistry() | std::views::keys) {
+		if (std::ranges::find(out, extension) == out.end()) {
 			out.push_back(extension);
 		}
 	}
-	std::sort(out.begin(), out.end());
+	std::ranges::sort(out);
 	return out;
 }
 
@@ -161,12 +164,12 @@ bool PackFile::hasEntry(const std::string& path, bool includeUnbaked) const {
 }
 
 std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeUnbaked) const {
-	auto path = this->cleanEntryPath(path_);
-	if (auto it = this->entries.find(path); it != this->entries.end()) {
+	const auto path = this->cleanEntryPath(path_);
+	if (const auto it = this->entries.find(path); it != this->entries.end()) {
 		return *it;
 	}
 	if (includeUnbaked) {
-		if (auto it = this->unbakedEntries.find(path); it != this->unbakedEntries.end()) {
+		if (const auto it = this->unbakedEntries.find(path); it != this->unbakedEntries.end()) {
 			return *it;
 		}
 	}
@@ -174,7 +177,7 @@ std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeU
 }
 
 std::optional<std::string> PackFile::readEntryText(const std::string& path) const {
-	auto bytes = this->readEntry(path);
+	const auto bytes = this->readEntry(path);
 	if (!bytes) {
 		return std::nullopt;
 	}
@@ -200,7 +203,7 @@ void PackFile::addEntry(const std::string& entryPath, const std::string& filepat
 	entry.unbakedData = filepath;
 	string::normalizeSlashes(std::get<std::string>(entry.unbakedData));
 
-	auto path = this->cleanEntryPath(entryPath);
+	const auto path = this->cleanEntryPath(entryPath);
 	this->addEntryInternal(entry, path, buffer, options);
 	this->unbakedEntries.emplace(path, entry);
 }
@@ -214,7 +217,7 @@ void PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer
 	entry.unbaked = true;
 	entry.unbakedUsingByteBuffer = true;
 
-	auto path_ = this->cleanEntryPath(path);
+	const auto path_ = this->cleanEntryPath(path);
 	this->addEntryInternal(entry, path_, buffer, options);
 	entry.unbakedData = std::move(buffer);
 	this->unbakedEntries.emplace(path_, entry);
@@ -230,7 +233,7 @@ void PackFile::addEntry(const std::string& path, const std::byte* buffer, uint64
 }
 
 void PackFile::addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options) {
-	this->addDirectory(entryBaseDir, dir, [options](const std::string& path) {
+	this->addDirectory(entryBaseDir, dir, [options](const std::string&) {
 		return options;
 	});
 }
@@ -266,8 +269,8 @@ void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string&
 }
 
 bool PackFile::renameEntry(const std::string& oldPath_, const std::string& newPath_) {
-	auto oldPath = this->cleanEntryPath(oldPath_);
-	auto newPath = this->cleanEntryPath(newPath_);
+	const auto oldPath = this->cleanEntryPath(oldPath_);
+	const auto newPath = this->cleanEntryPath(newPath_);
 	if (this->entries.count(oldPath)) {
 		// Currently there is no pack file format that relies on file path to access data.
 		// If there ever is one, we're in trouble! (Well, no, just override the method.)
@@ -275,7 +278,8 @@ bool PackFile::renameEntry(const std::string& oldPath_, const std::string& newPa
 		this->entries.erase(oldPath);
 		this->entries.emplace(newPath, entry);
 		return true;
-	} else if (this->unbakedEntries.count(oldPath)) {
+	}
+	if (this->unbakedEntries.count(oldPath)) {
 		auto entry = this->unbakedEntries.at(oldPath);
 		this->unbakedEntries.erase(oldPath);
 		this->unbakedEntries.emplace(newPath, entry);
@@ -286,7 +290,7 @@ bool PackFile::renameEntry(const std::string& oldPath_, const std::string& newPa
 
 bool PackFile::renameDirectory(const std::string& oldDir_, const std::string& newDir_) {
 	auto oldDir = this->cleanEntryPath(oldDir_) + '/';
-	auto newDir = this->cleanEntryPath(newDir_) + '/';
+	const auto newDir = this->cleanEntryPath(newDir_) + '/';
 
 	std::vector<std::string> entryPaths;
 	std::vector<std::string> unbakedEntryPaths;
@@ -318,7 +322,7 @@ bool PackFile::removeEntry(const std::string& path_) {
 		return false;
 	}
 
-	auto path = this->cleanEntryPath(path_);
+	const auto path = this->cleanEntryPath(path_);
 	if (this->entries.find(path) != this->entries.end()) {
 		this->entries.erase(path);
 		return true;
@@ -353,7 +357,7 @@ bool PackFile::extractEntry(const std::string& entryPath, const std::string& fil
 		return false;
 	}
 
-	auto data = this->readEntry(entryPath);
+	const auto data = this->readEntry(entryPath);
 	if (!data) {
 		return false;
 	}
@@ -376,7 +380,7 @@ bool PackFile::extractDirectory(const std::string& dir_, const std::string& outp
 
 	auto outputDirPath = std::filesystem::path{outputDir} / std::filesystem::path{dir}.filename();
 	bool noneFailed = true;
-	this->runForAllEntries([this, &dir, &outputDirPath, &noneFailed](const std::string& path, const Entry& entry) {
+	this->runForAllEntries([this, &dir, &outputDirPath, &noneFailed](const std::string& path, const Entry&) {
 		if (!path.starts_with(dir)) {
 			return;
 		}
@@ -402,7 +406,7 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 		outputDirPath /= this->getTruncatedFilestem();
 	}
 	bool noneFailed = true;
-	this->runForAllEntries([this, &outputDirPath, &noneFailed](const std::string& path, const Entry& entry) {
+	this->runForAllEntries([this, &outputDirPath, &noneFailed](const std::string& path, const Entry&) {
 		std::string entryPath = path; // NOLINT(*-unnecessary-copy-initialization)
 #ifdef _WIN32
 		::fixFilePathForWindows(entryPath);
@@ -465,7 +469,7 @@ bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& pr
 	}
 
 	// Extract
-	std::filesystem::path outputDirPath{outputDir};
+	const std::filesystem::path outputDirPath{outputDir};
 	bool noneFailed = true;
 	for (const auto& path : saveEntryPaths) {
 		auto savePath = path;
@@ -518,7 +522,7 @@ void PackFile::runForAllEntries(const std::string& parentDir, const EntryCallbac
 		entry.key(key);
 		if (!recursive) {
 			auto keyView = std::string_view{key}.substr(dir.length());
-			if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+			if (std::ranges::find(keyView, '/') != keyView.end()) {
 				continue;
 			}
 		}
@@ -529,7 +533,7 @@ void PackFile::runForAllEntries(const std::string& parentDir, const EntryCallbac
 			entry.key(key);
 			if (!recursive) {
 				auto keyView = std::string_view{key}.substr(dir.length());
-				if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+				if (std::ranges::find(keyView, '/') != keyView.end()) {
 					continue;
 				}
 			}
@@ -560,7 +564,7 @@ void PackFile::runForAllEntriesInternal(const std::string& parentDir, const std:
 		entry.key(key);
 		if (!recursive) {
 			auto keyView = std::string_view{key}.substr(dir.length());
-			if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+			if (std::ranges::find(keyView, '/') != keyView.end()) {
 				continue;
 			}
 		}
@@ -571,7 +575,7 @@ void PackFile::runForAllEntriesInternal(const std::string& parentDir, const std:
 			entry.key(key);
 			if (!recursive) {
 				auto keyView = std::string_view{key}.substr(dir.length());
-				if (std::find(keyView.begin(), keyView.end(), '/') != keyView.end()) {
+				if (std::ranges::find(keyView, '/') != keyView.end()) {
 					continue;
 				}
 			}
@@ -643,8 +647,7 @@ std::string PackFile::getBakeOutputDir(const std::string& outputDir) const {
 		string::normalizeSlashes(out, false);
 	} else {
 		out = this->fullFilePath;
-		auto lastSlash = out.rfind('/');
-		if (lastSlash != std::string::npos) {
+		if (const auto lastSlash = out.rfind('/'); lastSlash != std::string::npos) {
 			out = this->getFilepath().substr(0, lastSlash);
 		} else {
 			out = ".";
@@ -707,9 +710,15 @@ std::unordered_map<std::string, std::vector<PackFile::OpenFactoryFunction>>& Pac
 	return extensionRegistry;
 }
 
+const PackFile::OpenFactoryFunction& PackFile::registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunctionBasic& factory) {
+	return registerOpenExtensionForTypeFactory(extension, [factory](const std::string& path, const EntryCallback& callback, const OpenPropertyRequest&) {
+		return factory(path, callback);
+	});
+}
+
 const PackFile::OpenFactoryFunction& PackFile::registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory) {
-	std::string extensionStr{extension};
-	auto& registry = PackFile::getOpenExtensionRegistry();
+	const std::string extensionStr{extension};
+	auto& registry = getOpenExtensionRegistry();
 	if (!registry.contains(extensionStr)) {
 		registry[extensionStr] = {};
 	}
@@ -724,10 +733,10 @@ PackFileReadOnly::operator std::string() const {
 	return PackFile::operator std::string() + " (Read-Only)";
 }
 
-void PackFileReadOnly::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void PackFileReadOnly::addEntryInternal(Entry&, const std::string&, std::vector<std::byte>&, EntryOptions) {
 	// Stubbed
 }
 
-bool PackFileReadOnly::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool PackFileReadOnly::bake(const std::string&, BakeOptions, const EntryCallback&) {
 	return false; // Stubbed
 }
