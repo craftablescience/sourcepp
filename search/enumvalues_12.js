@@ -12,12 +12,13 @@ var searchData=
   ['signature_5fdetail_5fprop_5flighting_5fldr_9',['SIGNATURE_DETAIL_PROP_LIGHTING_LDR',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa4127ceba30cbfca7879a261a4eaa3892',1,'bsppp::BSPGameLump']]],
   ['signature_5fdetail_5fprops_10',['SIGNATURE_DETAIL_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa71f4f0d94bcad487aec8610b366d161e',1,'bsppp::BSPGameLump']]],
   ['signature_5fstatic_5fprops_11',['SIGNATURE_STATIC_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa16ad2a2fa54b13b7ef220e61b9be8655',1,'bsppp::BSPGameLump']]],
-  ['sl4d2_5fprop_5fblob_12',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],
-  ['sl4d2_5fpropcollision_13',['SL4D2_PROPCOLLISION',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15',1,'bsppp']]],
-  ['sl4d2_5fprophulls_14',['SL4D2_PROPHULLS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e',1,'bsppp']]],
-  ['sl4d2_5fprophullverts_15',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
-  ['sl4d2_5fproptris_16',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
-  ['smpl_17',['SMPL',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a5a60d2a397d971891e04b781c9129d91',1,'sndpp::WAV']]],
-  ['string_18',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value::STRING()'],['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949',1,'kvpp::STRING()']]],
-  ['surfedges_19',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
+  ['sin_12',['SIN',['../d9/daf/classvpkpp_1_1PAK.html#a4322cc16cd73d99c951be7ad59133bb2a5b001d63db54e7383587771eeb2018a1',1,'vpkpp::PAK']]],
+  ['sl4d2_5fprop_5fblob_13',['SL4D2_PROP_BLOB',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ad4d4c26193e0a1fd8f2a195980dbc4a8',1,'bsppp']]],
+  ['sl4d2_5fpropcollision_14',['SL4D2_PROPCOLLISION',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0ae2b5d9e9e84fecf2578b8af77d44fd15',1,'bsppp']]],
+  ['sl4d2_5fprophulls_15',['SL4D2_PROPHULLS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0aa39d5902814a3bce97152fccb68dc88e',1,'bsppp']]],
+  ['sl4d2_5fprophullverts_16',['SL4D2_PROPHULLVERTS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a0a94a6c82e2f6b9596f50b1cf90bccda',1,'bsppp']]],
+  ['sl4d2_5fproptris_17',['SL4D2_PROPTRIS',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a64b505531d986d18f5a71ae0c9bd7c3b',1,'bsppp']]],
+  ['smpl_18',['SMPL',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a5a60d2a397d971891e04b781c9129d91',1,'sndpp::WAV']]],
+  ['string_19',['STRING',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea63b588d5559f64f89a416e656880b949',1,'dmxpp::Value::STRING()'],['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39ea63b588d5559f64f89a416e656880b949',1,'kvpp::STRING()']]],
+  ['surfedges_20',['SURFEDGES',['../dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0afbcbd96824b0a3c02b114da965c192a4',1,'bsppp']]]
 ];

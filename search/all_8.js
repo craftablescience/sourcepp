@@ -37,10 +37,11 @@ var searchData=
   ['hot_34',['HOT',['../da/d9a/classvtfpp_1_1HOT.html#a3791d60669e5f42902ed7a4facd3aaf4',1,'vtfpp::HOT::HOT()'],['../da/d9a/classvtfpp_1_1HOT.html#a7488b833e1cacf193626bd2e5668fff1',1,'vtfpp::HOT::HOT(std::span&lt; const std::byte &gt; hotData)'],['../da/d9a/classvtfpp_1_1HOT.html#af86f0ca87461be95109ecfaf1f222e28',1,'vtfpp::HOT::HOT(const std::string &amp;hotPath)'],['../da/d9a/classvtfpp_1_1HOT.html',1,'vtfpp::HOT']]],
   ['hot_2ecpp_35',['HOT.cpp',['../df/dfb/HOT_8cpp.html',1,'']]],
   ['hot_2eh_36',['HOT.h',['../d0/de2/HOT_8h.html',1,'']]],
-  ['hullmax_37',['hullMax',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a0c692c96a2e8c9cd2f54c30efe7f5739',1,'mdlpp::MDL::MDL']]],
-  ['hullmin_38',['hullMin',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a5d84fe6a1b8b42e72dd1a02316869e69',1,'mdlpp::MDL::MDL']]],
-  ['hwnd_39',['hwnd',['../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe',1,'gamepp::GameInstance']]],
-  ['hz_5f11025_40',['HZ_11025',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01a9815870666803bb450117caf77a14982',1,'sndpp::XWV']]],
-  ['hz_5f22050_41',['HZ_22050',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01af7bc0385d205f3ab827bc094a6897ef5',1,'sndpp::XWV']]],
-  ['hz_5f44100_42',['HZ_44100',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01a62f5a1d5815c247cbd1a8b13d0515165',1,'sndpp::XWV']]]
+  ['hrot_37',['HROT',['../d9/daf/classvpkpp_1_1PAK.html#a4322cc16cd73d99c951be7ad59133bb2aa24372043060ac4c22e46d3438848b6e',1,'vpkpp::PAK']]],
+  ['hullmax_38',['hullMax',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a0c692c96a2e8c9cd2f54c30efe7f5739',1,'mdlpp::MDL::MDL']]],
+  ['hullmin_39',['hullMin',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a5d84fe6a1b8b42e72dd1a02316869e69',1,'mdlpp::MDL::MDL']]],
+  ['hwnd_40',['hwnd',['../d2/dc0/classgamepp_1_1GameInstance.html#a8f1ca5e0673c3c2d49c24efddf08aebe',1,'gamepp::GameInstance']]],
+  ['hz_5f11025_41',['HZ_11025',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01a9815870666803bb450117caf77a14982',1,'sndpp::XWV']]],
+  ['hz_5f22050_42',['HZ_22050',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01af7bc0385d205f3ab827bc094a6897ef5',1,'sndpp::XWV']]],
+  ['hz_5f44100_43',['HZ_44100',['../d9/d12/classsndpp_1_1XWV.html#a54d07fbeee82dfff245961bc3f24cb01a62f5a1d5815c247cbd1a8b13d0515165',1,'sndpp::XWV']]]
 ];

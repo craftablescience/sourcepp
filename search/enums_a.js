@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['type_0',['Type',['../d5/d62/classtoolpp_1_1CmdSeq.html#a61c9b69b3fef4264e3f8698f575c2655',1,'toolpp::CmdSeq::Type()'],['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69',1,'vtfpp::Resource::Type()']]]
+  ['signature_0',['Signature',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11f',1,'bsppp::BSPGameLump']]],
+  ['special_1',['Special',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181',1,'toolpp::CmdSeq::Command']]]
 ];
