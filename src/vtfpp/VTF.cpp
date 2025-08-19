@@ -331,9 +331,10 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	};
 
 	const auto postReadTransform = [this] {
-		// HACK: change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it
-		//       no source game recognizes this format, so we will do additional transform in bake
-		if (this->format == ImageFormat::DXT1 && this->flags & FLAG_ONE_BIT_ALPHA) {
+		// HACK: change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it.
+		//       No source game recognizes this format, so we will do additional transform in bake back to DXT1.
+		//       We also need to check MULTI_BIT_ALPHA flag because stupid third party tools will sometimes set it???
+		if (this->format == ImageFormat::DXT1 && this->flags & (FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA)) {
 			this->format = ImageFormat::DXT1_ONE_BIT_ALPHA;
 		}
 	};
