@@ -6,11 +6,16 @@
 #include <FileStream.h>
 #include <sourcepp/crypto/Adler32.h>
 #include <sourcepp/crypto/CRC32.h>
+#include <cryptopp/aes.h>
+#include <cryptopp/modes.h>
+#include <cryptopp/filters.h>
+#include <zlib-ng.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
 
 std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback& callback, const OpenPropertyRequest& requestProperty) {
+
 	// TODO: Add v5 and perhaps v4 support
 
 	if (!std::filesystem::exists(path)) {
@@ -60,10 +65,20 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 	}
 
 	// block headers!!!!!!
+	bool request_key = false;
 	for (int i = 0; i < gcf->header.blockcount; i++) {
 		Block& block = gcf->blockdata.emplace_back();
 		reader.read(block);
+		if (block.is_encrypted()) {
+			request_key = true;
+		}
 	}
+
+	auto key = requestProperty(gcf, OpenProperty::DECRYPTION_KEY);
+	if (key.size() != 16) {
+		return nullptr;
+	}
+	std::copy(key.begin(), key.end(), gcf->decryption_key.begin());
 
 	// Fragmentation Map header
 	// not worth keeping around after verifying stuff so no struct def
@@ -232,7 +247,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 
 	std::vector<Block> toread;
 	for (const auto& v : this->blockdata) {
-		if (v.dir_index == dir_index) {
+		if (v.dir_index == dir_index && (v.flags & 0x8000)) { // need to check for 0x8000 here because valve dumps uninitialized memory 
 			toread.push_back(v);
 		}
 	}
@@ -251,8 +266,9 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 	}
 
 	uint64_t remaining = entry->length;
-
-	for (const auto& block : toread) {
+	bool needs_decrypt = false;
+	Block::compression_type filemode = Block::compression_type::uncompressed;
+	for (auto& block : toread) {
 		uint32_t currindex = block.first_data_block_index;
 		while (currindex <= this->blockheader.count) {
 			uint64_t curfilepos = static_cast<uint64_t>(this->datablockheader.firstblockoffset) + (static_cast<std::uint64_t>(0x2000) * static_cast<std::uint64_t>(currindex));
@@ -265,8 +281,75 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 			currindex = this->fragmap[currindex];
 			//printf("curridx now: %lu\n", currindex);
 		}
+		needs_decrypt = block.is_encrypted();
+		filemode = block.get_compression_type();
 	}
+	if (needs_decrypt) {
+		CryptoPP::byte iv[16] = {};
 
+		switch (filemode) {
+			using enum Block::compression_type;
+		case encrypted: {
+
+
+			auto real_size = filedata.size();
+			if (filedata.size() % 10 != 0) {
+				filedata.resize(filedata.size() + (0x10 - (filedata.size() % 10)), {});
+			}
+			auto remaining = filedata.size();
+			auto offset = 0;
+			while (remaining) {
+				CryptoPP::CFB_Mode< CryptoPP::AES >::Decryption d;
+				d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
+				auto current_batch = std::min(remaining, static_cast<size_t>(0x8000));
+				d.ProcessData(reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), current_batch);
+				remaining -= current_batch;
+				offset += current_batch;
+			}
+			filedata.resize(real_size);
+			break;
+		}
+		case compressed_and_encrypted: {
+			std::vector<std::byte> processed_data;
+			BufferStream s(filedata.data(), filedata.size());
+			while (s.size() != s.tell()) {
+				auto allocate_block = [](std::vector<std::byte>& vec, size_t x) {
+					size_t old = vec.size();
+					vec.resize(old + x);
+					return vec.data() + old;
+					};
+
+				auto encrypted_size = s.read<uint32_t>();
+				auto decompressed_size = s.read<uint32_t>();
+
+				auto buffer = s.read_bytes(encrypted_size);
+				auto real_size = buffer.size();
+				if (buffer.size() % 10 != 0) {
+					buffer.resize(buffer.size() + (0x10 - (buffer.size() % 10)), {});
+				}
+				CryptoPP::CFB_Mode< CryptoPP::AES >::Decryption d;
+				d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
+				d.ProcessData(reinterpret_cast<CryptoPP::byte*>(buffer.data()), reinterpret_cast<CryptoPP::byte*>(buffer.data()), buffer.size());
+				buffer.resize(real_size);
+
+				auto start = allocate_block(processed_data, decompressed_size);
+				
+				size_t _ = decompressed_size;
+				if (zng_uncompress(reinterpret_cast<uint8_t*>(start), &_, reinterpret_cast<uint8_t*>(buffer.data()), buffer.size())) {
+					return std::nullopt;
+				}
+
+				//auto remaining = s.size() - s.tell();
+				if (entry->length == processed_data.size()) {
+					break;
+				}
+				s.seek(s.tell() + (0x8000 - s.tell() % 0x8000));
+			}
+			filedata = processed_data;
+			break;
+		}
+		}
+	}
 	return filedata;
 }
 
