@@ -30,7 +30,7 @@ namespace vpkpp.Format
             }
         }
 
-        public new static GCF? Open(string path, EntryCallback callback, OpenPropertyRequest requestProperty)
+        public new static GCF? Open(string path, EntryCallback callback)
         {
             unsafe
             {
@@ -38,7 +38,7 @@ namespace vpkpp.Format
                 {
                     callback(path, new Entry(entry, true));
                 };
-                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), Marshal.GetFunctionPointerForDelegate(requestProperty));
+                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), 0);
                 return handle == null ? null : new GCF(handle);
             }
         }

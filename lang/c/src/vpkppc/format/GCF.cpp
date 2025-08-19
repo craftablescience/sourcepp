@@ -12,8 +12,8 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_gcf_open(const char* path, vpkpp_ent
 
 	auto packFile = GCF::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
-	} : static_cast<PackFile::EntryCallback>(nullptr), requestProperty ? [requestProperty](std::string_view guid, PackFile::OpenProperty property) {
-		return Convert::fromBuffer<std::byte>(requestProperty(guid.data(), static_cast<vpkpp_pack_file_open_property_e>(property)));
+	} : static_cast<PackFile::EntryCallback>(nullptr), requestProperty ? [requestProperty](PackFile* packFile_, PackFile::OpenProperty property) {
+		return Convert::fromBuffer<std::byte>(requestProperty(packFile_, static_cast<vpkpp_pack_file_open_property_e>(property)));
 	} : static_cast<PackFile::OpenPropertyRequest>(nullptr));
 	if (!packFile) {
 		return nullptr;

@@ -29,7 +29,7 @@ public:
 	};
 
 	// Accepts the pack file GUID and request property, returns the requested value
-	using OpenPropertyRequest = std::function<std::vector<std::byte>(std::string_view guid, OpenProperty property)>;
+	using OpenPropertyRequest = std::function<std::vector<std::byte>(PackFile* packFile, OpenProperty property)>;
 
 	/// Accepts the entry's path and metadata
 	template<typename R>

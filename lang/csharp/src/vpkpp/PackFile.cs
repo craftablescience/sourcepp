@@ -10,8 +10,6 @@ namespace vpkpp
         DECRYPTION_KEY = 0,
     }
 
-    using OpenPropertyRequest = Func<string, OpenProperty, Buffer>
-
     using EntryCallback = Action<string, Entry>;
 
     using EntryPredicate = Func<string, Entry, bool>;
@@ -192,19 +190,6 @@ namespace vpkpp
                     callback(path, new Entry(entry, true));
                 };
                 var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), 0);
-                return handle == null ? null : new PackFile(handle);
-            }
-        }
-
-        public static PackFile? Open(string path, EntryCallback callback, OpenPropertyRequest requestProperty)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), Marshal.GetFunctionPointerForDelegate(requestProperty));
                 return handle == null ? null : new PackFile(handle);
             }
         }

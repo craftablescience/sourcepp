@@ -17,7 +17,7 @@ typedef enum {
 	VPKPP_PACK_FILE_OPEN_PROPERTY_DECRYPTION_KEY,
 } vpkpp_pack_file_open_property_e;
 
-typedef sourcepp_buffer_t(*vpkpp_pack_file_open_property_request_t)(const char* guid, vpkpp_pack_file_open_property_e property);
+typedef sourcepp_buffer_t(*vpkpp_pack_file_open_property_request_t)(vpkpp_pack_file_handle_t handle, vpkpp_pack_file_open_property_e property);
 
 typedef void(*vpkpp_entry_callback_t)(const char* path, vpkpp_entry_handle_t entry);
 
