@@ -37,13 +37,39 @@ protected:
 	};
 
 	struct Block {
-		uint32_t entry_type;
+		enum class CompressionType : uint32_t {
+			UNCOMPRESSED = 0,
+			COMPRESSED, // compressed on the server, client automatically extracts it so not really
+			COMPRESSED_AND_ENCRYPTED,
+			ENCRYPTED,
+		};
+
+		uint16_t flags;
+		uint16_t open;
 		uint32_t file_data_offset;
 		uint32_t file_data_size;
 		uint32_t first_data_block_index;
 		uint32_t next_block_entry_index;
 		uint32_t prev_block_entry_index;
 		uint32_t dir_index;
+
+		[[nodiscard]] CompressionType getCompressionType() const {
+			static constexpr std::array compressionTypeLUT = {
+				CompressionType::COMPRESSED,
+				CompressionType::COMPRESSED_AND_ENCRYPTED,
+				CompressionType::UNCOMPRESSED,
+				CompressionType::ENCRYPTED,
+			};
+			const auto idx = (static_cast<std::uint8_t>(flags) & 7) - 1;
+			if (idx <= 3) {
+				return compressionTypeLUT[idx];
+			}
+			return CompressionType::UNCOMPRESSED;
+		}
+
+		[[nodiscard]] bool isEncrypted() const {
+			return static_cast<uint32_t>(this->getCompressionType()) - 2 <= 1;
+		}
 	};
 
 	struct DirectoryHeader {
@@ -153,7 +179,7 @@ protected:
 	DataBlockHeader datablockheader{};
 	std::vector<ChecksumMapEntry> chksum_map{};
 	std::vector<uint32_t> checksums{};
-
+	std::array<std::byte, 16> decryption_key;
 private:
 	VPKPP_REGISTER_PACKFILE_OPEN(GCF_EXTENSION, &GCF::open);
 };
