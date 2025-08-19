@@ -1092,7 +1092,7 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_MULTI_BIT_ALPHA);
-	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1_ONE_BIT_ALPHA);
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
@@ -1159,7 +1159,7 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA);
-	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1_ONE_BIT_ALPHA);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
