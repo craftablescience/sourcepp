@@ -220,7 +220,7 @@ Resource::ConvertedData Resource::convertData() const {
 VTF::VTF() {
 	this->version = 4;
 
-	this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
+	this->flags = VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
 
 	this->format = ImageFormat::EMPTY;
 	this->thumbnailFormat = ImageFormat::EMPTY;
@@ -614,10 +614,12 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeMips) {
-		if (!writer.setMipCount(ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()))) {
-			out = false;
+		if (const auto recommendedMipCount = ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()); recommendedMipCount > 1) {
+			if (!writer.setMipCount(recommendedMipCount)) {
+				out = false;
+			}
+			writer.computeMips(options.filter);
 		}
-		writer.computeMips(options.filter);
 	}
 	writer.setFormat(options.outputFormat);
 	if (options.computeTransparencyFlags) {
@@ -934,11 +936,6 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		if (newMipCount == 1) {
 			return false;
 		}
-	}
-	if (newMipCount > 1) {
-		this->flags &= ~(FLAG_NO_MIP | FLAG_NO_LOD);
-	} else {
-		this->flags |= FLAG_NO_MIP | FLAG_NO_LOD;
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
 	return true;
@@ -1259,6 +1256,12 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	const auto faceCount = this->getFaceCount();
 	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
 		return;
+	}
+
+	if (newMipCount > 1) {
+		this->flags &= ~(VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	} else {
+		this->flags |= VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
 	}
 
 	std::vector<std::byte> newImageData;
