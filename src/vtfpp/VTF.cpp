@@ -330,12 +330,18 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	};
 
+	// HACK: a couple tweaks to fix engine bugs or branch differences
 	const auto postReadTransform = [this] {
-		// HACK: change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it.
-		//       No source game recognizes this format, so we will do additional transform in bake back to DXT1.
-		//       We also need to check MULTI_BIT_ALPHA flag because stupid third party tools will sometimes set it???
+		// Change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it.
+		// No source game recognizes this format, so we will do additional transform in bake back to DXT1.
+		// We also need to check MULTI_BIT_ALPHA flag because stupid third party tools will sometimes set it???
 		if (this->format == ImageFormat::DXT1 && this->flags & (FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA)) {
 			this->format = ImageFormat::DXT1_ONE_BIT_ALPHA;
+		}
+		// If the version is below 7.5, NV_NULL / ATI2N / ATI1N are at different positions in the enum.
+		// It is safe to do this because these formats didn't exist before v7.5.
+		if (this->version < 5 && (this->format == ImageFormat::RGBA1010102 || this->format == ImageFormat::BGRA1010102 || this->format == ImageFormat::R16F)) {
+			this->format = static_cast<ImageFormat>(static_cast<int32_t>(this->format) - 3);
 		}
 	};
 
@@ -1651,6 +1657,10 @@ std::vector<std::byte> VTF::bake() const {
 		bakeFormat = ImageFormat::DXT1;
 		bakeFlags |= FLAG_ONE_BIT_ALPHA;
 	}
+	// HACK: NV_NULL / ATI2N / ATI1N are at a different position based on engine branch
+	if (this->version < 5 && (this->format == ImageFormat::EMPTY || this->format == ImageFormat::ATI2N || this->format == ImageFormat::ATI1N)) {
+		bakeFormat = static_cast<ImageFormat>(static_cast<int32_t>(this->format) + 3);
+	}
 
 	switch (this->platform) {
 		case PLATFORM_UNKNOWN:
@@ -1721,7 +1731,7 @@ std::vector<std::byte> VTF::bake() const {
 						for (int i = this->mipCount - 1; i >= 0; i--) {
 							for (int j = 0; j < this->frameCount; j++) {
 								for (int k = 0; k < faceCount; k++) {
-									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, bakeFormat, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
+									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
 										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
 										compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 										auxWriter.write<uint32_t>(compressedData.size());
@@ -1782,7 +1792,7 @@ std::vector<std::byte> VTF::bake() const {
 			// Go down until top level texture is <1mb, matches makegamedata.exe output
 			uint8_t mipSkip = 0;
 			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
-				if (ImageFormatDetails::getDataLength(bakeFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
+				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
 					break;
 				}
 			}
@@ -1824,7 +1834,7 @@ std::vector<std::byte> VTF::bake() const {
 			bool hasCompression = false;
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 				imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
-				::swapImageDataEndianForConsole<false>(imageResourceData, bakeFormat, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
 
 				if (this->platform != PLATFORM_PS3_ORANGEBOX) {
 					hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA;
