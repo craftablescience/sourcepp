@@ -129,7 +129,8 @@ $(document).ready(function(){initNavTree('da/d01/ImageConversion_8h.html','../..
 <a href="#concepts">Concepts</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle"><div class="title">ImageConversion.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -406,12 +407,12 @@ Functions</h2></td></tr>
 <tr class="separator:a95f9fad533042ac4c1e5705998f32330"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1ab3a3bfa5a952036b145dfcadb865a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d73/namespacevtfpp_1_1ImagePixel.html#a1ab3a3bfa5a952036b145dfcadb865a3">vtfpp::ImagePixel::VTFPP_FORMAT_INHERITED</a> (CONSOLE_BGRA8888_LE, BGRA8888)</td></tr>
 <tr class="separator:a1ab3a3bfa5a952036b145dfcadb865a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af45f71e1645bd14fbcfcd48531de0303"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#af45f71e1645bd14fbcfcd48531de0303">vtfpp::ImageConversion::convertImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint16_t width, uint16_t height)</td></tr>
-<tr class="memdesc:af45f71e1645bd14fbcfcd48531de0303"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an image from one format to another.  <br /></td></tr>
-<tr class="separator:af45f71e1645bd14fbcfcd48531de0303"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea795449a42d2076a8bb795d37faaec9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aea795449a42d2076a8bb795d37faaec9">vtfpp::ImageConversion::convertSeveralImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount)</td></tr>
-<tr class="memdesc:aea795449a42d2076a8bb795d37faaec9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts several images from one format to another.  <br /></td></tr>
-<tr class="separator:aea795449a42d2076a8bb795d37faaec9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fa45347401e8a9f6c2ee677d48192c9"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a3fa45347401e8a9f6c2ee677d48192c9">vtfpp::ImageConversion::convertImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint16_t width, uint16_t height, float quality=DEFAULT_COMPRESSED_QUALITY)</td></tr>
+<tr class="memdesc:a3fa45347401e8a9f6c2ee677d48192c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an image from one format to another.  <br /></td></tr>
+<tr class="separator:a3fa45347401e8a9f6c2ee677d48192c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaffacf564793c3dc7a8f6bfd5b06b769"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aaffacf564793c3dc7a8f6bfd5b06b769">vtfpp::ImageConversion::convertSeveralImageDataToFormat</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> oldFormat, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality=DEFAULT_COMPRESSED_QUALITY)</td></tr>
+<tr class="memdesc:aaffacf564793c3dc7a8f6bfd5b06b769"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts several images from one format to another.  <br /></td></tr>
+<tr class="separator:aaffacf564793c3dc7a8f6bfd5b06b769"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30fb0fa055a416e7f1642b99b04a090a"><td class="memItemLeft" align="right" valign="top">std::array&lt; std::vector&lt; std::byte &gt;, 6 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a30fb0fa055a416e7f1642b99b04a090a">vtfpp::ImageConversion::convertHDRIToCubeMap</a> (std::span&lt; const std::byte &gt; imageData, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint16_t width, uint16_t height, uint16_t resolution=0, bool bilinear=true)</td></tr>
 <tr class="memdesc:a30fb0fa055a416e7f1642b99b04a090a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts an HDRI into a cubemap.  <br /></td></tr>
 <tr class="separator:a30fb0fa055a416e7f1642b99b04a090a"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -448,6 +449,11 @@ Functions</h2></td></tr>
 <tr class="memitem:aad3b3ca83929b12ec4abad257d5f1648"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648">vtfpp::ImageConversion::extractChannelFromImageData</a> (std::span&lt; const std::byte &gt; imageData, auto P::*channel)</td></tr>
 <tr class="memdesc:aad3b3ca83929b12ec4abad257d5f1648"><td class="mdescLeft">&#160;</td><td class="mdescRight">Extracts a single channel from the given image data.  <br /></td></tr>
 <tr class="separator:aad3b3ca83929b12ec4abad257d5f1648"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a45a8c4b668815ac8b0de7f7439a643db"><td class="memItemLeft" align="right" valign="top">constexpr float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#a45a8c4b668815ac8b0de7f7439a643db">vtfpp::ImageConversion::DEFAULT_COMPRESSED_QUALITY</a> = 0.105f</td></tr>
+<tr class="separator:a45a8c4b668815ac8b0de7f7439a643db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a0840bd91d679741ac226374bfa4c8878" name="a0840bd91d679741ac226374bfa4c8878"></a>

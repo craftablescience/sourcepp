@@ -71,8 +71,8 @@ var ImageConversion_8h =
     [ "convertFileToImageData", "da/d01/ImageConversion_8h.html#a0e35b062eaaf17c3235b7fb03b05e9bf", null ],
     [ "convertHDRIToCubeMap", "da/d01/ImageConversion_8h.html#a30fb0fa055a416e7f1642b99b04a090a", null ],
     [ "convertImageDataToFile", "da/d01/ImageConversion_8h.html#a1bace17a2f4640e7f8b3de9655269a8e", null ],
-    [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#af45f71e1645bd14fbcfcd48531de0303", null ],
-    [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#aea795449a42d2076a8bb795d37faaec9", null ],
+    [ "convertImageDataToFormat", "da/d01/ImageConversion_8h.html#a3fa45347401e8a9f6c2ee677d48192c9", null ],
+    [ "convertSeveralImageDataToFormat", "da/d01/ImageConversion_8h.html#aaffacf564793c3dc7a8f6bfd5b06b769", null ],
     [ "cropImageData", "da/d01/ImageConversion_8h.html#ac7cd00a5275611b373c7b7651d0d5a39", null ],
     [ "extractChannelFromImageData", "da/d01/ImageConversion_8h.html#aad3b3ca83929b12ec4abad257d5f1648", null ],
     [ "gammaCorrectImageData", "da/d01/ImageConversion_8h.html#a53a8e1cf34ccf960a200739a6a93c3e0", null ],
@@ -126,5 +126,6 @@ var ImageConversion_8h =
     [ "VTFPP_FORMAT_INHERITED", "da/d01/ImageConversion_8h.html#a80401243ed105185dd344a114e9ae60f", null ],
     [ "VTFPP_FORMAT_INHERITED", "da/d01/ImageConversion_8h.html#a4afa70cfefb94b8cdea9ed98705df625", null ],
     [ "VTFPP_FORMAT_INHERITED", "da/d01/ImageConversion_8h.html#aa97e82237bd278dcc7528dba2bcd60c4", null ],
-    [ "VTFPP_FORMAT_INHERITED", "da/d01/ImageConversion_8h.html#a18db5d2dbf9ff721870528ed239e06b8", null ]
+    [ "VTFPP_FORMAT_INHERITED", "da/d01/ImageConversion_8h.html#a18db5d2dbf9ff721870528ed239e06b8", null ],
+    [ "DEFAULT_COMPRESSED_QUALITY", "da/d01/ImageConversion_8h.html#a45a8c4b668815ac8b0de7f7439a643db", null ]
 ];
