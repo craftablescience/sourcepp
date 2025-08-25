@@ -129,18 +129,11 @@ SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
  *
  * Constructing a VTF instance from existing VTF data will let you modify that data.
  *
- * This class has methods that should be called in a particular order
- * when creating a VTF from scratch, or your output VTF may look incorrect:
- *
- * 0. Construct an empty VTF instance
- * 1. Set the version (7.4 is the default)                 - VTF::setVersion
- * 2. Set FLAG_SRGB (optional, read for image resizing)    - VTF::setFlags
- * 3. Set the image resize methods (optional)              - VTF::setImageResizeMethods
- * 4. Set the base image (mip 0, frame 0, face 0, slice 0) - VTF::setImage
- * 5. Compute mips (optional)                              - VTF::computeMips
- * 6. Set the output format (optional)                     - VTF::setFormat
- *
- * After these methods are called, the other writer methods in the class should work as expected.
+ * When constructing a VTF instance from scratch, this class has methods that should be
+ * called in a particular order. If they aren't your output VTF will look incorrect or
+ * have heavy artifacting. Some of these steps are optional, but the steps actually taken
+ * should be done in this order. Reference VTF::create and VTF::createInternal to see the
+ * intended "order of operations".
  */
 class VTF {
 public:
@@ -224,6 +217,7 @@ public:
 	struct CreationOptions {
 		uint32_t version = 4;
 		ImageFormat outputFormat = FORMAT_DEFAULT;
+		float compressedFormatQuality = ImageConversion::DEFAULT_COMPRESSED_QUALITY;
 		ImageConversion::ResizeMethod widthResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT;
@@ -268,17 +262,17 @@ public:
 
 	[[nodiscard]] explicit operator bool() const;
 
-	static bool create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+	static bool create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options);
 
-	static bool create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options);
+	static bool create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options);
 
-	[[nodiscard]] static VTF create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
+	[[nodiscard]] static VTF create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options);
 
-	[[nodiscard]] static VTF create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options);
+	[[nodiscard]] static VTF create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options);
 
-	static bool create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options);
+	static bool create(const std::string& imagePath, const std::string& vtfPath, const CreationOptions& options);
 
-	[[nodiscard]] static VTF create(const std::string& imagePath, CreationOptions options);
+	[[nodiscard]] static VTF create(const std::string& imagePath, const CreationOptions& options);
 
 	[[nodiscard]] Platform getPlatform() const;
 
@@ -322,7 +316,7 @@ public:
 
 	[[nodiscard]] ImageFormat getFormat() const;
 
-	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
+	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] uint8_t getMipCount() const;
 
@@ -419,9 +413,9 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
-	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
+	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0);
+	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
@@ -435,9 +429,9 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAsRGBA8888() const;
 
-	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_);
+	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
+	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	void removeThumbnail();
 
@@ -458,7 +452,7 @@ protected:
 
 	void removeResourceInternal(Resource::Type type);
 
-	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
+	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	bool opened = false;
 

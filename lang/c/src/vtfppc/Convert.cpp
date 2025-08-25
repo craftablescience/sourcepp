@@ -87,6 +87,7 @@ VTF::CreationOptions Convert::vtfCreationOptions(vtfpp_vtf_creation_options_t op
 	return {
 		.version = options.version,
 		.outputFormat = Convert::imageFormat(options.outputFormat),
+		.compressedFormatQuality = options.compressedFormatQuality,
 		.widthResizeMethod = Convert::resizeMethod(options.widthResizeMethod),
 		.heightResizeMethod = Convert::resizeMethod(options.heightResizeMethod),
 		.filter = Convert::resizeFilter(options.filter),

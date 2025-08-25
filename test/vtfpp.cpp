@@ -1125,6 +1125,7 @@ TEST(vtfpp, read_v76_c9) {
 TEST(vtfpp, write_v76_c6) {
 	VTF vtf = VTF::create(ASSET_ROOT "vtfpp/src/po2.png", {
 		.version = 6,
+		.compressedFormatQuality = 0.f, // save time in testing
 	});
 	ASSERT_TRUE(vtf);
 

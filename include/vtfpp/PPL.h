@@ -37,7 +37,7 @@ public:
 
 	[[nodiscard]] ImageFormat getFormat() const;
 
-	void setFormat(ImageFormat newFormat);
+	void setFormat(ImageFormat newFormat, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] bool hasImageForLOD(uint32_t lod) const;
 
@@ -49,13 +49,13 @@ public:
 
 	[[nodiscard]] std::optional<Image> getImageAsRGB888(uint32_t lod = 0) const;
 
-	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t lod = 0);
+	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
+	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, uint32_t lod = 0);
+	bool setImage(const std::string& imagePath, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
+	bool setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 

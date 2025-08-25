@@ -282,10 +282,10 @@ SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle
 	return Convert::imageFormat(Convert::vtf(handle)->getFormat());
 }
 
-SOURCEPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter) {
+SOURCEPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter, float quality) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::vtf(handle)->setFormat(Convert::imageFormat(format), Convert::resizeFilter(filter));
+	Convert::vtf(handle)->setFormat(Convert::imageFormat(format), Convert::resizeFilter(filter), quality);
 }
 
 SOURCEPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle) {
@@ -588,19 +588,19 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as_rgba8888(vtfpp_vtf_ha
 	return Convert::toBuffer(Convert::vtf(handle)->getImageDataAsRGBA8888(mip, frame, face, slice));
 }
 
-SOURCEPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+SOURCEPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(imageData, false);
 	SOURCEPP_EARLY_RETURN_VAL(imageLen, false);
 
-	return Convert::vtf(handle)->setImage({reinterpret_cast<const std::byte*>(imageData), imageLen}, Convert::imageFormat(format), width, height, Convert::resizeFilter(filter), mip, frame, face, slice);
+	return Convert::vtf(handle)->setImage({reinterpret_cast<const std::byte*>(imageData), imageLen}, Convert::imageFormat(format), width, height, Convert::resizeFilter(filter), mip, frame, face, slice, quality);
 }
 
-SOURCEPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+SOURCEPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(imagePath, false);
 
-	return Convert::vtf(handle)->setImage(imagePath, Convert::resizeFilter(filter), mip, frame, face, slice);
+	return Convert::vtf(handle)->setImage(imagePath, Convert::resizeFilter(filter), mip, frame, face, slice, quality);
 }
 
 SOURCEPP_API int vtfpp_vtf_save_image_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, vtfpp_image_conversion_file_format_e fileFormat) {
@@ -637,18 +637,18 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as_rgba8888(vtfpp_vt
 	return Convert::toBuffer(Convert::vtf(handle)->getThumbnailDataAsRGBA8888());
 }
 
-SOURCEPP_API void vtfpp_vtf_set_thumbnail(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
+SOURCEPP_API void vtfpp_vtf_set_thumbnail(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float quality) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(imageData);
 	SOURCEPP_EARLY_RETURN(imageLen);
 
-	Convert::vtf(handle)->setThumbnail({reinterpret_cast<const std::byte*>(imageData), imageLen}, Convert::imageFormat(format), width, height);
+	Convert::vtf(handle)->setThumbnail({reinterpret_cast<const std::byte*>(imageData), imageLen}, Convert::imageFormat(format), width, height, quality);
 }
 
-SOURCEPP_API void vtfpp_vtf_compute_thumbnail(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter) {
+SOURCEPP_API void vtfpp_vtf_compute_thumbnail(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter, float quality) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::vtf(handle)->computeThumbnail(Convert::resizeFilter(filter));
+	Convert::vtf(handle)->computeThumbnail(Convert::resizeFilter(filter), quality);
 }
 
 SOURCEPP_API void vtfpp_vtf_remove_thumbnail(vtfpp_vtf_handle_t handle) {

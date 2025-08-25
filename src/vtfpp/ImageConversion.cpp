@@ -283,7 +283,7 @@ namespace {
 	return -1;
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+[[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 	if (imageData.empty()) {
 		return {};
 	}
@@ -312,6 +312,7 @@ namespace {
 
 	CMP_CompressOptions options{};
 	options.dwSize        = sizeof(options);
+	options.fquality      = std::clamp(quality, 0.f, 1.f);
 	options.bDXT1UseAlpha = oldFormat == ImageFormat::DXT1_ONE_BIT_ALPHA || newFormat == ImageFormat::DXT1_ONE_BIT_ALPHA;
 	if (options.bDXT1UseAlpha) {
 		options.nAlphaThreshold = 128;
@@ -845,7 +846,7 @@ namespace {
 
 } // namespace
 
-std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
+std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality) {
 	if (imageData.empty() || oldFormat == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -858,7 +859,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
 	if (ImageFormatDetails::compressed(oldFormat)) {
-		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height);
+		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height, quality);
 	} else {
 		switch (intermediaryOldFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(imageData, oldFormat);      break;
@@ -908,7 +909,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	}
 
 	if (ImageFormatDetails::compressed(newFormat)) {
-		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height);
+		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height, quality);
 	} else {
 		switch (intermediaryNewFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataFromRGBA8888(newData, newFormat);      break;
@@ -921,7 +922,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	return newData;
 }
 
-std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
+std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality) {
 	if (imageData.empty() || oldFormat == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -936,7 +937,7 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 			for (int face = 0; face < faceCount; face++) {
 				for (int slice = 0; slice < sliceCount; slice++) {
 					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
-						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height));
+						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), quality);
 						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount) && newLength == convertedImageData.size()) {
 							std::memcpy(out.data() + newOffset, convertedImageData.data(), newLength);
 						}

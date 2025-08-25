@@ -11,6 +11,8 @@ extern "C" {
 
 // Skipping vtfpp::ImagePixel, not super useful
 
+#define VTFPP_IMAGE_CONVERSION_DEFAULT_COMPRESSED_QUALITY 0.105f
+
 typedef enum {
 	VTFPP_IMAGE_CONVERSION_FILE_FORMAT_DEFAULT,
 	VTFPP_IMAGE_CONVERSION_FILE_FORMAT_PNG,
@@ -54,10 +56,10 @@ typedef enum {
 #endif
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint16_t width, uint16_t height);
+SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint16_t width, uint16_t height, float quality);
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount);
+SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality);
 
 // REQUIRES MANUAL FREE: sourcepp_buffer_free
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height);

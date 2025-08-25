@@ -146,15 +146,17 @@ inline void register_python(py::module_& m) {
 		using namespace ImageConversion;
 		auto ImageConversion = vtfpp.def_submodule("ImageConversion");
 
-		ImageConversion.def("convert_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height) {
-			const auto d = convertImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, width, height);
-			return py::bytes{d.data(), d.size()};
-		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("width"), py::arg("height"));
+		ImageConversion.attr("DEFAULT_COMPRESSED_QUALITY") = DEFAULT_COMPRESSED_QUALITY;
 
-		ImageConversion.def("convert_several_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
-			const auto d = convertSeveralImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, sliceCount);
+		ImageConversion.def("convert_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = DEFAULT_COMPRESSED_QUALITY) {
+			const auto d = convertImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, width, height, quality);
 			return py::bytes{d.data(), d.size()};
-		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count"));
+		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("width"), py::arg("height"), py::arg("quality") = DEFAULT_COMPRESSED_QUALITY);
+
+		ImageConversion.def("convert_several_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality = DEFAULT_COMPRESSED_QUALITY) {
+			const auto d = convertSeveralImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, sliceCount, quality);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("image_data"), py::arg("old_format"), py::arg("new_format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count"), py::arg("quality") = DEFAULT_COMPRESSED_QUALITY);
 
 		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
 			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
@@ -266,7 +268,8 @@ inline void register_python(py::module_& m) {
 		.def("__bool__", &PPL::operator bool, py::is_operator())
 		.def_prop_rw("version", &PPL::getVersion, &PPL::setVersion)
 		.def_prop_rw("model_checksum", &PPL::getModelChecksum, &PPL::setModelChecksum)
-		.def_prop_rw("format", &PPL::getFormat, &PPL::setFormat)
+		.def_prop_ro("format", &PPL::getFormat)
+		.def("set_format", &PPL::setFormat, py::arg("new_format"), py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("has_image_for_lod", &PPL::hasImageForLOD, py::arg("lod"))
 		.def_prop_ro("image_lods", &PPL::getImageLODs)
 		.def("get_image_raw", [](const PPL& self, uint32_t lod = 0) -> std::optional<PPL::Image> {
@@ -278,14 +281,14 @@ inline void register_python(py::module_& m) {
 		}, py::arg("lod"))
 		.def("get_image_as", &PPL::getImageAs, py::arg("new_format"), py::arg("lod"))
 		.def("get_image_as_rgb888", &PPL::getImageAsRGB888, py::arg("lod"))
-		.def("set_image", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t lod = 0) {
-			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod);
-		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("lod") = 0)
-		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT) {
-			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter);
-		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
-		.def("set_image_from_file", py::overload_cast<const std::string&, uint32_t>(&PPL::setImage), py::arg("image_path"), py::arg("lod") = 0)
-		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter>(&PPL::setImage), py::arg("image_path"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
+		.def("set_image", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod, quality);
+		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("lod") = 0, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter, quality);
+		}, py::arg("imageData"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_from_file", py::overload_cast<const std::string&, uint32_t, float>(&PPL::setImage), py::arg("image_path"), py::arg("lod") = 0, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter, float>(&PPL::setImage), py::arg("image_path"), py::arg("resized_width"), py::arg("resized_height"), py::arg("lod") = 0, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("save_image", [](const PPL& self, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(lod, fileFormat);
 			return py::bytes{d.data(), d.size()};
@@ -511,16 +514,16 @@ inline void register_python(py::module_& m) {
 		}, py::arg("vtf_data"), py::arg("parse_header_only") = false)
 		.def(py::init<const std::string&, bool>(), py::arg("vtf_path"), py::arg("parse_header_only") = false)
 		.def("__bool__", &VTF::operator bool, py::is_operator())
-		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, VTF::CreationOptions options) {
+		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const VTF::CreationOptions& options) {
 			VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, vtfPath, options);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
-		.def_static("create_blank_and_bake", py::overload_cast<ImageFormat, uint16_t, uint16_t, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
-		.def_static("create", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, VTF::CreationOptions options) {
+		.def_static("create_blank_and_bake", py::overload_cast<ImageFormat, uint16_t, uint16_t, const std::string&, const VTF::CreationOptions&>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
+		.def_static("create", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const VTF::CreationOptions& options) {
 			return VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, options);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
-		.def_static("create_blank", py::overload_cast<ImageFormat, uint16_t, uint16_t, VTF::CreationOptions>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
-		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
-		.def_static("create_from_file", py::overload_cast<const std::string&, VTF::CreationOptions>(&VTF::create), py::arg("image_path"), py::arg("creation_options") = VTF::CreationOptions{})
+		.def_static("create_blank", py::overload_cast<ImageFormat, uint16_t, uint16_t, const VTF::CreationOptions&>(&VTF::create), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("creation_options") = VTF::CreationOptions{})
+		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, const VTF::CreationOptions&>(&VTF::create), py::arg("image_path"), py::arg("vtf_path"), py::arg("creation_options") = VTF::CreationOptions{})
+		.def_static("create_from_file", py::overload_cast<const std::string&, const VTF::CreationOptions&>(&VTF::create), py::arg("image_path"), py::arg("creation_options") = VTF::CreationOptions{})
 		.def_prop_rw("platform", &VTF::getPlatform, &VTF::setPlatform)
 		.def_prop_rw("version", &VTF::getVersion, &VTF::setVersion)
 		.def_prop_rw("image_width_resize_method", &VTF::getImageWidthResizeMethod, &VTF::setImageWidthResizeMethod)
@@ -538,7 +541,7 @@ inline void register_python(py::module_& m) {
 		.def("compute_transparency_flags", &VTF::computeTransparencyFlags)
 		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, py::arg("input_format"), py::arg("version"), py::arg("is_cubemap"))
 		.def_prop_ro("format", &VTF::getFormat)
-		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
+		.def("set_format", &VTF::setFormat, py::arg("new_format"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)
 		.def("set_recommended_mip_count", &VTF::setRecommendedMipCount)
 		.def("compute_mips", &VTF::computeMips, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
@@ -554,7 +557,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("thumbnail_format", &VTF::getThumbnailFormat)
 		.def_prop_ro("thumbnail_width", &VTF::getThumbnailWidth)
 		.def_prop_ro("thumbnail_height", &VTF::getThumbnailHeight)
-		// Skipping getResources, don't want to do the same hack as in SHT here, its way more expensive
+		// Skipping getResources, don't want to do the same hack as in SHT here, it's way more expensive
 		.def("get_resource", &VTF::getResource, py::arg("type"), py::rv_policy::reference_internal)
 		.def("get_particle_sheet_frame_data_raw", [](const VTF& self, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) -> std::tuple<uint16_t, uint16_t, py::bytes> {
 			uint16_t spriteWidth, spriteHeight;
@@ -598,10 +601,10 @@ inline void register_python(py::module_& m) {
 			const auto d = self.getImageDataAsRGBA8888(mip, frame, face, slice);
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
-		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
-			return self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice);
-		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("filter"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
-		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t>(&VTF::setImage), py::arg("image_path"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0)
+		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+			return self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice, quality);
+		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("filter"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t, float>(&VTF::setImage), py::arg("image_path"), py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("slice") = 0, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("save_image", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(mip, frame, face, slice, fileFormat);
 			return py::bytes{d.data(), d.size()};
@@ -620,10 +623,10 @@ inline void register_python(py::module_& m) {
 			const auto d = self.getThumbnailDataAsRGBA8888();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
-			return self.setThumbnail({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
-		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"))
-		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
+		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+			return self.setThumbnail({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, quality);
+		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("remove_thumbnail", &VTF::removeThumbnail)
 		.def("save_thumbnail", [](const VTF& self, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveThumbnailToFile(fileFormat);

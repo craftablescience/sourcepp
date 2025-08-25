@@ -627,7 +627,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 			writer.computeMips(options.filter);
 		}
 	}
-	writer.setFormat(options.outputFormat);
+	writer.setFormat(options.outputFormat, ImageConversion::ResizeFilter::DEFAULT, options.compressedFormatQuality);
 	if (options.computeTransparencyFlags) {
 		writer.computeTransparencyFlags();
 	}
@@ -636,7 +636,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	return out;
 }
 
-bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -650,13 +650,13 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	return writer.bake(vtfPath);
 }
 
-bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
 	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, width, height, vtfPath, options);
 }
 
-VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
+VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -666,13 +666,13 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	return writer;
 }
 
-VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, CreationOptions options) {
+VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
 	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, width, height, options);
 }
 
-bool VTF::create(const std::string& imagePath, const std::string& vtfPath, CreationOptions options) {
+bool VTF::create(const std::string& imagePath, const std::string& vtfPath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -686,7 +686,7 @@ bool VTF::create(const std::string& imagePath, const std::string& vtfPath, Creat
 	return writer.bake(vtfPath);
 }
 
-VTF VTF::create(const std::string& imagePath, CreationOptions options) {
+VTF VTF::create(const std::string& imagePath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -905,7 +905,7 @@ ImageFormat VTF::getFormat() const {
 	return this->format;
 }
 
-void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter) {
+void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter, float quality) {
 	if (newFormat == VTF::FORMAT_UNCHANGED || newFormat == this->format) {
 		return;
 	}
@@ -921,9 +921,9 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter)
 		newMipCount = recommendedCount;
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
 	} else {
-		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
 	}
 }
 
@@ -1251,7 +1251,7 @@ void VTF::removeResourceInternal(Resource::Type type) {
 	std::erase_if(this->resources, [type](const Resource& resource) { return resource.type == type; });
 }
 
-void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter) {
+void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter, float quality) {
 	if (!newWidth)      { newWidth      = 1; }
 	if (!newHeight)     { newHeight     = 1; }
 	if (!newMipCount)   { newMipCount   = 1; }
@@ -1273,7 +1273,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	std::vector<std::byte> newImageData;
 	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
 		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
-			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
+			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, quality);
 		} else {
 			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
 			for (int i = newMipCount - 1; i >= 0; i--) {
@@ -1295,7 +1295,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 				}
 			}
 			if (this->format != newFormat) {
-				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount);
+				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount, quality);
 			}
 		}
 	} else {
@@ -1487,7 +1487,7 @@ std::vector<std::byte> VTF::getImageDataAsRGBA8888(uint8_t mip, uint16_t frame, 
 	return this->getImageDataAs(ImageFormat::RGBA8888, mip, frame, face, slice);
 }
 
-bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
 	if (imageData_.empty()) {
 		return false;
 	}
@@ -1525,14 +1525,14 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), filter);
 		}
 		if (format_ != this->format) {
-			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight);
+			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight, quality);
 		}
 		std::memcpy(imageResource->data.data() + offset, image.data(), image.size());
 	}
 	return true;
 }
 
-bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
+bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -1544,14 +1544,14 @@ bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter f
 
 	// One frame (normal)
 	if (inputFrameCount == 1) {
-		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice);
+		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice, quality);
 	}
 
 	// Multiple frames (GIF)
 	bool allSuccess = true;
 	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
 	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
-		if (!this->setImage({imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize}, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice)) {
+		if (!this->setImage({imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize}, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
 			allSuccess = false;
 		}
 		if (currentFrame == 0 && this->frameCount < frame + inputFrameCount) {
@@ -1596,9 +1596,9 @@ std::vector<std::byte> VTF::getThumbnailDataAsRGBA8888() const {
 	return this->getThumbnailDataAs(ImageFormat::RGBA8888);
 }
 
-void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_) {
+void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, float quality) {
 	if (format_ != this->thumbnailFormat) {
-		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(imageData_, format_, this->thumbnailFormat, width_, height_));
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(imageData_, format_, this->thumbnailFormat, width_, height_, quality));
 	} else {
 		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, imageData_);
 	}
@@ -1606,14 +1606,14 @@ void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format
 	this->thumbnailHeight = height_;
 }
 
-void VTF::computeThumbnail(ImageConversion::ResizeFilter filter) {
+void VTF::computeThumbnail(ImageConversion::ResizeFilter filter, float quality) {
 	if (!this->hasImageData()) {
 		return;
 	}
 	this->thumbnailFormat = ImageFormat::DXT1;
 	this->thumbnailWidth = 16;
 	this->thumbnailHeight = 16;
-	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight));
+	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, quality));
 }
 
 void VTF::removeThumbnail() {
