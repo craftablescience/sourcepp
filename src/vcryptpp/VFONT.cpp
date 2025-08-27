@@ -14,7 +14,7 @@ std::vector<std::byte> VFONT::encrypt(std::span<const std::byte> data, uint8_t s
 
 	static std::random_device random_device{};
 	static std::mt19937 generator{random_device()};
-	std::uniform_int_distribution<uint8_t> distribution{0, std::numeric_limits<uint8_t>::max()};
+	std::uniform_int_distribution<> distribution{0, (std::numeric_limits<uint8_t>::max())};
 
 	std::vector<std::byte> salt;
 	salt.resize(saltLength);
