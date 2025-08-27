@@ -21,6 +21,11 @@ inline void register_python(py::module_& m) {
 
 		VFONT.attr("MAGIC") = MAGIC;
 
+		VFONT.def("encrypt_bytes", [](const py::bytes& data, uint8_t saltSize = 2) {
+			const auto d = encrypt({static_cast<const std::byte*>(data.data()), data.size()}, saltSize);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("data"), py::arg("salt_size") = 2);
+
 		VFONT.def("decrypt_bytes", [](const py::bytes& data) {
 			const auto d = decrypt({static_cast<const std::byte*>(data.data()), data.size()});
 			return py::bytes{d.data(), d.size()};

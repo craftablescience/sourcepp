@@ -149,7 +149,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/Vfont">VFONT</a> encrypted fonts</td>
     <td align="center">✅</td>
-    <td align="center">❌</td>
+    <td align="center">✅</td>
   </tr>
   <tr>
     <td rowspan="15"><code>vpkpp</code></td>
