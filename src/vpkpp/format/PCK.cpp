@@ -248,7 +248,10 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
-			const auto entryPath = std::string{PCK_PATH_PREFIX} + path;
+			auto entryPath = path;
+			if (this->header.godotVersionMajor <= 4 && this->header.godotVersionMinor <= 4) {
+				entryPath = std::string{PCK_PATH_PREFIX} + entryPath; // NOLINT(*-inefficient-string-concatenation)
+			}
 			const auto padding = math::paddingForAlignment(PCK_DIRECTORY_STRING_PADDING, static_cast<int>(entryPath.length()));
 			stream.write(static_cast<uint32_t>(entryPath.length() + padding));
 			stream.write(entryPath, false, entryPath.length() + padding);
