@@ -28,6 +28,7 @@ var classvpkpp_1_1GCF =
     [ "checksums", "d1/d01/classvpkpp_1_1GCF.html#aca05709523d90c06a021f90cb4a0f555", null ],
     [ "chksum_map", "d1/d01/classvpkpp_1_1GCF.html#a3727f7c53c225fbbe3f0375c42eb603b", null ],
     [ "datablockheader", "d1/d01/classvpkpp_1_1GCF.html#a6dd4d9e8fa7c17cac3a12832250c506a", null ],
+    [ "decryption_key", "d1/d01/classvpkpp_1_1GCF.html#a3853457f9a87b86edb48cfad26a832fb", null ],
     [ "dirheader", "d1/d01/classvpkpp_1_1GCF.html#aa5c96887602a3559fd2a1fb87ab290d5", null ],
     [ "dirmap_entries", "d1/d01/classvpkpp_1_1GCF.html#a07a3d0133349a9a5f2b1209542f3ed87", null ],
     [ "fragmap", "d1/d01/classvpkpp_1_1GCF.html#ae9f739eb204683082f9b228e2d21a3f4", null ],
