@@ -213,7 +213,7 @@ public:
 
 	[[nodiscard]] bool isGameLumpCompressed(BSPGameLump::Signature signature) const;
 
-	[[nodiscard]] uint16_t getGameLumpVersion(BSPGameLump::Signature signature);
+	[[nodiscard]] uint16_t getGameLumpVersion(BSPGameLump::Signature signature) const;
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> getGameLumpData(BSPGameLump::Signature signature) const;
 

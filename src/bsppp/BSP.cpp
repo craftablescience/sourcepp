@@ -229,7 +229,7 @@ bool BSP::isGameLumpCompressed(BSPGameLump::Signature signature) const {
 	return false;
 }
 
-uint16_t BSP::getGameLumpVersion(BSPGameLump::Signature signature) {
+uint16_t BSP::getGameLumpVersion(BSPGameLump::Signature signature) const {
 	for (const auto& gameLump : this->stagedGameLumps) {
 		if (gameLump.signature == signature) {
 			return gameLump.version;
