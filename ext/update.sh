@@ -15,6 +15,12 @@
   git pull
 )
 (
+  cd libwebp || exit
+  git checkout main
+  git pull
+cd ..
+)
+(
   cd miniz || exit
   git checkout master
   git pull

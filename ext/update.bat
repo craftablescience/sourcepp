@@ -13,6 +13,11 @@ git checkout master
 git pull
 cd ..
 
+cd libwebp
+git checkout main
+git pull
+cd ..
+
 cd miniz
 git checkout master
 git pull
