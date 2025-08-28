@@ -5,7 +5,7 @@ var classbsppp_1_1BSP =
     [ "create", "d5/dba/classbsppp_1_1BSP.html#a356faed1f5e8cff979beb2951ced6aa7", null ],
     [ "createLumpPatchFile", "d5/dba/classbsppp_1_1BSP.html#aa2bd3d2880f264fa2317fed4e0f43dce", null ],
     [ "getGameLumpData", "d5/dba/classbsppp_1_1BSP.html#a8849df17d85663b4aa86198e25162801", null ],
-    [ "getGameLumpVersion", "d5/dba/classbsppp_1_1BSP.html#a8aa2a12f1d02feeb6e33403c27f4b848", null ],
+    [ "getGameLumpVersion", "d5/dba/classbsppp_1_1BSP.html#aaec4e3cf01fd292e9d5b4424ce0adf4d", null ],
     [ "getLumpData", "d5/dba/classbsppp_1_1BSP.html#a0e7165e518009d32824907478f85518e", null ],
     [ "getLumpData", "d5/dba/classbsppp_1_1BSP.html#a9f82be8173e0fb68bfe0fa092b672d58", null ],
     [ "getLumpVersion", "d5/dba/classbsppp_1_1BSP.html#abc68b2487a167b866928d28f6419ada0", null ],
