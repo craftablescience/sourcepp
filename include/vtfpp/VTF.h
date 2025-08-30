@@ -49,10 +49,12 @@ struct Resource {
 			TYPE_THUMBNAIL_DATA,
 			TYPE_PARTICLE_SHEET_DATA,
 			TYPE_HOTSPOT_DATA,
+			// regular Source can't handle out of order resources, but Strata can,
+			// and it's the only branch that can read this and 7.6
+			TYPE_AUX_COMPRESSION,
 			TYPE_IMAGE_DATA,
 			TYPE_EXTENDED_FLAGS,
 			TYPE_CRC,
-			TYPE_AUX_COMPRESSION,
 			TYPE_LOD_CONTROL_INFO,
 			TYPE_KEYVALUES_DATA,
 		};
