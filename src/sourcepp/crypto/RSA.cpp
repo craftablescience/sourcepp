@@ -28,24 +28,18 @@ std::pair<std::string, std::string> crypto::computeSHA256KeyPair(uint16_t size) 
 }
 
 bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, std::span<const std::byte> publicKey, std::span<const std::byte> signature) {
-	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Verifier verifier{
-		CryptoPP::VectorSource(reinterpret_cast<const std::vector<CryptoPP::byte>&>(publicKey), true).Ref()
-	};
-	return verifier.VerifyMessage(reinterpret_cast<const CryptoPP::byte*>(buffer.data()), buffer.size(),
-	                              reinterpret_cast<const CryptoPP::byte*>(signature.data()), signature.size());
+	CryptoPP::VectorSource publicKeySource{reinterpret_cast<const std::vector<CryptoPP::byte>&>(publicKey), true};
+	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Verifier verifier{publicKeySource};
+	return verifier.VerifyMessage(reinterpret_cast<const CryptoPP::byte*>(buffer.data()), buffer.size(), reinterpret_cast<const CryptoPP::byte*>(signature.data()), signature.size());
 }
 
-std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(std::span<const std::byte> buffer, std::span<const std::byte> privateKey) {
+std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(const std::vector<std::byte>& buffer, const std::vector<std::byte>& privateKey) {
 	CryptoPP::AutoSeededRandomPool rng;
 
-	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Signer signer{
-		CryptoPP::VectorSource(reinterpret_cast<const std::vector<CryptoPP::byte>&>(privateKey), true).Ref()
-	};
+	CryptoPP::VectorSource privateKeySource{reinterpret_cast<const std::vector<CryptoPP::byte>&>(privateKey), true};
+	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Signer signer{privateKeySource};
 
 	std::vector<std::byte> out;
-	CryptoPP::VectorSource signData{
-		reinterpret_cast<const std::vector<CryptoPP::byte> &>(buffer), true,
-		new CryptoPP::SignerFilter{rng, signer, new CryptoPP::VectorSink{reinterpret_cast<std::vector<CryptoPP::byte> &>(out)}}
-	};
+	CryptoPP::VectorSource signData{reinterpret_cast<const std::vector<CryptoPP::byte>&>(buffer), true, new CryptoPP::SignerFilter{rng, signer, new CryptoPP::VectorSink{reinterpret_cast<std::vector<CryptoPP::byte>&>(out)}}};
 	return out;
 }
