@@ -98,7 +98,7 @@ var searchData=
   ['signature_5fdetail_5fprops_95',['SIGNATURE_DETAIL_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa71f4f0d94bcad487aec8610b366d161e',1,'bsppp::BSPGameLump']]],
   ['signature_5fstatic_5fprops_96',['SIGNATURE_STATIC_PROPS',['../d6/d07/structbsppp_1_1BSPGameLump.html#a681685fd212857c344b79e877fcbd11fa16ad2a2fa54b13b7ef220e61b9be8655',1,'bsppp::BSPGameLump']]],
   ['signaturesectionsize_97',['signatureSectionSize',['../d2/d8d/structvpkpp_1_1VPK_1_1Header2.html#a4433bf660d7dc8a7af946b21ee29f161',1,'vpkpp::VPK::Header2']]],
-  ['signdatawithsha256privatekey_98',['signDataWithSHA256PrivateKey',['../db/d83/namespacesourcepp_1_1crypto.html#a0a4ed283db62e7c750a5085db1a60ee6',1,'sourcepp::crypto']]],
+  ['signdatawithsha256privatekey_98',['signDataWithSHA256PrivateKey',['../db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1',1,'sourcepp::crypto']]],
   ['sin_99',['SIN',['../d9/daf/classvpkpp_1_1PAK.html#a4322cc16cd73d99c951be7ad59133bb2a5b001d63db54e7383587771eeb2018a1',1,'vpkpp::PAK']]],
   ['sin_5fextension_100',['SIN_EXTENSION',['../d5/d29/namespacevpkpp.html#a6c27e20480cd978c43bf6fb5ae268486',1,'vpkpp']]],
   ['size_101',['size',['../d6/d21/structsourcepp_1_1math_1_1Vec.html#ad72e16405b03bd597372124f71085da8',1,'sourcepp::math::Vec']]],
