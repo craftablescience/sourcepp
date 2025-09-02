@@ -13,7 +13,7 @@ var namespacesourcepp =
       [ "decodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#af0f8f739fd07fe6acd369b64dd32136f", null ],
       [ "encodeHexString", "db/d83/namespacesourcepp_1_1crypto.html#a97d529d4a2f74e8686a13a26f7243e09", null ],
       [ "signDataWithSHA256PrivateKey", "db/d83/namespacesourcepp_1_1crypto.html#ab47c07cf7ad1e5ea163d791f61279fe1", null ],
-      [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#a37b0b95fc83f9ec196d1bbacf24cf811", null ]
+      [ "verifySHA256PublicKey", "db/d83/namespacesourcepp_1_1crypto.html#a65984f637ace6369044d5399f387bef1", null ]
     ] ],
     [ "detail", "dc/daf/namespacesourcepp_1_1detail.html", "dc/daf/namespacesourcepp_1_1detail" ],
     [ "fs", "d9/dd6/namespacesourcepp_1_1fs.html", [
