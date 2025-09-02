@@ -27,7 +27,7 @@ std::pair<std::string, std::string> crypto::computeSHA256KeyPair(uint16_t size) 
 	return std::make_pair(std::move(privateKeyStr), std::move(publicKeyStr));
 }
 
-bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, std::span<const std::byte> publicKey, std::span<const std::byte> signature) {
+bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, const std::vector<std::byte>& publicKey, std::span<const std::byte> signature) {
 	CryptoPP::VectorSource publicKeySource{reinterpret_cast<const std::vector<CryptoPP::byte>&>(publicKey), true};
 	const CryptoPP::RSASS<CryptoPP::PKCS1v15, CryptoPP::SHA256>::Verifier verifier{publicKeySource};
 	return verifier.VerifyMessage(reinterpret_cast<const CryptoPP::byte*>(buffer.data()), buffer.size(), reinterpret_cast<const CryptoPP::byte*>(signature.data()), signature.size());
