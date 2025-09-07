@@ -1781,7 +1781,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	}
 
 	// QOI header
-	if (fileData.size() >= 26 && *reinterpret_cast<const uint32_t*>(fileData.data()) == parser::binary::makeFourCC("fioq")) {
+	if (fileData.size() >= 26 && *reinterpret_cast<const uint32_t*>(fileData.data()) == parser::binary::makeFourCC("qoif")) {
 		qoi_desc descriptor;
 		const ::stb_ptr<std::byte> qoiImage{
 			static_cast<std::byte*>(qoi_decode(fileData.data(), fileData.size(), &descriptor, 0)),
