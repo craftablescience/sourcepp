@@ -730,10 +730,10 @@ namespace {
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::RGBA8888 {
 		return {
-			static_cast<uint8_t>(std::clamp(pixel.r, 0.f, 1.f) * ((1 << 8) - 1)),
-			static_cast<uint8_t>(std::clamp(pixel.g, 0.f, 1.f) * ((1 << 8) - 1)),
-			static_cast<uint8_t>(std::clamp(pixel.b, 0.f, 1.f) * ((1 << 8) - 1)),
-			static_cast<uint8_t>(std::clamp(pixel.a, 0.f, 1.f) * ((1 << 8) - 1)),
+			static_cast<uint8_t>(std::clamp<float>(pixel.r, 0.f, 1.f) * ((1 << 8) - 1)),
+			static_cast<uint8_t>(std::clamp<float>(pixel.g, 0.f, 1.f) * ((1 << 8) - 1)),
+			static_cast<uint8_t>(std::clamp<float>(pixel.b, 0.f, 1.f) * ((1 << 8) - 1)),
+			static_cast<uint8_t>(std::clamp<float>(pixel.a, 0.f, 1.f) * ((1 << 8) - 1)),
 		};
 	});
 
@@ -808,10 +808,10 @@ namespace {
 #endif
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::RGBA16161616 {
 		return {
-			static_cast<uint16_t>(std::clamp(pixel.r, 0.f, 1.f) * ((1 << 16) - 1)),
-			static_cast<uint16_t>(std::clamp(pixel.g, 0.f, 1.f) * ((1 << 16) - 1)),
-			static_cast<uint16_t>(std::clamp(pixel.b, 0.f, 1.f) * ((1 << 16) - 1)),
-			static_cast<uint16_t>(std::clamp(pixel.a, 0.f, 1.f) * ((1 << 16) - 1)),
+			static_cast<uint16_t>(std::clamp<float>(pixel.r, 0.f, 1.f) * ((1 << 16) - 1)),
+			static_cast<uint16_t>(std::clamp<float>(pixel.g, 0.f, 1.f) * ((1 << 16) - 1)),
+			static_cast<uint16_t>(std::clamp<float>(pixel.b, 0.f, 1.f) * ((1 << 16) - 1)),
+			static_cast<uint16_t>(std::clamp<float>(pixel.a, 0.f, 1.f) * ((1 << 16) - 1)),
 		};
 	});
 

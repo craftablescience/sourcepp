@@ -1681,7 +1681,9 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->frameCount)
 				.write(this->startFrame)
 				.write<uint32_t>(0) // padding
-				.write(this->reflectivity)
+				.write(this->reflectivity[0])
+				.write(this->reflectivity[1])
+				.write(this->reflectivity[2])
 				.write<uint32_t>(0) // padding
 				.write(this->bumpMapScale)
 				.write(bakeFormat)

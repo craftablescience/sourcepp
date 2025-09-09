@@ -5,13 +5,51 @@
 #include <cstddef>
 #include <span>
 #include <vector>
+#include <type_traits>
 
 #include <BufferStream.h>
 #include <sourcepp/Templates.h>
+#include <sourcepp/Math.h>
+
+using sourcepp::math::Arithmetic;
 
 #include "ImageFormats.h"
 
 namespace vtfpp {
+
+template<Arithmetic A>
+class LERep : public std::array<std::byte, sizeof(A)> {
+	using uint_according = typename std::conditional<sizeof(A) == 8,
+		uint64_t,
+	typename std::conditional<sizeof(A) == 4,
+		uint32_t,
+	typename std::conditional<sizeof(A) == 2,
+		uint16_t,
+	uint8_t>::type>::type>::type;
+public:
+	constexpr operator A() {
+		uint_according ret = 0;
+		for (size_t offs = 0; auto &b : *this) {
+			ret |= (static_cast<uint_according>(b) << offs) & (uint_according(0xFFu) << offs);
+			offs += 8;
+		}
+		return *reinterpret_cast<A *>(&ret);
+	}
+	constexpr LERep &operator=(const A &v) {
+		auto in = *reinterpret_cast<const uint_according *>(&v);
+		for (size_t offs = 0; auto &b : *this) {
+			b = static_cast<std::byte>((in >> offs) & uint_according(0xFFu));
+			offs += 8;
+		}
+		return *this;
+	}
+	template<Arithmetic B> requires (std::convertible_to<B, A> || std::is_same_v<A, half>)
+	constexpr LERep(const B &u) { *this = static_cast<A>(u); }
+	template<Arithmetic B> requires std::convertible_to<B, A>
+	constexpr LERep(const LERep<B> &u) { *this = static_cast<A>(u); }
+	template<Arithmetic B> requires std::convertible_to<A, B>
+	constexpr operator B() const { return static_cast<B>(static_cast<A>(*this)); }
+};
 
 namespace ImagePixel {
 
@@ -157,18 +195,18 @@ struct UVWQ8888 {
 
 struct RGBA16161616F {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
-	half r;
-	half g;
-	half b;
-	half a;
+	LERep<half> r;
+	LERep<half> g;
+	LERep<half> b;
+	LERep<half> a;
 }; VTFPP_CHECK_SIZE(RGBA16161616F);
 
 struct RGBA16161616 {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616;
-	uint16_t r;
-	uint16_t g;
-	uint16_t b;
-	uint16_t a;
+	LERep<uint16_t> r;
+	LERep<uint16_t> g;
+	LERep<uint16_t> b;
+	LERep<uint16_t> a;
 }; VTFPP_CHECK_SIZE(RGBA16161616);
 
 struct UVLX8888 {
@@ -181,34 +219,34 @@ struct UVLX8888 {
 
 struct R32F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
-	float r;
+	LERep<float> r;
 }; VTFPP_CHECK_SIZE(R32F);
 
 struct RGB323232F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
-	float r;
-	float g;
-	float b;
+	LERep<float> r;
+	LERep<float> g;
+	LERep<float> b;
 }; VTFPP_CHECK_SIZE(RGB323232F);
 
 struct RGBA32323232F {
 	static constexpr auto FORMAT = ImageFormat::RGBA32323232F;
-	float r;
-	float g;
-	float b;
-	float a;
+	LERep<float> r;
+	LERep<float> g;
+	LERep<float> b;
+	LERep<float> a;
 }; VTFPP_CHECK_SIZE(RGBA32323232F);
 
 struct RG1616F {
 	static constexpr auto FORMAT = ImageFormat::RG1616F;
-	half r;
-	half g;
+	LERep<half> r;
+	LERep<half> g;
 }; VTFPP_CHECK_SIZE(RG1616F);
 
 struct RG3232F {
 	static constexpr auto FORMAT = ImageFormat::RG3232F;
-	float r;
-	float g;
+	LERep<float> r;
+	LERep<float> g;
 }; VTFPP_CHECK_SIZE(RG3232F);
 
 struct RGBX8888 {
