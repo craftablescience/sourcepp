@@ -471,9 +471,7 @@ protected:
 	uint16_t frameCount = 1;
 	uint16_t startFrame{};
 
-	//uint8_t _padding0[4];
-	sourcepp::math::Vec3f reflectivity{};
-	//uint8_t _padding1[4];
+	sourcepp::math::Vec3f reflectivity{0.2f, 0.2f, 0.2f};
 
 	float bumpMapScale{};
 	ImageFormat format = ImageFormat::EMPTY;
