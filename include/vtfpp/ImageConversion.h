@@ -27,7 +27,7 @@ class LERep : public std::array<std::byte, sizeof(A)> {
 		uint16_t,
 	uint8_t>::type>::type>::type;
 public:
-	constexpr operator A() {
+	constexpr operator A() const {
 		uint_according ret = 0;
 		for (size_t offs = 0; auto &b : *this) {
 			ret |= (static_cast<uint_according>(b) << offs) & (uint_according(0xFFu) << offs);
@@ -44,11 +44,13 @@ public:
 		return *this;
 	}
 	template<Arithmetic B> requires (std::convertible_to<B, A> || std::is_same_v<A, half>)
-	constexpr LERep(const B &u) { *this = static_cast<A>(u); }
+	constexpr LERep(const B &u) { this->operator=(static_cast<A>(u)); }
+
 	template<Arithmetic B> requires std::convertible_to<B, A>
-	constexpr LERep(const LERep<B> &u) { *this = static_cast<A>(u); }
+	constexpr LERep(const LERep<B> &u) { this->operator=(u.operator A()); }
+
 	template<Arithmetic B> requires std::convertible_to<A, B>
-	constexpr operator B() const { return static_cast<B>(static_cast<A>(*this)); }
+	constexpr operator B() const { return static_cast<B>(this->operator A()); }
 };
 
 namespace ImagePixel {
