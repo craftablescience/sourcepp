@@ -940,7 +940,6 @@ TEST(vtfpp, read_xbox) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::RGB888);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 1);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
-	EXPECT_EQ(vtf.getFallbackFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
 
@@ -955,7 +954,7 @@ TEST(vtfpp, read_xbox) {
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
 	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFallbackFormat(), ImageDimensions::getActualMipCountForDimsOnConsole(vtf.getFallbackWidth(), vtf.getFallbackHeight()), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), ImageDimensions::getActualMipCountForDimsOnConsole(vtf.getFallbackWidth(), vtf.getFallbackHeight()), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);

@@ -373,8 +373,6 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] ImageFormat getFallbackFormat() const;
-
 	[[nodiscard]] uint8_t getFallbackWidth() const;
 
 	[[nodiscard]] uint8_t getFallbackHeight() const;
@@ -514,7 +512,6 @@ protected:
 	uint8_t thumbnailWidth = 0;
 	uint8_t thumbnailHeight = 0;
 
-	ImageFormat fallbackFormat = ImageFormat::EMPTY;
 	uint8_t fallbackWidth = 0;
 	uint8_t fallbackHeight = 0;
 
