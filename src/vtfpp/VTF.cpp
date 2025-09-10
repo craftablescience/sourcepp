@@ -532,6 +532,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
 				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+
 				// Can't use VTF::getFaceCount yet because there's no image data
 				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
 
@@ -539,20 +541,20 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->thumbnailFormat = ImageFormat::EMPTY;
 				} else {
 					this->thumbnailFormat = ImageFormat::RGB888;
+					this->resources.push_back({
+						.type = Resource::TYPE_THUMBNAIL_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
+					});
 				}
-				this->resources.push_back({
-					.type = Resource::TYPE_THUMBNAIL_DATA,
-					.flags = Resource::FLAG_NONE,
-					.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
-				});
 
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight)), this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight)), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (!ok) {
 					this->opened = false;
 					return;
 				}
-				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->mipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 
 				// todo(xtf): what about the palette?
 
@@ -674,6 +676,7 @@ VTF& VTF::operator=(const VTF& other) {
 	this->thumbnailHeight = other.thumbnailHeight;
 	this->fallbackWidth = other.fallbackWidth;
 	this->fallbackHeight = other.fallbackHeight;
+	this->fallbackMipCount = other.fallbackMipCount;
 	this->xboxMipScale = other.xboxMipScale;
 	this->sliceCount = other.sliceCount;
 
@@ -868,9 +871,7 @@ void VTF::setPlatform(Platform newPlatform) {
 
 	// Add/remove fallback data for XBOX
 	if (this->platform != PLATFORM_XBOX && this->hasFallbackData()) {
-		this->fallbackWidth = 0;
-		this->fallbackHeight = 0;
-		this->removeResourceInternal(Resource::TYPE_FALLBACK_DATA);
+		this->removeFallback();
 	} else if (this->platform == PLATFORM_XBOX) {
 		this->computeFallback();
 	}
@@ -1104,6 +1105,11 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		}
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
+
+	if (this->hasFallbackData() && ((this->mipCount > 1 && this->fallbackMipCount <= 1) || (this->mipCount == 1 && this->fallbackMipCount > 1))) {
+		this->removeFallback();
+		this->computeFallback();
+	}
 	return true;
 }
 
@@ -1336,6 +1342,10 @@ uint8_t VTF::getFallbackWidth() const {
 
 uint8_t VTF::getFallbackHeight() const {
 	return this->fallbackHeight;
+}
+
+uint8_t VTF::getFallbackMipCount() const {
+	return this->fallbackMipCount;
 }
 
 const std::vector<Resource>& VTF::getResources() const {
@@ -1825,12 +1835,12 @@ bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::Fil
 }
 
 bool VTF::hasFallbackData() const {
-	return this->fallbackWidth > 0 && this->fallbackHeight > 0;
+	return this->fallbackWidth > 0 && this->fallbackHeight > 0 && this->fallbackMipCount > 0;
 }
 
 std::span<const std::byte> VTF::getFallbackDataRaw(uint8_t mip, uint16_t frame, uint8_t face) const {
 	if (const auto fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
-		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
+		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->fallbackMipCount, frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
 			return fallbackResource->data.subspan(offset, length);
 		}
 	}
@@ -1863,15 +1873,15 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 
 	this->fallbackWidth = 8;
 	this->fallbackHeight = 8;
-	const auto fallbackMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+	this->fallbackMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
 	std::vector<std::byte> fallbackData;
-	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
-	for (int i = fallbackMipCount - 1; i >= 0; i--) {
+	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
+	for (int i = this->fallbackMipCount - 1; i >= 0; i--) {
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, ImageDimensions::getMipDim(i, this->fallbackWidth), this->height, ImageDimensions::getMipDim(i, this->fallbackHeight), this->isSRGB(), filter);
-				if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, fallbackMipCount, j, this->frameCount, k, faceCount, this->fallbackWidth, this->fallbackHeight) && mip.size() == length) {
+				if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->fallbackMipCount, j, this->frameCount, k, faceCount, this->fallbackWidth, this->fallbackHeight) && mip.size() == length) {
 					std::memcpy(fallbackData.data() + offset, mip.data(), length);
 				}
 			}
@@ -1883,6 +1893,7 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 void VTF::removeFallback() {
 	this->fallbackWidth = 0;
 	this->fallbackHeight = 0;
+	this->fallbackMipCount = 0;
 	this->removeResourceInternal(Resource::TYPE_FALLBACK_DATA);
 }
 
@@ -2075,9 +2086,9 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<false>(fallbackResource->data, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<false>(fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (ok) {
-					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 					writer.write(reorderedFallbackData);
 				} else {
 					writer.pad(fallbackResource->data.size());

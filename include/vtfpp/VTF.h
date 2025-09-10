@@ -378,6 +378,8 @@ public:
 
 	[[nodiscard]] uint8_t getFallbackHeight() const;
 
+	[[nodiscard]] uint8_t getFallbackMipCount() const;
+
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
@@ -519,6 +521,7 @@ protected:
 
 	uint8_t fallbackWidth = 0;
 	uint8_t fallbackHeight = 0;
+	uint8_t fallbackMipCount = 0;
 
 	// Number of times to multiply the scale of each mip by 2 when rendering on XBOX
 	uint8_t xboxMipScale = 0;
