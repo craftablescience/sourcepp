@@ -71,9 +71,9 @@ namespace {
 	return {};
 }
 
-template<bool ExistingDataIsSwizzled>
+template<std::unsigned_integral T, bool ExistingDataIsSwizzled>
 constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
-	width *= ImageFormatDetails::bpp(format) / 32;
+	width *= ImageFormatDetails::bpp(format) / (sizeof(T) * 8);
 	const auto zIndex = [
 		widthL2 = static_cast<int>(math::log2ceil(width)),
 		heightL2 = static_cast<int>(math::log2ceil(height)),
@@ -101,15 +101,15 @@ constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std:
 		return offset;
 	};
 
-	const auto* inputPtr = reinterpret_cast<const uint32_t*>(inputData.data());
-	auto* outputPtr = reinterpret_cast<uint32_t*>(outputData.data());
+	const auto* inputPtr = reinterpret_cast<const T*>(inputData.data());
+	auto* outputPtr = reinterpret_cast<T*>(outputData.data());
 	for (uint16_t x = 0; x < width; x++) {
 		for (uint16_t y = 0; y < height; y++) {
 			for (uint16_t z = 0; z < slice; z++) {
 				if constexpr (ExistingDataIsSwizzled) {
-					*outputPtr++ = reinterpret_cast<const uint32_t*>(inputData.data())[zIndex(x, y, z)];
+					*outputPtr++ = reinterpret_cast<const T*>(inputData.data())[zIndex(x, y, z)];
 				} else {
-					reinterpret_cast<uint32_t*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
+					reinterpret_cast<T*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
 				}
 			}
 		}
@@ -153,7 +153,8 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 		}
 	}
 
-	if ((platform == VTF::PLATFORM_XBOX || platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && ImageFormatDetails::bpp(format) % 32 == 0) {
+	// todo(vtfpp): should we enable 16-bit wide and 8-bit wide formats outside XBOX?
+	if ((platform == VTF::PLATFORM_XBOX || platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && (ImageFormatDetails::bpp(format) % 32 == 0 || (platform == VTF::PLATFORM_XBOX && (ImageFormatDetails::bpp(format) % 16 == 0 || ImageFormatDetails::bpp(format) % 8 == 0)))) {
 		std::vector<std::byte> out(imageData.size());
 		for(int mip = mipCount - 1; mip >= 0; mip--) {
 			const auto mipWidth = ImageDimensions::getMipDim(mip, width);
@@ -163,7 +164,13 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
 						std::span imageDataSpan{imageData.data() + offset, length * sliceCount};
 						std::span outSpan{out.data() + offset, length * sliceCount};
-						::swizzleUncompressedImageData<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						if (ImageFormatDetails::bpp(format) % 32 == 0) {
+							::swizzleUncompressedImageData<uint32_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						} else if (ImageFormatDetails::bpp(format) % 16 == 0) {
+							::swizzleUncompressedImageData<uint16_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						} else /*if (ImageFormatDetails::bpp(format) % 8 == 0)*/ {
+							::swizzleUncompressedImageData<uint8_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						}
 					}
 				}
 			}
@@ -207,7 +214,7 @@ template<bool ConvertingFromDDS>
 					}
 				}
 			}
-			if (padded && j + 1 != frameCount) {
+			if (padded && j + 1 != frameCount && reorderedStream.tell() > 512) {
 				reorderedStream.pad(math::paddingForAlignment(512, reorderedStream.tell()));
 			}
 		}
@@ -554,9 +561,20 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 
 				bool ok;
-				const auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+				auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
 				std::vector<std::byte> reorderedFallbackData;
 				if (this->hasFallbackData()) {
+					if (stream.tell() + fallbackSize != preloadSize) {
+						// A couple XTFs that shipped with HL2 are missing the NO_MIP flag. We can detect them by checking the size of the fallback
+						fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, 1, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+						if (stream.tell() + fallbackSize != preloadSize) {
+							this->opened = false;
+							return;
+						}
+						this->fallbackMipCount = 1;
+						this->mipCount = 1;
+						this->flags |= VTF::FLAG_NO_MIP;
+					}
 					reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 					if (!ok) {
 						this->opened = false;
@@ -566,11 +584,6 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 
 				// todo(xtf): what about the palette?
-
-				if (stream.tell() != preloadSize) {
-					this->opened = false;
-					return;
-				}
 
 				this->opened = headerSizeIsAccurate;
 				if (parseHeaderOnly) {
