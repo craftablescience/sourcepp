@@ -547,18 +547,13 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
 				});
 
-				if (this->fallbackWidth == 0 || this->fallbackHeight == 0) {
-					this->fallbackFormat = ImageFormat::EMPTY;
-				} else {
-					this->fallbackFormat = this->format;
-				}
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->fallbackFormat, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight)), this->fallbackFormat, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight)), this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (!ok) {
 					this->opened = false;
 					return;
 				}
-				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->fallbackFormat, this->mipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->mipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 
 				// todo(xtf): what about the palette?
 
@@ -678,7 +673,6 @@ VTF& VTF::operator=(const VTF& other) {
 	this->thumbnailFormat = other.thumbnailFormat;
 	this->thumbnailWidth = other.thumbnailWidth;
 	this->thumbnailHeight = other.thumbnailHeight;
-	this->fallbackFormat = other.fallbackFormat;
 	this->fallbackWidth = other.fallbackWidth;
 	this->fallbackHeight = other.fallbackHeight;
 	this->sliceCount = other.sliceCount;
@@ -1320,10 +1314,6 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
-ImageFormat VTF::getFallbackFormat() const {
-	return this->fallbackFormat;
-}
-
 uint8_t VTF::getFallbackWidth() const {
 	return this->fallbackWidth;
 }
@@ -1819,12 +1809,12 @@ bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::Fil
 }
 
 bool VTF::hasFallbackData() const {
-	return this->fallbackFormat != ImageFormat::EMPTY && this->fallbackWidth > 0 && this->fallbackHeight > 0;
+	return this->fallbackWidth > 0 && this->fallbackHeight > 0;
 }
 
 std::span<const std::byte> VTF::getFallbackDataRaw(uint8_t mip, uint16_t frame, uint8_t face) const {
 	if (const auto fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
-		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->fallbackFormat, mip, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
+		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
 			return fallbackResource->data.subspan(offset, length);
 		}
 	}
@@ -1836,7 +1826,7 @@ std::vector<std::byte> VTF::getFallbackDataAs(ImageFormat newFormat, uint8_t mip
 	if (rawFallbackData.empty()) {
 		return {};
 	}
-	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->fallbackFormat, newFormat, this->fallbackWidth, this->fallbackHeight);
+	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->format, newFormat, this->fallbackWidth, this->fallbackHeight);
 }
 
 std::vector<std::byte> VTF::getFallbackDataAsRGBA8888(uint8_t mip, uint16_t frame, uint8_t face) const {
@@ -1848,21 +1838,19 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter, float quality) {
 		return;
 	}
 	// todo(xtf): compute fallback
-	//this->fallbackFormat = this->format;
 	//this->fallbackWidth = 8;
 	//this->fallbackHeight = 8;
-	//this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->fallbackWidth, this->height, this->fallbackHeight, this->isSRGB(), filter), this->format, this->fallbackFormat, this->fallbackWidth, this->fallbackHeight, quality));
+	//this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->fallbackWidth, this->height, this->fallbackHeight, this->isSRGB(), filter), this->format, this->format, this->fallbackWidth, this->fallbackHeight, quality));
 }
 
 void VTF::removeFallback() {
-	this->fallbackFormat = ImageFormat::EMPTY;
 	this->fallbackWidth = 0;
 	this->fallbackHeight = 0;
 	this->removeResourceInternal(Resource::TYPE_FALLBACK_DATA);
 }
 
 std::vector<std::byte> VTF::saveFallbackToFile(uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
-	return ImageConversion::convertImageDataToFile(this->getFallbackDataRaw(mip, frame, face), this->fallbackFormat, ImageDimensions::getMipDim(mip, this->fallbackWidth), ImageDimensions::getMipDim(mip, this->fallbackHeight), fileFormat);
+	return ImageConversion::convertImageDataToFile(this->getFallbackDataRaw(mip, frame, face), this->format, ImageDimensions::getMipDim(mip, this->fallbackWidth), ImageDimensions::getMipDim(mip, this->fallbackHeight), fileFormat);
 }
 
 bool VTF::saveFallbackToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
@@ -2050,9 +2038,9 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<false>(fallbackResource->data, this->fallbackFormat, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<false>(fallbackResource->data, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (ok) {
-					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->fallbackFormat, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 					writer.write(reorderedFallbackData);
 				} else {
 					writer.pad(fallbackResource->data.size());
