@@ -741,7 +741,7 @@ namespace ImageFormatDetails {
 		for (int i = 0; i < mipCount; i++) {
 			length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height), sliceCount) * faceCount;
 		}
-		if (padded) {
+		if (padded && j + 1 != frameCount) {
 			length += sourcepp::math::paddingForAlignment(512, length);
 		}
 	}
@@ -785,7 +785,7 @@ namespace ImageFormatDetails {
 				}
 			}
 		}
-		if (padded) {
+		if (padded && j + 1 != frameCount) {
 			offset += sourcepp::math::paddingForAlignment(512, offset);
 		}
 	}

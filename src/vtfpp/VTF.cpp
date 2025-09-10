@@ -207,7 +207,7 @@ template<bool ConvertingFromDDS>
 					}
 				}
 			}
-			if (padded) {
+			if (padded && j + 1 != frameCount) {
 				reorderedStream.pad(math::paddingForAlignment(512, reorderedStream.tell()));
 			}
 		}
@@ -537,6 +537,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
 				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
+				postReadTransform();
+
 				// Can't use VTF::getFaceCount yet because there's no image data
 				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
 
@@ -553,12 +555,15 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 				bool ok;
 				const auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
-				if (!ok) {
-					this->opened = false;
-					return;
+				std::vector<std::byte> reorderedFallbackData;
+				if (this->hasFallbackData()) {
+					reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+					if (!ok) {
+						this->opened = false;
+						return;
+					}
+					::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 				}
-				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 
 				// todo(xtf): what about the palette?
 
@@ -573,16 +578,23 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 
 				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
-				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
-				if (!ok) {
-					this->opened = false;
-					return;
+				std::vector<std::byte> reorderedImageData;
+				if (this->hasImageData()) {
+					reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
+					if (!ok) {
+						this->opened = false;
+						return;
+					}
+					::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, this->platform);
 				}
-				::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, this->platform);
 
 				// By this point we cannot use spans over data, it will change here
-				this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, reorderedFallbackData);
-				this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+				if (this->hasFallbackData()) {
+					this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, reorderedFallbackData);
+				}
+				if (this->hasImageData()) {
+					this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+				}
 				return;
 			}
 		}
@@ -2089,7 +2101,9 @@ std::vector<std::byte> VTF::bake() const {
 				writer.write(thumbnailResource->data);
 			}
 
+			bool hasFallbackResource = false;
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
+				hasFallbackResource = true;
 				bool ok;
 				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (ok) {
@@ -2103,7 +2117,9 @@ std::vector<std::byte> VTF::bake() const {
 			const auto preloadSize = writer.tell();
 			writer.seek_u(preloadSizePos).write<uint32_t>(preloadSize).seek_u(preloadSize);
 
-			writer.pad(math::paddingForAlignment(512, writer.tell()));
+			if (hasFallbackResource) {
+				writer.pad(math::paddingForAlignment(512, writer.tell()));
+			}
 			const auto imageOffset = writer.tell();
 			writer.seek_u(imageOffsetPos).write<uint16_t>(imageOffset).seek_u(imageOffset);
 
@@ -2117,7 +2133,9 @@ std::vector<std::byte> VTF::bake() const {
 					writer.pad(imageResource->data.size());
 				}
 			}
-			writer.pad(math::paddingForAlignment(512, writer.tell()));
+			if (writer.tell() > 512) {
+				writer.pad(math::paddingForAlignment(512, writer.tell()));
+			}
 			break;
 		}
 		case PLATFORM_X360:
