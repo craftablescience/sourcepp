@@ -549,7 +549,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight)), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+				const auto fallbackSize = ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (!ok) {
 					this->opened = false;
 					return;

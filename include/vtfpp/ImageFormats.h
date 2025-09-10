@@ -771,7 +771,6 @@ namespace ImageFormatDetails {
 				}
 			}
 		}
-		offset += sourcepp::math::paddingForAlignment(512, offset);
 	}
 	return false;
 }
