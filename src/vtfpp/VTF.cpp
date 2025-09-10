@@ -1135,11 +1135,6 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		}
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
-
-	if (this->hasFallbackData() && ((this->mipCount > 1 && this->fallbackMipCount <= 1) || (this->mipCount == 1 && this->fallbackMipCount > 1))) {
-		this->removeFallback();
-		this->computeFallback();
-	}
 	return true;
 }
 
@@ -1523,6 +1518,11 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->sliceCount = newSliceCount;
 
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
+
+	if (this->hasFallbackData()) {
+		this->removeFallback();
+		this->computeFallback();
+	}
 }
 
 std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
