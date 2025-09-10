@@ -433,6 +433,8 @@ public:
 
 	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
+	bool setThumbnail(const std::string& imagePath, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY); // NOLINT(*-use-nodiscard)
+
 	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	void removeThumbnail();
