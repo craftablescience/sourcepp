@@ -954,12 +954,12 @@ TEST(vtfpp, read_xbox) {
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
 	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLengthXBOX(false, vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_xbox_animated) {
@@ -999,12 +999,12 @@ TEST(vtfpp, read_xbox_animated) {
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
 	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLengthXBOX(false, vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_xbox_envmap) {
@@ -1039,12 +1039,12 @@ TEST(vtfpp, read_xbox_envmap) {
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
 	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLengthXBOX(false, vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
 TEST(vtfpp, read_ps3_orangebox) {

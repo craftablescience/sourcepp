@@ -173,9 +173,9 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 }
 
 template<bool ConvertingFromDDS>
-[[nodiscard]] std::vector<std::byte> convertBetweenDDSAndVTFMipOrder(std::span<const std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, bool& ok) {
+[[nodiscard]] std::vector<std::byte> convertBetweenDDSAndVTFMipOrderForXBOX(bool padded, std::span<const std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, bool& ok) {
 	std::vector<std::byte> reorderedImageData;
-	reorderedImageData.resize(ImageFormatDetails::getDataLength(format, mipCount, frameCount, faceCount, width, height, sliceCount));
+	reorderedImageData.resize(ImageFormatDetails::getDataLengthXBOX(padded, format, mipCount, frameCount, faceCount, width, height, sliceCount));
 	BufferStream reorderedStream{reorderedImageData};
 
 	if constexpr (ConvertingFromDDS) {
@@ -184,7 +184,7 @@ template<bool ConvertingFromDDS>
 				for (int k = 0; k < faceCount; k++) {
 					for (int l = 0; l < sliceCount; l++) {
 						uint32_t oldOffset, length;
-						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
+						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
 							ok = false;
 							return {};
 						}
@@ -194,9 +194,9 @@ template<bool ConvertingFromDDS>
 			}
 		}
 	} else {
-		for (int i = 0; i < mipCount; i++) {
-			for (int j = 0; j < frameCount; j++) {
-				for (int k = 0; k < faceCount; k++) {
+		for (int j = 0; j < frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				for (int i = 0; i < mipCount; i++) {
 					for (int l = 0; l < sliceCount; l++) {
 						uint32_t oldOffset, length;
 						if (!ImageFormatDetails::getDataPosition(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
@@ -206,6 +206,9 @@ template<bool ConvertingFromDDS>
 						reorderedStream << imageData.subspan(oldOffset, length);
 					}
 				}
+			}
+			if (padded) {
+				reorderedStream.pad(math::paddingForAlignment(512, reorderedStream.tell()));
 			}
 		}
 	}
@@ -549,8 +552,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				}
 
 				bool ok;
-				const auto fallbackSize = ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+				const auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (!ok) {
 					this->opened = false;
 					return;
@@ -569,7 +572,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					return;
 				}
 
-				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrder<true>(stream.seek(imageOffset).read_span<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount)), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
+				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
+				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
 				if (!ok) {
 					this->opened = false;
 					return;
@@ -2087,7 +2091,7 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrder<false>(fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (ok) {
 					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 					writer.write(reorderedFallbackData);
@@ -2105,7 +2109,7 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
 				bool ok;
-				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrder<false>(imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, ok);
+				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, ok);
 				if (ok) {
 					::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
 					writer.write(reorderedImageData);

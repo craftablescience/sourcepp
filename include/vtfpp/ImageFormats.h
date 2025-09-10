@@ -734,6 +734,20 @@ namespace ImageFormatDetails {
 	return length;
 }
 
+// XTF (PLATFORM_XBOX) has padding between frames to align each one to 512 bytes
+[[nodiscard]] constexpr uint32_t getDataLengthXBOX(bool padded, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+	uint32_t length = 0;
+	for (int j = 0; j < frameCount; j++) {
+		for (int i = 0; i < mipCount; i++) {
+			length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height), sliceCount) * faceCount;
+		}
+		if (padded) {
+			length += sourcepp::math::paddingForAlignment(512, length);
+		}
+	}
+	return length;
+}
+
 [[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
 	offset = 0;
 	length = 0;
@@ -755,7 +769,7 @@ namespace ImageFormatDetails {
 }
 
 // XTF (PLATFORM_XBOX) is more like DDS layout
-[[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
 	offset = 0;
 	length = 0;
 	for (int j = 0; j < frameCount; j++) {
@@ -770,6 +784,9 @@ namespace ImageFormatDetails {
 					offset += imageSize;
 				}
 			}
+		}
+		if (padded) {
+			offset += sourcepp::math::paddingForAlignment(512, offset);
 		}
 	}
 	return false;
