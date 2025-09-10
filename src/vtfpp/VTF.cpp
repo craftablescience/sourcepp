@@ -865,6 +865,15 @@ void VTF::setPlatform(Platform newPlatform) {
 		}
 	}
 
+	// Add/remove fallback data for XBOX
+	if (this->platform != PLATFORM_XBOX && this->hasFallbackData()) {
+		this->fallbackWidth = 0;
+		this->fallbackHeight = 0;
+		this->removeResourceInternal(Resource::TYPE_FALLBACK_DATA);
+	} else if (this->platform == PLATFORM_XBOX) {
+		this->computeFallback();
+	}
+
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
@@ -1060,6 +1069,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		this->format = newFormat;
 		return;
 	}
+	const auto oldFormat = this->format;
 	auto newMipCount = this->mipCount;
 	if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(newFormat, this->width, this->height); newMipCount > recommendedCount) {
 		newMipCount = recommendedCount;
@@ -1068,6 +1078,11 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
 	} else {
 		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
+	}
+
+	if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
+		const auto fallbackConverted = ImageConversion::convertSeveralImageDataToFormat(fallbackResource->data, oldFormat, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, quality);
+		this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, fallbackConverted);
 	}
 }
 
@@ -1833,14 +1848,35 @@ std::vector<std::byte> VTF::getFallbackDataAsRGBA8888(uint8_t mip, uint16_t fram
 	return this->getFallbackDataAs(ImageFormat::RGBA8888, mip, frame, face);
 }
 
-void VTF::computeFallback(ImageConversion::ResizeFilter filter, float quality) {
-	if (!this->hasFallbackData()) {
+void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
+	if (!this->hasImageData()) {
 		return;
 	}
-	// todo(xtf): compute fallback
-	//this->fallbackWidth = 8;
-	//this->fallbackHeight = 8;
-	//this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->fallbackWidth, this->height, this->fallbackHeight, this->isSRGB(), filter), this->format, this->format, this->fallbackWidth, this->fallbackHeight, quality));
+
+	const auto* imageResource = this->getResourceInternal(Resource::TYPE_IMAGE_DATA);
+	if (!imageResource) {
+		return;
+	}
+
+	const auto faceCount = this->getFaceCount();
+
+	this->fallbackWidth = 8;
+	this->fallbackHeight = 8;
+	const auto fallbackMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+
+	std::vector<std::byte> fallbackData;
+	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
+	for (int i = fallbackMipCount - 1; i >= 0; i--) {
+		for (int j = 0; j < this->frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, ImageDimensions::getMipDim(i, this->fallbackWidth), this->height, ImageDimensions::getMipDim(i, this->fallbackHeight), this->isSRGB(), filter);
+				if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, fallbackMipCount, j, this->frameCount, k, faceCount, this->fallbackWidth, this->fallbackHeight) && mip.size() == length) {
+					std::memcpy(fallbackData.data() + offset, mip.data(), length);
+				}
+			}
+		}
+	}
+	this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, fallbackData);
 }
 
 void VTF::removeFallback() {
