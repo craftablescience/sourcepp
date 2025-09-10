@@ -954,7 +954,47 @@ TEST(vtfpp, read_xbox) {
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
 	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), ImageDimensions::getActualMipCountForDimsOnConsole(vtf.getFallbackWidth(), vtf.getFallbackHeight()), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+}
+
+TEST(vtfpp, read_xbox_envmap) {
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/envmap.xtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_XBOX);
+	EXPECT_EQ(vtf.getVersion(), 2);
+	EXPECT_EQ(vtf.getWidth(), 32);
+	EXPECT_EQ(vtf.getHeight(), 32);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_CLAMP_S | VTF::FLAG_CLAMP_T | VTF::FLAG_NO_MIP | VTF::FLAG_ENVMAP | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
+	EXPECT_EQ(vtf.getMipCount(), 1);
+	EXPECT_EQ(vtf.getFrameCount(),	1);
+	EXPECT_EQ(vtf.getFaceCount(), 6);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.034028269f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.020980936f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.013155934f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.getFallbackWidth(), 8);
+	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
+	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
+	ASSERT_TRUE(fallback);
+	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
 
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
