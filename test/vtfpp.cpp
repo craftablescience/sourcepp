@@ -1047,6 +1047,46 @@ TEST(vtfpp, read_xbox_envmap) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
 }
 
+TEST(vtfpp, read_xbox_no_fallback) {
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/no_fallback.xtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_XBOX);
+	EXPECT_EQ(vtf.getVersion(), 2);
+	EXPECT_EQ(vtf.getWidth(), 16);
+	EXPECT_EQ(vtf.getHeight(), 16);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_MULTI_BIT_ALPHA | /*NICE filtered*/ (1 << 24) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
+	EXPECT_EQ(vtf.getMipCount(), 1);
+	EXPECT_EQ(vtf.getFrameCount(),	1);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.38589939f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.38589939f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.38589939f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::RGB888);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 1);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
+	EXPECT_EQ(vtf.getFallbackWidth(), 0);
+	EXPECT_EQ(vtf.getFallbackHeight(), 0);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 2);
+
+	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+}
+
 TEST(vtfpp, read_ps3_orangebox) {
 	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/ps3_orangebox/portal.ps3.vtf")};
 	ASSERT_TRUE(vtf);
