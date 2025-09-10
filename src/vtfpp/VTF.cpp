@@ -526,13 +526,12 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					.read(this->thumbnailHeight)
 					.read(this->fallbackWidth)
 					.read(this->fallbackHeight)
-					.skip<uint8_t>()  // skip high mip levels
+					.read(this->xboxMipScale)
 					.skip<uint8_t>(); // padding
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
 				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
-				// todo(xtf): verify 6 is correct
 				// Can't use VTF::getFaceCount yet because there's no image data
 				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
 
@@ -675,6 +674,7 @@ VTF& VTF::operator=(const VTF& other) {
 	this->thumbnailHeight = other.thumbnailHeight;
 	this->fallbackWidth = other.fallbackWidth;
 	this->fallbackHeight = other.fallbackHeight;
+	this->xboxMipScale = other.xboxMipScale;
 	this->sliceCount = other.sliceCount;
 
 	this->resources.clear();
@@ -749,6 +749,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setCompressionLevel(options.compressionLevel);
 	writer.setCompressionMethod(options.compressionMethod);
+	writer.setXBOXMipScale(options.xboxMipScale);
 	return out;
 }
 
@@ -1896,6 +1897,14 @@ bool VTF::saveFallbackToFile(const std::string& imagePath, uint8_t mip, uint16_t
 	return false;
 }
 
+uint8_t VTF::getXBOXMipScale() const {
+	return this->xboxMipScale;
+}
+
+void VTF::setXBOXMipScale(uint8_t xboxMipScale_) {
+	this->xboxMipScale = xboxMipScale_;
+}
+
 std::vector<std::byte> VTF::bake() const {
 	std::vector<std::byte> out;
 	BufferStream writer{out};
@@ -2032,14 +2041,6 @@ std::vector<std::byte> VTF::bake() const {
 			writer << XTF_SIGNATURE << PLATFORM_XBOX;
 			writer.write<uint32_t>(0);
 
-			// Go down until top level texture is <32kb, matches observed Valve XTFs
-			uint8_t mipSkip = 0;
-			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
-				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 32) {
-					break;
-				}
-			}
-
 			const auto headerSizePos = writer.tell();
 			writer
 				.write<uint32_t>(0)
@@ -2062,7 +2063,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->thumbnailHeight)
 				.write(this->fallbackWidth)
 				.write(this->fallbackHeight)
-				.write(mipSkip)
+				.write(this->xboxMipScale)
 				.write<uint8_t>(0);
 
 			const auto headerSize = writer.tell();
