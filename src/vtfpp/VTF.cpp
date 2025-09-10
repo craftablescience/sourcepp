@@ -1606,6 +1606,28 @@ void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format
 	this->thumbnailHeight = height_;
 }
 
+bool VTF::setThumbnail(const std::string& imagePath, float quality) {
+	ImageFormat inputFormat;
+	int inputWidth, inputHeight, inputFrameCount;
+	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
+
+	// Unable to decode file
+	if (imageData_.empty() || inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+		return false;
+	}
+
+	// One frame (normal)
+	if (inputFrameCount == 1) {
+		this->setThumbnail(imageData_, inputFormat, inputWidth, inputHeight, quality);
+		return true;
+	}
+
+	// Multiple frames (GIF) - we will just use the first one
+	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
+	this->setThumbnail({imageData_.data(), frameSize}, inputFormat, inputWidth, inputHeight, quality);
+	return true;
+}
+
 void VTF::computeThumbnail(ImageConversion::ResizeFilter filter, float quality) {
 	if (!this->hasImageData()) {
 		return;
