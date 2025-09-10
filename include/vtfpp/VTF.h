@@ -466,7 +466,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> getFallbackDataAsRGBA8888(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
 
-	void computeFallback(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	void computeFallback(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT);
 
 	void removeFallback();
 
