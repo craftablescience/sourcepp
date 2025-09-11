@@ -36,7 +36,8 @@ struct Resource {
 	enum Type : uint32_t {
 		TYPE_UNKNOWN             = 0, // Unknown
 		TYPE_THUMBNAIL_DATA      = 1,
-		TYPE_FALLBACK_DATA       = 2, // Hack for XBOX platform
+		TYPE_PALETTE_DATA        = 2, // Hack for XBOX platform
+		TYPE_FALLBACK_DATA       = 3, // Hack for XBOX platform
 		TYPE_PARTICLE_SHEET_DATA = 16,
 		TYPE_HOTSPOT_DATA        = 43,
 		TYPE_IMAGE_DATA          = 48,
@@ -46,9 +47,10 @@ struct Resource {
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 	};
-	static consteval std::array<Type, 10> getOrder() {
+	static consteval std::array<Type, 11> getOrder() {
 		return {
 			TYPE_THUMBNAIL_DATA,
+			TYPE_PALETTE_DATA,
 			TYPE_FALLBACK_DATA,
 			TYPE_PARTICLE_SHEET_DATA,
 			TYPE_HOTSPOT_DATA,
