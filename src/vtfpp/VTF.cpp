@@ -20,6 +20,7 @@
 
 #include <sourcepp/compression/LZMA.h>
 #include <vtfpp/ImageConversion.h>
+#include <vtfpp/ImageQuantize.h>
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -560,6 +561,14 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					});
 				}
 
+				if (this->format == ImageFormat::P8) {
+					this->resources.push_back({
+						.type = Resource::TYPE_PALETTE_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888)),
+					});
+				}
+
 				bool ok;
 				auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
 				std::vector<std::byte> reorderedFallbackData;
@@ -582,8 +591,6 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					}
 					::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 				}
-
-				// todo(xtf): what about the palette?
 
 				this->opened = headerSizeIsAccurate;
 				if (parseHeaderOnly) {
@@ -1688,6 +1695,11 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	if (rawImageData.empty()) {
 		return {};
 	}
+	if (this->format == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+		}
+	}
 	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
@@ -1797,6 +1809,11 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
+	if (this->thumbnailFormat == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		}
+	}
 	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
 
@@ -1881,6 +1898,11 @@ std::vector<std::byte> VTF::getFallbackDataAs(ImageFormat newFormat, uint8_t mip
 	const auto rawFallbackData = this->getFallbackDataRaw(mip, frame, face);
 	if (rawFallbackData.empty()) {
 		return {};
+	}
+	if (this->format == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->format, newFormat, this->fallbackWidth, this->fallbackHeight);
 }
@@ -2112,6 +2134,12 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
 				writer.write(thumbnailResource->data);
+			}
+
+			if (this->format == ImageFormat::P8) {
+				if (const auto* paletteResource = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+					writer.write(paletteResource->data);
+				}
 			}
 
 			bool hasFallbackResource = false;
