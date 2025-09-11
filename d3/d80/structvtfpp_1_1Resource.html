@@ -149,15 +149,17 @@ Public Types</h2></td></tr>
 <tr class="memitem:acd09d7ee06a97ae24066966fa8408e69"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a> : uint32_t { <br />
 &#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e">TYPE_UNKNOWN</a> = 0
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e">TYPE_THUMBNAIL_DATA</a> = 1
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561">TYPE_PARTICLE_SHEET_DATA</a> = 16
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a5eeaa939a8f02cd0d279583387e3dbac">TYPE_PALETTE_DATA</a> = 2
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a470f988ed00e2601373b8a7606f5a11c">TYPE_FALLBACK_DATA</a> = 3
+, <br />
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561">TYPE_PARTICLE_SHEET_DATA</a> = 16
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850">TYPE_HOTSPOT_DATA</a> = 43
-, <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd">TYPE_IMAGE_DATA</a> = 48
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd">TYPE_IMAGE_DATA</a> = 48
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0">TYPE_EXTENDED_FLAGS</a> = sourcepp::parser::binary::makeFourCC("TS0\0")
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd">TYPE_CRC</a> = sourcepp::parser::binary::makeFourCC("CRC\0")
-, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = sourcepp::parser::binary::makeFourCC("AXC\0")
 , <br />
-&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f">TYPE_LOD_CONTROL_INFO</a> = sourcepp::parser::binary::makeFourCC("LOD\0")
+&#160;&#160;<a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd">TYPE_CRC</a> = sourcepp::parser::binary::makeFourCC("CRC\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27">TYPE_AUX_COMPRESSION</a> = sourcepp::parser::binary::makeFourCC("AXC\0")
+, <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f">TYPE_LOD_CONTROL_INFO</a> = sourcepp::parser::binary::makeFourCC("LOD\0")
 , <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54">TYPE_KEYVALUES_DATA</a> = sourcepp::parser::binary::makeFourCC("KVD\0")
 <br />
  }</td></tr>
@@ -194,8 +196,8 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a17cb81caaa11c6fe58b16930f2da32d3"><td class="memItemLeft" align="right" valign="top">static consteval std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 9 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a17cb81caaa11c6fe58b16930f2da32d3">getOrder</a> ()</td></tr>
-<tr class="separator:a17cb81caaa11c6fe58b16930f2da32d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d50783e7de7b666ac09310e3d51531f"><td class="memItemLeft" align="right" valign="top">static consteval std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 11 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#a6d50783e7de7b666ac09310e3d51531f">getOrder</a> ()</td></tr>
+<tr class="separator:a6d50783e7de7b666ac09310e3d51531f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -208,7 +210,7 @@ Public Attributes</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00034">34</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00035">35</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 </div><h2 class="groupheader">Member Typedef Documentation</h2>
 <a id="aa03885ea0d6d7f134e3d8c53efe75922" name="aa03885ea0d6d7f134e3d8c53efe75922"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa03885ea0d6d7f134e3d8c53efe75922">&#9670;&#160;</a></span>ConvertedData</h2>
@@ -222,7 +224,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00072">72</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00078">78</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -243,7 +245,7 @@ Public Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a" name="aa5bb79f3e1a48d5c6d0ade0e4fc4ec34ac0f4fc3d384d93a7f3a1146b9546ba1a"></a>FLAG_LOCAL_DATA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00063">63</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00069">69</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -261,6 +263,8 @@ Public Attributes</h2></td></tr>
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e" name="acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e"></a>TYPE_UNKNOWN&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e" name="acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e"></a>TYPE_THUMBNAIL_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a5eeaa939a8f02cd0d279583387e3dbac" name="acd09d7ee06a97ae24066966fa8408e69a5eeaa939a8f02cd0d279583387e3dbac"></a>TYPE_PALETTE_DATA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a470f988ed00e2601373b8a7606f5a11c" name="acd09d7ee06a97ae24066966fa8408e69a470f988ed00e2601373b8a7606f5a11c"></a>TYPE_FALLBACK_DATA&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561" name="acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561"></a>TYPE_PARTICLE_SHEET_DATA&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850" name="acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850"></a>TYPE_HOTSPOT_DATA&#160;</td><td class="fielddoc"></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd" name="acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd"></a>TYPE_IMAGE_DATA&#160;</td><td class="fielddoc"></td></tr>
@@ -271,7 +275,7 @@ Public Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54" name="acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54"></a>TYPE_KEYVALUES_DATA&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00035">35</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00036">36</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -291,7 +295,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00177">177</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00230">230</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -353,7 +357,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00119">119</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00125">125</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -380,7 +384,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00107">107</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00113">113</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -407,7 +411,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00111">111</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00117">117</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -434,7 +438,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00087">87</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00093">93</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -461,7 +465,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00091">91</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00097">97</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -488,7 +492,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00103">103</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00109">109</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -515,7 +519,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00099">99</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00105">105</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -542,7 +546,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00095">95</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00101">101</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -569,12 +573,12 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00083">83</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00089">89</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
-<a id="a17cb81caaa11c6fe58b16930f2da32d3" name="a17cb81caaa11c6fe58b16930f2da32d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17cb81caaa11c6fe58b16930f2da32d3">&#9670;&#160;</a></span>getOrder()</h2>
+<a id="a6d50783e7de7b666ac09310e3d51531f" name="a6d50783e7de7b666ac09310e3d51531f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d50783e7de7b666ac09310e3d51531f">&#9670;&#160;</a></span>getOrder()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -583,7 +587,7 @@ Public Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static consteval std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 9 &gt; vtfpp::Resource::getOrder </td>
+          <td class="memname">static consteval std::array&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69">Type</a>, 11 &gt; vtfpp::Resource::getOrder </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -596,7 +600,7 @@ Public Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00047">47</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00050">50</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -613,7 +617,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00070">70</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00076">76</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -629,7 +633,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00069">69</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00075">75</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -645,7 +649,7 @@ Public Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00068">68</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00074">74</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>

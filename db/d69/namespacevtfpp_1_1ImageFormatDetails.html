@@ -167,8 +167,12 @@ Functions</h2></td></tr>
 <tr class="separator:a708dc57f5c69e5ed309f780548df41b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac43c99ecb4fb3b6970bc87890d98c8ad"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad">getDataLength</a> (<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount=1)</td></tr>
 <tr class="separator:ac43c99ecb4fb3b6970bc87890d98c8ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1d66217f7d84255d1fe3af9a909f84"><td class="memItemLeft" align="right" valign="top">constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a4b1d66217f7d84255d1fe3af9a909f84">getDataLengthXBOX</a> (bool padded, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount=1)</td></tr>
+<tr class="separator:a4b1d66217f7d84255d1fe3af9a909f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa00fc65d120a4ed1710f96e3965aaff1"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aa00fc65d120a4ed1710f96e3965aaff1">getDataPosition</a> (uint32_t &amp;offset, uint32_t &amp;length, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice=0, uint16_t sliceCount=1)</td></tr>
 <tr class="separator:aa00fc65d120a4ed1710f96e3965aaff1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afa82c60b60e667ff9269566de48b78cf"><td class="memItemLeft" align="right" valign="top">constexpr bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afa82c60b60e667ff9269566de48b78cf">getDataPositionXbox</a> (uint32_t &amp;offset, uint32_t &amp;length, bool padded, <a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice=0, uint16_t sliceCount=1)</td></tr>
+<tr class="separator:afa82c60b60e667ff9269566de48b78cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a1758f1115310feea3dbc7c1738c994a9" name="a1758f1115310feea3dbc7c1738c994a9"></a>
@@ -597,6 +601,80 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a4b1d66217f7d84255d1fe3af9a909f84" name="a4b1d66217f7d84255d1fe3af9a909f84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4b1d66217f7d84255d1fe3af9a909f84">&#9670;&#160;</a></span>getDataLengthXBOX()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr uint32_t vtfpp::ImageFormatDetails::getDataLengthXBOX </td>
+          <td>(</td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>padded</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mipCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>frameCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>faceCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>sliceCount</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html#l00738">738</a> of file <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html">ImageFormats.h</a>.</p>
+
+</div>
+</div>
 <a id="aa00fc65d120a4ed1710f96e3965aaff1" name="aa00fc65d120a4ed1710f96e3965aaff1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa00fc65d120a4ed1710f96e3965aaff1">&#9670;&#160;</a></span>getDataPosition()</h2>
 
@@ -697,7 +775,117 @@ Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html#l00737">737</a> of file <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html">ImageFormats.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html#l00751">751</a> of file <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html">ImageFormats.h</a>.</p>
+
+</div>
+</div>
+<a id="afa82c60b60e667ff9269566de48b78cf" name="afa82c60b60e667ff9269566de48b78cf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afa82c60b60e667ff9269566de48b78cf">&#9670;&#160;</a></span>getDataPositionXbox()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr bool vtfpp::ImageFormatDetails::getDataPositionXbox </td>
+          <td>(</td>
+          <td class="paramtype">uint32_t &amp;&#160;</td>
+          <td class="paramname"><em>offset</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint32_t &amp;&#160;</td>
+          <td class="paramname"><em>length</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>padded</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mip</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>mipCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>frame</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>frameCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>face</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>faceCount</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>width</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>height</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>slice</em> = <code>0</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">uint16_t&#160;</td>
+          <td class="paramname"><em>sliceCount</em> = <code>1</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html#l00772">772</a> of file <a class="el" href="../../d1/d2d/ImageFormats_8h_source.html">ImageFormats.h</a>.</p>
 
 </div>
 </div>

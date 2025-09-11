@@ -70,7 +70,9 @@ var namespacevtfpp =
       [ "decompressedRed", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a99c40f659044beb0e3c43568423a25dd", null ],
       [ "getDataLength", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a708dc57f5c69e5ed309f780548df41b6", null ],
       [ "getDataLength", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#ac43c99ecb4fb3b6970bc87890d98c8ad", null ],
+      [ "getDataLengthXBOX", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a4b1d66217f7d84255d1fe3af9a909f84", null ],
       [ "getDataPosition", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#aa00fc65d120a4ed1710f96e3965aaff1", null ],
+      [ "getDataPositionXbox", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#afa82c60b60e667ff9269566de48b78cf", null ],
       [ "green", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2dee38efbf446a2847bfef142dcded1b", null ],
       [ "large", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a2abec7b9aa23378e8d4f975269697270", null ],
       [ "opaque", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#af165209ed03701f0a935efcd5f3cd9fd", null ],
@@ -78,6 +80,9 @@ var namespacevtfpp =
       [ "transparent", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a78ae08639944704fc3005980477e7e56", null ]
     ] ],
     [ "ImagePixel", "dd/d73/namespacevtfpp_1_1ImagePixel.html", "dd/d73/namespacevtfpp_1_1ImagePixel" ],
+    [ "ImageQuantize", "d5/d69/namespacevtfpp_1_1ImageQuantize.html", [
+      [ "convertP8ImageDataToBGRA8888", "d5/d69/namespacevtfpp_1_1ImageQuantize.html#a21b7c236b53fca32e7d8453f7d61ed2e", null ]
+    ] ],
     [ "HOT", "da/d9a/classvtfpp_1_1HOT.html", "da/d9a/classvtfpp_1_1HOT" ],
     [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
     [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
@@ -148,5 +153,6 @@ var namespacevtfpp =
     [ "TTH_SIGNATURE", "de/d90/namespacevtfpp.html#ac8b795eaf266d5ec86358e15213c97da", null ],
     [ "VTF3_SIGNATURE", "de/d90/namespacevtfpp.html#a62b9c897925746f89abe8a1222a0317b", null ],
     [ "VTF_SIGNATURE", "de/d90/namespacevtfpp.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
-    [ "VTFX_SIGNATURE", "de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0", null ]
+    [ "VTFX_SIGNATURE", "de/d90/namespacevtfpp.html#a534130e52cb10a651b616db23c5428e0", null ],
+    [ "XTF_SIGNATURE", "de/d90/namespacevtfpp.html#a3c39e4860af4bb4fee82a1c82a92075e", null ]
 ];

@@ -82,7 +82,9 @@ var searchData=
   ['flag_5fv5_5fpwl_5fcorrected_79',['FLAG_V5_PWL_CORRECTED',['../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2',1,'vtfpp::VTF']]],
   ['flag_5fv5_5fsrgb_80',['FLAG_V5_SRGB',['../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89',1,'vtfpp::VTF']]],
   ['flag_5fvert_5fanim_5ffixed_5fpoint_5fscale_81',['FLAG_VERT_ANIM_FIXED_POINT_SCALE',['../d5/daa/structmdlpp_1_1MDL_1_1MDL.html#a2b62198918af12b33ac494526950a18ca32dc152135c6254f2cdf04f987642483',1,'mdlpp::MDL::MDL']]],
-  ['fllr_82',['FLLR',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9aa621f713a405972d6eefda1edd76d5fe',1,'sndpp::WAV']]],
-  ['float_83',['FLOAT',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eae738c26bf4ce1037fa81b039a915cbf6',1,'dmxpp::Value::FLOAT()'],['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eae738c26bf4ce1037fa81b039a915cbf6',1,'kvpp::FLOAT()']]],
-  ['fmt_84',['FMT',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a26a05b8635ee9f74cc86e59cc658f424',1,'sndpp::WAV']]]
+  ['flag_5fxbox_5fcacheable_82',['FLAG_XBOX_CACHEABLE',['../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f',1,'vtfpp::VTF']]],
+  ['flag_5fxbox_5funfilterable_5fok_83',['FLAG_XBOX_UNFILTERABLE_OK',['../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0',1,'vtfpp::VTF']]],
+  ['fllr_84',['FLLR',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9aa621f713a405972d6eefda1edd76d5fe',1,'sndpp::WAV']]],
+  ['float_85',['FLOAT',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1eae738c26bf4ce1037fa81b039a915cbf6',1,'dmxpp::Value::FLOAT()'],['../d8/d57/namespacekvpp.html#a3f1a728ff771b3fea18db608be9cb39eae738c26bf4ce1037fa81b039a915cbf6',1,'kvpp::FLOAT()']]],
+  ['fmt_86',['FMT',['../df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a26a05b8635ee9f74cc86e59cc658f424',1,'sndpp::WAV']]]
 ];

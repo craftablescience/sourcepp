@@ -10,5 +10,6 @@ var VTF_8h =
     ] ],
     [ "VTF3_SIGNATURE", "d4/d91/VTF_8h.html#a62b9c897925746f89abe8a1222a0317b", null ],
     [ "VTF_SIGNATURE", "d4/d91/VTF_8h.html#a1e1c52fc9b46a7b77835b125b9372575", null ],
-    [ "VTFX_SIGNATURE", "d4/d91/VTF_8h.html#a534130e52cb10a651b616db23c5428e0", null ]
+    [ "VTFX_SIGNATURE", "d4/d91/VTF_8h.html#a534130e52cb10a651b616db23c5428e0", null ],
+    [ "XTF_SIGNATURE", "d4/d91/VTF_8h.html#a3c39e4860af4bb4fee82a1c82a92075e", null ]
 ];

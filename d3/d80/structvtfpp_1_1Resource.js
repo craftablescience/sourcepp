@@ -8,6 +8,8 @@ var structvtfpp_1_1Resource =
     [ "Type", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69", [
       [ "TYPE_UNKNOWN", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e", null ],
       [ "TYPE_THUMBNAIL_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e", null ],
+      [ "TYPE_PALETTE_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a5eeaa939a8f02cd0d279583387e3dbac", null ],
+      [ "TYPE_FALLBACK_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a470f988ed00e2601373b8a7606f5a11c", null ],
       [ "TYPE_PARTICLE_SHEET_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561", null ],
       [ "TYPE_HOTSPOT_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850", null ],
       [ "TYPE_IMAGE_DATA", "d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd", null ],
@@ -27,7 +29,7 @@ var structvtfpp_1_1Resource =
     [ "getDataAsKeyValuesData", "d3/d80/structvtfpp_1_1Resource.html#a6e37adb4ee39a3e91c2ff84a9aad54a1", null ],
     [ "getDataAsLODControlInfo", "d3/d80/structvtfpp_1_1Resource.html#a6daa33ea618be36306e42de792eabe67", null ],
     [ "getDataAsParticleSheet", "d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72", null ],
-    [ "getOrder", "d3/d80/structvtfpp_1_1Resource.html#a17cb81caaa11c6fe58b16930f2da32d3", null ],
+    [ "getOrder", "d3/d80/structvtfpp_1_1Resource.html#a6d50783e7de7b666ac09310e3d51531f", null ],
     [ "data", "d3/d80/structvtfpp_1_1Resource.html#af6f083ee840ba1a8cce2818e5e130c18", null ],
     [ "flags", "d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a", null ],
     [ "type", "d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621", null ]

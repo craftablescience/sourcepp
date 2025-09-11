@@ -9,11 +9,13 @@ var searchData=
   ['type_5faux_5fcompression_6',['TYPE_AUX_COMPRESSION',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8dfac7638298bcae21ba9e6bdb94df27',1,'vtfpp::Resource']]],
   ['type_5fcrc_7',['TYPE_CRC',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a481fbb9dfa644dc38a29fc14f1e5d4cd',1,'vtfpp::Resource']]],
   ['type_5fextended_5fflags_8',['TYPE_EXTENDED_FLAGS',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8581d9603be0694d4d2f2fde7cfb7ba0',1,'vtfpp::Resource']]],
-  ['type_5fhotspot_5fdata_9',['TYPE_HOTSPOT_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850',1,'vtfpp::Resource']]],
-  ['type_5fimage_5fdata_10',['TYPE_IMAGE_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd',1,'vtfpp::Resource']]],
-  ['type_5fkeyvalues_5fdata_11',['TYPE_KEYVALUES_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54',1,'vtfpp::Resource']]],
-  ['type_5flod_5fcontrol_5finfo_12',['TYPE_LOD_CONTROL_INFO',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f',1,'vtfpp::Resource']]],
-  ['type_5fparticle_5fsheet_5fdata_13',['TYPE_PARTICLE_SHEET_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561',1,'vtfpp::Resource']]],
-  ['type_5fthumbnail_5fdata_14',['TYPE_THUMBNAIL_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e',1,'vtfpp::Resource']]],
-  ['type_5funknown_15',['TYPE_UNKNOWN',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e',1,'vtfpp::Resource']]]
+  ['type_5ffallback_5fdata_9',['TYPE_FALLBACK_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a470f988ed00e2601373b8a7606f5a11c',1,'vtfpp::Resource']]],
+  ['type_5fhotspot_5fdata_10',['TYPE_HOTSPOT_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69aea81869c56dd09bd1f97607b27734850',1,'vtfpp::Resource']]],
+  ['type_5fimage_5fdata_11',['TYPE_IMAGE_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd',1,'vtfpp::Resource']]],
+  ['type_5fkeyvalues_5fdata_12',['TYPE_KEYVALUES_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a36fedfba6d345c6255bc8c6184071d54',1,'vtfpp::Resource']]],
+  ['type_5flod_5fcontrol_5finfo_13',['TYPE_LOD_CONTROL_INFO',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a989c081dec4b185f76cf6170e6e02c6f',1,'vtfpp::Resource']]],
+  ['type_5fpalette_5fdata_14',['TYPE_PALETTE_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a5eeaa939a8f02cd0d279583387e3dbac',1,'vtfpp::Resource']]],
+  ['type_5fparticle_5fsheet_5fdata_15',['TYPE_PARTICLE_SHEET_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a6afef14016f970521f516c13cd640561',1,'vtfpp::Resource']]],
+  ['type_5fthumbnail_5fdata_16',['TYPE_THUMBNAIL_DATA',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69ad37bb464fcbbc79cfcd57e18d0177b1e',1,'vtfpp::Resource']]],
+  ['type_5funknown_17',['TYPE_UNKNOWN',['../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a85fa7c200d2f311839caefd5f132b95e',1,'vtfpp::Resource']]]
 ];
