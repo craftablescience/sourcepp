@@ -120,7 +120,8 @@ inline void register_python(py::module_& m) {
 
 		ImageFormatDetails
 			.def("get_data_length", py::overload_cast<ImageFormat, uint16_t, uint16_t, uint16_t>(&getDataLength), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("slice_count") = 1)
-			.def("get_data_length_extended", py::overload_cast<ImageFormat, uint8_t, uint16_t, uint8_t, uint16_t, uint16_t, uint16_t>(&getDataLength), py::arg("format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count"));
+			.def("get_data_length_extended", py::overload_cast<ImageFormat, uint8_t, uint16_t, uint8_t, uint16_t, uint16_t, uint16_t>(&getDataLength), py::arg("format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count") = 1)
+			.def("get_data_length_xbox", &getDataLengthXBOX, py::arg("padded"), py::arg("format"), py::arg("mip_count"), py::arg("frame_count"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice_count") = 1);
 
 		ImageFormatDetails.def("get_data_position", [](ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) -> std::pair<uint32_t, uint32_t> {
 			uint32_t offset, length;
@@ -129,6 +130,14 @@ inline void register_python(py::module_& m) {
 			}
 			return {0, 0};
 		}, py::arg("format"), py::arg("mip"), py::arg("mip_count"), py::arg("frame"), py::arg("frame_count"), py::arg("face"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice") = 0, py::arg("slice_count") = 1);
+
+		ImageFormatDetails.def("get_data_position_xbox", [](bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) -> std::pair<uint32_t, uint32_t> {
+			uint32_t offset, length;
+			if (getDataPositionXbox(offset, length, padded, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+					return {offset, length};
+				}
+				return {0, 0};
+		}, py::arg("padded"), py::arg("format"), py::arg("mip"), py::arg("mip_count"), py::arg("frame"), py::arg("frame_count"), py::arg("face"), py::arg("face_count"), py::arg("width"), py::arg("height"), py::arg("slice") = 0, py::arg("slice_count") = 1);
 	}
 
 	{
@@ -250,6 +259,16 @@ inline void register_python(py::module_& m) {
 		// Skip extractChannelFromImageData, difficult to bind
 	}
 
+	{
+		using namespace ImageQuantize;
+		auto ImageQuantize = vtfpp.def_submodule("ImageQuantize");
+
+		ImageQuantize.def("convert_p8_image_data_to_bgra8888", [](const py::bytes& paletteData, const py::bytes& imageData) {
+			const auto d = convertP8ImageDataToBGRA8888({static_cast<const std::byte*>(paletteData.data()), paletteData.size()}, {static_cast<const std::byte*>(imageData.data()), imageData.size()});
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("palette_data"), py::arg("image_data"));
+	}
+
 	auto cPPL = py::class_<PPL>(vtfpp, "PPL");
 
 	py::class_<PPL::Image>(cPPL, "Image")
@@ -366,6 +385,9 @@ inline void register_python(py::module_& m) {
 		.def("bake_to_file", py::overload_cast<const std::string&, const std::string&>(&TTX::bake, py::const_), py::arg("tth_path"), py::arg("ttz_path"));
 
 	vtfpp.attr("VTF_SIGNATURE") = VTF_SIGNATURE;
+	vtfpp.attr("XTF_SIGNATURE") = XTF_SIGNATURE;
+	vtfpp.attr("VTFX_SIGNATURE") = VTFX_SIGNATURE;
+	vtfpp.attr("VTF3_SIGNATURE") = VTF3_SIGNATURE;
 
 	py::enum_<CompressionMethod>(vtfpp, "CompressionMethod", py::is_arithmetic())
 		.value("DEFLATE",      CompressionMethod::DEFLATE)
@@ -378,6 +400,8 @@ inline void register_python(py::module_& m) {
 	py::enum_<Resource::Type>(cResource, "Type")
 		.value("UNKNOWN",             Resource::TYPE_UNKNOWN)
 		.value("THUMBNAIL_DATA",      Resource::TYPE_THUMBNAIL_DATA)
+		.value("PALETTE_DATA",        Resource::TYPE_PALETTE_DATA)
+		.value("FALLBACK_DATA",       Resource::TYPE_FALLBACK_DATA)
 		.value("PARTICLE_SHEET_DATA", Resource::TYPE_PARTICLE_SHEET_DATA)
 		.value("HOTSPOT_DATA",        Resource::TYPE_HOTSPOT_DATA)
 		.value("IMAGE_DATA",          Resource::TYPE_IMAGE_DATA)
@@ -433,6 +457,11 @@ inline void register_python(py::module_& m) {
 		.value("CLAMP_U",                    VTF::FLAG_V2_CLAMP_U)
 		.export_values();
 
+	py::enum_<VTF::FlagsXBOX>(cVTF, "FlagsXBOX", py::is_flag())
+		.value("CACHEABLE",                  VTF::FLAG_XBOX_CACHEABLE)
+		.value("UNFILTERABLE_OK",            VTF::FLAG_XBOX_UNFILTERABLE_OK)
+		.export_values();
+
 	py::enum_<VTF::FlagsV3>(cVTF, "FlagsV3", py::is_flag())
 		.value("LOAD_ALL_MIPS",              VTF::FLAG_V3_LOAD_ALL_MIPS)
 		.value("VERTEX_TEXTURE",             VTF::FLAG_V3_VERTEX_TEXTURE)
@@ -470,6 +499,7 @@ inline void register_python(py::module_& m) {
 	py::enum_<VTF::Platform>(cVTF, "Platform")
 		.value("UNKNOWN",       VTF::PLATFORM_UNKNOWN)
 		.value("PC",            VTF::PLATFORM_PC)
+		.value("XBOX",          VTF::PLATFORM_XBOX)
 		.value("X360",          VTF::PLATFORM_X360)
 		.value("PS3_ORANGEBOX", VTF::PLATFORM_PS3_ORANGEBOX)
 		.value("PS3_PORTAL2",   VTF::PLATFORM_PS3_PORTAL2)
@@ -495,7 +525,8 @@ inline void register_python(py::module_& m) {
 		.def_rw("compression_method",         &VTF::CreationOptions::compressionMethod)
 		.def_rw("bumpmap_scale",              &VTF::CreationOptions::bumpMapScale)
 		.def_rw("gamma_correction",           &VTF::CreationOptions::gammaCorrection)
-		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel);
+		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel)
+		.def_rw("xbox_mip_scale",             &VTF::CreationOptions::xboxMipScale);
 
 	cVTF
 		.def_ro_static("FLAGS_MASK_V0",        &VTF::FLAGS_MASK_V0)
@@ -557,6 +588,9 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("thumbnail_format", &VTF::getThumbnailFormat)
 		.def_prop_ro("thumbnail_width", &VTF::getThumbnailWidth)
 		.def_prop_ro("thumbnail_height", &VTF::getThumbnailHeight)
+		.def_prop_ro("fallback_width", &VTF::getFallbackWidth)
+		.def_prop_ro("fallback_height", &VTF::getFallbackHeight)
+		.def_prop_ro("fallback_mip_count", &VTF::getFallbackMipCount)
 		// Skipping getResources, don't want to do the same hack as in SHT here, it's way more expensive
 		.def("get_resource", &VTF::getResource, py::arg("type"), py::rv_policy::reference_internal)
 		.def("get_particle_sheet_frame_data_raw", [](const VTF& self, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) -> std::tuple<uint16_t, uint16_t, py::bytes> {
@@ -626,6 +660,7 @@ inline void register_python(py::module_& m) {
 		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			return self.setThumbnail({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, quality);
 		}, py::arg("image_data"), py::arg("format"), py::arg("width"), py::arg("height"), py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_thumbnail_from_file", py::overload_cast<const std::string&, float>(&VTF::setThumbnail), py::arg("image_path"), py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("compute_thumbnail", &VTF::computeThumbnail, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT, py::arg("quality") = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("remove_thumbnail", &VTF::removeThumbnail)
 		.def("save_thumbnail", [](const VTF& self, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
@@ -633,6 +668,27 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, py::arg("file_format") = ImageConversion::FileFormat::DEFAULT)
 		.def("save_thumbnail_to_file", py::overload_cast<const std::string&, ImageConversion::FileFormat>(&VTF::saveThumbnailToFile, py::const_), py::arg("image_path"), py::arg("file_format") = ImageConversion::FileFormat::DEFAULT)
+		.def("has_fallback_data", &VTF::hasFallbackData)
+		.def("get_fallback_data_raw", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) {
+			const auto d = self.getFallbackDataRaw(mip, frame, face);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0)
+		.def("get_fallback_data_as", [](const VTF& self, ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) {
+			const auto d = self.getFallbackDataAs(newFormat, mip, frame, face);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("new_format"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0)
+		.def("get_fallback_data_as_rgba8888", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) {
+			const auto d = self.getFallbackDataAsRGBA8888(mip, frame, face);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0)
+		.def("compute_fallback", &VTF::computeFallback, py::arg("filter") = ImageConversion::ResizeFilter::DEFAULT)
+		.def("remove_fallback", &VTF::removeFallback)
+		.def("save_fallback", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
+			const auto d = self.saveFallbackToFile(mip, frame, face, fileFormat);
+			return py::bytes{d.data(), d.size()};
+		}, py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("file_format") = ImageConversion::FileFormat::DEFAULT)
+		.def("save_fallback_to_file", py::overload_cast<const std::string&, uint8_t, uint16_t, uint8_t, ImageConversion::FileFormat>(&VTF::saveFallbackToFile, py::const_), py::arg("image_path"), py::arg("mip") = 0, py::arg("frame") = 0, py::arg("face") = 0, py::arg("file_format") = ImageConversion::FileFormat::DEFAULT)
+		.def_prop_rw("xbox_mip_scale", &VTF::getXBOXMipScale, &VTF::setXBOXMipScale)
 		.def("bake", [](const VTF& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
