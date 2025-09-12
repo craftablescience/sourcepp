@@ -9,6 +9,7 @@
 #include <variant>
 #include <vector>
 
+#include <sourcepp/Bits.h>
 #include <sourcepp/parser/Binary.h>
 #include <sourcepp/Macros.h>
 
@@ -76,7 +77,7 @@ struct Resource {
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
 		HOT, // Hotspot data
-		std::span<uint32_t> // AXC
+		std::span<sourcepp::bits::ui32le> // AXC
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
@@ -105,11 +106,11 @@ struct Resource {
 	}
 
 	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
-		return static_cast<int16_t>(std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff);
+		return static_cast<int16_t>(std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[1].operator uint32_t() & 0xffff);
 	}
 
 	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const {
-		auto method = static_cast<int16_t>((std::get<std::span<uint32_t>>(this->convertData())[1] & 0xffff0000) >> 16);
+		auto method = static_cast<int16_t>((std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[1].operator uint32_t() & 0xffff0000) >> 16);
 		if (method <= 0) {
 			return CompressionMethod::DEFLATE;
 		}
@@ -117,7 +118,7 @@ struct Resource {
 	}
 
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
-		return std::get<std::span<uint32_t>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
+		return std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
 	}
 };
 SOURCEPP_BITFLAGS_ENUM(Resource::Flags)

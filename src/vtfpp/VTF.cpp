@@ -18,10 +18,12 @@
 #include <miniz.h>
 #include <zstd.h>
 
+#include <sourcepp/Bits.h>
 #include <sourcepp/compression/LZMA.h>
 #include <vtfpp/ImageConversion.h>
 
 using namespace sourcepp;
+using namespace sourcepp::bits;
 using namespace vtfpp;
 
 namespace {
@@ -180,13 +182,13 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return {};
 			}
-			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
+			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), reinterpret_le<uint32_t>(this->data.data())}};
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
-			return *reinterpret_cast<const uint32_t*>(this->data.data());
+			return reinterpret_le<uint32_t>(this->data.data());
 		case TYPE_LOD_CONTROL_INFO:
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
@@ -200,17 +202,17 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
 			}
-			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data()));
+			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), reinterpret_le<uint32_t>(this->data.data()));
 		case TYPE_HOTSPOT_DATA:
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return {};
 			}
-			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
+			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), reinterpret_le<uint32_t>(this->data.data())}};
 		case TYPE_AUX_COMPRESSION:
 			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
 				return {};
 			}
-			return std::span{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
+			return std::span{reinterpret_cast<ui32le*>(this->data.data()), this->data.size() / 4};
 		default:
 			break;
 	}
@@ -303,7 +305,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			if (!(lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
 				return false;
 			}
-			return *reinterpret_cast<uint32_t*>(lhs.data.data()) < *reinterpret_cast<uint32_t*>(rhs.data.data());
+			return reinterpret_le<uint32_t>(lhs.data.data()) < reinterpret_le<uint32_t>(rhs.data.data());
 		});
 
 		// Fix up data spans to point to the actual data
@@ -311,8 +313,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		for (auto& resource : this->resources) {
 			if (!(resource.flags & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
-					const auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					const auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
+					const auto lastOffset = reinterpret_le<uint32_t>(lastResource->data.data());
+					const auto currentOffset = reinterpret_le<uint32_t>(resource.data.data());
 					const auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
@@ -322,7 +324,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 		}
 		if (lastResource) {
-			auto offset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
+			auto offset = reinterpret_le<uint32_t>(lastResource->data.data());
 			auto curPos = stream.tell();
 			stream.seek(offset);
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
