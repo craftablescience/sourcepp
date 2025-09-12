@@ -49,6 +49,7 @@ logging.level = "INFO"
 [tool.cibuildwheel]
 archs = ["auto64"]
 enable = ["pypy"]
+skip = "*-musllinux*"
 
 [tool.cibuildwheel.linux]
 manylinux-x86_64-image       = 'manylinux_2_34'
