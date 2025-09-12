@@ -279,11 +279,11 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
-    <td rowspan="35"><code>vtfpp</code></td>
+    <td rowspan="33"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="35" align="center">C<br>Python</td>
+    <td rowspan="33" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
@@ -374,15 +374,9 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>
       <a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)">VTF</a> v7.0-7.6
       <br> &bull; <a href="https://stratasource.org">Strata Source</a> modifications
-    </td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-  </tr>
-  <tr><!-- empty row to disable github striped bg color --></tr>
-  <tr>
-    <td>
-      <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> X360, PS3 (Orange Box)
-      <br> &bull; PS3 (Portal 2, CS:GO) modifications
+      <br> &bull; <a href="https://developer.valvesoftware.com/wiki/Half-Life_2_(Xbox)/Modding_Guide">XTF</a> v5.0 (Xbox, Half-Life 2)
+      <br> &bull; <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTFX</a> v8 (X360 &amp; PS3, Orange Box)
+      <br> &bull; <a href="https://developer.valvesoftware.com/wiki/VTFX_file_format">VTF3</a> v8 (PS3, Portal 2 &amp; CS:GO)
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
@@ -390,14 +384,6 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
     <td><a href="https://developers.google.com/speed/webp">WebP</a></td>
-    <td align="center">✅</td>
-    <td align="center">✅</td>
-  </tr>
-  <tr><!-- empty row to disable github striped bg color --></tr>
-  <tr>
-    <td>
-      <a href="https://developer.valvesoftware.com/wiki/Half-Life_2_(Xbox)/Modding_Guide">XTF</a> v5.0
-    </td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
