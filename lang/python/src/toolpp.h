@@ -7,6 +7,7 @@
 #include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
+using namespace py::literals;
 
 #include <toolpp/toolpp.h>
 
@@ -26,8 +27,7 @@ inline void register_python(py::module_& m) {
 		.value("DELETE_FILE",               CmdSeq::Command::Special::DELETE_FILE)
 		.value("RENAME_FILE",               CmdSeq::Command::Special::RENAME_FILE)
 		.value("COPY_FILE_IF_EXISTS_ALIAS", CmdSeq::Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS)
-		.value("COPY_FILE_IF_EXISTS",       CmdSeq::Command::Special::COPY_FILE_IF_EXISTS)
-		.export_values();
+		.value("COPY_FILE_IF_EXISTS",       CmdSeq::Command::Special::COPY_FILE_IF_EXISTS);
 
 	cCmdSeqCommand
 		.def_rw("enabled",                             &CmdSeq::Command::enabled)
@@ -37,7 +37,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("path_to_theoretically_existing_file", &CmdSeq::Command::pathToTheoreticallyExistingFile)
 		.def_rw("use_process_window",                  &CmdSeq::Command::useProcessWindow)
 		.def_rw("wait_for_keypress",                   &CmdSeq::Command::waitForKeypress)
-		.def_static("get_special_display_name_for", &CmdSeq::Command::getSpecialDisplayNameFor, py::arg("special"))
+		.def_static("get_special_display_name_for", &CmdSeq::Command::getSpecialDisplayNameFor, "special"_a)
 		.def("get_executable_display_name", &CmdSeq::Command::getExecutableDisplayName);
 
 	py::class_<CmdSeq::Sequence>(cCmdSeq, "Sequence")
@@ -47,22 +47,21 @@ inline void register_python(py::module_& m) {
 	py::enum_<CmdSeq::Type>(cCmdSeq, "Type")
 		.value("INVALID",          CmdSeq::Type::INVALID)
 		.value("BINARY",           CmdSeq::Type::BINARY)
-		.value("KEYVALUES_STRATA", CmdSeq::Type::KEYVALUES_STRATA)
-		.export_values();
+		.value("KEYVALUES_STRATA", CmdSeq::Type::KEYVALUES_STRATA);
 
 	cCmdSeq
-		.def(py::init<const std::string&>(), py::arg("path"))
-		.def(py::init<CmdSeq::Type>(), py::arg("type"))
+		.def(py::init<const std::string&>(), "path"_a)
+		.def(py::init<CmdSeq::Type>(), "type"_a)
 		.def("__bool__", &CmdSeq::operator bool, py::is_operator())
 		.def_prop_rw("type", &CmdSeq::getType, &CmdSeq::setType)
 		.def_prop_ro("version", &CmdSeq::getVersion)
-		.def("set_version", &CmdSeq::setVersion, py::arg("is_v02"))
+		.def("set_version", &CmdSeq::setVersion, "is_v02"_a)
 		.def("sequences", py::overload_cast<>(&CmdSeq::getSequences), py::rv_policy::reference_internal)
 		.def("bake", [](const CmdSeq& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&CmdSeq::bake, py::const_), py::arg("path"));
+		.def("bake_to_file", py::overload_cast<const std::string&>(&CmdSeq::bake, py::const_), "path"_a);
 
 	auto cFGD = py::class_<FGD>(toolpp, "FGD");
 	auto cFGDEntity = py::class_<FGD::Entity>(cFGD, "Entity");
@@ -134,8 +133,8 @@ inline void register_python(py::module_& m) {
 
 	cFGD
 		.def(py::init<>())
-		.def(py::init<const std::string&>(), py::arg("fgd_path"))
-		.def("load", &FGD::load, py::arg("fgd_path"))
+		.def(py::init<const std::string&>(), "fgd_path"_a)
+		.def("load", &FGD::load, "fgd_path"_a)
 		.def_prop_ro("version", &FGD::getVersion)
 		.def_prop_ro("map_size", &FGD::getMapSize)
 		.def_prop_ro("entities", &FGD::getEntities)
@@ -145,40 +144,40 @@ inline void register_python(py::module_& m) {
 	auto cFGDWriter = py::class_<FGDWriter>(toolpp, "FGDWriter");
 
 	py::class_<FGDWriter::AutoVisGroupWriter>(cFGDWriter, "AutoVisGroupWriter")
-		.def("visgroup", &FGDWriter::AutoVisGroupWriter::visGroup, py::arg("name"), py::arg("entities"), py::rv_policy::reference)
+		.def("visgroup", &FGDWriter::AutoVisGroupWriter::visGroup, "name"_a, "entities"_a, py::rv_policy::reference)
 		.def("end_auto_visgroup", &FGDWriter::AutoVisGroupWriter::endAutoVisGroup,                       py::rv_policy::reference);
 
 	auto cFGDWriterEntityWriter = py::class_<FGDWriter::EntityWriter>(cFGDWriter, "EntityWriter");
 
 	py::class_<FGDWriter::EntityWriter::KeyValueChoicesWriter>(cFGDWriterEntityWriter, "KeyValueChoicesWriter")
-		.def("choice", &FGDWriter::EntityWriter::KeyValueChoicesWriter::choice, py::arg("value"), py::arg("display_name"), py::rv_policy::reference)
+		.def("choice", &FGDWriter::EntityWriter::KeyValueChoicesWriter::choice, "value"_a, "display_name"_a, py::rv_policy::reference)
 		.def("end_key_value_choices", &FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyValueChoices,                 py::rv_policy::reference);
 
 	py::class_<FGDWriter::EntityWriter::KeyValueFlagsWriter>(cFGDWriterEntityWriter, "KeyValueFlagsWriter")
-		.def("flag", &FGDWriter::EntityWriter::KeyValueFlagsWriter::flag, py::arg("value"), py::arg("display_name"), py::arg("enabled_by_default"), py::arg("description") = "", py::rv_policy::reference)
+		.def("flag", &FGDWriter::EntityWriter::KeyValueFlagsWriter::flag, "value"_a, "display_name"_a, "enabled_by_default"_a, "description"_a = "", py::rv_policy::reference)
 		.def("end_key_value_flags", &FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyValueFlags,                                                                             py::rv_policy::reference);
 
 	cFGDWriterEntityWriter
-		.def("key_value", &FGDWriter::EntityWriter::keyValue, py::arg("name"), py::arg("value_type"), py::arg("display_name") = "", py::arg("value_default") = "", py::arg("description") = "", py::arg("readonly") = false, py::arg("report") = false, py::rv_policy::reference)
-		.def("begin_key_value_choices", &FGDWriter::EntityWriter::beginKeyValueChoices, py::arg("name"), py::arg("display_name") = "", py::arg("value_default") = "", py::arg("description") = "", py::arg("readonly") = false, py::arg("report") = false)
-		.def("begin_key_value_flags", &FGDWriter::EntityWriter::beginKeyValueFlags, py::arg("name"), py::arg("display_name") = "", py::arg("description") = "", py::arg("readonly") = false, py::arg("report") = false)
-		.def("input", &FGDWriter::EntityWriter::input, py::arg("name"), py::arg("value_type"), py::arg("description") = "", py::rv_policy::reference)
-		.def("output", &FGDWriter::EntityWriter::output, py::arg("name"), py::arg("value_type"), py::arg("description") = "", py::rv_policy::reference)
+		.def("key_value", &FGDWriter::EntityWriter::keyValue, "name"_a, "value_type"_a, "display_name"_a = "", "value_default"_a = "", "description"_a = "", "readonly"_a = false, "report"_a = false, py::rv_policy::reference)
+		.def("begin_key_value_choices", &FGDWriter::EntityWriter::beginKeyValueChoices, "name"_a, "display_name"_a = "", "value_default"_a = "", "description"_a = "", "readonly"_a = false, "report"_a = false)
+		.def("begin_key_value_flags", &FGDWriter::EntityWriter::beginKeyValueFlags, "name"_a, "display_name"_a = "", "description"_a = "", "readonly"_a = false, "report"_a = false)
+		.def("input", &FGDWriter::EntityWriter::input, "name"_a, "value_type"_a, "description"_a = "", py::rv_policy::reference)
+		.def("output", &FGDWriter::EntityWriter::output, "name"_a, "value_type"_a, "description"_a = "", py::rv_policy::reference)
 		.def("end_entity", &FGDWriter::EntityWriter::endEntity, py::rv_policy::reference);
 
 	cFGDWriter
 		.def_static("begin", &FGDWriter::begin)
-		.def("include", &FGDWriter::include, py::arg("fgd_path"), py::rv_policy::reference)
-		.def("version", &FGDWriter::version, py::arg("version"), py::rv_policy::reference)
-		.def("map_size", &FGDWriter::mapSize, py::arg("map_size"), py::rv_policy::reference)
-		.def("material_exclusion_dirs", &FGDWriter::materialExclusionDirs, py::arg("material_exclusion_dirs"), py::rv_policy::reference)
-		.def("begin_auto_visgroup", &FGDWriter::beginAutoVisGroup, py::arg("parent_name"))
-		.def("begin_entity", &FGDWriter::beginEntity, py::arg("class_type"), py::arg("class_properties"), py::arg("name"), py::arg("description") = "", py::arg("docs_url") = "")
+		.def("include", &FGDWriter::include, "fgd_path"_a, py::rv_policy::reference)
+		.def("version", &FGDWriter::version, "version"_a, py::rv_policy::reference)
+		.def("map_size", &FGDWriter::mapSize, "map_size"_a, py::rv_policy::reference)
+		.def("material_exclusion_dirs", &FGDWriter::materialExclusionDirs, "material_exclusion_dirs"_a, py::rv_policy::reference)
+		.def("begin_auto_visgroup", &FGDWriter::beginAutoVisGroup, "parent_name"_a)
+		.def("begin_entity", &FGDWriter::beginEntity, "class_type"_a, "class_properties"_a, "name"_a, "description"_a = "", "docs_url"_a = "")
 		.def("bake", [](const FGDWriter& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&FGDWriter::bake, py::const_), py::arg("path"));
+		.def("bake_to_file", py::overload_cast<const std::string&>(&FGDWriter::bake, py::const_), "path"_a);
 }
 
 } // namespace vcryptpp

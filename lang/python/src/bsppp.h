@@ -8,6 +8,7 @@
 #include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
+using namespace py::literals;
 
 #include <bsppp/bsppp.h>
 
@@ -28,17 +29,17 @@ inline void register_python(py::module_& m) {
 
 	cBSPEntityKeyValues
 		.def(py::init<>())
-		.def("has_child", &BSPEntityKeyValues::hasChild, py::arg("child_key"))
+		.def("has_child", &BSPEntityKeyValues::hasChild, "child_key"_a)
 		.def_prop_ro("keyvalues_count", py::overload_cast<>(&BSPEntityKeyValues::getKeyValuesCount, py::const_))
-		.def("get_keyvalues_count_for_key", py::overload_cast<std::string_view>(&BSPEntityKeyValues::getKeyValuesCount, py::const_), py::arg("child_key"))
+		.def("get_keyvalues_count_for_key", py::overload_cast<std::string_view>(&BSPEntityKeyValues::getKeyValuesCount, py::const_), "child_key"_a)
 		.def_prop_ro("keyvalues", &BSPEntityKeyValues::getKeyValues, py::rv_policy::reference_internal)
-		.def("at", py::overload_cast<unsigned int>(&BSPEntityKeyValues::operator[]), py::arg("n"), py::rv_policy::reference_internal)
-		.def("get", py::overload_cast<std::string_view>(&BSPEntityKeyValues::operator[]), py::arg("child_key"), py::rv_policy::reference_internal)
-		.def("__getitem__", py::overload_cast<std::string_view>(&BSPEntityKeyValues::operator[]), py::arg("child_key"), py::rv_policy::reference_internal, py::is_operator())
-		.def("get_n", py::overload_cast<std::string_view, unsigned int>(&BSPEntityKeyValues::operator()), py::arg("child_key"), py::arg("n"), py::rv_policy::reference_internal)
-		.def("add_keyvalue", &BSPEntityKeyValues::addKeyValue<std::string_view>, py::arg("child_key"), py::arg("value"))
-		.def("remove_keyvalue", &BSPEntityKeyValues::removeKeyValue, py::arg("child_key"), py::arg("n") = -1)
-		.def("bake", &BSPEntityKeyValues::bake, py::arg("use_escapes"));
+		.def("at", py::overload_cast<unsigned int>(&BSPEntityKeyValues::operator[]), "n"_a, py::rv_policy::reference_internal)
+		.def("get", py::overload_cast<std::string_view>(&BSPEntityKeyValues::operator[]), "child_key"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&BSPEntityKeyValues::operator[]), "child_key"_a, py::rv_policy::reference_internal, py::is_operator())
+		.def("get_n", py::overload_cast<std::string_view, unsigned int>(&BSPEntityKeyValues::operator()), "child_key"_a, "n"_a, py::rv_policy::reference_internal)
+		.def("add_keyvalue", &BSPEntityKeyValues::addKeyValue<std::string_view>, "child_key"_a, "value"_a)
+		.def("remove_keyvalue", &BSPEntityKeyValues::removeKeyValue, "child_key"_a, "n"_a = -1)
+		.def("bake", &BSPEntityKeyValues::bake, "use_escapes"_a);
 
 	py::class_<BSPPlane_v0>(cBSP, "Plane_v0")
 		.def(py::init<>())
@@ -78,7 +79,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("first_face", &BSPNode_v1::firstFace)
 		.def_rw("num_faces", &BSPNode_v1::numFaces)
 		.def_rw("area", &BSPNode_v1::area)
-		.def_static("upgrade", &BSPNode_v1::upgrade, py::arg("old"));
+		.def_static("upgrade", &BSPNode_v1::upgrade, "old"_a);
 
 	py::class_<BSPTextureInfo_v0>(cBSP, "TextureInfo_v0")
 		.def(py::init<>())
@@ -161,8 +162,7 @@ inline void register_python(py::module_& m) {
 		.value("STATIC_PROPS",             BSPGameLump::SIGNATURE_STATIC_PROPS)
 		.value("DETAIL_PROPS",             BSPGameLump::SIGNATURE_DETAIL_PROPS)
 		.value("DETAIL_PROP_LIGHTING_LDR", BSPGameLump::SIGNATURE_DETAIL_PROP_LIGHTING_LDR)
-		.value("DETAIL_PROP_LIGHTING_HDR", BSPGameLump::SIGNATURE_DETAIL_PROP_LIGHTING_HDR)
-		.export_values();
+		.value("DETAIL_PROP_LIGHTING_HDR", BSPGameLump::SIGNATURE_DETAIL_PROP_LIGHTING_HDR);
 
 	cBSPGameLump
 		.def_rw("signature", &BSPGameLump::signature)
@@ -261,24 +261,23 @@ inline void register_python(py::module_& m) {
 		.value("L4D2_PHYSLEVEL",                 BSPLump::L4D2_PHYSLEVEL)
 		.value("UNUSED7",                        BSPLump::UNUSED7)
 		.value("ASW_DISP_MULTIBLEND",            BSPLump::ASW_DISP_MULTIBLEND)
-		.value("UNUSED8",                        BSPLump::UNUSED8)
-		.export_values();
+		.value("UNUSED8",                        BSPLump::UNUSED8);
 
 	cBSP
-		.def(py::init<std::string, bool>(), py::arg("path"), py::arg("load_patch_files") = true)
+		.def(py::init<std::string, bool>(), "path"_a, "load_patch_files"_a = true)
 		.def("__bool__", &BSP::operator bool, py::is_operator())
-		.def_static("create", &BSP::create, py::arg("path"), py::arg("version") = 21, py::arg("map_revision") = 0)
+		.def_static("create", &BSP::create, "path"_a, "version"_a = 21, "map_revision"_a = 0)
 		.def_prop_rw("version", &BSP::getVersion, &BSP::setVersion)
 		.def_prop_rw("map_revision", &BSP::getMapRevision, &BSP::setMapRevision)
 		.def_prop_rw("l4d2", &BSP::isL4D2, &BSP::setL4D2)
 		.def_prop_rw("console", &BSP::isConsole, &BSP::setConsole)
-		.def("has_lump", &BSP::hasLump, py::arg("lump_index"))
-		.def("is_lump_compressed", &BSP::isLumpCompressed, py::arg("lump_index"))
-		.def("get_lump_version", &BSP::getLumpVersion, py::arg("lump_index"))
+		.def("has_lump", &BSP::hasLump, "lump_index"_a)
+		.def("is_lump_compressed", &BSP::isLumpCompressed, "lump_index"_a)
+		.def("get_lump_version", &BSP::getLumpVersion, "lump_index"_a)
 		.def("get_lump_data", [](const BSP& self, BSPLump lumpIndex, bool noDecompression = false) -> py::object {
 			const auto d = self.getLumpData(lumpIndex, noDecompression);
 			return d ? py::bytes{d->data(), d->size()} : py::none();
-		}, py::arg("lump_index"), py::arg("no_decompression") = false)
+		}, "lump_index"_a, "no_decompression"_a = false)
 		.def("get_lump_data_for_entities", &BSP::getLumpData<BSPLump::ENTITIES>)
 		.def("get_lump_data_for_planes", &BSP::getLumpData<BSPLump::PLANES>)
 		.def("get_lump_data_for_texdata", &BSP::getLumpData<BSPLump::TEXDATA>)
@@ -293,21 +292,21 @@ inline void register_python(py::module_& m) {
 		.def("get_lump_data_for_game_lump", &BSP::getLumpData<BSPLump::GAME_LUMP>)
 		.def("set_lump", [](BSP& self, BSPLump lumpIndex, uint32_t version, const py::bytes& data, uint8_t compressLevel = 0) {
 			self.setLump(lumpIndex, version, {static_cast<const std::byte*>(data.data()), data.size()}, compressLevel);
-		}, py::arg("lump_index"), py::arg("version"), py::arg("data"), py::arg("compress_level") = 0)
+		}, "lump_index"_a, "version"_a, "data"_a, "compress_level"_a = 0)
 		.def("set_lump_for_entities", [](BSP& self, uint32_t version, const std::vector<BSPEntityKeyValues>& data, uint8_t compressLevel = 0) {
 			self.setLump(version, data, compressLevel);
-		}, py::arg("version"), py::arg("data"), py::arg("compress_level"))
-		.def("is_game_lump_compressed", &BSP::isGameLumpCompressed, py::arg("signature"))
+		}, "version"_a, "data"_a, "compress_level"_a)
+		.def("is_game_lump_compressed", &BSP::isGameLumpCompressed, "signature"_a)
 		.def("get_game_lump_data", [](const BSP& self, BSPGameLump::Signature signature) -> py::object {
 			const auto d = self.getGameLumpData(signature);
 			return d ? py::bytes{d->data(), d->size()} : py::none();
-		}, py::arg("signature"))
-		.def("set_game_lump", &BSP::setGameLump, py::arg("signature"), py::arg("version"), py::arg("data"), py::arg("compress_level") = 0)
-		.def("reset_lump", &BSP::resetLump, py::arg("lump_index"))
+		}, "signature"_a)
+		.def("set_game_lump", &BSP::setGameLump, "signature"_a, "version"_a, "data"_a, "compress_level"_a = 0)
+		.def("reset_lump", &BSP::resetLump, "lump_index"_a)
 		.def("reset", &BSP::reset)
-		.def("create_lump_patch_file", &BSP::createLumpPatchFile, py::arg("lump_index"))
-		.def("set_lump_from_patch_file", &BSP::setLumpFromPatchFile, py::arg("lump_file_path"))
-		.def("bake", &BSP::bake, py::arg("output_path") = "");
+		.def("create_lump_patch_file", &BSP::createLumpPatchFile, "lump_index"_a)
+		.def("set_lump_from_patch_file", &BSP::setLumpFromPatchFile, "lump_file_path"_a)
+		.def("bake", &BSP::bake, "output_path"_a = "");
 
 	// todo(python): PakLump.h (when vpkpp bindings are in)
 }
