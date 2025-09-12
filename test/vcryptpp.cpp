@@ -35,7 +35,6 @@ TEST(vcryptpp, vfont_encrypt) {
 	const auto decrypted = fs::readFileBuffer(ASSET_ROOT "vcryptpp/test.ttf");
 
 	const auto test = VFONT::decrypt(VFONT::encrypt(decrypted));
-	fs::writeFileBuffer(ASSET_ROOT "vcryptpp/test_wringer.ttf", test);
 	ASSERT_EQ(test.size(), decrypted.size());
 
 	for (int i = 0; i < test.size(); i++) {

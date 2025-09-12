@@ -251,7 +251,8 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
             "sourcepp._sourcepp_impl.vtfpp"
             "sourcepp._sourcepp_impl.vtfpp.ImageFormatDetails"
             "sourcepp._sourcepp_impl.vtfpp.ImageDimensions"
-            "sourcepp._sourcepp_impl.vtfpp.ImageConversion")
+            "sourcepp._sourcepp_impl.vtfpp.ImageConversion"
+            "sourcepp._sourcepp_impl.vtfpp.ImageQuantize")
     foreach(MODULE ${${SOURCEPP_PYTHON_NAME}_MODULES})
         string(REPLACE "." "/" MODULE_DIR "${MODULE}")
         string(REPLACE "." "_" MODULE_NAME_NORMALIZED "${MODULE}")

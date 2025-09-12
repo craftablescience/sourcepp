@@ -342,6 +342,13 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
+  <tr>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/Half-Life_2_(Xbox)/Modding_Guide">XTF</a> v5.0
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
 </table>
 \endhtmlonly
 

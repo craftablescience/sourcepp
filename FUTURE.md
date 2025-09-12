@@ -10,7 +10,7 @@
     - There is literally nothing else that supports BC6H
 - `bsppp`
   - Console paklump support
-    - Note that XBOX uses PC format. X360, PS3 do not
+    - Note that XBOX uses XZP lump, X360, PS3 use PC lump but console style zip
   - Support parsing more lumps
   - Think about GoldSrc support
 - `dmxpp`
@@ -42,6 +42,3 @@
   - XZP write support
 - `vtfpp`
   - Add a MKS parser/writer
-  - Add DPID resize filter
-  - Allow directly applying an HDRI to a VTF without requiring the user to write a custom wrapper
-  - XTF support

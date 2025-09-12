@@ -21,6 +21,7 @@
 #include <sourcepp/Bits.h>
 #include <sourcepp/compression/LZMA.h>
 #include <vtfpp/ImageConversion.h>
+#include <vtfpp/ImageQuantize.h>
 
 using namespace sourcepp;
 using namespace sourcepp::bits;
@@ -73,9 +74,9 @@ namespace {
 	return {};
 }
 
-template<bool ExistingDataIsSwizzled>
-constexpr void swizzleImageDataForPS3(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
-	width *= ImageFormatDetails::bpp(format) / 32;
+template<std::unsigned_integral T, bool ExistingDataIsSwizzled>
+constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
+	width *= ImageFormatDetails::bpp(format) / (sizeof(T) * 8);
 	const auto zIndex = [
 		widthL2 = static_cast<int>(math::log2ceil(width)),
 		heightL2 = static_cast<int>(math::log2ceil(height)),
@@ -103,15 +104,15 @@ constexpr void swizzleImageDataForPS3(std::span<std::byte> inputData, std::span<
 		return offset;
 	};
 
-	const auto* inputPtr = reinterpret_cast<const uint32_t*>(inputData.data());
-	auto* outputPtr = reinterpret_cast<uint32_t*>(outputData.data());
+	const auto* inputPtr = reinterpret_cast<const T*>(inputData.data());
+	auto* outputPtr = reinterpret_cast<T*>(outputData.data());
 	for (uint16_t x = 0; x < width; x++) {
 		for (uint16_t y = 0; y < height; y++) {
 			for (uint16_t z = 0; z < slice; z++) {
 				if constexpr (ExistingDataIsSwizzled) {
-					*outputPtr++ = reinterpret_cast<const uint32_t*>(inputData.data())[zIndex(x, y, z)];
+					*outputPtr++ = reinterpret_cast<const T*>(inputData.data())[zIndex(x, y, z)];
 				} else {
-					reinterpret_cast<uint32_t*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
+					reinterpret_cast<T*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
 				}
 			}
 		}
@@ -155,7 +156,8 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 		}
 	}
 
-	if ((platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && ImageFormatDetails::bpp(format) % 32 == 0) {
+	// todo(vtfpp): should we enable 16-bit wide and 8-bit wide formats outside XBOX?
+	if ((platform == VTF::PLATFORM_XBOX || platform == VTF::PLATFORM_PS3_ORANGEBOX || platform == VTF::PLATFORM_PS3_PORTAL2) && !ImageFormatDetails::compressed(format) && (ImageFormatDetails::bpp(format) % 32 == 0 || (platform == VTF::PLATFORM_XBOX && (ImageFormatDetails::bpp(format) % 16 == 0 || ImageFormatDetails::bpp(format) % 8 == 0)))) {
 		std::vector<std::byte> out(imageData.size());
 		for(int mip = mipCount - 1; mip >= 0; mip--) {
 			const auto mipWidth = ImageDimensions::getMipDim(mip, width);
@@ -165,13 +167,64 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
 						std::span imageDataSpan{imageData.data() + offset, length * sliceCount};
 						std::span outSpan{out.data() + offset, length * sliceCount};
-						::swizzleImageDataForPS3<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						if (ImageFormatDetails::bpp(format) % 32 == 0) {
+							::swizzleUncompressedImageData<uint32_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						} else if (ImageFormatDetails::bpp(format) % 16 == 0) {
+							::swizzleUncompressedImageData<uint16_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						} else /*if (ImageFormatDetails::bpp(format) % 8 == 0)*/ {
+							::swizzleUncompressedImageData<uint8_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+						}
 					}
 				}
 			}
 		}
 		std::memcpy(imageData.data(), out.data(), out.size());
 	}
+}
+
+template<bool ConvertingFromDDS>
+[[nodiscard]] std::vector<std::byte> convertBetweenDDSAndVTFMipOrderForXBOX(bool padded, std::span<const std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, bool& ok) {
+	std::vector<std::byte> reorderedImageData;
+	reorderedImageData.resize(ImageFormatDetails::getDataLengthXBOX(padded, format, mipCount, frameCount, faceCount, width, height, sliceCount));
+	BufferStream reorderedStream{reorderedImageData};
+
+	if constexpr (ConvertingFromDDS) {
+		for (int i = mipCount - 1; i >= 0; i--) {
+			for (int j = 0; j < frameCount; j++) {
+				for (int k = 0; k < faceCount; k++) {
+					for (int l = 0; l < sliceCount; l++) {
+						uint32_t oldOffset, length;
+						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
+							ok = false;
+							return {};
+						}
+						reorderedStream << imageData.subspan(oldOffset, length);
+					}
+				}
+			}
+		}
+	} else {
+		for (int j = 0; j < frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				for (int i = 0; i < mipCount; i++) {
+					for (int l = 0; l < sliceCount; l++) {
+						uint32_t oldOffset, length;
+						if (!ImageFormatDetails::getDataPosition(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
+							ok = false;
+							return {};
+						}
+						reorderedStream << imageData.subspan(oldOffset, length);
+					}
+				}
+			}
+			if (padded && j + 1 != frameCount && reorderedStream.tell() > 512) {
+				reorderedStream.pad(math::paddingForAlignment(512, reorderedStream.tell()));
+			}
+		}
+	}
+
+	ok = true;
+	return reorderedImageData;
 }
 
 } // namespace
@@ -220,19 +273,6 @@ Resource::ConvertedData Resource::convertData() const {
 }
 
 VTF::VTF() {
-	this->version = 4;
-
-	this->flags = VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
-
-	this->format = ImageFormat::EMPTY;
-	this->thumbnailFormat = ImageFormat::EMPTY;
-
-	this->width = 0;
-	this->height = 0;
-	this->mipCount = 0;
-	this->frameCount = 0;
-	this->sliceCount = 0;
-
 	this->opened = true;
 }
 
@@ -266,6 +306,17 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		} else {
 			this->version = 4;
 		}
+	} else if (signature == XTF_SIGNATURE) {
+		stream >> this->platform;
+		if (this->platform != PLATFORM_XBOX) {
+			return;
+		}
+		stream >> this->version;
+		if (this->version != 0) {
+			return;
+		}
+		// Now fix up the actual version as it would be on PC
+		this->version = 2;
 	} else {
 		return;
 	}
@@ -466,7 +517,108 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				this->compressionMethod = resource->getDataAsAuxCompressionMethod();
 				this->removeResourceInternal(Resource::TYPE_AUX_COMPRESSION);
 			}
-			break;
+			return;
+		}
+		case PLATFORM_XBOX: {
+			if (this->platform == PLATFORM_XBOX) {
+				uint16_t preloadSize = 0, imageOffset = 0;
+				stream
+					.read(this->flags)
+					.read(this->width)
+					.read(this->height)
+					.read(this->sliceCount)
+					.read(this->frameCount)
+					.read(preloadSize)
+					.read(imageOffset)
+					.read(this->reflectivity[0])
+					.read(this->reflectivity[1])
+					.read(this->reflectivity[2])
+					.read(this->bumpMapScale)
+					.read(this->format)
+					.read(this->thumbnailWidth)
+					.read(this->thumbnailHeight)
+					.read(this->fallbackWidth)
+					.read(this->fallbackHeight)
+					.read(this->xboxMipScale)
+					.skip<uint8_t>(); // padding
+
+				const bool headerSizeIsAccurate = stream.tell() == headerSize;
+
+				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+
+				postReadTransform();
+
+				// Can't use VTF::getFaceCount yet because there's no image data
+				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
+
+				if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+					this->thumbnailFormat = ImageFormat::EMPTY;
+				} else {
+					this->thumbnailFormat = ImageFormat::RGB888;
+					this->resources.push_back({
+						.type = Resource::TYPE_THUMBNAIL_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
+					});
+				}
+
+				if (this->format == ImageFormat::P8) {
+					this->resources.push_back({
+						.type = Resource::TYPE_PALETTE_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888)),
+					});
+				}
+
+				bool ok;
+				auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+				std::vector<std::byte> reorderedFallbackData;
+				if (this->hasFallbackData()) {
+					if (stream.tell() + fallbackSize != preloadSize) {
+						// A couple XTFs that shipped with HL2 are missing the NO_MIP flag. We can detect them by checking the size of the fallback
+						fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, 1, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+						if (stream.tell() + fallbackSize != preloadSize) {
+							this->opened = false;
+							return;
+						}
+						this->fallbackMipCount = 1;
+						this->mipCount = 1;
+						this->flags |= VTF::FLAG_NO_MIP;
+					}
+					reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+					if (!ok) {
+						this->opened = false;
+						return;
+					}
+					::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+				}
+
+				this->opened = headerSizeIsAccurate;
+				if (parseHeaderOnly) {
+					return;
+				}
+
+				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
+				std::vector<std::byte> reorderedImageData;
+				if (this->hasImageData()) {
+					reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
+					if (!ok) {
+						this->opened = false;
+						return;
+					}
+					::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, this->platform);
+				}
+
+				// By this point we cannot use spans over data, it will change here
+				if (this->hasFallbackData()) {
+					this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, reorderedFallbackData);
+				}
+				if (this->hasImageData()) {
+					this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+				}
+				return;
+			}
 		}
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -486,7 +638,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->reflectivity[2])
 				.read(this->bumpMapScale)
 				.read(this->format)
-				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, presumably linear color)
+				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, linear color pixel)
 				.skip<uint32_t>(); // compressedLength
 
 			postReadTransform();
@@ -530,7 +682,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
 				}
 			}
-			break;
+			return;
 		}
 	}
 }
@@ -561,6 +713,10 @@ VTF& VTF::operator=(const VTF& other) {
 	this->thumbnailFormat = other.thumbnailFormat;
 	this->thumbnailWidth = other.thumbnailWidth;
 	this->thumbnailHeight = other.thumbnailHeight;
+	this->fallbackWidth = other.fallbackWidth;
+	this->fallbackHeight = other.fallbackHeight;
+	this->fallbackMipCount = other.fallbackMipCount;
+	this->xboxMipScale = other.xboxMipScale;
 	this->sliceCount = other.sliceCount;
 
 	this->resources.clear();
@@ -635,6 +791,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setCompressionLevel(options.compressionLevel);
 	writer.setCompressionMethod(options.compressionMethod);
+	writer.setXBOXMipScale(options.xboxMipScale);
 	return out;
 }
 
@@ -714,6 +871,9 @@ void VTF::setPlatform(Platform newPlatform) {
 		case PLATFORM_UNKNOWN:
 		case PLATFORM_PC:
 			break;
+		case PLATFORM_XBOX:
+			this->setVersion(2);
+			break;
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
 			this->setVersion(4);
@@ -723,6 +883,38 @@ void VTF::setPlatform(Platform newPlatform) {
 			break;
 	}
 	this->platform = newPlatform;
+
+	// Update flags
+	if (this->platform == PLATFORM_XBOX || newPlatform == PLATFORM_XBOX) {
+		this->removeFlags(VTF::FLAGS_MASK_XBOX);
+	}
+
+	// XBOX stores thumbnail as single RGB888 pixel, but we assume thumbnail is DXT1 on other platforms
+	if (this->hasThumbnailData()) {
+		if (this->platform == PLATFORM_XBOX) {
+			this->thumbnailFormat = ImageFormat::RGB888;
+			this->thumbnailWidth = 1;
+			this->thumbnailHeight = 1;
+			std::array newThumbnail{
+				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[0], 0.f, 1.f) * 255.f)),
+				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[1], 0.f, 1.f) * 255.f)),
+				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[2], 0.f, 1.f) * 255.f)),
+			};
+			this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, newThumbnail);
+		} else if (oldPlatform == PLATFORM_XBOX) {
+			this->thumbnailFormat = ImageFormat::EMPTY;
+			this->thumbnailWidth = 0;
+			this->thumbnailHeight = 0;
+		}
+	}
+
+	// Add/remove fallback data for XBOX
+	if (this->platform != PLATFORM_XBOX && this->hasFallbackData()) {
+		this->removeFallback();
+	} else if (this->platform == PLATFORM_XBOX) {
+		this->computeFallback();
+	}
+
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
@@ -755,7 +947,7 @@ void VTF::setVersion(uint32_t newVersion) {
 	}
 
 	// Fix up flags
-	bool srgb = this->isSRGB();
+	const bool srgb = this->isSRGB();
 	if ((this->version < 2 && newVersion >= 2) || (this->version >= 2 && newVersion < 2)) {
 		this->removeFlags(VTF::FLAGS_MASK_V2);
 	}
@@ -918,6 +1110,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		this->format = newFormat;
 		return;
 	}
+	const auto oldFormat = this->format;
 	auto newMipCount = this->mipCount;
 	if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(newFormat, this->width, this->height); newMipCount > recommendedCount) {
 		newMipCount = recommendedCount;
@@ -926,6 +1119,11 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
 	} else {
 		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
+	}
+
+	if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
+		const auto fallbackConverted = ImageConversion::convertSeveralImageDataToFormat(fallbackResource->data, oldFormat, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, quality);
+		this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, fallbackConverted);
 	}
 }
 
@@ -1172,6 +1370,18 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
+uint8_t VTF::getFallbackWidth() const {
+	return this->fallbackWidth;
+}
+
+uint8_t VTF::getFallbackHeight() const {
+	return this->fallbackHeight;
+}
+
+uint8_t VTF::getFallbackMipCount() const {
+	return this->fallbackMipCount;
+}
+
 const std::vector<Resource>& VTF::getResources() const {
 	return this->resources;
 }
@@ -1317,6 +1527,11 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->sliceCount = newSliceCount;
 
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
+
+	if (this->hasFallbackData()) {
+		this->removeFallback();
+		this->computeFallback();
+	}
 }
 
 std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
@@ -1482,6 +1697,11 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	if (rawImageData.empty()) {
 		return {};
 	}
+	if (this->format == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+		}
+	}
 	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 }
 
@@ -1591,6 +1811,11 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
+	if (this->thumbnailFormat == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		}
+	}
 	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
 
@@ -1606,6 +1831,28 @@ void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format
 	}
 	this->thumbnailWidth = width_;
 	this->thumbnailHeight = height_;
+}
+
+bool VTF::setThumbnail(const std::string& imagePath, float quality) {
+	ImageFormat inputFormat;
+	int inputWidth, inputHeight, inputFrameCount;
+	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
+
+	// Unable to decode file
+	if (imageData_.empty() || inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+		return false;
+	}
+
+	// One frame (normal)
+	if (inputFrameCount == 1) {
+		this->setThumbnail(imageData_, inputFormat, inputWidth, inputHeight, quality);
+		return true;
+	}
+
+	// Multiple frames (GIF) - we will just use the first one
+	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
+	this->setThumbnail({imageData_.data(), frameSize}, inputFormat, inputWidth, inputHeight, quality);
+	return true;
 }
 
 void VTF::computeThumbnail(ImageConversion::ResizeFilter filter, float quality) {
@@ -1634,6 +1881,93 @@ bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::Fil
 		return fs::writeFileBuffer(imagePath, data_);
 	}
 	return false;
+}
+
+bool VTF::hasFallbackData() const {
+	return this->fallbackWidth > 0 && this->fallbackHeight > 0 && this->fallbackMipCount > 0;
+}
+
+std::span<const std::byte> VTF::getFallbackDataRaw(uint8_t mip, uint16_t frame, uint8_t face) const {
+	if (const auto fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
+		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->fallbackMipCount, frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
+			return fallbackResource->data.subspan(offset, length);
+		}
+	}
+	return {};
+}
+
+std::vector<std::byte> VTF::getFallbackDataAs(ImageFormat newFormat, uint8_t mip, uint16_t frame, uint8_t face) const {
+	const auto rawFallbackData = this->getFallbackDataRaw(mip, frame, face);
+	if (rawFallbackData.empty()) {
+		return {};
+	}
+	if (this->format == ImageFormat::P8) {
+		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		}
+	}
+	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->format, newFormat, this->fallbackWidth, this->fallbackHeight);
+}
+
+std::vector<std::byte> VTF::getFallbackDataAsRGBA8888(uint8_t mip, uint16_t frame, uint8_t face) const {
+	return this->getFallbackDataAs(ImageFormat::RGBA8888, mip, frame, face);
+}
+
+void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
+	if (!this->hasImageData()) {
+		return;
+	}
+
+	const auto* imageResource = this->getResourceInternal(Resource::TYPE_IMAGE_DATA);
+	if (!imageResource) {
+		return;
+	}
+
+	const auto faceCount = this->getFaceCount();
+
+	this->fallbackWidth = 8;
+	this->fallbackHeight = 8;
+	this->fallbackMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+
+	std::vector<std::byte> fallbackData;
+	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
+	for (int i = this->fallbackMipCount - 1; i >= 0; i--) {
+		for (int j = 0; j < this->frameCount; j++) {
+			for (int k = 0; k < faceCount; k++) {
+				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, ImageDimensions::getMipDim(i, this->fallbackWidth), this->height, ImageDimensions::getMipDim(i, this->fallbackHeight), this->isSRGB(), filter);
+				if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->fallbackMipCount, j, this->frameCount, k, faceCount, this->fallbackWidth, this->fallbackHeight) && mip.size() == length) {
+					std::memcpy(fallbackData.data() + offset, mip.data(), length);
+				}
+			}
+		}
+	}
+	this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, fallbackData);
+}
+
+void VTF::removeFallback() {
+	this->fallbackWidth = 0;
+	this->fallbackHeight = 0;
+	this->fallbackMipCount = 0;
+	this->removeResourceInternal(Resource::TYPE_FALLBACK_DATA);
+}
+
+std::vector<std::byte> VTF::saveFallbackToFile(uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
+	return ImageConversion::convertImageDataToFile(this->getFallbackDataRaw(mip, frame, face), this->format, ImageDimensions::getMipDim(mip, this->fallbackWidth), ImageDimensions::getMipDim(mip, this->fallbackHeight), fileFormat);
+}
+
+bool VTF::saveFallbackToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
+	if (auto data_ = this->saveFallbackToFile(mip, frame, face, fileFormat); !data_.empty()) {
+		return fs::writeFileBuffer(imagePath, data_);
+	}
+	return false;
+}
+
+uint8_t VTF::getXBOXMipScale() const {
+	return this->xboxMipScale;
+}
+
+void VTF::setXBOXMipScale(uint8_t xboxMipScale_) {
+	this->xboxMipScale = xboxMipScale_;
 }
 
 std::vector<std::byte> VTF::bake() const {
@@ -1666,7 +2000,7 @@ std::vector<std::byte> VTF::bake() const {
 
 	switch (this->platform) {
 		case PLATFORM_UNKNOWN:
-			break;
+			return out;
 		case PLATFORM_PC: {
 			writer
 				.write(VTF_SIGNATURE)
@@ -1682,11 +2016,11 @@ std::vector<std::byte> VTF::bake() const {
 				.write(bakeFlags)
 				.write(this->frameCount)
 				.write(this->startFrame)
-				.write<uint32_t>(0) // padding
+				.pad<uint32_t>()
 				.write(this->reflectivity[0])
 				.write(this->reflectivity[1])
 				.write(this->reflectivity[2])
-				.write<uint32_t>(0) // padding
+				.pad<uint32_t>()
 				.write(this->bumpMapScale)
 				.write(bakeFormat)
 				.write(this->mipCount)
@@ -1699,10 +2033,7 @@ std::vector<std::byte> VTF::bake() const {
 			}
 
 			if (this->version < 3) {
-				const auto headerAlignment = math::paddingForAlignment(16, writer.tell());
-				for (uint16_t i = 0; i < headerAlignment; i++) {
-					writer.write<std::byte>({});
-				}
+				writer.pad(math::paddingForAlignment(16, writer.tell()));
 				const auto headerSize = writer.tell();
 				writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(headerSize);
 
@@ -1746,12 +2077,7 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 
-				writer
-					.write<uint8_t>(0) // padding
-					.write<uint8_t>(0) // padding
-					.write<uint8_t>(0) // padding
-					.write<uint32_t>(this->getResources().size() + hasAuxCompression)
-					.write<uint64_t>(0); // padding
+				writer.pad(3).write<uint32_t>(this->getResources().size() + hasAuxCompression).pad(8);
 
 				const auto resourceStart = writer.tell();
 				const auto headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
@@ -1776,9 +2102,86 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 			}
+			break;
+		}
+		case PLATFORM_XBOX: {
+			writer << XTF_SIGNATURE << PLATFORM_XBOX;
+			writer.write<uint32_t>(0);
 
-			out.resize(writer.size());
-			return out;
+			const auto headerSizePos = writer.tell();
+			writer
+				.write<uint32_t>(0)
+				.write(this->flags)
+				.write(this->width)
+				.write(this->height)
+				.write(this->sliceCount)
+				.write(this->frameCount);
+			const auto preloadSizePos = writer.tell();
+			writer.write<uint16_t>(0);
+			const auto imageOffsetPos = writer.tell();
+			writer
+				.write<uint16_t>(0)
+				.write(this->reflectivity[0])
+				.write(this->reflectivity[1])
+				.write(this->reflectivity[2])
+				.write(this->bumpMapScale)
+				.write(this->format)
+				.write(this->thumbnailWidth)
+				.write(this->thumbnailHeight)
+				.write(this->fallbackWidth)
+				.write(this->fallbackHeight)
+				.write(this->xboxMipScale)
+				.write<uint8_t>(0);
+
+			const auto headerSize = writer.tell();
+			writer.seek_u(headerSizePos).write<uint32_t>(headerSize).seek_u(headerSize);
+
+			if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
+				writer.write(thumbnailResource->data);
+			}
+
+			if (this->format == ImageFormat::P8) {
+				if (const auto* paletteResource = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+					writer.write(paletteResource->data);
+				}
+			}
+
+			bool hasFallbackResource = false;
+			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
+				hasFallbackResource = true;
+				bool ok;
+				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
+				if (ok) {
+					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+					writer.write(reorderedFallbackData);
+				} else {
+					writer.pad(fallbackResource->data.size());
+				}
+			}
+
+			const auto preloadSize = writer.tell();
+			writer.seek_u(preloadSizePos).write<uint32_t>(preloadSize).seek_u(preloadSize);
+
+			if (hasFallbackResource) {
+				writer.pad(math::paddingForAlignment(512, writer.tell()));
+			}
+			const auto imageOffset = writer.tell();
+			writer.seek_u(imageOffsetPos).write<uint16_t>(imageOffset).seek_u(imageOffset);
+
+			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+				bool ok;
+				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, ok);
+				if (ok) {
+					::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+					writer.write(reorderedImageData);
+				} else {
+					writer.pad(imageResource->data.size());
+				}
+			}
+			if (writer.tell() > 512) {
+				writer.pad(math::paddingForAlignment(512, writer.tell()));
+			}
+			break;
 		}
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -1792,6 +2195,7 @@ std::vector<std::byte> VTF::bake() const {
 				writer.set_big_endian(true);
 				writer << this->platform;
 			}
+			writer.write<uint32_t>(8);
 
 			// Go down until top level texture is <1mb, matches makegamedata.exe output
 			uint8_t mipSkip = 0;
@@ -1801,7 +2205,6 @@ std::vector<std::byte> VTF::bake() const {
 				}
 			}
 
-			writer.write<uint32_t>(8);
 			const auto headerLengthPos = writer.tell();
 			writer
 				.write<uint32_t>(0)
@@ -1898,12 +2301,11 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 			}
-
-			out.resize(writer.size());
-			return out;
+			break;
 		}
 	}
-	return {};
+	out.resize(writer.size());
+	return out;
 }
 
 bool VTF::bake(const std::string& vtfPath) const {
