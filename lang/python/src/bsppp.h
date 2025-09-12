@@ -308,7 +308,11 @@ inline void register_python(py::module_& m) {
 		.def("set_lump_from_patch_file", &BSP::setLumpFromPatchFile, "lump_file_path"_a)
 		.def("bake", &BSP::bake, "output_path"_a = "");
 
-	// todo(python): PakLump.h (when vpkpp bindings are in)
+	bsppp.attr("BSP_EXTENSION") = BSP_EXTENSION;
+
+	py::class_<PakLump, vpkpp::PackFile>(bsppp, "PakLump")
+		.def_static("open", &PakLump::open, "path"_a, "callback"_a = nullptr)
+		.def_ro_static("GUID", &PakLump::GUID);
 }
 
 } // namespace bsppp

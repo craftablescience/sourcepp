@@ -175,7 +175,7 @@ Several modern C++20 libraries for sanely parsing Valve formats, rolled into one
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="29" align="center">C<br>C#</td>
+    <td rowspan="29" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable github striped bg color --></tr>
   <tr>
