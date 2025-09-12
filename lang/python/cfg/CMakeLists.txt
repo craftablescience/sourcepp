@@ -1,6 +1,6 @@
 # Load this to build the sourcepp Python package
 
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 set(CMAKE_OSX_ARCHITECTURES "arm64" CACHE INTERNAL "" FORCE)
 project(sourcepp_python)
 

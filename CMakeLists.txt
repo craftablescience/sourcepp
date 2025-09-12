@@ -1,9 +1,10 @@
-cmake_minimum_required(VERSION 3.25 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.26 FATAL_ERROR)
 
 
 # Create project
 project(sourcepp
-        DESCRIPTION "Several modern C++20 libraries for sanely parsing Valve formats.")
+        DESCRIPTION "Several modern C++20 libraries for sanely parsing Valve formats."
+        HOMEPAGE_URL "https://craftablescience.info/sourcepp")
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -119,7 +120,7 @@ endif()
 
 # Python bindings, part 1
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
-    set(SOURCEPP_PYTHON_NAME "${PROJECT_NAME}_python")
+    set(${PROJECT_NAME}_PYTHON "${PROJECT_NAME}_python")
     find_package(Python REQUIRED
             COMPONENTS Interpreter Development.Module
             OPTIONAL_COMPONENTS Development.SABIModule)
@@ -128,8 +129,8 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
             GIT_REPOSITORY "https://github.com/wjakob/nanobind.git"
             GIT_TAG "origin/master")
     FetchContent_MakeAvailable(nanobind)
-    set(${SOURCEPP_PYTHON_NAME}_SOURCES "")
-    set(${SOURCEPP_PYTHON_NAME}_DEFINES "")
+    set(${${PROJECT_NAME}_PYTHON}_SOURCES "")
+    set(${${PROJECT_NAME}_PYTHON}_DEFINES "")
 
     # Set the version and git commit hash here
     find_package(Git REQUIRED)
@@ -143,7 +144,8 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     endif()
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/CMakeLists.txt" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/CMakeLists.txt" @ONLY)
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/pyproject.toml" "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/pyproject.toml")
-    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/__init__.py"    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp/__init__.py")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/__init__.py"    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}/__init__.py")
+    configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/python/cfg/__init__.py"    "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}/__init__.pyi")
 
     # These need to be inside the python directory, let's duplicate them!
     configure_file("${CMAKE_CURRENT_SOURCE_DIR}/LICENSE"                      "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/LICENSE"                      COPYONLY)
@@ -221,50 +223,38 @@ endif()
 
 # Python bindings, part 2
 if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
-    nanobind_add_module(${SOURCEPP_PYTHON_NAME} NB_STATIC STABLE_ABI LTO
-            "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp.cpp"
-            ${${SOURCEPP_PYTHON_NAME}_SOURCES})
-    set_target_properties(${SOURCEPP_PYTHON_NAME} PROPERTIES
+    nanobind_add_module(${${PROJECT_NAME}_PYTHON} NB_STATIC STABLE_ABI LTO
+            "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}.cpp"
+            ${${${PROJECT_NAME}_PYTHON}_SOURCES})
+    set_target_properties(${${PROJECT_NAME}_PYTHON} PROPERTIES
             OUTPUT_NAME "_${PROJECT_NAME}_impl"
-            LIBRARY_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp"
-            LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp"
-            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/sourcepp")
-    target_compile_definitions(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEFINES})
-    target_link_libraries(${SOURCEPP_PYTHON_NAME} PRIVATE ${${SOURCEPP_PYTHON_NAME}_DEPS})
-    install(TARGETS ${SOURCEPP_PYTHON_NAME} LIBRARY DESTINATION "./${PROJECT_NAME}")
+            LIBRARY_OUTPUT_DIRECTORY         "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}"
+            LIBRARY_OUTPUT_DIRECTORY_DEBUG   "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}"
+            LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}")
+    target_compile_definitions(${${PROJECT_NAME}_PYTHON} PRIVATE ${${${PROJECT_NAME}_PYTHON}_DEFINES})
+    target_link_libraries(${${PROJECT_NAME}_PYTHON} PRIVATE ${${${PROJECT_NAME}_PYTHON}_DEPS})
+    install(TARGETS ${${PROJECT_NAME}_PYTHON} LIBRARY DESTINATION "./${PROJECT_NAME}")
 
-    add_custom_target(${SOURCEPP_PYTHON_NAME}_all)
-    add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME})
+    add_custom_target(${${PROJECT_NAME}_PYTHON}_all)
+    add_dependencies(${${PROJECT_NAME}_PYTHON}_all ${${PROJECT_NAME}_PYTHON})
 
-    # We need to manually write out each module :(
-    set(${SOURCEPP_PYTHON_NAME}_MODULES
-            "sourcepp._sourcepp_impl"
-            "sourcepp._sourcepp_impl.bsppp"
-            "sourcepp._sourcepp_impl.gamepp"
-            "sourcepp._sourcepp_impl.sourcepp"
-            "sourcepp._sourcepp_impl.sourcepp.math"
-            "sourcepp._sourcepp_impl.steampp"
-            "sourcepp._sourcepp_impl.toolpp"
-            "sourcepp._sourcepp_impl.vcryptpp"
-            "sourcepp._sourcepp_impl.vcryptpp.VFONT"
-            "sourcepp._sourcepp_impl.vcryptpp.VICE"
-            "sourcepp._sourcepp_impl.vtfpp"
-            "sourcepp._sourcepp_impl.vtfpp.ImageFormatDetails"
-            "sourcepp._sourcepp_impl.vtfpp.ImageDimensions"
-            "sourcepp._sourcepp_impl.vtfpp.ImageConversion"
-            "sourcepp._sourcepp_impl.vtfpp.ImageQuantize")
-    foreach(MODULE ${${SOURCEPP_PYTHON_NAME}_MODULES})
-        string(REPLACE "." "/" MODULE_DIR "${MODULE}")
-        string(REPLACE "." "_" MODULE_NAME_NORMALIZED "${MODULE}")
-        set(MODULE_NAME_NORMALIZED "${MODULE_NAME_NORMALIZED}_stub")
-        nanobind_add_stub("${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED}"
-                DEPENDS ${SOURCEPP_PYTHON_NAME}
-                MODULE "${MODULE}"
-                OUTPUT "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi"
-                PYTHON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src")
-        install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${MODULE_DIR}.pyi" DESTINATION "./${MODULE_DIR}/..")
-        add_dependencies(${SOURCEPP_PYTHON_NAME}_all ${SOURCEPP_PYTHON_NAME}_stub_${MODULE_NAME_NORMALIZED})
-    endforeach()
+    nanobind_add_stub(${${PROJECT_NAME}_PYTHON}_stubgen
+            DEPENDS ${${PROJECT_NAME}_PYTHON}
+            MODULE "${PROJECT_NAME}._${PROJECT_NAME}_impl"
+            MARKER_FILE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}/py.typed"
+            RECURSIVE
+            OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}"
+            PYTHON_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src")
+    add_dependencies(${${PROJECT_NAME}_PYTHON}_all ${${PROJECT_NAME}_PYTHON}_stubgen)
+    install(CODE "
+        file(GLOB_RECURSE ${${PROJECT_NAME}_PYTHON}_STUB_FILES \"${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}/*.pyi\")
+        list(APPEND ${${PROJECT_NAME}_PYTHON}_STUB_FILES \"${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}/py.typed\")
+        foreach(STUB_FILE \${${${PROJECT_NAME}_PYTHON}_STUB_FILES})
+            file(RELATIVE_PATH REL_PATH \"${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}\" \${STUB_FILE})
+            get_filename_component(STUB_DIR \"\${REL_PATH}\" DIRECTORY)
+            file(INSTALL \${STUB_FILE} DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/\${STUB_DIR}\")
+        endforeach()
+    ")
 endif()
 
 

@@ -4,7 +4,7 @@ build-backend = "scikit_build_core.build"
 
 
 [project]
-name = "sourcepp"
+name = "${PROJECT_NAME}"
 version = "${SOURCEPP_VERSION}"
 authors = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
 maintainers = [{ name = "craftablescience", email = "lauralewisdev@gmail.com" }]
@@ -27,7 +27,7 @@ classifiers = [
 ]
 
 [project.urls]
-"homepage" = "https://github.com/craftablescience/sourcepp"
+"homepage" = "${PROJECT_HOMEPAGE_URL}"
 "repository" = "https://github.com/craftablescience/sourcepp"
 "issue tracker" = "https://github.com/craftablescience/sourcepp/issues"
 "funding" = "https://ko-fi.com/craftablescience"
@@ -49,8 +49,6 @@ logging.level = "INFO"
 [tool.cibuildwheel]
 archs = ["auto64"]
 enable = ["pypy"]
-#test-command = "pytest {project}/test"
-#test-requires = "pytest"
 
 [tool.cibuildwheel.linux]
 manylinux-x86_64-image       = 'manylinux_2_34'
