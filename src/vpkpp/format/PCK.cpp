@@ -71,6 +71,11 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	}
 
 	reader.read(pck->header.packVersion);
+	if (pck->header.packVersion < 1 || pck->header.packVersion > 2) {
+		// We don't support v3 yet
+		return nullptr;
+	}
+
 	reader.read(pck->header.godotVersionMajor);
 	reader.read(pck->header.godotVersionMinor);
 	reader.read(pck->header.godotVersionPatch);
