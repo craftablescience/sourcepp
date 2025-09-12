@@ -2471,6 +2471,10 @@ PREDEFINED             =
 # This tag requires that the tag ENABLE_PREPROCESSING is set to YES.
 
 EXPAND_AS_DEFINED      =
+EXPAND_AS_DEFINED += SOURCEPP_LEREP_DEFINE
+EXPAND_AS_DEFINED += SOURCEPP_LEREP_DEFINE_P
+EXPAND_AS_DEFINED += SOURCEPP_MAT_DEFINE
+EXPAND_AS_DEFINED += SOURCEPP_VEC_DEFINE
 
 # If the SKIP_FUNCTION_MACROS tag is set to YES then doxygen's preprocessor will
 # remove all references to function-like macros that are alone on a line, have
