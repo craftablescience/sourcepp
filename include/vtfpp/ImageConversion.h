@@ -12,7 +12,9 @@
 
 #include "ImageFormats.h"
 
-using sourcepp::bits::LERep;
+using sourcepp::bits::f16le;
+using sourcepp::bits::f32le;
+using sourcepp::bits::ui16le;
 
 namespace vtfpp {
 
@@ -160,18 +162,18 @@ struct UVWQ8888 {
 
 struct RGBA16161616F {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616F;
-	LERep<half> r;
-	LERep<half> g;
-	LERep<half> b;
-	LERep<half> a;
+	f16le r;
+	f16le g;
+	f16le b;
+	f16le a;
 }; VTFPP_CHECK_SIZE(RGBA16161616F);
 
 struct RGBA16161616 {
 	static constexpr auto FORMAT = ImageFormat::RGBA16161616;
-	LERep<uint16_t> r;
-	LERep<uint16_t> g;
-	LERep<uint16_t> b;
-	LERep<uint16_t> a;
+	ui16le r;
+	ui16le g;
+	ui16le b;
+	ui16le a;
 }; VTFPP_CHECK_SIZE(RGBA16161616);
 
 struct UVLX8888 {
@@ -184,34 +186,34 @@ struct UVLX8888 {
 
 struct R32F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
-	LERep<float> r;
+	f32le r;
 }; VTFPP_CHECK_SIZE(R32F);
 
 struct RGB323232F {
 	static constexpr auto FORMAT = ImageFormat::R32F;
-	LERep<float> r;
-	LERep<float> g;
-	LERep<float> b;
+	f32le r;
+	f32le g;
+	f32le b;
 }; VTFPP_CHECK_SIZE(RGB323232F);
 
 struct RGBA32323232F {
 	static constexpr auto FORMAT = ImageFormat::RGBA32323232F;
-	LERep<float> r;
-	LERep<float> g;
-	LERep<float> b;
-	LERep<float> a;
+	f32le r;
+	f32le g;
+	f32le b;
+	f32le a;
 }; VTFPP_CHECK_SIZE(RGBA32323232F);
 
 struct RG1616F {
 	static constexpr auto FORMAT = ImageFormat::RG1616F;
-	LERep<half> r;
-	LERep<half> g;
+	f16le r;
+	f16le g;
 }; VTFPP_CHECK_SIZE(RG1616F);
 
 struct RG3232F {
 	static constexpr auto FORMAT = ImageFormat::RG3232F;
-	LERep<float> r;
-	LERep<float> g;
+	f32le r;
+	f32le g;
 }; VTFPP_CHECK_SIZE(RG3232F);
 
 struct RGBX8888 {
