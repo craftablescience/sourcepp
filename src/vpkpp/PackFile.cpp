@@ -176,6 +176,10 @@ std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeU
 	return std::nullopt;
 }
 
+std::optional<std::vector<std::byte>> PackFile::operator[](const std::string& path_) const {
+	return this->readEntry(path_);
+}
+
 std::optional<std::string> PackFile::readEntryText(const std::string& path) const {
 	const auto bytes = this->readEntry(path);
 	if (!bytes) {

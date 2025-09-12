@@ -104,6 +104,8 @@ public:
 	/// Try to read the entry's data to a bytebuffer
 	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const = 0;
 
+	[[nodiscard]] std::optional<std::vector<std::byte>> operator[](const std::string& path_) const;
+
 	/// Try to read the entry's data to a string
 	[[nodiscard]] std::optional<std::string> readEntryText(const std::string& path) const;
 
