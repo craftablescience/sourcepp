@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -117,7 +118,7 @@ public:
 	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options = {});
+	void addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options = {});
 
 	/// Adds new entries using the contents of a given directory
 	void addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});

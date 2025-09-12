@@ -144,7 +144,7 @@ SOURCEPP_API void vpkpp_add_entry_from_mem(vpkpp_pack_file_handle_t handle, cons
 	SOURCEPP_EARLY_RETURN(buffer);
 	SOURCEPP_EARLY_RETURN(bufferLen);
 
-	Convert::packFile(handle)->addEntry(path, reinterpret_cast<const std::byte*>(buffer), bufferLen, {});
+	Convert::packFile(handle)->addEntry(path, {reinterpret_cast<const std::byte*>(buffer), bufferLen}, {});
 }
 
 SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen, vpkpp_entry_options_t options) {
@@ -153,7 +153,7 @@ SOURCEPP_API void vpkpp_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t
 	SOURCEPP_EARLY_RETURN(buffer);
 	SOURCEPP_EARLY_RETURN(bufferLen);
 
-	Convert::packFile(handle)->addEntry(path, reinterpret_cast<const std::byte*>(buffer), bufferLen, Convert::optionsFromC(options));
+	Convert::packFile(handle)->addEntry(path, {reinterpret_cast<const std::byte*>(buffer), bufferLen}, Convert::optionsFromC(options));
 }
 
 SOURCEPP_API void vpkpp_add_directory(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_creation_t creation) {
