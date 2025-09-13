@@ -1811,7 +1811,7 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	}
 	if (this->thumbnailFormat == ImageFormat::P8) {
 		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
