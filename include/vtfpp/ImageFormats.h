@@ -648,7 +648,7 @@ namespace ImageFormatDetails {
 namespace ImageDimensions {
 
 [[nodiscard]] constexpr uint32_t getMipDim(uint8_t mip, uint16_t dim) {
-	for (int i = 0; i < mip; i++) {
+	for (int i = 0; i < mip && dim > 1; i++) {
 		dim /= 2;
 	}
 	return dim;
