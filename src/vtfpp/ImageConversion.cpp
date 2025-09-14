@@ -24,6 +24,7 @@
 #define QOI_NO_STDIO
 #include <qoi.h>
 
+#include <sourcepp/Bits.h>
 #include <sourcepp/Macros.h>
 #include <sourcepp/MathExtended.h>
 
@@ -55,6 +56,8 @@
 
 using namespace sourcepp;
 using namespace vtfpp;
+
+using bits::ui16le;
 
 namespace {
 
@@ -1314,15 +1317,15 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			switch (header.num_channels) {
 				case 4:
 					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
-						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::a);
-						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::b);
-						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::g);
-						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA16161616F::r);
+						images[0] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA16161616F::a);
+						images[1] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA16161616F::b);
+						images[2] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA16161616F::g);
+						images[3] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA16161616F::r);
 					} else {
-						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::a);
-						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::b);
-						images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::g);
-						images[3] = extractChannelFromImageData(imageData, &ImagePixel::RGBA32323232F::r);
+						images[0] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA32323232F::a);
+						images[1] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA32323232F::b);
+						images[2] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA32323232F::g);
+						images[3] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGBA32323232F::r);
 					}
 					break;
 				case 3:
@@ -1331,17 +1334,17 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 						FreeEXRHeader(&header);
 						return {};
 					}
-					images[0] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::b);
-					images[1] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::g);
-					images[2] = extractChannelFromImageData(imageData, &ImagePixel::RGB323232F::r);
+					images[0] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGB323232F::b);
+					images[1] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGB323232F::g);
+					images[2] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RGB323232F::r);
 					break;
 				case 2:
 					if (pixelType == TINYEXR_PIXELTYPE_HALF) {
-						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::g);
-						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG1616F::r);
+						images[0] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RG1616F::g);
+						images[1] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RG1616F::r);
 					} else {
-						images[0] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::g);
-						images[1] = extractChannelFromImageData(imageData, &ImagePixel::RG3232F::r);
+						images[0] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RG3232F::g);
+						images[1] = extractChannelFromImageDataV2(imageData, &ImagePixelV2::RG3232F::r);
 					}
 					break;
 				case 1:
@@ -1792,7 +1795,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					&stbi_image_free,
 				};
 				if (stbImage && dirOffset) {
-					return apngDecoder.template operator()<ImagePixel::RGBA16161616>(stbImage, dirOffset);
+					return apngDecoder.template operator()<ImagePixelV2::RGBA16161616>(stbImage, dirOffset);
 				}
 			} else {
 				const ::stb_ptr<stbi_uc> stbImage{
@@ -1800,7 +1803,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					&stbi_image_free,
 				};
 				if (stbImage && dirOffset) {
-					return apngDecoder.template operator()<ImagePixel::RGBA8888>(stbImage, dirOffset);
+					return apngDecoder.template operator()<ImagePixelV2::RGBA8888>(stbImage, dirOffset);
 				}
 			}
 		}
@@ -1842,47 +1845,47 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			// There are no other 16-bit integer formats in Source, so we have to do a conversion here
 			format = ImageFormat::RGBA16161616;
 			std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
-			std::span<ImagePixel::RGBA16161616> outPixels{reinterpret_cast<ImagePixel::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixel::RGBA16161616)};
+			std::span<ImagePixelV2::RGBA16161616> outPixels{reinterpret_cast<ImagePixelV2::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixelV2::RGBA16161616)};
 			switch (channels) {
 				case 1: {
-					std::span<uint16_t> inPixels{reinterpret_cast<uint16_t*>(stbImage.get()), outPixels.size()};
+					std::span<ui16le> inPixels{reinterpret_cast<ui16le*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
 #endif
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixel::RGBA16161616 {
-						return {pixel, 0, 0, 0xffff};
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixelV2::RGBA16161616 {
+						return ImagePixelV2::RGBA16161616(pixel, 0, 0, 0xffff);
 					});
 					return out;
 				}
 				case 2: {
 					struct RG1616 {
-						uint16_t r;
-						uint16_t g;
+						ui16le r;
+						ui16le g;
 					};
 					std::span<RG1616> inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
 #endif
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixel::RGBA16161616 {
-						return {pixel.r, pixel.g, 0, 0xffff};
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixelV2::RGBA16161616 {
+						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, 0, 0xffff);
 					});
 					return out;
 				}
 				case 3: {
 					struct RGB161616 {
-						uint16_t r;
-						uint16_t g;
-						uint16_t b;
+						ui16le r;
+						ui16le g;
+						ui16le b;
 					};
 					std::span<RGB161616> inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
 #endif
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixel::RGBA16161616 {
-						return {pixel.r, pixel.g, pixel.b, 0xffff};
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixelV2::RGBA16161616 {
+						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, pixel.b, 0xffff);
 					});
 					return out;
 				}

@@ -20,7 +20,7 @@ using sourcepp::bits::ui16le;
 
 namespace vtfpp {
 
-namespace ImagePixel {
+namespace [[deprecated("Not portable & subject to removal; use ImagePixelV2")]] ImagePixel {
 
 #define VTFPP_CHECK_SIZE(format) \
 	static_assert(sizeof(format) == ImageFormatDetails::bpp(ImageFormat::format) / 8)
@@ -400,6 +400,7 @@ namespace ImagePixelV2 {
 	class N { \
 		SOURCEPP_FOREACH1(VTFPP_DECLARE_SIMPLE_CHANNEL, T, __VA_ARGS__) \
 	public: \
+		using CHANTYPE = T; \
 		static constexpr auto FORMAT = ImageFormat::N; \
 		constexpr N(SOURCEPP_FOREACH1_SEP(SOURCEPP_THUNK_COMMA, VTFPP_TAKE_CHANNEL, T, __VA_ARGS__)) { \
 			SOURCEPP_FOREACH0(VTFPP_SET_CHANNEL, __VA_ARGS__) \
@@ -443,6 +444,7 @@ namespace ImagePixelV2 {
 		VTFPP_DECLARE_BITS_OFFS(SOURCEPP_REVERSE(__VA_ARGS__)) \
 		SOURCEPP_FOREACH1(VTFPP_DECLARE_BITS_CHANNEL_UNPACK, T, __VA_ARGS__) \
 	public: \
+		using CHANTYPE = T; \
 		static constexpr auto FORMAT = ImageFormat::N; \
 		constexpr N(SOURCEPP_FOREACH1_SEP(SOURCEPP_THUNK_COMMA, VTFPP_TAKE_CHANNEL_UNPACK, T, __VA_ARGS__)) { \
 			SOURCEPP_FOREACH0(VTFPP_SET_CHANNEL_UNPACK, __VA_ARGS__) \
@@ -571,11 +573,33 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 [[nodiscard]] std::vector<std::byte> invertGreenChannelForImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
 
 /// Extracts a single channel from the given image data.
+/// May have unexpected behavior if called on bit-packed formats like BGRA5551!
+/// Data is packed according to the return types of the pixel format's accessors, as determined to be high enough to hold any channel.
+/// (e.g. in the case of BGRA5551's green channel, you'll get 3 high bits of 0-padding, and 5 low bits of actual channel data.
+/// With, say, RGBA1010102, you'll get 2 bytes even for the alpha channel, as CHANTYPE is big enough to hold red/green/blue.)
+template<ImagePixelV2::PixelType P>
+[[nodiscard]] std::vector<std::byte> extractChannelFromImageDataV2(std::span<const std::byte> imageData, typename P::CHANTYPE (P::*accessor)() const) {
+	using C = P::CHANTYPE;
+	if (imageData.empty() || imageData.size() % sizeof(P) != 0) {
+		return {};
+	}
+
+	std::span pixels{reinterpret_cast<const P*>(imageData.data()), imageData.size() / sizeof(P)};
+
+	std::vector<std::byte> out(imageData.size() / sizeof(P) * sizeof(C));
+	BufferStream stream{out, false};
+	for (const auto& pixel : pixels) {
+		stream << (pixel.*accessor)();
+	}
+	return out;
+}
+
+/// Extracts a single channel from the given image data.
 /// May have unexpected behavior if called on formats that use bitfields like BGRA5551!
 /// Data is packed according to pixel channel C++ type size
 /// (e.g. in the case of BGRA5551's green channel, it'll be 2 bytes per green value despite only 5 bits being used in the original data)
 template<ImagePixel::PixelType P>
-[[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*channel) {
+[[deprecated("Use extractChannelFromImageDataV2")]] [[nodiscard]] std::vector<std::byte> extractChannelFromImageData(std::span<const std::byte> imageData, auto P::*channel) {
 	using C = sourcepp::member_type_t<decltype(channel)>;
 	if (imageData.empty() || imageData.size() % sizeof(P) != 0) {
 		return {};
