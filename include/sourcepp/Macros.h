@@ -94,8 +94,8 @@
 	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_FOREACH0_SEP_HELPER(sep, macro, __VA_ARGS__)))
 #define SOURCEPP_FOREACH0_SEP_HELPER(sep, macro, x, ...) \
 	macro(x) \
-	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_DEFER_FOREACH0_SEP_HELPER SOURCEPP_UNIT (sep, macro, __VA_ARGS__))
-#define SOURCEPP_DEFER_FOREACH0_SEP_HELPER() SOURCEPP_FOREACH0_SEP_HELPER
+	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_FOREACH0_SEP_HELPER_THUNK SOURCEPP_UNIT (sep, macro, __VA_ARGS__))
+#define SOURCEPP_FOREACH0_SEP_HELPER_THUNK() SOURCEPP_FOREACH0_SEP_HELPER
 
 /// Apply a binary macro to each of `__VA_ARGS__` with a set first argument.
 /// \param sep Nullary function-like macro expected to expand to a separator. For rationale, see \ref SOURCEPP_THUNK_COMMA.
@@ -106,8 +106,15 @@
 	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_FOREACH1_SEP_HELPER(sep, macro, a, __VA_ARGS__)))
 #define SOURCEPP_FOREACH1_SEP_HELPER(sep, macro, a, x, ...) \
 	macro(a, x) \
-	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_DEFER_FOREACH1_SEP_HELPER SOURCEPP_UNIT (sep, macro, a, __VA_ARGS__))
-#define SOURCEPP_DEFER_FOREACH1_SEP_HELPER() SOURCEPP_FOREACH1_SEP_HELPER
+	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_FOREACH1_SEP_HELPER_THUNK SOURCEPP_UNIT (sep, macro, a, __VA_ARGS__))
+#define SOURCEPP_FOREACH1_SEP_HELPER_THUNK() SOURCEPP_FOREACH1_SEP_HELPER
+
+/// Reverse an argument list; evaluates comma-separated but unparenthesized.
+#define SOURCEPP_REVERSE(...) \
+	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_REVERSE_HELPER(__VA_ARGS__)))
+#define SOURCEPP_REVERSE_HELPER(a, ...) \
+        __VA_OPT__(SOURCEPP_REVERSE_HELPER_THUNK SOURCEPP_UNIT (__VA_ARGS__),) a
+#define SOURCEPP_REVERSE_HELPER_THUNK() SOURCEPP_REVERSE_HELPER
 
 /// Nullary macro that expands to nothing.
 #define SOURCEPP_THUNK_NOTHING()
