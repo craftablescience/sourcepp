@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <concepts>
 #include <cstddef>
@@ -8,6 +9,7 @@
 
 #include <BufferStream.h>
 #include <sourcepp/Bits.h>
+#include <sourcepp/Macros.h>
 #include <sourcepp/Templates.h>
 
 #include "ImageFormats.h"
@@ -326,6 +328,160 @@ concept PixelType =
 		std::same_as<T, R8>;
 
 } // namespace ImagePixel
+
+namespace ImagePixelV2 {
+
+// TODO: run this through a filter that calls the compiler with comment-preserving preprocessing;
+// doxygen can't really cope even with its preprocessing turned as indiscriminate as possible.
+#define VTFPP_PIXFMTS \
+	VTFPP_PIXFMT(RGBA8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  r, g, b, a) \
+	VTFPP_PIXFMT(ABGR8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  a, b, g, r) \
+	VTFPP_PIXFMT(RGB888,                      VTFPP_DECLARE_SIMPLE,  uint8_t,  r, g, b) \
+	VTFPP_PIXFMT(RGB888_BLUESCREEN,           VTFPP_DECLARE_INHERIT, RGB888) \
+	VTFPP_PIXFMT(BGR888,                      VTFPP_DECLARE_SIMPLE,  uint8_t,  b, g, r) \
+	VTFPP_PIXFMT(BGR888_BLUESCREEN,           VTFPP_DECLARE_INHERIT, BGR888) \
+	VTFPP_PIXFMT(RGB565,                      VTFPP_DECLARE_BITS,    uint8_t,  16, (r, 5), (g, 6), (b, 5)) \
+	VTFPP_PIXFMT(I8,                          VTFPP_DECLARE_SIMPLE,  uint8_t,  i) \
+	VTFPP_PIXFMT(IA88,                        VTFPP_DECLARE_SIMPLE,  uint8_t,  i, a) \
+	VTFPP_PIXFMT(P8,                          VTFPP_DECLARE_SIMPLE,  uint8_t,  p) \
+	VTFPP_PIXFMT(A8,                          VTFPP_DECLARE_SIMPLE,  uint8_t,  a) \
+	VTFPP_PIXFMT(ARGB8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  a, r, g, b) \
+	VTFPP_PIXFMT(BGRA8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  b, g, r, a) \
+	VTFPP_PIXFMT(BGRX8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  b, g, r, x) \
+	VTFPP_PIXFMT(BGR565,                      VTFPP_DECLARE_BITS,    uint8_t,  16, (b, 5), (g, 6), (r, 5)) \
+	VTFPP_PIXFMT(BGRX5551,                    VTFPP_DECLARE_BITS,    uint8_t,  16, (b, 5), (g, 5), (r, 5), (x, 1)) \
+	VTFPP_PIXFMT(BGRA4444,                    VTFPP_DECLARE_BITS,    uint8_t,  16, (b, 4), (g, 4), (r, 4), (a, 4)) \
+	VTFPP_PIXFMT(BGRA5551,                    VTFPP_DECLARE_BITS,    uint8_t,  16, (b, 5), (g, 5), (r, 5), (a, 1)) \
+	VTFPP_PIXFMT(UV88,                        VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v) \
+	VTFPP_PIXFMT(UVWQ8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v, w, q) \
+	VTFPP_PIXFMT(RGBA16161616F,               VTFPP_DECLARE_SIMPLE,  f16le,    r, g, b, a) \
+	VTFPP_PIXFMT(RGBA16161616,                VTFPP_DECLARE_SIMPLE,  ui16le,   r, g, b, a) \
+	VTFPP_PIXFMT(UVLX8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v, l, x) \
+	VTFPP_PIXFMT(R32F,                        VTFPP_DECLARE_SIMPLE,  f32le,    r) \
+	VTFPP_PIXFMT(RGB323232F,                  VTFPP_DECLARE_SIMPLE,  f32le,    r, g, b) \
+	VTFPP_PIXFMT(RGBA32323232F,               VTFPP_DECLARE_SIMPLE,  f32le,    r, g, b, a) \
+	VTFPP_PIXFMT(RG1616F,                     VTFPP_DECLARE_SIMPLE,  f16le,    r, g) \
+	VTFPP_PIXFMT(RG3232F,                     VTFPP_DECLARE_SIMPLE,  f32le,    r, g) \
+	VTFPP_PIXFMT(RGBX8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  r, g, b, x) \
+	VTFPP_PIXFMT(RGBA1010102,                 VTFPP_DECLARE_BITS,    uint16_t, 32, (r, 10), (g, 10), (b, 10), (a, 2)) \
+	VTFPP_PIXFMT(BGRA1010102,                 VTFPP_DECLARE_BITS,    uint16_t, 32, (b, 10), (g, 10), (r, 10), (a, 2)) \
+	VTFPP_PIXFMT(R16F,                        VTFPP_DECLARE_SIMPLE,  f16le,    r) \
+	VTFPP_PIXFMT(R8,                          VTFPP_DECLARE_SIMPLE,  uint8_t,  r) \
+	VTFPP_PIXFMT(CONSOLE_BGRX8888_LINEAR,     VTFPP_DECLARE_INHERIT, BGRX8888) \
+	VTFPP_PIXFMT(CONSOLE_RGBA8888_LINEAR,     VTFPP_DECLARE_INHERIT, RGBA8888) \
+	VTFPP_PIXFMT(CONSOLE_ABGR8888_LINEAR,     VTFPP_DECLARE_INHERIT, ABGR8888) \
+	VTFPP_PIXFMT(CONSOLE_ARGB8888_LINEAR,     VTFPP_DECLARE_INHERIT, ARGB8888) \
+	VTFPP_PIXFMT(CONSOLE_BGRA8888_LINEAR,     VTFPP_DECLARE_INHERIT, BGRA8888) \
+	VTFPP_PIXFMT(CONSOLE_RGB888_LINEAR,       VTFPP_DECLARE_INHERIT, RGB888) \
+	VTFPP_PIXFMT(CONSOLE_BGR888_LINEAR,       VTFPP_DECLARE_INHERIT, BGR888) \
+	VTFPP_PIXFMT(CONSOLE_BGRX5551_LINEAR,     VTFPP_DECLARE_INHERIT, BGRX5551) \
+	VTFPP_PIXFMT(CONSOLE_I8_LINEAR,           VTFPP_DECLARE_INHERIT, I8) \
+	VTFPP_PIXFMT(CONSOLE_RGBA16161616_LINEAR, VTFPP_DECLARE_INHERIT, RGBA16161616) \
+	VTFPP_PIXFMT(CONSOLE_BGRX8888_LE,         VTFPP_DECLARE_INHERIT, BGRX8888) \
+	VTFPP_PIXFMT(CONSOLE_BGRA8888_LE,         VTFPP_DECLARE_INHERIT, BGRA8888)
+
+#define VTFPP_TAKE_CHANNEL(T, C) \
+	T SOURCEPP_CONCAT(i, C)
+
+#define VTFPP_DECLARE_SIMPLE_CHANNEL(T, C) \
+	private: \
+		T _##C; \
+	public: \
+		constexpr T C() { return this->_##C; } \
+		void set_##C(T i##C) { this->_##C = i##C; }
+
+#define VTFPP_SET_CHANNEL(C) \
+	this->SOURCEPP_CONCAT(set_, C)(SOURCEPP_CONCAT(i, C));
+
+#define VTFPP_CHECK_SIZE(N) \
+	static_assert(sizeof(N) == ImageFormatDetails::bpp(ImageFormat::N) / 8)
+
+#define VTFPP_DECLARE_SIMPLE(N, T, ...) \
+	class N { \
+		SOURCEPP_FOREACH1(VTFPP_DECLARE_SIMPLE_CHANNEL, T, __VA_ARGS__) \
+	public: \
+		static constexpr auto FORMAT = ImageFormat::N; \
+		constexpr N(SOURCEPP_FOREACH1_SEP(SOURCEPP_THUNK_COMMA, VTFPP_TAKE_CHANNEL, T, __VA_ARGS__)) { \
+			SOURCEPP_FOREACH0(VTFPP_SET_CHANNEL, __VA_ARGS__) \
+		} \
+	}; VTFPP_CHECK_SIZE(N)
+
+#define VTFPP_DECLARE_INHERIT(N, P) \
+	class N : public P { \
+	public: \
+		using P::P; \
+		static constexpr auto FORMAT = ImageFormat::N; \
+	}; VTFPP_CHECK_SIZE(N)
+
+#define VTFPP_DECLARE_BITS_OFFS(...) \
+	__VA_OPT__(SOURCEPP_EXPAND7(VTFPP_DECLARE_BITS_OFFS_HELPER(__VA_ARGS__)))
+#define VTFPP_DECLARE_BITS_OFFS_HELPER(a, ...) \
+	static constexpr size_t SOURCEPP_CONCAT(offs_, SOURCEPP_CAR a) = SOURCEPP_FOREACH0_SEP(SOURCEPP_THUNK(+), SOURCEPP_CDR SOURCEPP_ID, __VA_ARGS__) + 0; \
+	__VA_OPT__(VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER SOURCEPP_UNIT (__VA_ARGS__))
+#define VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER() VTFPP_DECLARE_BITS_OFFS_HELPER
+
+#define VTFPP_DECLARE_BITS_CHANNEL(T, C, BW) \
+	private: \
+		static constexpr REPRTYPE SOURCEPP_CONCAT(max_, C) = (1 << BW) - 1; \
+	public: \
+		constexpr T C() { \
+			return static_cast<T>(this->_repr >> SOURCEPP_CONCAT(offs_, C) & SOURCEPP_CONCAT(max_, C)); \
+		} \
+		void SOURCEPP_CONCAT(set_, C) (T SOURCEPP_CONCAT(i, C)) { \
+			this->_repr &= std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C) << SOURCEPP_CONCAT(offs_, C); \
+			/* clamping is an arbitrary choice vs masking; proper lerp is done in conversion anyway. */ \
+			this->_repr |= std::clamp<T>(SOURCEPP_CONCAT(i, C), 0, SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
+		}
+
+#define VTFPP_DECLARE_BITS_CHANNEL_UNPACK(T, TUPLE) VTFPP_DECLARE_BITS_CHANNEL(T, SOURCEPP_CAR TUPLE, SOURCEPP_CDR TUPLE)
+#define VTFPP_SET_CHANNEL_UNPACK(TUPLE) VTFPP_SET_CHANNEL(SOURCEPP_CAR TUPLE)
+#define VTFPP_TAKE_CHANNEL_UNPACK(T, TUPLE) VTFPP_TAKE_CHANNEL(T, SOURCEPP_CAR TUPLE)
+#define VTFPP_DECLARE_BITS(N, T, W, ...) \
+	class N { \
+	private: \
+		using REPRTYPE = uint##W##_t; \
+		REPRTYPE _repr; \
+		VTFPP_DECLARE_BITS_OFFS(__VA_ARGS__) \
+		SOURCEPP_FOREACH1(VTFPP_DECLARE_BITS_CHANNEL_UNPACK, T, __VA_ARGS__) \
+	public: \
+		static constexpr auto FORMAT = ImageFormat::N; \
+		constexpr N(SOURCEPP_FOREACH1_SEP(SOURCEPP_THUNK_COMMA, VTFPP_TAKE_CHANNEL_UNPACK, T, __VA_ARGS__)) { \
+			SOURCEPP_FOREACH0(VTFPP_SET_CHANNEL_UNPACK, __VA_ARGS__) \
+		} \
+	}; VTFPP_CHECK_SIZE(N)
+
+// aaaaaaand instantiate.
+#define VTFPP_PIXFMT(N, D, ...) \
+	D(N, __VA_ARGS__);
+VTFPP_PIXFMTS
+#undef VTFPP_PIXFMT
+
+template<typename T>
+concept PixelType =
+#	define VTFPP_PIXFMT(N, _D, ...) \
+		(std::same_as<T , N>),
+	// function style macros only ignore tokens within parens. the template invo is wrapped to
+	// be a black box, then it's doubly unwrapped so it's bare after all expansion.
+	SOURCEPP_FOREACH0_SEP(SOURCEPP_THUNK(||), SOURCEPP_ID SOURCEPP_ID, VTFPP_PIXFMTS);
+#	undef VTFPP_PIXFMT
+
+#undef VTFPP_DECLARE_BITS
+#undef VTFPP_TAKE_CHANNEL_UNPACK
+#undef VTFPP_SET_CHANNEL_UNPACK
+#undef VTFPP_DECLARE_BITS_CHANNEL_UNPACK
+#undef VTFPP_DECLARE_BITS_CHANNEL
+#undef VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER
+#undef VTFPP_DECLARE_BITS_OFFS_HELPER
+#undef VTFPP_DECLARE_BITS_OFFS
+#undef VTFPP_DECLARE_INHERIT
+#undef VTFPP_DECLARE_SIMPLE
+#undef VTFPP_CHECK_SIZE
+#undef VTFPP_SET_CHANNEL
+#undef VTFPP_DECLARE_SIMPLE_CHANNEL
+#undef VTFPP_TAKE_CHANNEL
+#undef VTFPP_PIXFMTS
+
+} // namespace ImagePixelV2
 
 namespace ImageConversion {
 
