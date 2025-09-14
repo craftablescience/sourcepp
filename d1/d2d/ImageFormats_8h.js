@@ -67,7 +67,7 @@ var ImageFormats_8h =
     [ "decompressedBlue", "d1/d2d/ImageFormats_8h.html#a3c11bce4477d5ba879b5a1d33e1cfa3b", null ],
     [ "decompressedGreen", "d1/d2d/ImageFormats_8h.html#a0e5479b1e7fdbd64a1aae6af0a05f91d", null ],
     [ "decompressedRed", "d1/d2d/ImageFormats_8h.html#a99c40f659044beb0e3c43568423a25dd", null ],
-    [ "getActualMipCountForDimsOnConsole", "d1/d2d/ImageFormats_8h.html#acc9f92f33851509e9b596a128a776e45", null ],
+    [ "getActualMipCountForDimsOnConsole", "d1/d2d/ImageFormats_8h.html#a1046f6bb2ce5783e367682e1ccbe65ff", null ],
     [ "getDataLength", "d1/d2d/ImageFormats_8h.html#a708dc57f5c69e5ed309f780548df41b6", null ],
     [ "getDataLength", "d1/d2d/ImageFormats_8h.html#ac43c99ecb4fb3b6970bc87890d98c8ad", null ],
     [ "getDataLengthXBOX", "d1/d2d/ImageFormats_8h.html#a4b1d66217f7d84255d1fe3af9a909f84", null ],

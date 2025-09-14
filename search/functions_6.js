@@ -4,7 +4,7 @@ var searchData=
   ['gammacorrectimagedata_1',['gammaCorrectImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a53a8e1cf34ccf960a200739a6a93c3e0',1,'vtfpp::ImageConversion']]],
   ['generatekeypairfiles_2',['generateKeyPairFiles',['../d5/d8b/classvpkpp_1_1VPK.html#a76a7dc5cd2e03bad3adf734fe5e4a8f5',1,'vpkpp::VPK']]],
   ['generateuuidv4_3',['generateUUIDv4',['../d0/d5a/namespacesourcepp_1_1string.html#ae9a674d1d0d64b72fc90e880bc46a3f1',1,'sourcepp::string']]],
-  ['getactualmipcountfordimsonconsole_4',['getActualMipCountForDimsOnConsole',['../d6/d38/namespacevtfpp_1_1ImageDimensions.html#acc9f92f33851509e9b596a128a776e45',1,'vtfpp::ImageDimensions']]],
+  ['getactualmipcountfordimsonconsole_4',['getActualMipCountForDimsOnConsole',['../d6/d38/namespacevtfpp_1_1ImageDimensions.html#a1046f6bb2ce5783e367682e1ccbe65ff',1,'vtfpp::ImageDimensions']]],
   ['getappboxartpath_5',['getAppBoxArtPath',['../d9/d81/classsteampp_1_1Steam.html#a2a802e23653125dcc89d9b6f75abb0db',1,'steampp::Steam']]],
   ['getappheropath_6',['getAppHeroPath',['../d9/d81/classsteampp_1_1Steam.html#ab5c55f5948df6252d697a11961d0d37e',1,'steampp::Steam']]],
   ['getappiconpath_7',['getAppIconPath',['../d9/d81/classsteampp_1_1Steam.html#aff3fbb780ce84d9456cfc2649f2e6eae',1,'steampp::Steam']]],

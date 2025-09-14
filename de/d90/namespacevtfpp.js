@@ -52,7 +52,7 @@ var namespacevtfpp =
       [ "DEFAULT_COMPRESSED_QUALITY", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a45a8c4b668815ac8b0de7f7439a643db", null ]
     ] ],
     [ "ImageDimensions", "d6/d38/namespacevtfpp_1_1ImageDimensions.html", [
-      [ "getActualMipCountForDimsOnConsole", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#acc9f92f33851509e9b596a128a776e45", null ],
+      [ "getActualMipCountForDimsOnConsole", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a1046f6bb2ce5783e367682e1ccbe65ff", null ],
       [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b", null ],
       [ "getRecommendedMipCountForDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#acef2e68e33078497b3669fa1c07bb954", null ]
     ] ],
