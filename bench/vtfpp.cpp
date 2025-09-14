@@ -21,7 +21,7 @@ namespace {
 		VTFLib::CVTFFile vtf; \
 		vtf.Load(ASSET_ROOT "vtfpp/fmt/" #Format ".vtf"); \
 		for ([[maybe_unused]] auto _: state) { \
-			std::vector<std::byte> data(vtf.GetWidth() * vtf.GetHeight() * sizeof(ImagePixel::RGBA8888)); \
+			std::vector<std::byte> data(vtf.GetWidth() * vtf.GetHeight() * sizeof(ImagePixelV2::RGBA8888)); \
 			benchmark::DoNotOptimize(VTFLib::CVTFFile::ConvertToRGBA8888(vtf.GetData(0, 0, 0, 0), reinterpret_cast<vlByte*>(data.data()), vtf.GetWidth(), vtf.GetHeight(), IMAGE_FORMAT_##VTFLibFormat)); \
 		} \
 	} \
