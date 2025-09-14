@@ -78,9 +78,9 @@ public:
 ///
 /// , such invocations, where spuriously dependent upon host byte order, may be replaced with:
 ///
-///     reinterpret_le<T>(p)
+///     deref_as_le<T>(p)
 template<sourcepp::math::Arithmetic A>
-[[nodiscard]] constexpr A reinterpret_le(const void *p) {
+[[nodiscard]] constexpr A deref_as_le(const void *p) {
 	return LERep<A>(std::span<const std::byte, sizeof(A)>(static_cast<const std::byte *>(p), sizeof(A))).operator A();
 }
 
