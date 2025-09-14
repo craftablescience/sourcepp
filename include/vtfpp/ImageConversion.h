@@ -388,7 +388,7 @@ namespace ImagePixelV2 {
 		T _##C; \
 	public: \
 		constexpr T C() { return this->_##C; } \
-		void set_##C(T i##C) { this->_##C = i##C; }
+		constexpr void set_##C(T i##C) { this->_##C = i##C; }
 
 #define VTFPP_SET_CHANNEL(C) \
 	this->SOURCEPP_CONCAT(set_, C)(SOURCEPP_CONCAT(i, C));
@@ -427,7 +427,7 @@ namespace ImagePixelV2 {
 		constexpr T C() { \
 			return static_cast<T>((this->_repr.operator REPRTYPE() >> SOURCEPP_CONCAT(offs_, C)) & SOURCEPP_CONCAT(max_, C)); \
 		} \
-		void SOURCEPP_CONCAT(set_, C) (T SOURCEPP_CONCAT(i, C)) { \
+		constexpr void SOURCEPP_CONCAT(set_, C) (T SOURCEPP_CONCAT(i, C)) { \
 			this->_repr = this->_repr.operator REPRTYPE() & ((std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C)); \
 			this->_repr = this->_repr.operator REPRTYPE() | ((SOURCEPP_CONCAT(i, C) & SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C)); \
 		}
