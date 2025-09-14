@@ -984,12 +984,12 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		resolution = height;
 	}
 
-	std::span<const float> imageDataRGBA32323232F{reinterpret_cast<const float*>(imageData.data()), reinterpret_cast<const float*>(imageData.data() + imageData.size())};
+	std::span<const f32le> imageDataRGBA32323232F{reinterpret_cast<const f32le*>(imageData.data()), reinterpret_cast<const f32le*>(imageData.data() + imageData.size())};
 
 	std::vector<std::byte> possiblyConvertedDataOrEmptyDontUseMeDirectly;
 	if (format != ImageFormat::RGBA32323232F) {
 		possiblyConvertedDataOrEmptyDontUseMeDirectly = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
-		imageDataRGBA32323232F = {reinterpret_cast<const float*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data()), reinterpret_cast<const float*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data() + possiblyConvertedDataOrEmptyDontUseMeDirectly.size())};
+		imageDataRGBA32323232F = {reinterpret_cast<const f32le*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data()), reinterpret_cast<const f32le*>(possiblyConvertedDataOrEmptyDontUseMeDirectly.data() + possiblyConvertedDataOrEmptyDontUseMeDirectly.size())};
 	}
 
 	// For each face, contains the 3d starting point (corresponding to left bottom pixel), right direction,
@@ -1015,7 +1015,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		const auto up    = startRightUp[i][2];
 
 		faceData[i].resize(resolution * resolution * sizeof(ImagePixelV2::RGBA32323232F));
-		std::span<float> face{reinterpret_cast<float*>(faceData[i].data()), reinterpret_cast<float*>(faceData[i].data() + faceData[i].size())};
+		std::span<f32le> face{reinterpret_cast<f32le*>(faceData[i].data()), reinterpret_cast<f32le*>(faceData[i].data() + faceData[i].size())};
 
 		for (int row = 0; row < resolution; row++) {
 			for (int col = 0; col < resolution; col++) {
@@ -1068,10 +1068,10 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 					float f4 = factorRow * factorCol;
 					for (int j = 0; j < 4; j++) {
 						face[col * 4 + resolution * row * 4 + j] =
-							imageDataRGBA32323232F[low_idx_column  * 4 + width * low_idx_row  * 4 + j] * f1 +
-							imageDataRGBA32323232F[low_idx_column  * 4 + width * high_idx_row * 4 + j] * f2 +
-							imageDataRGBA32323232F[high_idx_column * 4 + width * low_idx_row  * 4 + j] * f3 +
-							imageDataRGBA32323232F[high_idx_column * 4 + width * high_idx_row * 4 + j] * f4;
+							static_cast<float>(imageDataRGBA32323232F[low_idx_column  * 4 + width * low_idx_row  * 4 + j]) * f1 +
+							static_cast<float>(imageDataRGBA32323232F[low_idx_column  * 4 + width * high_idx_row * 4 + j]) * f2 +
+							static_cast<float>(imageDataRGBA32323232F[high_idx_column * 4 + width * low_idx_row  * 4 + j]) * f3 +
+							static_cast<float>(imageDataRGBA32323232F[high_idx_column * 4 + width * high_idx_row * 4 + j]) * f4;
 					}
 				}
 			}
