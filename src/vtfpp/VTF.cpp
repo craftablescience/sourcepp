@@ -259,11 +259,6 @@ Resource::ConvertedData Resource::convertData() const {
 				return {};
 			}
 			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
-		case TYPE_AUX_COMPRESSION:
-			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
-				return {};
-			}
-			return std::span{reinterpret_cast<uint32_t*>(this->data.data()), this->data.size() / 4};
 		default:
 			break;
 	}
@@ -565,7 +560,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->resources.push_back({
 						.type = Resource::TYPE_PALETTE_DATA,
 						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888)),
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888) * this->frameCount),
 					});
 				}
 
@@ -1526,10 +1521,26 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
 
+	// Fix up XBOX resources that depend on image resource
+	if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+		const auto targetSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
+		if (palette->data.size() != targetSize) {
+			std::vector<std::byte> paletteData{palette->data.begin(), palette->data.end()};
+			paletteData.resize(targetSize);
+			this->setResourceInternal(Resource::TYPE_PALETTE_DATA, paletteData);
+		}
+	}
 	if (this->hasFallbackData()) {
 		this->removeFallback();
 		this->computeFallback();
 	}
+}
+
+std::vector<std::byte> VTF::getPaletteResourceFrame(uint16_t frame) const {
+	if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+		return palette->getDataAsPalette(frame);
+	}
+	return {};
 }
 
 std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
@@ -1696,8 +1707,8 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 		return {};
 	}
 	if (this->format == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+		if (const auto paletteData = this->getPaletteResourceFrame(frame); !paletteData.empty()) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(paletteData, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
@@ -1809,11 +1820,6 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	if (rawThumbnailData.empty()) {
 		return {};
 	}
-	if (this->thumbnailFormat == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->thumbnailWidth, this->thumbnailHeight);
-		}
-	}
 	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
 
@@ -1900,8 +1906,8 @@ std::vector<std::byte> VTF::getFallbackDataAs(ImageFormat newFormat, uint8_t mip
 		return {};
 	}
 	if (this->format == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		if (const auto paletteData = this->getPaletteResourceFrame(frame); !paletteData.empty()) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(paletteData, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
 		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->format, newFormat, this->fallbackWidth, this->fallbackHeight);

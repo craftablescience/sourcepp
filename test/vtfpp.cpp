@@ -1169,7 +1169,57 @@ TEST(vtfpp, read_xbox_p8) {
 	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
 	ASSERT_TRUE(palette);
 	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888));
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888) * vtf.getFrameCount());
+
+	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
+	ASSERT_TRUE(fallback);
+	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLengthXBOX(false, vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+}
+
+TEST(vtfpp, read_xbox_broken) {
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/p8_animated.xtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_XBOX);
+	EXPECT_EQ(vtf.getVersion(), 2);
+	EXPECT_EQ(vtf.getWidth(), 128);
+	EXPECT_EQ(vtf.getHeight(), 256);
+	EXPECT_EQ(vtf.getFlags(), /*NOCOMPRESS*/ (1 << 6) | /*NICE filtered*/ (1 << 24) | /*Prefiltered*/ (1 << 26) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::P8);
+	EXPECT_EQ(vtf.getMipCount(), 9);
+	EXPECT_EQ(vtf.getFrameCount(),	3);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.19805703f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.22712837f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.25731158f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::RGB888);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 1);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
+	EXPECT_EQ(vtf.getFallbackWidth(), 4);
+	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 4);
+
+	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
+	ASSERT_TRUE(palette);
+	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888) * vtf.getFrameCount());
 
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);

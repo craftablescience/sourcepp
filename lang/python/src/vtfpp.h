@@ -413,6 +413,7 @@ inline void register_python(py::module_& m) {
 		.def_static("get_order", [] { return Resource::getOrder(); })
 		.def_ro("type",  &Resource::type)
 		.def_ro("flags", &Resource::flags)
+		.def("get_data_as_palette",                &Resource::getDataAsPalette, "frame"_a = 0)
 		.def("get_data_as_particle_sheet",         &Resource::getDataAsParticleSheet)
 		.def("get_data_as_crc",                    &Resource::getDataAsCRC)
 		.def("get_data_as_extended_flags",         &Resource::getDataAsExtendedFlags)
@@ -576,6 +577,10 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("fallback_mip_count", &VTF::getFallbackMipCount)
 		// Skipping getResources, don't want to do the same hack as in SHT here, it's way more expensive
 		.def("get_resource", &VTF::getResource, "type"_a, py::rv_policy::reference_internal)
+		.def("get_palette_resource_frame", [](const VTF& self, uint16_t frame = 0) {
+			const auto d = self.getPaletteResourceFrame(frame);
+			return py::bytes{d.data(), d.size()};
+		}, "type"_a)
 		.def("get_particle_sheet_frame_data_raw", [](const VTF& self, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) -> std::tuple<uint16_t, uint16_t, py::bytes> {
 			uint16_t spriteWidth, spriteHeight;
 			const auto d = self.getParticleSheetFrameDataRaw(spriteWidth, spriteHeight, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice);
