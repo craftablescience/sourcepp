@@ -1118,52 +1118,52 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	switch (fileFormat) {
 		case FileFormat::PNG: {
 			if (format == ImageFormat::RGB888) {
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data(), 0);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), imageData.data(), 0);
 			} else if (format == ImageFormat::RGBA8888) {
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), imageData.data(), 0);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), imageData.data(), 0);
 			} else if (ImageFormatDetails::opaque(format)) {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data(), 0);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), rgb.data(), 0);
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), rgba.data(), 0);
+				stbi_write_png_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), rgba.data(), 0);
 			}
 			break;
 		}
 		case FileFormat::JPG: {
 			if (format == ImageFormat::RGB888) {
-				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data(), 95);
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), imageData.data(), 95);
 			} else {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data(), 95);
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), rgb.data(), 95);
 			}
 			break;
 		}
 		case FileFormat::BMP: {
 			if (format == ImageFormat::RGB888) {
-				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data());
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
-				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), imageData.data());
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), imageData.data());
 			} else if (ImageFormatDetails::opaque(format)) {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data());
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), rgb.data());
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), rgba.data());
+				stbi_write_bmp_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), rgba.data());
 			}
 			break;
 		}
 		case FileFormat::TGA: {
 			if (format == ImageFormat::RGB888) {
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data());
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), imageData.data());
 			} else if (format == ImageFormat::RGBA8888) {
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), imageData.data());
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), imageData.data());
 			} else if (ImageFormatDetails::opaque(format)) {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data());
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGB888), rgb.data());
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGBA8888), rgba.data());
+				stbi_write_tga_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixelV2::RGBA8888), rgba.data());
 			}
 			break;
 		}
@@ -1184,15 +1184,15 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 
 			if (format == ImageFormat::RGB888) {
-				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixel::RGB888)));
+				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixelV2::RGB888)));
 			} else if (format == ImageFormat::RGBA8888) {
-				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixel::RGBA8888)));
+				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(imageData.data()), static_cast<int>(width * sizeof(ImagePixelV2::RGBA8888)));
 			} else if (ImageFormatDetails::opaque(format)) {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(rgb.data()), static_cast<int>(width * sizeof(ImagePixel::RGB888)));
+				WebPPictureImportRGB(&pic, reinterpret_cast<const uint8_t*>(rgb.data()), static_cast<int>(width * sizeof(ImagePixelV2::RGB888)));
 			} else {
 				const auto rgba = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
-				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(rgba.data()), static_cast<int>(width * sizeof(ImagePixel::RGBA8888)));
+				WebPPictureImportRGBA(&pic, reinterpret_cast<const uint8_t*>(rgba.data()), static_cast<int>(width * sizeof(ImagePixelV2::RGBA8888)));
 			}
 
 			WebPMemoryWriter writer;
@@ -2093,19 +2093,19 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
-		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
-		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
-			using PIXEL_TYPE = ImagePixel::InputType; \
-			return __VA_ARGS__; \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixelV2::InputType*>(out.data()), out.size() / sizeof(ImagePixelV2::InputType)}; \
+		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixelV2::InputType pixel) -> ImagePixelV2::InputType { \
+			using PIXEL_TYPE = ImagePixelV2::InputType; \
+			return PIXEL_TYPE(__VA_ARGS__); \
 		})
 #else
 	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
-		std::span imageDataSpan{reinterpret_cast<const ImagePixel::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::InputType)}; \
-		std::span outSpan{reinterpret_cast<ImagePixel::InputType*>(out.data()), out.size() / sizeof(ImagePixel::InputType)}; \
-		std::transform(imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
-			using PIXEL_TYPE = ImagePixel::InputType; \
-			return __VA_ARGS__; \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixelV2::InputType*>(out.data()), out.size() / sizeof(ImagePixelV2::InputType)}; \
+		std::transform(imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixelV2::InputType pixel) -> ImagePixelV2::InputType { \
+			using PIXEL_TYPE = ImagePixelV2::InputType; \
+			return PIXEL_TYPE(__VA_ARGS__); \
 		})
 #endif
 	#define VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(InputType, ...) \
@@ -2113,23 +2113,23 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 
 	switch (format) {
 		using enum ImageFormat;
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ABGR8888,          {pixel.a,                         VTFPP_APPLY_GAMMA_BLUE(pixel.b),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888,            {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888_BLUESCREEN, pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff ? ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff} : ImagePixel::RGB888_BLUESCREEN{VTFPP_APPLY_GAMMA_RED(pixel.r), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888,            {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888_BLUESCREEN, pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff ? ImagePixel::BGR888_BLUESCREEN{0, 0, 0xff} : ImagePixel::BGR888_BLUESCREEN{VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB565,            {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(I8,                {VTFPP_APPLY_GAMMA_RED(pixel.i)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(IA88,              {VTFPP_APPLY_GAMMA_RED(pixel.i),  pixel.a});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ARGB8888,          {pixel.a,                         VTFPP_APPLY_GAMMA_RED(pixel.r),   VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA8888,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX8888,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   0xff});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR565,            {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA5551,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX5551,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   1});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA4444,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGBX8888,          {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b),  0xff});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(R8,                {VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ABGR8888,          pixel.a(),                         VTFPP_APPLY_GAMMA_BLUE(pixel.b()),  VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888,            VTFPP_APPLY_GAMMA_RED(pixel.r()),  VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_BLUE(pixel.b()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888_BLUESCREEN, pixel.r() == 0 && pixel.g() == 0 && pixel.b() == 0xff ? ImagePixelV2::RGB888_BLUESCREEN{0, 0, 0xff} : ImagePixelV2::RGB888_BLUESCREEN{VTFPP_APPLY_GAMMA_RED(pixel.r()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_BLUE(pixel.b())});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888,            VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR888_BLUESCREEN, pixel.r() == 0 && pixel.g() == 0 && pixel.b() == 0xff ? ImagePixelV2::BGR888_BLUESCREEN{0, 0, 0xff} : ImagePixelV2::BGR888_BLUESCREEN{VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r())});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB565,            VTFPP_APPLY_GAMMA_RED(pixel.r()),  VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_BLUE(pixel.b()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(I8,                VTFPP_APPLY_GAMMA_RED(pixel.i()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(IA88,              VTFPP_APPLY_GAMMA_RED(pixel.i()),  pixel.a());
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ARGB8888,          pixel.a(),                         VTFPP_APPLY_GAMMA_RED(pixel.r()),   VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_BLUE(pixel.b()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA8888,          VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()),   pixel.a());
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX8888,          VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()),   0xff);
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGR565,            VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()));
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA5551,          VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()),   pixel.a());
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX5551,          VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()),   1);
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA4444,          VTFPP_APPLY_GAMMA_BLUE(pixel.b()), VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_RED(pixel.r()),   pixel.a());
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGBX8888,          VTFPP_APPLY_GAMMA_RED(pixel.r()),  VTFPP_APPLY_GAMMA_GREEN(pixel.g()), VTFPP_APPLY_GAMMA_BLUE(pixel.b()),  0xff);
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(R8,                VTFPP_APPLY_GAMMA_RED(pixel.r()));
 		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
@@ -2155,17 +2155,17 @@ std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span
 	}
 
 	#define VTFPP_INVERT_GREEN(PixelType, ChannelName, ...) \
-		static constexpr auto channelSize = ImageFormatDetails::green(ImagePixel::PixelType::FORMAT); \
-		std::span imageDataSpan{reinterpret_cast<const ImagePixel::PixelType*>(imageData.data()), imageData.size() / sizeof(ImagePixel::PixelType)}; \
-		std::span outSpan{reinterpret_cast<ImagePixel::PixelType*>(out.data()), out.size() / sizeof(ImagePixel::PixelType)}; \
-		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
-			if constexpr (std::same_as<decltype(pixel.ChannelName), float> || std::same_as<decltype(pixel.ChannelName), half>) { \
-				pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName)); \
+		static constexpr auto channelSize = ImageFormatDetails::green(ImagePixelV2::PixelType::FORMAT); \
+		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::PixelType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::PixelType)}; \
+		std::span outSpan{reinterpret_cast<ImagePixelV2::PixelType*>(out.data()), out.size() / sizeof(ImagePixelV2::PixelType)}; \
+		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixelV2::PixelType pixel) -> ImagePixelV2::PixelType { \
+			if constexpr (std::same_as<decltype(pixel.ChannelName()), float> || std::same_as<decltype(pixel.ChannelName()), half>) { \
+				pixel.set_##ChannelName(static_cast<decltype(pixel.ChannelName())>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName()))); \
 			} else { \
 				if constexpr (channelSize >= sizeof(uint32_t) * 8) { \
-					pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>((static_cast<uint64_t>(1) << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName)); \
+					pixel.set_##ChannelName(static_cast<decltype(pixel.ChannelName())>((static_cast<uint64_t>(1) << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName()))); \
 				} else { \
-					pixel.ChannelName = static_cast<decltype(pixel.ChannelName)>(static_cast<uint32_t>(1 << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName)); \
+					pixel.set_##ChannelName(static_cast<decltype(pixel.ChannelName())>(static_cast<uint32_t>(1 << channelSize) - 1 - static_cast<uint32_t>(pixel.ChannelName()))); \
 				} \
 			} \
 			return pixel; \

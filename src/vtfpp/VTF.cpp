@@ -567,7 +567,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->resources.push_back({
 						.type = Resource::TYPE_PALETTE_DATA,
 						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888)),
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixelV2::BGRA8888)),
 					});
 				}
 
@@ -1288,9 +1288,9 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 
 void VTF::computeReflectivity() {
 	static constexpr auto getReflectivityForImage = [](const VTF& vtf, uint16_t frame, uint8_t face, uint16_t slice) {
-		static constexpr auto getReflectivityForPixel = [](const ImagePixel::RGBA8888* pixel) -> math::Vec3f {
+		static constexpr auto getReflectivityForPixel = [](const ImagePixelV2::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
-			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
+			math::Vec3f ref{static_cast<float>(pixel->r()), static_cast<float>(pixel->g()), static_cast<float>(pixel->b())};
 			ref /= 255.f * 0.9f;
 			ref[0] *= ref[0];
 			ref[1] *= ref[1];
@@ -1301,9 +1301,9 @@ void VTF::computeReflectivity() {
 		auto rgba8888Data = vtf.getImageDataAsRGBA8888(0, frame, face, slice);
 		math::Vec3f out{};
 		for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
-			out += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
+			out += getReflectivityForPixel(reinterpret_cast<ImagePixelV2::RGBA8888*>(rgba8888Data.data() + i));
 		}
-		return out / (rgba8888Data.size() / sizeof(ImagePixel::RGBA8888));
+		return out / (rgba8888Data.size() / sizeof(ImagePixelV2::RGBA8888));
 	};
 
 	const auto faceCount = this->getFaceCount();

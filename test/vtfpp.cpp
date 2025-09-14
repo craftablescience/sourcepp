@@ -1169,7 +1169,7 @@ TEST(vtfpp, read_xbox_p8) {
 	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
 	ASSERT_TRUE(palette);
 	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888));
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888));
 
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
