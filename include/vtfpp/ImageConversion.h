@@ -417,20 +417,19 @@ namespace ImagePixelV2 {
 	__VA_OPT__(SOURCEPP_EXPAND7(VTFPP_DECLARE_BITS_OFFS_HELPER(__VA_ARGS__)))
 #define VTFPP_DECLARE_BITS_OFFS_HELPER(a, ...) \
 	static constexpr size_t SOURCEPP_CONCAT(offs_, SOURCEPP_CAR a) = SOURCEPP_FOREACH0_SEP(SOURCEPP_THUNK(+), SOURCEPP_CDR SOURCEPP_ID, __VA_ARGS__) + 0; \
-	__VA_OPT__(VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER SOURCEPP_UNIT (__VA_ARGS__))
-#define VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER() VTFPP_DECLARE_BITS_OFFS_HELPER
+	__VA_OPT__(VTFPP_DECLARE_BITS_OFFS_HELPER_THUNK SOURCEPP_UNIT (__VA_ARGS__))
+#define VTFPP_DECLARE_BITS_OFFS_HELPER_THUNK() VTFPP_DECLARE_BITS_OFFS_HELPER
 
 #define VTFPP_DECLARE_BITS_CHANNEL(T, C, BW) \
 	private: \
 		static constexpr REPRTYPE SOURCEPP_CONCAT(max_, C) = (1 << BW) - 1; \
 	public: \
 		constexpr T C() { \
-			return static_cast<T>(this->_repr >> SOURCEPP_CONCAT(offs_, C) & SOURCEPP_CONCAT(max_, C)); \
+			return static_cast<T>((this->_repr >> SOURCEPP_CONCAT(offs_, C)) & SOURCEPP_CONCAT(max_, C)); \
 		} \
 		void SOURCEPP_CONCAT(set_, C) (T SOURCEPP_CONCAT(i, C)) { \
-			this->_repr &= std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C) << SOURCEPP_CONCAT(offs_, C); \
-			/* clamping is an arbitrary choice vs masking; proper lerp is done in conversion anyway. */ \
-			this->_repr |= std::clamp<T>(SOURCEPP_CONCAT(i, C), 0, SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
+			this->_repr &= (std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
+			this->_repr |= (SOURCEPP_CONCAT(i, C) & SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
 		}
 
 #define VTFPP_DECLARE_BITS_CHANNEL_UNPACK(T, TUPLE) VTFPP_DECLARE_BITS_CHANNEL(T, SOURCEPP_CAR TUPLE, SOURCEPP_CDR TUPLE)
@@ -441,7 +440,7 @@ namespace ImagePixelV2 {
 	private: \
 		using REPRTYPE = uint##W##_t; \
 		REPRTYPE _repr; \
-		VTFPP_DECLARE_BITS_OFFS(__VA_ARGS__) \
+		VTFPP_DECLARE_BITS_OFFS(SOURCEPP_REVERSE(__VA_ARGS__)) \
 		SOURCEPP_FOREACH1(VTFPP_DECLARE_BITS_CHANNEL_UNPACK, T, __VA_ARGS__) \
 	public: \
 		static constexpr auto FORMAT = ImageFormat::N; \
@@ -470,7 +469,7 @@ concept PixelType =
 #undef VTFPP_SET_CHANNEL_UNPACK
 #undef VTFPP_DECLARE_BITS_CHANNEL_UNPACK
 #undef VTFPP_DECLARE_BITS_CHANNEL
-#undef VTFPP_DEFER_DECLARE_BITS_OFFS_HELPER
+#undef VTFPP_DECLARE_BITS_OFFS_HELPER_THUNK
 #undef VTFPP_DECLARE_BITS_OFFS_HELPER
 #undef VTFPP_DECLARE_BITS_OFFS
 #undef VTFPP_DECLARE_INHERIT
