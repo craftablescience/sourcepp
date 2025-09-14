@@ -108,6 +108,7 @@ var classvtfpp_1_1VTF =
     [ "getImageHeightResizeMethod", "d8/df2/classvtfpp_1_1VTF.html#a659f0f48b224d1132ee3c7db147d6a78", null ],
     [ "getImageWidthResizeMethod", "d8/df2/classvtfpp_1_1VTF.html#aa80c768c2c949e254f335218c2650e5a", null ],
     [ "getMipCount", "d8/df2/classvtfpp_1_1VTF.html#a9e2df06814f24beaa24012f2821a5a23", null ],
+    [ "getPaletteResourceFrame", "d8/df2/classvtfpp_1_1VTF.html#a5bb9b8847cf19869fb7a007ee9ce79ad", null ],
     [ "getParticleSheetFrameDataAs", "d8/df2/classvtfpp_1_1VTF.html#a4762f5149ec1878ea1e04920a98f8cb3", null ],
     [ "getParticleSheetFrameDataAsRGBA8888", "d8/df2/classvtfpp_1_1VTF.html#a2ec5502e2535c5b8562fa447bf8af974", null ],
     [ "getParticleSheetFrameDataRaw", "d8/df2/classvtfpp_1_1VTF.html#af62c31665a13df6bd8e74dad064849c2", null ],

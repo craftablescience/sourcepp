@@ -776,7 +776,7 @@ $(document).ready(function(){initNavTree('d1/d2d/ImageFormats_8h_source.html','.
 <div class="line"><a id="l00648" name="l00648"></a><span class="lineno"><a class="line" href="../../d6/d38/namespacevtfpp_1_1ImageDimensions.html">  648</a></span><span class="keyword">namespace </span>ImageDimensions {</div>
 <div class="line"><a id="l00649" name="l00649"></a><span class="lineno">  649</span> </div>
 <div class="line"><a id="l00650" name="l00650"></a><span class="lineno"><a class="line" href="../../d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b">  650</a></span>[[nodiscard]] <span class="keyword">constexpr</span> uint32_t <a class="code hl_function" href="../../d6/d38/namespacevtfpp_1_1ImageDimensions.html#a7e32bf316fe267f7c83158cddd55c66b">getMipDim</a>(uint8_t mip, uint16_t dim) {</div>
-<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; mip; i++) {</div>
+<div class="line"><a id="l00651" name="l00651"></a><span class="lineno">  651</span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; mip &amp;&amp; dim &gt; 1; i++) {</div>
 <div class="line"><a id="l00652" name="l00652"></a><span class="lineno">  652</span>        dim /= 2;</div>
 <div class="line"><a id="l00653" name="l00653"></a><span class="lineno">  653</span>    }</div>
 <div class="line"><a id="l00654" name="l00654"></a><span class="lineno">  654</span>    <span class="keywordflow">return</span> dim;</div>
