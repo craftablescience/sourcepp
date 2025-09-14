@@ -425,11 +425,11 @@ namespace ImagePixelV2 {
 		static constexpr REPRTYPE SOURCEPP_CONCAT(max_, C) = (1 << BW) - 1; \
 	public: \
 		constexpr T C() { \
-			return static_cast<T>((this->_repr >> SOURCEPP_CONCAT(offs_, C)) & SOURCEPP_CONCAT(max_, C)); \
+			return static_cast<T>((this->_repr.operator REPRTYPE() >> SOURCEPP_CONCAT(offs_, C)) & SOURCEPP_CONCAT(max_, C)); \
 		} \
 		void SOURCEPP_CONCAT(set_, C) (T SOURCEPP_CONCAT(i, C)) { \
-			this->_repr &= (std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
-			this->_repr |= (SOURCEPP_CONCAT(i, C) & SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C); \
+			this->_repr = this->_repr.operator REPRTYPE() & ((std::numeric_limits<REPRTYPE>::max() ^ SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C)); \
+			this->_repr = this->_repr.operator REPRTYPE() | ((SOURCEPP_CONCAT(i, C) & SOURCEPP_CONCAT(max_, C)) << SOURCEPP_CONCAT(offs_, C)); \
 		}
 
 #define VTFPP_DECLARE_BITS_CHANNEL_UNPACK(T, TUPLE) VTFPP_DECLARE_BITS_CHANNEL(T, SOURCEPP_CAR TUPLE, SOURCEPP_CDR TUPLE)
@@ -439,7 +439,7 @@ namespace ImagePixelV2 {
 	class N { \
 	private: \
 		using REPRTYPE = uint##W##_t; \
-		REPRTYPE _repr; \
+		sourcepp::bits::LERep<REPRTYPE> _repr; \
 		VTFPP_DECLARE_BITS_OFFS(SOURCEPP_REVERSE(__VA_ARGS__)) \
 		SOURCEPP_FOREACH1(VTFPP_DECLARE_BITS_CHANNEL_UNPACK, T, __VA_ARGS__) \
 	public: \
