@@ -537,7 +537,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
-				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->sliceCount);
 				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
 				postReadTransform();
@@ -641,7 +641,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				stream.skip<uint32_t>();
 			}
 
-			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->sliceCount);
 
 			if (parseHeaderOnly) {
 				this->opened = true;
@@ -911,7 +911,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
-		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->sliceCount);
 		if (this->mipCount != recommendedCount) {
 			this->setMipCount(recommendedCount);
 		}
@@ -1009,7 +1009,7 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 				newMipCount = recommendedCount;
 			}
 		} else {
-			newMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight);
+			newMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight, this->sliceCount);
 		}
 		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
 	} else {
@@ -1129,7 +1129,7 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		return false;
 	}
 	if (this->platform != PLATFORM_PC && newMipCount > 1) {
-		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->sliceCount);
 	} else if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
 		newMipCount = recommended;
 		if (newMipCount == 1) {
@@ -1144,7 +1144,7 @@ bool VTF::setRecommendedMipCount() {
 	if (this->platform == VTF::PLATFORM_PC) {
 		return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
 	}
-	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height));
+	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->sliceCount));
 }
 
 void VTF::computeMips(ImageConversion::ResizeFilter filter) {

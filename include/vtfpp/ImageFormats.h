@@ -682,13 +682,13 @@ namespace ImageDimensions {
 	return maxMipCount;
 }
 
-[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height) {
-	if (width == 0 || height == 0) {
+[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+	if (width == 0 || height == 0 || sliceCount == 0) {
 		return 0;
 	}
 	uint8_t numMipLevels = 1;
 	while (true) {
-		if (width == 1 && height == 1) {
+		if (width == 1 && height == 1 && sliceCount == 1) {
 			break;
 		}
 		width >>= 1;
@@ -698,6 +698,10 @@ namespace ImageDimensions {
 		height >>= 1;
 		if (height < 1) {
 			height = 1;
+		}
+		sliceCount >>= 1;
+		if (sliceCount < 1) {
+			sliceCount = 1;
 		}
 		numMipLevels += 1;
 	}

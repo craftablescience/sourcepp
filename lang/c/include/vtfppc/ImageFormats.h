@@ -106,7 +106,7 @@ SOURCEPP_API uint32_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t d
 
 SOURCEPP_API uint8_t vtfpp_image_dimensions_get_recommended_mip_count_for_dim(vtfpp_image_format_e format, uint16_t width, uint16_t height);
 
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height);
+SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height, uint16_t sliceCount);
 
 SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t sliceCount);
 
