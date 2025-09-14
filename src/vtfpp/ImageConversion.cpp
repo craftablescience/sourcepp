@@ -288,15 +288,31 @@ namespace {
 		return {};
 	}
 
+	auto swizzledInput = imageData;
+	std::vector<std::byte> swizzle;
+
+	// compressonator seems to do absolutely everything right *except* writing output per native-order dword. oh well.
+	if constexpr (std::endian::native == std::endian::big) {
+		auto t = imageData.size();
+		swizzle.resize(t);
+		for (size_t i = 0; i < t; i += 4) {
+			swizzle[i]     = imageData[i + 3];
+			swizzle[i + 1] = imageData[i + 2];
+			swizzle[i + 2] = imageData[i + 1];
+			swizzle[i + 3] = imageData[i];
+		}
+		swizzledInput = std::span(swizzle);
+	}
+
 	CMP_Texture srcTexture{};
 	srcTexture.dwSize     = sizeof(srcTexture);
 	srcTexture.dwWidth    = width;
 	srcTexture.dwHeight   = height;
 	srcTexture.dwPitch    = ImageFormatDetails::compressed(newFormat) ? 0 : width * (ImageFormatDetails::bpp(newFormat) / 8);
 	srcTexture.format     = ::imageFormatToCompressonatorFormat(oldFormat);
-	srcTexture.dwDataSize = imageData.size();
+	srcTexture.dwDataSize = swizzledInput.size();
 
-	srcTexture.pData = const_cast<CMP_BYTE*>(reinterpret_cast<const CMP_BYTE*>(imageData.data()));
+	srcTexture.pData = const_cast<CMP_BYTE*>(reinterpret_cast<const CMP_BYTE*>(swizzledInput.data()));
 
 	CMP_Texture destTexture{};
 	destTexture.dwSize     = sizeof(destTexture);
@@ -321,6 +337,16 @@ namespace {
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
 		return {};
 	}
+
+	// "i dont like it but it works"
+	if constexpr (std::endian::native == std::endian::big) {
+		auto t = destData.size();
+		for (size_t i = 0; i < t; i += 4) {
+			std::swap(destData[i],     destData[i + 3]);
+			std::swap(destData[i + 2], destData[i + 1]);
+		}
+	}
+
 	return destData;
 }
 
