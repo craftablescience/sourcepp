@@ -256,7 +256,7 @@ public:
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
 		bool isCubeMap = false;
-		uint16_t initialSliceCount = 1;
+		uint16_t initialDepth = 1;
 		bool computeTransparencyFlags = true;
 		bool computeMips = true;
 		bool computeThumbnail = true;
@@ -366,11 +366,11 @@ public:
 
 	bool setFaceCount(bool isCubeMap);
 
-	[[nodiscard]] uint16_t getSliceCount() const;
+	[[nodiscard]] uint16_t getDepth() const;
 
-	bool setSliceCount(uint16_t newSliceCount);
+	bool setDepth(uint16_t newDepth);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubeMap, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndDepth(uint16_t newFrameCount, bool isCubeMap, uint16_t newDepth = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
@@ -514,7 +514,7 @@ protected:
 
 	void removeResourceInternal(Resource::Type type);
 
-	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newDepth, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	bool opened = false;
 
@@ -547,7 +547,7 @@ protected:
 	uint8_t xboxMipScale = 0;
 
 	// 1 for v7.1 and lower
-	uint16_t sliceCount = 1;
+	uint16_t depth = 1;
 
 	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
 	std::vector<Resource> resources;

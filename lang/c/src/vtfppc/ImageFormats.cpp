@@ -78,21 +78,21 @@ SOURCEPP_API uint8_t vtfpp_image_dimensions_get_recommended_mip_count_for_dim(vt
 	return ImageDimensions::getRecommendedMipCountForDims(static_cast<ImageFormat>(format), width, height);
 }
 
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height, uint16_t sliceCount) {
-	return ImageDimensions::getActualMipCountForDimsOnConsole(width, height, sliceCount);
+SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height, uint16_t depth) {
+	return ImageDimensions::getActualMipCountForDimsOnConsole(width, height, depth);
 }
 
-SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t sliceCount) {
-	return ImageFormatDetails::getDataLength(static_cast<ImageFormat>(format), width, height, sliceCount);
+SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t depth) {
+	return ImageFormatDetails::getDataLength(static_cast<ImageFormat>(format), width, height, depth);
 }
 
-SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length_ex(vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount) {
-	return ImageFormatDetails::getDataLength(static_cast<ImageFormat>(format), mipCount, frameCount, faceCount, width, height, sliceCount);
+SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length_ex(vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth) {
+	return ImageFormatDetails::getDataLength(static_cast<ImageFormat>(format), mipCount, frameCount, faceCount, width, height, depth);
 }
 
-SOURCEPP_API int vtfpp_image_format_details_get_data_position(uint32_t* offset, uint32_t* length, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t sliceCount) {
+SOURCEPP_API int vtfpp_image_format_details_get_data_position(uint32_t* offset, uint32_t* length, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t depth) {
 	SOURCEPP_EARLY_RETURN_VAL(offset, -1);
 	SOURCEPP_EARLY_RETURN_VAL(length, -1);
 
-	return ImageFormatDetails::getDataPosition(*offset, *length, static_cast<ImageFormat>(format), mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount);
+	return ImageFormatDetails::getDataPosition(*offset, *length, static_cast<ImageFormat>(format), mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth);
 }

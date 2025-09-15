@@ -129,7 +129,7 @@ typedef struct {
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
 	int isCubeMap;
-	uint16_t initialSliceCount;
+	uint16_t initialDepth;
 	int computeTransparencyFlags;
 	int computeMips;
 	int computeThumbnail;
@@ -154,7 +154,7 @@ typedef struct {
     .startFrame = 0, \
     .isCubeMap = 0, \
 	.hasSphereMap = 0, \
-	.initialSliceCount = 1, \
+	.initialDepth = 1, \
 	.computeTransparencyFlags = 1, \
 	.computeMips = 1, \
 	.computeThumbnail = 1, \
@@ -286,11 +286,11 @@ SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
 
 SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap);
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_slice_count(vtfpp_vtf_handle_t handle);
+SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle);
 
-SOURCEPP_API int vtfpp_vtf_set_slice_count(vtfpp_vtf_handle_t handle, uint16_t sliceCount);
+SOURCEPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth);
 
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t sliceCount);
+SOURCEPP_API int vtfpp_vtf_set_frame_face_and_depth(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t depth);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
 

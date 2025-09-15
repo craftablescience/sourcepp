@@ -118,25 +118,25 @@ inline void register_python(py::module_& m) {
 			.def("console",           &console,           "format"_a);
 
 		ImageFormatDetails
-			.def("get_data_length", py::overload_cast<ImageFormat, uint16_t, uint16_t, uint16_t>(&getDataLength), "format"_a, "width"_a, "height"_a, "slice_count"_a = 1)
-			.def("get_data_length_extended", py::overload_cast<ImageFormat, uint8_t, uint16_t, uint8_t, uint16_t, uint16_t, uint16_t>(&getDataLength), "format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "slice_count"_a = 1)
-			.def("get_data_length_xbox", &getDataLengthXBOX, "padded"_a, "format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "slice_count"_a = 1);
+			.def("get_data_length", py::overload_cast<ImageFormat, uint16_t, uint16_t, uint16_t>(&getDataLength), "format"_a, "width"_a, "height"_a, "depth"_a = 1)
+			.def("get_data_length_extended", py::overload_cast<ImageFormat, uint8_t, uint16_t, uint8_t, uint16_t, uint16_t, uint16_t>(&getDataLength), "format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "depth"_a = 1)
+			.def("get_data_length_xbox", &getDataLengthXBOX, "padded"_a, "format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "depth"_a = 1);
 
-		ImageFormatDetails.def("get_data_position", [](ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) -> std::pair<uint32_t, uint32_t> {
+		ImageFormatDetails.def("get_data_position", [](ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) -> std::pair<uint32_t, uint32_t> {
 			uint32_t offset, length;
-			if (getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+			if (getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
 				return {offset, length};
 			}
 			return {0, 0};
-		}, "format"_a, "mip"_a, "mip_count"_a, "frame"_a, "frame_count"_a, "face"_a, "face_count"_a, "width"_a, "height"_a, "slice"_a = 0, "slice_count"_a = 1);
+		}, "format"_a, "mip"_a, "mip_count"_a, "frame"_a, "frame_count"_a, "face"_a, "face_count"_a, "width"_a, "height"_a, "slice"_a = 0, "depth"_a = 1);
 
-		ImageFormatDetails.def("get_data_position_xbox", [](bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) -> std::pair<uint32_t, uint32_t> {
+		ImageFormatDetails.def("get_data_position_xbox", [](bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) -> std::pair<uint32_t, uint32_t> {
 			uint32_t offset, length;
-			if (getDataPositionXbox(offset, length, padded, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+			if (getDataPositionXbox(offset, length, padded, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
 					return {offset, length};
 				}
 				return {0, 0};
-		}, "padded"_a, "format"_a, "mip"_a, "mip_count"_a, "frame"_a, "frame_count"_a, "face"_a, "face_count"_a, "width"_a, "height"_a, "slice"_a = 0, "slice_count"_a = 1);
+		}, "padded"_a, "format"_a, "mip"_a, "mip_count"_a, "frame"_a, "frame_count"_a, "face"_a, "face_count"_a, "width"_a, "height"_a, "slice"_a = 0, "depth"_a = 1);
 	}
 
 	{
@@ -146,7 +146,7 @@ inline void register_python(py::module_& m) {
 		ImageDimensions
 			.def("get_mip_dim", &getMipDim, "mip"_a, "dim"_a)
 			.def("get_recommended_mip_count_for_dims", &getRecommendedMipCountForDims, "format"_a, "width"_a, "height"_a)
-			.def("get_actual_mip_count_for_dims_on_console", &getActualMipCountForDimsOnConsole, "width"_a, "height"_a, "slice_count"_a = 1);
+			.def("get_actual_mip_count_for_dims_on_console", &getActualMipCountForDimsOnConsole, "width"_a, "height"_a, "depth"_a = 1);
 	}
 
 	// Skip ImagePixel, difficult and pointless to bind
@@ -162,10 +162,10 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "old_format"_a, "new_format"_a, "width"_a, "height"_a, "quality"_a = DEFAULT_COMPRESSED_QUALITY);
 
-		ImageConversion.def("convert_several_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality = DEFAULT_COMPRESSED_QUALITY) {
-			const auto d = convertSeveralImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, sliceCount, quality);
+		ImageConversion.def("convert_several_image_data_to_format", [](const py::bytes& imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint16_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality = DEFAULT_COMPRESSED_QUALITY) {
+			const auto d = convertSeveralImageDataToFormat({static_cast<const std::byte*>(imageData.data()), imageData.size()}, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, depth, quality);
 			return py::bytes{d.data(), d.size()};
-		}, "image_data"_a, "old_format"_a, "new_format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "slice_count"_a, "quality"_a = DEFAULT_COMPRESSED_QUALITY);
+		}, "image_data"_a, "old_format"_a, "new_format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "depth"_a, "quality"_a = DEFAULT_COMPRESSED_QUALITY);
 
 		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
 			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
@@ -501,7 +501,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("initial_frame_count",        &VTF::CreationOptions::initialFrameCount)
 		.def_rw("start_frame",                &VTF::CreationOptions::startFrame)
 		.def_rw("is_cubemap",                 &VTF::CreationOptions::isCubeMap)
-		.def_rw("initial_slice_count",        &VTF::CreationOptions::initialSliceCount)
+		.def_rw("initial_depth",              &VTF::CreationOptions::initialDepth)
 		.def_rw("compute_transparency_flags", &VTF::CreationOptions::computeTransparencyFlags)
 		.def_rw("compute_mips",               &VTF::CreationOptions::computeMips)
 		.def_rw("compute_thumbnail",          &VTF::CreationOptions::computeThumbnail)
@@ -564,8 +564,8 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("frame_count", &VTF::getFrameCount, &VTF::setFrameCount)
 		.def_prop_ro("face_count", &VTF::getFaceCount)
 		.def("set_face_count", &VTF::setFaceCount, "is_cubemap"_a)
-		.def_prop_rw("slice_count", &VTF::getSliceCount, &VTF::setSliceCount)
-		.def("set_frame_face_and_slice_count", &VTF::setFrameFaceAndSliceCount, "new_frame_count"_a, "is_cubemap"_a, "new_slice_count"_a = 1)
+		.def_prop_rw("depth", &VTF::getDepth, &VTF::setDepth)
+		.def("set_frame_face_and_depth", &VTF::setFrameFaceAndDepth, "new_frame_count"_a, "is_cubemap"_a, "new_depth"_a = 1)
 		.def_prop_rw("start_frame", &VTF::getStartFrame, &VTF::setStartFrame)
 		.def_prop_rw("reflectivity", &VTF::getReflectivity, &VTF::setReflectivity)
 		.def("compute_reflectivity", &VTF::computeReflectivity)
