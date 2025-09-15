@@ -193,6 +193,54 @@ TEST_WRITE_FMT(UV88,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
 TEST_WRITE_FMT(UVWQ8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
 TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
 
+#define GETCHAN(o, c) \
+	static_cast<PIXFMT::CHANTYPE>(o.c())
+
+// the input images are 2x2 composites of 16x16 tiles with r/g/b/a increasing/decreasing
+// in distinctive orders to catch out any byte order issues.
+#define TEST_READ_EXTFMT_BLOCK_RGBA(LE, GE) do { \
+	EXPECT_##GE(GETCHAN(pixels[i], r), GETCHAN(pixels[i+1], r)); \
+	EXPECT_##LE(GETCHAN(pixels[i], g), GETCHAN(pixels[i+1], g)); \
+	EXPECT_##GE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
+	EXPECT_##LE(GETCHAN(pixels[i], a), GETCHAN(pixels[i+1], a)); \
+} while (0)
+
+#define TEST_READ_EXTFMT_BLOCK_RGB(LE, GE) do { \
+	EXPECT_##GE(GETCHAN(pixels[i], r), GETCHAN(pixels[i+1], r)); \
+	EXPECT_##LE(GETCHAN(pixels[i], g), GETCHAN(pixels[i+1], g)); \
+	EXPECT_##LE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
+} while (0)
+
+#define TEST_READ_EXTFMT(Chan, Rest, Ext) \
+	TEST(vtfpp, read_extfmt_##Chan##Rest##_##Ext) { \
+		using PIXFMT = ImagePixelV2::Chan##Rest; \
+		VTF::CreationOptions options { \
+			.outputFormat = VTF::FORMAT_UNCHANGED, \
+		}; \
+		auto vtf = VTF::create(ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext, options); \
+		ASSERT_TRUE(vtf); \
+		EXPECT_EQ(vtf.getFormat(), ImageFormat::Chan##Rest); \
+		EXPECT_EQ(vtf.getWidth(), 32); \
+		EXPECT_EQ(vtf.getHeight(), 32); \
+		auto rawspan = vtf.getImageDataRaw(); \
+		auto pixels = std::span<const PIXFMT>(reinterpret_cast<const PIXFMT *>(rawspan.data()), rawspan.size() / sizeof(PIXFMT)); \
+		for (size_t i = 0; i < 15; i++) { \
+			TEST_READ_EXTFMT_BLOCK_##Chan(LT, GT); \
+		} \
+		for (size_t i = 16 * 32; i < 15 + 16 * 32; i++) { \
+			TEST_READ_EXTFMT_BLOCK_##Chan(GT, LT); \
+		} \
+	}
+
+TEST_READ_EXTFMT(RGB,  888,       png)
+TEST_READ_EXTFMT(RGB,  888,       qoi)
+TEST_READ_EXTFMT(RGBA, 16161616,  png)
+TEST_READ_EXTFMT(RGBA, 32323232F, exr)
+TEST_READ_EXTFMT(RGBA, 8888,      png)
+TEST_READ_EXTFMT(RGBA, 8888,      qoi)
+TEST_READ_EXTFMT(RGBA, 8888,      tga)
+TEST_READ_EXTFMT(RGBA, 8888,      webp)
+
 #endif
 
 TEST(vtfpp, write_non_po2) {
