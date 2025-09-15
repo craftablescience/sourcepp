@@ -111,7 +111,7 @@ var searchData=
   ['convertimagedatatofile_108',['convertImageDataToFile',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a1bace17a2f4640e7f8b3de9655269a8e',1,'vtfpp::ImageConversion']]],
   ['convertimagedatatoformat_109',['convertImageDataToFormat',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a3fa45347401e8a9f6c2ee677d48192c9',1,'vtfpp::ImageConversion']]],
   ['convertp8imagedatatobgra8888_110',['convertP8ImageDataToBGRA8888',['../d5/d69/namespacevtfpp_1_1ImageQuantize.html#a21b7c236b53fca32e7d8453f7d61ed2e',1,'vtfpp::ImageQuantize']]],
-  ['convertseveralimagedatatoformat_111',['convertSeveralImageDataToFormat',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aaffacf564793c3dc7a8f6bfd5b06b769',1,'vtfpp::ImageConversion']]],
+  ['convertseveralimagedatatoformat_111',['convertSeveralImageDataToFormat',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#a47dd968fdac21e99c2982ef7e1946de9',1,'vtfpp::ImageConversion']]],
   ['convertspecialcharstoescapes_112',['convertSpecialCharsToEscapes',['../d7/d75/namespacesourcepp_1_1parser_1_1text.html#a1b19c978d6ed532500d1129e20af5382',1,'sourcepp::parser::text']]],
   ['copy_5ffile_113',['COPY_FILE',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181a3bc97dd6a0f816bad19b5cb4e1b01328',1,'toolpp::CmdSeq::Command']]],
   ['copy_5ffile_5fif_5fexists_114',['COPY_FILE_IF_EXISTS',['../d3/df6/structtoolpp_1_1CmdSeq_1_1Command.html#aac3d750178168a24eee68d9617bf4181a6fe67a13d21c07a17ac0fbdeffb69842',1,'toolpp::CmdSeq::Command']]],

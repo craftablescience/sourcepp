@@ -384,7 +384,7 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00256" name="l00256"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a12cf74165936d5f2ff1239aa00a0afd3">  256</a></span>        uint16_t initialFrameCount = 1;</div>
 <div class="line"><a id="l00257" name="l00257"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a26f65bdf88549c6f7c153ed178797ab5">  257</a></span>        uint16_t startFrame = 0;</div>
 <div class="line"><a id="l00258" name="l00258"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a88cfc13c28524148e79f53d367e39a7c">  258</a></span>        <span class="keywordtype">bool</span> isCubeMap = <span class="keyword">false</span>;</div>
-<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a4689cf620be30181df735192656d861c">  259</a></span>        uint16_t initialSliceCount = 1;</div>
+<div class="line"><a id="l00259" name="l00259"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a1998e40e54dcb8d9ecd7e27967de30d4">  259</a></span>        uint16_t initialDepth = 1;</div>
 <div class="line"><a id="l00260" name="l00260"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abad5b9ed69de37e0fdce3b177ba34b3c">  260</a></span>        <span class="keywordtype">bool</span> computeTransparencyFlags = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00261" name="l00261"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a6ba1592ec3959f26a43734fb81637aa6">  261</a></span>        <span class="keywordtype">bool</span> computeMips = <span class="keyword">true</span>;</div>
 <div class="line"><a id="l00262" name="l00262"></a><span class="lineno"><a class="line" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a41cfabefcbda38bfb302d54217751d15">  262</a></span>        <span class="keywordtype">bool</span> computeThumbnail = <span class="keyword">true</span>;</div>
@@ -492,11 +492,11 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00366" name="l00366"></a><span class="lineno">  366</span> </div>
 <div class="line"><a id="l00367" name="l00367"></a><span class="lineno">  367</span>    <span class="keywordtype">bool</span> setFaceCount(<span class="keywordtype">bool</span> isCubeMap);</div>
 <div class="line"><a id="l00368" name="l00368"></a><span class="lineno">  368</span> </div>
-<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    [[nodiscard]] uint16_t getSliceCount() const;</div>
+<div class="line"><a id="l00369" name="l00369"></a><span class="lineno">  369</span>    [[nodiscard]] uint16_t getDepth() const;</div>
 <div class="line"><a id="l00370" name="l00370"></a><span class="lineno">  370</span> </div>
-<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    <span class="keywordtype">bool</span> setSliceCount(uint16_t newSliceCount);</div>
+<div class="line"><a id="l00371" name="l00371"></a><span class="lineno">  371</span>    <span class="keywordtype">bool</span> setDepth(uint16_t newDepth);</div>
 <div class="line"><a id="l00372" name="l00372"></a><span class="lineno">  372</span> </div>
-<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    <span class="keywordtype">bool</span> setFrameFaceAndSliceCount(uint16_t newFrameCount, <span class="keywordtype">bool</span> isCubeMap, uint16_t newSliceCount = 1);</div>
+<div class="line"><a id="l00373" name="l00373"></a><span class="lineno">  373</span>    <span class="keywordtype">bool</span> setFrameFaceAndDepth(uint16_t newFrameCount, <span class="keywordtype">bool</span> isCubeMap, uint16_t newDepth = 1);</div>
 <div class="line"><a id="l00374" name="l00374"></a><span class="lineno">  374</span> </div>
 <div class="line"><a id="l00375" name="l00375"></a><span class="lineno">  375</span>    [[nodiscard]] uint16_t getStartFrame() const;</div>
 <div class="line"><a id="l00376" name="l00376"></a><span class="lineno">  376</span> </div>
@@ -637,7 +637,7 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00514" name="l00514"></a><span class="lineno">  514</span> </div>
 <div class="line"><a id="l00515" name="l00515"></a><span class="lineno">  515</span>    <span class="keywordtype">void</span> removeResourceInternal(<a class="code hl_struct" href="../../d3/d80/structvtfpp_1_1Resource.html">Resource</a>::Type type);</div>
 <div class="line"><a id="l00516" name="l00516"></a><span class="lineno">  516</span> </div>
-<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="keywordtype">void</span> regenerateImageData(<a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, <span class="keywordtype">float</span> quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);</div>
+<div class="line"><a id="l00517" name="l00517"></a><span class="lineno">  517</span>    <span class="keywordtype">void</span> regenerateImageData(<a class="code hl_enumeration" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a> newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newDepth, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, <span class="keywordtype">float</span> quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);</div>
 <div class="line"><a id="l00518" name="l00518"></a><span class="lineno">  518</span> </div>
 <div class="line"><a id="l00519" name="l00519"></a><span class="lineno"><a class="line" href="../../d8/df2/classvtfpp_1_1VTF.html#afa97dde40fa61c16c6bb47fcc09b8443">  519</a></span>    <span class="keywordtype">bool</span> opened = false;</div>
 <div class="line"><a id="l00520" name="l00520"></a><span class="lineno">  520</span> </div>
@@ -670,7 +670,7 @@ $(document).ready(function(){initNavTree('d4/d91/VTF_8h_source.html','../../'); 
 <div class="line"><a id="l00547" name="l00547"></a><span class="lineno"><a class="line" href="../../d8/df2/classvtfpp_1_1VTF.html#a7ed27fca8f781c044ddc46378485047b">  547</a></span>    uint8_t xboxMipScale = 0;</div>
 <div class="line"><a id="l00548" name="l00548"></a><span class="lineno">  548</span> </div>
 <div class="line"><a id="l00549" name="l00549"></a><span class="lineno">  549</span>    <span class="comment">// 1 for v7.1 and lower</span></div>
-<div class="line"><a id="l00550" name="l00550"></a><span class="lineno"><a class="line" href="../../d8/df2/classvtfpp_1_1VTF.html#a5ac47cde37ab2f9fb6a39c40092d5b73">  550</a></span>    uint16_t sliceCount = 1;</div>
+<div class="line"><a id="l00550" name="l00550"></a><span class="lineno"><a class="line" href="../../d8/df2/classvtfpp_1_1VTF.html#ab73a9a9336f2c652d4728185e937dcf4">  550</a></span>    uint16_t depth = 1;</div>
 <div class="line"><a id="l00551" name="l00551"></a><span class="lineno">  551</span> </div>
 <div class="line"><a id="l00552" name="l00552"></a><span class="lineno">  552</span>    <span class="comment">// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway</span></div>
 <div class="line"><a id="l00553" name="l00553"></a><span class="lineno"><a class="line" href="../../d8/df2/classvtfpp_1_1VTF.html#af37ae2a552afa40c395618ff6ea47d46">  553</a></span>    std::vector&lt;Resource&gt; <a class="code hl_variable" href="../../d8/df2/classvtfpp_1_1VTF.html#af37ae2a552afa40c395618ff6ea47d46">resources</a>;</div>
