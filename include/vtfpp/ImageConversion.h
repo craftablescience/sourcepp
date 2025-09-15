@@ -331,6 +331,11 @@ concept PixelType =
 
 namespace ImagePixelV2 {
 
+namespace detail {
+template<typename T>
+using RepOrSelf = std::conditional_t<sizeof(T) == 1, T, sourcepp::bits::LERep<T>>;
+}
+
 // TODO: run this through a filter that calls the compiler with comment-preserving preprocessing;
 // doxygen can't really cope even with its preprocessing turned as indiscriminate as possible.
 #define VTFPP_PIXFMTS \
@@ -354,18 +359,18 @@ namespace ImagePixelV2 {
 	VTFPP_PIXFMT(BGRA5551,                    VTFPP_DECLARE_BITS,    uint8_t,  16, (b, 5), (g, 5), (r, 5), (a, 1)) \
 	VTFPP_PIXFMT(UV88,                        VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v) \
 	VTFPP_PIXFMT(UVWQ8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v, w, q) \
-	VTFPP_PIXFMT(RGBA16161616F,               VTFPP_DECLARE_SIMPLE,  f16le,    r, g, b, a) \
-	VTFPP_PIXFMT(RGBA16161616,                VTFPP_DECLARE_SIMPLE,  ui16le,   r, g, b, a) \
+	VTFPP_PIXFMT(RGBA16161616F,               VTFPP_DECLARE_SIMPLE,  half,     r, g, b, a) \
+	VTFPP_PIXFMT(RGBA16161616,                VTFPP_DECLARE_SIMPLE,  uint16_t, r, g, b, a) \
 	VTFPP_PIXFMT(UVLX8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  u, v, l, x) \
-	VTFPP_PIXFMT(R32F,                        VTFPP_DECLARE_SIMPLE,  f32le,    r) \
-	VTFPP_PIXFMT(RGB323232F,                  VTFPP_DECLARE_SIMPLE,  f32le,    r, g, b) \
-	VTFPP_PIXFMT(RGBA32323232F,               VTFPP_DECLARE_SIMPLE,  f32le,    r, g, b, a) \
-	VTFPP_PIXFMT(RG1616F,                     VTFPP_DECLARE_SIMPLE,  f16le,    r, g) \
-	VTFPP_PIXFMT(RG3232F,                     VTFPP_DECLARE_SIMPLE,  f32le,    r, g) \
+	VTFPP_PIXFMT(R32F,                        VTFPP_DECLARE_SIMPLE,  float,    r) \
+	VTFPP_PIXFMT(RGB323232F,                  VTFPP_DECLARE_SIMPLE,  float,    r, g, b) \
+	VTFPP_PIXFMT(RGBA32323232F,               VTFPP_DECLARE_SIMPLE,  float,    r, g, b, a) \
+	VTFPP_PIXFMT(RG1616F,                     VTFPP_DECLARE_SIMPLE,  half,     r, g) \
+	VTFPP_PIXFMT(RG3232F,                     VTFPP_DECLARE_SIMPLE,  float,    r, g) \
 	VTFPP_PIXFMT(RGBX8888,                    VTFPP_DECLARE_SIMPLE,  uint8_t,  r, g, b, x) \
 	VTFPP_PIXFMT(RGBA1010102,                 VTFPP_DECLARE_BITS,    uint16_t, 32, (r, 10), (g, 10), (b, 10), (a, 2)) \
 	VTFPP_PIXFMT(BGRA1010102,                 VTFPP_DECLARE_BITS,    uint16_t, 32, (b, 10), (g, 10), (r, 10), (a, 2)) \
-	VTFPP_PIXFMT(R16F,                        VTFPP_DECLARE_SIMPLE,  f16le,    r) \
+	VTFPP_PIXFMT(R16F,                        VTFPP_DECLARE_SIMPLE,  half,     r) \
 	VTFPP_PIXFMT(R8,                          VTFPP_DECLARE_SIMPLE,  uint8_t,  r) \
 	VTFPP_PIXFMT(CONSOLE_BGRX8888_LINEAR,     VTFPP_DECLARE_INHERIT, BGRX8888) \
 	VTFPP_PIXFMT(CONSOLE_RGBA8888_LINEAR,     VTFPP_DECLARE_INHERIT, RGBA8888) \
@@ -385,7 +390,7 @@ namespace ImagePixelV2 {
 
 #define VTFPP_DECLARE_SIMPLE_CHANNEL(T, C) \
 	private: \
-		T _##C; \
+		detail::RepOrSelf<T> _##C; \
 	public: \
 		constexpr T C() const { return this->_##C; } \
 		constexpr void set_##C(T i##C) { this->_##C = i##C; }
