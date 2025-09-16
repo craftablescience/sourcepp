@@ -211,10 +211,10 @@ TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FL
 	EXPECT_##LE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
 } while (0)
 
-#define TEST_READ_EXTFMT_DETAIL(Chan, Rest, Ext, Mkvtf) \
-	TEST(vtfpp, read_extfmt_##Chan##Rest##_##Ext) { \
+#define TEST_READ_EXTFMT_DETAIL(Type, Chan, Rest, Ext, Mkvtf) \
+	TEST(vtfpp, read_extfmt_##Type##_##Chan##Rest##_##Ext) { \
 		using PIXFMT = ImagePixelV2::Chan##Rest; \
-		Mkvtf(ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext); \
+		Mkvtf(vtf, Chan, Rest, Ext); \
 		ASSERT_TRUE(vtf); \
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::Chan##Rest); \
 		EXPECT_EQ(vtf.getWidth(), 32); \
@@ -229,31 +229,52 @@ TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FL
 		} \
 	}
 
-#define GETEXT(Path) \
+#define DEFPATH(Chan, Rest, Ext) \
+	ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext
+
+#define GETEXT(As, Chan, Rest, Ext) \
 	VTF::CreationOptions options { \
 		.outputFormat = VTF::FORMAT_UNCHANGED, \
 	}; \
-	VTF vtf = VTF::create(Path, options)
+	VTF As = VTF::create(DEFPATH(Chan, Rest, Ext), options)
 
-#define GETVTF(Path) \
-	VTF vtf(Path)
+#define GETVTF(As, Chan, Rest, Ext) \
+	VTF As(DEFPATH(Chan, Rest, Ext))
 
-#define TEST_READ_EXTFMT(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(Chan, Rest, Ext, GETEXT)
-#define TEST_READ_EXTFMT_VTF(Chan, Rest) TEST_READ_EXTFMT_DETAIL(Chan, Rest, vtf, GETVTF)
+#define GETROUND(As, Chan, Rest, Ext) \
+	GETEXT(roundtmp, Chan, Rest, Ext); \
+	ASSERT_TRUE(roundtmp); \
+	const auto bakedpath = "roundtrip_" #Chan #Rest "_" #Ext ".vtf"; \
+	ASSERT_TRUE(roundtmp.bake(bakedpath)); \
+	VTF As(bakedpath)
 
-TEST_READ_EXTFMT(RGB,  888,       png)
-TEST_READ_EXTFMT(RGB,  888,       qoi)
-TEST_READ_EXTFMT(RGBA, 16161616,  png)
-TEST_READ_EXTFMT(RGBA, 32323232F, exr)
-TEST_READ_EXTFMT(RGBA, 8888,      png)
-TEST_READ_EXTFMT(RGBA, 8888,      qoi)
-TEST_READ_EXTFMT(RGBA, 8888,      tga)
-TEST_READ_EXTFMT(RGBA, 8888,      webp)
+#define TEST_READ_EXTFMT_IMG(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(img, Chan, Rest, Ext, GETEXT)
+#define TEST_READ_EXTFMT_TEX(Chan, Rest) TEST_READ_EXTFMT_DETAIL(tex, Chan, Rest, vtf, GETVTF)
 
-TEST_READ_EXTFMT_VTF(RGB,  888)
-TEST_READ_EXTFMT_VTF(RGBA, 8888)
-TEST_READ_EXTFMT_VTF(RGBA, 16161616)
-TEST_READ_EXTFMT_VTF(RGBA, 32323232F)
+#define EXTFMT_CASES \
+	EXTFMT_CASE(RGB,  888,       png) \
+	EXTFMT_CASE(RGB,  888,       qoi) \
+	EXTFMT_CASE(RGBA, 16161616,  png) \
+	EXTFMT_CASE(RGBA, 32323232F, exr) \
+	EXTFMT_CASE(RGBA, 8888,      png) \
+	EXTFMT_CASE(RGBA, 8888,      qoi) \
+	EXTFMT_CASE(RGBA, 8888,      tga) \
+	EXTFMT_CASE(RGBA, 8888,      webp)
+
+#define EXTFMT_CASE TEST_READ_EXTFMT_IMG
+	EXTFMT_CASES
+#undef EXTFMT_CASE
+
+TEST_READ_EXTFMT_TEX(RGB,  888)
+TEST_READ_EXTFMT_TEX(RGBA, 8888)
+TEST_READ_EXTFMT_TEX(RGBA, 16161616)
+TEST_READ_EXTFMT_TEX(RGBA, 32323232F)
+
+#define TEST_READ_EXTFMT_ROUNDTRIP(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(roundtrip, Chan, Rest, Ext, GETROUND)
+
+#define EXTFMT_CASE TEST_READ_EXTFMT_ROUNDTRIP
+	EXTFMT_CASES
+#undef EXTFMT_CASE
 
 #endif
 
