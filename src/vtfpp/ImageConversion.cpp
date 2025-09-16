@@ -60,6 +60,45 @@ using namespace ::sourcepp::bits;
 
 namespace {
 
+template<size_t Chansize>
+using Subpixel = std::array<std::byte, Chansize>;
+
+template<size_t Chansize>
+static Subpixel<Chansize> swizzleSubpixel(const Subpixel<Chansize> inpx) {
+	Subpixel<Chansize> ret;
+	std::copy(inpx.crbegin(), inpx.crend(), ret.begin());
+	return ret;
+}
+
+template<size_t Chansize>
+static void swizzleSrcDst(std::span<const std::byte> src, std::span<std::byte> dst) {
+	auto inputs = std::span<const Subpixel<Chansize>>{reinterpret_cast<const Subpixel<Chansize> *>(src.data()), src.size() / Chansize};
+	auto outputs = std::span<Subpixel<Chansize>>{reinterpret_cast<Subpixel<Chansize> *>(dst.data()), dst.size() / Chansize};
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, inputs.begin(), inputs.end(), outputs.begin(), &swizzleSubpixel<Chansize>);
+}
+
+template<size_t Chansize>
+static void swizzleInPlace(std::span<std::byte> src) {
+	auto inputs = std::span<Subpixel<Chansize>>{reinterpret_cast<Subpixel<Chansize> *>(src.data()), src.size() / Chansize};
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::for_each, std::execution::par_unseq, inputs.begin(), inputs.end(), [](Subpixel<Chansize> &modpx) { modpx = swizzleSubpixel(modpx); });
+}
+
+struct SwizzleCtxSTB {
+	size_t channels;
+	std::span<std::byte> buf;
+};
+
+template<size_t Chansize>
+static const void *swizzle_stbir_input(void *optional_output, const void *input_ptr, int num_pixels, int x, int y, void *context) {
+	auto ctx = reinterpret_cast<SwizzleCtxSTB *>(context);
+	auto num_subpixels = ctx->channels * num_pixels;
+	auto src = std::span<const std::byte>{reinterpret_cast<const std::byte *>(input_ptr), num_subpixels * Chansize};
+
+	swizzleSrcDst<Chansize>(src, ctx->buf);
+
+	return ctx->buf.data();
+}
+
 [[nodiscard]] constexpr CMP_FORMAT imageFormatToCompressonatorFormat(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -295,15 +334,9 @@ namespace {
 
 	// compressonator seems to do absolutely everything right *except* writing output per native-order dword. oh well.
 	if constexpr (std::endian::native == std::endian::big) {
-		auto t = imageData.size();
-		swizzle.resize(t);
-		for (size_t i = 0; i < t; i += 4) {
-			swizzle[i]     = imageData[i + 3];
-			swizzle[i + 1] = imageData[i + 2];
-			swizzle[i + 2] = imageData[i + 1];
-			swizzle[i + 3] = imageData[i];
-		}
-		swizzledInput = std::span(swizzle);
+		swizzle.resize(imageData.size());
+		swizzleSrcDst<4>(imageData, swizzle);
+		swizzledInput = std::span{swizzle};
 	}
 
 	CMP_Texture srcTexture{};
@@ -342,11 +375,7 @@ namespace {
 
 	// "i dont like it but it works"
 	if constexpr (std::endian::native == std::endian::big) {
-		auto t = destData.size();
-		for (size_t i = 0; i < t; i += 4) {
-			std::swap(destData[i],     destData[i + 3]);
-			std::swap(destData[i + 2], destData[i + 1]);
-		}
+		swizzleInPlace<4>(destData);
 	}
 
 	return destData;
@@ -1859,7 +1888,7 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 	}
 
 	STBIR_RESIZE resize;
-	const auto setEdgeModesAndFiltersAndDoResize = [edge, filter, &resize] {
+	const auto setEdgeModesAndFiltersAndDoResize = [edge, filter, &resize, format, width, height, newWidth, newHeight] {
 		stbir_set_edgemodes(&resize, static_cast<stbir_edge>(edge), static_cast<stbir_edge>(edge));
 		switch (filter) {
 			case ResizeFilter::DEFAULT:
@@ -1917,7 +1946,39 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 				break;
 			}
 		}
+		size_t channels = 0, chansize = 1;
+		auto swizzleBuf = std::vector<std::byte>{};
+		auto ctx = SwizzleCtxSTB {
+			.channels = 0,
+			.buf = std::span<std::byte>{swizzleBuf},
+		};
+		if constexpr (std::endian::native == std::endian::big) {
+			if (size_t bpc = ImageFormatDetails::red(format); bpc > 8) {
+				ctx.channels = ImageFormatDetails::bpp(format) / bpc;
+				swizzleBuf.resize(bpc * ctx.channels * width);
+				ctx.buf = std::span<std::byte>{swizzleBuf};
+				switch ((chansize = bpc / 8)) {
+#					define VTFPP_CASE_AND_SET(n) \
+					case n: \
+						stbir_set_user_data(&resize, &ctx); \
+						stbir_set_pixel_callbacks(&resize, &swizzle_stbir_input<n>, NULL); \
+						break;
+					SOURCEPP_FOREACH0(VTFPP_CASE_AND_SET, 2, 4, 8)
+#					undef VTFPP_CASE_AND_SET
+				}
+			}
+		}
 		stbir_resize_extended(&resize);
+		if constexpr (std::endian::native == std::endian::big) {
+			switch (chansize) {
+#			define VTFPP_CASE_AND_SWIZZLE(n) \
+				case n: \
+					swizzleInPlace<n>(std::span<std::byte>{reinterpret_cast<std::byte *>(resize.output_pixels), ImageFormatDetails::getDataLength(format, newWidth, newHeight)}); \
+					break;
+				SOURCEPP_FOREACH0(VTFPP_CASE_AND_SWIZZLE, 2, 4, 8)
+#			undef VTFPP_CASE_AND_SET
+			}
+		}
 	};
 
 	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format);
