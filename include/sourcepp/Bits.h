@@ -16,7 +16,7 @@ namespace sourcepp::bits {
 ///
 /// Special provisions for arithmetic outside possible implicit conversions are intentionally omitted.
 template<sourcepp::math::Arithmetic A>
-class LERep : public std::array<std::byte, sizeof(A)> {
+class LERep : private std::array<std::byte, sizeof(A)> {
 	using uint_according = typename std::conditional<sizeof(A) == 8,
 		uint64_t,
 	typename std::conditional<sizeof(A) == 4,
@@ -25,6 +25,7 @@ class LERep : public std::array<std::byte, sizeof(A)> {
 		uint16_t,
 	uint8_t>::type>::type>::type;
 public:
+
 	/// Conversion to native byte order.
 	/// `LERep<A>` ⇒ `A`.
 	constexpr operator A() const {
