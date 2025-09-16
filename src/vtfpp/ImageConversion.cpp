@@ -1,5 +1,4 @@
 #include <vtfpp/ImageConversion.h>
-
 #include <algorithm>
 #include <bit>
 #include <cmath>
@@ -370,16 +369,12 @@ namespace {
 
 	#define VTFPP_REMAP_TO_8(value, shift) math::remap<uint8_t>((value), (1 << (shift)) - 1, (1 << 8) - 1)
 
-	#define VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, ...) \
+	#define VTFPP_CONVERT(InputType, r, g, b, a) \
 		std::span<const ImagePixelV2::InputType> imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA8888 { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA8888 { \
 			return {(r), (g), (b), (a)}; \
 		})
-#ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
-#else
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
-#endif
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, r, g, b, a) \
 		case InputType: { VTFPP_CONVERT(InputType, r, g, b, a); } break
 
@@ -422,7 +417,6 @@ namespace {
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
 	#undef VTFPP_CONVERT
-	#undef VTFPP_CONVERT_DETAIL
 	#undef VTFPP_REMAP_TO_8
 
 	return newData;
@@ -445,19 +439,12 @@ namespace {
 
 	#define VTFPP_REMAP_FROM_8(value, shift) math::remap<uint8_t>((value), (1 << 8) - 1, (1 << (shift)) - 1)
 
-#ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA8888 pixel) -> ImagePixelV2::InputType { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA8888 pixel) -> ImagePixelV2::InputType { \
 			return ImagePixelV2::InputType(__VA_ARGS__); \
 		})
-#else
-	#define VTFPP_CONVERT(InputType, ...) \
-		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA8888 pixel) -> ImagePixelV2::InputType { \
-			return ImagePixelV2::InputType(__VA_ARGS__); \
-		})
-#endif
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, ...) \
 		case InputType: { VTFPP_CONVERT(InputType, __VA_ARGS__); } break
 
@@ -522,16 +509,12 @@ namespace {
 
 	#define VTFPP_REMAP_TO_16(value, shift) math::remap<uint16_t>((value), (1 << (shift)) - 1, (1 << 16) - 1)
 
-	#define VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, ...) \
+	#define VTFPP_CONVERT(InputType, r, g, b, a, ...) \
 		std::span<const ImagePixelV2::InputType> imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA16161616 { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA16161616 { \
 			return { static_cast<uint16_t>(r), static_cast<uint16_t>(g), static_cast<uint16_t>(b), static_cast<uint16_t>(a) }; \
 		})
-#ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
-#else
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
-#endif
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, r, g, b, a) \
 		case InputType: { VTFPP_CONVERT(InputType, r, g, b, a); } break
 
@@ -573,7 +556,6 @@ namespace {
 	#undef VTFPP_CONVERT_REMAP
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
 	#undef VTFPP_CONVERT
-	#undef VTFPP_CONVERT_DETAIL
 	#undef VTFPP_REMAP_TO_16
 
 	return newData;
@@ -596,19 +578,12 @@ namespace {
 
 	#define VTFPP_REMAP_FROM_16(value, shift) static_cast<uint8_t>(math::remap<uint16_t>((value), (1 << 16) - 1, (1 << (shift)) - 1))
 
-#ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA16161616 pixel) -> ImagePixelV2::InputType { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA16161616 pixel) -> ImagePixelV2::InputType { \
 			return __VA_ARGS__; \
 		})
-#else
-	#define VTFPP_CONVERT(InputType, ...) \
-		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA16161616 pixel) -> ImagePixelV2::InputType { \
-			return __VA_ARGS__; \
-		})
-#endif
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, ...) \
 		case InputType: { VTFPP_CONVERT(InputType, __VA_ARGS__); } break
 
@@ -640,14 +615,10 @@ namespace {
 	newData.resize(imageData.size() / (ImageFormatDetails::bpp(format) / 8) * sizeof(ImagePixelV2::RGBA32323232F));
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA32323232F)};
 
-	#define VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, ...) \
+	#define VTFPP_CONVERT(InputType, r, g, b, a, ...) \
 		std::span<const ImagePixelV2::InputType> imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA32323232F { return {(r), (g), (b), (a)}; })
-#ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a, std::execution::par_unseq)
-#else
-	#define VTFPP_CONVERT(InputType, r, g, b, a) VTFPP_CONVERT_DETAIL(InputType, r, g, b, a)
-#endif
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::InputType pixel) -> ImagePixelV2::RGBA32323232F { return {(r), (g), (b), (a)}; })
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, r, g, b, a) \
 		case InputType: { VTFPP_CONVERT(InputType, r, g, b, a); } break
 
@@ -664,7 +635,6 @@ namespace {
 
 	#undef VTFPP_CASE_CONVERT_AND_BREAK
 	#undef VTFPP_CONVERT
-	#undef VTFPP_CONVERT_DETAIL
 
 	return newData;
 }
@@ -684,19 +654,12 @@ namespace {
 	std::vector<std::byte> newData;
 	newData.resize(imageData.size() / sizeof(ImagePixelV2::RGBA32323232F) * (ImageFormatDetails::bpp(format) / 8));
 
-#ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA32323232F pixel) -> ImagePixelV2::InputType { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA32323232F pixel) -> ImagePixelV2::InputType { \
 			return __VA_ARGS__; \
 		})
-#else
-	#define VTFPP_CONVERT(InputType, ...) \
-		std::span<ImagePixelV2::InputType> newDataSpan{reinterpret_cast<ImagePixelV2::InputType*>(newData.data()), newData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA32323232F pixel) -> ImagePixelV2::InputType { \
-			return __VA_ARGS__; \
-		})
-#endif
+
 	#define VTFPP_CASE_CONVERT_AND_BREAK(InputType, ...) \
 		case InputType: { VTFPP_CONVERT(InputType, __VA_ARGS__); } break
 
@@ -727,10 +690,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA32323232F)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA8888)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA8888 pixel) -> ImagePixelV2::RGBA32323232F {
 		return {
 			static_cast<float>(pixel.r()) / static_cast<float>((1 << 8) - 1),
@@ -753,10 +713,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA8888)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA32323232F)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA32323232F pixel) -> ImagePixelV2::RGBA8888 {
 		return {
 			static_cast<uint8_t>(std::clamp<float>(pixel.r(), 0.f, 1.f) * ((1 << 8) - 1)),
@@ -779,10 +736,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA16161616)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA8888*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA8888)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA8888 pixel) -> ImagePixelV2::RGBA16161616 {
 		return {
 			math::remap<uint16_t>(pixel.r(), (1 << 8) - 1, (1 << 16) - 1),
@@ -805,10 +759,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA8888*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA8888)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA16161616)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA16161616 pixel) -> ImagePixelV2::RGBA8888 {
 		return {
 			static_cast<uint8_t>(math::remap<uint16_t>(pixel.r(), (1 << 16) - 1, (1 << 8) - 1)),
@@ -831,10 +782,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA16161616*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA16161616)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA32323232F*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA32323232F)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA32323232F pixel) -> ImagePixelV2::RGBA16161616 {
 		return {
 			static_cast<uint16_t>(std::clamp<float>(pixel.r(), 0.f, 1.f) * ((1 << 16) - 1)),
@@ -857,10 +805,7 @@ namespace {
 	std::span newDataSpan{reinterpret_cast<ImagePixelV2::RGBA32323232F*>(newData.data()), newData.size() / sizeof(ImagePixelV2::RGBA32323232F)};
 
 	std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::RGBA16161616*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::RGBA16161616)};
-	std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-			std::execution::par_unseq,
-#endif
+	SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 			imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixelV2::RGBA16161616 pixel) -> ImagePixelV2::RGBA32323232F {
 		return {
 			static_cast<float>(pixel.r()) / static_cast<float>((1 << 16) - 1),
@@ -1513,7 +1458,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			&combinedChannels
 		]<typename C> {
 			const auto channelCount = hasRed + hasGreen + hasBlue + hasAlpha;
-			std::span out{reinterpret_cast<C*>(combinedChannels.data()), combinedChannels.size() / sizeof(C)};
+			std::span out{reinterpret_cast<LERep<C>*>(combinedChannels.data()), combinedChannels.size() / sizeof(C)};
 			if (header.tiled) {
 				for (int t = 0; t < image.num_tiles; t++) {
 					auto** src = reinterpret_cast<C**>(image.tiles[t].images);
@@ -1648,10 +1593,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				// Where dst is a full frame and src is a subregion
 				static constexpr auto copyImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
 					for (uint32_t y = 0; y < srcHeight; y++) {
-						std::copy(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-							std::execution::unseq,
-#endif
+						SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::copy, std::execution::unseq,
 							src.data() + calcPixelOffset(         0,              y, srcWidth),
 							src.data() + calcPixelOffset(  srcWidth,              y, srcWidth),
 							dst.data() + calcPixelOffset(srcOffsetX, srcOffsetY + y, dstWidth));
@@ -1661,10 +1603,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				// Where dst and src are the same size and we are copying a subregion
 				static constexpr auto copyImageSubRectData = [](std::span<std::byte> dst, std::span<const std::byte> src, uint32_t imgWidth, uint32_t imgHeight, uint32_t subWidth, uint32_t subHeight, uint32_t subOffsetX, uint32_t subOffsetY) {
 					for (uint32_t y = subOffsetY; y < subOffsetY + subHeight; y++) {
-						std::copy(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-							std::execution::unseq,
-#endif
+						SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::copy, std::execution::unseq,
 							src.data() + calcPixelOffset(subOffsetX,            y, imgWidth),
 							src.data() + calcPixelOffset(subOffsetX + subWidth, y, imgWidth),
 							dst.data() + calcPixelOffset(subOffsetX,            y, imgWidth));
@@ -1673,10 +1612,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 
 				static constexpr auto clearImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, uint32_t clrWidth, uint32_t clrHeight, uint32_t clrOffsetX, uint32_t clrOffsetY) {
 					for (uint32_t y = 0; y < clrHeight; y++) {
-						std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-							std::execution::unseq,
-#endif
+						SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::unseq,
 							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth),
 							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth) + (clrWidth * sizeof(P)),
 							dst.data() + calcPixelOffset(clrOffsetX, clrOffsetY + y, dstWidth),
@@ -1849,10 +1785,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			switch (channels) {
 				case 1: {
 					std::span<ui16le> inPixels{reinterpret_cast<ui16le*>(stbImage.get()), outPixels.size()};
-					std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-						std::execution::par_unseq,
-#endif
+					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixelV2::RGBA16161616 {
 						return ImagePixelV2::RGBA16161616(pixel, 0, 0, 0xffff);
 					});
@@ -1864,10 +1797,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						ui16le g;
 					};
 					std::span<RG1616> inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
-					std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-						std::execution::par_unseq,
-#endif
+					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixelV2::RGBA16161616 {
 						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, 0, 0xffff);
 					});
@@ -1880,10 +1810,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						ui16le b;
 					};
 					std::span<RGB161616> inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
-					std::transform(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-						std::execution::par_unseq,
-#endif
+					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
 						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixelV2::RGBA16161616 {
 						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, pixel.b, 0xffff);
 					});
@@ -2094,23 +2021,14 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 
 	std::vector<std::byte> out(imageData.size());
 
-#ifdef SOURCEPP_BUILD_WITH_TBB
 	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
 		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
 		std::span outSpan{reinterpret_cast<ImagePixelV2::InputType*>(out.data()), out.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixelV2::InputType pixel) -> ImagePixelV2::InputType { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixelV2::InputType pixel) -> ImagePixelV2::InputType { \
 			using PIXEL_TYPE = ImagePixelV2::InputType; \
 			return PIXEL_TYPE(__VA_ARGS__); \
 		})
-#else
-	#define VTFPP_GAMMA_CORRECT(InputType, ...) \
-		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::InputType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::span outSpan{reinterpret_cast<ImagePixelV2::InputType*>(out.data()), out.size() / sizeof(ImagePixelV2::InputType)}; \
-		std::transform(imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [gammaLUTs](ImagePixelV2::InputType pixel) -> ImagePixelV2::InputType { \
-			using PIXEL_TYPE = ImagePixelV2::InputType; \
-			return PIXEL_TYPE(__VA_ARGS__); \
-		})
-#endif
+
 	#define VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(InputType, ...) \
 		case InputType: { VTFPP_CREATE_GAMMA_LUTS(InputType) VTFPP_GAMMA_CORRECT(InputType, __VA_ARGS__); } break
 
@@ -2157,11 +2075,11 @@ std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span
 		return convertImageDataToFormat(invertGreenChannelForImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, height), container, format, width, height);
 	}
 
-	#define VTFPP_INVERT_GREEN(PixelType, ChannelName, ...) \
+	#define VTFPP_INVERT_GREEN(PixelType, ChannelName) \
 		static constexpr auto channelSize = ImageFormatDetails::green(ImagePixelV2::PixelType::FORMAT); \
 		std::span imageDataSpan{reinterpret_cast<const ImagePixelV2::PixelType*>(imageData.data()), imageData.size() / sizeof(ImagePixelV2::PixelType)}; \
 		std::span outSpan{reinterpret_cast<ImagePixelV2::PixelType*>(out.data()), out.size() / sizeof(ImagePixelV2::PixelType)}; \
-		std::transform(__VA_ARGS__ __VA_OPT__(,) imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixelV2::PixelType pixel) -> ImagePixelV2::PixelType { \
+		SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), outSpan.begin(), [](ImagePixelV2::PixelType pixel) -> ImagePixelV2::PixelType { \
 			if constexpr (std::same_as<decltype(pixel.ChannelName()), float> || std::same_as<decltype(pixel.ChannelName()), half>) { \
 				pixel.set_##ChannelName(static_cast<decltype(pixel.ChannelName())>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName()))); \
 			} else { \
@@ -2173,17 +2091,11 @@ std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span
 			} \
 			return pixel; \
 		})
-#ifdef SOURCEPP_BUILD_WITH_TBB
-	#define VTFPP_INVERT_GREEN_CASE(PixelType) \
-		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g, std::execution::par_unseq); break; }
-	#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(PixelType, ChannelName) \
-		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName, std::execution::par_unseq); break; }
-#else
+
 	#define VTFPP_INVERT_GREEN_CASE(PixelType) \
 		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, g); } break
 	#define VTFPP_INVERT_GREEN_CASE_CA_OVERRIDE(PixelType, ChannelName) \
 		case ImageFormat::PixelType: { VTFPP_INVERT_GREEN(PixelType, ChannelName); } break
-#endif
 
 	std::vector<std::byte> out(imageData.size());
 	switch (format) {

@@ -138,3 +138,13 @@
 #define SOURCEPP_CAR(a, d) a
 /// Called bare to destructure the second of a 2-tuple.
 #define SOURCEPP_CDR(a, d) d
+
+#define SOURCEPP_CALL_WITH_POLICY_IF_TBB(ident, policy, ...) ident(__VA_ARGS__)
+#ifdef SOURCEPP_BUILD_WITH_TBB
+#	undef SOURCEPP_CALL_WITH_POLICY_IF_TBB
+#	if __has_include(<execution>)
+#		define SOURCEPP_CALL_WITH_POLICY_IF_TBB(ident, policy, ...) ident(policy __VA_OPT__(,) __VA_ARGS__)
+#	else
+#		define SOURCEPP_CALL_WITH_POLICY_IF_TBB(...) static_assert(false, "This macro needs <execution> present.")
+#	endif
+#endif

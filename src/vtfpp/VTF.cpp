@@ -20,6 +20,7 @@
 
 #include <sourcepp/Bits.h>
 #include <sourcepp/compression/LZMA.h>
+#include <sourcepp/Macros.h>
 #include <vtfpp/ImageConversion.h>
 #include <vtfpp/ImageQuantize.h>
 
@@ -142,10 +143,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 			case DXT5:
 			case UV88: {
 				std::span dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
-				std::for_each(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-						std::execution::par_unseq,
-#endif
+				SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::for_each, std::execution::par_unseq,
 						dxtData.begin(), dxtData.end(), [](uint16_t& value) {
 					BufferStream::swap_endian(&value);
 				});
