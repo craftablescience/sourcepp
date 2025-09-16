@@ -1775,54 +1775,49 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		if (!stbImage) {
 			return {};
 		}
-		if (channels == 4) {
-			format = ImageFormat::RGBA16161616;
-		} else if (channels >= 1 && channels < 4) {
-			// There are no other 16-bit integer formats in Source, so we have to do a conversion here
-			format = ImageFormat::RGBA16161616;
-			std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
-			std::span<ImagePixelV2::RGBA16161616> outPixels{reinterpret_cast<ImagePixelV2::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixelV2::RGBA16161616)};
-			switch (channels) {
-				case 1: {
-					std::span<ui16le> inPixels{reinterpret_cast<ui16le*>(stbImage.get()), outPixels.size()};
-					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](uint16_t pixel) -> ImagePixelV2::RGBA16161616 {
-						return ImagePixelV2::RGBA16161616(pixel, 0, 0, 0xffff);
-					});
-					return out;
-				}
-				case 2: {
-					struct RG1616 {
-						ui16le r;
-						ui16le g;
-					};
-					std::span<RG1616> inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
-					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixelV2::RGBA16161616 {
-						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, 0, 0xffff);
-					});
-					return out;
-				}
-				case 3: {
-					struct RGB161616 {
-						ui16le r;
-						ui16le g;
-						ui16le b;
-					};
-					std::span<RGB161616> inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
-					SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RGB161616 pixel) -> ImagePixelV2::RGBA16161616 {
-						return ImagePixelV2::RGBA16161616(pixel.r, pixel.g, pixel.b, 0xffff);
-					});
-					return out;
-				}
-				default:
-					return {};
-			}
-		} else {
-			return {};
+		format = ImageFormat::RGBA16161616;
+
+		std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
+		std::span<ImagePixelV2::RGBA16161616> outPixels{reinterpret_cast<ImagePixelV2::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixelV2::RGBA16161616)};
+
+		const auto populateBuffer = [&stbImage, &outPixels]<size_t channels0>() {
+			// yes, ordinary uint16. stb gives us a buffer in host order.
+			std::span<std::array<uint16_t, channels0>> inPixels{reinterpret_cast<std::array<uint16_t, channels0>*>(stbImage.get()), outPixels.size()};
+			SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::transform, std::execution::par_unseq,
+				inPixels.begin(), inPixels.end(), outPixels.begin(), [](std::array<uint16_t, channels0> pixel) -> ImagePixelV2::RGBA16161616 {
+					static_assert(sizeof(pixel) == sizeof(uint16_t) * channels0);
+					uint16_t r = pixel[0], g = 0, b = 0, a = 0xffff;
+
+					if constexpr (channels0 > 1) {
+						g = pixel[1];
+					}
+					if constexpr (channels0 > 2) {
+						b = pixel[2];
+					}
+					if constexpr (channels0 > 3) {
+						a = pixel[3];
+					}
+
+					return ImagePixelV2::RGBA16161616(r, g, b, a);
+				});
+		};
+
+		switch(channels) {
+			case 1:
+				populateBuffer.operator()<1>();
+				return out;
+			case 2:
+				populateBuffer.operator()<2>();
+				return out;
+			case 3:
+				populateBuffer.operator()<3>();
+				return out;
+			case 4:
+				populateBuffer.operator()<4>();
+				return out;
 		}
-		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
+
+		return {};
 	}
 
 	// 8-bit or less single frame image
