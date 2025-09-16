@@ -211,13 +211,10 @@ TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FL
 	EXPECT_##LE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
 } while (0)
 
-#define TEST_READ_EXTFMT(Chan, Rest, Ext) \
+#define TEST_READ_EXTFMT_DETAIL(Chan, Rest, Ext, Mkvtf) \
 	TEST(vtfpp, read_extfmt_##Chan##Rest##_##Ext) { \
 		using PIXFMT = ImagePixelV2::Chan##Rest; \
-		VTF::CreationOptions options { \
-			.outputFormat = VTF::FORMAT_UNCHANGED, \
-		}; \
-		auto vtf = VTF::create(ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext, options); \
+		Mkvtf(ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext); \
 		ASSERT_TRUE(vtf); \
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::Chan##Rest); \
 		EXPECT_EQ(vtf.getWidth(), 32); \
@@ -232,6 +229,18 @@ TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FL
 		} \
 	}
 
+#define GETEXT(Path) \
+	VTF::CreationOptions options { \
+		.outputFormat = VTF::FORMAT_UNCHANGED, \
+	}; \
+	VTF vtf = VTF::create(Path, options)
+
+#define GETVTF(Path) \
+	VTF vtf(Path)
+
+#define TEST_READ_EXTFMT(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(Chan, Rest, Ext, GETEXT)
+#define TEST_READ_EXTFMT_VTF(Chan, Rest) TEST_READ_EXTFMT_DETAIL(Chan, Rest, vtf, GETVTF)
+
 TEST_READ_EXTFMT(RGB,  888,       png)
 TEST_READ_EXTFMT(RGB,  888,       qoi)
 TEST_READ_EXTFMT(RGBA, 16161616,  png)
@@ -240,6 +249,11 @@ TEST_READ_EXTFMT(RGBA, 8888,      png)
 TEST_READ_EXTFMT(RGBA, 8888,      qoi)
 TEST_READ_EXTFMT(RGBA, 8888,      tga)
 TEST_READ_EXTFMT(RGBA, 8888,      webp)
+
+TEST_READ_EXTFMT_VTF(RGB,  888)
+TEST_READ_EXTFMT_VTF(RGBA, 8888)
+TEST_READ_EXTFMT_VTF(RGBA, 16161616)
+TEST_READ_EXTFMT_VTF(RGBA, 32323232F)
 
 #endif
 
