@@ -276,6 +276,23 @@ TEST_READ_EXTFMT_TEX(RGBA, 32323232F)
 	EXTFMT_CASES
 #undef EXTFMT_CASE
 
+#define TEST_WRITE_EXTFMT(Chan, Rest, Ext, To) \
+	TEST(vtfpp, write_extfmt_##Chan##Rest##_##Ext##_to_##To) { \
+		VTF::CreationOptions options { \
+			.outputFormat = ImageFormat::To, \
+		}; \
+		VTF vtf = VTF::create(DEFPATH(Chan, Rest, Ext), options); \
+		ASSERT_TRUE(vtf.bake("write_" #Chan #Rest "_to_" #To ".vtf")); \
+	}
+
+TEST_WRITE_EXTFMT(RGB, 888, png, DXT1)
+TEST_WRITE_EXTFMT(RGB, 888, qoi, DXT1)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, BC7)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, DXT5)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, DXT1_ONE_BIT_ALPHA)
+TEST_WRITE_EXTFMT(RGBA, 16161616, png, DXT5)
+TEST_WRITE_EXTFMT(RGBA, 32323232F, exr, DXT5)
+
 #endif
 
 TEST(vtfpp, write_non_po2) {
