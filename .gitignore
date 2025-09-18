@@ -26,10 +26,6 @@ test/res/
 test/Helpers.h
 
 
-# CWrap
-lang/cwrap/sourcepp.kv
-
-
 # Python
 .mypy_cache/
 .venv/

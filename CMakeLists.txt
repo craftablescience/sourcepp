@@ -72,10 +72,7 @@ if(SOURCEPP_USE_VPKPP)
 endif()
 
 if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
-    # These binding(s) rely on CWrap, CWrap relies on kvpp
-    set(SOURCEPP_USE_KVPP         ON CACHE INTERNAL "" FORCE)
     set(SOURCEPP_BUILD_C_WRAPPERS ON CACHE INTERNAL "" FORCE)
-    include_subdirectory(lang/cwrap)
 endif()
 
 if(MSVC)
@@ -255,17 +252,6 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
             file(INSTALL \${STUB_FILE} DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/\${STUB_DIR}\")
         endforeach()
     ")
-endif()
-
-
-# Generate CWrap-generated bindings
-if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
-    add_custom_target(sourcepp_generate_cwrap_bindings ALL
-            COMMAND sourcepp_cwrap "${CMAKE_CURRENT_SOURCE_DIR}/lang/cwrap/sourcepp.kv"
-            DEPENDS sourcepp_cwrap
-            BYPRODUCTS "${CMAKE_CURRENT_SOURCE_DIR}/lang/cwrap/sourcepp.kv"
-            COMMENT "Generating CWrap bindings"
-            VERBATIM)
 endif()
 
 
