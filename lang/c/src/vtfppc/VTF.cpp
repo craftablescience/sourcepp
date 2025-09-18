@@ -336,22 +336,22 @@ SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeM
 	return Convert::vtf(handle)->setFaceCount(isCubeMap);
 }
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_slice_count(vtfpp_vtf_handle_t handle) {
+SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::vtf(handle)->getSliceCount();
+	return Convert::vtf(handle)->getDepth();
 }
 
-SOURCEPP_API int vtfpp_vtf_set_slice_count(vtfpp_vtf_handle_t handle, uint16_t sliceCount) {
+SOURCEPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::vtf(handle)->setSliceCount(sliceCount);
+	return Convert::vtf(handle)->setDepth(depth);
 }
 
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_slice_count(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t sliceCount) {
+SOURCEPP_API int vtfpp_vtf_set_frame_face_and_depth(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t depth) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::vtf(handle)->setFrameFaceAndSliceCount(frameCount, isCubeMap, sliceCount);
+	return Convert::vtf(handle)->setFrameFaceAndDepth(frameCount, isCubeMap, depth);
 }
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle) {

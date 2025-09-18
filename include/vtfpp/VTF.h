@@ -82,10 +82,17 @@ struct Resource {
 		uint32_t, // CRC, TS0
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
-		HOT, // Hotspot data
-		std::span<sourcepp::bits::ui32le> // AXC
+		HOT // Hotspot data
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
+
+	[[nodiscard]] std::vector<std::byte> getDataAsPalette(uint16_t frame) const {
+		static constexpr auto PALETTE_FRAME_SIZE = 256 * sizeof(ImagePixel::BGRA8888);
+		if (this->data.size() % PALETTE_FRAME_SIZE != 0 || PALETTE_FRAME_SIZE * frame > this->data.size()) {
+			return {};
+		}
+		return {this->data.data() + PALETTE_FRAME_SIZE * frame, this->data.data() + PALETTE_FRAME_SIZE * (frame + 1)};
+	}
 
 	[[nodiscard]] SHT getDataAsParticleSheet() const {
 		return std::get<SHT>(this->convertData());
@@ -112,11 +119,17 @@ struct Resource {
 	}
 
 	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
-		return static_cast<int16_t>(std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[1].operator uint32_t() & 0xffff);
+		if (this->data.size() < sizeof(uint32_t) * 2) {
+			return 0;
+		}
+		return static_cast<int16_t>(BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff);
 	}
 
 	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const {
-		auto method = static_cast<int16_t>((std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[1].operator uint32_t() & 0xffff0000) >> 16);
+		if (this->data.size() < sizeof(uint32_t) * 2) {
+			return CompressionMethod::DEFLATE;
+		}
+		const auto method = static_cast<int16_t>((BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff0000) >> 16);
 		if (method <= 0) {
 			return CompressionMethod::DEFLATE;
 		}
@@ -124,7 +137,10 @@ struct Resource {
 	}
 
 	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
-		return std::get<std::span<sourcepp::bits::ui32le>>(this->convertData())[((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face) + 2];
+		if (this->data.size() < ((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2) * sizeof(uint32_t)) {
+			return 0;
+		}
+		return BufferStream{this->data}.skip<uint32_t>((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2).read<uint32_t>();
 	}
 };
 SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
@@ -241,7 +257,7 @@ public:
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
 		bool isCubeMap = false;
-		uint16_t initialSliceCount = 1;
+		uint16_t initialDepth = 1;
 		bool computeTransparencyFlags = true;
 		bool computeMips = true;
 		bool computeThumbnail = true;
@@ -351,11 +367,11 @@ public:
 
 	bool setFaceCount(bool isCubeMap);
 
-	[[nodiscard]] uint16_t getSliceCount() const;
+	[[nodiscard]] uint16_t getDepth() const;
 
-	bool setSliceCount(uint16_t newSliceCount);
+	bool setDepth(uint16_t newDepth);
 
-	bool setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubeMap, uint16_t newSliceCount = 1);
+	bool setFrameFaceAndDepth(uint16_t newFrameCount, bool isCubeMap, uint16_t newDepth = 1);
 
 	[[nodiscard]] uint16_t getStartFrame() const;
 
@@ -386,6 +402,8 @@ public:
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 
 	[[nodiscard]] const Resource* getResource(Resource::Type type) const;
+
+	[[nodiscard]] std::vector<std::byte> getPaletteResourceFrame(uint16_t frame = 0) const;
 
 	/// This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle
 	[[nodiscard]] std::vector<std::byte> getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds = 0, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
@@ -497,7 +515,7 @@ protected:
 
 	void removeResourceInternal(Resource::Type type);
 
-	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	void regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newDepth, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	bool opened = false;
 
@@ -530,7 +548,7 @@ protected:
 	uint8_t xboxMipScale = 0;
 
 	// 1 for v7.1 and lower
-	uint16_t sliceCount = 1;
+	uint16_t depth = 1;
 
 	// Technically added in v7.3, but we use it to store image and thumbnail data in v7.2 and lower anyway
 	std::vector<Resource> resources;

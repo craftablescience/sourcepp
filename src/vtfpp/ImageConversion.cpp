@@ -925,7 +925,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	return newData;
 }
 
-std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, float quality) {
+std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality) {
 	if (imageData.empty() || oldFormat == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -934,14 +934,14 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 		return {imageData.begin(), imageData.end()};
 	}
 
-	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, sliceCount));
+	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, depth));
 	for(int mip = mipCount - 1; mip >= 0; mip--) {
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int face = 0; face < faceCount; face++) {
-				for (int slice = 0; slice < sliceCount; slice++) {
-					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount)) {
+				for (int slice = 0; slice < depth; slice++) {
+					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
 						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), quality);
-						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, sliceCount) && newLength == convertedImageData.size()) {
+						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth) && newLength == convertedImageData.size()) {
 							std::memcpy(out.data() + newOffset, convertedImageData.data(), newLength);
 						}
 					}

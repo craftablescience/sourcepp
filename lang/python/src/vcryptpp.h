@@ -4,6 +4,7 @@
 #include <nanobind/stl/string_view.h>
 
 namespace py = nanobind;
+using namespace py::literals;
 
 #include <vcryptpp/vcryptpp.h>
 
@@ -24,12 +25,12 @@ inline void register_python(py::module_& m) {
 		VFONT.def("encrypt_bytes", [](const py::bytes& data, uint8_t saltSize = 2) {
 			const auto d = encrypt({static_cast<const std::byte*>(data.data()), data.size()}, saltSize);
 			return py::bytes{d.data(), d.size()};
-		}, py::arg("data"), py::arg("salt_size") = 2);
+		}, "data"_a, "salt_size"_a = 2);
 
 		VFONT.def("decrypt_bytes", [](const py::bytes& data) {
 			const auto d = decrypt({static_cast<const std::byte*>(data.data()), data.size()});
 			return py::bytes{d.data(), d.size()};
-		}, py::arg("data"));
+		}, "data"_a);
 	}
 
 	{
@@ -74,22 +75,22 @@ inline void register_python(py::module_& m) {
 		VICE.def("decrypt_bytes", [](const py::bytes& data, std::string_view code = KnownCodes::DEFAULT) {
 			const auto d = decrypt({static_cast<const std::byte*>(data.data()), data.size()}, code);
 			return py::bytes{d.data(), d.size()};
-		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
+		}, "data"_a, "code"_a = KnownCodes::DEFAULT);
 
 		VICE.def("decrypt_str", [](std::string_view data, std::string_view code = KnownCodes::DEFAULT) -> std::string {
 			const auto d = decrypt({reinterpret_cast<const std::byte*>(data.data()), data.size()}, code);
 			return {reinterpret_cast<const char*>(d.data()), d.size()};
-		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
+		}, "data"_a, "code"_a = KnownCodes::DEFAULT);
 
 		VICE.def("encrypt_bytes", [](const py::bytes& data, std::string_view code = KnownCodes::DEFAULT) {
 			const auto d = encrypt({static_cast<const std::byte*>(data.data()), data.size()}, code);
 			return py::bytes{d.data(), d.size()};
-		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
+		}, "data"_a, "code"_a = KnownCodes::DEFAULT);
 
 		VICE.def("encrypt_str", [](std::string_view data, std::string_view code = KnownCodes::DEFAULT) -> std::string {
 			const auto d = encrypt({reinterpret_cast<const std::byte*>(data.data()), data.size()}, code);
 			return {reinterpret_cast<const char*>(d.data()), d.size()};
-		}, py::arg("data"), py::arg("code") = KnownCodes::DEFAULT);
+		}, "data"_a, "code"_a = KnownCodes::DEFAULT);
 	}
 }
 

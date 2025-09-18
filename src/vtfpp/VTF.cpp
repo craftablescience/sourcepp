@@ -76,20 +76,20 @@ namespace {
 }
 
 template<std::unsigned_integral T, bool ExistingDataIsSwizzled>
-constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t slice) {
+constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t depth) {
 	width *= ImageFormatDetails::bpp(format) / (sizeof(T) * 8);
 	const auto zIndex = [
 		widthL2 = static_cast<int>(math::log2ceil(width)),
 		heightL2 = static_cast<int>(math::log2ceil(height)),
-		sliceL2 = static_cast<int>(math::log2ceil(slice))
+		depthL2 = static_cast<int>(math::log2ceil(depth))
 	](uint32_t x, uint32_t y, uint32_t z) {
 		auto widthL2m = widthL2;
 		auto heightL2m = heightL2;
-		auto sliceL2m = sliceL2;
+		auto depthL2m = depthL2;
 		uint32_t offset = 0;
 		uint32_t shiftCount = 0;
 		do {
-			if (sliceL2m --> 0) {
+			if (depthL2m --> 0) {
 				offset |= (z & 1) << shiftCount++;
 				z >>= 1;
 			}
@@ -109,7 +109,7 @@ constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std:
 	auto* outputPtr = reinterpret_cast<T*>(outputData.data());
 	for (uint16_t x = 0; x < width; x++) {
 		for (uint16_t y = 0; y < height; y++) {
-			for (uint16_t z = 0; z < slice; z++) {
+			for (uint16_t z = 0; z < depth; z++) {
 				if constexpr (ExistingDataIsSwizzled) {
 					*outputPtr++ = reinterpret_cast<const T*>(inputData.data())[zIndex(x, y, z)];
 				} else {
@@ -121,7 +121,7 @@ constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std:
 }
 
 template<bool ConvertingFromSource>
-void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, VTF::Platform platform) {
+void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, VTF::Platform platform) {
 	if (imageData.empty() || format == ImageFormat::EMPTY || platform == VTF::PLATFORM_PC) {
 		return;
 	}
@@ -133,7 +133,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 			case BGRX8888:
 			case UVWQ8888:
 			case UVLX8888: {
-				const auto newData = ImageConversion::convertSeveralImageDataToFormat(imageData, ARGB8888, BGRA8888, mipCount, frameCount, faceCount, width, height, sliceCount);
+				const auto newData = ImageConversion::convertSeveralImageDataToFormat(imageData, ARGB8888, BGRA8888, mipCount, frameCount, faceCount, width, height, depth);
 				std::ranges::copy(newData, imageData.begin());
 				break;
 			}
@@ -163,14 +163,14 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 			for (int frame = 0; frame < frameCount; frame++) {
 				for (int face = 0; face < faceCount; face++) {
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
-						std::span imageDataSpan{imageData.data() + offset, length * sliceCount};
-						std::span outSpan{out.data() + offset, length * sliceCount};
+						std::span imageDataSpan{imageData.data() + offset, length * depth};
+						std::span outSpan{out.data() + offset, length * depth};
 						if (ImageFormatDetails::bpp(format) % 32 == 0) {
-							::swizzleUncompressedImageData<uint32_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+							::swizzleUncompressedImageData<uint32_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, depth);
 						} else if (ImageFormatDetails::bpp(format) % 16 == 0) {
-							::swizzleUncompressedImageData<uint16_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+							::swizzleUncompressedImageData<uint16_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, depth);
 						} else /*if (ImageFormatDetails::bpp(format) % 8 == 0)*/ {
-							::swizzleUncompressedImageData<uint8_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, sliceCount);
+							::swizzleUncompressedImageData<uint8_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, depth);
 						}
 					}
 				}
@@ -181,18 +181,18 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 }
 
 template<bool ConvertingFromDDS>
-[[nodiscard]] std::vector<std::byte> convertBetweenDDSAndVTFMipOrderForXBOX(bool padded, std::span<const std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount, bool& ok) {
+[[nodiscard]] std::vector<std::byte> convertBetweenDDSAndVTFMipOrderForXBOX(bool padded, std::span<const std::byte> imageData, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, bool& ok) {
 	std::vector<std::byte> reorderedImageData;
-	reorderedImageData.resize(ImageFormatDetails::getDataLengthXBOX(padded, format, mipCount, frameCount, faceCount, width, height, sliceCount));
+	reorderedImageData.resize(ImageFormatDetails::getDataLengthXBOX(padded, format, mipCount, frameCount, faceCount, width, height, depth));
 	BufferStream reorderedStream{reorderedImageData};
 
 	if constexpr (ConvertingFromDDS) {
 		for (int i = mipCount - 1; i >= 0; i--) {
 			for (int j = 0; j < frameCount; j++) {
 				for (int k = 0; k < faceCount; k++) {
-					for (int l = 0; l < sliceCount; l++) {
+					for (int l = 0; l < depth; l++) {
 						uint32_t oldOffset, length;
-						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
+						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, depth)) {
 							ok = false;
 							return {};
 						}
@@ -205,9 +205,9 @@ template<bool ConvertingFromDDS>
 		for (int j = 0; j < frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int i = 0; i < mipCount; i++) {
-					for (int l = 0; l < sliceCount; l++) {
+					for (int l = 0; l < depth; l++) {
 						uint32_t oldOffset, length;
-						if (!ImageFormatDetails::getDataPosition(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, sliceCount)) {
+						if (!ImageFormatDetails::getDataPosition(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, depth)) {
 							ok = false;
 							return {};
 						}
@@ -259,11 +259,6 @@ Resource::ConvertedData Resource::convertData() const {
 				return {};
 			}
 			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), deref_as_le<uint32_t>(this->data.data())}};
-		case TYPE_AUX_COMPRESSION:
-			if (this->data.size() <= sizeof(uint32_t) || this->data.size() % sizeof(uint32_t) != 0) {
-				return {};
-			}
-			return std::span{reinterpret_cast<ui32le*>(this->data.data()), this->data.size() / 4};
 		default:
 			break;
 	}
@@ -373,8 +368,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 		}
 		if (lastResource) {
-			auto offset = deref_as_le<uint32_t>(lastResource->data.data());
-			auto curPos = stream.tell();
+			const auto offset = deref_as_le<uint32_t>(lastResource->data.data());
+			const auto curPos = stream.tell();
 			stream.seek(offset);
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
 			stream.seek(static_cast<int64_t>(curPos));
@@ -427,9 +422,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 
 			if (this->version < 2) {
-				this->sliceCount = 1;
+				this->depth = 1;
 			} else {
-				stream.read(this->sliceCount);
+				stream.read(this->depth);
 			}
 
 			if (parseHeaderOnly) {
@@ -451,15 +446,15 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					if (auxResource && imageResource) {
 						if (auxResource->getDataAsAuxCompressionLevel() != 0) {
 							const auto faceCount = this->getFaceCount();
-							std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount));
+							std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth));
 							uint32_t oldOffset = 0;
 							for (int i = this->mipCount - 1; i >= 0; i--) {
 								for (int j = 0; j < this->frameCount; j++) {
 									for (int k = 0; k < faceCount; k++) {
 										uint32_t oldLength = auxResource->getDataAsAuxCompressionLength(i, this->mipCount, j, this->frameCount, k, faceCount);
-										if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getSliceCount())) {
+										if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->getDepth())) {
 											// Keep in mind that slices are compressed together
-											mz_ulong decompressedImageDataSize = newLength * this->sliceCount;
+											mz_ulong decompressedImageDataSize = newLength * this->depth;
 											switch (auxResource->getDataAsAuxCompressionMethod()) {
 												using enum CompressionMethod;
 												case DEFLATE:
@@ -524,7 +519,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					.read(this->flags)
 					.read(this->width)
 					.read(this->height)
-					.read(this->sliceCount)
+					.read(this->depth)
 					.read(this->frameCount)
 					.read(preloadSize)
 					.read(imageOffset)
@@ -542,7 +537,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
-				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
 				postReadTransform();
@@ -565,7 +560,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->resources.push_back({
 						.type = Resource::TYPE_PALETTE_DATA,
 						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixelV2::BGRA8888)),
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixelV2::BGRA8888) * this->frameCount),
 					});
 				}
 
@@ -597,15 +592,15 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					return;
 				}
 
-				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount);
+				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth);
 				std::vector<std::byte> reorderedImageData;
 				if (this->hasImageData()) {
-					reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, ok);
+					reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, ok);
 					if (!ok) {
 						this->opened = false;
 						return;
 					}
-					::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, this->platform);
+					::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, this->platform);
 				}
 
 				// By this point we cannot use spans over data, it will change here
@@ -626,7 +621,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->flags)
 				.read(this->width)
 				.read(this->height)
-				.read(this->sliceCount)
+				.read(this->depth)
 				.read(this->frameCount)
 				.skip<uint16_t>() // preload
 				.skip<uint8_t>() // skip high mip levels
@@ -646,7 +641,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				stream.skip<uint32_t>();
 			}
 
-			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 
 			if (parseHeaderOnly) {
 				this->opened = true;
@@ -675,7 +670,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
 					::swapImageDataEndianForConsole<true>(resource.data, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
 				} else if (resource.type == Resource::TYPE_IMAGE_DATA) {
-					::swapImageDataEndianForConsole<true>(resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+					::swapImageDataEndianForConsole<true>(resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 				} else if (!(resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() >= sizeof(uint32_t)) {
 					BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
 				}
@@ -715,7 +710,7 @@ VTF& VTF::operator=(const VTF& other) {
 	this->fallbackHeight = other.fallbackHeight;
 	this->fallbackMipCount = other.fallbackMipCount;
 	this->xboxMipScale = other.xboxMipScale;
-	this->sliceCount = other.sliceCount;
+	this->depth = other.depth;
 
 	this->resources.clear();
 	for (const auto& [otherType, otherFlags, otherData] : other.resources) {
@@ -744,7 +739,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		for (int i = 1; i < writer.mipCount; i++) {
 			for (int j = 0; j < writer.frameCount; j++) {
 				for (int k = 0; k < writer.getFaceCount(); k++) {
-					for (int l = 0; l < writer.sliceCount; l++) {
+					for (int l = 0; l < writer.depth; l++) {
 						if (options.invertGreenChannel && !writer.setImage(ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i)), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), ImageConversion::ResizeFilter::DEFAULT, i, j, k, l)) {
 							out = false;
 						}
@@ -760,8 +755,8 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.computeReflectivity) {
 		writer.computeReflectivity();
 	}
-	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialSliceCount > 1) {
-		if (!writer.setFrameFaceAndSliceCount(options.initialFrameCount, options.isCubeMap, options.initialSliceCount)) {
+	if (options.initialFrameCount > 1 || options.isCubeMap || options.initialDepth > 1) {
+		if (!writer.setFrameFaceAndDepth(options.initialFrameCount, options.isCubeMap, options.initialDepth)) {
 			out = false;
 		}
 	}
@@ -916,7 +911,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
-		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 		if (this->mipCount != recommendedCount) {
 			this->setMipCount(recommendedCount);
 		}
@@ -941,7 +936,7 @@ void VTF::setVersion(uint32_t newVersion) {
 		if (faceCount == 7 && (newVersion < 1 || newVersion > 4)) {
 			faceCount = 6;
 		}
-		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->sliceCount);
+		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->depth);
 	}
 
 	// Fix up flags
@@ -1014,9 +1009,9 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 				newMipCount = recommendedCount;
 			}
 		} else {
-			newMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight);
+			newMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight, this->depth);
 		}
-		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter);
+		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter);
 	} else {
 		this->format = ImageFormat::RGBA8888;
 		this->mipCount = 1;
@@ -1024,8 +1019,8 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 		this->flags &= ~FLAG_ENVMAP;
 		this->width = newWidth;
 		this->height = newHeight;
-		this->sliceCount = 1;
-		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 1, this->width, this->height, this->sliceCount)));
+		this->depth = 1;
+		this->setResourceInternal(Resource::TYPE_IMAGE_DATA, std::vector<std::byte>(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 1, this->width, this->height, this->depth)));
 	}
 }
 
@@ -1114,9 +1109,9 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		newMipCount = recommendedCount;
 	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
+		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
 	} else {
-		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount, filter, quality);
+		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
 	}
 
 	if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
@@ -1134,14 +1129,14 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		return false;
 	}
 	if (this->platform != PLATFORM_PC && newMipCount > 1) {
-		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height);
+		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 	} else if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
 		newMipCount = recommended;
 		if (newMipCount == 1) {
 			return false;
 		}
 	}
-	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth);
 	return true;
 }
 
@@ -1149,7 +1144,7 @@ bool VTF::setRecommendedMipCount() {
 	if (this->platform == VTF::PLATFORM_PC) {
 		return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
 	}
-	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height));
+	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth));
 }
 
 void VTF::computeMips(ImageConversion::ResizeFilter filter) {
@@ -1169,17 +1164,17 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 	std::vector<std::future<void>> futures;
-	futures.reserve(this->frameCount * faceCount * this->sliceCount);
+	futures.reserve(this->frameCount * faceCount * this->depth);
 #endif
 	for (int j = 0; j < this->frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
-			for (int l = 0; l < this->sliceCount; l++) {
+			for (int l = 0; l < this->depth; l++) {
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 				futures.push_back(std::async(std::launch::async, [this, filter, outputDataPtr, faceCount, j, k, l] {
 #endif
 					for (int i = 1; i < this->mipCount; i++) {
 						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, ImageDimensions::getMipDim(i - 1, this->width), ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i - 1, this->height), ImageDimensions::getMipDim(i, this->height), this->isSRGB(), filter);
-						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->sliceCount) && mip.size() == length) {
+						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->depth) && mip.size() == length) {
 							std::memcpy(outputDataPtr + offset, mip.data(), length);
 						}
 					}
@@ -1210,7 +1205,7 @@ bool VTF::setFrameCount(uint16_t newFrameCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, this->getFaceCount(), this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, this->getFaceCount(), this->depth);
 	return true;
 }
 
@@ -1230,7 +1225,7 @@ uint8_t VTF::getFaceCount() const {
 		// it won't recognize cubemaps as cubemaps because the image resource is compressed!
 		return 6;
 	}
-	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->sliceCount);
+	const auto expectedLength = ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, 6, this->width, this->height, this->depth);
 	if (this->version >= 1 && this->version <= 4 && expectedLength < image->data.size()) {
 		return 7;
 	}
@@ -1244,27 +1239,27 @@ bool VTF::setFaceCount(bool isCubemap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->sliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->depth);
 	return true;
 }
 
-uint16_t VTF::getSliceCount() const {
-	return this->sliceCount;
+uint16_t VTF::getDepth() const {
+	return this->depth;
 }
 
-bool VTF::setSliceCount(uint16_t newSliceCount) {
+bool VTF::setDepth(uint16_t newDepth) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), newSliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), newDepth);
 	return true;
 }
 
-bool VTF::setFrameFaceAndSliceCount(uint16_t newFrameCount, bool isCubemap, uint16_t newSliceCount) {
+bool VTF::setFrameFaceAndDepth(uint16_t newFrameCount, bool isCubemap, uint16_t newDepth) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, newSliceCount);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, newDepth);
 	return true;
 }
 
@@ -1307,14 +1302,14 @@ void VTF::computeReflectivity() {
 	const auto faceCount = this->getFaceCount();
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
-	if (this->frameCount > 1 || faceCount > 1 || this->sliceCount > 1) {
+	if (this->frameCount > 1 || faceCount > 1 || this->depth > 1) {
 		std::vector<std::future<math::Vec3f>> futures;
-		futures.reserve(this->frameCount * faceCount * this->sliceCount);
+		futures.reserve(this->frameCount * faceCount * this->depth);
 
 		this->reflectivity = {};
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
-				for (int l = 0; l < this->sliceCount; l++) {
+				for (int l = 0; l < this->depth; l++) {
 					futures.push_back(std::async(std::launch::async, [this, j, k, l] {
 						return getReflectivityForImage(*this, j, k, l);
 					}));
@@ -1331,7 +1326,7 @@ void VTF::computeReflectivity() {
 		for (auto& future : futures) {
 			this->reflectivity += future.get();
 		}
-		this->reflectivity /= this->frameCount * faceCount * this->sliceCount;
+		this->reflectivity /= this->frameCount * faceCount * this->depth;
 	} else {
 		this->reflectivity = getReflectivityForImage(*this, 0, 0, 0);
 	}
@@ -1339,12 +1334,12 @@ void VTF::computeReflectivity() {
 	this->reflectivity = {};
 	for (int j = 0; j < this->frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
-			for (int l = 0; l < this->sliceCount; l++) {
+			for (int l = 0; l < this->depth; l++) {
 				this->reflectivity += getReflectivityForImage(*this, j, k, l);
 			}
 		}
 	}
-	this->reflectivity /= this->frameCount * faceCount * this->sliceCount;
+	this->reflectivity /= this->frameCount * faceCount * this->depth;
 #endif
 }
 
@@ -1461,16 +1456,16 @@ void VTF::removeResourceInternal(Resource::Type type) {
 	std::erase_if(this->resources, [type](const Resource& resource) { return resource.type == type; });
 }
 
-void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newSliceCount, ImageConversion::ResizeFilter filter, float quality) {
+void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newDepth, ImageConversion::ResizeFilter filter, float quality) {
 	if (!newWidth)      { newWidth      = 1; }
 	if (!newHeight)     { newHeight     = 1; }
 	if (!newMipCount)   { newMipCount   = 1; }
 	if (!newFrameCount) { newFrameCount = 1; }
 	if (!newFaceCount)  { newFaceCount  = 1; }
-	if (!newSliceCount) { newSliceCount = 1; }
+	if (!newDepth)      { newDepth      = 1; }
 
 	const auto faceCount = this->getFaceCount();
-	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
+	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->depth == newDepth) {
 		return;
 	}
 
@@ -1482,21 +1477,21 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 
 	std::vector<std::byte> newImageData;
 	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
-		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->sliceCount == newSliceCount) {
-			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->sliceCount, quality);
+		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->depth == newDepth) {
+			newImageData = ImageConversion::convertSeveralImageDataToFormat(imageResource->data, this->format, newFormat, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, quality);
 		} else {
-			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
+			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newDepth));
 			for (int i = newMipCount - 1; i >= 0; i--) {
 				for (int j = 0; j < newFrameCount; j++) {
 					for (int k = 0; k < newFaceCount; k++) {
-						for (int l = 0; l < newSliceCount; l++) {
-							if (i < this->mipCount && j < this->frameCount && k < faceCount && l < this->sliceCount) {
+						for (int l = 0; l < newDepth; l++) {
+							if (i < this->mipCount && j < this->frameCount && k < faceCount && l < this->depth) {
 								auto imageSpan = this->getImageDataRaw(i, j, k, l);
 								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
 								if (this->width != newWidth || this->height != newHeight) {
 									image = ImageConversion::resizeImageData(image, this->format, ImageDimensions::getMipDim(i, this->width), ImageDimensions::getMipDim(i, newWidth), ImageDimensions::getMipDim(i, this->height), ImageDimensions::getMipDim(i, newHeight), this->isSRGB(), filter);
 								}
-								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newSliceCount) && image.size() == length) {
+								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newDepth) && image.size() == length) {
 									std::memcpy(newImageData.data() + offset, image.data(), length);
 								}
 							}
@@ -1505,11 +1500,11 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 				}
 			}
 			if (this->format != newFormat) {
-				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount, quality);
+				newImageData = ImageConversion::convertSeveralImageDataToFormat(newImageData, this->format, newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newDepth, quality);
 			}
 		}
 	} else {
-		newImageData.resize(ImageFormatDetails::getDataLength(newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newSliceCount));
+		newImageData.resize(ImageFormatDetails::getDataLength(newFormat, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newDepth));
 	}
 
 	this->format = newFormat;
@@ -1522,14 +1517,30 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	} else {
 		this->flags &= ~FLAG_ENVMAP;
 	}
-	this->sliceCount = newSliceCount;
+	this->depth = newDepth;
 
 	this->setResourceInternal(Resource::TYPE_IMAGE_DATA, newImageData);
 
+	// Fix up XBOX resources that depend on image resource
+	if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+		const auto targetSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
+		if (palette->data.size() != targetSize) {
+			std::vector<std::byte> paletteData{palette->data.begin(), palette->data.end()};
+			paletteData.resize(targetSize);
+			this->setResourceInternal(Resource::TYPE_PALETTE_DATA, paletteData);
+		}
+	}
 	if (this->hasFallbackData()) {
 		this->removeFallback();
 		this->computeFallback();
 	}
+}
+
+std::vector<std::byte> VTF::getPaletteResourceFrame(uint16_t frame) const {
+	if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+		return palette->getDataAsPalette(frame);
+	}
+	return {};
 }
 
 std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, uint16_t& spriteHeight, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
@@ -1683,7 +1694,7 @@ bool VTF::hasImageData() const {
 
 std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
 	if (const auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->sliceCount)) {
+		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->depth)) {
 			return imageResource->data.subspan(offset, length);
 		}
 	}
@@ -1696,8 +1707,8 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 		return {};
 	}
 	if (this->format == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
+		if (const auto paletteData = this->getPaletteResourceFrame(frame); !paletteData.empty()) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(paletteData, rawImageData), ImageFormat::BGRA8888, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
 		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height));
@@ -1729,7 +1740,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	}
 
 	const auto faceCount = this->getFaceCount();
-	if (this->mipCount <= mip || this->frameCount <= frame || faceCount <= face || this->sliceCount <= slice) {
+	if (this->mipCount <= mip || this->frameCount <= frame || faceCount <= face || this->depth <= slice) {
 		return false;
 	}
 
@@ -1737,7 +1748,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	if (!imageResource) {
 		return false;
 	}
-	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->sliceCount)) {
+	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->depth)) {
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
 		const auto newWidth = ImageDimensions::getMipDim(mip, this->width);
 		const auto newHeight = ImageDimensions::getMipDim(mip, this->height);
@@ -1808,11 +1819,6 @@ std::vector<std::byte> VTF::getThumbnailDataAs(ImageFormat newFormat) const {
 	const auto rawThumbnailData = this->getThumbnailDataRaw();
 	if (rawThumbnailData.empty()) {
 		return {};
-	}
-	if (this->thumbnailFormat == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawThumbnailData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
-		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawThumbnailData, this->thumbnailFormat, newFormat, this->thumbnailWidth, this->thumbnailHeight);
 }
@@ -1900,8 +1906,8 @@ std::vector<std::byte> VTF::getFallbackDataAs(ImageFormat newFormat, uint8_t mip
 		return {};
 	}
 	if (this->format == ImageFormat::P8) {
-		if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(palette->data, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
+		if (const auto paletteData = this->getPaletteResourceFrame(frame); !paletteData.empty()) {
+			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(paletteData, rawFallbackData), ImageFormat::BGRA8888, newFormat, this->fallbackWidth, this->fallbackHeight);
 		}
 	}
 	return ImageConversion::convertImageDataToFormat(rawFallbackData, this->format, newFormat, this->fallbackWidth, this->fallbackHeight);
@@ -2027,7 +2033,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->thumbnailHeight);
 
 			if (this->version >= 2) {
-				writer << this->sliceCount;
+				writer << this->depth;
 			}
 
 			if (this->version < 3) {
@@ -2064,8 +2070,8 @@ std::vector<std::byte> VTF::bake() const {
 						for (int i = this->mipCount - 1; i >= 0; i--) {
 							for (int j = 0; j < this->frameCount; j++) {
 								for (int k = 0; k < faceCount; k++) {
-									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->sliceCount)) {
-										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->sliceCount}, this->compressionLevel, this->compressionMethod);
+									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->depth)) {
+										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->depth}, this->compressionLevel, this->compressionMethod);
 										compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 										auxWriter.write<uint32_t>(compressedData.size());
 									}
@@ -2112,7 +2118,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->flags)
 				.write(this->width)
 				.write(this->height)
-				.write(this->sliceCount)
+				.write(this->depth)
 				.write(this->frameCount);
 			const auto preloadSizePos = writer.tell();
 			writer.write<uint16_t>(0);
@@ -2168,9 +2174,9 @@ std::vector<std::byte> VTF::bake() const {
 
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
 				bool ok;
-				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, ok);
+				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, ok);
 				if (ok) {
-					::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+					::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 					writer.write(reorderedImageData);
 				} else {
 					writer.pad(imageResource->data.size());
@@ -2198,7 +2204,7 @@ std::vector<std::byte> VTF::bake() const {
 			// Go down until top level texture is <1mb, matches makegamedata.exe output
 			uint8_t mipSkip = 0;
 			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
-				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->sliceCount)) < 1024 * 1024) {
+				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->depth)) < 1024 * 1024) {
 					break;
 				}
 			}
@@ -2209,7 +2215,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(bakeFlags)
 				.write(this->width)
 				.write(this->height)
-				.write(this->sliceCount)
+				.write(this->depth)
 				.write(this->frameCount);
 			const auto preloadPos = writer.tell();
 			writer
@@ -2239,7 +2245,7 @@ std::vector<std::byte> VTF::bake() const {
 			bool hasCompression = false;
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 				imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
-				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->sliceCount, this->platform);
+				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 
 				if (this->platform != PLATFORM_PS3_ORANGEBOX) {
 					hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA;

@@ -95,7 +95,7 @@ VTF::CreationOptions Convert::vtfCreationOptions(vtfpp_vtf_creation_options_t op
 		.initialFrameCount = options.initialFrameCount,
 		.startFrame = options.startFrame,
 		.isCubeMap = static_cast<bool>(options.isCubeMap),
-		.initialSliceCount = options.initialSliceCount,
+		.initialDepth = options.initialDepth,
 		.computeTransparencyFlags = static_cast<bool>(options.computeTransparencyFlags),
 		.computeMips = static_cast<bool>(options.computeMips),
 		.computeThumbnail = static_cast<bool>(options.computeThumbnail),

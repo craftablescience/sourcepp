@@ -176,6 +176,10 @@ std::optional<Entry> PackFile::findEntry(const std::string& path_, bool includeU
 	return std::nullopt;
 }
 
+std::optional<std::vector<std::byte>> PackFile::operator[](const std::string& path_) const {
+	return this->readEntry(path_);
+}
+
 std::optional<std::string> PackFile::readEntryText(const std::string& path) const {
 	const auto bytes = this->readEntry(path);
 	if (!bytes) {
@@ -223,13 +227,8 @@ void PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer
 	this->unbakedEntries.emplace(path_, entry);
 }
 
-void PackFile::addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options) {
-	std::vector<std::byte> data;
-	if (buffer && bufferLen > 0) {
-		data.resize(bufferLen);
-		std::memcpy(data.data(), buffer, bufferLen);
-	}
-	this->addEntry(path, std::move(data), options);
+void PackFile::addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options) {
+	this->addEntry(path, std::vector<std::byte>{buffer.begin(), buffer.end()}, options);
 }
 
 void PackFile::addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options) {

@@ -3,6 +3,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
+#include <span>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -103,6 +104,8 @@ public:
 	/// Try to read the entry's data to a bytebuffer
 	[[nodiscard]] virtual std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const = 0;
 
+	[[nodiscard]] std::optional<std::vector<std::byte>> operator[](const std::string& path_) const;
+
 	/// Try to read the entry's data to a string
 	[[nodiscard]] std::optional<std::string> readEntryText(const std::string& path) const;
 
@@ -117,7 +120,7 @@ public:
 	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, const std::byte* buffer, uint64_t bufferLen, EntryOptions options = {});
+	void addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options = {});
 
 	/// Adds new entries using the contents of a given directory
 	void addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});

@@ -61,7 +61,7 @@ TEST(vtfpp, read_write_ttx) {
 		EXPECT_EQ(vtf.getMipCount(), 11);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
 		EXPECT_EQ(vtf.getFaceCount(), 1);
-		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getDepth(), 1);
 		EXPECT_EQ(vtf.getStartFrame(), 0);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.20940751f);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21449225f);
@@ -104,7 +104,7 @@ TEST(vtfpp, read_write_ttx) {
 		EXPECT_EQ(vtf.getMipCount(), 11);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
 		EXPECT_EQ(vtf.getFaceCount(), 1);
-		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getDepth(), 1);
 		EXPECT_EQ(vtf.getStartFrame(), 0);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.20940751f);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21449225f);
@@ -141,7 +141,7 @@ TEST(vtfpp, read_ttx_no_ttz) {
 	EXPECT_EQ(vtf.getMipCount(), 5);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), static_cast<uint16_t>(-1));
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.32940885f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.21175662f);
@@ -164,7 +164,7 @@ TEST(vtfpp, read_ttx_no_ttz) {
 			EXPECT_EQ(vtf.getFormat(), ImageFormat::Format); \
 			const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA); \
 			ASSERT_TRUE(image); \
-			EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount())); \
+			EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth())); \
 			fs::writeFileBuffer("fmt_" #Format ".png", vtf.saveImageToFile(0, 0, 0, 0, ImageConversion::FileFormat::PNG)); \
 		}
 
@@ -311,7 +311,7 @@ TEST(vtfpp, write_non_po2) {
 	EXPECT_EQ(vtf.getMipCount(), 2);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.10727221f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.06730457f);
@@ -335,7 +335,7 @@ TEST(vtfpp, read_v70) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -356,7 +356,7 @@ TEST(vtfpp, read_v70) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, write_v70) {
@@ -374,7 +374,7 @@ TEST(vtfpp, write_v70) {
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.76578784f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.67778563f);
@@ -398,7 +398,7 @@ TEST(vtfpp, read_v70_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -419,7 +419,7 @@ TEST(vtfpp, read_v70_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v70_nothumb) {
@@ -435,7 +435,7 @@ TEST(vtfpp, read_v70_nothumb) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -454,7 +454,7 @@ TEST(vtfpp, read_v70_nothumb) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v70_nothumb_nomip) {
@@ -470,7 +470,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -489,7 +489,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v71) {
@@ -505,7 +505,7 @@ TEST(vtfpp, read_v71) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -526,7 +526,7 @@ TEST(vtfpp, read_v71) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, write_v71) {
@@ -544,7 +544,7 @@ TEST(vtfpp, write_v71) {
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.76578784f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.67778563f);
@@ -568,7 +568,7 @@ TEST(vtfpp, read_v71_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -589,7 +589,7 @@ TEST(vtfpp, read_v71_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v71_nothumb) {
@@ -605,7 +605,7 @@ TEST(vtfpp, read_v71_nothumb) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -624,7 +624,7 @@ TEST(vtfpp, read_v71_nothumb) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v71_nothumb_nomip) {
@@ -640,7 +640,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -659,7 +659,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v72) {
@@ -675,7 +675,7 @@ TEST(vtfpp, read_v72) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -696,7 +696,7 @@ TEST(vtfpp, read_v72) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, write_v72) {
@@ -714,7 +714,7 @@ TEST(vtfpp, write_v72) {
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.76578784f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.67778563f);
@@ -738,7 +738,7 @@ TEST(vtfpp, read_v72_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -759,7 +759,7 @@ TEST(vtfpp, read_v72_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v72_nothumb) {
@@ -775,7 +775,7 @@ TEST(vtfpp, read_v72_nothumb) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -794,7 +794,7 @@ TEST(vtfpp, read_v72_nothumb) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v72_nothumb_nomip) {
@@ -810,7 +810,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -829,7 +829,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v75) {
@@ -845,7 +845,7 @@ TEST(vtfpp, read_v75) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -866,7 +866,7 @@ TEST(vtfpp, read_v75) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 
 	const auto* lodControlInfo = vtf.getResource(Resource::TYPE_LOD_CONTROL_INFO);
 	ASSERT_TRUE(lodControlInfo);
@@ -899,7 +899,7 @@ TEST(vtfpp, write_v75) {
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.76578784f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.67778563f);
@@ -923,7 +923,7 @@ TEST(vtfpp, read_v75_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -944,7 +944,7 @@ TEST(vtfpp, read_v75_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v75_nothumb) {
@@ -960,7 +960,7 @@ TEST(vtfpp, read_v75_nothumb) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -979,7 +979,7 @@ TEST(vtfpp, read_v75_nothumb) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v75_nothumb_nomip) {
@@ -995,7 +995,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -1014,7 +1014,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox) {
@@ -1031,7 +1031,7 @@ TEST(vtfpp, read_xbox) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.27086672f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.26922473f);
@@ -1059,7 +1059,7 @@ TEST(vtfpp, read_xbox) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox_animated) {
@@ -1076,7 +1076,7 @@ TEST(vtfpp, read_xbox_animated) {
 	EXPECT_EQ(vtf.getMipCount(), 8);
 	EXPECT_EQ(vtf.getFrameCount(),	104);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.21408364f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.2140833f);
@@ -1104,7 +1104,7 @@ TEST(vtfpp, read_xbox_animated) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox_envmap) {
@@ -1121,7 +1121,7 @@ TEST(vtfpp, read_xbox_envmap) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
 	EXPECT_EQ(vtf.getFaceCount(), 6);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.034028269f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.020980936f);
@@ -1144,7 +1144,7 @@ TEST(vtfpp, read_xbox_envmap) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox_missing_no_mip_flag) {
@@ -1161,7 +1161,7 @@ TEST(vtfpp, read_xbox_missing_no_mip_flag) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.00047894727f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.0032725455f);
@@ -1189,7 +1189,7 @@ TEST(vtfpp, read_xbox_missing_no_mip_flag) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox_no_fallback) {
@@ -1206,7 +1206,7 @@ TEST(vtfpp, read_xbox_no_fallback) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.38589939f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.38589939f);
@@ -1229,7 +1229,7 @@ TEST(vtfpp, read_xbox_no_fallback) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_xbox_p8) {
@@ -1246,7 +1246,7 @@ TEST(vtfpp, read_xbox_p8) {
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.068392977f);
@@ -1269,7 +1269,7 @@ TEST(vtfpp, read_xbox_p8) {
 	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
 	ASSERT_TRUE(palette);
 	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888));
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888) * vtf.getFrameCount());
 
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
@@ -1279,7 +1279,57 @@ TEST(vtfpp, read_xbox_p8) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
+}
+
+TEST(vtfpp, read_xbox_broken) {
+	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/p8_animated.xtf")};
+	ASSERT_TRUE(vtf);
+
+	// Header
+	EXPECT_EQ(vtf.getPlatform(), VTF::PLATFORM_XBOX);
+	EXPECT_EQ(vtf.getVersion(), 2);
+	EXPECT_EQ(vtf.getWidth(), 128);
+	EXPECT_EQ(vtf.getHeight(), 256);
+	EXPECT_EQ(vtf.getFlags(), /*NOCOMPRESS*/ (1 << 6) | /*NICE filtered*/ (1 << 24) | /*Prefiltered*/ (1 << 26) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::P8);
+	EXPECT_EQ(vtf.getMipCount(), 9);
+	EXPECT_EQ(vtf.getFrameCount(),	3);
+	EXPECT_EQ(vtf.getFaceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
+	EXPECT_EQ(vtf.getStartFrame(), 0);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.19805703f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.22712837f);
+	EXPECT_FLOAT_EQ(vtf.getReflectivity()[2], 0.25731158f);
+	EXPECT_FLOAT_EQ(vtf.getBumpMapScale(), 1.f);
+	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::RGB888);
+	EXPECT_EQ(vtf.getThumbnailWidth(), 1);
+	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
+	EXPECT_EQ(vtf.getFallbackWidth(), 4);
+	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+
+	// Resources
+	EXPECT_EQ(vtf.getResources().size(), 4);
+
+	const auto* thumbnail = vtf.getResource(Resource::TYPE_THUMBNAIL_DATA);
+	ASSERT_TRUE(thumbnail);
+	EXPECT_EQ(thumbnail->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(thumbnail->data.size(), ImageFormatDetails::getDataLength(vtf.getThumbnailFormat(), vtf.getThumbnailWidth(), vtf.getThumbnailHeight()));
+
+	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
+	ASSERT_TRUE(palette);
+	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888) * vtf.getFrameCount());
+
+	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
+	ASSERT_TRUE(fallback);
+	EXPECT_EQ(fallback->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(fallback->data.size(), ImageFormatDetails::getDataLengthXBOX(false, vtf.getFormat(), vtf.getFallbackMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getFallbackWidth(), vtf.getFallbackHeight()));
+
+	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
+	ASSERT_TRUE(image);
+	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_ps3_orangebox) {
@@ -1296,7 +1346,7 @@ TEST(vtfpp, read_ps3_orangebox) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.037193343f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.020529008f);
@@ -1312,7 +1362,7 @@ TEST(vtfpp, read_ps3_orangebox) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_ps3_orangebox_swizzled) {
@@ -1329,7 +1379,7 @@ TEST(vtfpp, read_ps3_orangebox_swizzled) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.25142393f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.24672441f);
@@ -1345,7 +1395,7 @@ TEST(vtfpp, read_ps3_orangebox_swizzled) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_ps3_portal2) {
@@ -1363,7 +1413,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		EXPECT_EQ(vtf.getMipCount(), 10);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
 		EXPECT_EQ(vtf.getFaceCount(), 1);
-		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getDepth(), 1);
 		EXPECT_EQ(vtf.getStartFrame(), 0);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.050660271f);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.050561361f);
@@ -1379,7 +1429,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 		ASSERT_TRUE(image);
 		EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-		EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+		EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 	}
 	{
 		VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/ps3_portal2/elevator_screen_normal.ps3.vtf")};
@@ -1395,7 +1445,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		EXPECT_EQ(vtf.getMipCount(), 10);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
 		EXPECT_EQ(vtf.getFaceCount(), 1);
-		EXPECT_EQ(vtf.getSliceCount(), 1);
+		EXPECT_EQ(vtf.getDepth(), 1);
 		EXPECT_EQ(vtf.getStartFrame(), 0);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.42064965f);
 		EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.45285019f);
@@ -1411,7 +1461,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 		ASSERT_TRUE(image);
 		EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-		EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+		EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 	}
 }
 
@@ -1429,7 +1479,7 @@ TEST(vtfpp, read_x360) {
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.0389036387f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.0300185774f);
@@ -1445,7 +1495,7 @@ TEST(vtfpp, read_x360) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, read_v76_c9) {
@@ -1461,7 +1511,7 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -1484,7 +1534,7 @@ TEST(vtfpp, read_v76_c9) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
 TEST(vtfpp, write_v76_c6) {
@@ -1503,7 +1553,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.76578784f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.67778563f);
@@ -1529,7 +1579,7 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
-	EXPECT_EQ(vtf.getSliceCount(), 1);
+	EXPECT_EQ(vtf.getDepth(), 1);
 	EXPECT_EQ(vtf.getStartFrame(), 0);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[0], 0.14816631f);
 	EXPECT_FLOAT_EQ(vtf.getReflectivity()[1], 0.03145336f);
@@ -1552,5 +1602,5 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	const auto* image = vtf.getResource(Resource::TYPE_IMAGE_DATA);
 	ASSERT_TRUE(image);
 	EXPECT_EQ(image->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getSliceCount()));
+	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }

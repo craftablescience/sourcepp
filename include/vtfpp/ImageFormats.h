@@ -648,7 +648,7 @@ namespace ImageFormatDetails {
 namespace ImageDimensions {
 
 [[nodiscard]] constexpr uint32_t getMipDim(uint8_t mip, uint16_t dim) {
-	for (int i = 0; i < mip; i++) {
+	for (int i = 0; i < mip && dim > 1; i++) {
 		dim /= 2;
 	}
 	return dim;
@@ -682,13 +682,13 @@ namespace ImageDimensions {
 	return maxMipCount;
 }
 
-[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height) {
-	if (width == 0 || height == 0) {
+[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height, uint16_t depth = 1) {
+	if (width == 0 || height == 0 || depth == 0) {
 		return 0;
 	}
 	uint8_t numMipLevels = 1;
 	while (true) {
-		if (width == 1 && height == 1) {
+		if (width == 1 && height == 1 && depth == 1) {
 			break;
 		}
 		width >>= 1;
@@ -699,6 +699,10 @@ namespace ImageDimensions {
 		if (height < 1) {
 			height = 1;
 		}
+		depth >>= 1;
+		if (depth < 1) {
+			depth = 1;
+		}
 		numMipLevels += 1;
 	}
 	return numMipLevels;
@@ -708,7 +712,7 @@ namespace ImageDimensions {
 
 namespace ImageFormatDetails {
 
-[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	switch(format) {
 		using enum ImageFormat;
 		case DXT3:
@@ -719,27 +723,27 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
-			return ((((width + 3) / 4) < 1) ? 1 : ((width + 3) / 4)) * ((((height + 3) / 4) < 1) ? 1 : ((height + 3) / 4)) * sliceCount * bpp(format) * 2;
+			return ((((width + 3) / 4) < 1) ? 1 : ((width + 3) / 4)) * ((((height + 3) / 4) < 1) ? 1 : ((height + 3) / 4)) * depth * bpp(format) * 2;
 		default:
 			break;
 	}
-	return width * height * sliceCount * (bpp(format) / 8);
+	return width * height * depth * (bpp(format) / 8);
 }
 
-[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	uint32_t length = 0;
 	for (int mip = mipCount - 1; mip >= 0; mip--) {
-		length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), sliceCount) * frameCount * faceCount;
+		length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), depth) * frameCount * faceCount;
 	}
 	return length;
 }
 
 // XTF (PLATFORM_XBOX) has padding between frames to align each one to 512 bytes
-[[nodiscard]] constexpr uint32_t getDataLengthXBOX(bool padded, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr uint32_t getDataLengthXBOX(bool padded, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	uint32_t length = 0;
 	for (int j = 0; j < frameCount; j++) {
 		for (int i = 0; i < mipCount; i++) {
-			length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height), sliceCount) * faceCount;
+			length += ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height), depth) * faceCount;
 		}
 		if (padded && j + 1 != frameCount && length > 512) {
 			length += sourcepp::math::paddingForAlignment(512, length);
@@ -748,13 +752,13 @@ namespace ImageFormatDetails {
 	return length;
 }
 
-[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
 	offset = 0;
 	length = 0;
 	for (int i = mipCount - 1; i >= 0; i--) {
 		for (int j = 0; j < frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
-				for (int l = 0; l < sliceCount; l++) {
+				for (int l = 0; l < depth; l++) {
 					const auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
 					if (i == mip && j == frame && k == face && l == slice) {
 						length = imageSize;
@@ -769,13 +773,13 @@ namespace ImageFormatDetails {
 }
 
 // XTF (PLATFORM_XBOX) is more like DDS layout
-[[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t sliceCount = 1) {
+[[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
 	offset = 0;
 	length = 0;
 	for (int j = 0; j < frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
 			for (int i = 0; i < mipCount; i++) {
-				for (int l = 0; l < sliceCount; l++) {
+				for (int l = 0; l < depth; l++) {
 					const auto imageSize = ImageFormatDetails::getDataLength(format, ImageDimensions::getMipDim(i, width), ImageDimensions::getMipDim(i, height));
 					if (i == mip && j == frame && k == face && l == slice) {
 						length = imageSize;
