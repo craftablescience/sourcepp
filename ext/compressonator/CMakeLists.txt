@@ -28,12 +28,12 @@ function(target_link_compressonator TARGET)
         target_link_libraries(${TARGET} PRIVATE
                 "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCompressonator$<$<CONFIG:Debug>:d>.a"
                 "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core$<$<CONFIG:Debug>:d>.a")
-    if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
-        target_link_libraries(${TARGET} PRIVATE
-                "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_AVX$<$<CONFIG:Debug>:d>.a"
-                "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_AVX512$<$<CONFIG:Debug>:d>.a"
-            "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_SSE$<$<CONFIG:Debug>:d>.a")
-    endif()
+        if(CMAKE_SYSTEM_PROCESSOR MATCHES "x86_64")
+            target_link_libraries(${TARGET} PRIVATE
+                    "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_AVX$<$<CONFIG:Debug>:d>.a"
+                    "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_AVX512$<$<CONFIG:Debug>:d>.a"
+                    "${COMPRESSONATOR_DIR}/lib/linux_${CMAKE_SYSTEM_PROCESSOR}/libCMP_Core_SSE$<$<CONFIG:Debug>:d>.a")
+        endif()
     else()
         message(FATAL_ERROR "Unable to link to Compressonator library!")
     endif()
