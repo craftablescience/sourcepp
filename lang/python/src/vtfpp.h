@@ -479,7 +479,7 @@ inline void register_python(py::module_& m) {
 		.value("V5_PWL_CORRECTED",                                VTF::FLAG_V5_PWL_CORRECTED)
 		.value("V5_SRGB",                                         VTF::FLAG_V5_SRGB)
 		.value("V5_DEFAULT_POOL",                                 VTF::FLAG_V5_DEFAULT_POOL)
-		.value("V5_LOAD_MOST_MIPS",                               VTF::FLAG_V5_LOAD_MOST_MIPS)
+		.value("V5_MOST_MIPS",                                    VTF::FLAG_V5_MOST_MIPS)
 		.value("MASK_V5",                                         VTF::FLAG_MASK_V5)
 		.value("V5_CSGO_COMBINED",                                VTF::FLAG_V5_CSGO_COMBINED)
 		.value("V5_CSGO_ASYNC_DOWNLOAD",                          VTF::FLAG_V5_CSGO_ASYNC_DOWNLOAD)
