@@ -55,7 +55,7 @@ var classvtfpp_1_1VTF =
       [ "FLAG_V5_PWL_CORRECTED", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad2fa7c4ceb680407a00c062f11bba2f2", null ],
       [ "FLAG_V5_SRGB", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa898ab5fa8d20e78c52cb1ebbddab5e89", null ],
       [ "FLAG_V5_DEFAULT_POOL", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa29cd42be4fd77b29a652e56450e5d8ed", null ],
-      [ "FLAG_V5_LOAD_MOST_MIPS", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aac8209cc3997c26edbbd165231540ce45", null ],
+      [ "FLAG_V5_MOST_MIPS", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa1e7fa135fdf81bf4d78203138b056f96", null ],
       [ "FLAG_MASK_V5", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa02211a60f55e80353007a3e7aa3e1ddb", null ],
       [ "FLAG_V5_CSGO_COMBINED", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa35e7916a7288c1a44be20f7c549edd85", null ],
       [ "FLAG_V5_CSGO_ASYNC_DOWNLOAD", "d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaaafdc9c037abdea3b167c3a8c90d7c26", null ],
