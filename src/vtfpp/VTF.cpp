@@ -381,7 +381,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		// Change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it.
 		// No source game recognizes this format, so we will do additional transform in bake back to DXT1.
 		// We also need to check MULTI_BIT_ALPHA flag because stupid third party tools will sometimes set it???
-		if (this->format == ImageFormat::DXT1 && this->flags & (FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA)) {
+		if (this->format == ImageFormat::DXT1 && this->flags & (FLAG_V0_ONE_BIT_ALPHA | FLAG_V0_MULTI_BIT_ALPHA)) {
 			this->format = ImageFormat::DXT1_ONE_BIT_ALPHA;
 		}
 		// If the version is below 7.5, NV_NULL / ATI2N / ATI1N are at different positions in the enum.
@@ -537,13 +537,13 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
-				this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
-				this->fallbackMipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+				this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
+				this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
 				postReadTransform();
 
 				// Can't use VTF::getFaceCount yet because there's no image data
-				const auto faceCount = (this->flags & FLAG_ENVMAP) ? 6 : 1;
+				const auto faceCount = (this->flags & FLAG_V0_ENVMAP) ? 6 : 1;
 
 				if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
 					this->thumbnailFormat = ImageFormat::EMPTY;
@@ -577,7 +577,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 						}
 						this->fallbackMipCount = 1;
 						this->mipCount = 1;
-						this->flags |= VTF::FLAG_NO_MIP;
+						this->flags |= FLAG_V0_NO_MIP;
 					}
 					reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
 					if (!ok) {
@@ -641,7 +641,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				stream.skip<uint32_t>();
 			}
 
-			this->mipCount = (this->flags & FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
+			this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 
 			if (parseHeaderOnly) {
 				this->opened = true;
@@ -879,7 +879,7 @@ void VTF::setPlatform(Platform newPlatform) {
 
 	// Update flags
 	if (this->platform == PLATFORM_XBOX || newPlatform == PLATFORM_XBOX) {
-		this->removeFlags(VTF::FLAGS_MASK_XBOX);
+		this->removeFlags(FLAG_MASK_XBOX);
 	}
 
 	// XBOX stores thumbnail as single RGB888 pixel, but we assume thumbnail is DXT1 on other platforms
@@ -911,7 +911,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
-		const auto recommendedCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
+		const auto recommendedCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
 		if (this->mipCount != recommendedCount) {
 			this->setMipCount(recommendedCount);
 		}
@@ -941,19 +941,22 @@ void VTF::setVersion(uint32_t newVersion) {
 
 	// Fix up flags
 	const bool srgb = this->isSRGB();
+	if ((this->version < 1 && newVersion >= 1) || (this->version >= 1 && newVersion < 1)) {
+		this->removeFlags(FLAG_MASK_V1);
+	}
 	if ((this->version < 2 && newVersion >= 2) || (this->version >= 2 && newVersion < 2)) {
-		this->removeFlags(VTF::FLAGS_MASK_V2);
+		this->removeFlags(FLAG_MASK_V2);
 	}
 	if ((this->version < 3 && newVersion >= 3) || (this->version >= 3 && newVersion < 3)) {
-		this->removeFlags(VTF::FLAGS_MASK_V3);
+		this->removeFlags(FLAG_MASK_V3);
 	}
 	if ((this->version < 4 && newVersion >= 4) || (this->version >= 4 && newVersion < 4)) {
-		this->removeFlags(VTF::FLAGS_MASK_V4);
-		this->removeFlags(VTF::FLAGS_MASK_V4_TF2);
+		this->removeFlags(FLAG_MASK_V4);
+		this->removeFlags(FLAG_MASK_V4_TF2);
 	}
 	if ((this->version < 5 && newVersion >= 5) || (this->version >= 5 && newVersion < 5)) {
-		this->removeFlags(VTF::FLAGS_MASK_V5);
-		this->removeFlags(VTF::FLAGS_MASK_V5_CSGO);
+		this->removeFlags(FLAG_MASK_V5);
+		this->removeFlags(FLAG_MASK_V5_CSGO);
 	}
 	this->setSRGB(srgb);
 
@@ -1004,19 +1007,19 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 			return;
 		}
 		auto newMipCount = this->mipCount;
-		if (this->platform == VTF::PLATFORM_PC) {
+		if (this->platform == PLATFORM_PC) {
 			if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
 				newMipCount = recommendedCount;
 			}
 		} else {
-			newMipCount = (this->flags & VTF::FLAG_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight, this->depth);
+			newMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight, this->depth);
 		}
 		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter);
 	} else {
 		this->format = ImageFormat::RGBA8888;
 		this->mipCount = 1;
 		this->frameCount = 1;
-		this->flags &= ~FLAG_ENVMAP;
+		this->flags &= ~FLAG_V0_ENVMAP;
 		this->width = newWidth;
 		this->height = newHeight;
 		this->depth = 1;
@@ -1029,15 +1032,15 @@ uint32_t VTF::getFlags() const {
 }
 
 void VTF::setFlags(uint32_t flags_) {
-	this->flags = (this->flags & FLAGS_MASK_INTERNAL) | (flags_ & ~FLAGS_MASK_INTERNAL);
+	this->flags = (this->flags & FLAG_MASK_INTERNAL) | (flags_ & ~FLAG_MASK_INTERNAL);
 }
 
 void VTF::addFlags(uint32_t flags_) {
-	this->flags |= flags_ & ~FLAGS_MASK_INTERNAL;
+	this->flags |= flags_ & ~FLAG_MASK_INTERNAL;
 }
 
 void VTF::removeFlags(uint32_t flags_) {
-	this->flags &= ~flags_ | FLAGS_MASK_INTERNAL;
+	this->flags &= ~flags_ | FLAG_MASK_INTERNAL;
 }
 
 bool VTF::isSRGB() const {
@@ -1063,15 +1066,15 @@ void VTF::setSRGB(bool srgb) {
 void VTF::computeTransparencyFlags() {
 	if (ImageFormatDetails::transparent(this->format)) {
 		if (ImageFormatDetails::decompressedAlpha(this->format) > 1) {
-			this->flags &= ~VTF::FLAG_ONE_BIT_ALPHA;
-			this->flags |= VTF::FLAG_MULTI_BIT_ALPHA;
+			this->flags &= ~FLAG_V0_ONE_BIT_ALPHA;
+			this->flags |= FLAG_V0_MULTI_BIT_ALPHA;
 		} else {
-			this->flags |= VTF::FLAG_ONE_BIT_ALPHA;
-			this->flags &= ~VTF::FLAG_MULTI_BIT_ALPHA;
+			this->flags |= FLAG_V0_ONE_BIT_ALPHA;
+			this->flags &= ~FLAG_V0_MULTI_BIT_ALPHA;
 		}
 	} else {
-		this->flags &= ~VTF::FLAG_ONE_BIT_ALPHA;
-		this->flags &= ~VTF::FLAG_MULTI_BIT_ALPHA;
+		this->flags &= ~FLAG_V0_ONE_BIT_ALPHA;
+		this->flags &= ~FLAG_V0_MULTI_BIT_ALPHA;
 	}
 }
 
@@ -1141,7 +1144,7 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 }
 
 bool VTF::setRecommendedMipCount() {
-	if (this->platform == VTF::PLATFORM_PC) {
+	if (this->platform == PLATFORM_PC) {
 		return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
 	}
 	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth));
@@ -1217,7 +1220,7 @@ uint8_t VTF::getFaceCount() const {
 	if (!image) {
 		return 0;
 	}
-	if (!(this->flags & VTF::FLAG_ENVMAP)) {
+	if (!(this->flags & FLAG_V0_ENVMAP)) {
 		return 1;
 	}
 	if (this->version >= 6) {
@@ -1470,9 +1473,9 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	}
 
 	if (newMipCount > 1) {
-		this->flags &= ~(VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+		this->flags &= ~(FLAG_V0_NO_MIP | FLAG_V0_NO_LOD);
 	} else {
-		this->flags |= VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
+		this->flags |= FLAG_V0_NO_MIP | FLAG_V0_NO_LOD;
 	}
 
 	std::vector<std::byte> newImageData;
@@ -1513,9 +1516,9 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	this->mipCount = newMipCount;
 	this->frameCount = newFrameCount;
 	if (newFaceCount > 1) {
-		this->flags |= FLAG_ENVMAP;
+		this->flags |= FLAG_V0_ENVMAP;
 	} else {
-		this->flags &= ~FLAG_ENVMAP;
+		this->flags &= ~FLAG_V0_ENVMAP;
 	}
 	this->depth = newDepth;
 
@@ -1679,9 +1682,9 @@ CompressionMethod VTF::getCompressionMethod() const {
 }
 
 void VTF::setCompressionMethod(CompressionMethod newCompressionMethod) {
-	if (newCompressionMethod == CompressionMethod::CONSOLE_LZMA && this->platform == VTF::PLATFORM_PC) {
+	if (newCompressionMethod == CompressionMethod::CONSOLE_LZMA && this->platform == PLATFORM_PC) {
 		this->compressionMethod = CompressionMethod::ZSTD;
-	} else if (newCompressionMethod != CompressionMethod::CONSOLE_LZMA && this->platform != VTF::PLATFORM_PC) {
+	} else if (newCompressionMethod != CompressionMethod::CONSOLE_LZMA && this->platform != PLATFORM_PC) {
 		this->compressionMethod = CompressionMethod::CONSOLE_LZMA;
 	} else {
 		this->compressionMethod = newCompressionMethod;
@@ -1979,7 +1982,7 @@ std::vector<std::byte> VTF::bake() const {
 	BufferStream writer{out};
 
 	static constexpr auto writeNonLocalResource = [](BufferStream& writer_, Resource::Type type, std::span<const std::byte> data, VTF::Platform platform) {
-		if (platform != VTF::PLATFORM_PC) {
+		if (platform != PLATFORM_PC) {
 			BufferStream::swap_endian(reinterpret_cast<uint32_t*>(&type));
 		}
 		writer_.write<uint32_t>(type);
@@ -1995,7 +1998,7 @@ std::vector<std::byte> VTF::bake() const {
 	auto bakeFlags = this->flags;
 	if (bakeFormat == ImageFormat::DXT1_ONE_BIT_ALPHA) {
 		bakeFormat = ImageFormat::DXT1;
-		bakeFlags |= FLAG_ONE_BIT_ALPHA;
+		bakeFlags |= FLAG_V0_ONE_BIT_ALPHA;
 	}
 	// HACK: NV_NULL / ATI2N / ATI1N are at a different position based on engine branch
 	if (this->version < 5 && (this->format == ImageFormat::EMPTY || this->format == ImageFormat::ATI2N || this->format == ImageFormat::ATI1N)) {

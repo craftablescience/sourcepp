@@ -168,30 +168,30 @@ TEST(vtfpp, read_ttx_no_ttz) {
 			fs::writeFileBuffer("fmt_" #Format ".png", vtf.saveImageToFile(0, 0, 0, 0, ImageConversion::FileFormat::PNG)); \
 		}
 
-TEST_WRITE_FMT(RGBA8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(ABGR8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(RGBA8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(ABGR8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
 TEST_WRITE_FMT(RGB888,             0)
-TEST_WRITE_FMT(BGR888,             VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(RGB565,             VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(I8,                 VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(IA88,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(A8,                 VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(RGB888_BLUESCREEN,  VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(BGR888_BLUESCREEN,  VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(ARGB8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(BGRA8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(DXT1,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(DXT3,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(DXT5,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(BGRX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(BGR565,             VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(BGRX5551,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(BGRA4444,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(DXT1_ONE_BIT_ALPHA, VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_ONE_BIT_ALPHA)
-TEST_WRITE_FMT(BGRA5551,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_ONE_BIT_ALPHA)
-TEST_WRITE_FMT(UV88,               VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD)
-TEST_WRITE_FMT(UVWQ8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
-TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(BGR888,             VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(RGB565,             VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(I8,                 VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(IA88,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(A8,                 VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(RGB888_BLUESCREEN,  VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(BGR888_BLUESCREEN,  VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(ARGB8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(BGRA8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(DXT1,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(DXT3,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(DXT5,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(BGRX8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(BGR565,             VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(BGRX5551,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(BGRA4444,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(DXT1_ONE_BIT_ALPHA, VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_ONE_BIT_ALPHA)
+TEST_WRITE_FMT(BGRA5551,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_ONE_BIT_ALPHA)
+TEST_WRITE_FMT(UV88,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
+TEST_WRITE_FMT(UVWQ8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
+TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
 
 #endif
 
@@ -293,7 +293,7 @@ TEST(vtfpp, read_v70_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -365,7 +365,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 0);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -463,7 +463,7 @@ TEST(vtfpp, read_v71_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -535,7 +535,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 1);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -633,7 +633,7 @@ TEST(vtfpp, read_v72_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -705,7 +705,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -818,7 +818,7 @@ TEST(vtfpp, read_v75_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -890,7 +890,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(vtf.getVersion(), 5);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1016,7 +1016,7 @@ TEST(vtfpp, read_xbox_envmap) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 32);
 	EXPECT_EQ(vtf.getHeight(), 32);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_CLAMP_S | VTF::FLAG_CLAMP_T | VTF::FLAG_NO_MIP | VTF::FLAG_ENVMAP | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_CLAMP_S | VTF::FLAG_V0_CLAMP_T | VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_ENVMAP | VTF::FLAG_XBOX_CACHEABLE);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
@@ -1056,7 +1056,7 @@ TEST(vtfpp, read_xbox_missing_no_mip_flag) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), /*HINT_DXT5*/ (1 << 5) | VTF::FLAG_NO_MIP | /*NICE filtered*/ (1 << 24) | VTF::FLAG_XBOX_CACHEABLE);
+	EXPECT_EQ(vtf.getFlags(), /*HINT_DXT5*/ (1 << 5) | VTF::FLAG_V0_NO_MIP | /*NICE filtered*/ (1 << 24) | VTF::FLAG_XBOX_CACHEABLE);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
@@ -1101,7 +1101,7 @@ TEST(vtfpp, read_xbox_no_fallback) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 16);
 	EXPECT_EQ(vtf.getHeight(), 16);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_MULTI_BIT_ALPHA | /*NICE filtered*/ (1 << 24) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_MULTI_BIT_ALPHA | VTF::FLAG_V2_VTEX_NICE_FILTERED | VTF::FLAG_XBOX_CACHEABLE);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
@@ -1141,7 +1141,7 @@ TEST(vtfpp, read_xbox_p8) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), /*NOCOMPRESS*/ (1 << 6) | /*NICE filtered*/ (1 << 24) | /*Prefiltered*/ (1 << 26) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_VTEX_NO_COMPRESS | VTF::FLAG_V2_VTEX_NICE_FILTERED | VTF::FLAG_XBOX_VTEX_PRESWIZZLED | VTF::FLAG_XBOX_CACHEABLE);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::P8);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(),	1);
@@ -1191,7 +1191,7 @@ TEST(vtfpp, read_xbox_broken) {
 	EXPECT_EQ(vtf.getVersion(), 2);
 	EXPECT_EQ(vtf.getWidth(), 128);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), /*NOCOMPRESS*/ (1 << 6) | /*NICE filtered*/ (1 << 24) | /*Prefiltered*/ (1 << 26) | static_cast<VTF::FlagsV0>(VTF::FLAG_XBOX_CACHEABLE));
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_VTEX_NO_COMPRESS | VTF::FLAG_V2_VTEX_NICE_FILTERED | VTF::FLAG_XBOX_VTEX_PRESWIZZLED | VTF::FLAG_XBOX_CACHEABLE);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::P8);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(),	3);
@@ -1241,7 +1241,7 @@ TEST(vtfpp, read_ps3_orangebox) {
 	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 1024);
 	EXPECT_EQ(vtf.getHeight(), 1024);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1274,7 +1274,7 @@ TEST(vtfpp, read_ps3_orangebox_swizzled) {
 	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::BGRA8888);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1340,7 +1340,7 @@ TEST(vtfpp, read_ps3_portal2) {
 		EXPECT_EQ(vtf.getVersion(), 5);
 		EXPECT_EQ(vtf.getWidth(), 256);
 		EXPECT_EQ(vtf.getHeight(), 512);
-		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NORMAL | VTF::FLAG_MULTI_BIT_ALPHA);
+		EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NORMAL | VTF::FLAG_V0_MULTI_BIT_ALPHA);
 		EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 		EXPECT_EQ(vtf.getMipCount(), 10);
 		EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1374,7 +1374,7 @@ TEST(vtfpp, read_x360) {
 	EXPECT_EQ(vtf.getVersion(), 4);
 	EXPECT_EQ(vtf.getWidth(), 512);
 	EXPECT_EQ(vtf.getHeight(), 512);
-	EXPECT_EQ(vtf.getFlags(), static_cast<uint32_t>(VTF::FLAG_V5_PWL_CORRECTED) | VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V5_PWL_CORRECTED | VTF::FLAG_V0_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT5);
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1406,7 +1406,7 @@ TEST(vtfpp, read_v76_c9) {
 	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1_ONE_BIT_ALPHA);
 	EXPECT_EQ(vtf.getMipCount(), 10);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1448,7 +1448,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::BC7);
 	EXPECT_EQ(vtf.getMipCount(), 7);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
@@ -1474,7 +1474,7 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(vtf.getVersion(), 6);
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
-	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD | VTF::FLAG_MULTI_BIT_ALPHA);
+	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1_ONE_BIT_ALPHA);
 	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);

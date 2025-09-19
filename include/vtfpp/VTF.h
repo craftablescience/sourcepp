@@ -161,80 +161,79 @@ SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
  */
 class VTF {
 public:
-	enum FlagsV0 : uint32_t {
-		FLAG_POINT_SAMPLE                  = 1 <<  0,
-		FLAG_TRILINEAR                     = 1 <<  1,
-		FLAG_CLAMP_S                       = 1 <<  2,
-		FLAG_CLAMP_T                       = 1 <<  3,
-		FLAG_ANISOTROPIC                   = 1 <<  4,
-		FLAG_HINT_DXT5                     = 1 <<  5,
-		FLAG_NORMAL                        = 1 <<  7,
-		FLAG_NO_MIP                        = 1 <<  8, // Controlled by mip count
-		FLAG_NO_LOD                        = 1 <<  9,
-		FLAG_MIN_MIP                       = 1 << 10,
-		FLAG_PROCEDURAL                    = 1 << 11,
-		FLAG_ONE_BIT_ALPHA                 = 1 << 12,
-		FLAG_MULTI_BIT_ALPHA               = 1 << 13,
-		FLAG_ENVMAP                        = 1 << 14, // Controlled by face count
-		FLAG_RENDERTARGET                  = 1 << 15,
-		FLAG_DEPTH_RENDERTARGET            = 1 << 16,
-		FLAG_NO_DEBUG_OVERRIDE             = 1 << 17,
-		FLAG_SINGLE_COPY                   = 1 << 18,
-	};
-	static constexpr uint32_t FLAGS_MASK_V0 = FLAG_POINT_SAMPLE | FLAG_TRILINEAR | FLAG_CLAMP_S | FLAG_CLAMP_T | FLAG_ANISOTROPIC | FLAG_HINT_DXT5 | FLAG_NORMAL | FLAG_NO_MIP | FLAG_NO_LOD | FLAG_MIN_MIP | FLAG_PROCEDURAL | FLAG_ONE_BIT_ALPHA | FLAG_MULTI_BIT_ALPHA | FLAG_ENVMAP | FLAG_RENDERTARGET | FLAG_DEPTH_RENDERTARGET | FLAG_NO_DEBUG_OVERRIDE | FLAG_SINGLE_COPY;
+	enum Flags : uint32_t {
+		FLAG_V0_POINT_SAMPLE     = 1u <<  0,
+		FLAG_V0_TRILINEAR        = 1u <<  1,
+		FLAG_V0_CLAMP_S          = 1u <<  2,
+		FLAG_V0_CLAMP_T          = 1u <<  3,
+		FLAG_V0_ANISOTROPIC      = 1u <<  4,
+		FLAG_V0_VTEX_HINT_DXT5   = 1u <<  5, // Internal to vtex
+		FLAG_V0_VTEX_NO_COMPRESS = 1u <<  6, // Internal to vtex
+		FLAG_V0_NORMAL           = 1u <<  7,
+		FLAG_V0_NO_MIP           = 1u <<  8, // Controlled by mip count
+		FLAG_V0_NO_LOD           = 1u <<  9,
+		FLAG_V0_MIN_MIP          = 1u << 10,
+		FLAG_V0_PROCEDURAL       = 1u << 11,
+		FLAG_V0_ONE_BIT_ALPHA    = 1u << 12,
+		FLAG_V0_MULTI_BIT_ALPHA  = 1u << 13,
+		FLAG_V0_ENVMAP           = 1u << 14, // Controlled by face count
+		FLAG_MASK_V0 = FLAG_V0_POINT_SAMPLE | FLAG_V0_TRILINEAR | FLAG_V0_CLAMP_S | FLAG_V0_CLAMP_T | FLAG_V0_ANISOTROPIC | FLAG_V0_VTEX_HINT_DXT5 | FLAG_V0_VTEX_NO_COMPRESS | FLAG_V0_NORMAL | FLAG_V0_NO_MIP | FLAG_V0_NO_LOD | FLAG_V0_MIN_MIP | FLAG_V0_PROCEDURAL | FLAG_V0_ONE_BIT_ALPHA | FLAG_V0_MULTI_BIT_ALPHA | FLAG_V0_ENVMAP,
+		FLAG_MASK_V0_VTEX = FLAG_V0_VTEX_HINT_DXT5 | FLAG_V0_VTEX_NO_COMPRESS,
 
-	enum FlagsV2 : uint32_t {
-		FLAG_V2_NO_DEPTH_BUFFER            = 1 << 23,
-		FLAG_V2_CLAMP_U                    = 1 << 25,
-	};
-	static constexpr uint32_t FLAGS_MASK_V2 = FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_CLAMP_U;
+		FLAG_V1_RENDERTARGET                                 = 1u << 15,
+		FLAG_V1_DEPTH_RENDERTARGET                           = 1u << 16,
+		FLAG_V1_NO_DEBUG_OVERRIDE                            = 1u << 17,
+		FLAG_V1_SINGLE_COPY                                  = 1u << 18,
+		FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA             = 1u << 19, // Internal to vtex
+		FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL = 1u << 20, // Internal to vtex
+		FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV                  = 1u << 21, // Internal to vtex
+		FLAG_MASK_V1 = FLAG_V1_RENDERTARGET | FLAG_V1_DEPTH_RENDERTARGET | FLAG_V1_NO_DEBUG_OVERRIDE | FLAG_V1_SINGLE_COPY | FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA | FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL | FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV,
+		FLAG_MASK_V1_VTEX = FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA | FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL | FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV,
 
-	enum FlagsXBOX : uint32_t {
-		FLAG_XBOX_CACHEABLE                = 1 << 27,
-		FLAG_XBOX_UNFILTERABLE_OK          = 1 << 28,
-	};
-	static constexpr uint32_t FLAGS_MASK_XBOX = FLAG_XBOX_CACHEABLE | FLAG_XBOX_UNFILTERABLE_OK;
+		FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION = 1u << 22, // Internal to vtex
+		FLAG_V2_NO_DEPTH_BUFFER                = 1u << 23,
+		FLAG_V2_VTEX_NICE_FILTERED             = 1u << 24, // Internal to vtex
+		FLAG_V2_CLAMP_U                        = 1u << 25,
+		FLAG_MASK_V2 = FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION | FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_VTEX_NICE_FILTERED | FLAG_V2_CLAMP_U,
+		FLAG_MASK_V2_VTEX = FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION | FLAG_V2_VTEX_NICE_FILTERED,
 
-	enum FlagsV3 : uint32_t {
-		FLAG_V3_LOAD_ALL_MIPS              = 1 << 10,
-		FLAG_V3_VERTEX_TEXTURE             = 1 << 26,
-		FLAG_V3_SSBUMP                     = 1 << 27,
-		FLAG_V3_BORDER                     = 1 << 29,
-	};
-	static constexpr uint32_t FLAGS_MASK_V3 = FLAG_V3_LOAD_ALL_MIPS | FLAG_V3_VERTEX_TEXTURE | FLAG_V3_SSBUMP | FLAG_V3_BORDER;
+		FLAG_XBOX_VTEX_PRESWIZZLED = 1u << 26,
+		FLAG_XBOX_CACHEABLE        = 1u << 27,
+		FLAG_XBOX_UNFILTERABLE_OK  = 1u << 28,
+		FLAG_MASK_XBOX = FLAG_XBOX_VTEX_PRESWIZZLED | FLAG_XBOX_CACHEABLE | FLAG_XBOX_UNFILTERABLE_OK,
+		FLAG_MASK_XBOX_VTEX = FLAG_XBOX_VTEX_PRESWIZZLED,
 
-	enum FlagsV4 : uint32_t {
-		FLAG_V4_SRGB                       = 1 <<  6,
-	};
-	static constexpr uint32_t FLAGS_MASK_V4 = FLAG_V4_SRGB;
+		FLAG_V3_ALL_MIPS       = 1u << 10,
+		FLAG_V3_VERTEX_TEXTURE = 1u << 26,
+		FLAG_V3_SSBUMP         = 1u << 27,
+		FLAG_V3_BORDER         = 1u << 29,
+		FLAG_MASK_V3 = FLAG_V3_ALL_MIPS | FLAG_V3_VERTEX_TEXTURE | FLAG_V3_SSBUMP | FLAG_V3_BORDER,
 
-	enum FlagsV4_TF2 : uint32_t {
-		FLAG_V4_TF2_STAGING_MEMORY         = 1 << 19,
-		FLAG_V4_TF2_IMMEDIATE_CLEANUP      = 1 << 20,
-		FLAG_V4_TF2_IGNORE_PICMIP          = 1 << 21,
-		FLAG_V4_TF2_STREAMABLE_COARSE      = 1 << 30,
-		FLAG_V4_TF2_STREAMABLE_FINE        = static_cast<uint32_t>(1 << 31),
-	};
-	static constexpr uint32_t FLAGS_MASK_V4_TF2 = FLAG_V4_TF2_STAGING_MEMORY | FLAG_V4_TF2_IMMEDIATE_CLEANUP | FLAG_V4_TF2_IGNORE_PICMIP | FLAG_V4_TF2_STREAMABLE_COARSE | FLAG_V4_TF2_STREAMABLE_FINE;
+		FLAG_V4_SRGB = 1u << 6,
+		FLAG_MASK_V4 = FLAG_V4_SRGB,
 
-	enum FlagsV5 : uint32_t {
-		FLAG_V5_PWL_CORRECTED              = 1 <<  6,
-		FLAG_V5_SRGB                       = 1 << 19,
-		FLAG_V5_DEFAULT_POOL               = 1 << 20,
-		FLAG_V5_LOAD_MOST_MIPS             = 1 << 28,
-	};
-	static constexpr uint32_t FLAGS_MASK_V5 = FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB | FLAG_V5_DEFAULT_POOL | FLAG_V5_LOAD_MOST_MIPS;
+		FLAG_V4_TF2_STAGING_MEMORY    = 1u << 19,
+		FLAG_V4_TF2_IMMEDIATE_CLEANUP = 1u << 20,
+		FLAG_V4_TF2_IGNORE_PICMIP     = 1u << 21,
+		FLAG_V4_TF2_STREAMABLE_COARSE = 1u << 30,
+		FLAG_V4_TF2_STREAMABLE_FINE   = 1u << 31,
+		FLAG_MASK_V4_TF2 = FLAG_V4_TF2_STAGING_MEMORY | FLAG_V4_TF2_IMMEDIATE_CLEANUP | FLAG_V4_TF2_IGNORE_PICMIP | FLAG_V4_TF2_STREAMABLE_COARSE | FLAG_V4_TF2_STREAMABLE_FINE,
 
-	enum FlagsV5_CSGO : uint32_t {
-		FLAG_V5_CSGO_COMBINED                   = 1 << 21,
-		FLAG_V5_CSGO_ASYNC_DOWNLOAD             = 1 << 22,
-		FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD      = 1 << 24,
-		FLAG_V5_CSGO_YCOCG                      = 1 << 30,
-		FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES = static_cast<uint32_t>(1 << 31),
-	};
-	static constexpr uint32_t FLAGS_MASK_V5_CSGO = FLAG_V5_CSGO_COMBINED | FLAG_V5_CSGO_ASYNC_DOWNLOAD | FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD | FLAG_V5_CSGO_YCOCG | FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES;
+		FLAG_V5_PWL_CORRECTED  = 1u <<  6,
+		FLAG_V5_SRGB           = 1u << 19,
+		FLAG_V5_DEFAULT_POOL   = 1u << 20,
+		FLAG_V5_LOAD_MOST_MIPS = 1u << 28,
+		FLAG_MASK_V5 = FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB | FLAG_V5_DEFAULT_POOL | FLAG_V5_LOAD_MOST_MIPS,
 
-	static constexpr uint32_t FLAGS_MASK_INTERNAL = FLAG_NO_MIP | FLAG_ENVMAP;
+		FLAG_V5_CSGO_COMBINED                   = 1u << 21,
+		FLAG_V5_CSGO_ASYNC_DOWNLOAD             = 1u << 22,
+		FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD      = 1u << 24,
+		FLAG_V5_CSGO_YCOCG                      = 1u << 30,
+		FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES = 1u << 31,
+		FLAG_MASK_V5_CSGO = FLAG_V5_CSGO_COMBINED | FLAG_V5_CSGO_ASYNC_DOWNLOAD | FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD | FLAG_V5_CSGO_YCOCG | FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES,
+
+		FLAG_MASK_INTERNAL = FLAG_V0_NO_MIP | FLAG_V0_ENVMAP,
+	};
 
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
@@ -524,7 +523,7 @@ protected:
 
 	uint16_t width = 0;
 	uint16_t height = 0;
-	uint32_t flags = VTF::FLAG_NO_MIP | VTF::FLAG_NO_LOD;
+	uint32_t flags = FLAG_V0_NO_MIP | FLAG_V0_NO_LOD;
 
 	uint16_t frameCount = 1;
 	uint16_t startFrame = 0;
@@ -559,12 +558,6 @@ protected:
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 };
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV0)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV2)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV3)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV4)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV4_TF2)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV5)
-SOURCEPP_BITFLAGS_ENUM(VTF::FlagsV5_CSGO)
+SOURCEPP_BITFLAGS_ENUM(VTF::Flags)
 
 } // namespace vtfpp
