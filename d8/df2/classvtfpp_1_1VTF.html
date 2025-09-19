@@ -143,15 +143,15 @@ Collaboration diagram for vtfpp::VTF:</div>
 <div class="dyncontent">
 <div class="center"><img src="../../d4/df0/classvtfpp_1_1VTF__coll__graph.png" border="0" usemap="#avtfpp_1_1VTF_coll__map" alt="Collaboration graph"/></div>
 <map name="avtfpp_1_1VTF_coll__map" id="avtfpp_1_1VTF_coll__map">
-<area shape="rect" title=" " alt="" coords="884,387,973,413"/>
-<area shape="rect" title=" " alt="" coords="544,167,619,193"/>
-<area shape="rect" title=" " alt="" coords="492,217,671,242"/>
-<area shape="rect" title=" " alt="" coords="544,321,619,346"/>
-<area shape="rect" title=" " alt="" coords="548,450,615,475"/>
-<area shape="rect" title=" " alt="" coords="511,500,651,540"/>
-<area shape="rect" href="../../d3/d80/structvtfpp_1_1Resource.html" title=" " alt="" coords="255,507,379,533"/>
-<area shape="rect" title=" " alt="" coords="5,507,173,533"/>
-<area shape="rect" title=" " alt="" coords="548,565,615,590"/>
+<area shape="rect" title=" " alt="" coords="841,246,931,271"/>
+<area shape="rect" title=" " alt="" coords="492,15,671,41"/>
+<area shape="rect" title=" " alt="" coords="544,75,619,101"/>
+<area shape="rect" title=" " alt="" coords="544,179,619,205"/>
+<area shape="rect" title=" " alt="" coords="548,309,615,334"/>
+<area shape="rect" title=" " alt="" coords="511,359,651,399"/>
+<area shape="rect" href="../../d3/d80/structvtfpp_1_1Resource.html" title=" " alt="" coords="255,366,379,391"/>
+<area shape="rect" title=" " alt="" coords="5,366,173,391"/>
+<area shape="rect" title=" " alt="" coords="548,423,615,449"/>
 </map>
 <center><span class="legend">[<a target="top" href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
@@ -162,75 +162,87 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
-<tr class="memitem:a2fc5846d44c7de18cc4790b46b059881"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881">FlagsV0</a> : uint32_t { <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae821ca961f3025fe4df06a45f5f94633">FLAG_POINT_SAMPLE</a> = 1 &lt;&lt; 0
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a11a6819cdb88d841109fa53924ac7d92">FLAG_TRILINEAR</a> = 1 &lt;&lt; 1
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ab917484eb8849dc45ac94c3e5c82ad1d">FLAG_CLAMP_S</a> = 1 &lt;&lt; 2
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a09e94f3eb9ae81c455fae1364c41d598">FLAG_CLAMP_T</a> = 1 &lt;&lt; 3
+<tr class="memitem:ad8396d92bae191fbec53870d73f71d7a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7a">Flags</a> : uint32_t { <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaae30262e18b818af71d2c9124b0709f1">FLAG_V0_POINT_SAMPLE</a> = 1u &lt;&lt; 0
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aacca0108c5060e14a474fa22fde23d52b">FLAG_V0_TRILINEAR</a> = 1u &lt;&lt; 1
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aae9329cc26abdd72242b04db0e8e335fd">FLAG_V0_CLAMP_S</a> = 1u &lt;&lt; 2
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa90b70b311836775e10d2d75a3f369056">FLAG_V0_CLAMP_T</a> = 1u &lt;&lt; 3
 , <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a57cafcb8f30645fded40b9a91a2b27ca">FLAG_ANISOTROPIC</a> = 1 &lt;&lt; 4
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae95051292225fc53c6f450d7f54fa9a9">FLAG_HINT_DXT5</a> = 1 &lt;&lt; 5
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a2a696ed52127fc450a6f7e42c09ec517">FLAG_NORMAL</a> = 1 &lt;&lt; 7
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> = 1 &lt;&lt; 8
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad3cac162585be84a4755769334de3c2b">FLAG_V0_ANISOTROPIC</a> = 1u &lt;&lt; 4
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa6fa0666e2e8180a5b94b81e2d78dc675">FLAG_V0_VTEX_HINT_DXT5</a> = 1u &lt;&lt; 5
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa5225420c2c407e8c62fb63ccf53b6f66">FLAG_V0_VTEX_NO_COMPRESS</a> = 1u &lt;&lt; 6
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa7e655f0cd719c1a35d55090a714ef148">FLAG_V0_NORMAL</a> = 1u &lt;&lt; 7
 , <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e">FLAG_NO_LOD</a> = 1 &lt;&lt; 9
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7770597d0bebd69d41517a953ff0fb35">FLAG_MIN_MIP</a> = 1 &lt;&lt; 10
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aaad207276633ba48c6cebdb795eecf8f">FLAG_PROCEDURAL</a> = 1 &lt;&lt; 11
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aae8325bd3738b0e3ee96c73288e165f4">FLAG_ONE_BIT_ALPHA</a> = 1 &lt;&lt; 12
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa7e9ebc211c75205bd141d6955fab743f">FLAG_V0_NO_MIP</a> = 1u &lt;&lt; 8
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa6097551258b1e6cb995e3c025746bce8">FLAG_V0_NO_LOD</a> = 1u &lt;&lt; 9
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa126cba1efbef24b61b89ff22731c4e9d">FLAG_V0_MIN_MIP</a> = 1u &lt;&lt; 10
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa9964b46f47bfc0b817904df0f8c4cb2c">FLAG_V0_PROCEDURAL</a> = 1u &lt;&lt; 11
 , <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a84d3ce507f9951e2d66bc68b018b49d3">FLAG_MULTI_BIT_ALPHA</a> = 1 &lt;&lt; 13
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a> = 1 &lt;&lt; 14
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a8dc30fa5ed614f9ebacafbeec6d3e686">FLAG_RENDERTARGET</a> = 1 &lt;&lt; 15
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aa7573d19370090fb8a0d2cb5872e1d0f">FLAG_DEPTH_RENDERTARGET</a> = 1 &lt;&lt; 16
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa2ea3f9435cc9a561c7ac1769f2e5702a">FLAG_V0_ONE_BIT_ALPHA</a> = 1u &lt;&lt; 12
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa3fcc097c3658eb13b9dadddad9529e96">FLAG_V0_MULTI_BIT_ALPHA</a> = 1u &lt;&lt; 13
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aae36036a0be12a6256fbce3556ee716ff">FLAG_V0_ENVMAP</a> = 1u &lt;&lt; 14
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf8285113780af104ba828e870687c39c">FLAG_MASK_V0</a> = FLAG_V0_POINT_SAMPLE | FLAG_V0_TRILINEAR | FLAG_V0_CLAMP_S | FLAG_V0_CLAMP_T | FLAG_V0_ANISOTROPIC | FLAG_V0_VTEX_HINT_DXT5 | FLAG_V0_VTEX_NO_COMPRESS | FLAG_V0_NORMAL | FLAG_V0_NO_MIP | FLAG_V0_NO_LOD | FLAG_V0_MIN_MIP | FLAG_V0_PROCEDURAL | FLAG_V0_ONE_BIT_ALPHA | FLAG_V0_MULTI_BIT_ALPHA | FLAG_V0_ENVMAP
 , <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7051e1f4531198a1f6c159bb9c1b517c">FLAG_NO_DEBUG_OVERRIDE</a> = 1 &lt;&lt; 17
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a64048e02d689c496eb4f372363e7158e">FLAG_SINGLE_COPY</a> = 1 &lt;&lt; 18
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aab485be4098153d6f5d5faae9719246d3">FLAG_MASK_V0_VTEX</a> = FLAG_V0_VTEX_HINT_DXT5 | FLAG_V0_VTEX_NO_COMPRESS
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa07a93ab06bd15e2d94368b9831af4d55">FLAG_V1_RENDERTARGET</a> = 1u &lt;&lt; 15
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa242d062d3594237182ae884d73adf270">FLAG_V1_DEPTH_RENDERTARGET</a> = 1u &lt;&lt; 16
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf844f772730115f7351ffb462468570a">FLAG_V1_NO_DEBUG_OVERRIDE</a> = 1u &lt;&lt; 17
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaafe82eb246854e5c390245f921752c60">FLAG_V1_SINGLE_COPY</a> = 1u &lt;&lt; 18
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa7f6eb54d8ed75610538a777adb21df8f">FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA</a> = 1u &lt;&lt; 19
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa0dd8c4d1418d45af173a7f736634e5fc">FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL</a> = 1u &lt;&lt; 20
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aadd571b51a048f15d1a96202b0ecd2ebc">FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV</a> = 1u &lt;&lt; 21
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aae948e08cad1af5ff377c974ca5fd1138">FLAG_MASK_V1</a> = FLAG_V1_RENDERTARGET | FLAG_V1_DEPTH_RENDERTARGET | FLAG_V1_NO_DEBUG_OVERRIDE | FLAG_V1_SINGLE_COPY | FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA | FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL | FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aafaaa6e95c96180166522888cd00aa413">FLAG_MASK_V1_VTEX</a> = FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA | FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL | FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa8571953fcdcb1ed571ebdecc69a8ea86">FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION</a> = 1u &lt;&lt; 22
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa3d2ef5372f3d69be4b2ecffdb7856c98">FLAG_V2_NO_DEPTH_BUFFER</a> = 1u &lt;&lt; 23
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa4a552da290b35f2eeaf923f22c2b02f9">FLAG_V2_VTEX_NICE_FILTERED</a> = 1u &lt;&lt; 24
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa55e796c72157efdfc1f47ec96b3e8cce">FLAG_V2_CLAMP_U</a> = 1u &lt;&lt; 25
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa4931e5d67517df498dfaf49cc9be755f">FLAG_MASK_V2</a> = FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION | FLAG_V2_NO_DEPTH_BUFFER | FLAG_V2_VTEX_NICE_FILTERED | FLAG_V2_CLAMP_U
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa24302edcf40b4be65e7fe6e8f36d4355">FLAG_MASK_V2_VTEX</a> = FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION | FLAG_V2_VTEX_NICE_FILTERED
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa9449bffbd885e37cbdbf38693c80882a">FLAG_XBOX_VTEX_PRESWIZZLED</a> = 1u &lt;&lt; 26
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad8854f7357eb1f7621bc8fa84a7c748f">FLAG_XBOX_CACHEABLE</a> = 1u &lt;&lt; 27
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf538e98310974a5f939042faeb4cbce0">FLAG_XBOX_UNFILTERABLE_OK</a> = 1u &lt;&lt; 28
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa8ba23ac388e0e863452889a530d6ad24">FLAG_MASK_XBOX</a> = FLAG_XBOX_VTEX_PRESWIZZLED | FLAG_XBOX_CACHEABLE | FLAG_XBOX_UNFILTERABLE_OK
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa0126f719cccdf775136491fd7258aab4">FLAG_MASK_XBOX_VTEX</a> = FLAG_XBOX_VTEX_PRESWIZZLED
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa46a2505e14f706835abe2e8a3afad9d4">FLAG_V3_ALL_MIPS</a> = 1u &lt;&lt; 10
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa75535b8aaa174891f3f36a507f043d85">FLAG_V3_VERTEX_TEXTURE</a> = 1u &lt;&lt; 26
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf1453a063e93b97acb392eac457666f4">FLAG_V3_SSBUMP</a> = 1u &lt;&lt; 27
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aac20affb404b8811ff4ac58218433f96f">FLAG_V3_BORDER</a> = 1u &lt;&lt; 29
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad998fe2339a774363675a22b827e4fa5">FLAG_MASK_V3</a> = FLAG_V3_ALL_MIPS | FLAG_V3_VERTEX_TEXTURE | FLAG_V3_SSBUMP | FLAG_V3_BORDER
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa780b7862a308bd3841fccd9a7b7d6c4d">FLAG_V4_SRGB</a> = 1u &lt;&lt; 6
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad421e8077dfcb4004fe7f4c0798ba4b5">FLAG_MASK_V4</a> = FLAG_V4_SRGB
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf72f04afa010f6bcc4583ac8ae52b66e">FLAG_V4_TF2_STAGING_MEMORY</a> = 1u &lt;&lt; 19
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf15c7832b9ff148a6b7038da726e597c">FLAG_V4_TF2_IMMEDIATE_CLEANUP</a> = 1u &lt;&lt; 20
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa325d3b275bf119156fbe8c3a27618801">FLAG_V4_TF2_IGNORE_PICMIP</a> = 1u &lt;&lt; 21
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaf364f543a93c894e52121d7b2e8a1c7f">FLAG_V4_TF2_STREAMABLE_COARSE</a> = 1u &lt;&lt; 30
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaa34852f529ab6839a3c1b7bd3acad979">FLAG_V4_TF2_STREAMABLE_FINE</a> = 1u &lt;&lt; 31
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa30d9b84d93762373f35c284fedd71020">FLAG_MASK_V4_TF2</a> = FLAG_V4_TF2_STAGING_MEMORY | FLAG_V4_TF2_IMMEDIATE_CLEANUP | FLAG_V4_TF2_IGNORE_PICMIP | FLAG_V4_TF2_STREAMABLE_COARSE | FLAG_V4_TF2_STREAMABLE_FINE
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aad2fa7c4ceb680407a00c062f11bba2f2">FLAG_V5_PWL_CORRECTED</a> = 1u &lt;&lt; 6
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa898ab5fa8d20e78c52cb1ebbddab5e89">FLAG_V5_SRGB</a> = 1u &lt;&lt; 19
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa29cd42be4fd77b29a652e56450e5d8ed">FLAG_V5_DEFAULT_POOL</a> = 1u &lt;&lt; 20
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aac8209cc3997c26edbbd165231540ce45">FLAG_V5_LOAD_MOST_MIPS</a> = 1u &lt;&lt; 28
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa02211a60f55e80353007a3e7aa3e1ddb">FLAG_MASK_V5</a> = FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB | FLAG_V5_DEFAULT_POOL | FLAG_V5_LOAD_MOST_MIPS
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa35e7916a7288c1a44be20f7c549edd85">FLAG_V5_CSGO_COMBINED</a> = 1u &lt;&lt; 21
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaaafdc9c037abdea3b167c3a8c90d7c26">FLAG_V5_CSGO_ASYNC_DOWNLOAD</a> = 1u &lt;&lt; 22
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa4aaea060d551d9af70d6ea1be371a49d">FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD</a> = 1u &lt;&lt; 24
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa44b196da2f1ece5e81b722c69fbe79b5">FLAG_V5_CSGO_YCOCG</a> = 1u &lt;&lt; 30
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaa5640d4b7b1e1794b58fed91b9f66ce7">FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES</a> = 1u &lt;&lt; 31
+, <br />
+&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa4b624b8e96dcbc7638d6a3bf8116c58b">FLAG_MASK_V5_CSGO</a> = FLAG_V5_CSGO_COMBINED | FLAG_V5_CSGO_ASYNC_DOWNLOAD | FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD | FLAG_V5_CSGO_YCOCG | FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES
+, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aaee0d4f91689c92dc2327fc8c1d6f9a34">FLAG_MASK_INTERNAL</a> = FLAG_V0_NO_MIP | FLAG_V0_ENVMAP
 <br />
  }</td></tr>
-<tr class="separator:a2fc5846d44c7de18cc4790b46b059881"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a05c68e154e19b6baae2adbbbe522fe3a"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3a">FlagsV2</a> : uint32_t { <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa3d2ef5372f3d69be4b2ecffdb7856c98">FLAG_V2_NO_DEPTH_BUFFER</a> = 1 &lt;&lt; 23
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa55e796c72157efdfc1f47ec96b3e8cce">FLAG_V2_CLAMP_U</a> = 1 &lt;&lt; 25
- }</td></tr>
-<tr class="separator:a05c68e154e19b6baae2adbbbe522fe3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a59c6798fffcc2ae731f5dfdf9fc5288b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288b">FlagsXBOX</a> : uint32_t { <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f">FLAG_XBOX_CACHEABLE</a> = 1 &lt;&lt; 27
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0">FLAG_XBOX_UNFILTERABLE_OK</a> = 1 &lt;&lt; 28
- }</td></tr>
-<tr class="separator:a59c6798fffcc2ae731f5dfdf9fc5288b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad35c3406d55c01932dfdf67e168a2c9d"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9d">FlagsV3</a> : uint32_t { <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da91b7772a2697d03d9998e3ae04d9b200">FLAG_V3_LOAD_ALL_MIPS</a> = 1 &lt;&lt; 10
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da75535b8aaa174891f3f36a507f043d85">FLAG_V3_VERTEX_TEXTURE</a> = 1 &lt;&lt; 26
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9daf1453a063e93b97acb392eac457666f4">FLAG_V3_SSBUMP</a> = 1 &lt;&lt; 27
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9dac20affb404b8811ff4ac58218433f96f">FLAG_V3_BORDER</a> = 1 &lt;&lt; 29
- }</td></tr>
-<tr class="separator:ad35c3406d55c01932dfdf67e168a2c9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7b92ac345495ccc225d314f2921f01ea"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7b92ac345495ccc225d314f2921f01ea">FlagsV4</a> : uint32_t { <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7b92ac345495ccc225d314f2921f01eaa780b7862a308bd3841fccd9a7b7d6c4d">FLAG_V4_SRGB</a> = 1 &lt;&lt; 6
- }</td></tr>
-<tr class="separator:a7b92ac345495ccc225d314f2921f01ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a42ad0c8abad3a2a38e633b42f6e7a26c"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26c">FlagsV4_TF2</a> : uint32_t { <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf72f04afa010f6bcc4583ac8ae52b66e">FLAG_V4_TF2_STAGING_MEMORY</a> = 1 &lt;&lt; 19
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf15c7832b9ff148a6b7038da726e597c">FLAG_V4_TF2_IMMEDIATE_CLEANUP</a> = 1 &lt;&lt; 20
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26ca325d3b275bf119156fbe8c3a27618801">FLAG_V4_TF2_IGNORE_PICMIP</a> = 1 &lt;&lt; 21
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf364f543a93c894e52121d7b2e8a1c7f">FLAG_V4_TF2_STREAMABLE_COARSE</a> = 1 &lt;&lt; 30
-, <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caa34852f529ab6839a3c1b7bd3acad979">FLAG_V4_TF2_STREAMABLE_FINE</a> = static_cast&lt;uint32_t&gt;(1 &lt;&lt; 31)
-<br />
- }</td></tr>
-<tr class="separator:a42ad0c8abad3a2a38e633b42f6e7a26c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf1ce54aec9a232cbf5cef37b2cce89e"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89e">FlagsV5</a> : uint32_t { <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2">FLAG_V5_PWL_CORRECTED</a> = 1 &lt;&lt; 6
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89">FLAG_V5_SRGB</a> = 1 &lt;&lt; 19
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea29cd42be4fd77b29a652e56450e5d8ed">FLAG_V5_DEFAULT_POOL</a> = 1 &lt;&lt; 20
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89eac8209cc3997c26edbbd165231540ce45">FLAG_V5_LOAD_MOST_MIPS</a> = 1 &lt;&lt; 28
- }</td></tr>
-<tr class="separator:aaf1ce54aec9a232cbf5cef37b2cce89e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac67c191b78cda86d2a888b2817874b36"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36">FlagsV5_CSGO</a> : uint32_t { <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a35e7916a7288c1a44be20f7c549edd85">FLAG_V5_CSGO_COMBINED</a> = 1 &lt;&lt; 21
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aaafdc9c037abdea3b167c3a8c90d7c26">FLAG_V5_CSGO_ASYNC_DOWNLOAD</a> = 1 &lt;&lt; 22
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a4aaea060d551d9af70d6ea1be371a49d">FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD</a> = 1 &lt;&lt; 24
-, <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a44b196da2f1ece5e81b722c69fbe79b5">FLAG_V5_CSGO_YCOCG</a> = 1 &lt;&lt; 30
-, <br />
-&#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aa5640d4b7b1e1794b58fed91b9f66ce7">FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES</a> = static_cast&lt;uint32_t&gt;(1 &lt;&lt; 31)
-<br />
- }</td></tr>
-<tr class="separator:ac67c191b78cda86d2a888b2817874b36"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="separator:ad8396d92bae191fbec53870d73f71d7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a04f1c1affcbb1f880292bec6cae95a15"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15">Platform</a> : uint32_t { <br />
 &#160;&#160;<a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15ac7d9ee78b0cae2122d45c6f7b670ea90">PLATFORM_UNKNOWN</a> = 0x000
 , <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a04f1c1affcbb1f880292bec6cae95a15a2ea94a62a83e185cfbb8dbe847d97058">PLATFORM_PC</a> = 0x007
@@ -480,24 +492,6 @@ Static Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-attribs" name="pub-static-attribs"></a>
 Static Public Attributes</h2></td></tr>
-<tr class="memitem:adb7d7138e4fee454734664a3ba011fcc"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#adb7d7138e4fee454734664a3ba011fcc">FLAGS_MASK_V0</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae821ca961f3025fe4df06a45f5f94633">FLAG_POINT_SAMPLE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a11a6819cdb88d841109fa53924ac7d92">FLAG_TRILINEAR</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ab917484eb8849dc45ac94c3e5c82ad1d">FLAG_CLAMP_S</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a09e94f3eb9ae81c455fae1364c41d598">FLAG_CLAMP_T</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a57cafcb8f30645fded40b9a91a2b27ca">FLAG_ANISOTROPIC</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae95051292225fc53c6f450d7f54fa9a9">FLAG_HINT_DXT5</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a2a696ed52127fc450a6f7e42c09ec517">FLAG_NORMAL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e">FLAG_NO_LOD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7770597d0bebd69d41517a953ff0fb35">FLAG_MIN_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aaad207276633ba48c6cebdb795eecf8f">FLAG_PROCEDURAL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aae8325bd3738b0e3ee96c73288e165f4">FLAG_ONE_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a84d3ce507f9951e2d66bc68b018b49d3">FLAG_MULTI_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a8dc30fa5ed614f9ebacafbeec6d3e686">FLAG_RENDERTARGET</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aa7573d19370090fb8a0d2cb5872e1d0f">FLAG_DEPTH_RENDERTARGET</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7051e1f4531198a1f6c159bb9c1b517c">FLAG_NO_DEBUG_OVERRIDE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a64048e02d689c496eb4f372363e7158e">FLAG_SINGLE_COPY</a></td></tr>
-<tr class="separator:adb7d7138e4fee454734664a3ba011fcc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a04cd07522473899dc14329087da3418d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a04cd07522473899dc14329087da3418d">FLAGS_MASK_V2</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa3d2ef5372f3d69be4b2ecffdb7856c98">FLAG_V2_NO_DEPTH_BUFFER</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa55e796c72157efdfc1f47ec96b3e8cce">FLAG_V2_CLAMP_U</a></td></tr>
-<tr class="separator:a04cd07522473899dc14329087da3418d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab44db85c38b0d198d28c36646940559d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ab44db85c38b0d198d28c36646940559d">FLAGS_MASK_XBOX</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f">FLAG_XBOX_CACHEABLE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0">FLAG_XBOX_UNFILTERABLE_OK</a></td></tr>
-<tr class="separator:ab44db85c38b0d198d28c36646940559d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a494a0b52ec170c9cb056e2124f1fd34d"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a494a0b52ec170c9cb056e2124f1fd34d">FLAGS_MASK_V3</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da91b7772a2697d03d9998e3ae04d9b200">FLAG_V3_LOAD_ALL_MIPS</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da75535b8aaa174891f3f36a507f043d85">FLAG_V3_VERTEX_TEXTURE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9daf1453a063e93b97acb392eac457666f4">FLAG_V3_SSBUMP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9dac20affb404b8811ff4ac58218433f96f">FLAG_V3_BORDER</a></td></tr>
-<tr class="separator:a494a0b52ec170c9cb056e2124f1fd34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad3b38993432458c53e44adb9ab2689f7"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad3b38993432458c53e44adb9ab2689f7">FLAGS_MASK_V4</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7b92ac345495ccc225d314f2921f01eaa780b7862a308bd3841fccd9a7b7d6c4d">FLAG_V4_SRGB</a></td></tr>
-<tr class="separator:ad3b38993432458c53e44adb9ab2689f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4fcff7dff7c88e941693f71e4a0fc54c"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a4fcff7dff7c88e941693f71e4a0fc54c">FLAGS_MASK_V4_TF2</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf72f04afa010f6bcc4583ac8ae52b66e">FLAG_V4_TF2_STAGING_MEMORY</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf15c7832b9ff148a6b7038da726e597c">FLAG_V4_TF2_IMMEDIATE_CLEANUP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26ca325d3b275bf119156fbe8c3a27618801">FLAG_V4_TF2_IGNORE_PICMIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf364f543a93c894e52121d7b2e8a1c7f">FLAG_V4_TF2_STREAMABLE_COARSE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caa34852f529ab6839a3c1b7bd3acad979">FLAG_V4_TF2_STREAMABLE_FINE</a></td></tr>
-<tr class="separator:a4fcff7dff7c88e941693f71e4a0fc54c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0301c0947d1ccaf5b2b5db41e411c46a"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a0301c0947d1ccaf5b2b5db41e411c46a">FLAGS_MASK_V5</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2">FLAG_V5_PWL_CORRECTED</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89">FLAG_V5_SRGB</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea29cd42be4fd77b29a652e56450e5d8ed">FLAG_V5_DEFAULT_POOL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89eac8209cc3997c26edbbd165231540ce45">FLAG_V5_LOAD_MOST_MIPS</a></td></tr>
-<tr class="separator:a0301c0947d1ccaf5b2b5db41e411c46a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aade9dd16e38410b73ae4ee75729b8827"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aade9dd16e38410b73ae4ee75729b8827">FLAGS_MASK_V5_CSGO</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a35e7916a7288c1a44be20f7c549edd85">FLAG_V5_CSGO_COMBINED</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aaafdc9c037abdea3b167c3a8c90d7c26">FLAG_V5_CSGO_ASYNC_DOWNLOAD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a4aaea060d551d9af70d6ea1be371a49d">FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a44b196da2f1ece5e81b722c69fbe79b5">FLAG_V5_CSGO_YCOCG</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aa5640d4b7b1e1794b58fed91b9f66ce7">FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES</a></td></tr>
-<tr class="separator:aade9dd16e38410b73ae4ee75729b8827"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2c9e078af0a224c0ada07c95ff6bc8b2"><td class="memItemLeft" align="right" valign="top">static constexpr uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2c9e078af0a224c0ada07c95ff6bc8b2">FLAGS_MASK_INTERNAL</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a></td></tr>
-<tr class="separator:a2c9e078af0a224c0ada07c95ff6bc8b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac2c25f31cf29c7a70cabbcd4ffcb2369"><td class="memItemLeft" align="right" valign="top">static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac2c25f31cf29c7a70cabbcd4ffcb2369">FORMAT_UNCHANGED</a> = static_cast&lt;<a class="el" href="../../de/d90/namespacevtfpp.html#aec3345feb8c8d1832efd60bd78ba336c">ImageFormat</a>&gt;(-2)</td></tr>
 <tr class="memdesc:ac2c25f31cf29c7a70cabbcd4ffcb2369"><td class="mdescLeft">&#160;</td><td class="mdescRight">This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#afb5b757668b8116e60768f9fecb354dd">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a>.  <br /></td></tr>
 <tr class="separator:ac2c25f31cf29c7a70cabbcd4ffcb2369"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -533,7 +527,7 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a0471c9d679c3a402799b2609c78ea38e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc9bb8a8b8895f651b2fb9bebf0f0e32"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#adc9bb8a8b8895f651b2fb9bebf0f0e32">height</a> = 0</td></tr>
 <tr class="separator:adc9bb8a8b8895f651b2fb9bebf0f0e32"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abeb31b367a5b24ddc837f9ff93902250"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#abeb31b367a5b24ddc837f9ff93902250">flags</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">VTF::FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e">VTF::FLAG_NO_LOD</a></td></tr>
+<tr class="memitem:abeb31b367a5b24ddc837f9ff93902250"><td class="memItemLeft" align="right" valign="top">uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#abeb31b367a5b24ddc837f9ff93902250">flags</a> = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa7e9ebc211c75205bd141d6955fab743f">FLAG_V0_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa6097551258b1e6cb995e3c025746bce8">FLAG_V0_NO_LOD</a></td></tr>
 <tr class="separator:abeb31b367a5b24ddc837f9ff93902250"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade453966686ddc1920e0e4995f93c223"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ade453966686ddc1920e0e4995f93c223">frameCount</a> = 1</td></tr>
 <tr class="separator:ade453966686ddc1920e0e4995f93c223"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -580,188 +574,83 @@ Protected Attributes</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00162">162</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 </div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="a2fc5846d44c7de18cc4790b46b059881" name="a2fc5846d44c7de18cc4790b46b059881"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2fc5846d44c7de18cc4790b46b059881">&#9670;&#160;</a></span>FlagsV0</h2>
+<a id="ad8396d92bae191fbec53870d73f71d7a" name="ad8396d92bae191fbec53870d73f71d7a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad8396d92bae191fbec53870d73f71d7a">&#9670;&#160;</a></span>Flags</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881">vtfpp::VTF::FlagsV0</a> : uint32_t</td>
+          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7a">vtfpp::VTF::Flags</a> : uint32_t</td>
         </tr>
       </table>
 </div><div class="memdoc">
 <table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881ae821ca961f3025fe4df06a45f5f94633" name="a2fc5846d44c7de18cc4790b46b059881ae821ca961f3025fe4df06a45f5f94633"></a>FLAG_POINT_SAMPLE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a11a6819cdb88d841109fa53924ac7d92" name="a2fc5846d44c7de18cc4790b46b059881a11a6819cdb88d841109fa53924ac7d92"></a>FLAG_TRILINEAR&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881ab917484eb8849dc45ac94c3e5c82ad1d" name="a2fc5846d44c7de18cc4790b46b059881ab917484eb8849dc45ac94c3e5c82ad1d"></a>FLAG_CLAMP_S&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a09e94f3eb9ae81c455fae1364c41d598" name="a2fc5846d44c7de18cc4790b46b059881a09e94f3eb9ae81c455fae1364c41d598"></a>FLAG_CLAMP_T&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a57cafcb8f30645fded40b9a91a2b27ca" name="a2fc5846d44c7de18cc4790b46b059881a57cafcb8f30645fded40b9a91a2b27ca"></a>FLAG_ANISOTROPIC&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881ae95051292225fc53c6f450d7f54fa9a9" name="a2fc5846d44c7de18cc4790b46b059881ae95051292225fc53c6f450d7f54fa9a9"></a>FLAG_HINT_DXT5&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a2a696ed52127fc450a6f7e42c09ec517" name="a2fc5846d44c7de18cc4790b46b059881a2a696ed52127fc450a6f7e42c09ec517"></a>FLAG_NORMAL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0" name="a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0"></a>FLAG_NO_MIP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e" name="a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e"></a>FLAG_NO_LOD&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a7770597d0bebd69d41517a953ff0fb35" name="a2fc5846d44c7de18cc4790b46b059881a7770597d0bebd69d41517a953ff0fb35"></a>FLAG_MIN_MIP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881aaad207276633ba48c6cebdb795eecf8f" name="a2fc5846d44c7de18cc4790b46b059881aaad207276633ba48c6cebdb795eecf8f"></a>FLAG_PROCEDURAL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881aae8325bd3738b0e3ee96c73288e165f4" name="a2fc5846d44c7de18cc4790b46b059881aae8325bd3738b0e3ee96c73288e165f4"></a>FLAG_ONE_BIT_ALPHA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a84d3ce507f9951e2d66bc68b018b49d3" name="a2fc5846d44c7de18cc4790b46b059881a84d3ce507f9951e2d66bc68b018b49d3"></a>FLAG_MULTI_BIT_ALPHA&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34" name="a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34"></a>FLAG_ENVMAP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a8dc30fa5ed614f9ebacafbeec6d3e686" name="a2fc5846d44c7de18cc4790b46b059881a8dc30fa5ed614f9ebacafbeec6d3e686"></a>FLAG_RENDERTARGET&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881aa7573d19370090fb8a0d2cb5872e1d0f" name="a2fc5846d44c7de18cc4790b46b059881aa7573d19370090fb8a0d2cb5872e1d0f"></a>FLAG_DEPTH_RENDERTARGET&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a7051e1f4531198a1f6c159bb9c1b517c" name="a2fc5846d44c7de18cc4790b46b059881a7051e1f4531198a1f6c159bb9c1b517c"></a>FLAG_NO_DEBUG_OVERRIDE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a2fc5846d44c7de18cc4790b46b059881a64048e02d689c496eb4f372363e7158e" name="a2fc5846d44c7de18cc4790b46b059881a64048e02d689c496eb4f372363e7158e"></a>FLAG_SINGLE_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaae30262e18b818af71d2c9124b0709f1" name="ad8396d92bae191fbec53870d73f71d7aaae30262e18b818af71d2c9124b0709f1"></a>FLAG_V0_POINT_SAMPLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aacca0108c5060e14a474fa22fde23d52b" name="ad8396d92bae191fbec53870d73f71d7aacca0108c5060e14a474fa22fde23d52b"></a>FLAG_V0_TRILINEAR&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aae9329cc26abdd72242b04db0e8e335fd" name="ad8396d92bae191fbec53870d73f71d7aae9329cc26abdd72242b04db0e8e335fd"></a>FLAG_V0_CLAMP_S&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa90b70b311836775e10d2d75a3f369056" name="ad8396d92bae191fbec53870d73f71d7aa90b70b311836775e10d2d75a3f369056"></a>FLAG_V0_CLAMP_T&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aad3cac162585be84a4755769334de3c2b" name="ad8396d92bae191fbec53870d73f71d7aad3cac162585be84a4755769334de3c2b"></a>FLAG_V0_ANISOTROPIC&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa6fa0666e2e8180a5b94b81e2d78dc675" name="ad8396d92bae191fbec53870d73f71d7aa6fa0666e2e8180a5b94b81e2d78dc675"></a>FLAG_V0_VTEX_HINT_DXT5&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa5225420c2c407e8c62fb63ccf53b6f66" name="ad8396d92bae191fbec53870d73f71d7aa5225420c2c407e8c62fb63ccf53b6f66"></a>FLAG_V0_VTEX_NO_COMPRESS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa7e655f0cd719c1a35d55090a714ef148" name="ad8396d92bae191fbec53870d73f71d7aa7e655f0cd719c1a35d55090a714ef148"></a>FLAG_V0_NORMAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa7e9ebc211c75205bd141d6955fab743f" name="ad8396d92bae191fbec53870d73f71d7aa7e9ebc211c75205bd141d6955fab743f"></a>FLAG_V0_NO_MIP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa6097551258b1e6cb995e3c025746bce8" name="ad8396d92bae191fbec53870d73f71d7aa6097551258b1e6cb995e3c025746bce8"></a>FLAG_V0_NO_LOD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa126cba1efbef24b61b89ff22731c4e9d" name="ad8396d92bae191fbec53870d73f71d7aa126cba1efbef24b61b89ff22731c4e9d"></a>FLAG_V0_MIN_MIP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa9964b46f47bfc0b817904df0f8c4cb2c" name="ad8396d92bae191fbec53870d73f71d7aa9964b46f47bfc0b817904df0f8c4cb2c"></a>FLAG_V0_PROCEDURAL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa2ea3f9435cc9a561c7ac1769f2e5702a" name="ad8396d92bae191fbec53870d73f71d7aa2ea3f9435cc9a561c7ac1769f2e5702a"></a>FLAG_V0_ONE_BIT_ALPHA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa3fcc097c3658eb13b9dadddad9529e96" name="ad8396d92bae191fbec53870d73f71d7aa3fcc097c3658eb13b9dadddad9529e96"></a>FLAG_V0_MULTI_BIT_ALPHA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aae36036a0be12a6256fbce3556ee716ff" name="ad8396d92bae191fbec53870d73f71d7aae36036a0be12a6256fbce3556ee716ff"></a>FLAG_V0_ENVMAP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf8285113780af104ba828e870687c39c" name="ad8396d92bae191fbec53870d73f71d7aaf8285113780af104ba828e870687c39c"></a>FLAG_MASK_V0&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aab485be4098153d6f5d5faae9719246d3" name="ad8396d92bae191fbec53870d73f71d7aab485be4098153d6f5d5faae9719246d3"></a>FLAG_MASK_V0_VTEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa07a93ab06bd15e2d94368b9831af4d55" name="ad8396d92bae191fbec53870d73f71d7aa07a93ab06bd15e2d94368b9831af4d55"></a>FLAG_V1_RENDERTARGET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa242d062d3594237182ae884d73adf270" name="ad8396d92bae191fbec53870d73f71d7aa242d062d3594237182ae884d73adf270"></a>FLAG_V1_DEPTH_RENDERTARGET&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf844f772730115f7351ffb462468570a" name="ad8396d92bae191fbec53870d73f71d7aaf844f772730115f7351ffb462468570a"></a>FLAG_V1_NO_DEBUG_OVERRIDE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaafe82eb246854e5c390245f921752c60" name="ad8396d92bae191fbec53870d73f71d7aaafe82eb246854e5c390245f921752c60"></a>FLAG_V1_SINGLE_COPY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa7f6eb54d8ed75610538a777adb21df8f" name="ad8396d92bae191fbec53870d73f71d7aa7f6eb54d8ed75610538a777adb21df8f"></a>FLAG_V1_VTEX_ONE_OVER_MIP_LEVEL_IN_ALPHA&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa0dd8c4d1418d45af173a7f736634e5fc" name="ad8396d92bae191fbec53870d73f71d7aa0dd8c4d1418d45af173a7f736634e5fc"></a>FLAG_V1_VTEX_PREMULTIPLY_COLOR_BY_ONE_OVER_MIP_LEVEL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aadd571b51a048f15d1a96202b0ecd2ebc" name="ad8396d92bae191fbec53870d73f71d7aadd571b51a048f15d1a96202b0ecd2ebc"></a>FLAG_V1_VTEX_CONVERT_NORMAL_TO_DUDV&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aae948e08cad1af5ff377c974ca5fd1138" name="ad8396d92bae191fbec53870d73f71d7aae948e08cad1af5ff377c974ca5fd1138"></a>FLAG_MASK_V1&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aafaaa6e95c96180166522888cd00aa413" name="ad8396d92bae191fbec53870d73f71d7aafaaa6e95c96180166522888cd00aa413"></a>FLAG_MASK_V1_VTEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa8571953fcdcb1ed571ebdecc69a8ea86" name="ad8396d92bae191fbec53870d73f71d7aa8571953fcdcb1ed571ebdecc69a8ea86"></a>FLAG_V2_VTEX_ALPHA_TEST_MIP_GENERATION&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa3d2ef5372f3d69be4b2ecffdb7856c98" name="ad8396d92bae191fbec53870d73f71d7aa3d2ef5372f3d69be4b2ecffdb7856c98"></a>FLAG_V2_NO_DEPTH_BUFFER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa4a552da290b35f2eeaf923f22c2b02f9" name="ad8396d92bae191fbec53870d73f71d7aa4a552da290b35f2eeaf923f22c2b02f9"></a>FLAG_V2_VTEX_NICE_FILTERED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa55e796c72157efdfc1f47ec96b3e8cce" name="ad8396d92bae191fbec53870d73f71d7aa55e796c72157efdfc1f47ec96b3e8cce"></a>FLAG_V2_CLAMP_U&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa4931e5d67517df498dfaf49cc9be755f" name="ad8396d92bae191fbec53870d73f71d7aa4931e5d67517df498dfaf49cc9be755f"></a>FLAG_MASK_V2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa24302edcf40b4be65e7fe6e8f36d4355" name="ad8396d92bae191fbec53870d73f71d7aa24302edcf40b4be65e7fe6e8f36d4355"></a>FLAG_MASK_V2_VTEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa9449bffbd885e37cbdbf38693c80882a" name="ad8396d92bae191fbec53870d73f71d7aa9449bffbd885e37cbdbf38693c80882a"></a>FLAG_XBOX_VTEX_PRESWIZZLED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aad8854f7357eb1f7621bc8fa84a7c748f" name="ad8396d92bae191fbec53870d73f71d7aad8854f7357eb1f7621bc8fa84a7c748f"></a>FLAG_XBOX_CACHEABLE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf538e98310974a5f939042faeb4cbce0" name="ad8396d92bae191fbec53870d73f71d7aaf538e98310974a5f939042faeb4cbce0"></a>FLAG_XBOX_UNFILTERABLE_OK&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa8ba23ac388e0e863452889a530d6ad24" name="ad8396d92bae191fbec53870d73f71d7aa8ba23ac388e0e863452889a530d6ad24"></a>FLAG_MASK_XBOX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa0126f719cccdf775136491fd7258aab4" name="ad8396d92bae191fbec53870d73f71d7aa0126f719cccdf775136491fd7258aab4"></a>FLAG_MASK_XBOX_VTEX&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa46a2505e14f706835abe2e8a3afad9d4" name="ad8396d92bae191fbec53870d73f71d7aa46a2505e14f706835abe2e8a3afad9d4"></a>FLAG_V3_ALL_MIPS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa75535b8aaa174891f3f36a507f043d85" name="ad8396d92bae191fbec53870d73f71d7aa75535b8aaa174891f3f36a507f043d85"></a>FLAG_V3_VERTEX_TEXTURE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf1453a063e93b97acb392eac457666f4" name="ad8396d92bae191fbec53870d73f71d7aaf1453a063e93b97acb392eac457666f4"></a>FLAG_V3_SSBUMP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aac20affb404b8811ff4ac58218433f96f" name="ad8396d92bae191fbec53870d73f71d7aac20affb404b8811ff4ac58218433f96f"></a>FLAG_V3_BORDER&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aad998fe2339a774363675a22b827e4fa5" name="ad8396d92bae191fbec53870d73f71d7aad998fe2339a774363675a22b827e4fa5"></a>FLAG_MASK_V3&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa780b7862a308bd3841fccd9a7b7d6c4d" name="ad8396d92bae191fbec53870d73f71d7aa780b7862a308bd3841fccd9a7b7d6c4d"></a>FLAG_V4_SRGB&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aad421e8077dfcb4004fe7f4c0798ba4b5" name="ad8396d92bae191fbec53870d73f71d7aad421e8077dfcb4004fe7f4c0798ba4b5"></a>FLAG_MASK_V4&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf72f04afa010f6bcc4583ac8ae52b66e" name="ad8396d92bae191fbec53870d73f71d7aaf72f04afa010f6bcc4583ac8ae52b66e"></a>FLAG_V4_TF2_STAGING_MEMORY&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf15c7832b9ff148a6b7038da726e597c" name="ad8396d92bae191fbec53870d73f71d7aaf15c7832b9ff148a6b7038da726e597c"></a>FLAG_V4_TF2_IMMEDIATE_CLEANUP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa325d3b275bf119156fbe8c3a27618801" name="ad8396d92bae191fbec53870d73f71d7aa325d3b275bf119156fbe8c3a27618801"></a>FLAG_V4_TF2_IGNORE_PICMIP&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaf364f543a93c894e52121d7b2e8a1c7f" name="ad8396d92bae191fbec53870d73f71d7aaf364f543a93c894e52121d7b2e8a1c7f"></a>FLAG_V4_TF2_STREAMABLE_COARSE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaa34852f529ab6839a3c1b7bd3acad979" name="ad8396d92bae191fbec53870d73f71d7aaa34852f529ab6839a3c1b7bd3acad979"></a>FLAG_V4_TF2_STREAMABLE_FINE&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa30d9b84d93762373f35c284fedd71020" name="ad8396d92bae191fbec53870d73f71d7aa30d9b84d93762373f35c284fedd71020"></a>FLAG_MASK_V4_TF2&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aad2fa7c4ceb680407a00c062f11bba2f2" name="ad8396d92bae191fbec53870d73f71d7aad2fa7c4ceb680407a00c062f11bba2f2"></a>FLAG_V5_PWL_CORRECTED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa898ab5fa8d20e78c52cb1ebbddab5e89" name="ad8396d92bae191fbec53870d73f71d7aa898ab5fa8d20e78c52cb1ebbddab5e89"></a>FLAG_V5_SRGB&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa29cd42be4fd77b29a652e56450e5d8ed" name="ad8396d92bae191fbec53870d73f71d7aa29cd42be4fd77b29a652e56450e5d8ed"></a>FLAG_V5_DEFAULT_POOL&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aac8209cc3997c26edbbd165231540ce45" name="ad8396d92bae191fbec53870d73f71d7aac8209cc3997c26edbbd165231540ce45"></a>FLAG_V5_LOAD_MOST_MIPS&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa02211a60f55e80353007a3e7aa3e1ddb" name="ad8396d92bae191fbec53870d73f71d7aa02211a60f55e80353007a3e7aa3e1ddb"></a>FLAG_MASK_V5&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa35e7916a7288c1a44be20f7c549edd85" name="ad8396d92bae191fbec53870d73f71d7aa35e7916a7288c1a44be20f7c549edd85"></a>FLAG_V5_CSGO_COMBINED&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaaafdc9c037abdea3b167c3a8c90d7c26" name="ad8396d92bae191fbec53870d73f71d7aaaafdc9c037abdea3b167c3a8c90d7c26"></a>FLAG_V5_CSGO_ASYNC_DOWNLOAD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa4aaea060d551d9af70d6ea1be371a49d" name="ad8396d92bae191fbec53870d73f71d7aa4aaea060d551d9af70d6ea1be371a49d"></a>FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa44b196da2f1ece5e81b722c69fbe79b5" name="ad8396d92bae191fbec53870d73f71d7aa44b196da2f1ece5e81b722c69fbe79b5"></a>FLAG_V5_CSGO_YCOCG&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaa5640d4b7b1e1794b58fed91b9f66ce7" name="ad8396d92bae191fbec53870d73f71d7aaa5640d4b7b1e1794b58fed91b9f66ce7"></a>FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aa4b624b8e96dcbc7638d6a3bf8116c58b" name="ad8396d92bae191fbec53870d73f71d7aa4b624b8e96dcbc7638d6a3bf8116c58b"></a>FLAG_MASK_V5_CSGO&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="ad8396d92bae191fbec53870d73f71d7aaee0d4f91689c92dc2327fc8c1d6f9a34" name="ad8396d92bae191fbec53870d73f71d7aaee0d4f91689c92dc2327fc8c1d6f9a34"></a>FLAG_MASK_INTERNAL&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 <p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00164">164</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a05c68e154e19b6baae2adbbbe522fe3a" name="a05c68e154e19b6baae2adbbbe522fe3a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a05c68e154e19b6baae2adbbbe522fe3a">&#9670;&#160;</a></span>FlagsV2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3a">vtfpp::VTF::FlagsV2</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a05c68e154e19b6baae2adbbbe522fe3aa3d2ef5372f3d69be4b2ecffdb7856c98" name="a05c68e154e19b6baae2adbbbe522fe3aa3d2ef5372f3d69be4b2ecffdb7856c98"></a>FLAG_V2_NO_DEPTH_BUFFER&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a05c68e154e19b6baae2adbbbe522fe3aa55e796c72157efdfc1f47ec96b3e8cce" name="a05c68e154e19b6baae2adbbbe522fe3aa55e796c72157efdfc1f47ec96b3e8cce"></a>FLAG_V2_CLAMP_U&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00186">186</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="ad35c3406d55c01932dfdf67e168a2c9d" name="ad35c3406d55c01932dfdf67e168a2c9d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad35c3406d55c01932dfdf67e168a2c9d">&#9670;&#160;</a></span>FlagsV3</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9d">vtfpp::VTF::FlagsV3</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ad35c3406d55c01932dfdf67e168a2c9da91b7772a2697d03d9998e3ae04d9b200" name="ad35c3406d55c01932dfdf67e168a2c9da91b7772a2697d03d9998e3ae04d9b200"></a>FLAG_V3_LOAD_ALL_MIPS&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad35c3406d55c01932dfdf67e168a2c9da75535b8aaa174891f3f36a507f043d85" name="ad35c3406d55c01932dfdf67e168a2c9da75535b8aaa174891f3f36a507f043d85"></a>FLAG_V3_VERTEX_TEXTURE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad35c3406d55c01932dfdf67e168a2c9daf1453a063e93b97acb392eac457666f4" name="ad35c3406d55c01932dfdf67e168a2c9daf1453a063e93b97acb392eac457666f4"></a>FLAG_V3_SSBUMP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ad35c3406d55c01932dfdf67e168a2c9dac20affb404b8811ff4ac58218433f96f" name="ad35c3406d55c01932dfdf67e168a2c9dac20affb404b8811ff4ac58218433f96f"></a>FLAG_V3_BORDER&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00198">198</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a7b92ac345495ccc225d314f2921f01ea" name="a7b92ac345495ccc225d314f2921f01ea"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7b92ac345495ccc225d314f2921f01ea">&#9670;&#160;</a></span>FlagsV4</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7b92ac345495ccc225d314f2921f01ea">vtfpp::VTF::FlagsV4</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7b92ac345495ccc225d314f2921f01eaa780b7862a308bd3841fccd9a7b7d6c4d" name="a7b92ac345495ccc225d314f2921f01eaa780b7862a308bd3841fccd9a7b7d6c4d"></a>FLAG_V4_SRGB&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00206">206</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a42ad0c8abad3a2a38e633b42f6e7a26c" name="a42ad0c8abad3a2a38e633b42f6e7a26c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a42ad0c8abad3a2a38e633b42f6e7a26c">&#9670;&#160;</a></span>FlagsV4_TF2</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26c">vtfpp::VTF::FlagsV4_TF2</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a42ad0c8abad3a2a38e633b42f6e7a26caf72f04afa010f6bcc4583ac8ae52b66e" name="a42ad0c8abad3a2a38e633b42f6e7a26caf72f04afa010f6bcc4583ac8ae52b66e"></a>FLAG_V4_TF2_STAGING_MEMORY&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a42ad0c8abad3a2a38e633b42f6e7a26caf15c7832b9ff148a6b7038da726e597c" name="a42ad0c8abad3a2a38e633b42f6e7a26caf15c7832b9ff148a6b7038da726e597c"></a>FLAG_V4_TF2_IMMEDIATE_CLEANUP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a42ad0c8abad3a2a38e633b42f6e7a26ca325d3b275bf119156fbe8c3a27618801" name="a42ad0c8abad3a2a38e633b42f6e7a26ca325d3b275bf119156fbe8c3a27618801"></a>FLAG_V4_TF2_IGNORE_PICMIP&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a42ad0c8abad3a2a38e633b42f6e7a26caf364f543a93c894e52121d7b2e8a1c7f" name="a42ad0c8abad3a2a38e633b42f6e7a26caf364f543a93c894e52121d7b2e8a1c7f"></a>FLAG_V4_TF2_STREAMABLE_COARSE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a42ad0c8abad3a2a38e633b42f6e7a26caa34852f529ab6839a3c1b7bd3acad979" name="a42ad0c8abad3a2a38e633b42f6e7a26caa34852f529ab6839a3c1b7bd3acad979"></a>FLAG_V4_TF2_STREAMABLE_FINE&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00211">211</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="aaf1ce54aec9a232cbf5cef37b2cce89e" name="aaf1ce54aec9a232cbf5cef37b2cce89e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaf1ce54aec9a232cbf5cef37b2cce89e">&#9670;&#160;</a></span>FlagsV5</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89e">vtfpp::VTF::FlagsV5</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2" name="aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2"></a>FLAG_V5_PWL_CORRECTED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89" name="aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89"></a>FLAG_V5_SRGB&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aaf1ce54aec9a232cbf5cef37b2cce89ea29cd42be4fd77b29a652e56450e5d8ed" name="aaf1ce54aec9a232cbf5cef37b2cce89ea29cd42be4fd77b29a652e56450e5d8ed"></a>FLAG_V5_DEFAULT_POOL&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="aaf1ce54aec9a232cbf5cef37b2cce89eac8209cc3997c26edbbd165231540ce45" name="aaf1ce54aec9a232cbf5cef37b2cce89eac8209cc3997c26edbbd165231540ce45"></a>FLAG_V5_LOAD_MOST_MIPS&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00220">220</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="ac67c191b78cda86d2a888b2817874b36" name="ac67c191b78cda86d2a888b2817874b36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac67c191b78cda86d2a888b2817874b36">&#9670;&#160;</a></span>FlagsV5_CSGO</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36">vtfpp::VTF::FlagsV5_CSGO</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac67c191b78cda86d2a888b2817874b36a35e7916a7288c1a44be20f7c549edd85" name="ac67c191b78cda86d2a888b2817874b36a35e7916a7288c1a44be20f7c549edd85"></a>FLAG_V5_CSGO_COMBINED&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac67c191b78cda86d2a888b2817874b36aaafdc9c037abdea3b167c3a8c90d7c26" name="ac67c191b78cda86d2a888b2817874b36aaafdc9c037abdea3b167c3a8c90d7c26"></a>FLAG_V5_CSGO_ASYNC_DOWNLOAD&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac67c191b78cda86d2a888b2817874b36a4aaea060d551d9af70d6ea1be371a49d" name="ac67c191b78cda86d2a888b2817874b36a4aaea060d551d9af70d6ea1be371a49d"></a>FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac67c191b78cda86d2a888b2817874b36a44b196da2f1ece5e81b722c69fbe79b5" name="ac67c191b78cda86d2a888b2817874b36a44b196da2f1ece5e81b722c69fbe79b5"></a>FLAG_V5_CSGO_YCOCG&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="ac67c191b78cda86d2a888b2817874b36aa5640d4b7b1e1794b58fed91b9f66ce7" name="ac67c191b78cda86d2a888b2817874b36aa5640d4b7b1e1794b58fed91b9f66ce7"></a>FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00228">228</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a59c6798fffcc2ae731f5dfdf9fc5288b" name="a59c6798fffcc2ae731f5dfdf9fc5288b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59c6798fffcc2ae731f5dfdf9fc5288b">&#9670;&#160;</a></span>FlagsXBOX</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288b">vtfpp::VTF::FlagsXBOX</a> : uint32_t</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f" name="a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f"></a>FLAG_XBOX_CACHEABLE&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0" name="a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0"></a>FLAG_XBOX_UNFILTERABLE_OK&#160;</td><td class="fielddoc"></td></tr>
-</table>
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00192">192</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -785,7 +674,7 @@ Protected Attributes</h2></td></tr>
 <tr><td class="fieldname"><a id="a04f1c1affcbb1f880292bec6cae95a15a6c05e73de770b7266bb2af75d96782c8" name="a04f1c1affcbb1f880292bec6cae95a15a6c05e73de770b7266bb2af75d96782c8"></a>PLATFORM_PS3_PORTAL2&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00239">239</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00238">238</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -986,7 +875,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01035">1035</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01038">1038</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1005,7 +894,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01977">1977</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01980">1980</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1025,7 +914,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l02313">2313</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l02316">2316</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1045,7 +934,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01920">1920</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01923">1923</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1065,7 +954,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01150">1150</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01153">1153</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1084,7 +973,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01282">1282</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01285">1285</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1114,7 +1003,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01862">1862</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01865">1865</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1133,7 +1022,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01063">1063</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01066">1066</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1496,7 +1385,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01346">1346</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01349">1349</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1515,7 +1404,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01669">1669</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01672">1672</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1534,7 +1423,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01677">1677</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01680">1680</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1578,7 +1467,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01078">1078</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01081">1081</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1597,7 +1486,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01246">1246</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01249">1249</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1616,7 +1505,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01212">1212</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01215">1215</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1658,7 +1547,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01903">1903</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01906">1906</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1694,7 +1583,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01916">1916</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01919">1919</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1730,7 +1619,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01894">1894</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01897">1897</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1749,7 +1638,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01370">1370</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01373">1373</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1768,7 +1657,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01374">1374</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01377">1377</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1787,7 +1676,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01366">1366</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01369">1369</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1806,7 +1695,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01027">1027</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01030">1030</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1825,7 +1714,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01091">1091</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01094">1094</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1844,7 +1733,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01200">1200</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01203">1203</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1864,7 +1753,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00988">988</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00991">991</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1912,7 +1801,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01704">1704</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01707">1707</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1954,7 +1843,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01717">1717</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01720">1720</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1996,7 +1885,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01695">1695</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01698">1698</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2015,7 +1904,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00967">967</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00970">970</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2034,7 +1923,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00963">963</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00966">966</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2053,7 +1942,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01123">1123</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01126">1126</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2073,7 +1962,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01539">1539</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01542">1542</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2153,7 +2042,7 @@ Protected Attributes</h2></td></tr>
 
 <p>This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01588">1588</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01591">1591</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2227,7 +2116,7 @@ Protected Attributes</h2></td></tr>
 
 <p>This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01592">1592</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01595">1595</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2301,7 +2190,7 @@ Protected Attributes</h2></td></tr>
 
 <p>This is a convenience function. You're best off uploading the bounds to the GPU and scaling the UV there if trying to render a particle. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01546">1546</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01549">1549</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2339,7 +2228,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01274">1274</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01277">1277</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2359,7 +2248,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01382">1382</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01385">1385</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2387,7 +2276,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01391">1391</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01394">1394</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2406,7 +2295,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01378">1378</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01381">1381</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2425,7 +2314,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01266">1266</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01269">1269</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2445,7 +2334,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01818">1818</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01821">1821</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2464,7 +2353,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01826">1826</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01829">1829</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2483,7 +2372,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01811">1811</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01814">1814</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2502,7 +2391,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01354">1354</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01357">1357</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2521,7 +2410,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01362">1362</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01365">1365</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2540,7 +2429,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01358">1358</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01361">1361</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2579,7 +2468,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00984">984</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00987">987</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2598,7 +2487,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01969">1969</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01972">1972</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2617,7 +2506,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01890">1890</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01893">1893</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2636,7 +2525,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01691">1691</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01694">1694</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2655,7 +2544,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01807">1807</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01810">1810</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2674,7 +2563,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01043">1043</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01046">1046</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2827,7 +2716,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01459">1459</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01462">1462</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2846,7 +2735,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01615">1615</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01618">1618</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2865,7 +2754,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01636">1636</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01639">1639</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2884,7 +2773,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01951">1951</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01954">1954</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2904,7 +2793,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01039">1039</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01042">1042</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2923,7 +2812,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01665">1665</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01668">1668</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2942,7 +2831,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01650">1650</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01653">1653</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2961,7 +2850,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01628">1628</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01631">1631</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2980,7 +2869,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01607">1607</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01610">1610</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3008,7 +2897,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01455">1455</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01458">1458</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3027,7 +2916,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01872">1872</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01875">1875</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3075,7 +2964,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01962">1962</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01965">1965</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3117,7 +3006,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01958">1958</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01961">1961</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3171,7 +3060,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01800">1800</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01803">1803</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3219,7 +3108,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01796">1796</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01799">1799</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3249,7 +3138,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01883">1883</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01886">1886</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3269,7 +3158,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01879">1879</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01882">1882</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3289,7 +3178,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01350">1350</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01353">1353</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3309,7 +3198,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01673">1673</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01676">1676</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3329,7 +3218,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01681">1681</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01684">1684</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3349,7 +3238,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01611">1611</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01614">1614</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3369,7 +3258,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01250">1250</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01253">1253</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3389,7 +3278,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01632">1632</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01635">1635</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3409,7 +3298,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01238">1238</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01241">1241</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3429,7 +3318,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01031">1031</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01034">1034</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3465,7 +3354,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01095">1095</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01098">1098</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3485,7 +3374,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01204">1204</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01207">1207</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3521,7 +3410,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01258">1258</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01261">1261</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3541,7 +3430,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01654">1654</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01657">1657</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3601,7 +3490,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01766">1766</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01769">1769</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3679,7 +3568,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01721">1721</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01724">1724</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3699,7 +3588,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00980">980</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00983">983</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3729,7 +3618,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00971">971</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00974">974</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3749,7 +3638,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00976">976</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00979">979</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3769,7 +3658,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01640">1640</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01643">1643</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3811,7 +3700,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01619">1619</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01622">1622</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3831,7 +3720,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01127">1127</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01130">1130</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3851,7 +3740,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01596">1596</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01599">1599</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3890,7 +3779,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01143">1143</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01146">1146</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3910,7 +3799,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01278">1278</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01281">1281</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3948,7 +3837,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01400">1400</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01403">1403</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -3984,7 +3873,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00992">992</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l00995">995</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4004,7 +3893,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01047">1047</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01050">1050</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4024,7 +3913,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01270">1270</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01273">1273</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4054,7 +3943,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01840">1840</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01843">1843</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4102,7 +3991,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01830">1830</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01833">1833</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4142,7 +4031,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01973">1973</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01976">1976</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4167,7 +4056,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00534">534</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00533">533</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4191,7 +4080,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00557">557</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00556">556</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4215,7 +4104,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00558">558</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00557">557</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4239,7 +4128,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00521">521</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00520">520</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4263,7 +4152,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00550">550</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00549">549</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4287,7 +4176,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00543">543</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00542">542</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4311,7 +4200,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00544">544</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00543">543</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4335,7 +4224,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00542">542</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00541">541</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4349,7 +4238,7 @@ Protected Attributes</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">uint32_t vtfpp::VTF::flags = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">VTF::FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e">VTF::FLAG_NO_LOD</a></td>
+          <td class="memname">uint32_t vtfpp::VTF::flags = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa7e9ebc211c75205bd141d6955fab743f">FLAG_V0_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad8396d92bae191fbec53870d73f71d7aa6097551258b1e6cb995e3c025746bce8">FLAG_V0_NO_LOD</a></td>
         </tr>
       </table>
   </td>
@@ -4359,223 +4248,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00527">527</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a2c9e078af0a224c0ada07c95ff6bc8b2" name="a2c9e078af0a224c0ada07c95ff6bc8b2"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2c9e078af0a224c0ada07c95ff6bc8b2">&#9670;&#160;</a></span>FLAGS_MASK_INTERNAL</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_INTERNAL = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00237">237</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="adb7d7138e4fee454734664a3ba011fcc" name="adb7d7138e4fee454734664a3ba011fcc"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#adb7d7138e4fee454734664a3ba011fcc">&#9670;&#160;</a></span>FLAGS_MASK_V0</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V0 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae821ca961f3025fe4df06a45f5f94633">FLAG_POINT_SAMPLE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a11a6819cdb88d841109fa53924ac7d92">FLAG_TRILINEAR</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ab917484eb8849dc45ac94c3e5c82ad1d">FLAG_CLAMP_S</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a09e94f3eb9ae81c455fae1364c41d598">FLAG_CLAMP_T</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a57cafcb8f30645fded40b9a91a2b27ca">FLAG_ANISOTROPIC</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881ae95051292225fc53c6f450d7f54fa9a9">FLAG_HINT_DXT5</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a2a696ed52127fc450a6f7e42c09ec517">FLAG_NORMAL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881afaa376419e4fc87b0139010daa4daaf0">FLAG_NO_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a60478e6bd53f9e88803c92965eac705e">FLAG_NO_LOD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7770597d0bebd69d41517a953ff0fb35">FLAG_MIN_MIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aaad207276633ba48c6cebdb795eecf8f">FLAG_PROCEDURAL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aae8325bd3738b0e3ee96c73288e165f4">FLAG_ONE_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a84d3ce507f9951e2d66bc68b018b49d3">FLAG_MULTI_BIT_ALPHA</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aebc93e0665b0ca669953bd6f66868c34">FLAG_ENVMAP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a8dc30fa5ed614f9ebacafbeec6d3e686">FLAG_RENDERTARGET</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881aa7573d19370090fb8a0d2cb5872e1d0f">FLAG_DEPTH_RENDERTARGET</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a7051e1f4531198a1f6c159bb9c1b517c">FLAG_NO_DEBUG_OVERRIDE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a2fc5846d44c7de18cc4790b46b059881a64048e02d689c496eb4f372363e7158e">FLAG_SINGLE_COPY</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00184">184</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a04cd07522473899dc14329087da3418d" name="a04cd07522473899dc14329087da3418d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a04cd07522473899dc14329087da3418d">&#9670;&#160;</a></span>FLAGS_MASK_V2</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V2 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa3d2ef5372f3d69be4b2ecffdb7856c98">FLAG_V2_NO_DEPTH_BUFFER</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a05c68e154e19b6baae2adbbbe522fe3aa55e796c72157efdfc1f47ec96b3e8cce">FLAG_V2_CLAMP_U</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00190">190</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a494a0b52ec170c9cb056e2124f1fd34d" name="a494a0b52ec170c9cb056e2124f1fd34d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a494a0b52ec170c9cb056e2124f1fd34d">&#9670;&#160;</a></span>FLAGS_MASK_V3</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V3 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da91b7772a2697d03d9998e3ae04d9b200">FLAG_V3_LOAD_ALL_MIPS</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9da75535b8aaa174891f3f36a507f043d85">FLAG_V3_VERTEX_TEXTURE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9daf1453a063e93b97acb392eac457666f4">FLAG_V3_SSBUMP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad35c3406d55c01932dfdf67e168a2c9dac20affb404b8811ff4ac58218433f96f">FLAG_V3_BORDER</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00204">204</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="ad3b38993432458c53e44adb9ab2689f7" name="ad3b38993432458c53e44adb9ab2689f7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad3b38993432458c53e44adb9ab2689f7">&#9670;&#160;</a></span>FLAGS_MASK_V4</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V4 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7b92ac345495ccc225d314f2921f01eaa780b7862a308bd3841fccd9a7b7d6c4d">FLAG_V4_SRGB</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00209">209</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a4fcff7dff7c88e941693f71e4a0fc54c" name="a4fcff7dff7c88e941693f71e4a0fc54c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4fcff7dff7c88e941693f71e4a0fc54c">&#9670;&#160;</a></span>FLAGS_MASK_V4_TF2</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V4_TF2 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf72f04afa010f6bcc4583ac8ae52b66e">FLAG_V4_TF2_STAGING_MEMORY</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf15c7832b9ff148a6b7038da726e597c">FLAG_V4_TF2_IMMEDIATE_CLEANUP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26ca325d3b275bf119156fbe8c3a27618801">FLAG_V4_TF2_IGNORE_PICMIP</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caf364f543a93c894e52121d7b2e8a1c7f">FLAG_V4_TF2_STREAMABLE_COARSE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a42ad0c8abad3a2a38e633b42f6e7a26caa34852f529ab6839a3c1b7bd3acad979">FLAG_V4_TF2_STREAMABLE_FINE</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00218">218</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a0301c0947d1ccaf5b2b5db41e411c46a" name="a0301c0947d1ccaf5b2b5db41e411c46a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0301c0947d1ccaf5b2b5db41e411c46a">&#9670;&#160;</a></span>FLAGS_MASK_V5</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V5 = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ead2fa7c4ceb680407a00c062f11bba2f2">FLAG_V5_PWL_CORRECTED</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea898ab5fa8d20e78c52cb1ebbddab5e89">FLAG_V5_SRGB</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89ea29cd42be4fd77b29a652e56450e5d8ed">FLAG_V5_DEFAULT_POOL</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#aaf1ce54aec9a232cbf5cef37b2cce89eac8209cc3997c26edbbd165231540ce45">FLAG_V5_LOAD_MOST_MIPS</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00226">226</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="aade9dd16e38410b73ae4ee75729b8827" name="aade9dd16e38410b73ae4ee75729b8827"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aade9dd16e38410b73ae4ee75729b8827">&#9670;&#160;</a></span>FLAGS_MASK_V5_CSGO</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_V5_CSGO = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a35e7916a7288c1a44be20f7c549edd85">FLAG_V5_CSGO_COMBINED</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aaafdc9c037abdea3b167c3a8c90d7c26">FLAG_V5_CSGO_ASYNC_DOWNLOAD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a4aaea060d551d9af70d6ea1be371a49d">FLAG_V5_CSGO_SKIP_INITIAL_DOWNLOAD</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36a44b196da2f1ece5e81b722c69fbe79b5">FLAG_V5_CSGO_YCOCG</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ac67c191b78cda86d2a888b2817874b36aa5640d4b7b1e1794b58fed91b9f66ce7">FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00235">235</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="ab44db85c38b0d198d28c36646940559d" name="ab44db85c38b0d198d28c36646940559d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab44db85c38b0d198d28c36646940559d">&#9670;&#160;</a></span>FLAGS_MASK_XBOX</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr uint32_t vtfpp::VTF::FLAGS_MASK_XBOX = <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288bad8854f7357eb1f7621bc8fa84a7c748f">FLAG_XBOX_CACHEABLE</a> | <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a59c6798fffcc2ae731f5dfdf9fc5288baf538e98310974a5f939042faeb4cbce0">FLAG_XBOX_UNFILTERABLE_OK</a></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00196">196</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00526">526</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4599,7 +4272,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00535">535</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00534">534</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4625,7 +4298,7 @@ Protected Attributes</h2></td></tr>
 
 <p>This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#afb5b757668b8116e60768f9fecb354dd">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a> or <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a44ac0b1c2c3d2f16a75ca669a5ffc559">VTF::setFormat</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00277">277</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00276">276</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4651,7 +4324,7 @@ Protected Attributes</h2></td></tr>
 
 <p>This value is only valid when passed to <a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#afb5b757668b8116e60768f9fecb354dd">VTF::create</a> through <a class="el" href="../../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html">CreationOptions</a>. </p>
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00274">274</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00273">273</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4675,7 +4348,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00529">529</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00528">528</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4699,7 +4372,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00526">526</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00525">525</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4723,7 +4396,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00560">560</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00559">559</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4747,7 +4420,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00559">559</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00558">558</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4771,7 +4444,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00536">536</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00535">535</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4795,7 +4468,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00519">519</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00518">518</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4819,7 +4492,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00556">556</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00555">555</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4843,7 +4516,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00532">532</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00531">531</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4867,7 +4540,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00553">553</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00552">552</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4891,7 +4564,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00530">530</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00529">529</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4915,7 +4588,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00538">538</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00537">537</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4939,7 +4612,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00540">540</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00539">539</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4963,7 +4636,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00539">539</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00538">538</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4987,7 +4660,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00523">523</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00522">522</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -5011,7 +4684,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00525">525</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00524">524</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -5035,7 +4708,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00547">547</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00546">546</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
