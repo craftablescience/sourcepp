@@ -193,6 +193,106 @@ TEST_WRITE_FMT(UV88,               VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD)
 TEST_WRITE_FMT(UVWQ8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
 TEST_WRITE_FMT(UVLX8888,           VTF::FLAG_V0_NO_MIP | VTF::FLAG_V0_NO_LOD | VTF::FLAG_V0_MULTI_BIT_ALPHA)
 
+#define GETCHAN(o, c) \
+	static_cast<PIXFMT::CHANTYPE>(o.c())
+
+// the input images are 2x2 composites of 16x16 tiles with r/g/b/a increasing/decreasing
+// in distinctive orders to catch out any byte order issues.
+#define TEST_READ_EXTFMT_BLOCK_RGBA(LE, GE) do { \
+	EXPECT_##GE(GETCHAN(pixels[i], r), GETCHAN(pixels[i+1], r)); \
+	EXPECT_##LE(GETCHAN(pixels[i], g), GETCHAN(pixels[i+1], g)); \
+	EXPECT_##GE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
+	EXPECT_##LE(GETCHAN(pixels[i], a), GETCHAN(pixels[i+1], a)); \
+} while (0)
+
+#define TEST_READ_EXTFMT_BLOCK_RGB(LE, GE) do { \
+	EXPECT_##GE(GETCHAN(pixels[i], r), GETCHAN(pixels[i+1], r)); \
+	EXPECT_##LE(GETCHAN(pixels[i], g), GETCHAN(pixels[i+1], g)); \
+	EXPECT_##LE(GETCHAN(pixels[i], b), GETCHAN(pixels[i+1], b)); \
+} while (0)
+
+#define TEST_READ_EXTFMT_DETAIL(Type, Chan, Rest, Ext, Mkvtf) \
+	TEST(vtfpp, read_extfmt_##Type##_##Chan##Rest##_##Ext) { \
+		using PIXFMT = ImagePixelV2::Chan##Rest; \
+		Mkvtf(vtf, Chan, Rest, Ext); \
+		ASSERT_TRUE(vtf); \
+		EXPECT_EQ(vtf.getFormat(), ImageFormat::Chan##Rest); \
+		EXPECT_EQ(vtf.getWidth(), 32); \
+		EXPECT_EQ(vtf.getHeight(), 32); \
+		auto rawspan = vtf.getImageDataRaw(); \
+		auto pixels = std::span<const PIXFMT>(reinterpret_cast<const PIXFMT *>(rawspan.data()), rawspan.size() / sizeof(PIXFMT)); \
+		for (size_t i = 0; i < 15; i++) { \
+			TEST_READ_EXTFMT_BLOCK_##Chan(LT, GT); \
+		} \
+		for (size_t i = 16 * 32; i < 15 + 16 * 32; i++) { \
+			TEST_READ_EXTFMT_BLOCK_##Chan(GT, LT); \
+		} \
+	}
+
+#define DEFPATH(Chan, Rest, Ext) \
+	ASSET_ROOT "vtfpp/extfmt/" #Chan #Rest "." #Ext
+
+#define GETEXT(As, Chan, Rest, Ext) \
+	VTF::CreationOptions options { \
+		.outputFormat = VTF::FORMAT_UNCHANGED, \
+	}; \
+	VTF As = VTF::create(DEFPATH(Chan, Rest, Ext), options)
+
+#define GETVTF(As, Chan, Rest, Ext) \
+	VTF As(DEFPATH(Chan, Rest, Ext))
+
+#define GETROUND(As, Chan, Rest, Ext) \
+	GETEXT(roundtmp, Chan, Rest, Ext); \
+	ASSERT_TRUE(roundtmp); \
+	const auto bakedpath = "roundtrip_" #Chan #Rest "_" #Ext ".vtf"; \
+	ASSERT_TRUE(roundtmp.bake(bakedpath)); \
+	VTF As(bakedpath)
+
+#define TEST_READ_EXTFMT_IMG(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(img, Chan, Rest, Ext, GETEXT)
+#define TEST_READ_EXTFMT_TEX(Chan, Rest) TEST_READ_EXTFMT_DETAIL(tex, Chan, Rest, vtf, GETVTF)
+
+#define EXTFMT_CASES \
+	EXTFMT_CASE(RGB,  888,       png) \
+	EXTFMT_CASE(RGB,  888,       qoi) \
+	EXTFMT_CASE(RGBA, 16161616,  png) \
+	EXTFMT_CASE(RGBA, 32323232F, exr) \
+	EXTFMT_CASE(RGBA, 8888,      png) \
+	EXTFMT_CASE(RGBA, 8888,      qoi) \
+	EXTFMT_CASE(RGBA, 8888,      tga) \
+	EXTFMT_CASE(RGBA, 8888,      webp)
+
+#define EXTFMT_CASE TEST_READ_EXTFMT_IMG
+	EXTFMT_CASES
+#undef EXTFMT_CASE
+
+TEST_READ_EXTFMT_TEX(RGB,  888)
+TEST_READ_EXTFMT_TEX(RGBA, 8888)
+TEST_READ_EXTFMT_TEX(RGBA, 16161616)
+TEST_READ_EXTFMT_TEX(RGBA, 32323232F)
+
+#define TEST_READ_EXTFMT_ROUNDTRIP(Chan, Rest, Ext) TEST_READ_EXTFMT_DETAIL(roundtrip, Chan, Rest, Ext, GETROUND)
+
+#define EXTFMT_CASE TEST_READ_EXTFMT_ROUNDTRIP
+	EXTFMT_CASES
+#undef EXTFMT_CASE
+
+#define TEST_WRITE_EXTFMT(Chan, Rest, Ext, To) \
+	TEST(vtfpp, write_extfmt_##Chan##Rest##_##Ext##_to_##To) { \
+		VTF::CreationOptions options { \
+			.outputFormat = ImageFormat::To, \
+		}; \
+		VTF vtf = VTF::create(DEFPATH(Chan, Rest, Ext), options); \
+		ASSERT_TRUE(vtf.bake("write_" #Chan #Rest "_to_" #To ".vtf")); \
+	}
+
+TEST_WRITE_EXTFMT(RGB, 888, png, DXT1)
+TEST_WRITE_EXTFMT(RGB, 888, qoi, DXT1)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, BC7)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, DXT5)
+TEST_WRITE_EXTFMT(RGBA, 8888, png, DXT1_ONE_BIT_ALPHA)
+TEST_WRITE_EXTFMT(RGBA, 16161616, png, DXT5)
+TEST_WRITE_EXTFMT(RGBA, 32323232F, exr, DXT5)
+
 #endif
 
 TEST(vtfpp, write_non_po2) {
@@ -1169,7 +1269,7 @@ TEST(vtfpp, read_xbox_p8) {
 	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
 	ASSERT_TRUE(palette);
 	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888) * vtf.getFrameCount());
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888) * vtf.getFrameCount());
 
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);
@@ -1219,7 +1319,7 @@ TEST(vtfpp, read_xbox_broken) {
 	const auto* palette = vtf.getResource(Resource::TYPE_PALETTE_DATA);
 	ASSERT_TRUE(palette);
 	EXPECT_EQ(palette->flags, Resource::FLAG_NONE);
-	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixel::BGRA8888) * vtf.getFrameCount());
+	EXPECT_EQ(palette->data.size(), 256 * sizeof(ImagePixelV2::BGRA8888) * vtf.getFrameCount());
 
 	const auto* fallback = vtf.getResource(Resource::TYPE_FALLBACK_DATA);
 	ASSERT_TRUE(fallback);

@@ -18,11 +18,14 @@
 #include <miniz.h>
 #include <zstd.h>
 
+#include <sourcepp/Bits.h>
 #include <sourcepp/compression/LZMA.h>
+#include <sourcepp/Macros.h>
 #include <vtfpp/ImageConversion.h>
 #include <vtfpp/ImageQuantize.h>
 
 using namespace sourcepp;
+using namespace sourcepp::bits;
 using namespace vtfpp;
 
 namespace {
@@ -140,10 +143,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 			case DXT5:
 			case UV88: {
 				std::span dxtData{reinterpret_cast<uint16_t*>(imageData.data()), imageData.size() / sizeof(uint16_t)};
-				std::for_each(
-#ifdef SOURCEPP_BUILD_WITH_TBB
-						std::execution::par_unseq,
-#endif
+				SOURCEPP_CALL_WITH_POLICY_IF_TBB(std::for_each, std::execution::par_unseq,
 						dxtData.begin(), dxtData.end(), [](uint16_t& value) {
 					BufferStream::swap_endian(&value);
 				});
@@ -233,13 +233,13 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return {};
 			}
-			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
+			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), deref_as_le<uint32_t>(this->data.data())}};
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
-			return *reinterpret_cast<const uint32_t*>(this->data.data());
+			return deref_as_le<uint32_t>(this->data.data());
 		case TYPE_LOD_CONTROL_INFO:
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
@@ -253,12 +253,12 @@ Resource::ConvertedData Resource::convertData() const {
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
 			}
-			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data()));
+			return std::string(reinterpret_cast<const char*>(this->data.data()) + sizeof(uint32_t), deref_as_le<uint32_t>(this->data.data()));
 		case TYPE_HOTSPOT_DATA:
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return {};
 			}
-			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
+			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), deref_as_le<uint32_t>(this->data.data())}};
 		default:
 			break;
 	}
@@ -349,7 +349,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			if (!(lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
 				return false;
 			}
-			return *reinterpret_cast<uint32_t*>(lhs.data.data()) < *reinterpret_cast<uint32_t*>(rhs.data.data());
+			return deref_as_le<uint32_t>(lhs.data.data()) < deref_as_le<uint32_t>(rhs.data.data());
 		});
 
 		// Fix up data spans to point to the actual data
@@ -357,8 +357,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		for (auto& resource : this->resources) {
 			if (!(resource.flags & Resource::FLAG_LOCAL_DATA)) {
 				if (lastResource) {
-					const auto lastOffset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
-					const auto currentOffset = *reinterpret_cast<uint32_t*>(resource.data.data());
+					const auto lastOffset = deref_as_le<uint32_t>(lastResource->data.data());
+					const auto currentOffset = deref_as_le<uint32_t>(resource.data.data());
 					const auto curPos = stream.tell();
 					stream.seek(lastOffset);
 					lastResource->data = stream.read_span<std::byte>(currentOffset - lastOffset);
@@ -368,7 +368,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			}
 		}
 		if (lastResource) {
-			const auto offset = *reinterpret_cast<uint32_t*>(lastResource->data.data());
+			const auto offset = deref_as_le<uint32_t>(lastResource->data.data());
 			const auto curPos = stream.tell();
 			stream.seek(offset);
 			lastResource->data = stream.read_span<std::byte>(stream.size() - offset);
@@ -560,7 +560,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->resources.push_back({
 						.type = Resource::TYPE_PALETTE_DATA,
 						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888) * this->frameCount),
+						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixelV2::BGRA8888) * this->frameCount),
 					});
 				}
 
@@ -1284,9 +1284,9 @@ void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
 
 void VTF::computeReflectivity() {
 	static constexpr auto getReflectivityForImage = [](const VTF& vtf, uint16_t frame, uint8_t face, uint16_t slice) {
-		static constexpr auto getReflectivityForPixel = [](const ImagePixel::RGBA8888* pixel) -> math::Vec3f {
+		static constexpr auto getReflectivityForPixel = [](const ImagePixelV2::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
-			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
+			math::Vec3f ref{static_cast<float>(pixel->r()), static_cast<float>(pixel->g()), static_cast<float>(pixel->b())};
 			ref /= 255.f * 0.9f;
 			ref[0] *= ref[0];
 			ref[1] *= ref[1];
@@ -1297,9 +1297,9 @@ void VTF::computeReflectivity() {
 		auto rgba8888Data = vtf.getImageDataAsRGBA8888(0, frame, face, slice);
 		math::Vec3f out{};
 		for (uint64_t i = 0; i < rgba8888Data.size(); i += 4) {
-			out += getReflectivityForPixel(reinterpret_cast<ImagePixel::RGBA8888*>(rgba8888Data.data() + i));
+			out += getReflectivityForPixel(reinterpret_cast<ImagePixelV2::RGBA8888*>(rgba8888Data.data() + i));
 		}
-		return out / (rgba8888Data.size() / sizeof(ImagePixel::RGBA8888));
+		return out / (rgba8888Data.size() / sizeof(ImagePixelV2::RGBA8888));
 	};
 
 	const auto faceCount = this->getFaceCount();
@@ -2024,7 +2024,9 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->frameCount)
 				.write(this->startFrame)
 				.pad<uint32_t>()
-				.write(this->reflectivity)
+				.write(this->reflectivity[0])
+				.write(this->reflectivity[1])
+				.write(this->reflectivity[2])
 				.pad<uint32_t>()
 				.write(this->bumpMapScale)
 				.write(bakeFormat)

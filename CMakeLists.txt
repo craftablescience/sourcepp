@@ -6,6 +6,10 @@ project(sourcepp
         DESCRIPTION "Several modern C++20 libraries for sanely parsing Valve formats."
         HOMEPAGE_URL "https://craftablescience.info/sourcepp")
 set(CMAKE_CXX_STANDARD 20)
+if(MSVC)
+	# secret second flag to *actually* make msvc a c++20-compilant compiler
+	add_compile_options($<$<COMPILE_LANGUAGE:CXX>:/Zc:preprocessor>)
+endif()
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 

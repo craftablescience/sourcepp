@@ -4,6 +4,7 @@
 
 // Helpers
 #define SOURCEPP_CONCAT_DETAIL(a, b) a##b
+/// Token pasting outside a macro context.
 #define SOURCEPP_CONCAT(a, b) SOURCEPP_CONCAT_DETAIL(a, b)
 
 /// Create a breakpoint in debug
@@ -70,3 +71,80 @@
 			static_cast<std::underlying_type_t<Enum>>(lhs) ^  \
 			static_cast<std::underlying_type_t<Enum>>(rhs));  \
     }
+
+/// Indirected `()`.
+#define SOURCEPP_UNIT ()
+
+#define SOURCEPP_EXPAND8(...) SOURCEPP_EXPAND7(SOURCEPP_EXPAND7(SOURCEPP_EXPAND7(SOURCEPP_EXPAND7(__VA_ARGS__))))
+#define SOURCEPP_EXPAND7(...) SOURCEPP_EXPAND6(SOURCEPP_EXPAND6(SOURCEPP_EXPAND6(SOURCEPP_EXPAND6(__VA_ARGS__))))
+#define SOURCEPP_EXPAND6(...) SOURCEPP_EXPAND5(SOURCEPP_EXPAND5(SOURCEPP_EXPAND5(SOURCEPP_EXPAND5(__VA_ARGS__))))
+#define SOURCEPP_EXPAND5(...) SOURCEPP_EXPAND4(SOURCEPP_EXPAND4(SOURCEPP_EXPAND4(SOURCEPP_EXPAND4(__VA_ARGS__))))
+#define SOURCEPP_EXPAND4(...) SOURCEPP_EXPAND3(SOURCEPP_EXPAND3(SOURCEPP_EXPAND3(SOURCEPP_EXPAND3(__VA_ARGS__))))
+#define SOURCEPP_EXPAND3(...) SOURCEPP_EXPAND2(SOURCEPP_EXPAND2(SOURCEPP_EXPAND2(SOURCEPP_EXPAND2(__VA_ARGS__))))
+#define SOURCEPP_EXPAND2(...) SOURCEPP_EXPAND1(SOURCEPP_EXPAND1(SOURCEPP_EXPAND1(SOURCEPP_EXPAND1(__VA_ARGS__))))
+#define SOURCEPP_EXPAND1(...) __VA_ARGS__
+
+#define SOURCEPP_ID(...) __VA_ARGS__
+
+/// Apply a unary macro to each of `__VA_ARGS__`.
+/// \param sep Nullary function-like macro expected to expand to a separator. For rationale, see \ref SOURCEPP_THUNK_COMMA.
+/// \param macro Unary macro.
+/// \param ... List of first arguments per call to `macro`.
+#define SOURCEPP_FOREACH0_SEP(sep, macro, ...) \
+	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_FOREACH0_SEP_HELPER(sep, macro, __VA_ARGS__)))
+#define SOURCEPP_FOREACH0_SEP_HELPER(sep, macro, x, ...) \
+	macro(x) \
+	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_FOREACH0_SEP_HELPER_THUNK SOURCEPP_UNIT (sep, macro, __VA_ARGS__))
+#define SOURCEPP_FOREACH0_SEP_HELPER_THUNK() SOURCEPP_FOREACH0_SEP_HELPER
+
+/// Apply a binary macro to each of `__VA_ARGS__` with a set first argument.
+/// \param sep Nullary function-like macro expected to expand to a separator. For rationale, see \ref SOURCEPP_THUNK_COMMA.
+/// \param macro Binary macro.
+/// \param a Always the first argument to `macro`.
+/// \param ... List of second arguments per call to `macro`
+#define SOURCEPP_FOREACH1_SEP(sep, macro, a, ...) \
+	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_FOREACH1_SEP_HELPER(sep, macro, a, __VA_ARGS__)))
+#define SOURCEPP_FOREACH1_SEP_HELPER(sep, macro, a, x, ...) \
+	macro(a, x) \
+	__VA_OPT__(sep SOURCEPP_UNIT SOURCEPP_FOREACH1_SEP_HELPER_THUNK SOURCEPP_UNIT (sep, macro, a, __VA_ARGS__))
+#define SOURCEPP_FOREACH1_SEP_HELPER_THUNK() SOURCEPP_FOREACH1_SEP_HELPER
+
+/// Reverse an argument list; evaluates comma-separated but unparenthesized.
+#define SOURCEPP_REVERSE(...) \
+	__VA_OPT__(SOURCEPP_EXPAND5(SOURCEPP_REVERSE_HELPER(__VA_ARGS__)))
+#define SOURCEPP_REVERSE_HELPER(a, ...) \
+        __VA_OPT__(SOURCEPP_REVERSE_HELPER_THUNK SOURCEPP_UNIT (__VA_ARGS__),) a
+#define SOURCEPP_REVERSE_HELPER_THUNK() SOURCEPP_REVERSE_HELPER
+
+/// Nullary macro that expands to nothing.
+#define SOURCEPP_THUNK_NOTHING()
+
+/// Turn its operand into (effectively) a nullary function-like macro that expands to it.
+#define SOURCEPP_THUNK(id) id SOURCEPP_THUNK_NOTHING
+/// Nullary macro that expands to a comma. It is necessary to defer expansion to any commas in the
+/// desired output of complex macro expansions, to prevent the preprocessor from interpreting such a comma itself.
+#define SOURCEPP_THUNK_COMMA() ,
+
+/// Convenience variant of SOURCEPP_FOREACH0_SEP with no separator.
+#define SOURCEPP_FOREACH0(macro, ...) SOURCEPP_FOREACH0_SEP(SOURCEPP_THUNK_NOTHING, macro, __VA_ARGS__)
+/// Convenience variant of SOURCEPP_FOREACH1_SEP with no separator.
+#define SOURCEPP_FOREACH1(macro, a, ...) SOURCEPP_FOREACH1_SEP(SOURCEPP_THUNK_NOTHING, macro, a, __VA_ARGS__)
+
+/// Callable parenthesization; identity function for 2-tuples when used bare as in:
+///
+///     SOURCEPP_CONS TUPLE
+#define SOURCEPP_CONS(a, d) (a, d)
+/// Called bare to destructure the first of a 2-tuple.
+#define SOURCEPP_CAR(a, d) a
+/// Called bare to destructure the second of a 2-tuple.
+#define SOURCEPP_CDR(a, d) d
+
+#define SOURCEPP_CALL_WITH_POLICY_IF_TBB(ident, policy, ...) ident(__VA_ARGS__)
+#ifdef SOURCEPP_BUILD_WITH_TBB
+#	undef SOURCEPP_CALL_WITH_POLICY_IF_TBB
+#	if __has_include(<execution>)
+#		define SOURCEPP_CALL_WITH_POLICY_IF_TBB(ident, policy, ...) ident(policy __VA_OPT__(,) __VA_ARGS__)
+#	else
+#		define SOURCEPP_CALL_WITH_POLICY_IF_TBB(...) static_assert(false, "This macro needs <execution> present.")
+#	endif
+#endif
