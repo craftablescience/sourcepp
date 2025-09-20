@@ -36,12 +36,10 @@ start:
 			ID->type = type; \
 			ptr.reset(ID)
 
-		const auto type = stream.read<ChunkType>();
-		switch (type) {
+		switch (const auto type = stream.read<ChunkType>()) {
 			using enum ChunkType;
 			case FMT: {
 				SNDPP_CHUNK_SETUP(FMT);
-				// NOLINTNEXTLINE(*-sizeof-container)
 				const auto fmtExtraCompressionInfoLength = stream.read<uint32_t>() - 16; // size of the standard FMT header
 				stream >> FMT->format >> FMT->channels >> FMT->samplesPerSecond >> FMT->averageBytesPerSecond >> FMT->blockAlign >> FMT->bitsPerSample;
 				if (fmtExtraCompressionInfoLength) {
@@ -143,8 +141,8 @@ start:
 			}
 			case LIST: {
 				const auto listLength = stream.read<uint32_t>();
-				const auto listType = stream.read<ChunkListType>();
-				switch (listType) {
+				// todo(sndpp): LIST subchunks are using the LIST id thanks to the macro, is this correct?
+				switch (stream.read<ChunkListType>()) {
 					using enum ChunkListType;
 					default: // Not in the "spec"
 					case WAVL: // No wave lists!
@@ -163,8 +161,7 @@ start:
 						SNDPP_CHUNK_SETUP(ADTL);
 						const auto adtlStart = stream.tell() + listLength - sizeof(ChunkListADTLType);
 						while (stream.tell() < adtlStart) {
-							const auto adtlType = stream.read<ChunkListADTLType>();
-							switch (adtlType) {
+							switch (stream.read<ChunkListADTLType>()) {
 								using enum ChunkListADTLType;
 								case LABL: {
 									const auto labelLength = stream.read<uint32_t>();
@@ -213,7 +210,7 @@ start:
 	}
 
 	// FMT chunk and DATA chunk are required
-	if (!this->getFirstChunk(WAV::ChunkType::FMT) || !this->getFirstChunk(WAV::ChunkType::DATA)) {
+	if (!this->getFirstChunk(ChunkType::FMT) || !this->getFirstChunk(ChunkType::DATA)) {
 		goto fail;
 	}
 }
@@ -236,8 +233,8 @@ std::vector<std::unique_ptr<WAV::ChunkBase>>& WAV::getChunks() {
 	return this->chunks;
 }
 
-const WAV::ChunkBase* WAV::getFirstChunk(WAV::ChunkType type) const {
-	if (const auto it = std::find_if(this->chunks.begin(), this->chunks.end(), [type](const std::unique_ptr<ChunkBase>& chunk) {
+const WAV::ChunkBase* WAV::getFirstChunk(ChunkType type) const {
+	if (const auto it = std::ranges::find_if(this->chunks, [type](const std::unique_ptr<ChunkBase>& chunk) {
 		return chunk->type == type;
 	}); it != this->chunks.end()) {
 		return it->get();
