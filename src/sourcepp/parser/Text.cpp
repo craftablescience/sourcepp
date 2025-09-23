@@ -174,7 +174,7 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 	}
 
 	backing << '\0';
-	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
+	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }
 
 std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences) {
@@ -200,5 +200,5 @@ std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, 
 	}
 
 	backing << '\0';
-	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
+	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }

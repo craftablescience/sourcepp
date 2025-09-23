@@ -76,7 +76,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 	}
 
 	backing << '\0';
-	return {reinterpret_cast<const char*>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};
+	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }
 
 void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& version) {
@@ -850,7 +850,7 @@ FGDWriter& FGDWriter::EntityWriter::endEntity() const {
 }
 
 std::string FGDWriter::bake() const {
-	std::string_view out{this->backingData.data(), this->writer.tell()};
+	std::string_view out{this->backingData.data(), static_cast<std::string_view::size_type>(this->writer.tell())};
 	while (out.ends_with("\n\n")) {
 		out = out.substr(0, out.size() - 1);
 	}
