@@ -5,6 +5,11 @@
   git pull
 )
 (
+  cd compressonator || exit
+  git checkout master
+  git pull
+)
+(
   cd cryptopp || exit
   git checkout master
   git pull

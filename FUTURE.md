@@ -5,9 +5,6 @@
 
 ### Future Improvements
 
-- External
-  - Move from compressonator to something that isn't a pile of garbage
-    - There is literally nothing else that supports BC6H
 - `bsppp`
   - Console paklump support
     - Note that XBOX uses XZP lump, X360, PS3 use PC lump but console style zip
@@ -41,4 +38,5 @@
   - Cache file handles so they're not constantly getting closed/opened
   - XZP write support
 - `vtfpp`
+  - Use bc7enc_rdo for its supported formats over compressonator
   - Add a MKS parser/writer
