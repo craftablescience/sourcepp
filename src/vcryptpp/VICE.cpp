@@ -9,6 +9,10 @@ using namespace vcryptpp;
 namespace {
 
 std::vector<std::byte> applyIce(std::span<const std::byte> data, std::string_view code, bool encrypt) {
+	if (code.size() != IceKey::blockSize()) {
+		return {};
+	}
+
 	IceKey ice;
 	ice.set(reinterpret_cast<const unsigned char*>(code.data()));
 
