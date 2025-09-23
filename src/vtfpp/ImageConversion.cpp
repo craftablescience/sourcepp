@@ -18,7 +18,7 @@
 #include <future>
 #endif
 
-#include <Compressonator.h>
+#include <compressonator.h>
 
 #define QOI_IMPLEMENTATION
 #define QOI_NO_STDIO

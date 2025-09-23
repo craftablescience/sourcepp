@@ -1,6 +1,9 @@
 [submodule "ext/bufferstream"]
 	path = ext/bufferstream
 	url = https://github.com/craftablescience/BufferStream
+[submodule "ext/compressonator"]
+	path = ext/compressonator
+	url = https://github.com/craftablescience/compressonator
 [submodule "ext/cryptopp"]
 	path = ext/cryptopp
 	url = https://github.com/abdes/cryptopp-cmake
