@@ -65,11 +65,14 @@ inline void register_python(py::module_& m) {
 			KnownCodes.attr("THE_SHIP")                        = THE_SHIP;
 			KnownCodes.attr("ZOMBIE_PANIC_SOURCE")             = ZOMBIE_PANIC_SOURCE;
 
-			KnownCodes.attr("EKV_GPU_DEFAULT")       = EKV_GPU_DEFAULT;
-			KnownCodes.attr("EKV_GPU_ALIEN_SWARM")   = EKV_GPU_ALIEN_SWARM;
-			KnownCodes.attr("EKV_GPU_LEFT_4_DEAD_1") = EKV_GPU_LEFT_4_DEAD_1;
-			KnownCodes.attr("EKV_GPU_LEFT_4_DEAD_2") = EKV_GPU_LEFT_4_DEAD_2;
-			KnownCodes.attr("EKV_GPU_PORTAL_2")      = EKV_GPU_PORTAL_2;
+			KnownCodes.attr("EKV_GPU_DEFAULT")               = EKV_GPU_DEFAULT;
+			KnownCodes.attr("EKV_GPU_ALIEN_SWARM")           = EKV_GPU_ALIEN_SWARM;
+			KnownCodes.attr("EKV_GPU_DOTA_2")                = EKV_GPU_DOTA_2;
+			KnownCodes.attr("EKV_GPU_HALF_LIFE_2_EPISODE_2") = EKV_GPU_HALF_LIFE_2_EPISODE_2;
+			KnownCodes.attr("EKV_GPU_LEFT_4_DEAD_1")         = EKV_GPU_LEFT_4_DEAD_1;
+			KnownCodes.attr("EKV_GPU_LEFT_4_DEAD_2")         = EKV_GPU_LEFT_4_DEAD_2;
+			KnownCodes.attr("EKV_GPU_TEAM_FORTRESS_2")       = EKV_GPU_TEAM_FORTRESS_2;
+			KnownCodes.attr("EKV_GPU_PORTAL_2")              = EKV_GPU_PORTAL_2;
 		}
 
 		VICE.def("decrypt_bytes", [](const py::bytes& data, std::string_view code = KnownCodes::DEFAULT) {
