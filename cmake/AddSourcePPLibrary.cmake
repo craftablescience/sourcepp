@@ -1,5 +1,5 @@
 function(add_sourcepp_library TARGET)
-    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C;CSHARP;PYTHON;TEST;BENCH" "" "")
+    cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C;CSHARP;PYTHON;WASM;TEST;BENCH" "" "")
     string(TOUPPER ${TARGET} TARGET_UPPER)
     if(SOURCEPP_USE_${TARGET_UPPER})
         set(PROPAGATE_VARS "")
@@ -28,6 +28,14 @@ function(add_sourcepp_library TARGET)
             list(APPEND ${${PROJECT_NAME}_PYTHON}_DEFINES ${TARGET_UPPER})
             list(APPEND ${${PROJECT_NAME}_PYTHON}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${TARGET}.h")
             list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_PYTHON}_DEPS ${${PROJECT_NAME}_PYTHON}_DEFINES ${${PROJECT_NAME}_PYTHON}_SOURCES)
+        endif()
+
+        # Add WASM
+        if(SOURCEPP_BUILD_WASM_WRAPPERS AND OPTIONS_WASM)
+            list(APPEND ${${PROJECT_NAME}_WASM}_DEPS sourcepp::${TARGET})
+            list(APPEND ${${PROJECT_NAME}_WASM}_DEFINES ${TARGET_UPPER})
+            list(APPEND ${${PROJECT_NAME}_WASM}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lang/wasm/src/${TARGET}.h")
+            list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_WASM}_DEPS ${${PROJECT_NAME}_WASM}_DEFINES ${${PROJECT_NAME}_WASM}_SOURCES)
         endif()
 
         # Add tests

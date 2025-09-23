@@ -34,17 +34,18 @@ option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURC
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 
-option(SOURCEPP_BUILD_BENCHMARKS      "Build benchmarks for supported libraries"      OFF)
 option(SOURCEPP_BUILD_C_WRAPPERS      "Build C wrappers for supported libraries"      OFF)
 option(SOURCEPP_BUILD_CSHARP_WRAPPERS "Build C# wrappers for supported libraries"     OFF)
 option(SOURCEPP_BUILD_PYTHON_WRAPPERS "Build Python wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_WITH_TBB        "Build with support for std::execution"         OFF)
-option(SOURCEPP_BUILD_WITH_THREADS    "Build with support for threading"               ON)
-option(SOURCEPP_BUILD_TESTS           "Build tests for supported libraries"           OFF)
-option(SOURCEPP_BUILD_TESTS_EXTRA     "Build extra tests that can't be run in CI"     OFF)
-option(SOURCEPP_BUILD_WIN7_COMPAT     "Build with Windows 7 compatibility"             ON)
+option(SOURCEPP_BUILD_WASM_WRAPPERS   "Build WASM wrappers for supported libraries"   OFF)
 
-option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library" OFF)
+option(SOURCEPP_BUILD_BENCHMARKS         "Build benchmarks for supported libraries"  OFF)
+option(SOURCEPP_BUILD_WITH_TBB           "Build with support for std::execution"     OFF)
+option(SOURCEPP_BUILD_WITH_THREADS       "Build with support for threading"           ON)
+option(SOURCEPP_BUILD_TESTS              "Build tests for supported libraries"       OFF)
+option(SOURCEPP_BUILD_TESTS_EXTRA        "Build extra tests that can't be run in CI" OFF)
+option(SOURCEPP_BUILD_WIN7_COMPAT        "Build with Windows 7 compatibility"         ON)
+option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"       OFF)
 
 
 # Options (library-specific)
@@ -71,8 +72,17 @@ if(SOURCEPP_USE_VPKPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
 endif()
 
-if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
-    set(SOURCEPP_BUILD_C_WRAPPERS ON CACHE INTERNAL "" FORCE)
+if(EMSCRIPTEN)
+    # Don't generate any other bindings besides JS
+    set(SOURCEPP_BUILD_CSHARP_WRAPPERS OFF CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_PYTHON_WRAPPERS OFF CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_WASM_WRAPPERS    ON CACHE INTERNAL "" FORCE)
+else()
+    if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
+        # Rely on C bindings
+        set(SOURCEPP_BUILD_C_WRAPPERS ON CACHE INTERNAL "" FORCE)
+    endif()
+    set(SOURCEPP_BUILD_WASM_WRAPPERS OFF CACHE INTERNAL "" FORCE)
 endif()
 
 if(MSVC)
@@ -151,6 +161,14 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
 endif()
 
 
+# WASM bindings, part 1
+if(SOURCEPP_BUILD_WASM_WRAPPERS)
+    set(${PROJECT_NAME}_WASM "${PROJECT_NAME}_wasm")
+    set(${${PROJECT_NAME}_PYTHON}_SOURCES "")
+    set(${${PROJECT_NAME}_PYTHON}_DEFINES "")
+endif()
+
+
 # Tests, part 1
 if(SOURCEPP_BUILD_TESTS)
     set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
@@ -191,18 +209,18 @@ endif()
 
 
 # Add libraries
-add_sourcepp_library(bsppp             PYTHON           ) # sourcepp::bsppp
-add_sourcepp_library(dmxpp                    TEST      ) # sourcepp::dmxpp
-add_sourcepp_library(fspp                     TEST      ) # sourcepp::fspp
-add_sourcepp_library(gamepp   C        PYTHON TEST      ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                     TEST BENCH) # sourcepp::kvpp
-add_sourcepp_library(mdlpp                    TEST      ) # sourcepp::mdlpp
-add_sourcepp_library(sndpp                    TEST      ) # sourcepp::sndpp
-add_sourcepp_library(steampp  C        PYTHON TEST      ) # sourcepp::steampp
-add_sourcepp_library(toolpp            PYTHON TEST      ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP PYTHON TEST      ) # sourcepp::vcryptpp
-add_sourcepp_library(vpkpp    C CSHARP PYTHON TEST      ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp    C        PYTHON TEST BENCH) # sourcepp::vtfpp
+add_sourcepp_library(bsppp             PYTHON                ) # sourcepp::bsppp
+add_sourcepp_library(dmxpp                         TEST      ) # sourcepp::dmxpp
+add_sourcepp_library(fspp                          TEST      ) # sourcepp::fspp
+add_sourcepp_library(gamepp   C        PYTHON      TEST      ) # sourcepp::gamepp
+add_sourcepp_library(kvpp                          TEST BENCH) # sourcepp::kvpp
+add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
+add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
+add_sourcepp_library(steampp  C        PYTHON      TEST      ) # sourcepp::steampp
+add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
+add_sourcepp_library(vcryptpp C CSHARP PYTHON      TEST      ) # sourcepp::vcryptpp
+add_sourcepp_library(vpkpp    C CSHARP PYTHON      TEST      ) # sourcepp::vpkpp
+add_sourcepp_library(vtfpp    C        PYTHON      TEST BENCH) # sourcepp::vtfpp
 
 
 # Tests, part 2
@@ -255,8 +273,16 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
 endif()
 
 
+# WASM bindings, part 2
+if(SOURCEPP_BUILD_WASM_WRAPPERS)
+    add_executable(${${PROJECT_NAME}_WASM} "${CMAKE_CURRENT_SOURCE_DIR}/lang/wasm/src/${PROJECT_NAME}.cpp" ${${${PROJECT_NAME}_WASM}_SOURCES})
+    target_compile_definitions(${${PROJECT_NAME}_WASM} PRIVATE ${${${PROJECT_NAME}_WASM}_DEFINES})
+    target_link_libraries(${${PROJECT_NAME}_WASM} PRIVATE embind ${${${PROJECT_NAME}_WASM}_DEPS})
+endif()
+
+
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP
-        BUILD_BENCHMARKS BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT
-        LINK_STATIC_MSVC_RUNTIME)
+        BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WASM_WRAPPERS
+        BUILD_BENCHMARKS BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT LINK_STATIC_MSVC_RUNTIME)
