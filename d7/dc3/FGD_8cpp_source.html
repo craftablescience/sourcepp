@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('d7/dc3/FGD_8cpp_source.html','../../')
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
 <div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
 <div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>    backing &lt;&lt; <span class="charliteral">&#39;\0&#39;</span>;</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> {<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(backing.data()) + startSpan, backing.tell() - 1 - startSpan};</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> {<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><span class="keywordtype">char</span>*<span class="keyword">&gt;</span>(backing.data()) + startSpan, <span class="keyword">static_cast&lt;</span>std::string_view::size_type<span class="keyword">&gt;</span>(backing.tell() - 1 - startSpan)};</div>
 <div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
 <div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span><span class="keywordtype">void</span> readVersion(BufferStreamReadOnly&amp; stream, BufferStream&amp; backing, <span class="keywordtype">int</span>&amp; version) {</div>
@@ -978,7 +978,7 @@ $(document).ready(function(){initNavTree('d7/dc3/FGD_8cpp_source.html','../../')
 <div class="line"><a id="l00850" name="l00850"></a><span class="lineno">  850</span>}</div>
 <div class="line"><a id="l00851" name="l00851"></a><span class="lineno">  851</span> </div>
 <div class="line"><a id="l00852" name="l00852"></a><span class="lineno"><a class="line" href="../../d5/d25/classtoolpp_1_1FGDWriter.html#aebd45f652b2cf222ae34be3fe869833d">  852</a></span>std::string <a class="code hl_function" href="../../d5/d25/classtoolpp_1_1FGDWriter.html#aebd45f652b2cf222ae34be3fe869833d">FGDWriter::bake</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>    std::string_view out{this-&gt;<a class="code hl_variable" href="../../d5/d25/classtoolpp_1_1FGDWriter.html#a128b2faa46c5d238da54dfae581b7741">backingData</a>.data(), this-&gt;writer.tell()};</div>
+<div class="line"><a id="l00853" name="l00853"></a><span class="lineno">  853</span>    std::string_view out{this-&gt;<a class="code hl_variable" href="../../d5/d25/classtoolpp_1_1FGDWriter.html#a128b2faa46c5d238da54dfae581b7741">backingData</a>.data(), <span class="keyword">static_cast&lt;</span>std::string_view::size_type<span class="keyword">&gt;</span>(this-&gt;writer.tell())};</div>
 <div class="line"><a id="l00854" name="l00854"></a><span class="lineno">  854</span>    <span class="keywordflow">while</span> (out.ends_with(<span class="stringliteral">&quot;\n\n&quot;</span>)) {</div>
 <div class="line"><a id="l00855" name="l00855"></a><span class="lineno">  855</span>        out = out.substr(0, out.size() - 1);</div>
 <div class="line"><a id="l00856" name="l00856"></a><span class="lineno">  856</span>    }</div>
