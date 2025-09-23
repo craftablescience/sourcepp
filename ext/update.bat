@@ -3,6 +3,10 @@ git checkout main
 git pull
 cd ..
 
+cd compressonator
+git checkout master
+cd ..
+
 cd cryptopp
 git checkout master
 git pull
