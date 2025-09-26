@@ -1,10 +1,8 @@
+// ReSharper disable CppLocalVariableMayBeConst
+
 #pragma once
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/stl/string_view.h>
-#include <nanobind/stl/unordered_map.h>
-#include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
 using namespace py::literals;
@@ -132,7 +130,7 @@ inline void register_python(py::module_& m) {
 		.def_ro("entities",    &FGD::AutoVisGroup::entities);
 
 	cFGD
-		.def(py::init<>())
+		.def(py::init())
 		.def(py::init<const std::string&>(), "fgd_path"_a)
 		.def("load", &FGD::load, "fgd_path"_a)
 		.def_prop_ro("version", &FGD::getVersion)

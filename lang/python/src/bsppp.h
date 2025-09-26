@@ -1,11 +1,8 @@
+// ReSharper disable CppLocalVariableMayBeConst
+
 #pragma once
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/array.h>
-#include <nanobind/stl/optional.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/stl/string_view.h>
-#include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
 using namespace py::literals;
@@ -28,7 +25,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("invalid", &BSPEntityKeyValues::Element::isInvalid);
 
 	cBSPEntityKeyValues
-		.def(py::init<>())
+		.def(py::init())
 		.def("has_child", &BSPEntityKeyValues::hasChild, "child_key"_a)
 		.def_prop_ro("keyvalues_count", py::overload_cast<>(&BSPEntityKeyValues::getKeyValuesCount, py::const_))
 		.def("get_keyvalues_count_for_key", py::overload_cast<std::string_view>(&BSPEntityKeyValues::getKeyValuesCount, py::const_), "child_key"_a)
@@ -42,13 +39,13 @@ inline void register_python(py::module_& m) {
 		.def("bake", &BSPEntityKeyValues::bake, "use_escapes"_a);
 
 	py::class_<BSPPlane_v0>(cBSP, "Plane_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("normal", &BSPPlane_v0::normal)
 		.def_rw("dist", &BSPPlane_v0::dist)
 		.def_rw("type", &BSPPlane_v0::type);
 
 	py::class_<BSPTextureData_v0>(cBSP, "TextureData_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("reflectivity", &BSPTextureData_v0::reflectivity)
 		.def_rw("name_string_table_id", &BSPTextureData_v0::nameStringTableID)
 		.def_rw("width", &BSPTextureData_v0::width)
@@ -57,11 +54,11 @@ inline void register_python(py::module_& m) {
 		.def_rw("view_height", &BSPTextureData_v0::height);
 
 	py::class_<BSPVertex_v0>(cBSP, "Vertex_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("position", &BSPVertex_v0::position);
 
 	py::class_<BSPNode_v0>(cBSP, "Node_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("plane_num", &BSPNode_v0::planeNum)
 		.def_rw("children", &BSPNode_v0::children)
 		.def_rw("mins", &BSPNode_v0::mins)
@@ -71,7 +68,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("area", &BSPNode_v0::area);
 
 	py::class_<BSPNode_v1>(cBSP, "Node_v1")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("plane_num", &BSPNode_v1::planeNum)
 		.def_rw("children", &BSPNode_v1::children)
 		.def_rw("mins", &BSPNode_v1::mins)
@@ -82,7 +79,7 @@ inline void register_python(py::module_& m) {
 		.def_static("upgrade", &BSPNode_v1::upgrade, "old"_a);
 
 	py::class_<BSPTextureInfo_v0>(cBSP, "TextureInfo_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("texture_vector1", &BSPTextureInfo_v0::textureVector1)
 		.def_rw("texture_vector2", &BSPTextureInfo_v0::textureVector2)
 		.def_rw("lightmap_vector1", &BSPTextureInfo_v0::lightmapVector1)
@@ -91,7 +88,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("texture_data", &BSPTextureInfo_v0::textureData);
 
 	py::class_<BSPFace_v1>(cBSP, "Face_v1")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("plane_num", &BSPFace_v1::planeNum)
 		.def_rw("side", &BSPFace_v1::side)
 		.def_rw("on_node", &BSPFace_v1::onNode)
@@ -111,7 +108,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("smoothing_groups", &BSPFace_v1::smoothingGroups);
 
 	py::class_<BSPFace_v2>(cBSP, "Face_v2")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("plane_num", &BSPFace_v2::planeNum)
 		.def_rw("side", &BSPFace_v2::side)
 		.def_rw("on_node", &BSPFace_v2::onNode)
@@ -133,22 +130,22 @@ inline void register_python(py::module_& m) {
 		.def_static("upgrade", &BSPFace_v2::upgrade);
 
 	py::class_<BSPEdge_v0>(cBSP, "Edge_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("v0", &BSPEdge_v0::v0)
 		.def_rw("v1", &BSPEdge_v0::v1);
 
 	py::class_<BSPEdge_v1>(cBSP, "Edge_v1")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("v0", &BSPEdge_v1::v0)
 		.def_rw("v1", &BSPEdge_v1::v1)
 		.def_static("upgrade", &BSPEdge_v1::upgrade);
 
 	py::class_<BSPSurfEdge_v0>(cBSP, "SurfEdge_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("surf_edge", &BSPSurfEdge_v0::surfEdge);
 
 	py::class_<BSPBrushModel_v0>(cBSP, "BrushModel_v0")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("min", &BSPBrushModel_v0::min)
 		.def_rw("max", &BSPBrushModel_v0::max)
 		.def_rw("origin", &BSPBrushModel_v0::origin)

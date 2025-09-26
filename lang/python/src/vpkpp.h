@@ -1,13 +1,8 @@
+// ReSharper disable CppLocalVariableMayBeConst
+
 #pragma once
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/function.h>
-#include <nanobind/stl/optional.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/stl/string_view.h>
-#include <nanobind/stl/tuple.h>
-#include <nanobind/stl/unique_ptr.h>
-#include <nanobind/stl/vector.h>
 #include <nanobind/trampoline.h>
 
 namespace py = nanobind;
@@ -80,7 +75,7 @@ inline void register_python(py::module_& m) {
 		.value("XZ",          EntryCompressionType::XZ);
 
 	py::class_<BakeOptions>(vpkpp, "BakeOptions")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("zip_compression_type_override", &BakeOptions::zip_compressionTypeOverride)
 		.def_rw("zip_compression_strength", &BakeOptions::zip_compressionStrength)
 		.def_rw("gma_write_crcs", &BakeOptions::gma_writeCRCs)
@@ -88,7 +83,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("vpk_use_buggy_extension_handling", &BakeOptions::vpk_useBuggyExtensionHandling);
 
 	py::class_<EntryOptions>(vpkpp, "EntryOptions")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("zip_compression_type", &EntryOptions::zip_compressionType)
 		.def_rw("zip_compression_strength", &EntryOptions::zip_compressionStrength)
 		.def_rw("vpk_preload_bytes", &EntryOptions::vpk_preloadBytes)

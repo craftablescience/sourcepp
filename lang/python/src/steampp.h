@@ -1,9 +1,8 @@
+// ReSharper disable CppLocalVariableMayBeConst
+
 #pragma once
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/string_view.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
 using namespace py::literals;
@@ -17,7 +16,7 @@ inline void register_python(py::module_& m) {
 	using namespace steampp;
 
 	py::class_<Steam>(steampp, "Steam")
-		.def(py::init<>())
+		.def(py::init())
 		.def_prop_ro("install_dir", &Steam::getInstallDir)
 		.def_prop_ro("library_dirs", &Steam::getLibraryDirs)
 		.def_prop_ro("sourcemod_dir", &Steam::getSourceModDir)

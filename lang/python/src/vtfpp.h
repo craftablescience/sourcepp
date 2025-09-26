@@ -1,12 +1,9 @@
+// ReSharper disable CppDFATimeOver
+// ReSharper disable CppLocalVariableMayBeConst
+
 #pragma once
 
 #include <nanobind/nanobind.h>
-#include <nanobind/stl/array.h>
-#include <nanobind/stl/pair.h>
-#include <nanobind/stl/string.h>
-#include <nanobind/stl/string_view.h>
-#include <nanobind/stl/tuple.h>
-#include <nanobind/stl/vector.h>
 
 namespace py = nanobind;
 using namespace py::literals;
@@ -36,7 +33,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("y2",    &HOT::Rect::y2);
 
 	cHOT
-		.def(py::init<>())
+		.def(py::init())
 		.def("__init__", [](HOT* self, const py::bytes& hotData) {
 			return new(self) HOT{{static_cast<const std::byte*>(hotData.data()), hotData.size()}};
 		}, "hot_data"_a)
@@ -337,7 +334,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("duration_total", &SHT::Sequence::durationTotal);
 
 	cSHT
-		.def(py::init<>())
+		.def(py::init())
 		.def("__init__", [](SHT* self, const py::bytes& shtData) {
 			return new(self) SHT{{static_cast<const std::byte*>(shtData.data()), shtData.size()}};
 		}, "sht_data"_a)
@@ -498,7 +495,7 @@ inline void register_python(py::module_& m) {
 		.value("PS3_PORTAL2",   VTF::PLATFORM_PS3_PORTAL2);
 
 	py::class_<VTF::CreationOptions>(cVTF, "CreationOptions")
-		.def(py::init<>())
+		.def(py::init())
 		.def_rw("version",                    &VTF::CreationOptions::version)
 		.def_rw("output_format",              &VTF::CreationOptions::outputFormat)
 		.def_rw("width_resize_method",        &VTF::CreationOptions::widthResizeMethod)
@@ -523,7 +520,7 @@ inline void register_python(py::module_& m) {
 	cVTF
 		.def_ro_static("FORMAT_UNCHANGED",     &VTF::FORMAT_UNCHANGED)
 		.def_ro_static("FORMAT_DEFAULT",       &VTF::FORMAT_DEFAULT)
-		.def(py::init<>())
+		.def(py::init())
 		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false) {
 			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
 		}, "vtf_data"_a, "parse_header_only"_a = false)
@@ -532,13 +529,13 @@ inline void register_python(py::module_& m) {
 		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const VTF::CreationOptions& options) {
 			VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, vtfPath, options);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_blank_and_bake", py::overload_cast<ImageFormat, uint16_t, uint16_t, const std::string&, const VTF::CreationOptions&>(&VTF::create), "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_blank_and_bake", static_cast<bool(*)(ImageFormat, uint16_t, uint16_t, const std::string&, const VTF::CreationOptions&)>(&VTF::create), "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
 		.def_static("create", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const VTF::CreationOptions& options) {
 			return VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, options);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_blank", py::overload_cast<ImageFormat, uint16_t, uint16_t, const VTF::CreationOptions&>(&VTF::create), "format"_a, "width"_a, "height"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_from_file_and_bake", py::overload_cast<const std::string&, const std::string&, const VTF::CreationOptions&>(&VTF::create), "image_path"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_from_file", py::overload_cast<const std::string&, const VTF::CreationOptions&>(&VTF::create), "image_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_blank", static_cast<VTF(*)(ImageFormat, uint16_t, uint16_t, const VTF::CreationOptions&)>(&VTF::create), "format"_a, "width"_a, "height"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_from_file_and_bake", static_cast<bool(*)(const std::string&, const std::string&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_from_file", static_cast<VTF(*)(const std::string&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "creation_options"_a = VTF::CreationOptions{})
 		.def_prop_rw("platform", &VTF::getPlatform, &VTF::setPlatform)
 		.def_prop_rw("version", &VTF::getVersion, &VTF::setVersion)
 		.def_prop_rw("image_width_resize_method", &VTF::getImageWidthResizeMethod, &VTF::setImageWidthResizeMethod)
