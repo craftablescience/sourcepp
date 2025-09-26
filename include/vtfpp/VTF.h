@@ -500,6 +500,10 @@ public:
 
 	void setConsoleMipScale(uint8_t consoleMipScale_);
 
+	[[nodiscard]] uint64_t estimateBakeSize() const;
+
+	[[nodiscard]] uint64_t estimateBakeSize(bool& isExact) const;
+
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
 	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)

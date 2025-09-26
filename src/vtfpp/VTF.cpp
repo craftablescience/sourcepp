@@ -1977,6 +1977,106 @@ void VTF::setConsoleMipScale(uint8_t consoleMipScale_) {
 	this->consoleMipScale = consoleMipScale_;
 }
 
+uint64_t VTF::estimateBakeSize() const {
+	bool isExact;
+	return this->estimateBakeSize(isExact);
+}
+
+uint64_t VTF::estimateBakeSize(bool& isExact) const {
+	isExact = true;
+	uint64_t vtfSize = 0;
+
+	switch (this->platform) {
+		case PLATFORM_UNKNOWN:
+			break;
+		case PLATFORM_PC:
+			switch (this->version) {
+				case 6:
+					if (this->compressionLevel > 0) {
+						vtfSize += sizeof(uint64_t); // AXC header size
+						vtfSize += sizeof(uint32_t) * (2 + this->mipCount * this->frameCount * this->getFaceCount()); // AXC resource size
+					}
+				case 5:
+				case 4:
+				case 3:
+					vtfSize += 11 + sizeof(uint32_t) + sizeof(uint64_t) * this->getResources().size(); // resources header size
+					for (const auto& [resourceType, resourceFlags, resourceData] : this->getResources()) {
+						if (!(resourceFlags & Resource::FLAG_LOCAL_DATA) && resourceType != Resource::TYPE_THUMBNAIL_DATA && resourceType != Resource::TYPE_IMAGE_DATA) {
+							vtfSize += resourceData.size(); // resource size
+						}
+					}
+				case 2:
+					vtfSize += sizeof(uint16_t); // depth header field
+				case 1:
+				case 0:
+					vtfSize += sizeof(uint32_t) * 9 + sizeof(float) * 4 + sizeof(uint16_t) * 4 + sizeof(uint8_t) * 3; // header fields
+					if (this->version < 3) {
+						vtfSize += math::paddingForAlignment(16, vtfSize); // align to 16 bytes
+					}
+
+					if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
+						vtfSize += thumbnailResource->data.size(); // thumbnail size
+					}
+					if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+						if (this->version < 6 || this->compressionLevel == 0) {
+							vtfSize += imageResource->data.size(); // uncompressed image size
+						} else {
+							isExact = false;
+							vtfSize += static_cast<uint64_t>(static_cast<double>(imageResource->data.size()) / 1.75); // compressed image data
+						}
+					}
+					break;
+				default:
+					break;
+			}
+			break;
+		case PLATFORM_XBOX:
+			vtfSize += sizeof(uint32_t) * 6 + sizeof(float) * 4 + sizeof(uint16_t) * 6 + sizeof(uint8_t) * 6; // header fields
+
+			if (const auto* thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA); thumbnailResource && this->hasThumbnailData()) {
+				vtfSize += thumbnailResource->data.size(); // thumbnail size
+			}
+			if (this->format == ImageFormat::P8) {
+				if (const auto* paletteResource = this->getResource(Resource::TYPE_PALETTE_DATA)) {
+					vtfSize += paletteResource->data.size(); // palette size
+				}
+			}
+			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
+				vtfSize += fallbackResource->data.size(); // fallback size
+				vtfSize += math::paddingForAlignment(512, vtfSize); // align to 512 bytes if fallback present
+			}
+			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+				vtfSize += imageResource->data.size(); // image size
+			}
+			if (vtfSize > 512) {
+				vtfSize += math::paddingForAlignment(512, vtfSize); // align to 512 bytes if longer than 512 bytes
+			}
+			break;
+		case PLATFORM_PS3_PORTAL2:
+			vtfSize += sizeof(uint32_t); // align to 16 bytes
+		case PLATFORM_X360:
+		case PLATFORM_PS3_ORANGEBOX:
+			vtfSize += sizeof(uint32_t) * 7 + sizeof(float) * 4 + sizeof(uint16_t) * 5 + sizeof(uint8_t) * 6; // header fields
+			vtfSize += sizeof(uint64_t) * this->getResources().size(); // resources header size
+
+			for (const auto& [resourceType, resourceFlags, resourceData] : this->getResources()) {
+				if (!(resourceFlags & Resource::FLAG_LOCAL_DATA) && resourceType != Resource::TYPE_IMAGE_DATA) {
+					vtfSize += resourceData.size(); // resource size
+				}
+			}
+			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+				if (this->compressionMethod != CompressionMethod::CONSOLE_LZMA) {
+					vtfSize += imageResource->data.size(); // uncompressed image data
+				} else {
+					isExact = false;
+					vtfSize += static_cast<uint64_t>(static_cast<double>(imageResource->data.size()) / 1.75); // compressed image data
+				}
+			}
+			break;
+	}
+	return vtfSize;
+}
+
 std::vector<std::byte> VTF::bake() const {
 	std::vector<std::byte> out;
 	BufferStream writer{out};

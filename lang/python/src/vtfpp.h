@@ -674,6 +674,11 @@ inline void register_python(py::module_& m) {
 		}, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("save_fallback_to_file", py::overload_cast<const std::string&, uint8_t, uint16_t, uint8_t, ImageConversion::FileFormat>(&VTF::saveFallbackToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def_prop_rw("console_mip_scale", &VTF::getConsoleMipScale, &VTF::setConsoleMipScale)
+		.def("estimate_bake_size", [](const VTF& self) {
+			bool isExact;
+			auto vtfSize = self.estimateBakeSize(isExact);
+			return std::make_pair(vtfSize, isExact);
+		})
 		.def("bake", [](const VTF& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};

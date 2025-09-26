@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+#include <filesystem>
+
 #include <sourcepp/FS.h>
 #include <vtfpp/vtfpp.h>
 
@@ -244,6 +246,7 @@ TEST(vtfpp, read_v70) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v70.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -307,6 +310,7 @@ TEST(vtfpp, read_v70_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v70_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -344,6 +348,7 @@ TEST(vtfpp, read_v70_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v70_nothumb.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -379,6 +384,7 @@ TEST(vtfpp, read_v70_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v70_nothumb_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -414,6 +420,7 @@ TEST(vtfpp, read_v71) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v71.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -477,6 +484,7 @@ TEST(vtfpp, read_v71_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v71_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -514,6 +522,7 @@ TEST(vtfpp, read_v71_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v71_nothumb.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -549,6 +558,7 @@ TEST(vtfpp, read_v71_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v71_nothumb_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -584,6 +594,7 @@ TEST(vtfpp, read_v72) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v72.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -647,6 +658,7 @@ TEST(vtfpp, read_v72_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v72_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -684,6 +696,7 @@ TEST(vtfpp, read_v72_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v72_nothumb.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -719,6 +732,7 @@ TEST(vtfpp, read_v72_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v72_nothumb_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -754,6 +768,7 @@ TEST(vtfpp, read_v75) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v75.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 4);
@@ -832,6 +847,7 @@ TEST(vtfpp, read_v75_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v75_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -869,6 +885,7 @@ TEST(vtfpp, read_v75_nothumb) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v75_nothumb.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -904,6 +921,7 @@ TEST(vtfpp, read_v75_nothumb_nomip) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ver/v75_nothumb_nomip.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
@@ -942,6 +960,7 @@ TEST(vtfpp, read_xbox) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/dxt1.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 3);
@@ -987,6 +1006,7 @@ TEST(vtfpp, read_xbox_animated) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/animated.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 3);
@@ -1032,6 +1052,7 @@ TEST(vtfpp, read_xbox_envmap) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/envmap.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -1072,6 +1093,7 @@ TEST(vtfpp, read_xbox_missing_no_mip_flag) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/missing_no_mip_flag.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 3);
@@ -1117,6 +1139,7 @@ TEST(vtfpp, read_xbox_no_fallback) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 0);
 	EXPECT_EQ(vtf.getFallbackHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/no_fallback.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 2);
@@ -1157,6 +1180,7 @@ TEST(vtfpp, read_xbox_p8) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 8);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/p8.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 4);
@@ -1182,7 +1206,7 @@ TEST(vtfpp, read_xbox_p8) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLengthXBOX(true, vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
-TEST(vtfpp, read_xbox_broken) {
+TEST(vtfpp, read_xbox_p8_animated) {
 	VTF vtf{fs::readFileBuffer(ASSET_ROOT "vtfpp/xbox/p8_animated.xtf")};
 	ASSERT_TRUE(vtf);
 
@@ -1207,6 +1231,7 @@ TEST(vtfpp, read_xbox_broken) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 1);
 	EXPECT_EQ(vtf.getFallbackWidth(), 4);
 	EXPECT_EQ(vtf.getFallbackHeight(), 8);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/xbox/p8_animated.xtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 4);
@@ -1288,6 +1313,7 @@ TEST(vtfpp, read_ps3_orangebox_swizzled) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::EMPTY);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 0);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 0);
+	EXPECT_EQ(vtf.estimateBakeSize(), std::filesystem::file_size(ASSET_ROOT "vtfpp/ps3_orangebox/bgra8888.ps3.vtf"));
 
 	// Resources
 	EXPECT_EQ(vtf.getResources().size(), 1);
