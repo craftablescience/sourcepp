@@ -2029,7 +2029,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->bumpMapScale)
 				.write(bakeFormat)
 				.write(this->mipCount)
-				.write(ImageFormat::DXT1)
+				.write(this->thumbnailFormat)
 				.write(this->thumbnailWidth)
 				.write(this->thumbnailHeight);
 
