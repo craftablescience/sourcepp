@@ -518,7 +518,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("bumpmap_scale",              &VTF::CreationOptions::bumpMapScale)
 		.def_rw("gamma_correction",           &VTF::CreationOptions::gammaCorrection)
 		.def_rw("invert_green_channel",       &VTF::CreationOptions::invertGreenChannel)
-		.def_rw("xbox_mip_scale",             &VTF::CreationOptions::xboxMipScale);
+		.def_rw("console_mip_scale",          &VTF::CreationOptions::consoleMipScale);
 
 	cVTF
 		.def_ro_static("FORMAT_UNCHANGED",     &VTF::FORMAT_UNCHANGED)
@@ -676,7 +676,7 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("save_fallback_to_file", py::overload_cast<const std::string&, uint8_t, uint16_t, uint8_t, ImageConversion::FileFormat>(&VTF::saveFallbackToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def_prop_rw("xbox_mip_scale", &VTF::getXBOXMipScale, &VTF::setXBOXMipScale)
+		.def_prop_rw("console_mip_scale", &VTF::getConsoleMipScale, &VTF::setConsoleMipScale)
 		.def("bake", [](const VTF& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};

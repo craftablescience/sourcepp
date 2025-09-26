@@ -532,7 +532,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					.read(this->thumbnailHeight)
 					.read(this->fallbackWidth)
 					.read(this->fallbackHeight)
-					.read(this->xboxMipScale)
+					.read(this->consoleMipScale)
 					.skip<uint8_t>(); // padding
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
@@ -624,7 +624,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->depth)
 				.read(this->frameCount)
 				.skip<uint16_t>() // preload
-				.skip<uint8_t>() // skip high mip levels
+				.read(this->consoleMipScale)
 				.read(resourceCount)
 				.read(this->reflectivity[0])
 				.read(this->reflectivity[1])
@@ -709,7 +709,7 @@ VTF& VTF::operator=(const VTF& other) {
 	this->fallbackWidth = other.fallbackWidth;
 	this->fallbackHeight = other.fallbackHeight;
 	this->fallbackMipCount = other.fallbackMipCount;
-	this->xboxMipScale = other.xboxMipScale;
+	this->consoleMipScale = other.consoleMipScale;
 	this->depth = other.depth;
 
 	this->resources.clear();
@@ -784,7 +784,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	}
 	writer.setCompressionLevel(options.compressionLevel);
 	writer.setCompressionMethod(options.compressionMethod);
-	writer.setXBOXMipScale(options.xboxMipScale);
+	writer.setConsoleMipScale(options.consoleMipScale);
 	return out;
 }
 
@@ -1969,12 +1969,12 @@ bool VTF::saveFallbackToFile(const std::string& imagePath, uint8_t mip, uint16_t
 	return false;
 }
 
-uint8_t VTF::getXBOXMipScale() const {
-	return this->xboxMipScale;
+uint8_t VTF::getConsoleMipScale() const {
+	return this->consoleMipScale;
 }
 
-void VTF::setXBOXMipScale(uint8_t xboxMipScale_) {
-	this->xboxMipScale = xboxMipScale_;
+void VTF::setConsoleMipScale(uint8_t consoleMipScale_) {
+	this->consoleMipScale = consoleMipScale_;
 }
 
 std::vector<std::byte> VTF::bake() const {
@@ -2135,7 +2135,7 @@ std::vector<std::byte> VTF::bake() const {
 				.write(this->thumbnailHeight)
 				.write(this->fallbackWidth)
 				.write(this->fallbackHeight)
-				.write(this->xboxMipScale)
+				.write(this->consoleMipScale)
 				.write<uint8_t>(0);
 
 			const auto headerSize = writer.tell();
@@ -2202,14 +2202,6 @@ std::vector<std::byte> VTF::bake() const {
 			}
 			writer.write<uint32_t>(8);
 
-			// Go down until top level texture is <1mb, matches makegamedata.exe output
-			uint8_t mipSkip = 0;
-			for (int mip = 0; mip < this->mipCount; mip++, mipSkip++) {
-				if (ImageFormatDetails::getDataLength(this->format, ImageDimensions::getMipDim(mip, this->width), ImageDimensions::getMipDim(mip, this->height), ImageDimensions::getMipDim(mip, this->depth)) < 1024 * 1024) {
-					break;
-				}
-			}
-
 			const auto headerLengthPos = writer.tell();
 			writer
 				.write<uint32_t>(0)
@@ -2221,7 +2213,7 @@ std::vector<std::byte> VTF::bake() const {
 			const auto preloadPos = writer.tell();
 			writer
 				.write<uint16_t>(0) // preload size
-				.write(mipSkip)
+				.write(this->consoleMipScale)
 				.write<uint8_t>(this->resources.size())
 				.write(this->reflectivity[0])
 				.write(this->reflectivity[1])

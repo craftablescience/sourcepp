@@ -266,7 +266,7 @@ public:
 		float bumpMapScale = 1.f;
 		float gammaCorrection = 1.f;
 		bool invertGreenChannel = false;
-		uint8_t xboxMipScale = 0;
+		uint8_t consoleMipScale = 0;
 	};
 
 	/// This value is only valid when passed to VTF::create through CreationOptions
@@ -496,9 +496,9 @@ public:
 
 	bool saveFallbackToFile(const std::string& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
-	[[nodiscard]] uint8_t getXBOXMipScale() const;
+	[[nodiscard]] uint8_t getConsoleMipScale() const;
 
-	void setXBOXMipScale(uint8_t xboxMipScale_);
+	void setConsoleMipScale(uint8_t consoleMipScale_);
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
@@ -542,8 +542,8 @@ protected:
 	uint8_t fallbackHeight = 0;
 	uint8_t fallbackMipCount = 0;
 
-	// Number of times to multiply the scale of each mip by 2 when rendering on XBOX
-	uint8_t xboxMipScale = 0;
+	// Number of times to multiply the scale of each mip by 2 when rendering on console
+	uint8_t consoleMipScale = 0;
 
 	// 1 for v7.1 and lower
 	uint16_t depth = 1;
