@@ -16,8 +16,9 @@ var searchData=
   ['endkeyvalueflags_13',['endKeyValueFlags',['../d5/d18/classtoolpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueFlagsWriter.html#ad3bd01e124afbd6e39adaede5db33ee5',1,'toolpp::FGDWriter::EntityWriter::KeyValueFlagsWriter']]],
   ['entitywriter_14',['EntityWriter',['../d4/da2/classtoolpp_1_1FGDWriter_1_1EntityWriter.html#ae0ba447f28fd68dda866322eff2e1b64',1,'toolpp::FGDWriter::EntityWriter']]],
   ['escapeentrypathforwrite_15',['escapeEntryPathForWrite',['../d2/dd2/classvpkpp_1_1PackFile.html#aaee6b87fa3e7657781018941a632e3a1',1,'vpkpp::PackFile']]],
-  ['extractall_16',['extractAll',['../d2/dd2/classvpkpp_1_1PackFile.html#a6e00aa01b95da7597c1bc22226b0f494',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, const EntryPredicate &amp;predicate, bool stripSharedDirs=true) const'],['../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, bool createUnderPackFileDir=true) const']]],
-  ['extractchannelfromimagedata_17',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648',1,'vtfpp::ImageConversion']]],
-  ['extractdirectory_18',['extractDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a4bb832d80b1822122a2fde5a67ffc847',1,'vpkpp::PackFile']]],
-  ['extractentry_19',['extractEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923',1,'vpkpp::PackFile']]]
+  ['estimatebakesize_16',['estimateBakeSize',['../d8/df2/classvtfpp_1_1VTF.html#af1a8feeed3d280efc654238c24d43e7b',1,'vtfpp::VTF::estimateBakeSize() const'],['../d8/df2/classvtfpp_1_1VTF.html#a1d488830da135d7a02bd93c9e8b22f33',1,'vtfpp::VTF::estimateBakeSize(bool &amp;isExact) const']]],
+  ['extractall_17',['extractAll',['../d2/dd2/classvpkpp_1_1PackFile.html#a1fca84f086c2b7af79eac3daca4fd1f0',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, bool createUnderPackFileDir=true) const'],['../d2/dd2/classvpkpp_1_1PackFile.html#a6e00aa01b95da7597c1bc22226b0f494',1,'vpkpp::PackFile::extractAll(const std::string &amp;outputDir, const EntryPredicate &amp;predicate, bool stripSharedDirs=true) const']]],
+  ['extractchannelfromimagedata_18',['extractChannelFromImageData',['../d5/d61/namespacevtfpp_1_1ImageConversion.html#aad3b3ca83929b12ec4abad257d5f1648',1,'vtfpp::ImageConversion']]],
+  ['extractdirectory_19',['extractDirectory',['../d2/dd2/classvpkpp_1_1PackFile.html#a4bb832d80b1822122a2fde5a67ffc847',1,'vpkpp::PackFile']]],
+  ['extractentry_20',['extractEntry',['../d2/dd2/classvpkpp_1_1PackFile.html#a5b22edd8215966e194d9875fac0fe923',1,'vpkpp::PackFile']]]
 ];

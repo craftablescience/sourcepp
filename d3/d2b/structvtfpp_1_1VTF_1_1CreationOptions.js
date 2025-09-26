@@ -8,6 +8,7 @@ var structvtfpp_1_1VTF_1_1CreationOptions =
     [ "computeReflectivity", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac4afacbf1c465f456bb1d5c2c9701696", null ],
     [ "computeThumbnail", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a41cfabefcbda38bfb302d54217751d15", null ],
     [ "computeTransparencyFlags", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abad5b9ed69de37e0fdce3b177ba34b3c", null ],
+    [ "consoleMipScale", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adacd198dcd8ab31aeebad93b8485ce6c", null ],
     [ "filter", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#abc68ffca02d11580254d524c59cecfd2", null ],
     [ "flags", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a39d3d0caace129c5d81a50dbc0445ce1", null ],
     [ "gammaCorrection", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#afdcc69ba4d0980975acc067499df0c9c", null ],
@@ -20,6 +21,5 @@ var structvtfpp_1_1VTF_1_1CreationOptions =
     [ "platform", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#af6044e685de8911779438d3fd9a79db0", null ],
     [ "startFrame", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a26f65bdf88549c6f7c153ed178797ab5", null ],
     [ "version", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ad4cc49afc20bd96d6f0357052a598f9e", null ],
-    [ "widthResizeMethod", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339", null ],
-    [ "xboxMipScale", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#a573471964a91227697e9885153bad3a1", null ]
+    [ "widthResizeMethod", "d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339", null ]
 ];

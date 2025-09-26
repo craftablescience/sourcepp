@@ -464,10 +464,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a504d2ae3516596c20e684a622d9fb9cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afa502f78c84a9a059b0585af08bcd45e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#afa502f78c84a9a059b0585af08bcd45e">saveFallbackToFile</a> (const std::string &amp;imagePath, uint8_t mip=0, uint16_t frame=0, uint8_t face=0, <a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409">ImageConversion::FileFormat</a> fileFormat=<a class="el" href="../../d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a5b39c8b553c821e7cddc6da64b5bd2ee">ImageConversion::FileFormat::DEFAULT</a>) const</td></tr>
 <tr class="separator:afa502f78c84a9a059b0585af08bcd45e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a56cd7967ab51f314ceeafd36e7ed77f4"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a56cd7967ab51f314ceeafd36e7ed77f4">getXBOXMipScale</a> () const</td></tr>
-<tr class="separator:a56cd7967ab51f314ceeafd36e7ed77f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60d8fce27d770cdbb0297e1f2b0545c6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a60d8fce27d770cdbb0297e1f2b0545c6">setXBOXMipScale</a> (uint8_t xboxMipScale_)</td></tr>
-<tr class="separator:a60d8fce27d770cdbb0297e1f2b0545c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab9e50b1eb81d9f85061ee7db1a1a81ef"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ab9e50b1eb81d9f85061ee7db1a1a81ef">getConsoleMipScale</a> () const</td></tr>
+<tr class="separator:ab9e50b1eb81d9f85061ee7db1a1a81ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad0b4185c3aec3fe57d58588b703b1507"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ad0b4185c3aec3fe57d58588b703b1507">setConsoleMipScale</a> (uint8_t consoleMipScale_)</td></tr>
+<tr class="separator:ad0b4185c3aec3fe57d58588b703b1507"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1a8feeed3d280efc654238c24d43e7b"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#af1a8feeed3d280efc654238c24d43e7b">estimateBakeSize</a> () const</td></tr>
+<tr class="separator:af1a8feeed3d280efc654238c24d43e7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d488830da135d7a02bd93c9e8b22f33"><td class="memItemLeft" align="right" valign="top">uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a1d488830da135d7a02bd93c9e8b22f33">estimateBakeSize</a> (bool &amp;isExact) const</td></tr>
+<tr class="separator:a1d488830da135d7a02bd93c9e8b22f33"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e11a0510c4d38f0b5414b679ab7b2f0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::byte &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a8e11a0510c4d38f0b5414b679ab7b2f0">bake</a> () const</td></tr>
 <tr class="separator:a8e11a0510c4d38f0b5414b679ab7b2f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab5050fe115200fac85aab8ab24ffb12b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ab5050fe115200fac85aab8ab24ffb12b">bake</a> (const std::string &amp;vtfPath) const</td></tr>
@@ -553,8 +557,8 @@ Protected Attributes</h2></td></tr>
 <tr class="separator:a4045ee132d558a5cca7427d7da286d1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9743007fa49fd885d918542d94d53121"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a9743007fa49fd885d918542d94d53121">fallbackMipCount</a> = 0</td></tr>
 <tr class="separator:a9743007fa49fd885d918542d94d53121"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7ed27fca8f781c044ddc46378485047b"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a7ed27fca8f781c044ddc46378485047b">xboxMipScale</a> = 0</td></tr>
-<tr class="separator:a7ed27fca8f781c044ddc46378485047b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1760e7ddd05c20ca6ed561e1c948b1b7"><td class="memItemLeft" align="right" valign="top">uint8_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#a1760e7ddd05c20ca6ed561e1c948b1b7">consoleMipScale</a> = 0</td></tr>
+<tr class="separator:a1760e7ddd05c20ca6ed561e1c948b1b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab73a9a9336f2c652d4728185e937dcf4"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#ab73a9a9336f2c652d4728185e937dcf4">depth</a> = 1</td></tr>
 <tr class="separator:ab73a9a9336f2c652d4728185e937dcf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af37ae2a552afa40c395618ff6ea47d46"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d3/d80/structvtfpp_1_1Resource.html">Resource</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/df2/classvtfpp_1_1VTF.html#af37ae2a552afa40c395618ff6ea47d46">resources</a></td></tr>
@@ -894,7 +898,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01980">1980</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l02080">2080</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -914,7 +918,7 @@ Protected Attributes</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l02316">2316</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l02408">2408</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -1370,6 +1374,45 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="af1a8feeed3d280efc654238c24d43e7b" name="af1a8feeed3d280efc654238c24d43e7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af1a8feeed3d280efc654238c24d43e7b">&#9670;&#160;</a></span>estimateBakeSize() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t VTF::estimateBakeSize </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01980">1980</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a1d488830da135d7a02bd93c9e8b22f33" name="a1d488830da135d7a02bd93c9e8b22f33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d488830da135d7a02bd93c9e8b22f33">&#9670;&#160;</a></span>estimateBakeSize() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint64_t VTF::estimateBakeSize </td>
+          <td>(</td>
+          <td class="paramtype">bool &amp;&#160;</td>
+          <td class="paramname"><em>isExact</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01985">1985</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a4998bea1f7a756450f35bda657b23b8e" name="a4998bea1f7a756450f35bda657b23b8e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4998bea1f7a756450f35bda657b23b8e">&#9670;&#160;</a></span>getBumpMapScale()</h2>
 
@@ -1424,6 +1467,25 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01680">1680</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ab9e50b1eb81d9f85061ee7db1a1a81ef" name="ab9e50b1eb81d9f85061ee7db1a1a81ef"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9e50b1eb81d9f85061ee7db1a1a81ef">&#9670;&#160;</a></span>getConsoleMipScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t VTF::getConsoleMipScale </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01972">1972</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -2472,25 +2534,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a56cd7967ab51f314ceeafd36e7ed77f4" name="a56cd7967ab51f314ceeafd36e7ed77f4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a56cd7967ab51f314ceeafd36e7ed77f4">&#9670;&#160;</a></span>getXBOXMipScale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t VTF::getXBOXMipScale </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01972">1972</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
-
-</div>
-</div>
 <a id="a325ab5170c6d90dc75b2884c2f2530a7" name="a325ab5170c6d90dc75b2884c2f2530a7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a325ab5170c6d90dc75b2884c2f2530a7">&#9670;&#160;</a></span>hasFallbackData()</h2>
 
@@ -3219,6 +3262,26 @@ Protected Attributes</h2></td></tr>
 </div><div class="memdoc">
 
 <p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01684">1684</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
+
+</div>
+</div>
+<a id="ad0b4185c3aec3fe57d58588b703b1507" name="ad0b4185c3aec3fe57d58588b703b1507"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad0b4185c3aec3fe57d58588b703b1507">&#9670;&#160;</a></span>setConsoleMipScale()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void VTF::setConsoleMipScale </td>
+          <td>(</td>
+          <td class="paramtype">uint8_t&#160;</td>
+          <td class="paramname"><em>consoleMipScale_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01976">1976</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
 
 </div>
 </div>
@@ -4015,26 +4078,6 @@ Protected Attributes</h2></td></tr>
 
 </div>
 </div>
-<a id="a60d8fce27d770cdbb0297e1f2b0545c6" name="a60d8fce27d770cdbb0297e1f2b0545c6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60d8fce27d770cdbb0297e1f2b0545c6">&#9670;&#160;</a></span>setXBOXMipScale()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void VTF::setXBOXMipScale </td>
-          <td>(</td>
-          <td class="paramtype">uint8_t&#160;</td>
-          <td class="paramname"><em>xboxMipScale_</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../dd/d09/VTF_8cpp_source.html#l01976">1976</a> of file <a class="el" href="../../dd/d09/VTF_8cpp_source.html">VTF.cpp</a>.</p>
-
-</div>
-</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="afaab7d2619345d8ea0e0ada37746fd88" name="afaab7d2619345d8ea0e0ada37746fd88"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afaab7d2619345d8ea0e0ada37746fd88">&#9670;&#160;</a></span>bumpMapScale</h2>
@@ -4056,7 +4099,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00533">533</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00537">537</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4080,7 +4123,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00556">556</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00560">560</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4104,7 +4147,31 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00557">557</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00561">561</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+
+</div>
+</div>
+<a id="a1760e7ddd05c20ca6ed561e1c948b1b7" name="a1760e7ddd05c20ca6ed561e1c948b1b7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1760e7ddd05c20ca6ed561e1c948b1b7">&#9670;&#160;</a></span>consoleMipScale</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint8_t vtfpp::VTF::consoleMipScale = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00550">550</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4128,7 +4195,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00520">520</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00524">524</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4152,7 +4219,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00549">549</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00553">553</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4176,7 +4243,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00542">542</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00546">546</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4200,7 +4267,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00543">543</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00547">547</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4224,7 +4291,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00541">541</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00545">545</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4248,7 +4315,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00526">526</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00530">530</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4272,7 +4339,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00534">534</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00538">538</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4348,7 +4415,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00528">528</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00532">532</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4372,7 +4439,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00525">525</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00529">529</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4396,7 +4463,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00559">559</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00563">563</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4420,7 +4487,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00558">558</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00562">562</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4444,7 +4511,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00535">535</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00539">539</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4468,7 +4535,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00518">518</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00522">522</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4492,7 +4559,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00555">555</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00559">559</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4516,7 +4583,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00531">531</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00535">535</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4540,7 +4607,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00552">552</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00556">556</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4564,7 +4631,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00529">529</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00533">533</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4588,7 +4655,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00537">537</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00541">541</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4612,7 +4679,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00539">539</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00543">543</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4636,7 +4703,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00538">538</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00542">542</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4660,7 +4727,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00522">522</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00526">526</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>
@@ -4684,31 +4751,7 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00524">524</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
-
-</div>
-</div>
-<a id="a7ed27fca8f781c044ddc46378485047b" name="a7ed27fca8f781c044ddc46378485047b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7ed27fca8f781c044ddc46378485047b">&#9670;&#160;</a></span>xboxMipScale</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">uint8_t vtfpp::VTF::xboxMipScale = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00546">546</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/d91/VTF_8h_source.html#l00528">528</a> of file <a class="el" href="../../d4/d91/VTF_8h_source.html">VTF.h</a>.</p>
 
 </div>
 </div>

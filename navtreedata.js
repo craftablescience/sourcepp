@@ -75,7 +75,7 @@ var NAVTREEINDEX =
 "d1/d5f/classdmxpp_1_1DMX.html#af84bbe63c2daf316f3e7615f84bb8061",
 "d2/d9f/structtoolpp_1_1FGD_1_1Entity_1_1Field.html#a09263008f8c5b3884bf2ddbf10e98de3",
 "d2/dd2/classvpkpp_1_1PackFile.html#a75fd607ebaa48ee2778d96348fd8e4cc",
-"d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#acb8ac015a591e7c6675d6ed6c810f339",
+"d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ad4cc49afc20bd96d6f0357052a598f9e",
 "d3/def/structvpkpp_1_1GCF_1_1ChecksumMapEntry.html#a5aac1cbfb9681117bea3226ad4215729",
 "d4/ddb/classvpkpp_1_1VPK__VTMB.html#a0b487ed2ca13cfe6722d7a0b192cfc9e",
 "d5/d62/classtoolpp_1_1CmdSeq.html#a24db07d3dd4c9ed9de1d97d443f2273b",
@@ -84,15 +84,15 @@ var NAVTREEINDEX =
 "d6/d35/Text_8h.html#a97a7ed5d9fef57ec5780c1fc15fa2cff",
 "d7/db2/classbsppp_1_1BSPEntityKeyValues.html#aab0f61642a730e28b69690aa518002a6",
 "d8/dc3/structtoolpp_1_1FGD_1_1Entity.html",
-"d8/df2/classvtfpp_1_1VTF.html#aa4e25ea52fc5019431ee7719c401e24f",
-"d9/d12/classsndpp_1_1XWV.html#a1626f2fa470349cdac80591d8226cef5a1088fbc901dc88b6c18085220cc33de9",
-"d9/daf/classvpkpp_1_1PAK.html#a4322cc16cd73d99c951be7ad59133bb2",
-"da/d42/classvpkpp_1_1FPX.html#a69b2f12bf1ff7a5aad1461bf837ec3c3",
-"db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01",
-"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a90cafd708ec52894a2155865a0b8f52b",
-"de/d62/classkvpp_1_1KV1ElementBase.html#a00da99325feeed872adfdcb47fc423ad",
-"df/d32/classvtfpp_1_1PPL.html",
-"df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a64219516ac722c377112f687e1071a5c"
+"d8/df2/classvtfpp_1_1VTF.html#aa55fba650b9fce6508ce214357cb7542",
+"d9/d12/classsndpp_1_1XWV.html#a0200dffc4b6bc7dff1a67840bd655eb8",
+"d9/daf/classvpkpp_1_1PAK.html#a153d30840b73f1dd2b3ff2fea35df8a5",
+"da/d42/classvpkpp_1_1FPX.html#a22d40a53f1b50226d2b89609d98d2755",
+"db/dde/classvtfpp_1_1SHT.html",
+"dd/d11/namespacebsppp.html#a9cb52214dd23962b3ae112be2b95e2d0a78feba126151e6f3951e57e3f268704f",
+"de/d5a/structvtfpp_1_1ImagePixel_1_1RGBA8888.html#aa4f3328dcf72c76c3123f5bf675fd1b6",
+"df/d2e/structbsppp_1_1BSPSurfEdge__v0.html#a12c84d2b9f7c8267a95d8e98970d396c",
+"df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a4bdffb7a11db4b0e4d4b77c78dc485e1"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
