@@ -2042,11 +2042,11 @@ uint64_t VTF::estimateBakeSize(bool& isExact) const {
 				}
 			}
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
-				vtfSize += fallbackResource->data.size(); // fallback size
+				vtfSize += ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight); // fallback size
 				vtfSize += math::paddingForAlignment(512, vtfSize); // align to 512 bytes if fallback present
 			}
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
-				vtfSize += imageResource->data.size(); // image size
+				vtfSize += ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth); // image size
 			}
 			if (vtfSize > 512) {
 				vtfSize += math::paddingForAlignment(512, vtfSize); // align to 512 bytes if longer than 512 bytes
