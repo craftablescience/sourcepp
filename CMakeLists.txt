@@ -105,6 +105,10 @@ endif()
 # Set defaults after project call
 if(PROJECT_IS_TOP_LEVEL)
     set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+    include(CheckIPOSupported)
+    check_ipo_supported(RESULT SOURCEPP_BUILD_WITH_LTO)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ${SOURCEPP_BUILD_WITH_LTO})
 endif()
 
 if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
