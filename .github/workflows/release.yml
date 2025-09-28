@@ -14,8 +14,55 @@ on:
         description: 'Push the release to all channels (GitHub, PyPI)'
 
 jobs:
+  cpp_build:
+    name: '[C/C++] Build (${{matrix.os}})'
+    runs-on: ${{matrix.os}}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04, windows-2022, macos-latest]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Set up MSVC [Windows]
+        if: matrix.os == 'windows-latest'
+        uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Configure CMake (C++)
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist"
+
+      - name: Build (C++)
+        run: cmake --build build --config ${{matrix.build_type}}
+
+      - name: Upload Artifact (C++)
+        uses: actions/upload-artifact@v4
+        with:
+          name: cpp-dist-${{matrix.os}}
+          path: |
+            dist/*.a
+            dist/*.lib
+            include/
+
+      - name: Configure CMake (C)
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DSOURCEPP_BUILD_C_WRAPPERS=ON
+
+      - name: Build (C)
+        run: cmake --build build --config ${{matrix.build_type}}
+
+      - name: Upload Artifact (C)
+        uses: actions/upload-artifact@v4
+        with:
+          name: c-dist-${{matrix.os}}
+          path: |
+            dist/sourcepp_*c.dll
+            dist/sourcepp_*c.lib
+            dist/sourcepp_*c.so
+            lang/c/include/
+
   python_build_sdist:
     name: '[Python] Build SDist'
+    if: false
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -23,8 +70,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
-        with:
-          submodules: recursive
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
@@ -57,8 +102,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
-        with:
-          submodules: recursive
 
       - name: Setup Python
         uses: actions/setup-python@v5

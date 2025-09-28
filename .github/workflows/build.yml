@@ -18,15 +18,10 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
-        with:
-          submodules: recursive
 
       - name: Set up MSVC [Windows]
         if: matrix.os == 'windows-latest'
         uses: ilammy/msvc-dev-cmd@v1
-        with:
-          arch: x64
-          spectre: true
 
       - name: Configure CMake
         run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
