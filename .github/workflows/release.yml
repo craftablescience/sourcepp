@@ -91,6 +91,7 @@ jobs:
 
   python_build_bdist:
     name: '[Python] Build BDist (${{matrix.os}})'
+    if: false
     runs-on: ${{matrix.os}}
     defaults:
       run:
