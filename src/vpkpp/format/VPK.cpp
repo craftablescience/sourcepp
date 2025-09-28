@@ -513,15 +513,15 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Reconstruct data so we're not looping over it a ton of times
 	std::unordered_map<std::string, std::unordered_map<std::string, std::vector<std::pair<std::string, Entry*>>>> temp;
-	this->runForAllEntriesInternal([this, &options, &temp](std::string path, Entry& entry) {
+	this->runForAllEntriesInternal([&options, &temp](const std::string& path, Entry& entry) {
 		auto fsPath = std::filesystem::path{path};
 		if (options.vpk_useBuggyExtensionHandling && fsPath.has_extension()) {
-			const auto ext = fsPath.extension().string();
+			std::string ext;
 			while (!fsPath.extension().string().empty()) {
+				ext = fsPath.extension().string();
 				fsPath.replace_extension();
 			}
 			fsPath.replace_extension(ext);
-			path = this->cleanEntryPath(fsPath.string());
 		}
 
 		auto extension = fsPath.extension().string();
