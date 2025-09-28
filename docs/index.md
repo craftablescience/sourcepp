@@ -1,5 +1,6 @@
-﻿<div>
-  <img align="left" width="130px" src="https://github.com/craftablescience/sourcepp/blob/main/branding/logo.png?raw=true" alt="The Source Pretty Parsers logo. A printer-esque device is scanning a page with hex codes and printing a picture of Cordon Freeman." />
+﻿<!--suppress HtmlDeprecatedAttribute -->
+<div>
+  <img align="left" width="128px" src="https://github.com/craftablescience/sourcepp/blob/main/branding/logo.png?raw=true" alt="The Source Pretty Parsers logo. A printer-esque device is scanning a page with hex codes and printing a picture of Cordon Freeman." />
   <h1>Source Pretty Parsers</h1>
 </div>
 
@@ -7,10 +8,21 @@
   <a href="https://github.com/craftablescience/sourcepp/actions" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/github/actions/workflow/status/craftablescience/sourcepp/build.yml?label=Build&logo=github&logoColor=%23FFFFFF" alt="Build Status" /></a>
   <a href="https://github.com/craftablescience/sourcepp/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/github/license/craftablescience/sourcepp?label=License&logo=libreofficewriter&logoColor=%23FFFFFF" alt="License" /></a>
   <a href="https://discord.gg/ASgHFkX" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/discord/678074864346857482?label=Discord&logo=Discord&logoColor=%23FFFFFF" alt="Discord" /></a>
-  <a href="https://ko-fi.com/craftablescience" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/donate-006dae?label=Ko-fi&logo=ko-fi" alt="Ko-Fi" /></a>
+  <a href="https://ko-fi.com/craftablescience" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/donate-006dae?label=Ko-fi&logo=ko-fi&logoColor=%23FFFFFF&color=%23B238A1" alt="Ko-Fi" /></a>
 </div>
 
 Several modern C++20 libraries for sanely parsing Valve formats, rolled into one big repository.
+
+## Other Languages
+
+<div>
+  <a href="https://pypi.org/project/sourcepp" target="_blank" rel="noopener noreferrer"><img alt="Version" src="https://img.shields.io/pypi/v/sourcepp?logo=python&logoColor=%23FFFFFF&label=PyPI%20Version" /></a>
+  <a href="https://pypi.org/project/sourcepp" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/pypi/pyversions/sourcepp?logo=python&logoColor=%23FFFFFF&label=Python%20Versions" alt="Python Versions" /></a>
+</div>
+
+Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library.
+
+The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 ## Included Libraries
 
@@ -346,10 +358,51 @@ only exist for stable libraries.
 
 (&dagger;) Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as [VMT](https://developer.valvesoftware.com/wiki/VMT) and [VMF](https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format)).
 
-## Wrappers
+## Gallery
 
-Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library. The Python wrappers can be
-found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
+Anything using the `sourcepp` parser set that I know of, directly or indirectly.
+
+### Tools
+
+- [gimp-vtf](https://github.com/chev2/gimp-vtf): A GIMP plugin to load and save VTF files.
+- [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp` libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from a user project or from installed Source games.
+- [MareTF](https://github.com/craftablescience/MareTF): An open source MIT-licensed CLI/GUI tool that can create, extract from, preview the contents of and write to every variant of VTF file. Replicates the functionality of Valve's `vtex.exe` and VTFEdit.
+- [Myst IV: Revolution](https://github.com/tomysshadow/M4Revolution): Performs various fixes for the game Myst IV: Revelation.
+- [PBR-2-Source](https://github.com/koerismo/PBR-2-Source): A Python-powered GUI for converting PBR materials into materials compatible with the Source engine.
+- [RectMaker](https://github.com/cplbradley/RectMaker): A freeware GUI tool that can create and modify `.rect` files used in Hammer++'s hotspotting algorithm.
+- [Source Map Compiler Tools](https://github.com/nooodles-ahh/2013-map-compile-tools): An open source recreation of the Slammin' Source Map Tools.
+- [Verifier](https://github.com/StrataSource/verifier): A small program that can build an index of a game's files, and validate existing files based on that index. Similar to Steam's "Verify integrity of game files" option, but without overwriting any files.
+- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed CLI/GUI tool that can create, extract from, preview the contents of and write to several pack file formats. Replicates the functionality of Valve's `vpk.exe` and GCFScape.
+  - [bsp-linux-fix](https://github.com/dresswithpockets/bsp-linux-fix): Patches maps which have improperly cased packed assets by repacking the assets, fixing an issue on Linux.
+  - [CS2-EomVotesFix](https://github.com/Kitof/CS2-EomVotesFix): Fixes displaying workshop map names and thumbnails during end-of-match voting for LAN events.
+  - [dham](https://github.com/Seraphli/dham): Modifies Dota 2 hero aliases based on a configuration file and packages the changes.
+  - [Linux BSP Case Folding Workaround](https://github.com/scorpius2k1/linux-bsp-casefolding-workaround): A bash script designed to resolve issues with improperly cased packed map assets in Source engine games on Linux. Extracting the assets allows the game to find them properly.
+  - [props_scaling_recompiler](https://github.com/Ambiabstract/props_scaling_recompiler): Allows converting `prop_scalable` into a static prop, effectively implementing static prop scaling outside CS:GO.
+  - [rock:sail](https://github.com/Le0X8/rocksail): CS2 client-side tool to use skins for free (only visible to the user of the tool).
+
+### Games
+
+\htmlonly
+<table>
+  <tr>
+    <td><a href="https://store.steampowered.com/app/440000/Portal_2_Community_Edition/"><img width="250px" src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/440000/header.jpg" alt="Portal 2: Community Edition"/></a></td>
+    <td>
+      <ul>
+        <li>Local addon assets are packed with <code>sourcepp</code>.</li>
+        <li>Verifier and VPKEdit are shipped with the game.</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td><a href="https://store.steampowered.com/app/2954780/Nightmare_House_The_Original_Mod/"><img width="250px" src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2954780/header.jpg" alt="Nightmare House: The Original Mod"/></a></td>
+    <td>
+      <ul>
+        <li>Game assets are packed with VPKEdit.</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+\endhtmlonly
 
 ## Special Thanks
 
@@ -366,19 +419,3 @@ found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 - `vtfpp`'s SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
 - `vtfpp`'s VTF write support is loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
 - `vtfpp`'s HDRI to cubemap conversion code is modified from the [HdriToCubemap](https://github.com/ivarout/HdriToCubemap) library by [@ivarout](https://github.com/ivarout).
-
-## Gallery
-
-A list of projects using the `sourcepp` parser set. If you'd like to see your project here, make a PR!
-
-- [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed GUI tool that can create, extract from,
-  preview the contents of and write to several pack file formats. A CLI tool is bundled with the program which replicates
-  the functionality of Valve's `vpk.exe`.
-- [MareTF](https://github.com/craftablescience/MareTF): An open source MIT-licensed CLI tool that can create VTFs, with more
-  features and a companion GUI tool planned. Replicates the functionality of Valve's `vtex.exe`.
-- [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp`
-  libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from
-  a user project or from installed Source games.
-- [Verifier](https://github.com/StrataSource/verifier): A small program that can build an index of a game's files, and validate
-  existing files based on that index. Think Steam's "Verify integrity of game files" option, but without actually overwriting any
-  files. `sourcepp` is used to parse Steam depot configs, as well as enable indexing the contents of VPKs.
