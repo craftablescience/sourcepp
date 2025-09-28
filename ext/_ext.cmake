@@ -60,8 +60,8 @@ if(NOT TARGET MINIZIP::minizip)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
-                "${CMAKE_CURRENT_LIST_DIR}/minizip-ng/mz_os_win32.c"
-                "${CMAKE_CURRENT_LIST_DIR}/minizip-ng/mz_strm_os_win32.c"
+                "${minizip-ng_SOURCE_DIR}/mz_os_win32.c"
+                "${minizip-ng_SOURCE_DIR}/mz_strm_os_win32.c"
                 DIRECTORY "${CMAKE_CURRENT_LIST_DIR}/minizip-ng"
                 PROPERTIES COMPILE_DEFINITIONS _WIN32_WINNT=0x0601)
     endif()
