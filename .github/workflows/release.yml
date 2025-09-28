@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
@@ -63,7 +63,6 @@ jobs:
 
   python_build_sdist:
     name: '[Python] Build SDist'
-    if: false
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -92,7 +91,6 @@ jobs:
 
   python_build_bdist:
     name: '[Python] Build BDist (${{matrix.os}})'
-    if: false
     runs-on: ${{matrix.os}}
     defaults:
       run:
@@ -125,7 +123,7 @@ jobs:
 
   python_upload_release:
     name: '[Python] Upload to PyPI'
-    if: false #inputs.release
+    if: inputs.release
     needs:
      - python_build_sdist
      - python_build_bdist
@@ -151,8 +149,8 @@ jobs:
     if: inputs.release
     needs:
       - c_cpp_build
-      #- python_build_sdist
-      #- python_build_bdist
+      - python_build_sdist
+      - python_build_bdist
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -174,15 +172,15 @@ jobs:
           done
           ls
 
-      #- name: Create Release Tag
-      #  id: release_tag
-      #  run: |
-      #    echo "tag=v${{inputs.version}}" >> $GITHUB_OUTPUT
+      - name: Create Release Tag
+        id: release_tag
+        run: |
+          echo "tag=v${{inputs.version}}" >> $GITHUB_OUTPUT
 
-      #- name: Create Release
-      #  uses: softprops/action-gh-release@v2
-      #  with:
-      #    tag_name: ${{steps.release_tag.outputs.tag}}
-      #    files: dist/*.zip
-      #    generate_release_notes: true
-      #    make_latest: true
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{steps.release_tag.outputs.tag}}
+          files: dist/*.zip
+          generate_release_notes: true
+          make_latest: true
