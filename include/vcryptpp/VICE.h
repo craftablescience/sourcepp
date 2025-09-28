@@ -36,14 +36,14 @@ constexpr std::string_view TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
 constexpr std::string_view THE_SHIP = "eb3A4m79";
 constexpr std::string_view ZOMBIE_PANIC_SOURCE = "5R0ni0pZ";
 
-constexpr std::string_view EKV_GPU_DEFAULT = "X8bU2qll";
-constexpr std::string_view EKV_GPU_ALIEN_SWARM = "sW9.JupP";
-constexpr std::string_view EKV_GPU_DOTA_2 = "dAIt1IL!";
-constexpr std::string_view EKV_GPU_HALF_LIFE_2_EPISODE_2 = "Xx81uBl)";
-constexpr std::string_view EKV_GPU_LEFT_4_DEAD_1 = "zp14Hi(]";
-constexpr std::string_view EKV_GPU_LEFT_4_DEAD_2 = EKV_GPU_LEFT_4_DEAD_1;
-constexpr std::string_view EKV_GPU_PORTAL_2 = "UrE66!Ap";
-constexpr std::string_view EKV_GPU_TEAM_FORTRESS_2 = TEAM_FORTRESS_2;
+constexpr std::string_view GPU_DEFAULT = "X8bU2qll";
+constexpr std::string_view GPU_ALIEN_SWARM = "sW9.JupP";
+constexpr std::string_view GPU_DOTA_2 = "dAIt1IL!";
+constexpr std::string_view GPU_HALF_LIFE_2_EPISODE_2 = "Xx81uBl)";
+constexpr std::string_view GPU_LEFT_4_DEAD_1 = "zp14Hi(]";
+constexpr std::string_view GPU_LEFT_4_DEAD_2 = GPU_LEFT_4_DEAD_1;
+constexpr std::string_view GPU_PORTAL_2 = "UrE66!Ap";
+constexpr std::string_view GPU_TEAM_FORTRESS_2 = TEAM_FORTRESS_2;
 
 } // namespace KnownCodes
 
