@@ -20,7 +20,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-26]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
@@ -98,13 +98,15 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, windows-latest, macos-26]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
       - name: Setup Python
         uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
