@@ -27,10 +27,13 @@ var NAVTREE =
   [ "SourcePP", "index.html", [
     [ "Cache Generation Steps", "dc/d45/md_src_steampp_cache_README.html", null ],
     [ "Namespaces", "namespaces.html", [
-      [ "Included Libraries", "index.html#autotoc_md0", null ],
-      [ "Wrappers", "index.html#autotoc_md1", null ],
-      [ "Special Thanks", "index.html#autotoc_md2", null ],
-      [ "Gallery", "index.html#autotoc_md3", null ],
+      [ "Other Languages", "index.html#autotoc_md0", null ],
+      [ "Included Libraries", "index.html#autotoc_md1", null ],
+      [ "Gallery", "index.html#autotoc_md2", [
+        [ "Tools", "index.html#autotoc_md3", null ],
+        [ "Games", "index.html#autotoc_md4", null ]
+      ] ],
+      [ "Special Thanks", "index.html#autotoc_md5", null ],
       [ "Namespace List", "namespaces.html", "namespaces_dup" ],
       [ "Namespace Members", "namespacemembers.html", [
         [ "All", "namespacemembers.html", "namespacemembers_dup" ],
