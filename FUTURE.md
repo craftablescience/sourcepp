@@ -38,5 +38,4 @@
   - Cache file handles so they're not constantly getting closed/opened
   - XZP write support
 - `vtfpp`
-  - Use bc7enc_rdo for its supported formats over compressonator
   - Add a MKS parser/writer
