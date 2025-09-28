@@ -1,4 +1,4 @@
-name: Build Wheels
+name: Create Release
 on:
   workflow_dispatch:
     inputs:
@@ -6,16 +6,16 @@ on:
         type: string
         required: true
         default: YYYY.MM.DD
-        description: 'The package version'
+        description: 'The SourcePP version'
       release:
         type: boolean
         required: true
         default: false
-        description: 'Push a release to PyPI'
+        description: 'Push the release to all channels (GitHub, PyPI)'
 
 jobs:
-  build_sdist:
-    name: Build SDist
+  python_build_sdist:
+    name: '[Python] Build SDist'
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -41,11 +41,11 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-sdist
+          name: python-dist-sdist
           path: '${{github.workspace}}/lang/python/dist/*.tar.gz'
 
-  build_bdist:
-    name: Build BDist (${{matrix.os}})
+  python_build_bdist:
+    name: '[Python] Build BDist (${{matrix.os}})'
     runs-on: ${{matrix.os}}
     defaults:
       run:
@@ -53,7 +53,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04, windows-2022]
+        os: [ubuntu-22.04, windows-2022, macos-latest]
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v5
@@ -62,8 +62,6 @@ jobs:
 
       - name: Setup Python
         uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
@@ -71,21 +69,21 @@ jobs:
 
       - name: Build BDist
         run: |
-          python -m pip install cibuildwheel==3.1.1
+          python -m pip install cibuildwheel==3.2.0
           python -m cibuildwheel --output-dir dist
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist-bdist-${{matrix.os}}
+          name: python-dist-bdist-${{matrix.os}}
           path: '${{github.workspace}}/lang/python/dist/*.whl'
 
-  upload_release:
-    name: Upload a Release
+  python_upload_release:
+    name: '[Python] Upload to PyPI'
     if: inputs.release
     needs:
-     - build_sdist
-     - build_bdist
+     - python_build_sdist
+     - python_build_bdist
     runs-on: ubuntu-latest
     environment:
       name: pypi-release
@@ -96,7 +94,7 @@ jobs:
       - name: Download Wheels
         uses: actions/download-artifact@v4
         with:
-          pattern: dist-*
+          pattern: python-dist-*
           path: dist
           merge-multiple: true
 
