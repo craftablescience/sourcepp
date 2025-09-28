@@ -12,7 +12,7 @@ endif()
 if(NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(cryptopp::cryptopp https://github.com/abdes/cryptopp-cmake 866aceb8b13b6427a3c4541288ff412ad54f11ea)
+    add_sourcepp_remote_library(cryptopp-cmake https://github.com/abdes/cryptopp-cmake 866aceb8b13b6427a3c4541288ff412ad54f11ea)
 
     # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
     if(WIN32 AND NOT MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -27,7 +27,7 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
 
 # hat-trie
 if(SOURCEPP_USE_VPKPP)
-    add_sourcepp_remote_library(tsl::hat_trie https://github.com/Tessil/hat-trie 25fdf359711eb27e9e7ec0cfe19cc459ec6488d7)
+    add_sourcepp_remote_library(tsl_hat_trie https://github.com/Tessil/hat-trie 25fdf359711eb27e9e7ec0cfe19cc459ec6488d7)
 endif()
 
 
