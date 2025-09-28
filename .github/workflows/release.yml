@@ -55,9 +55,10 @@ jobs:
         with:
           name: c-dist-${{matrix.os}}
           path: |
+            dist/sourcepp_*c.so
             dist/sourcepp_*c.dll
             dist/sourcepp_*c.lib
-            dist/sourcepp_*c.so
+            dist/sourcepp_*c.dylib
             lang/c/include/
 
   python_build_sdist:
