@@ -14,7 +14,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
 include(AddRemoteLibrary)
 include(AddSourcePPLibrary)
-include(FetchContent)
 include(IncludeSubdirectory)
 include(PrintOptions)
 include(TargetOptimize)
@@ -136,11 +135,7 @@ if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
     find_package(Python REQUIRED
             COMPONENTS Interpreter Development.Module
             OPTIONAL_COMPONENTS Development.SABIModule)
-    FetchContent_Declare(
-            nanobind
-            GIT_REPOSITORY "https://github.com/wjakob/nanobind.git"
-            GIT_TAG "origin/master")
-    FetchContent_MakeAvailable(nanobind)
+    add_sourcepp_remote_library(nanobind https://github.com/wjakob/nanobind master ALLOW_NOT_PINNED)
     set(${${PROJECT_NAME}_PYTHON}_SOURCES "")
     set(${${PROJECT_NAME}_PYTHON}_DEFINES "")
 
@@ -177,11 +172,7 @@ endif()
 # Tests, part 1
 if(SOURCEPP_BUILD_TESTS)
     set(SOURCEPP_TEST_NAME "${PROJECT_NAME}_test")
-    FetchContent_Declare(
-            googletest
-            GIT_REPOSITORY "https://github.com/google/googletest.git"
-            GIT_TAG "v1.15.2")
-    FetchContent_MakeAvailable(googletest)
+    add_sourcepp_remote_library(googletest https://github.com/google/googletest main ALLOW_NOT_PINNED)
     enable_testing()
     set(${SOURCEPP_TEST_NAME}_SOURCES "")
     list(APPEND ${SOURCEPP_TEST_NAME}_DEPS gtest_main)
@@ -200,13 +191,8 @@ endif()
 # Benchmarks
 if(SOURCEPP_BUILD_BENCHMARKS)
     set(SOURCEPP_BENCH_NAME "${PROJECT_NAME}_bench")
-    FetchContent_Declare(
-            benchmark
-            GIT_REPOSITORY https://github.com/google/benchmark.git
-            GIT_TAG v1.9.0)
     set(BENCHMARK_ENABLE_TESTING OFF CACHE INTERNAL "" FORCE)
-    FetchContent_MakeAvailable(benchmark)
-
+    add_sourcepp_remote_library(benchmark https://github.com/google/benchmark main ALLOW_NOT_PINNED)
     add_library(${SOURCEPP_BENCH_NAME} STATIC "${CMAKE_CURRENT_SOURCE_DIR}/bench/_bench.cpp")
     target_link_libraries(${SOURCEPP_BENCH_NAME} PUBLIC benchmark::benchmark)
     target_compile_definitions(${SOURCEPP_BENCH_NAME} PUBLIC ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/test/res/")
