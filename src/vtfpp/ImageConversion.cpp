@@ -20,9 +20,11 @@
 
 #include <compressonator.h>
 
+#ifdef VTFPP_SUPPORT_QOI
 #define QOI_IMPLEMENTATION
 #define QOI_NO_STDIO
 #include <qoi.h>
+#endif
 
 #include <sourcepp/Macros.h>
 #include <sourcepp/MathExtended.h>
@@ -42,6 +44,7 @@
 #define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
 
+#ifdef VTFPP_SUPPORT_EXR
 #define TINYEXR_IMPLEMENTATION 1
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 #define TINYEXR_USE_THREAD 1
@@ -49,9 +52,12 @@
 #define TINYEXR_USE_THREAD 0
 #endif
 #include <tinyexr.h>
+#endif
 
+#ifdef VTFPP_SUPPORT_WEBP
 #include <webp/decode.h>
 #include <webp/encode.h>
+#endif
 
 using namespace sourcepp;
 using namespace vtfpp;
@@ -1074,7 +1080,11 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 
 ImageConversion::FileFormat ImageConversion::getDefaultFileFormatForImageFormat(ImageFormat format) {
 	using enum FileFormat;
+#ifdef VTFPP_SUPPORT_EXR
 	return ImageFormatDetails::decimal(format) ? EXR : PNG;
+#else
+	return ImageFormatDetails::decimal(format) ? HDR : PNG;
+#endif
 }
 
 std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat) {
@@ -1141,6 +1151,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 			break;
 		}
+#ifdef VTFPP_SUPPORT_WEBP
 		case FileFormat::WEBP: {
 			WebPConfig config;
 			WebPConfigInit(&config);
@@ -1188,6 +1199,8 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			WebPMemoryWriterClear(&writer);
 			break;
 		}
+#endif
+#ifdef VTFPP_SUPPORT_QOI
 		case FileFormat::QOI: {
 			qoi_desc descriptor{
 				.width = width,
@@ -1219,6 +1232,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			std::free(qoiData);
 			break;
 		}
+#endif
 		case FileFormat::HDR: {
 			if (format == ImageFormat::RGB323232F) {
 				stbi_write_hdr_to_func(stbWriteFunc, &out, width, height, ImageFormatDetails::bpp(ImageFormat::RGB323232F) / (8 * sizeof(float)), reinterpret_cast<const float*>(imageData.data()));
@@ -1228,6 +1242,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			}
 			break;
 		}
+#ifdef VTFPP_SUPPORT_EXR
 		case FileFormat::EXR: {
 			EXRHeader header;
 			InitEXRHeader(&header);
@@ -1353,6 +1368,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			FreeEXRHeader(&header);
 			break;
 		}
+#endif
 		case FileFormat::DEFAULT:
 			break;
 	}
@@ -1375,6 +1391,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	int channels = 0;
 	frameCount = 1;
 
+#ifdef VTFPP_SUPPORT_EXR
 	// EXR
 	if (EXRVersion version; ParseEXRVersionFromMemory(&version, reinterpret_cast<const unsigned char*>(fileData.data()), fileData.size()) == TINYEXR_SUCCESS) {
 		if (version.multipart || version.non_image) {
@@ -1534,6 +1551,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		FreeEXRHeader(&header);
 		return combinedChannels;
 	}
+#endif
 
 	// HDR
 	if (stbi_is_hdr_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {
@@ -1554,6 +1572,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 	}
 
+#ifdef VTFPP_SUPPORT_WEBP
 	// WebP
 	if (WebPBitstreamFeatures features; fileData.size() > 12 && static_cast<char>(fileData[8]) == 'W' && static_cast<char>(fileData[9]) == 'E' && static_cast<char>(fileData[10]) == 'B' && static_cast<char>(fileData[11]) == 'P' && WebPGetFeatures(reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size(), &features) == VP8_STATUS_OK) {
 		width = features.width;
@@ -1577,6 +1596,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 		return out;
 	}
+#endif
 
 	// GIF
 	if (fileData.size() > 3 && static_cast<char>(fileData[0]) == 'G' && static_cast<char>(fileData[1]) == 'I' && static_cast<char>(fileData[2]) == 'F') {
@@ -1780,18 +1800,19 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 	}
 
+#ifdef VTFPP_SUPPORT_QOI
 	// QOI header
 	if (fileData.size() >= 26 && *reinterpret_cast<const uint32_t*>(fileData.data()) == parser::binary::makeFourCC("qoif")) {
 		qoi_desc descriptor;
 		const ::stb_ptr<std::byte> qoiImage{
-			static_cast<std::byte*>(qoi_decode(fileData.data(), fileData.size(), &descriptor, 0)),
+			static_cast<std::byte*>(qoi_decode(fileData.data(), static_cast<int>(fileData.size()), &descriptor, 0)),
 			&std::free,
 		};
 		if (!qoiImage) {
 			return {};
 		}
-		width = descriptor.width;
-		height = descriptor.height;
+		width = static_cast<int>(descriptor.width);
+		height = static_cast<int>(descriptor.height);
 		channels = descriptor.channels;
 		switch (channels) {
 			case 3:  format = ImageFormat::RGB888;   break;
@@ -1800,6 +1821,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 		return {qoiImage.get(), qoiImage.get() + ImageFormatDetails::getDataLength(format, width, height)};
 	}
+#endif
 
 	// 16-bit single-frame image
 	if (stbi_is_16_bit_from_memory(reinterpret_cast<const stbi_uc*>(fileData.data()), static_cast<int>(fileData.size()))) {

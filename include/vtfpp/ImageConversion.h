@@ -339,15 +339,21 @@ constexpr float DEFAULT_COMPRESSED_QUALITY = 0.105f;
 [[nodiscard]] std::array<std::vector<std::byte>, 6> convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true);
 
 enum class FileFormat {
-	DEFAULT,
-	PNG,
-	JPG,
-	BMP,
-	TGA,
-	WEBP,
-	QOI,
-	HDR,
-	EXR,
+	DEFAULT = 0,
+	PNG     = 1,
+	JPG     = 2,
+	BMP     = 3,
+	TGA     = 4,
+#ifdef VTFPP_SUPPORT_WEBP
+	WEBP    = 5,
+#endif
+#ifdef VTFPP_SUPPORT_QOI
+	QOI     = 6,
+#endif
+	HDR     = 7,
+#ifdef VTFPP_SUPPORT_EXR
+	EXR     = 8,
+#endif
 };
 
 /// PNG for integer formats, EXR for floating point formats

@@ -175,10 +175,17 @@ inline void register_python(py::module_& m) {
 			.value("JPG",     FileFormat::JPG)
 			.value("BMP",     FileFormat::BMP)
 			.value("TGA",     FileFormat::TGA)
+#ifdef VTFPP_SUPPORT_WEBP
 			.value("WEBP",    FileFormat::WEBP)
+#endif
+#ifdef VTFPP_SUPPORT_QOI
 			.value("QOI",     FileFormat::QOI)
+#endif
 			.value("HDR",     FileFormat::HDR)
-			.value("EXR",     FileFormat::EXR);
+#ifdef VTFPP_SUPPORT_EXR
+			.value("EXR",     FileFormat::EXR)
+#endif
+			;
 
 		ImageConversion.def("get_default_file_format_for_image_format", &getDefaultFileFormatForImageFormat, "format"_a);
 

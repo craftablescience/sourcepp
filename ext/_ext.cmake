@@ -69,7 +69,7 @@ endif()
 
 
 # qoi
-if(SOURCEPP_USE_VTFPP)
+if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
     if(NOT TARGET qoi)
         add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 316593b6de3576743506d4115e30bf03a12b587d)
         add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
@@ -85,7 +85,7 @@ endif()
 
 
 # tinyexr
-if(SOURCEPP_USE_VTFPP)
+if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_EXR)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
 endif()
 
@@ -120,7 +120,7 @@ endfunction()
 
 
 # webp
-if(SOURCEPP_USE_VTFPP)
+if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_ANIM_UTILS                      OFF CACHE INTERNAL "" FORCE)
     set(WEBP_BUILD_CWEBP                           OFF CACHE INTERNAL "" FORCE)
     set(WEBP_BUILD_DWEBP                           OFF CACHE INTERNAL "" FORCE)
