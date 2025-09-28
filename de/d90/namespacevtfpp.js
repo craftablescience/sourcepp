@@ -7,10 +7,7 @@ var namespacevtfpp =
         [ "JPG", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a92769fe7c40229f4301d6125e0a9e928", null ],
         [ "BMP", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aa5d5ca1447586e23dc011f8c0cc0a6db", null ],
         [ "TGA", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a64efd9bcf7b83f22fe9796967255e103", null ],
-        [ "WEBP", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409ab8dbf614b2c3a603c8c8c723a3f6eb7a", null ],
-        [ "QOI", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a66afb022805d2723402536fa3f58f36c", null ],
-        [ "HDR", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3", null ],
-        [ "EXR", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409aeb63de47b8691d315fefa05620191725", null ]
+        [ "HDR", "d5/d61/namespacevtfpp_1_1ImageConversion.html#ac86b05f9f4f7148b3a4ea53c6bfd0409a6cad826248cd3f4e93da71e7b49928e3", null ]
       ] ],
       [ "ResizeEdge", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53", [
         [ "CLAMP", "d5/d61/namespacevtfpp_1_1ImageConversion.html#a5958476a157c26336cb52c3055cffb53aecf301fe86e23bb2bf5155bbef3b1345", null ],

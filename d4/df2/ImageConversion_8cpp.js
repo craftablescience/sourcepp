@@ -1,7 +1,5 @@
 var ImageConversion_8cpp =
 [
-    [ "QOI_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#aade8b4dbc336c88d4ac4f0dd5615fa9c", null ],
-    [ "QOI_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a0dfc677e515463d1a7ea361dde423f1f", null ],
     [ "STB_IMAGE_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#a18372412ad2fc3ce1e3240b3cf0efe78", null ],
     [ "STB_IMAGE_RESIZE_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#aa6a7b41350a14f718b619164bc2b8fdf", null ],
     [ "STB_IMAGE_RESIZE_STATIC", "d4/df2/ImageConversion_8cpp.html#a24cc5fc010a392e6e332938bf374bd6f", null ],
@@ -11,8 +9,6 @@ var ImageConversion_8cpp =
     [ "STBI_NO_FAILURE_STRINGS", "d4/df2/ImageConversion_8cpp.html#a4a101dadc05ceb1ad4979bdd54aa8ec4", null ],
     [ "STBI_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a9bedc54144dc3da815b9fc94226c4c98", null ],
     [ "STBI_WRITE_NO_STDIO", "d4/df2/ImageConversion_8cpp.html#a2845aeca338cef21cd8b02e0970970bb", null ],
-    [ "TINYEXR_IMPLEMENTATION", "d4/df2/ImageConversion_8cpp.html#a64d249aa3458d57a008b0713db24e604", null ],
-    [ "TINYEXR_USE_THREAD", "d4/df2/ImageConversion_8cpp.html#a92c3b08055df82a45da712608da150e9", null ],
     [ "VTFPP_APPLY_GAMMA_BLUE", "d4/df2/ImageConversion_8cpp.html#a339973ea78d3667aa5ce9ecf19fa38ac", null ],
     [ "VTFPP_APPLY_GAMMA_GREEN", "d4/df2/ImageConversion_8cpp.html#a81c67251b90cac89cd8a05ef0685926d", null ],
     [ "VTFPP_APPLY_GAMMA_RED", "d4/df2/ImageConversion_8cpp.html#a64d800ea070fc2c1429b290647111edb", null ],
