@@ -22,6 +22,25 @@ BakeOptions Convert::optionsFromC(vpkpp_bake_options_t options) {
 	};
 }
 
+EntryOptions Convert::optionsFromC(vpkpp_entry_options_t options) {
+	return {
+		.zip_compressionType = static_cast<EntryCompressionType>(options.zip_compressionType),
+		.zip_compressionStrength = options.zip_compressionStrength,
+		.vpk_preloadBytes = options.vpk_preloadBytes,
+		.vpk_saveToDirectory = static_cast<bool>(options.vpk_saveToDirectory),
+	};
+}
+
+vpkpp_bake_options_t Convert::optionsToC(BakeOptions options) {
+	return {
+		.zip_compressionTypeOverride = static_cast<int16_t>(options.zip_compressionTypeOverride),
+		.zip_compressionStrength = options.zip_compressionStrength,
+		.gma_writeCRCs = options.gma_writeCRCs,
+		.vpk_generateMD5Entries = options.vpk_generateMD5Entries,
+		.vpk_useBuggyExtensionHandling = options.vpk_useBuggyExtensionHandling,
+	};
+}
+
 vpkpp_entry_options_t Convert::optionsToC(EntryOptions options) {
 	return {
 		.zip_compressionType = static_cast<int16_t>(options.zip_compressionType),
