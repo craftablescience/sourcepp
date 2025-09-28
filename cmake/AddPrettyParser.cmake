@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 # Add a new parser library
 function(add_pretty_parser TARGET)
     cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C" "" "DEPS;DEPS_PUBLIC;DEPS_INTERFACE;PRECOMPILED_HEADERS;SOURCES")

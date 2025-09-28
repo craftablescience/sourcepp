@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 macro(target_optimize TARGET)
     # Set optimization flags (MSVC defaults are fine)
     if(NOT MSVC)

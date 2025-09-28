@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Add scripts
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(AddPrettyParser)
+include(AddRemoteLibrary)
 include(AddSourcePPLibrary)
 include(FetchContent)
 include(IncludeSubdirectory)

@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 function(print_options)
     cmake_parse_arguments(PARSE_ARGV 0 IN "" "" "OPTIONS")
     foreach (OPT ${IN_OPTIONS})

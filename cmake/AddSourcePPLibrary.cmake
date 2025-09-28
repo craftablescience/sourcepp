@@ -1,3 +1,5 @@
+include_guard(GLOBAL)
+
 function(add_sourcepp_library TARGET)
     cmake_parse_arguments(PARSE_ARGV 1 OPTIONS "C;CSHARP;PYTHON;WASM;TEST;BENCH" "" "")
     string(TOUPPER ${TARGET} TARGET_UPPER)

@@ -1,18 +1,18 @@
 # bufferstream
-if(NOT TARGET bufferstream)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/bufferstream")
-endif()
+add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 070a5f0a510da1b982dd68f204ad154d8aaf55b1)
 
 
 # compressonator
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/compressonator")
+if(SOURCEPP_USE_VTFPP)
+    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator a599efbe2e30f7c8e3287e15436ec6c1be580b99)
+endif()
 
 
 # cryptopp
 if(NOT TARGET cryptopp::cryptopp)
     set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
     set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/cryptopp")
+    add_sourcepp_remote_library(cryptopp::cryptopp https://github.com/abdes/cryptopp-cmake 866aceb8b13b6427a3c4541288ff412ad54f11ea)
 
     # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
     if(WIN32 AND NOT MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
@@ -26,19 +26,20 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
 
 
 # hat-trie
-if(NOT TARGET tsl::hat_trie)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/hat-trie")
+if(SOURCEPP_USE_VPKPP)
+    add_sourcepp_remote_library(tsl::hat_trie https://github.com/Tessil/hat-trie 25fdf359711eb27e9e7ec0cfe19cc459ec6488d7)
 endif()
 
 
 # ice
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")
+if(SOURCEPP_USE_VCRYPTPP)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")
+endif()
 
 
 # miniz
-if(NOT TARGET miniz)
-    set(BUILD_NO_STDIO ON CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/miniz")
+if(SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP)
+    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 174573d60290f447c13a2b1b3405de2b96e27d6c)
 endif()
 
 
@@ -55,7 +56,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/minizip-ng")
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 860acee351f332387723472c7aca211c56eaeaa2)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
@@ -68,16 +69,25 @@ endif()
 
 
 # qoi
-add_library(sourcepp_qoi INTERFACE "${CMAKE_CURRENT_LIST_DIR}/qoi/qoi.h")
-target_include_directories(sourcepp_qoi INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/qoi>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+if(SOURCEPP_USE_VTFPP)
+    if(NOT TARGET qoi)
+        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 316593b6de3576743506d4115e30bf03a12b587d)
+        add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
+        target_include_directories(qoi INTERFACE "$<BUILD_INTERFACE:${qoi_SOURCE_DIR}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
+    endif()
+endif()
 
 
 # stb
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
+if(SOURCEPP_USE_VTFPP)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")
+endif()
 
 
 # tinyexr
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+if(SOURCEPP_USE_VTFPP)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+endif()
 
 
 # tbb
@@ -110,7 +120,7 @@ endfunction()
 
 
 # webp
-if(NOT TARGET webp)
+if(SOURCEPP_USE_VTFPP)
     set(WEBP_BUILD_ANIM_UTILS                      OFF CACHE INTERNAL "" FORCE)
     set(WEBP_BUILD_CWEBP                           OFF CACHE INTERNAL "" FORCE)
     set(WEBP_BUILD_DWEBP                           OFF CACHE INTERNAL "" FORCE)
@@ -125,5 +135,5 @@ if(NOT TARGET webp)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/libwebp" EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp 74f6afd3e6ea8ff5b231ad2248b52bdcd1666c70)
 endif()
