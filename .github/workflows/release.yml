@@ -30,10 +30,10 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure CMake (C++)
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist"
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DSOURCEPP_VERSION="${{inputs.version}}"
 
       - name: Build (C++)
-        run: cmake --build build --config ${{matrix.build_type}}
+        run: cmake --build build --config Release
 
       - name: Upload Artifact (C++)
         uses: actions/upload-artifact@v4
@@ -45,10 +45,10 @@ jobs:
             include/
 
       - name: Configure CMake (C)
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DSOURCEPP_BUILD_C_WRAPPERS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_LIBRARY_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DCMAKE_RUNTIME_OUTPUT_DIRECTORY="${{github.workspace}}/dist" -DSOURCEPP_VERSION="${{inputs.version}}" -DSOURCEPP_BUILD_C_WRAPPERS=ON
 
       - name: Build (C)
-        run: cmake --build build --config ${{matrix.build_type}}
+        run: cmake --build build --config Release
 
       - name: Upload Artifact (C)
         uses: actions/upload-artifact@v4
