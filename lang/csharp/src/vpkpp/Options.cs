@@ -20,7 +20,6 @@ namespace vpkpp
 		public short zip_compressionStrength;
 		public byte gma_writeCRCs;
 		public byte vpk_generateMD5Entries;
-		public byte vpk_useBuggyExtensionHandling;
 	}
 
     [StructLayout(LayoutKind.Sequential)]
