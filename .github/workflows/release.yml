@@ -164,13 +164,15 @@ jobs:
           path: dist/
 
       - name: Zip Artifacts
-        shell: bash
+        working-directory: dist
         run: |
-          for dir in dist/*/ do
-              (cd dist/$dir && zip -r ../$dir.zip .)
-              rm -rf $dir
+          for dir in */
+          do
+              cd $dir
+              zip -r ../${dir%*/}.zip .
+              cd ..
           done
-          (cd dist && ls)
+          ls
 
       #- name: Create Release Tag
       #  id: release_tag
