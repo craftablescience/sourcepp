@@ -28,7 +28,7 @@ namespace vcryptpp
         public const string DAY_OF_DEFEAT_SOURCE            = "Wl0u5B3F";
         public const string DYSTOPIA_1_2                    = "pH3apO8w";
         public const string DYSTOPIA_1_3                    = "G8stUh3F";
-		public const string FORTRESS_FOREVER-PRE_GREENLIGHT = "saxEWr5v";
+	public const string FORTRESS_FOREVER_PRE_GREENLIGHT = "saxEWr5v";
         public const string GOLDEN_EYE_SOURCE               = "Gr3naDes";
         public const string HALF_LIFE_2_CTF                 = "R1dj3axP";
         public const string HALF_LIFE_2_DM                  = DEFAULT;

@@ -13,7 +13,7 @@ SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_counter_strike_prom
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_day_of_defeat_source,            "Wl0u5B3F");
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_dystopia_1_2,                    "pH3apO8w");
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_dystopia_1_3,                    "G8stUh3F");
-SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_fortress_forever-pre_greenlight, "saxEWr5v");
+SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_fortress_forever_pre_greenlight, "saxEWr5v");
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_golden_eye_source,               "Gr3naDes");
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_half_life_2_ctf,                 "R1dj3axP");
 SOURCEPP_CLSVAR_EXT(vcryptpp, vice, const char*, known_codes_half_life_2_dm,                  "x9Ke0BY7");

@@ -53,7 +53,7 @@ inline void register_python(py::module_& m) {
 			KnownCodes.attr("DAY_OF_DEFEAT_SOURCE")            = DAY_OF_DEFEAT_SOURCE;
 			KnownCodes.attr("DYSTOPIA_1_2")                    = DYSTOPIA_1_2;
 			KnownCodes.attr("DYSTOPIA_1_3")                    = DYSTOPIA_1_3;
-			KnownCodes.attr("FORTRESS_FOREVER-PRE_GREENLIGHT") = FORTRESS_FOREVER_PRE-GREENLIGHT;
+			KnownCodes.attr("FORTRESS_FOREVER_PRE_GREENLIGHT") = FORTRESS_FOREVER_PRE-GREENLIGHT;
 			KnownCodes.attr("GOLDEN_EYE_SOURCE")               = GOLDEN_EYE_SOURCE;
 			KnownCodes.attr("HALF_LIFE_2_CTF")                 = HALF_LIFE_2_CTF;
 			KnownCodes.attr("HALF_LIFE_2_DM")                  = HALF_LIFE_2_DM;
