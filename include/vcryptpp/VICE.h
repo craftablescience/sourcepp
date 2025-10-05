@@ -23,6 +23,7 @@ constexpr std::string_view COUNTER_STRIKE_PROMOD = "H1aRQ0n1";
 constexpr std::string_view DAY_OF_DEFEAT_SOURCE = "Wl0u5B3F";
 constexpr std::string_view DYSTOPIA_1_2 = "pH3apO8w";
 constexpr std::string_view DYSTOPIA_1_3 = "G8stUh3F";
+constexpr std::string_view FORTRESS_FOREVER_PRE-GREENLIGHT = "saxEWr5v";
 constexpr std::string_view GOLDEN_EYE_SOURCE = "Gr3naDes";
 constexpr std::string_view HALF_LIFE_2_CTF = "R1dj3axP";
 constexpr std::string_view HALF_LIFE_2_DM = DEFAULT;
