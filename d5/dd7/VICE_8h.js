@@ -13,6 +13,7 @@ var VICE_8h =
     [ "DEFAULT", "d5/dd7/VICE_8h.html#a587eea44ebf86e6a3990e51958f88fad", null ],
     [ "DYSTOPIA_1_2", "d5/dd7/VICE_8h.html#a30549e518c9bc7e0e1ae962024db73cf", null ],
     [ "DYSTOPIA_1_3", "d5/dd7/VICE_8h.html#a11552e7e0cd868b00d9d1b83875cb3e8", null ],
+    [ "FORTRESS_FOREVER_PRE_GREENLIGHT", "d5/dd7/VICE_8h.html#add802cc9d0f1d63b9d2ddd2df2222fbe", null ],
     [ "GOLDEN_EYE_SOURCE", "d5/dd7/VICE_8h.html#ae415990aab2af0d5a2030d5d74e2b775", null ],
     [ "GPU_ALIEN_SWARM", "d5/dd7/VICE_8h.html#a1b089d6a9084597f321e57b759b675c1", null ],
     [ "GPU_DEFAULT", "d5/dd7/VICE_8h.html#a409c820c2056a6aa7530c324802c9d8e", null ],

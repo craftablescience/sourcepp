@@ -12,6 +12,7 @@ var namespacevcryptpp_1_1VICE =
       [ "DEFAULT", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a587eea44ebf86e6a3990e51958f88fad", null ],
       [ "DYSTOPIA_1_2", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a30549e518c9bc7e0e1ae962024db73cf", null ],
       [ "DYSTOPIA_1_3", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a11552e7e0cd868b00d9d1b83875cb3e8", null ],
+      [ "FORTRESS_FOREVER_PRE_GREENLIGHT", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#add802cc9d0f1d63b9d2ddd2df2222fbe", null ],
       [ "GOLDEN_EYE_SOURCE", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#ae415990aab2af0d5a2030d5d74e2b775", null ],
       [ "GPU_ALIEN_SWARM", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a1b089d6a9084597f321e57b759b675c1", null ],
       [ "GPU_DEFAULT", "d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a409c820c2056a6aa7530c324802c9d8e", null ],

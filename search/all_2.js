@@ -107,8 +107,8 @@ var searchData=
   ['bspvertex_104',['BSPVertex',['../dd/d11/namespacebsppp.html#a5fd3c98f837004c80f0ec73c3a3c501d',1,'bsppp']]],
   ['bspvertex_5fv0_105',['BSPVertex_v0',['../d2/d27/structbsppp_1_1BSPVertex__v0.html',1,'bsppp']]],
   ['bumpmapscale_106',['bumpMapScale',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#adf53fea7afbef857a7008777eb21f816',1,'vtfpp::VTF::CreationOptions::bumpMapScale()'],['../d8/df2/classvtfpp_1_1VTF.html#afaab7d2619345d8ea0e0ada37746fd88',1,'vtfpp::VTF::bumpMapScale()']]],
-  ['bytearray_107',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
-  ['bytearray_108',['ByteArray',['../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71',1,'dmxpp::Value']]],
+  ['bytearray_107',['ByteArray',['../d7/d45/namespacedmxpp_1_1Value.html#a4f9e972659f43f0014b036254035bf71',1,'dmxpp::Value']]],
+  ['bytearray_108',['BYTEARRAY',['../d7/d45/namespacedmxpp_1_1Value.html#af5d3dcc8a6e393d5fd5384c83692ab1ea384b1277411e6af5b40e64380e34997d',1,'dmxpp::Value']]],
   ['bytetoid_109',['byteToID',['../d7/d45/namespacedmxpp_1_1Value.html#afb585b0f18ae362bf2e81e2d9d3afe19',1,'dmxpp::Value']]],
   ['bzip2_110',['BZIP2',['../d5/d29/namespacevpkpp.html#ae034a158f88b27daeb947b167a806182a800edd55a1e18b397e3d5d826f85ce34',1,'vpkpp']]]
 ];
