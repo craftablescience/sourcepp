@@ -79,8 +79,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("zip_compression_type_override", &BakeOptions::zip_compressionTypeOverride)
 		.def_rw("zip_compression_strength", &BakeOptions::zip_compressionStrength)
 		.def_rw("gma_write_crcs", &BakeOptions::gma_writeCRCs)
-		.def_rw("vpk_generate_md5_entries", &BakeOptions::vpk_generateMD5Entries)
-		.def_rw("vpk_use_buggy_extension_handling", &BakeOptions::vpk_useBuggyExtensionHandling);
+		.def_rw("vpk_generate_md5_entries", &BakeOptions::vpk_generateMD5Entries);
 
 	py::class_<EntryOptions>(vpkpp, "EntryOptions")
 		.def(py::init())
