@@ -736,7 +736,7 @@ VTF::operator bool() const {
 bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	bool out = true;
 	if (writer.hasImageData() && (options.invertGreenChannel || options.gammaCorrection != 1.f)) {
-		for (int i = 1; i < writer.mipCount; i++) {
+		for (int i = 0; i < writer.mipCount; i++) {
 			for (int j = 0; j < writer.frameCount; j++) {
 				for (int k = 0; k < writer.getFaceCount(); k++) {
 					for (int l = 0; l < writer.depth; l++) {

@@ -2109,6 +2109,7 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 
 	switch (format) {
 		using enum ImageFormat;
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGBA8888,          {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b),  pixel.a});
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(ABGR8888,          {pixel.a,                         VTFPP_APPLY_GAMMA_BLUE(pixel.b),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r)});
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888,            {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGB888_BLUESCREEN, pixel.r == 0 && pixel.g == 0 && pixel.b == 0xff ? ImagePixel::RGB888_BLUESCREEN{0, 0, 0xff} : ImagePixel::RGB888_BLUESCREEN{VTFPP_APPLY_GAMMA_RED(pixel.r), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b)});
