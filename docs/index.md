@@ -49,7 +49,10 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr style="background: none;">
     <td rowspan="1"><code>dmxpp</code><sup>*</sup></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5</td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/DMX">DMX</a> Binary v1-5
+      <br> &bull; <a href="https://github.com/TeamSpen210/srctools">srctools</a> modifications
+    </td>
     <td align="center">✅</td>
     <td align="center">❌</td>
     <td rowspan="1" align="center"></td>
@@ -407,6 +410,7 @@ Anything using the `sourcepp` parser set that I know of, directly or indirectly.
 ## Special Thanks
 
 - `bsppp` partial library redesign, lump compression and game lump parsing/writing support contributed by [@Tholp](https://github.com/Tholp1).
+- `dmxpp`'s support for srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s 007 parser is based on [reverse-engineering work](https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt) by Alhexx.
 - `vpkpp`'s GCF parser was contributed by [@bt](https://github.com/caatge) and [@ymgve](https://github.com/ymgve).
