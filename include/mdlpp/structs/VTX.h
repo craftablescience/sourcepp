@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <span>
@@ -9,11 +10,28 @@
 
 namespace mdlpp::VTX {
 
+struct MaterialReplacement {
+	int16_t materialID;
+	//int32_t replacementMaterialNameOffset;
+	std::string replacementMaterialName;
+};
+
+struct MaterialReplacementList {
+	//int32_t numReplacements;
+	//int32_t replacementOffset;
+	std::vector<MaterialReplacement> replacements;
+};
+
+struct BoneStateChange {
+	int32_t hardwareID;
+	int32_t newBoneID;
+};
+
 struct Vertex {
-	//uint8_t boneWeightIndex[3];
-	//uint8_t boneCount;
+	std::array<uint8_t, 3> boneWeightIndex;
+	uint8_t boneCount;
 	uint16_t meshVertexID;
-	//int8_t boneID[3];
+	std::array<int8_t, 3> boneID;
 };
 
 struct Strip {
@@ -36,6 +54,7 @@ struct Strip {
 
 	//int32_t boneStateChangeCount;
 	//int32_t boneStateChangeOffset;
+	std::vector<BoneStateChange> boneStateChanges;
 
 	// On MDL version >= 49:
 	//int32_t numTopologyIndices;
@@ -119,6 +138,7 @@ struct VTX {
 	int32_t numLODs;
 
 	//int32_t materialReplacementListOffset;
+	std::vector<MaterialReplacementList> materialReplacementLists; // One per LOD
 
 	//int32_t bodyPartCount;
 	//int32_t bodyPartOffset;
