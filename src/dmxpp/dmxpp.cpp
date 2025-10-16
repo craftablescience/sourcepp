@@ -14,17 +14,26 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 
 	BufferStreamReadOnly stream{dmxData, dmxSize};
 
-	auto header = stream.read_string();
+	// The header is terminated by a newline, but can be at most MAX_HEADER long.
+	// For binary formats that's then followed by a null terminator.
+	std::string header;
+	while (header.length() < MAX_HEADER) {
+		char temp = stream.read<char>();
+		if (temp == '\n') {
+			break;
+		}
+		header += temp;
+	}
 	if (header.length() < 37) {
 		// Minimum possible header length - early "binary_v2" version, "keyvalues2_v1" unsupported
 		return;
 	}
-	char encodingTypeData[64];
+	char encodingTypeData[MAX_FORMAT];
 	int32_t encodingVersionData;
-	char formatTypeData[64];
+	char formatTypeData[MAX_FORMAT];
 	int32_t formatVersionData;
 #ifdef _WIN32
-	sscanf_s(header.c_str(), "<!-- dmx encoding %63s %i format %63s %i -->\n", encodingTypeData, 64, &encodingVersionData, formatTypeData, 64, &formatVersionData);
+	sscanf_s(header.c_str(), "<!-- dmx encoding %63s %i format %63s %i -->\n", encodingTypeData, MAX_FORMAT, &encodingVersionData, formatTypeData, MAX_FORMAT, &formatVersionData);
 #else
 	std::sscanf(header.c_str(), "<!-- dmx encoding %s %i format %s %i -->\n", encodingTypeData, &encodingVersionData, formatTypeData, &formatVersionData);
 #endif
@@ -91,6 +100,11 @@ bool DMX::openBinary(BufferStream& stream) {
 	const bool stringListIndicesAreShort = this->encodingVersion < 5;
 	const bool elementNamesAreStoredInStringList = this->encodingVersion >= 4;
 	const bool stringValuesAreStoredInStringList = this->encodingVersion >= 4;
+
+	// Eat the null terminator for the header.
+	if (stream.read<char>() != 0) {
+		return false;
+	}
 
 	// String list
 	std::vector<std::string> stringList;

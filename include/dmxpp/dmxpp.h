@@ -6,6 +6,9 @@ class BufferStream;
 
 namespace dmxpp {
 
+constexpr int MAX_FORMAT = 64;
+constexpr int MAX_HEADER = 40 + 2 * MAX_FORMAT; // DMX_MAX_HEADER_LENGTH in SDK 
+
 namespace Format {
 
 constexpr std::string_view TEXT = "keyvalues2";
