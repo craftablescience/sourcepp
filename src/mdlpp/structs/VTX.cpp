@@ -1,8 +1,10 @@
 #include <mdlpp/structs/VTX.h>
 
 #include <BufferStream.h>
+#include <sourcepp/parser/Binary.h>
 
 using namespace mdlpp::VTX;
+using namespace sourcepp;
 
 bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	BufferStreamReadOnly stream{data, size};
@@ -23,11 +25,36 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 	stream.read(this->numLODs);
 
-	// todo: read material replacement list
-	stream.skip<int32_t>();
+	const auto materialReplacementListOffset = stream.read<int32_t>();
 
 	const auto bodyPartCount = stream.read<int32_t>();
 	const auto bodyPartOffset = stream.read<int32_t>();
+
+	if (materialReplacementListOffset > 0) {
+		stream.seek(materialReplacementListOffset);
+
+		for (int i = 0; i < this->numLODs; i++) {
+			const auto replacementListPos = materialReplacementListOffset + i * (sizeof(int32_t) * 2);
+			stream.seek_u(replacementListPos);
+
+			auto& replacementList = this->materialReplacementLists.emplace_back();
+
+			const auto numReplacements = stream.read<int32_t>();
+			const auto replacementOffset = stream.read<int32_t>();
+
+			if (numReplacements > 0 && replacementOffset > 0) {
+				for (int j = 0; j < numReplacements; j++) {
+					const auto replacementPos = replacementOffset + j * (sizeof(int16_t) + sizeof(int32_t));
+					stream.seek_u(replacementListPos + replacementPos);
+
+					auto& replacement = replacementList.replacements.emplace_back();
+					stream.read(replacement.materialID);
+
+					parser::binary::readStringAtOffset(stream, replacement.replacementMaterialName, std::ios::cur, 6);
+				}
+			}
+		}
+	}
 
 	for (int i = 0; i < bodyPartCount; i++) {
 		const auto bodyPartPos = bodyPartOffset + i * ((sizeof(int32_t) * 2));
@@ -85,15 +112,13 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 						auto stripGroupCurrentPos = stream.tell();
 						stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + vertexOffset);
 						for (int n = 0; n < vertexCount; n++) {
-							auto& [meshVertexID] = stripGroup.vertices.emplace_back();
+							auto& vertex = stripGroup.vertices.emplace_back();
 
-							// todo: process bone data
-							stream.skip<uint8_t>(4);
-
-							stream.read(meshVertexID);
-
-							// ditto
-							stream.skip<int8_t>(3);
+							stream
+								.read(vertex.boneWeightIndex)
+								.read(vertex.boneCount)
+								.read(vertex.meshVertexID)
+								.read(vertex.boneID);
 						}
 						stream.seek_u(stripGroupCurrentPos);
 
@@ -124,20 +149,37 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 
 							const auto indicesCount = stream.read<int32_t>();
 							stream.read(strip.indicesOffset);
-							// todo: check if offset is in bytes
+							// Note: offset is in elements, not bytes
 							strip.indices = std::span(stripGroup.indices.begin() + strip.indicesOffset, indicesCount);
 
 							const auto verticesCount = stream.read<int32_t>();
 							stream.read(strip.verticesOffset);
-							// todo: check if offset is in bytes
+							// Note: offset is in elements, not bytes
 							strip.vertices = std::span(stripGroup.vertices.begin() + strip.verticesOffset, verticesCount);
 
 							stream
 								.read(strip.boneCount)
 								.read(strip.flags);
 
-							// todo: bone stuff
-							stream.skip<int32_t>(2);
+							// do: bone stuff
+							const auto boneStateChangeCount = stream.read<int32_t>();
+							const auto boneStateChangeOffset = stream.read<int32_t>();
+
+							if (boneStateChangeCount > 0 && boneStateChangeOffset > 0) {
+								const auto savedPos = stream.tell();
+								constexpr auto stripHeaderSize = sizeof(int32_t) * 6 + sizeof(int16_t) + sizeof(Strip::Flags);
+								const auto stripBasePos = bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset + (n * stripHeaderSize);
+								stream.seek_u(stripBasePos + boneStateChangeOffset);
+
+								for (int p = 0; p < boneStateChangeCount; p++) {
+									auto& boneStateChange = strip.boneStateChanges.emplace_back();
+									stream
+										.read(boneStateChange.hardwareID)
+										.read(boneStateChange.newBoneID);
+								}
+
+								stream.seek_u(savedPos);
+							}
 
 							if (mdl.version >= 49) {
 								// mesh topology
