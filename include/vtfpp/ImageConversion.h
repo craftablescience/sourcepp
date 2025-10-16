@@ -359,7 +359,7 @@ enum class FileFormat {
 #endif
 };
 
-/// PNG for integer formats, EXR for floating point formats
+/// PNG for integer formats, EXR for floating point formats (or HDR if EXR support is disabled)
 [[nodiscard]] FileFormat getDefaultFileFormatForImageFormat(ImageFormat format);
 
 /// Converts image data to the given file format (PNG or EXR by default).
