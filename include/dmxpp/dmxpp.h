@@ -13,6 +13,8 @@ namespace Format {
 
 constexpr std::string_view TEXT = "keyvalues2";
 constexpr std::string_view BINARY = "binary";
+constexpr std::string_view SRCTOOLS_UTF8_TEXT = "unicode_keyvalues2";
+constexpr std::string_view SRCTOOLS_UTF8_BINARY = "unicode_binary";
 
 } // namespace Format
 

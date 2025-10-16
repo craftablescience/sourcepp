@@ -50,9 +50,10 @@ DMX::DMX(const std::byte* dmxData, std::size_t dmxSize) {
 		return;
 	}
 
-	if (this->encodingType == Format::BINARY) {
+	// Srctools formats indicate that all strings are specifically UTF-8.
+	if (this->encodingType == Format::BINARY || this->encodingType == Format::SRCTOOLS_UTF8_BINARY) {
 		this->opened = this->openBinary(stream);
-	} else if (this->encodingType == Format::TEXT) {
+	} else if (this->encodingType == Format::TEXT || this->encodingType == Format::SRCTOOLS_UTF8_TEXT) {
 		this->opened = this->openText(dmxData, dmxSize);
 	}
 }
