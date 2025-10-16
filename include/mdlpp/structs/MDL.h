@@ -744,20 +744,20 @@ struct MDL {
 	uint8_t directionalDotProduct;
 	uint8_t rootLOD;
 	uint8_t numAllowedRootLODs;
-	uint8_t _unused0;
+	//uint8_t _unused0;
 
-	int32_t _unused1;
+	//int32_t _unused1;
 
 	//int32_t flexControllerUICount;
 	//int32_t flexControllerUIIndex;
 	std::vector<FlexControllerUI> flexControllerUIs;
 
 	float vertAnimFixedPointScale;
-	int32_t _unused2;
+	//int32_t _unused2;
 
 	int32_t studiohdr2index;
 
-	int32_t _unused3;
+	//int32_t _unused3;
 
 	struct Header2 {
 		int32_t srcBoneTransformCount;
