@@ -121,7 +121,7 @@ bool DMX::openBinary(BufferStream& stream) {
 	}
 
 	// Read a string index and get the string from the list
-	const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream_) {
+	const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream_) -> std::string {
 		uint32_t index;
 		if (stringListIndicesAreShort) {
 			index = stream_.read<uint16_t>();
@@ -129,7 +129,8 @@ bool DMX::openBinary(BufferStream& stream) {
 			index = stream_.read<uint32_t>();
 		}
 		if (index >= stringList.size()) {
-			throw std::overflow_error{"String list index out of bounds!"};
+			// This is an intentional feature of the format
+			return "";
 		}
 		return stringList.at(index);
 	};
