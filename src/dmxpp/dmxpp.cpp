@@ -154,7 +154,8 @@ bool DMX::openBinary(BufferStream& stream) {
 			auto size = reader.read<uint32_t>();
 			out.reserve(size);
 			for (int i = 0; i < size; i++) {
-				out.push_back(std::get<T>(readValue(reader, Value::arrayIDToInnerID(type_), true)));
+				// String arrays are always inline.
+				out.push_back(std::get<T>(readValue(reader, Value::arrayIDToInnerID(type_), false)));
 			}
 			return out;
 		};
