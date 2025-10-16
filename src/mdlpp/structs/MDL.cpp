@@ -147,17 +147,17 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		.read(this->directionalDotProduct)
 		.read(this->rootLOD)
 		.read(this->numAllowedRootLODs)
-		.read(this->_unused0)
-		.read(this->_unused1);
+		.skip<uint8_t>() // _unused0
+		.skip<int32_t>(); // _unused1
 
 	const auto flexControllerUICount = stream.read<int32_t>();
 	const auto flexControllerUIIndex = stream.read<int32_t>();
 
 	stream
 		.read(this->vertAnimFixedPointScale)
-		.read(this->_unused2)
+		.skip<int32_t>() // _unused2
 		.read(this->studiohdr2index)
-		.read(this->_unused3);
+		.skip<int32_t>(); // _unused3
 
 	// header of the second kind perchance
 	if (this->studiohdr2index != 0) {
