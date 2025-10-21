@@ -110,16 +110,17 @@ bool isAppUsingEngine(const Steam* steam, AppID appID) {
 
 [[nodiscard]] std::string getAppArtPath(const KV1Binary& assetCache, AppID appID, std::string_view steamInstallDir, std::string_view id) {
 	if (
-		assetCache.getChildCount() != 1 ||
-		assetCache[0].getChildCount() != 3 ||
-		!assetCache[0].hasChild("cache_version") ||
+		!assetCache[0].hasChild("cache_version") || !assetCache[0].hasChild("0") ||
 		static_cast<KV1BinaryValueType>(assetCache[0]["cache_version"].getValue().index()) != KV1BinaryValueType::INT32 ||
 		*assetCache[0]["cache_version"].getValue<int32_t>() != 2
 	) {
 		return "";
 	}
 	const auto idStr = std::format("{}", appID);
-	const auto& cache = assetCache[0][2][idStr];
+	// note: the "0" here means use the english version of the library assets. there's no easily accessible way to grab
+	// the user's steam language or figure out what index each language is as far as i can tell, so I will use this hack instead.
+	// if the asset exists, there will always be a base english asset present so no need to search for language overrides
+	const auto& cache = assetCache[0]["0"][idStr];
 	if (cache.isInvalid() || !cache.hasChild(id)) {
 		return "";
 	}
