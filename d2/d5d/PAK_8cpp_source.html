@@ -181,7 +181,7 @@ $(document).ready(function(){initNavTree('d2/d5d/PAK_8cpp_source.html','../../')
 <div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
 <div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>    <span class="keyword">const</span> <span class="keyword">auto</span> directoryOffset = reader.read&lt;uint32_t&gt;();</div>
 <div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="comment">// Directory size / file entry size</span></div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">const</span> <span class="keyword">auto</span> fileCount = reader.read&lt;uint32_t&gt;() / (pak-&gt;type != <a class="code hl_enumvalue" href="../../d9/daf/classvpkpp_1_1PAK.html#a4322cc16cd73d99c951be7ad59133bb2a520db707904f92039c093517ef0f748f">Type::PAK</a> ? 128 : 64);</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">const</span> <span class="keyword">auto</span> fileCount = reader.read&lt;uint32_t&gt;() / (<span class="keyword">sizeof</span>(uint32_t) * 2 + pak-&gt;getFilenameLength());</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    reader.seek_in(directoryOffset);</div>
 <div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">for</span> (uint32_t i = 0; i &lt; fileCount; i++) {</div>
@@ -262,7 +262,7 @@ $(document).ready(function(){initNavTree('d2/d5d/PAK_8cpp_source.html','../../')
 <div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span>        <span class="comment">// Index and size of directory</span></div>
 <div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>        <span class="keyword">static</span> <span class="keyword">constexpr</span> uint32_t DIRECTORY_INDEX = <span class="keyword">sizeof</span>(<a class="code hl_variable" href="../../d5/d29/namespacevpkpp.html#a4f65be65eb264cc405ac1dabeae4fe69">PAK_SIGNATURE</a>) + <span class="keyword">sizeof</span>(uint32_t) * 2;</div>
 <div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>        stream.write(DIRECTORY_INDEX);</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keyword">const</span> uint32_t directorySize = entriesToBake.size() * this-&gt;<a class="code hl_function" href="../../d9/daf/classvpkpp_1_1PAK.html#a7d37ea10f4498b0943463dc4b9b1907f">getFilenameLength</a>();</div>
+<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>        <span class="keyword">const</span> uint32_t directorySize = entriesToBake.size() * (<span class="keyword">sizeof</span>(uint32_t) * 2 + this-&gt;<a class="code hl_function" href="../../d9/daf/classvpkpp_1_1PAK.html#a7d37ea10f4498b0943463dc4b9b1907f">getFilenameLength</a>());</div>
 <div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>        stream.write(directorySize);</div>
 <div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
 <div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span>        <span class="comment">// Directory</span></div>
