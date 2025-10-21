@@ -53,7 +53,7 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 
 	const auto directoryOffset = reader.read<uint32_t>();
 	// Directory size / file entry size
-	const auto fileCount = reader.read<uint32_t>() / (pak->type != Type::PAK ? 128 : 64);
+	const auto fileCount = reader.read<uint32_t>() / (sizeof(uint32_t) * 2 + pak->getFilenameLength());
 
 	reader.seek_in(directoryOffset);
 	for (uint32_t i = 0; i < fileCount; i++) {
@@ -134,7 +134,7 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		// Index and size of directory
 		static constexpr uint32_t DIRECTORY_INDEX = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
 		stream.write(DIRECTORY_INDEX);
-		const uint32_t directorySize = entriesToBake.size() * this->getFilenameLength();
+		const uint32_t directorySize = entriesToBake.size() * (sizeof(uint32_t) * 2 + this->getFilenameLength());
 		stream.write(directorySize);
 
 		// Directory
