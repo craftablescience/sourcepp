@@ -943,13 +943,15 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 		return {imageData.begin(), imageData.end()};
 	}
 
+	const bool compressed = ImageFormatDetails::compressed(oldFormat);
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, depth));
 	for(int mip = mipCount - 1; mip >= 0; mip--) {
+		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, compressed, width, height, depth);
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int face = 0; face < faceCount; face++) {
-				for (int slice = 0; slice < depth; slice++) {
+				for (int slice = 0; slice < mipDepth; slice++) {
 					if (uint32_t oldOffset, oldLength; ImageFormatDetails::getDataPosition(oldOffset, oldLength, oldFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
-						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, ImageDimensions::getMipDim(mip, width), ImageDimensions::getMipDim(mip, height), quality);
+						const auto convertedImageData = ImageConversion::convertImageDataToFormat({imageData.data() + oldOffset, oldLength}, oldFormat, newFormat, mipWidth, mipHeight, quality);
 						if (uint32_t newOffset, newLength; ImageFormatDetails::getDataPosition(newOffset, newLength, newFormat, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth) && newLength == convertedImageData.size()) {
 							std::memcpy(out.data() + newOffset, convertedImageData.data(), newLength);
 						}
@@ -1966,7 +1968,7 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 					return static_cast<float>(math::kaiserWindow(x * s, KAISER_BETA(s)));
 				};
 				static constexpr auto KAISER_SUPPORT = [](float s, void*) -> float {
-					float baseSupport = KAISER_BETA(s) / 2.f;
+					const float baseSupport = KAISER_BETA(s) / 2.f;
 					if (s > 1.f) {
 						return std::max(2.f, baseSupport - 0.5f);
 					}

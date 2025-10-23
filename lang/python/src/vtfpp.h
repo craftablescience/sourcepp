@@ -141,7 +141,8 @@ inline void register_python(py::module_& m) {
 		auto ImageDimensions = vtfpp.def_submodule("ImageDimensions");
 
 		ImageDimensions
-			.def("get_mip_dim", &getMipDim, "mip"_a, "dim"_a)
+			.def("get_mip_dim", &getMipDim, "mip"_a, "add_compressed_format_padding"_a, "dim"_a)
+			.def("get_mip_dims", static_cast<std::tuple<uint16_t, uint16_t, uint16_t>(*)(uint8_t, bool, uint16_t, uint16_t, uint16_t)>(&getMipDims), "mip"_a, "add_compressed_format_padding"_a, "width"_a, "height"_a, "depth"_a = 1)
 			.def("get_maximum_mip_count", &getMaximumMipCount, "width"_a, "height"_a, "depth"_a = 1);
 	}
 
