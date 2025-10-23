@@ -142,8 +142,7 @@ inline void register_python(py::module_& m) {
 
 		ImageDimensions
 			.def("get_mip_dim", &getMipDim, "mip"_a, "dim"_a)
-			.def("get_recommended_mip_count_for_dims", &getRecommendedMipCountForDims, "format"_a, "width"_a, "height"_a)
-			.def("get_actual_mip_count_for_dims_on_console", &getActualMipCountForDimsOnConsole, "width"_a, "height"_a, "depth"_a = 1);
+			.def("get_maximum_mip_count", &getMaximumMipCount, "width"_a, "height"_a, "depth"_a = 1);
 	}
 
 	// Skip ImagePixel, difficult and pointless to bind

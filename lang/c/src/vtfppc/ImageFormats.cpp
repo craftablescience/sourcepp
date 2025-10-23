@@ -74,12 +74,8 @@ SOURCEPP_API uint32_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t d
 	return ImageDimensions::getMipDim(mip, dim);
 }
 
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_recommended_mip_count_for_dim(vtfpp_image_format_e format, uint16_t width, uint16_t height) {
-	return ImageDimensions::getRecommendedMipCountForDims(static_cast<ImageFormat>(format), width, height);
-}
-
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height, uint16_t depth) {
-	return ImageDimensions::getActualMipCountForDimsOnConsole(width, height, depth);
+SOURCEPP_API uint8_t vtfpp_image_dimensions_get_maximum_mip_count(uint16_t width, uint16_t height, uint16_t depth) {
+	return ImageDimensions::getMaximumMipCount(width, height, depth);
 }
 
 SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t depth) {

@@ -654,56 +654,15 @@ namespace ImageDimensions {
 	return dim;
 }
 
-[[nodiscard]] constexpr uint8_t getRecommendedMipCountForDims(ImageFormat format, uint16_t width, uint16_t height) {
-	// Note that compressed formats need 4x4 pixel blocks
-	if (sourcepp::math::isPowerOf2(width) && sourcepp::math::isPowerOf2(height)) {
-		const auto log2 = std::bit_width(width > height ? height : width);
-		if (!ImageFormatDetails::compressed(format)) {
-			return log2;
-		}
-		// Eliminate 2x2, 1x1
-		return log2 - 2 > 1 ? log2 - 2 : 1;
-	}
-
-	uint8_t maxMipCount = 1;
-	if (ImageFormatDetails::compressed(format)) {
-		while (width > 0 && height > 0 && width % 4 == 0 && height % 4 == 0) {
-			width /= 2;
-			height /= 2;
-			maxMipCount++;
-		}
-	} else {
-		while (width > 0 && height > 0 && width % 2 == 0 && height % 2 == 0) {
-			width /= 2;
-			height /= 2;
-			maxMipCount++;
-		}
-	}
-	return maxMipCount;
-}
-
-[[nodiscard]] constexpr uint8_t getActualMipCountForDimsOnConsole(uint16_t width, uint16_t height, uint16_t depth = 1) {
-	if (width == 0 || height == 0 || depth == 0) {
-		return 0;
-	}
+[[nodiscard]] constexpr uint8_t getMaximumMipCount(uint16_t width, uint16_t height, uint16_t depth = 1) {
 	uint8_t numMipLevels = 1;
-	while (true) {
-		if (width == 1 && height == 1 && depth == 1) {
-			break;
+	if (width && height && depth) {
+		while (width > 1 || height > 1 || depth > 1) {
+			if ((width  >>= 1) < 1) width  = 1;
+			if ((height >>= 1) < 1) height = 1;
+			if ((depth  >>= 1) < 1) depth  = 1;
+			numMipLevels++;
 		}
-		width >>= 1;
-		if (width < 1) {
-			width = 1;
-		}
-		height >>= 1;
-		if (height < 1) {
-			height = 1;
-		}
-		depth >>= 1;
-		if (depth < 1) {
-			depth = 1;
-		}
-		numMipLevels += 1;
 	}
 	return numMipLevels;
 }

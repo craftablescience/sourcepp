@@ -104,9 +104,7 @@ SOURCEPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format)
 
 SOURCEPP_API uint32_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim);
 
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_recommended_mip_count_for_dim(vtfpp_image_format_e format, uint16_t width, uint16_t height);
-
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_actual_mip_count_for_dims_on_console(uint16_t width, uint16_t height, uint16_t depth);
+SOURCEPP_API uint8_t vtfpp_image_dimensions_get_maximum_mip_count(uint16_t width, uint16_t height, uint16_t depth);
 
 SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t depth);
 

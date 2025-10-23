@@ -210,7 +210,7 @@ TEST(vtfpp, write_non_po2) {
 	EXPECT_EQ(vtf.getHeight(), 148);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 2);
+	EXPECT_EQ(vtf.getMipCount(), 8);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
@@ -274,7 +274,7 @@ TEST(vtfpp, write_v70) {
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 7);
+	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
@@ -448,7 +448,7 @@ TEST(vtfpp, write_v71) {
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 7);
+	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
@@ -622,7 +622,7 @@ TEST(vtfpp, write_v72) {
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 7);
+	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
@@ -811,7 +811,7 @@ TEST(vtfpp, write_v75) {
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 7);
+	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
@@ -1476,7 +1476,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_MULTI_BIT_ALPHA);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::BC7);
-	EXPECT_EQ(vtf.getMipCount(), 7);
+	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
