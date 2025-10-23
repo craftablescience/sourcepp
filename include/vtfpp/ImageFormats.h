@@ -80,6 +80,12 @@ enum class ImageFormat : int32_t {
 
 namespace ImageFormatDetails {
 
+/**
+ * Get the number of bits of precision of the red channel in the given format.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the red channel has in the given format. -1
+ * is returned if the given format is compressed.
+ */
 [[nodiscard]] constexpr int8_t red(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -149,6 +155,11 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+/**
+ * Get the number of bits of precision of the red channel in the given format regardless of compression.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the red channel has in the given format.
+ */
 [[nodiscard]] constexpr int8_t decompressedRed(ImageFormat format) {
 	// This is merely for convenience, the true size may be different depending on the data
 	switch (format) {
@@ -169,6 +180,12 @@ namespace ImageFormatDetails {
 	return red(format);
 }
 
+/**
+ * Get the number of bits of precision of the green channel in the given format.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the green channel has in the given format. -1
+ * is returned if the given format is compressed.
+ */
 [[nodiscard]] constexpr int8_t green(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -239,6 +256,11 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+/**
+ * Get the number of bits of precision of the green channel in the given format regardless of compression.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the green channel has in the given format.
+ */
 [[nodiscard]] constexpr int8_t decompressedGreen(ImageFormat format) {
 	// This is merely for convenience, the true size may be different depending on the data
 	switch (format) {
@@ -259,6 +281,12 @@ namespace ImageFormatDetails {
 	return green(format);
 }
 
+/**
+ * Get the number of bits of precision of the blue channel in the given format.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the blue channel has in the given format. -1
+ * is returned if the given format is compressed.
+ */
 [[nodiscard]] constexpr int8_t blue(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -328,6 +356,11 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+/**
+ * Get the number of bits of precision of the blue channel in the given format regardless of compression.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the blue channel has in the given format.
+ */
 [[nodiscard]] constexpr int8_t decompressedBlue(ImageFormat format) {
 	// This is merely for convenience, the true size may be different depending on the data
 	switch (format) {
@@ -348,6 +381,12 @@ namespace ImageFormatDetails {
 	return blue(format);
 }
 
+/**
+ * Get the number of bits of precision of the alpha channel in the given format.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the alpha channel has in the given format. -1
+ * is returned if the given format is compressed.
+ */
 [[nodiscard]] constexpr int8_t alpha(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -417,6 +456,11 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+/**
+ * Get the number of bits of precision of the alpha channel in the given format regardless of compression.
+ * @param format The format to get the number of bits of precision in this channel from.
+ * @return The number of bits of precision the alpha channel has in the given format.
+ */
 [[nodiscard]] constexpr int8_t decompressedAlpha(ImageFormat format) {
 	// This is merely for convenience, the true size may be different depending on the data
 	switch (format) {
@@ -439,6 +483,12 @@ namespace ImageFormatDetails {
 	return alpha(format);
 }
 
+/**
+ * Find the bits per pixel of the given format. Note this is <em>bits</em> per pixel, not <em>bytes</em>
+ * per pixel. The DXT1 format is 0.5 bytes per pixel, which cannot be stored in a <code>uint8_t</code>.
+ * @param format The format to find the bits per pixel of.
+ * @return The bits per pixel of the given format.
+ */
 [[nodiscard]] constexpr uint8_t bpp(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -509,6 +559,14 @@ namespace ImageFormatDetails {
 	return 0;
 }
 
+/**
+ * Find a container format for the given format, a format that is more commonly understood
+ * within this library and can represent the input texture without losing data.
+ * @param format The format to find the container format of.
+ * @return The container format of the given format. If the given format is representable with
+ * RGBA8888, that is used. RGBA16161616 is used if the given format is representable with that.
+ * RGBA32323232F is used for formats that are too large for both the previous two.
+ */
 [[nodiscard]] constexpr ImageFormat containerFormat(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -574,18 +632,38 @@ namespace ImageFormatDetails {
 	return ImageFormat::EMPTY;
 }
 
+/**
+ * Check if the given format is representable by RGBA8888 without losing data.
+ * @param format The format to check.
+ * @return True if the given format cannot be represented by RGBA8888 without losing data.
+ */
 [[nodiscard]] constexpr bool large(ImageFormat format) {
 	return containerFormat(format) != ImageFormat::RGBA8888 && containerFormat(format) != ImageFormat::EMPTY;
 }
 
+/**
+ * Checks if the given format stores floating points in its channels.
+ * @param format The format to check.
+ * @return True if the given format stores floating points.
+ */
 [[nodiscard]] constexpr bool decimal(ImageFormat format) {
 	return containerFormat(format) == ImageFormat::RGBA32323232F;
 }
 
+/**
+ * Check if the given format is a compressed format (DXT1, DXT3, DXT5, ATI1N, ATI2N, BC7, BC6H).
+ * @param format The format to check.
+ * @return True if the given format is compressed.
+ */
 [[nodiscard]] constexpr bool compressed(ImageFormat format) {
 	return red(format) == -1;
 }
 
+/**
+ * Check if the given format can store transparency.
+ * @param format The format to check.
+ * @return True if the format can store transparency.
+ */
 [[nodiscard]] constexpr bool transparent(ImageFormat format) {
 	const auto a = alpha(format);
 	if (a < 0) {
@@ -623,10 +701,20 @@ namespace ImageFormatDetails {
 	return a != 0;
 }
 
+/**
+ * Check if the given format cannot store transparency.
+ * @param format The format to check.
+ * @return True if the format cannot store transparency.
+ */
 [[nodiscard]] constexpr bool opaque(ImageFormat format) {
 	return !transparent(format);
 }
 
+/**
+ * Check if the given format is exclusively used on console platforms.
+ * @param format The format to check.
+ * @return True if the format is exclusively used on console platforms.
+ */
 [[nodiscard]] constexpr bool console(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -653,6 +741,15 @@ namespace ImageFormatDetails {
 
 namespace ImageDimensions {
 
+/**
+ * Get the dimension at a given mip level.
+ * @param mip The mip level.
+ * @param addCompressedFormatPadding Aligns the output dimension to 4 pixels.
+ * This should not be enabled if the input dimension is depth, as compressed formats are compressed on 2D slices.
+ * Otherwise, it should be enabled if <code>ImageFormatDetails::compressed(format)</code> is true.
+ * @param dim The dimension of the largest mip in the texture. Can be width, height, or depth.
+ * @return The dimension at the given mip level.
+ */
 [[nodiscard]] constexpr uint16_t getMipDim(uint8_t mip, bool addCompressedFormatPadding, uint16_t dim) {
 	if (!dim) {
 		dim = 1;
@@ -666,6 +763,14 @@ namespace ImageDimensions {
 	return dim;
 }
 
+/**
+ * Get the width and height at a given mip level.
+ * @param mip The mip level.
+ * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
+ * @param width The width of the largest mip in the texture.
+ * @param height The height of the largest mip in the texture.
+ * @return The width and height at the given mip level.
+ */
 [[nodiscard]] constexpr std::pair<uint16_t, uint16_t> getMipDims(uint8_t mip, bool addCompressedFormatPadding, uint16_t width, uint16_t height) {
 	for (int i = 0; i < mip && (width > 1 || height > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
@@ -678,6 +783,15 @@ namespace ImageDimensions {
 	return {width, height};
 }
 
+/**
+ * Get the width, height, and depth at a given mip level.
+ * @param mip The mip level.
+ * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
+ * @param width The width of the largest mip in the texture.
+ * @param height The height of the largest mip in the texture.
+ * @param depth The depth of the largest mip in the texture.
+ * @return The width, height, and depth at the given mip level.
+ */
 [[nodiscard]] constexpr std::tuple<uint16_t, uint16_t, uint16_t> getMipDims(uint8_t mip, bool addCompressedFormatPadding, uint16_t width, uint16_t height, uint16_t depth) {
 	for (int i = 0; i < mip && (width > 1 || height > 1 || depth > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
@@ -691,6 +805,15 @@ namespace ImageDimensions {
 	return {width, height, depth};
 }
 
+/**
+ * Calculate the largest mip count a texture with the given width, height, and depth
+ * can contain. On console platforms, since there is no mip count field in the header,
+ * this determines the actual mip count if the texture contains mips.
+ * @param width The width of the largest mip in the texture.
+ * @param height The height of the largest mip in the texture.
+ * @param depth The depth of the largest mip in the texture.
+ * @return The largest mip count possible for the texture to contain.
+ */
 [[nodiscard]] constexpr uint8_t getMaximumMipCount(uint16_t width, uint16_t height, uint16_t depth = 1) {
 	uint8_t numMipLevels = 1;
 	if (width && height && depth) {
@@ -708,6 +831,14 @@ namespace ImageDimensions {
 
 namespace ImageFormatDetails {
 
+/**
+ * Calculate the amount of data required to store a texture with the given format and dimensions.
+ * @param format The format of the texture.
+ * @param width The width of the texture.
+ * @param height The height of the texture.
+ * @param depth The depth of the texture.
+ * @return The length in bytes of a texture containing the given format, width, height, and depth.
+ */
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	if (ImageFormatDetails::compressed(format)) {
 		return ((width + 3) / 4) * ((height + 3) / 4) * depth * bpp(format) * 2;
@@ -715,6 +846,18 @@ namespace ImageFormatDetails {
 	return width * height * depth * (bpp(format) / 8);
 }
 
+/**
+ * Calculate the amount of data required to store a texture with the given format, mip/frame/face count, and dimensions.
+ * @param format The format of the texture.
+ * @param mipCount The mip count of the texture.
+ * @param frameCount The frame count of the texture.
+ * @param faceCount The face count of the texture.
+ * @param width The width of the texture.
+ * @param height The height of the texture.
+ * @param depth The depth of the texture.
+ * @return The length in bytes of a texture containing the given format, mip count, frame count,
+ * face count, width, height, and depth.
+ */
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	const bool compressed = ImageFormatDetails::compressed(format);
 	uint32_t length = 0;
@@ -725,7 +868,22 @@ namespace ImageFormatDetails {
 	return length;
 }
 
-// XTF (PLATFORM_XBOX) has padding between frames to align each one to 512 bytes
+/**
+ * Calculate the amount of data required to store an XBOX platform texture with the given format, mip/frame/face count,
+ * and dimensions. XBOX platform textures have padding between frames to attempt to align each one to 512 bytes (this
+ * explanation is simplified from the actual padding algorithm but is mostly correct).
+ * @param padded Whether to add padding after some frames. Some parts of an XBOX platform texture
+ * expect this padding and some do not.
+ * @param format The format of the texture.
+ * @param mipCount The mip count of the texture.
+ * @param frameCount The frame count of the texture.
+ * @param faceCount The face count of the texture.
+ * @param width The width of the texture.
+ * @param height The height of the texture.
+ * @param depth The depth of the texture.
+ * @return The length in bytes of an XBOX platform texture containing the given format, mip count,
+ * frame count, face count, width, height, and depth; possibly with padding after some frames.
+ */
 [[nodiscard]] constexpr uint32_t getDataLengthXBOX(bool padded, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
 	const bool compressed = ImageFormatDetails::compressed(format);
 	uint32_t length = 0;
@@ -741,6 +899,23 @@ namespace ImageFormatDetails {
 	return length;
 }
 
+/**
+ * Find the position of a specific mip, frame, face, and slice within a texture.
+ * @param offset Set to the offset of the section of the texture being searched for.
+ * @param length Set to the length of the section of the texture being searched for.
+ * @param format The format of the texture.
+ * @param mip The mip level to search for within the texture.
+ * @param mipCount The mip count of the texture.
+ * @param frame The frame to search for within the texture.
+ * @param frameCount The frame count of the texture.
+ * @param face The face to search for within the texture.
+ * @param faceCount The face count of the texture.
+ * @param width The width of the texture.
+ * @param height The height of the texture.
+ * @param slice The slice to search for within the texture.
+ * @param depth The depth of the texture.
+ * @return True if the section of the texture was successfully found.
+ */
 [[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
 	const bool compressed = ImageFormatDetails::compressed(format);
 	offset = 0;
@@ -763,7 +938,27 @@ namespace ImageFormatDetails {
 	return false;
 }
 
-// XTF (PLATFORM_XBOX) is more like DDS layout
+/**
+ * Find the position of a specific mip, frame, face, and slice within an XBOX platform texture.
+ * XBOX platform textures are laid out in the inverse of a regular texture in DDS mip layout and
+ * have padding between some frames.
+ * @param offset Set to the offset of the section of the texture being searched for.
+ * @param length Set to the length of the section of the texture being searched for.
+ * @param padded Whether to add padding after some frames. Some parts of an XBOX platform texture
+ * expect this padding and some do not.
+ * @param format The format of the texture.
+ * @param mip The mip level to search for within the texture.
+ * @param mipCount The mip count of the texture.
+ * @param frame The frame to search for within the texture.
+ * @param frameCount The frame count of the texture.
+ * @param face The face to search for within the texture.
+ * @param faceCount The face count of the texture.
+ * @param width The width of the texture.
+ * @param height The height of the texture.
+ * @param slice The slice to search for within the texture.
+ * @param depth The depth of the texture.
+ * @return True if the section of the texture was successfully found.
+ */
 [[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
 	const bool compressed = ImageFormatDetails::compressed(format);
 	offset = 0;
