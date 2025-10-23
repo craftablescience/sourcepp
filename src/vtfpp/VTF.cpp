@@ -537,8 +537,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 				const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
-				this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
-				this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+				this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
+				this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight);
 
 				postReadTransform();
 
@@ -641,7 +641,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				stream.skip<uint32_t>();
 			}
 
-			this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
+			this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
 
 			if (parseHeaderOnly) {
 				this->opened = true;
@@ -771,8 +771,8 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeMips) {
-		if (const auto recommendedMipCount = ImageDimensions::getRecommendedMipCountForDims(options.outputFormat, writer.getWidth(), writer.getHeight()); recommendedMipCount > 1) {
-			if (!writer.setMipCount(recommendedMipCount)) {
+		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(writer.getWidth(), writer.getHeight(), writer.getDepth()); maxMipCount > 1) {
+			if (!writer.setMipCount(maxMipCount)) {
 				out = false;
 			}
 			writer.computeMips(options.filter);
@@ -914,14 +914,9 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
-		const auto recommendedCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
-		if (this->mipCount != recommendedCount) {
-			this->setMipCount(recommendedCount);
-		}
-	} else if (oldPlatform != PLATFORM_PC) {
-		const auto recommendedMipCount = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height);
-		if (this->mipCount > recommendedMipCount) {
-			this->setMipCount(recommendedMipCount);
+		const auto maxMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
+		if (this->mipCount != maxMipCount) {
+			this->setMipCount(maxMipCount);
 		}
 	}
 }
@@ -1008,12 +1003,8 @@ void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::Resize
 			return;
 		}
 		auto newMipCount = this->mipCount;
-		if (this->platform == PLATFORM_PC) {
-			if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(this->format, newWidth, newHeight); newMipCount > recommendedCount) {
-				newMipCount = recommendedCount;
-			}
-		} else {
-			newMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(newWidth, newHeight, this->depth);
+		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(newWidth, newHeight, this->depth); this->platform != PLATFORM_PC || newMipCount > maxMipCount) {
+			newMipCount = maxMipCount;
 		}
 		this->regenerateImageData(this->format, newWidth, newHeight, newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter);
 	} else {
@@ -1108,18 +1099,14 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		return;
 	}
 	const auto oldFormat = this->format;
-	auto newMipCount = this->mipCount;
-	if (const auto recommendedCount = ImageDimensions::getRecommendedMipCountForDims(newFormat, this->width, this->height); newMipCount > recommendedCount) {
-		newMipCount = recommendedCount;
-	}
 	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
+		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
 	} else {
-		this->regenerateImageData(newFormat, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
+		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
 	}
 
 	if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
-		const auto fallbackConverted = ImageConversion::convertSeveralImageDataToFormat(fallbackResource->data, oldFormat, this->format, ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, quality);
+		const auto fallbackConverted = ImageConversion::convertSeveralImageDataToFormat(fallbackResource->data, oldFormat, this->format, ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, quality);
 		this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, fallbackConverted);
 	}
 }
@@ -1132,23 +1119,18 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (this->platform != PLATFORM_PC && newMipCount > 1) {
-		newMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth);
-	} else if (const auto recommended = ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height); newMipCount > recommended) {
-		newMipCount = recommended;
-		if (newMipCount == 1) {
-			return false;
-		}
+	if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth); (this->platform != PLATFORM_PC && newMipCount > 1) || (this->platform == PLATFORM_PC && newMipCount > maxMipCount)) {
+		newMipCount = maxMipCount;
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth);
 	return true;
 }
 
 bool VTF::setRecommendedMipCount() {
-	if (this->platform == PLATFORM_PC) {
-		return this->setMipCount(ImageDimensions::getRecommendedMipCountForDims(this->format, this->width, this->height));
-	}
-	return this->setMipCount(ImageDimensions::getActualMipCountForDimsOnConsole(this->width, this->height, this->depth));
+	// Something we could do here for v5 and up is check if FLAG_V5_LOAD_MOST_MIPS is set and change mip count accordingly
+	// (eliminate anything below 32x32). Noting we can't do that check for v4 and down because TF2 branch added small mip
+	// loading, didn't bother adding the most mips flag, and doesn't handle VTFs missing lower mips correctly. Thanks Valve!
+	return this->setMipCount(ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth));
 }
 
 void VTF::computeMips(ImageConversion::ResizeFilter filter) {
@@ -1734,7 +1716,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 			resizedWidth += math::paddingForAlignment(4, resizedWidth);
 			resizedHeight += math::paddingForAlignment(4, resizedHeight);
 		}
-		if (const auto newMipCount = ImageDimensions::getRecommendedMipCountForDims(format_, resizedWidth, resizedHeight); newMipCount <= mip) {
+		if (const auto newMipCount = ImageDimensions::getMaximumMipCount(resizedWidth, resizedHeight, this->depth); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
 		if (face > 6 || (face == 6 && (this->version < 1 || this->version > 4))) {
@@ -1935,7 +1917,7 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 
 	this->fallbackWidth = 8;
 	this->fallbackHeight = 8;
-	this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+	this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight);
 
 	std::vector<std::byte> fallbackData;
 	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
