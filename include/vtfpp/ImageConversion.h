@@ -324,7 +324,10 @@ concept PixelType =
 
 namespace ImageConversion {
 
-constexpr float DEFAULT_COMPRESSED_QUALITY = 0.105f;
+// Negative means use default quality
+// BC7, BC6H: 0.1
+// Everything else: 1.0
+constexpr float DEFAULT_COMPRESSED_QUALITY = -1.f;
 
 /// Converts an image from one format to another.
 [[nodiscard]] std::vector<std::byte> convertImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = DEFAULT_COMPRESSED_QUALITY);

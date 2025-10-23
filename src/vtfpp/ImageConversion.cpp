@@ -317,8 +317,14 @@ namespace {
 	destTexture.pData = reinterpret_cast<CMP_BYTE*>(destData.data());
 
 	CMP_CompressOptions options{};
-	options.dwSize        = sizeof(options);
-	options.fquality      = std::clamp(quality, 0.f, 1.f);
+	options.dwSize = sizeof(options);
+	if (quality >= 0.f) {
+		options.fquality  = std::min(quality, 1.f);
+	} else if (oldFormat == ImageFormat::BC7 || newFormat == ImageFormat::BC7 || oldFormat == ImageFormat::BC6H || newFormat == ImageFormat::BC6H) {
+		options.fquality = 0.1f;
+	} else {
+		options.fquality = 1.f;
+	}
 	options.bDXT1UseAlpha = oldFormat == ImageFormat::DXT1_ONE_BIT_ALPHA || newFormat == ImageFormat::DXT1_ONE_BIT_ALPHA;
 	if (options.bDXT1UseAlpha) {
 		options.nAlphaThreshold = 128;
