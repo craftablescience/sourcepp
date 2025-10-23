@@ -365,7 +365,7 @@ public:
 
 	bool setFaceCount(bool isCubeMap);
 
-	[[nodiscard]] uint16_t getDepth() const;
+	[[nodiscard]] uint16_t getDepth(uint8_t mip = 0) const;
 
 	bool setDepth(uint16_t newDepth);
 
