@@ -986,8 +986,16 @@ uint16_t VTF::getWidth(uint8_t mip) const {
 	return ImageDimensions::getMipDim(mip, ImageFormatDetails::compressed(this->format), this->width);
 }
 
+uint16_t VTF::getWidthWithoutPadding(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, false, this->width);
+}
+
 uint16_t VTF::getHeight(uint8_t mip) const {
 	return ImageDimensions::getMipDim(mip, ImageFormatDetails::compressed(this->format), this->height);
+}
+
+uint16_t VTF::getHeightWithoutPadding(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, false, this->height);
 }
 
 void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter) {
