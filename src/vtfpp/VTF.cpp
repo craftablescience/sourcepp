@@ -865,6 +865,9 @@ void VTF::setPlatform(Platform newPlatform) {
 		case PLATFORM_PC:
 			break;
 		case PLATFORM_XBOX:
+			// Have to do it this roundabout way to fix cubemaps
+			this->setVersion(0);
+			this->platform = newPlatform;
 			this->setVersion(2);
 			break;
 		case PLATFORM_X360:
@@ -951,12 +954,10 @@ void VTF::setVersion(uint32_t newVersion) {
 		this->removeFlags(FLAG_MASK_V3);
 	}
 	if ((this->version < 4 && newVersion >= 4) || (this->version >= 4 && newVersion < 4)) {
-		this->removeFlags(FLAG_MASK_V4);
-		this->removeFlags(FLAG_MASK_V4_TF2);
+		this->removeFlags(FLAG_MASK_V4 | FLAG_MASK_V4_TF2);
 	}
 	if ((this->version < 5 && newVersion >= 5) || (this->version >= 5 && newVersion < 5)) {
-		this->removeFlags(FLAG_MASK_V5);
-		this->removeFlags(FLAG_MASK_V5_CSGO);
+		this->removeFlags(FLAG_MASK_V5 | FLAG_MASK_V5_CSGO);
 	}
 	this->setSRGB(srgb);
 
@@ -1223,7 +1224,7 @@ uint8_t VTF::getFaceCount() const {
 	if (!(this->flags & FLAG_V0_ENVMAP)) {
 		return 1;
 	}
-	if (this->version >= 6) {
+	if (this->platform == PLATFORM_XBOX || this->version >= 6) {
 		// All v7.6 VTFs are sane, and we need this special case to fix a bug in the parser where
 		// it won't recognize cubemaps as cubemaps because the image resource is compressed!
 		return 6;
@@ -1934,7 +1935,7 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 
 	this->fallbackWidth = 8;
 	this->fallbackHeight = 8;
-	this->fallbackMipCount = ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
+	this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getActualMipCountForDimsOnConsole(this->fallbackWidth, this->fallbackHeight);
 
 	std::vector<std::byte> fallbackData;
 	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
