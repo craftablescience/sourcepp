@@ -867,10 +867,11 @@ void VTF::setPlatform(Platform newPlatform) {
 		case PLATFORM_PC:
 			break;
 		case PLATFORM_XBOX:
-			// Have to do it this roundabout way to fix cubemaps
-			this->setVersion(0);
+			// Have to do it this roundabout way to fix cubemaps, v7.5 has 6 faces
+			this->setVersion(5);
 			this->platform = newPlatform;
-			this->setVersion(2);
+			// It's safe to do this, and we can't use VTF::setVersion now that platform is set
+			this->version = 2;
 			break;
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
