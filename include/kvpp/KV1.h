@@ -431,4 +431,16 @@ protected:
 	bool useEscapeSequences;
 };
 
+namespace literals {
+
+inline KV1<> operator""_kv1(const char* str, const std::size_t len) {
+	return KV1{std::string_view{str, len}};
+}
+
+inline KV1Writer<> operator""_kv1w(const char* str, const std::size_t len) {
+	return KV1Writer{std::string_view{str, len}};
+}
+
+} // namespace literals
+
 } // namespace kvpp
