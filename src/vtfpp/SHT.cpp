@@ -1,3 +1,5 @@
+// ReSharper disable CppUseStructuredBinding
+
 #include <vtfpp/SHT.h>
 
 #include <BufferStream.h>
@@ -58,7 +60,7 @@ std::vector<SHT::Sequence>& SHT::getSequences() {
 }
 
 const SHT::Sequence* SHT::getSequenceFromID(uint32_t id) const {
-	if (auto pos = std::find_if(this->sequences.begin(), this->sequences.end(), [id](const Sequence& sequence) {
+	if (const auto pos = std::ranges::find_if(this->sequences, [id](const Sequence& sequence) {
 		return sequence.id == id;
 	}); pos != this->sequences.end()) {
 		return &*pos;
@@ -67,7 +69,7 @@ const SHT::Sequence* SHT::getSequenceFromID(uint32_t id) const {
 }
 
 SHT::Sequence* SHT::getSequenceFromID(uint32_t id) {
-	if (auto pos = std::find_if(this->sequences.begin(), this->sequences.end(), [id](const Sequence& sequence) {
+	if (const auto pos = std::ranges::find_if(this->sequences, [id](const Sequence& sequence) {
 			return sequence.id == id;
 		}); pos != this->sequences.end()) {
 		return &*pos;
@@ -76,7 +78,7 @@ SHT::Sequence* SHT::getSequenceFromID(uint32_t id) {
 }
 
 uint8_t SHT::getFrameBoundsCount() const {
-	return (this->version > 0) ? 4 : 1;
+	return this->version > 0 ? 4 : 1;
 }
 
 std::vector<std::byte> SHT::bake() const {

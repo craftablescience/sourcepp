@@ -7,7 +7,7 @@ std::vector<std::byte> ImageQuantize::convertP8ImageDataToBGRA8888(std::span<con
 		return {};
 	}
 
-	std::span palettePixelData{reinterpret_cast<const ImagePixel::BGRA8888*>(paletteData.data()), 256};
+	const std::span palettePixelData{reinterpret_cast<const ImagePixel::BGRA8888*>(paletteData.data()), 256};
 
 	std::vector<std::byte> out;
 	out.resize(imageData.size() * sizeof(ImagePixel::BGRA8888));

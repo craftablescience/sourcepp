@@ -1,3 +1,8 @@
+// ReSharper disable CppDFATimeOver
+// ReSharper disable CppRedundantParentheses
+// ReSharper disable CppRedundantQualifier
+// ReSharper disable CppUseRangeAlgorithm
+
 #include <vtfpp/ImageConversion.h>
 
 #include <algorithm>
@@ -972,7 +977,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		resolution = height;
 	}
 
-	std::span<const float> imageDataRGBA32323232F{reinterpret_cast<const float*>(imageData.data()), reinterpret_cast<const float*>(imageData.data() + imageData.size())};
+	std::span imageDataRGBA32323232F{reinterpret_cast<const float*>(imageData.data()), reinterpret_cast<const float*>(imageData.data() + imageData.size())};
 
 	std::vector<std::byte> possiblyConvertedDataOrEmptyDontUseMeDirectly;
 	if (format != ImageFormat::RGBA32323232F) {
@@ -1003,7 +1008,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		const auto up    = startRightUp[i][2];
 
 		faceData[i].resize(resolution * resolution * sizeof(ImagePixel::RGBA32323232F));
-		std::span<float> face{reinterpret_cast<float*>(faceData[i].data()), reinterpret_cast<float*>(faceData[i].data() + faceData[i].size())};
+		std::span face{reinterpret_cast<float*>(faceData[i].data()), reinterpret_cast<float*>(faceData[i].data() + faceData[i].size())};
 
 		for (int row = 0; row < resolution; row++) {
 			for (int col = 0; col < resolution; col++) {
@@ -1012,13 +1017,13 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 					start[1] + (static_cast<float>(col) * 2.f + 0.5f) / static_cast<float>(resolution) * right[1] + (static_cast<float>(row) * 2.f + 0.5f) / static_cast<float>(resolution) * up[1],
 					start[2] + (static_cast<float>(col) * 2.f + 0.5f) / static_cast<float>(resolution) * right[2] + (static_cast<float>(row) * 2.f + 0.5f) / static_cast<float>(resolution) * up[2],
 				};
-				float azimuth = std::atan2(pixelDirection3d[0], -pixelDirection3d[2]) + math::pi_f32; // add pi to move range to 0-360 deg
-				float elevation = std::atan(pixelDirection3d[1] / std::sqrt(pixelDirection3d[0] * pixelDirection3d[0] + pixelDirection3d[2] * pixelDirection3d[2])) + math::pi_f32 / 2.f;
-				float colHdri = (azimuth / math::pi_f32 / 2.f) * static_cast<float>(width); // add pi to azimuth to move range to 0-360 deg
-				float rowHdri = (elevation / math::pi_f32) * static_cast<float>(height);
+				const float azimuth = std::atan2(pixelDirection3d[0], -pixelDirection3d[2]) + math::pi_f32; // add pi to move range to 0-360 deg
+				const float elevation = std::atan(pixelDirection3d[1] / std::sqrt(pixelDirection3d[0] * pixelDirection3d[0] + pixelDirection3d[2] * pixelDirection3d[2])) + math::pi_f32 / 2.f;
+				const float colHdri = (azimuth / math::pi_f32 / 2.f) * static_cast<float>(width); // add pi to azimuth to move range to 0-360 deg
+				const float rowHdri = (elevation / math::pi_f32) * static_cast<float>(height);
 				if (!bilinear) {
-					int colNearest = std::clamp(static_cast<int>(colHdri), 0, width - 1);
-					int rowNearest = std::clamp(static_cast<int>(rowHdri), 0, height - 1);
+					const int colNearest = std::clamp(static_cast<int>(colHdri), 0, width - 1);
+					const int rowNearest = std::clamp(static_cast<int>(rowHdri), 0, height - 1);
 					face[col * 4 + resolution * row * 4 + 0] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 0];
 					face[col * 4 + resolution * row * 4 + 1] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 1];
 					face[col * 4 + resolution * row * 4 + 2] = imageDataRGBA32323232F[colNearest * 4 + width * rowNearest * 4 + 2];
@@ -1028,8 +1033,8 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 					// factor gives the contribution of the next column, while the contribution of intCol is 1 - factor
 					float factorCol = std::modf(colHdri - 0.5f, &intCol);
 					float factorRow = std::modf(rowHdri - 0.5f, &intRow);
-					int low_idx_row = static_cast<int>(intRow);
-					int low_idx_column = static_cast<int>(intCol);
+					const int low_idx_row = static_cast<int>(intRow);
+					const int low_idx_column = static_cast<int>(intCol);
 					int high_idx_column;
 					if (factorCol < 0.f) {
 						// modf can only give a negative value if the azimuth falls in the first pixel, left of the
@@ -1050,10 +1055,10 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 					}
 					factorCol = std::abs(factorCol);
 					factorRow = std::abs(factorRow);
-					float f1 = (1 - factorRow) * (1 - factorCol);
-					float f2 = factorRow * (1 - factorCol);
-					float f3 = (1 - factorRow) * factorCol;
-					float f4 = factorRow * factorCol;
+					const float f1 = (1 - factorRow) * (1 - factorCol);
+					const float f2 = factorRow * (1 - factorCol);
+					const float f3 = (1 - factorRow) * factorCol;
+					const float f4 = factorRow * factorCol;
 					for (int j = 0; j < 4; j++) {
 						face[col * 4 + resolution * row * 4 + j] =
 							imageDataRGBA32323232F[low_idx_column  * 4 + width * low_idx_row  * 4 + j] * f1 +
@@ -1070,7 +1075,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 	}
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 	;
-	std::array<std::future<void>, 6> faceFutures{
+	std::array faceFutures{
 		std::async(std::launch::async, faceExtraction, 0),
 		std::async(std::launch::async, faceExtraction, 1),
 		std::async(std::launch::async, faceExtraction, 2),
@@ -1509,6 +1514,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			&combinedChannels
 		]<typename C> {
 			const auto channelCount = hasRed + hasGreen + hasBlue + hasAlpha;
+			// ReSharper disable once CppRedundantCastExpression
 			std::span out{reinterpret_cast<C*>(combinedChannels.data()), combinedChannels.size() / sizeof(C)};
 			if (header.tiled) {
 				for (int t = 0; t < image.num_tiles; t++) {
@@ -1640,12 +1646,12 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				format = P::FORMAT;
 				frameCount = static_cast<int>(dir->num_frames);
 
-				static constexpr auto calcPixelOffset = [](uint32_t offsetX, uint32_t offsetY, uint32_t width) {
-					return ((offsetY * width) + offsetX) * sizeof(P);
+				static constexpr auto calcPixelOffset = [](uint32_t offsetX, uint32_t offsetY, uint32_t width_) {
+					return ((offsetY * width_) + offsetX) * sizeof(P);
 				};
 
 				// Where dst is a full frame and src is a subregion
-				static constexpr auto copyImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
+				static constexpr auto copyImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t /*dstHeight*/, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
 					for (uint32_t y = 0; y < srcHeight; y++) {
 						std::copy(
 #ifdef SOURCEPP_BUILD_WITH_TBB
@@ -1658,7 +1664,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				};
 
 				// Where dst and src are the same size and we are copying a subregion
-				static constexpr auto copyImageSubRectData = [](std::span<std::byte> dst, std::span<const std::byte> src, uint32_t imgWidth, uint32_t imgHeight, uint32_t subWidth, uint32_t subHeight, uint32_t subOffsetX, uint32_t subOffsetY) {
+				static constexpr auto copyImageSubRectData = [](std::span<std::byte> dst, std::span<const std::byte> src, uint32_t imgWidth, uint32_t /*imgHeight*/, uint32_t subWidth, uint32_t subHeight, uint32_t subOffsetX, uint32_t subOffsetY) {
 					for (uint32_t y = subOffsetY; y < subOffsetY + subHeight; y++) {
 						std::copy(
 #ifdef SOURCEPP_BUILD_WITH_TBB
@@ -1670,7 +1676,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					}
 				};
 
-				static constexpr auto clearImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, uint32_t clrWidth, uint32_t clrHeight, uint32_t clrOffsetX, uint32_t clrOffsetY) {
+				static constexpr auto clearImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t /*dstHeight*/, uint32_t clrWidth, uint32_t clrHeight, uint32_t clrOffsetX, uint32_t clrOffsetY) {
 					for (uint32_t y = 0; y < clrHeight; y++) {
 						std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
@@ -1683,19 +1689,20 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					}
 				};
 
-				static constexpr auto overlayImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t dstHeight, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
+				static constexpr auto overlayImageData = [](std::span<std::byte> dst, uint32_t dstWidth, uint32_t /*dstHeight*/, std::span<const std::byte> src, uint32_t srcWidth, uint32_t srcHeight, uint32_t srcOffsetX, uint32_t srcOffsetY) {
 					for (uint32_t y = 0; y < srcHeight; y++) {
 						const auto* sp = reinterpret_cast<const uint8_t*>(src.data() + calcPixelOffset(0, y, srcWidth));
 						auto* dp = reinterpret_cast<uint8_t*>(dst.data() + calcPixelOffset(srcOffsetX, srcOffsetY + y, dstWidth));
 						for (uint32_t x = 0; x < srcWidth; x++, sp += 4, dp += 4) {
 							if (sp[3] == 0) {
 								continue;
-							} else if ((sp[3] == 0xff) || (dp[3] == 0)) {
-								std::copy(sp, sp + sizeof(P), dp);
+							}
+							if ((sp[3] == 0xff) || (dp[3] == 0)) {
+								std::copy_n(sp, sizeof(P), dp);
 							} else {
-								int u = sp[3] * 0xff;
-								int v = (0xff - sp[3]) * dp[3];
-								int al = u + v;
+								const int u = sp[3] * 0xff;
+								const int v = (0xff - sp[3]) * dp[3];
+								const int al = u + v;
 								dp[0] = (sp[0] * u + dp[0] * v) / al;
 								dp[1] = (sp[1] * u + dp[1] * v) / al;
 								dp[2] = (sp[2] * u + dp[2] * v) / al;
@@ -1794,7 +1801,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					&stbi_image_free,
 				};
 				if (stbImage && dirOffset) {
-					return apngDecoder.template operator()<ImagePixel::RGBA16161616>(stbImage, dirOffset);
+					return apngDecoder.operator()<ImagePixel::RGBA16161616>(stbImage, dirOffset);
 				}
 			} else {
 				const ::stb_ptr<stbi_uc> stbImage{
@@ -1802,7 +1809,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					&stbi_image_free,
 				};
 				if (stbImage && dirOffset) {
-					return apngDecoder.template operator()<ImagePixel::RGBA8888>(stbImage, dirOffset);
+					return apngDecoder.operator()<ImagePixel::RGBA8888>(stbImage, dirOffset);
 				}
 			}
 		}
@@ -1846,10 +1853,10 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 			// There are no other 16-bit integer formats in Source, so we have to do a conversion here
 			format = ImageFormat::RGBA16161616;
 			std::vector<std::byte> out(ImageFormatDetails::getDataLength(format, width, height));
-			std::span<ImagePixel::RGBA16161616> outPixels{reinterpret_cast<ImagePixel::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixel::RGBA16161616)};
+			std::span outPixels{reinterpret_cast<ImagePixel::RGBA16161616*>(out.data()), out.size() / sizeof(ImagePixel::RGBA16161616)};
 			switch (channels) {
 				case 1: {
-					std::span<uint16_t> inPixels{reinterpret_cast<uint16_t*>(stbImage.get()), outPixels.size()};
+					std::span inPixels{stbImage.get(), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
@@ -1864,7 +1871,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						uint16_t r;
 						uint16_t g;
 					};
-					std::span<RG1616> inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
+					std::span inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
@@ -1880,7 +1887,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 						uint16_t g;
 						uint16_t b;
 					};
-					std::span<RGB161616> inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
+					std::span inPixels{reinterpret_cast<RGB161616*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,

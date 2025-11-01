@@ -17,8 +17,8 @@ HOT::HOT(std::span<const std::byte> hotData) {
 	}
 
 	this->rects.resize(stream.read<uint16_t>());
-    for (auto& rect : this->rects) {
-		stream >> rect.flags >> rect.x1 >> rect.y1 >> rect.x2 >> rect.y2;
+    for (auto& [flags_, x1, y1, x2, y2] : this->rects) {
+		stream >> flags_ >> x1 >> y1 >> x2 >> y2;
     }
 
     this->opened = true;
@@ -69,8 +69,8 @@ std::vector<std::byte> HOT::bake() const {
     stream << this->version << this->flags;
 	stream.write<uint16_t>(this->rects.size());
 
-    for (const auto& rect : this->rects) {
-        stream << rect.flags << rect.x1 << rect.y1 << rect.x2 << rect.y2;
+    for (const auto& [flags_, x1, y1, x2, y2] : this->rects) {
+        stream << flags_ << x1 << y1 << x2 << y2;
     }
 
     hotspotData.resize(stream.tell());
