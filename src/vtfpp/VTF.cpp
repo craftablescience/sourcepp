@@ -1,3 +1,8 @@
+// ReSharper disable CppDFATimeOver
+// ReSharper disable CppRedundantParentheses
+// ReSharper disable CppRedundantQualifier
+// ReSharper disable CppUseStructuredBinding
+
 #include <vtfpp/VTF.h>
 
 #include <algorithm>
@@ -466,7 +471,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 													}
 													break;
 												case ZSTD:
-													if (auto decompressedSize = ZSTD_decompress(reinterpret_cast<unsigned char*>(decompressedImageData.data() + newOffset), decompressedImageDataSize, reinterpret_cast<const unsigned char*>(imageResource->data.data() + oldOffset), oldLength); ZSTD_isError(decompressedSize) || decompressedSize != decompressedImageDataSize) {
+													if (const auto decompressedSize = ZSTD_decompress(decompressedImageData.data() + newOffset, decompressedImageDataSize, imageResource->data.data() + oldOffset, oldLength); ZSTD_isError(decompressedSize) || decompressedSize != decompressedImageDataSize) {
 														this->opened = false;
 														return;
 													}
@@ -767,9 +772,9 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	if (options.computeThumbnail) {
 		writer.computeThumbnail();
 	}
-	if (options.outputFormat == VTF::FORMAT_UNCHANGED) {
+	if (options.outputFormat == FORMAT_UNCHANGED) {
 		options.outputFormat = writer.getFormat();
-	} else if (options.outputFormat == VTF::FORMAT_DEFAULT) {
+	} else if (options.outputFormat == FORMAT_DEFAULT) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeMips) {
@@ -1054,13 +1059,13 @@ void VTF::setSRGB(bool srgb) {
 	if (srgb) {
 		if (this->version >= 5) {
 			this->addFlags(FLAG_V5_SRGB);
-		} else if (this->version >= 4) {
+		} else if (this->version == 4) {
 			this->addFlags(FLAG_V4_SRGB);
 		}
 	} else {
 		if (this->version >= 5) {
 			this->removeFlags(FLAG_V5_PWL_CORRECTED | FLAG_V5_SRGB);
-		} else if (this->version >= 4) {
+		} else if (this->version == 4) {
 			this->removeFlags(FLAG_V4_SRGB);
 		}
 	}
@@ -1076,8 +1081,7 @@ void VTF::computeTransparencyFlags() {
 			this->flags &= ~FLAG_V0_MULTI_BIT_ALPHA;
 		}
 	} else {
-		this->flags &= ~FLAG_V0_ONE_BIT_ALPHA;
-		this->flags &= ~FLAG_V0_MULTI_BIT_ALPHA;
+		this->flags &= ~(FLAG_V0_ONE_BIT_ALPHA | FLAG_V0_MULTI_BIT_ALPHA);
 	}
 }
 
@@ -1099,10 +1103,10 @@ ImageFormat VTF::getFormat() const {
 }
 
 void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter, float quality) {
-	if (newFormat == VTF::FORMAT_UNCHANGED || newFormat == this->format) {
+	if (newFormat == FORMAT_UNCHANGED || newFormat == this->format) {
 		return;
 	}
-	if (newFormat == VTF::FORMAT_DEFAULT) {
+	if (newFormat == FORMAT_DEFAULT) {
 		newFormat = VTF::getDefaultCompressedFormat(this->format, this->version, this->getFaceCount() > 1);
 	}
 	if (!this->hasImageData()) {
@@ -1235,11 +1239,11 @@ uint8_t VTF::getFaceCount() const {
 	return 1;
 }
 
-bool VTF::setFaceCount(bool isCubemap) {
+bool VTF::setFaceCount(bool isCubeMap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubemap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->depth);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubeMap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->depth);
 	return true;
 }
 
@@ -1275,7 +1279,7 @@ math::Vec3f VTF::getReflectivity() const {
 	return this->reflectivity;
 }
 
-void VTF::setReflectivity(sourcepp::math::Vec3f newReflectivity) {
+void VTF::setReflectivity(math::Vec3f newReflectivity) {
 	this->reflectivity = newReflectivity;
 }
 
@@ -1551,7 +1555,7 @@ std::vector<std::byte> VTF::getParticleSheetFrameDataRaw(uint16_t& spriteWidth, 
 	spriteWidth = 0;
 	spriteHeight = 0;
 
-	auto shtResource = this->getResource(Resource::TYPE_PARTICLE_SHEET_DATA);
+	const auto shtResource = this->getResource(Resource::TYPE_PARTICLE_SHEET_DATA);
 	if (!shtResource) {
 		return {};
 	}

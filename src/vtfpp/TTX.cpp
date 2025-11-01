@@ -169,10 +169,10 @@ std::pair<std::vector<std::byte>, std::vector<std::byte>> TTX::bake() const {
 }
 
 bool TTX::bake(const std::string& tthPath, const std::string& ttzPath) const {
-	const auto data = this->bake();
-	const bool tth = fs::writeFileBuffer(tthPath, data.first);
-	if (!data.second.empty()) {
-		return fs::writeFileBuffer(ttzPath, data.second) && tth;
+	const auto [tthData, ttzData] = this->bake();
+	const bool tth = fs::writeFileBuffer(tthPath, tthData);
+	if (!ttzData.empty()) {
+		return fs::writeFileBuffer(ttzPath, ttzData) && tth;
 	}
 	return tth;
 }
