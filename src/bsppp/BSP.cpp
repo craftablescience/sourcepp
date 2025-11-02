@@ -390,9 +390,7 @@ bool BSP::bake(std::string_view outputPath) {
 
 		// Lumps are 4 byte aligned
 		if (const auto padding = math::paddingForAlignment(4, stream.tell()); padding > 0) {
-			for (int p = 0; p < padding; p++) {
-				stream.write<uint8_t>(0);
-			}
+			stream.pad(padding);
 		}
 
 		if (static_cast<BSPLump>(i) == BSPLump::GAME_LUMP && !this->stagedGameLumps.empty()) {
@@ -507,9 +505,7 @@ bool BSP::bake(std::string_view outputPath) {
 
 	// Lumps are 4 byte aligned
 	if (const auto padding = math::paddingForAlignment(4, stream.tell()); padding > 0) {
-		for (int p = 0; p < padding; p++) {
-			stream.write<uint8_t>(0);
-		}
+		stream.pad(padding);
 	}
 
 	out.resize(stream.size());
