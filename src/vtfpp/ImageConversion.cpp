@@ -2050,6 +2050,43 @@ std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte>
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
+std::vector<std::byte> ImageConversion::padImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t widthPad, uint16_t height, uint16_t heightPad) {
+	if (imageData.empty() || format == ImageFormat::EMPTY || !width || !height) {
+		return {};
+	}
+	if (!widthPad && !heightPad) {
+		return {imageData.begin(), imageData.end()};
+	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do?
+		const auto container = ImageFormatDetails::containerFormat(format);
+		return convertImageDataToFormat(padImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, widthPad, height, heightPad), container, format, width + widthPad, height + heightPad);
+	}
+
+	const auto pixelSize = ImageFormatDetails::bpp(format) / 8;
+	std::vector<std::byte> out(pixelSize * (width + widthPad) * (height * heightPad));
+
+	// Copy existing image in
+	for (uint16_t y = 0; y < height; y++) {
+		std::memcpy(out.data() + ((y * (width + widthPad)) * pixelSize), imageData.data() + ((y * width) * pixelSize), width * pixelSize);
+	}
+
+	// Color padding
+	for (int y = 0; y < height + heightPad; y++) {
+		for (int x = 0; x < width + widthPad; x++) {
+			if (x >= width && y >= height) {
+				std::memcpy(out.data() + ((y * (width + widthPad) + x) * pixelSize), imageData.data() + (((height - 1) * (width) + (width - 1)) * pixelSize), pixelSize);
+			} else if (x >= width) {
+				std::memcpy(out.data() + ((y * (width + widthPad) + x) * pixelSize), imageData.data() + ((y * (width) + (width - 1)) * pixelSize), pixelSize);
+			} else if (y >= height) {
+				std::memcpy(out.data() + ((y * (width + widthPad) + x) * pixelSize), imageData.data() + (((height - 1) * (width) + x) * pixelSize), pixelSize);
+			}
+		}
+	}
+	return out;
+}
+
+// NOLINTNEXTLINE(*-no-recursion)
 std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};

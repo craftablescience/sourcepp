@@ -246,6 +246,11 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "format"_a, "width"_a, "new_width"_a, "x_offset"_a, "height"_a, "new_height"_a, "y_offset"_a);
 
+		ImageConversion.def("pad_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t widthPad, uint16_t height, uint16_t heightPad) {
+			const auto d = padImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, widthPad, height, heightPad);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "format"_a, "width"_a, "width_pad"_a, "height"_a, "height_pad"_a);
+
 		ImageConversion.def("gamma_correct_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
 			const auto d = gammaCorrectImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, gamma);
 			return py::bytes{d.data(), d.size()};
