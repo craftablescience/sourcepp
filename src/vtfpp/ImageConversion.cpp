@@ -299,6 +299,14 @@ namespace {
 		return {};
 	}
 
+	std::vector<std::byte> paddedImageData;
+	if (!ImageFormatDetails::compressed(oldFormat) && ImageFormatDetails::compressed(newFormat) && (width % 4 != 0 || height % 4 != 0)) {
+		paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, width % 4, height, height % 4);
+		imageData = paddedImageData;
+		width += width % 4;
+		height += height % 4;
+	}
+
 	CMP_Texture srcTexture{};
 	srcTexture.dwSize     = sizeof(srcTexture);
 	srcTexture.dwWidth    = width;
