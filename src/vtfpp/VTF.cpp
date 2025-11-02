@@ -896,15 +896,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	// XBOX stores thumbnail as single RGB888 pixel, but we assume thumbnail is DXT1 on other platforms
 	if (this->hasThumbnailData()) {
 		if (this->platform == PLATFORM_XBOX) {
-			this->thumbnailFormat = ImageFormat::RGB888;
-			this->thumbnailWidth = 1;
-			this->thumbnailHeight = 1;
-			std::array newThumbnail{
-				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[0], 0.f, 1.f) * 255.f)),
-				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[1], 0.f, 1.f) * 255.f)),
-				static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[2], 0.f, 1.f) * 255.f)),
-			};
-			this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, newThumbnail);
+			this->computeThumbnail();
 		} else if (oldPlatform == PLATFORM_XBOX) {
 			this->thumbnailFormat = ImageFormat::EMPTY;
 			this->thumbnailWidth = 0;
@@ -1872,10 +1864,23 @@ void VTF::computeThumbnail(ImageConversion::ResizeFilter filter, float quality) 
 	if (!this->hasImageData()) {
 		return;
 	}
-	this->thumbnailFormat = ImageFormat::DXT1;
-	this->thumbnailWidth = 16;
-	this->thumbnailHeight = 16;
-	this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, quality));
+
+	if (this->platform == PLATFORM_XBOX) {
+		this->thumbnailFormat = ImageFormat::RGB888;
+		this->thumbnailWidth = 1;
+		this->thumbnailHeight = 1;
+		std::array newThumbnail{
+			static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[0], 0.f, 1.f) * 255.f)),
+			static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[1], 0.f, 1.f) * 255.f)),
+			static_cast<std::byte>(static_cast<uint8_t>(std::clamp(this->reflectivity[2], 0.f, 1.f) * 255.f)),
+		};
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, newThumbnail);
+	} else {
+		this->thumbnailFormat = ImageFormat::DXT1;
+		this->thumbnailWidth = 16;
+		this->thumbnailHeight = 16;
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, quality));
+	}
 }
 
 void VTF::removeThumbnail() {
