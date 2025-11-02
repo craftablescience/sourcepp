@@ -1727,7 +1727,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		if (const auto newMipCount = ImageDimensions::getMaximumMipCount(resizedWidth, resizedHeight, this->depth); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
-		if (face > 6 || (face == 6 && (this->version < 1 || this->version > 4))) {
+		if (face > 6 || (face == 6 && (this->platform == PLATFORM_XBOX || this->version < 1 || this->version > 4))) {
 			return false;
 		}
 		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face ? (face < 6 ? 6 : face) : 0, slice + 1);
