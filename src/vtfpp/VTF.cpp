@@ -1106,11 +1106,7 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 		return;
 	}
 	const auto oldFormat = this->format;
-	if (ImageFormatDetails::compressed(newFormat)) {
-		this->regenerateImageData(newFormat, this->width + math::paddingForAlignment(4, this->width), this->height + math::paddingForAlignment(4, this->height), this->mipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
-	} else {
-		this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
-	}
+	this->regenerateImageData(newFormat, this->width, this->height, this->mipCount, this->frameCount, this->getFaceCount(), this->depth, filter, quality);
 
 	if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
 		const auto fallbackConverted = ImageConversion::convertSeveralImageDataToFormat(fallbackResource->data, oldFormat, this->format, ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight), this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, quality);
@@ -1728,10 +1724,6 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	if (!this->hasImageData()) {
 		uint16_t resizedWidth = width_, resizedHeight = height_;
 		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
-		if (ImageFormatDetails::compressed(format_)) {
-			resizedWidth += math::paddingForAlignment(4, resizedWidth);
-			resizedHeight += math::paddingForAlignment(4, resizedHeight);
-		}
 		if (const auto newMipCount = ImageDimensions::getMaximumMipCount(resizedWidth, resizedHeight, this->depth); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
