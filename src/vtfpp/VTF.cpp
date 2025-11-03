@@ -2097,7 +2097,7 @@ std::vector<std::byte> VTF::bake() const {
 		writer.seek_u(headerLengthPos).write<uint32_t>(resourceDataCurPos);
 
 		uint64_t resourceHeaderImagePos = 0;
-		for (auto& resource : sortedResources) {
+		for (const auto& resource : sortedResources) {
 			writer.seek_u(resourceHeaderCurPos);
 
 			uint32_t resourceType = resource.type;
@@ -2108,7 +2108,7 @@ std::vector<std::byte> VTF::bake() const {
 				// type threeCC is little-endian
 				BufferStream::swap_endian(&resourceType);
 			}
-			writer.write<uint32_t>(resource.type);
+			writer.write<uint32_t>(resourceType);
 
 			if (resource.type == Resource::TYPE_IMAGE_DATA) {
 				resourceHeaderImagePos = writer.tell();
