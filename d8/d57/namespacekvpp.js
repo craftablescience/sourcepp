@@ -1,5 +1,9 @@
 var namespacekvpp =
 [
+    [ "literals", "d9/d0a/namespacekvpp_1_1literals.html", [
+      [ "operator\"\"_kv1", "d9/d0a/namespacekvpp_1_1literals.html#a0660e89a8dddf4a783e9543263ee29dd", null ],
+      [ "operator\"\"_kv1w", "d9/d0a/namespacekvpp_1_1literals.html#a3958e7a2dd277d9c1d90dc971a64a592", null ]
+    ] ],
     [ "KV1", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ],
     [ "KV1Binary", "dc/d38/classkvpp_1_1KV1Binary.html", "dc/d38/classkvpp_1_1KV1Binary" ],
     [ "KV1BinaryElement", "d3/d03/classkvpp_1_1KV1BinaryElement.html", "d3/d03/classkvpp_1_1KV1BinaryElement" ],

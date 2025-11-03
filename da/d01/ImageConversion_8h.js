@@ -76,6 +76,7 @@ var ImageConversion_8h =
     [ "getDefaultFileFormatForImageFormat", "da/d01/ImageConversion_8h.html#a6bbe3db800f111c09ce579e0b9d4a37e", null ],
     [ "getResizedDim", "da/d01/ImageConversion_8h.html#a440840aa87de2dc367add665f674b365", null ],
     [ "invertGreenChannelForImageData", "da/d01/ImageConversion_8h.html#aeec89cbbd5eba9056520d45bd555a252", null ],
+    [ "padImageData", "da/d01/ImageConversion_8h.html#aa49805216125fba791d6e23c8af0335d", null ],
     [ "resizeImageData", "da/d01/ImageConversion_8h.html#afcbc2ecd898c6e46a52535fa62494c8d", null ],
     [ "resizeImageDataStrict", "da/d01/ImageConversion_8h.html#aec2b00461a0a8b11227ed921a1996dcf", null ],
     [ "setResizedDims", "da/d01/ImageConversion_8h.html#a2c8bc6e0d781ad7eb30294063a7da865", null ],

@@ -126,139 +126,142 @@ $(document).ready(function(){initNavTree('d2/d8c/SHT_8cpp_source.html','../../')
   <div class="headertitle"><div class="title">SHT.cpp</div></div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d2/d8c/SHT_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#include &lt;<a class="code" href="../../d0/d51/SHT_8h.html">vtfpp/SHT.h</a>&gt;</span></div>
+<a href="../../d2/d8c/SHT_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="comment">// ReSharper disable CppUseStructuredBinding</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;BufferStream.h&gt;</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;<a class="code" href="../../d0/d51/SHT_8h.html">vtfpp/SHT.h</a>&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../d2/deb/namespacesourcepp.html">sourcepp</a>;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../de/d90/namespacevtfpp.html">vtfpp</a>;</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">    8</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>() : opened(true) {}</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;BufferStream.h&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../d2/deb/namespacesourcepp.html">sourcepp</a>;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">using namespace </span><a class="code hl_namespace" href="../../de/d90/namespacevtfpp.html">vtfpp</a>;</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ab6b6f293b4f1eee475d975ddf98cabfe">   10</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>(std::span&lt;const std::byte&gt; shtData) {</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    BufferStreamReadOnly stream{shtData.data(), shtData.size()};</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    stream &gt;&gt; this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>;</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">   10</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>() : opened(true) {}</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ab6b6f293b4f1eee475d975ddf98cabfe">   12</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>(std::span&lt;const std::byte&gt; shtData) {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    BufferStreamReadOnly stream{shtData.data(), shtData.size()};</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.resize(stream.read&lt;uint32_t&gt;());</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; sequence : this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>) {</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        stream &gt;&gt; sequence.id;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        sequence.loop = stream.read&lt;uint32_t&gt;();</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        sequence.frames.resize(stream.read&lt;uint32_t&gt;());</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        stream &gt;&gt; sequence.durationTotal;</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; frame : sequence.frames) {</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>            frame.duration = stream.read&lt;<span class="keywordtype">float</span>&gt;();</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>            <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">getFrameBoundsCount</a>(); i++) {</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>                <span class="keyword">auto</span>&amp; bounds = frame.bounds[i];</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>                stream &gt;&gt; bounds.x1 &gt;&gt; bounds.y1 &gt;&gt; bounds.x2 &gt;&gt; bounds.y2;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>            }</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>        }</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    }</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a539a51f86df4e2e61bca678696a68782">opened</a> = <span class="keyword">true</span>;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a4bba349815208cb46a7801defed751e0">   34</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>(<span class="keyword">const</span> std::string&amp; shtPath)</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        : <a class="code hl_class" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>(fs::readFileBuffer(shtPath)) {}</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a2db1153d1235b284def17306326bbef0">   37</a></span>SHT::operator bool()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keywordflow">return</span> this-&gt;opened;</div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>}</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">   41</a></span>uint32_t <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">SHT::getVersion</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">   45</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">SHT::setVersion</a>(uint32_t v) {</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keywordflow">if</span> (v != 0 &amp;&amp; v != 1) {</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordflow">return</span>;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    }</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a> = v;</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>}</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">   52</a></span><span class="keyword">const</span> std::vector&lt;SHT::Sequence&gt;&amp; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">SHT::getSequences</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>;</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>}</div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a90013d6ab9a3c8590784357587aac312">   56</a></span>std::vector&lt;SHT::Sequence&gt;&amp; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">SHT::getSequences</a>() {</div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>;</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>}</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span> </div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">   60</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">SHT::Sequence</a>* <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">SHT::getSequenceFromID</a>(uint32_t <span class="keywordtype">id</span>)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> pos = std::find_if(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.begin(), this-&gt;sequences.end(), [<span class="keywordtype">id</span>](<span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">Sequence</a>&amp; sequence) {</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        return sequence.id == id;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    }); pos != this-&gt;sequences.end()) {</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">return</span> &amp;*pos;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>}</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span> </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a084921fb23461296df14a810a44ca46f">   69</a></span><a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">SHT::Sequence</a>* <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">SHT::getSequenceFromID</a>(uint32_t <span class="keywordtype">id</span>) {</div>
-<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    <span class="keywordflow">if</span> (<span class="keyword">auto</span> pos = std::find_if(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.begin(), this-&gt;sequences.end(), [<span class="keywordtype">id</span>](<span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">Sequence</a>&amp; sequence) {</div>
-<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span>            return sequence.id == id;</div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>        }); pos != this-&gt;sequences.end()) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        <span class="keywordflow">return</span> &amp;*pos;</div>
-<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
-<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>}</div>
-<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span> </div>
-<div class="line"><a id="l00078" name="l00078"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">   78</a></span>uint8_t <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">SHT::getFrameBoundsCount</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span>    <span class="keywordflow">return</span> (this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a> &gt; 0) ? 4 : 1;</div>
-<div class="line"><a id="l00080" name="l00080"></a><span class="lineno">   80</span>}</div>
-<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span> </div>
-<div class="line"><a id="l00082" name="l00082"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">   82</a></span>std::vector&lt;std::byte&gt; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">SHT::bake</a>()<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span>    <span class="keywordflow">if</span> (!this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a539a51f86df4e2e61bca678696a68782">opened</a>) {</div>
-<div class="line"><a id="l00084" name="l00084"></a><span class="lineno">   84</span>        <span class="keywordflow">return</span> {};</div>
-<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    }</div>
-<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span> </div>
-<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    std::vector&lt;std::byte&gt; sheetData;</div>
-<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span>    BufferStream stream{sheetData};</div>
-<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span> </div>
-<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    stream</div>
-<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span>        .write&lt;uint32_t&gt;(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>)</div>
-<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>        .write&lt;uint32_t&gt;(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.size());</div>
-<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sequence : this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>) {</div>
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span>        stream</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>            .write&lt;uint32_t&gt;(sequence.id)</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>            .write&lt;uint32_t&gt;(sequence.loop)</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            .write&lt;uint32_t&gt;(sequence.frames.size())</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            .write&lt;float&gt;(sequence.durationTotal);</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span> </div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; frame : sequence.frames) {</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>            stream.write&lt;<span class="keywordtype">float</span>&gt;(frame.duration);</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">getFrameBoundsCount</a>(); i++) {</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>                <span class="keyword">auto</span>&amp; bounds = frame.bounds[i];</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>                stream &lt;&lt; bounds.x1 &lt;&lt; bounds.y1 &lt;&lt; bounds.x2 &lt;&lt; bounds.y2;</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>            }</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        }</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    }</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    sheetData.resize(stream.tell());</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>    <span class="keywordflow">return</span> sheetData;</div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>}</div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="line"><a id="l00115" name="l00115"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#af501dd6c475b605f4caa61e3e338932c">  115</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">SHT::bake</a>(<span class="keyword">const</span> std::string&amp; shtPath)<span class="keyword"> const </span>{</div>
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf">fs::writeFileBuffer</a>(shtPath, this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">bake</a>());</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>}</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    stream &gt;&gt; this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.resize(stream.read&lt;uint32_t&gt;());</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; sequence : this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>) {</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        stream &gt;&gt; sequence.id;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        sequence.loop = stream.read&lt;uint32_t&gt;();</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        sequence.frames.resize(stream.read&lt;uint32_t&gt;());</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        stream &gt;&gt; sequence.durationTotal;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; frame : sequence.frames) {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            frame.duration = stream.read&lt;<span class="keywordtype">float</span>&gt;();</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>            <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">getFrameBoundsCount</a>(); i++) {</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>                <span class="keyword">auto</span>&amp; bounds = frame.bounds[i];</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>                stream &gt;&gt; bounds.x1 &gt;&gt; bounds.y1 &gt;&gt; bounds.x2 &gt;&gt; bounds.y2;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>            }</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        }</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a539a51f86df4e2e61bca678696a68782">opened</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a4bba349815208cb46a7801defed751e0">   36</a></span><a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">SHT::SHT</a>(<span class="keyword">const</span> std::string&amp; shtPath)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        : <a class="code hl_class" href="../../db/dde/classvtfpp_1_1SHT.html">SHT</a>(fs::readFileBuffer(shtPath)) {}</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a2db1153d1235b284def17306326bbef0">   39</a></span>SHT::operator bool()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    <span class="keywordflow">return</span> this-&gt;opened;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>}</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span> </div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">   43</a></span>uint32_t <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">SHT::getVersion</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>}</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">   47</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">SHT::setVersion</a>(uint32_t v) {</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keywordflow">if</span> (v != 0 &amp;&amp; v != 1) {</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordflow">return</span>;</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    }</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a> = v;</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>}</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span> </div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">   54</a></span><span class="keyword">const</span> std::vector&lt;SHT::Sequence&gt;&amp; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">SHT::getSequences</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>}</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a90013d6ab9a3c8590784357587aac312">   58</a></span>std::vector&lt;SHT::Sequence&gt;&amp; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">SHT::getSequences</a>() {</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>}</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">   62</a></span><span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">SHT::Sequence</a>* <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">SHT::getSequenceFromID</a>(uint32_t <span class="keywordtype">id</span>)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> pos = std::ranges::find_if(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>, [<span class="keywordtype">id</span>](<span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">Sequence</a>&amp; sequence) {</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordflow">return</span> sequence.<a class="code hl_variable" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#a323198be2d00ecb5ca5ca9e417dde566">id</a> == id;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>    }); pos != this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.end()) {</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordflow">return</span> &amp;*pos;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>    }</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>}</div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a084921fb23461296df14a810a44ca46f">   71</a></span><a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">SHT::Sequence</a>* <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">SHT::getSequenceFromID</a>(uint32_t <span class="keywordtype">id</span>) {</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">if</span> (<span class="keyword">const</span> <span class="keyword">auto</span> pos = std::ranges::find_if(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>, [<span class="keywordtype">id</span>](<span class="keyword">const</span> <a class="code hl_struct" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">Sequence</a>&amp; sequence) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>            <span class="keywordflow">return</span> sequence.<a class="code hl_variable" href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#a323198be2d00ecb5ca5ca9e417dde566">id</a> == id;</div>
+<div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>        }); pos != this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.end()) {</div>
+<div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span>        <span class="keywordflow">return</span> &amp;*pos;</div>
+<div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    }</div>
+<div class="line"><a id="l00077" name="l00077"></a><span class="lineno">   77</span>    <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00078" name="l00078"></a><span class="lineno">   78</span>}</div>
+<div class="line"><a id="l00079" name="l00079"></a><span class="lineno">   79</span> </div>
+<div class="line"><a id="l00080" name="l00080"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">   80</a></span>uint8_t <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">SHT::getFrameBoundsCount</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00081" name="l00081"></a><span class="lineno">   81</span>    <span class="keywordflow">return</span> this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a> &gt; 0 ? 4 : 1;</div>
+<div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>}</div>
+<div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
+<div class="line"><a id="l00084" name="l00084"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">   84</a></span>std::vector&lt;std::byte&gt; <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">SHT::bake</a>()<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00085" name="l00085"></a><span class="lineno">   85</span>    <span class="keywordflow">if</span> (!this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a539a51f86df4e2e61bca678696a68782">opened</a>) {</div>
+<div class="line"><a id="l00086" name="l00086"></a><span class="lineno">   86</span>        <span class="keywordflow">return</span> {};</div>
+<div class="line"><a id="l00087" name="l00087"></a><span class="lineno">   87</span>    }</div>
+<div class="line"><a id="l00088" name="l00088"></a><span class="lineno">   88</span> </div>
+<div class="line"><a id="l00089" name="l00089"></a><span class="lineno">   89</span>    std::vector&lt;std::byte&gt; sheetData;</div>
+<div class="line"><a id="l00090" name="l00090"></a><span class="lineno">   90</span>    BufferStream stream{sheetData};</div>
+<div class="line"><a id="l00091" name="l00091"></a><span class="lineno">   91</span> </div>
+<div class="line"><a id="l00092" name="l00092"></a><span class="lineno">   92</span>    stream</div>
+<div class="line"><a id="l00093" name="l00093"></a><span class="lineno">   93</span>        .write&lt;uint32_t&gt;(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">version</a>)</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span>        .write&lt;uint32_t&gt;(this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>.size());</div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; sequence : this-&gt;<a class="code hl_variable" href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">sequences</a>) {</div>
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>        stream</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>            .write&lt;uint32_t&gt;(sequence.id)</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>            .write&lt;uint32_t&gt;(sequence.loop)</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>            .write&lt;uint32_t&gt;(sequence.frames.size())</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>            .write&lt;float&gt;(sequence.durationTotal);</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span> </div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; frame : sequence.frames) {</div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>            stream.write&lt;<span class="keywordtype">float</span>&gt;(frame.duration);</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            <span class="keywordflow">for</span> (uint8_t i = 0; i &lt; this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">getFrameBoundsCount</a>(); i++) {</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>                <span class="keyword">auto</span>&amp; bounds = frame.bounds[i];</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                stream &lt;&lt; bounds.x1 &lt;&lt; bounds.y1 &lt;&lt; bounds.x2 &lt;&lt; bounds.y2;</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            }</div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>        }</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    }</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span> </div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    sheetData.resize(stream.tell());</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>    <span class="keywordflow">return</span> sheetData;</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>}</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span> </div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno"><a class="line" href="../../db/dde/classvtfpp_1_1SHT.html#af501dd6c475b605f4caa61e3e338932c">  117</a></span><span class="keywordtype">bool</span> <a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">SHT::bake</a>(<span class="keyword">const</span> std::string&amp; shtPath)<span class="keyword"> const </span>{</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    <span class="keywordflow">return</span> <a class="code hl_function" href="../../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf">fs::writeFileBuffer</a>(shtPath, this-&gt;<a class="code hl_function" href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">bake</a>());</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>}</div>
 <div class="ttc" id="aSHT_8h_html"><div class="ttname"><a href="../../d0/d51/SHT_8h.html">SHT.h</a></div></div>
 <div class="ttc" id="aclassvtfpp_1_1SHT_html"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html">vtfpp::SHT</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00013">SHT.h:13</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_a265f4662c32bd8b46bbe9cda0f03fa01"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">vtfpp::SHT::getSequenceFromID</a></div><div class="ttdeci">const Sequence * getSequenceFromID(uint32_t id) const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00060">SHT.cpp:60</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_a265f4662c32bd8b46bbe9cda0f03fa01"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a265f4662c32bd8b46bbe9cda0f03fa01">vtfpp::SHT::getSequenceFromID</a></div><div class="ttdeci">const Sequence * getSequenceFromID(uint32_t id) const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00062">SHT.cpp:62</a></div></div>
 <div class="ttc" id="aclassvtfpp_1_1SHT_html_a4cda649cd775052f5c939984a85891b4"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a4cda649cd775052f5c939984a85891b4">vtfpp::SHT::version</a></div><div class="ttdeci">uint32_t version</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00071">SHT.h:71</a></div></div>
 <div class="ttc" id="aclassvtfpp_1_1SHT_html_a539a51f86df4e2e61bca678696a68782"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a539a51f86df4e2e61bca678696a68782">vtfpp::SHT::opened</a></div><div class="ttdeci">bool opened</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00069">SHT.h:69</a></div></div>
 <div class="ttc" id="aclassvtfpp_1_1SHT_html_a770d14f8602923d50634cf28a3323cab"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a770d14f8602923d50634cf28a3323cab">vtfpp::SHT::sequences</a></div><div class="ttdeci">std::vector&lt; Sequence &gt; sequences</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00072">SHT.h:72</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_a7b66cae0d26d4d3d7705994091ef4691"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">vtfpp::SHT::setVersion</a></div><div class="ttdeci">void setVersion(uint32_t v)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00045">SHT.cpp:45</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_a7f568fb95455ba8f875244583f85a604"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">vtfpp::SHT::getVersion</a></div><div class="ttdeci">uint32_t getVersion() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00041">SHT.cpp:41</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_a9557656b7a7c31f0724289586447bb42"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">vtfpp::SHT::getFrameBoundsCount</a></div><div class="ttdeci">uint8_t getFrameBoundsCount() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00078">SHT.cpp:78</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_ac54ebc6df4c6bd23aeba969c805a97e0"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">vtfpp::SHT::bake</a></div><div class="ttdeci">std::vector&lt; std::byte &gt; bake() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00082">SHT.cpp:82</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_ae706da391001cb3ae4481dc0938671fb"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">vtfpp::SHT::getSequences</a></div><div class="ttdeci">const std::vector&lt; Sequence &gt; &amp; getSequences() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00052">SHT.cpp:52</a></div></div>
-<div class="ttc" id="aclassvtfpp_1_1SHT_html_afcde8b14eb1865924f939270a0fee5d1"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">vtfpp::SHT::SHT</a></div><div class="ttdeci">SHT()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00008">SHT.cpp:8</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_a7b66cae0d26d4d3d7705994091ef4691"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a7b66cae0d26d4d3d7705994091ef4691">vtfpp::SHT::setVersion</a></div><div class="ttdeci">void setVersion(uint32_t v)</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00047">SHT.cpp:47</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_a7f568fb95455ba8f875244583f85a604"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a7f568fb95455ba8f875244583f85a604">vtfpp::SHT::getVersion</a></div><div class="ttdeci">uint32_t getVersion() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00043">SHT.cpp:43</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_a9557656b7a7c31f0724289586447bb42"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#a9557656b7a7c31f0724289586447bb42">vtfpp::SHT::getFrameBoundsCount</a></div><div class="ttdeci">uint8_t getFrameBoundsCount() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00080">SHT.cpp:80</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_ac54ebc6df4c6bd23aeba969c805a97e0"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#ac54ebc6df4c6bd23aeba969c805a97e0">vtfpp::SHT::bake</a></div><div class="ttdeci">std::vector&lt; std::byte &gt; bake() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00084">SHT.cpp:84</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_ae706da391001cb3ae4481dc0938671fb"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#ae706da391001cb3ae4481dc0938671fb">vtfpp::SHT::getSequences</a></div><div class="ttdeci">const std::vector&lt; Sequence &gt; &amp; getSequences() const</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00054">SHT.cpp:54</a></div></div>
+<div class="ttc" id="aclassvtfpp_1_1SHT_html_afcde8b14eb1865924f939270a0fee5d1"><div class="ttname"><a href="../../db/dde/classvtfpp_1_1SHT.html#afcde8b14eb1865924f939270a0fee5d1">vtfpp::SHT::SHT</a></div><div class="ttdeci">SHT()</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d8c/SHT_8cpp_source.html#l00010">SHT.cpp:10</a></div></div>
 <div class="ttc" id="anamespacesourcepp_1_1fs_html_adc7eb100825f8243f852ca1b31c455bf"><div class="ttname"><a href="../../d9/dd6/namespacesourcepp_1_1fs.html#adc7eb100825f8243f852ca1b31c455bf">sourcepp::fs::writeFileBuffer</a></div><div class="ttdeci">bool writeFileBuffer(const std::string &amp;filepath, std::span&lt; const std::byte &gt; buffer)</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d4e/FS_8cpp_source.html#l00027">FS.cpp:27</a></div></div>
 <div class="ttc" id="anamespacesourcepp_html"><div class="ttname"><a href="../../d2/deb/namespacesourcepp.html">sourcepp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d25/LZMA_8h_source.html#l00011">LZMA.h:11</a></div></div>
 <div class="ttc" id="anamespacevtfpp_html"><div class="ttname"><a href="../../de/d90/namespacevtfpp.html">vtfpp</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/HOT_8h_source.html#l00011">HOT.h:11</a></div></div>
 <div class="ttc" id="astructvtfpp_1_1SHT_1_1Sequence_html"><div class="ttname"><a href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html">vtfpp::SHT::Sequence</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00015">SHT.h:15</a></div></div>
+<div class="ttc" id="astructvtfpp_1_1SHT_1_1Sequence_html_a323198be2d00ecb5ca5ca9e417dde566"><div class="ttname"><a href="../../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#a323198be2d00ecb5ca5ca9e417dde566">vtfpp::SHT::Sequence::id</a></div><div class="ttdeci">uint32_t id</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d51/SHT_8h_source.html#l00036">SHT.h:36</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

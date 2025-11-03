@@ -5,5 +5,7 @@ var KV1_8h =
     [ "kvpp::KV1< S >", "de/d0f/classkvpp_1_1KV1.html", "de/d0f/classkvpp_1_1KV1" ],
     [ "kvpp::KV1ElementWritable< S >", "de/d75/classkvpp_1_1KV1ElementWritable.html", "de/d75/classkvpp_1_1KV1ElementWritable" ],
     [ "kvpp::KV1Writer< S >", "d4/d43/classkvpp_1_1KV1Writer.html", "d4/d43/classkvpp_1_1KV1Writer" ],
-    [ "kvpp::KV1ValueType", "d5/d6a/conceptkvpp_1_1KV1ValueType.html", null ]
+    [ "kvpp::KV1ValueType", "d5/d6a/conceptkvpp_1_1KV1ValueType.html", null ],
+    [ "operator\"\"_kv1", "d3/d10/KV1_8h.html#a0660e89a8dddf4a783e9543263ee29dd", null ],
+    [ "operator\"\"_kv1w", "d3/d10/KV1_8h.html#a3958e7a2dd277d9c1d90dc971a64a592", null ]
 ];

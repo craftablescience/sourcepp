@@ -135,7 +135,7 @@ $(document).ready(function(){initNavTree('dd/d37/ImageQuantize_8cpp_source.html'
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>        <span class="keywordflow">return</span> {};</div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    }</div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    std::span palettePixelData{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><a class="code hl_struct" href="../../d5/d7f/structvtfpp_1_1ImagePixel_1_1BGRA8888.html">ImagePixel::BGRA8888</a>*<span class="keyword">&gt;</span>(paletteData.data()), 256};</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">const</span> std::span palettePixelData{<span class="keyword">reinterpret_cast&lt;</span><span class="keyword">const </span><a class="code hl_struct" href="../../d5/d7f/structvtfpp_1_1ImagePixel_1_1BGRA8888.html">ImagePixel::BGRA8888</a>*<span class="keyword">&gt;</span>(paletteData.data()), 256};</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    std::vector&lt;std::byte&gt; out;</div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    out.resize(imageData.size() * <span class="keyword">sizeof</span>(<a class="code hl_struct" href="../../d5/d7f/structvtfpp_1_1ImagePixel_1_1BGRA8888.html">ImagePixel::BGRA8888</a>));</div>

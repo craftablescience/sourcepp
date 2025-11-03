@@ -145,8 +145,8 @@ $(document).ready(function(){initNavTree('df/dfb/HOT_8cpp_source.html','../../')
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    }</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>.resize(stream.read&lt;uint16_t&gt;());</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; rect : this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>) {</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        stream &gt;&gt; rect.flags &gt;&gt; rect.x1 &gt;&gt; rect.y1 &gt;&gt; rect.x2 &gt;&gt; rect.y2;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; [flags_, x1, y1, x2, y2] : this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>) {</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        stream &gt;&gt; flags_ &gt;&gt; x1 &gt;&gt; y1 &gt;&gt; x2 &gt;&gt; y2;</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    }</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#ab8116a2dbe8dca434e0d8b18a4f46dce">opened</a> = <span class="keyword">true</span>;</div>
@@ -197,8 +197,8 @@ $(document).ready(function(){initNavTree('df/dfb/HOT_8cpp_source.html','../../')
 <div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>    stream &lt;&lt; this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#aee472b877201681ab2658a5a1a3772b1">version</a> &lt;&lt; this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#aedc446272e6b34c0a35e669ef7d7aaaf">flags</a>;</div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span>    stream.write&lt;uint16_t&gt;(this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>.size());</div>
 <div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
-<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; rect : this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>) {</div>
-<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        stream &lt;&lt; rect.flags &lt;&lt; rect.x1 &lt;&lt; rect.y1 &lt;&lt; rect.x2 &lt;&lt; rect.y2;</div>
+<div class="line"><a id="l00072" name="l00072"></a><span class="lineno">   72</span>    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; [flags_, x1, y1, x2, y2] : this-&gt;<a class="code hl_variable" href="../../da/d9a/classvtfpp_1_1HOT.html#a386577e7f06918e8bf7e6dd18b1a93be">rects</a>) {</div>
+<div class="line"><a id="l00073" name="l00073"></a><span class="lineno">   73</span>        stream &lt;&lt; flags_ &lt;&lt; x1 &lt;&lt; y1 &lt;&lt; x2 &lt;&lt; y2;</div>
 <div class="line"><a id="l00074" name="l00074"></a><span class="lineno">   74</span>    }</div>
 <div class="line"><a id="l00075" name="l00075"></a><span class="lineno">   75</span> </div>
 <div class="line"><a id="l00076" name="l00076"></a><span class="lineno">   76</span>    hotspotData.resize(stream.tell());</div>

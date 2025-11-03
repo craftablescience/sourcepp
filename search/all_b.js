@@ -31,5 +31,6 @@ var searchData=
   ['kv1valuetype_28',['KV1ValueType',['../d5/d6a/conceptkvpp_1_1KV1ValueType.html',1,'kvpp']]],
   ['kv1writer_29',['KV1Writer',['../d4/d43/classkvpp_1_1KV1Writer.html#ad6eec6ac938dd9055415413d027ba59c',1,'kvpp::KV1Writer::KV1Writer()'],['../d4/d43/classkvpp_1_1KV1Writer.html',1,'kvpp::KV1Writer&lt; S &gt;']]],
   ['kvpp_30',['kvpp',['../d8/d57/namespacekvpp.html',1,'']]],
-  ['kvpp_2eh_31',['kvpp.h',['../dd/d3b/kvpp_8h.html',1,'']]]
+  ['kvpp_2eh_31',['kvpp.h',['../dd/d3b/kvpp_8h.html',1,'']]],
+  ['literals_32',['literals',['../d9/d0a/namespacekvpp_1_1literals.html',1,'kvpp']]]
 ];
