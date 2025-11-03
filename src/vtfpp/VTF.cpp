@@ -2088,16 +2088,53 @@ std::vector<std::byte> VTF::bake() const {
 	std::vector<std::byte> out;
 	BufferStream writer{out};
 
-	static constexpr auto writeNonLocalResource = [](BufferStream& writer_, Resource::Type type, std::span<const std::byte> data, VTF::Platform platform) {
-		if (platform != PLATFORM_PC) {
-			BufferStream::swap_endian(reinterpret_cast<uint32_t*>(&type));
+	const auto writeResources = [&writer](uint64_t headerLengthPos, const std::vector<Resource>& sortedResources) -> uint64_t {
+		auto resourceHeaderCurPos = writer.tell();
+		writer.pad<uint64_t>(sortedResources.size());
+		auto resourceDataCurPos = writer.tell();
+		writer.seek_u(headerLengthPos).write<uint32_t>(resourceDataCurPos);
+
+		uint64_t resourceHeaderImagePos = 0;
+		for (auto& resource : sortedResources) {
+			writer.seek_u(resourceHeaderCurPos);
+
+			uint32_t resourceType = resource.type;
+			if (resource.flags & Resource::FLAG_LOCAL_DATA) {
+				resourceType |= Resource::FLAG_LOCAL_DATA << 24;
+			}
+			if (writer.is_big_endian()) {
+				// type threeCC is little-endian
+				BufferStream::swap_endian(&resourceType);
+			}
+			writer.write<uint32_t>(resource.type);
+
+			if (resource.type == Resource::TYPE_IMAGE_DATA) {
+				resourceHeaderImagePos = writer.tell();
+				writer.write<uint32_t>(0);
+				continue;
+			}
+
+			if (resource.flags & Resource::FLAG_LOCAL_DATA) {
+				writer.write(resource.data);
+				resourceHeaderCurPos = writer.tell();
+			} else {
+				writer.write(resourceDataCurPos);
+				resourceHeaderCurPos = writer.tell();
+				writer.seek_u(resourceDataCurPos).write(resource.data);
+				resourceDataCurPos = writer.tell();
+			}
 		}
-		writer_.write<uint32_t>(type);
-		const auto resourceOffsetPos = writer_.tell();
-		writer_.seek(0, std::ios::end);
-		const auto resourceOffsetValue = writer_.tell();
-		writer_.write(data);
-		writer_.seek_u(resourceOffsetPos).write<uint32_t>(resourceOffsetValue);
+		if (resourceHeaderImagePos) {
+			writer.seek_u(resourceHeaderImagePos).write(resourceDataCurPos);
+			for (auto& resource : sortedResources) {
+				if (resource.type == Resource::TYPE_IMAGE_DATA) {
+					writer.seek_u(resourceDataCurPos).write(resource.data);
+					break;
+				}
+			}
+			return resourceDataCurPos;
+		}
+		return 0;
 	};
 
 	// HACK: no source game supports this format, but they do support the flag with reg. DXT1
@@ -2191,32 +2228,24 @@ std::vector<std::byte> VTF::bake() const {
 
 				writer.pad(3).write<uint32_t>(this->getResources().size() + hasAuxCompression).pad(8);
 
-				const auto resourceStart = writer.tell();
-				const auto headerSize = resourceStart + ((this->getResources().size() + hasAuxCompression) * sizeof(uint64_t));
-				writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
-				while (writer.tell() < headerSize) {
-					writer.write<uint64_t>(0);
+				std::vector<Resource> sortedResources = this->getResources();
+				if (hasAuxCompression) {
+					for (auto& resource : sortedResources) {
+						if (resource.type == Resource::TYPE_IMAGE_DATA) {
+							resource.data = compressedImageResourceData;
+							break;
+						}
+					}
+					sortedResources.push_back({
+						.type = Resource::TYPE_AUX_COMPRESSION,
+						.flags = Resource::FLAG_NONE,
+						.data = auxCompressionResourceData,
+					});
 				}
-				writer.seek_u(resourceStart);
-
-				auto sortedResources = this->getResources();
 				std::ranges::sort(sortedResources, [](const Resource& lhs, const Resource& rhs) {
 					return lhs.type < rhs.type;
 				});
-				for (const auto& resource : sortedResources) {
-					if (hasAuxCompression && resource.type == Resource::TYPE_AUX_COMPRESSION) {
-						writeNonLocalResource(writer, resource.type, auxCompressionResourceData, this->platform);
-					} else if (hasAuxCompression && resource.type == Resource::TYPE_IMAGE_DATA) {
-						writeNonLocalResource(writer, resource.type, compressedImageResourceData, this->platform);
-					} else {
-						if ((resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() == sizeof(uint32_t)) {
-							writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource.type);
-							writer.write(resource.data);
-						} else {
-							writeNonLocalResource(writer, resource.type, resource.data, this->platform);
-						}
-					}
-				}
+				writeResources(headerLengthPos, sortedResources);
 			}
 			break;
 		}
@@ -2343,17 +2372,21 @@ std::vector<std::byte> VTF::bake() const {
 				writer.write<uint32_t>(0);
 			}
 
-			// LZMA compression has not been observed on the PS3 copy of The Orange Box
-			// todo(vtfpp): check cubemaps
+			std::vector<std::byte> thumbnailResourceData;
 			std::vector<std::byte> imageResourceData;
-			bool hasCompression = false;
-			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
-				imageResourceData.assign(imageResource->data.begin(), imageResource->data.end());
-				::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
+			std::vector<Resource> sortedResources = this->getResources();
+			for (auto& resource : sortedResources) {
+				if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
+					thumbnailResourceData = {resource.data.begin(), resource.data.end()};
+					::swapImageDataEndianForConsole<false>(thumbnailResourceData, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
+					resource.data = thumbnailResourceData;
+				} else if (resource.type == Resource::TYPE_IMAGE_DATA) {
+					imageResourceData = {resource.data.begin(), resource.data.end()};
+					::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 
-				if (this->platform != PLATFORM_PS3_ORANGEBOX) {
-					hasCompression = this->compressionMethod == CompressionMethod::CONSOLE_LZMA;
-					if (hasCompression) {
+					// LZMA compression has not been observed on the PS3 copy of The Orange Box
+					// todo(vtfpp): check cubemaps
+					if (this->platform != PLATFORM_PS3_ORANGEBOX && this->compressionMethod == CompressionMethod::CONSOLE_LZMA) {
 						auto fixedCompressionLevel = this->compressionLevel;
 						if (this->compressionLevel == 0) {
 							// Compression level defaults to 0, so it works differently on console.
@@ -2361,58 +2394,22 @@ std::vector<std::byte> VTF::bake() const {
 							// compression level (6) if the compression method is LZMA.
 							fixedCompressionLevel = 6;
 						}
-						if (const auto compressedData = compression::compressValveLZMA(imageResourceData, fixedCompressionLevel)) {
-							imageResourceData.assign(compressedData->begin(), compressedData->end());
-						} else {
-							hasCompression = false;
+						if (auto compressedData = compression::compressValveLZMA(imageResourceData, fixedCompressionLevel)) {
+							imageResourceData = std::move(*compressedData);
+							const auto curPos = writer.tell();
+							writer.seek_u(compressionPos).write<uint32_t>(imageResourceData.size()).seek_u(curPos);
 						}
 					}
+
+					resource.data = imageResourceData;
+					break;
 				}
 			}
-
-			const auto resourceStart = writer.tell();
-			const auto headerSize = resourceStart + (this->getResources().size() * sizeof(uint64_t));
-			writer.seek_u(headerLengthPos).write<uint32_t>(headerSize).seek_u(resourceStart);
-			while (writer.tell() < headerSize) {
-				writer.write<uint64_t>(0);
-			}
-			writer.seek_u(resourceStart);
-
-			auto sortedResources = this->getResources();
 			std::ranges::sort(sortedResources, [](const Resource& lhs, const Resource& rhs) {
 				return lhs.type < rhs.type;
 			});
-			for (const auto& resource : sortedResources) {
-				if (resource.type == Resource::TYPE_IMAGE_DATA) {
-					auto curPos = writer.tell();
-					const auto imagePos = writer.seek(0, std::ios::end).tell();
-					writer.seek_u(preloadPos).write(std::max<uint16_t>(imagePos, 2048)).seek_u(curPos);
-
-					writeNonLocalResource(writer, resource.type, imageResourceData, this->platform);
-
-					if (hasCompression) {
-						curPos = writer.tell();
-						writer.seek_u(compressionPos).write<uint32_t>(imageResourceData.size()).seek_u(curPos);
-					}
-				} else {
-					std::vector<std::byte> resData{resource.data.begin(), resource.data.end()};
-
-					if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
-						::swapImageDataEndianForConsole<false>(resData, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
-					} else if (!(resource.flags & Resource::FLAG_LOCAL_DATA) && resData.size() >= sizeof(uint32_t)) {
-						BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resData.data()));
-					}
-
-					if ((resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() == sizeof(uint32_t)) {
-						writer.set_big_endian(false);
-						writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource.type);
-						writer.set_big_endian(true);
-						writer.write(resData);
-					} else {
-						writeNonLocalResource(writer, resource.type, resData, this->platform);
-					}
-				}
-			}
+			const auto resourceDataImagePos = writeResources(headerLengthPos, sortedResources);
+			writer.seek_u(preloadPos).write(std::max<uint16_t>(resourceDataImagePos, 2048));
 			break;
 		}
 	}
