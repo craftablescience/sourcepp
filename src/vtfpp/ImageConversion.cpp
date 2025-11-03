@@ -299,12 +299,14 @@ namespace {
 		return {};
 	}
 
+	uint16_t unpaddedWidth = width, unpaddedHeight = height;
 	std::vector<std::byte> paddedImageData;
-	if (!ImageFormatDetails::compressed(oldFormat) && ImageFormatDetails::compressed(newFormat) && (width % 4 != 0 || height % 4 != 0)) {
-		paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, width % 4, height, height % 4);
+	if ((width % 4 != 0 || height % 4 != 0) && !ImageFormatDetails::compressed(oldFormat) && ImageFormatDetails::compressed(newFormat)) {
+		uint16_t paddingWidth = (4 - (width % 4)) % 4, paddingHeight = (4 - (height % 4)) % 4;
+		paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
 		imageData = paddedImageData;
-		width += width % 4;
-		height += height % 4;
+		width += paddingWidth;
+		height += paddingHeight;
 	}
 
 	CMP_Texture srcTexture{};
@@ -345,6 +347,10 @@ namespace {
 
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
 		return {};
+	}
+
+	if ((unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) && ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat) ) {
+		return ImageConversion::cropImageData(destData, newFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
 	}
 	return destData;
 }
@@ -2072,7 +2078,7 @@ std::vector<std::byte> ImageConversion::padImageData(std::span<const std::byte> 
 	}
 
 	const auto pixelSize = ImageFormatDetails::bpp(format) / 8;
-	std::vector<std::byte> out(pixelSize * (width + widthPad) * (height * heightPad));
+	std::vector<std::byte> out(pixelSize * (width + widthPad) * (height + heightPad));
 
 	// Copy existing image in
 	for (uint16_t y = 0; y < height; y++) {
