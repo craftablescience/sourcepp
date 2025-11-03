@@ -1166,7 +1166,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 #endif
 				for (int i = 1; i < this->mipCount; i++) {
 					const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, this->width, this->height, this->depth);
-					const auto [mipWidthM1, mipHeightM1] = ImageDimensions::getMipDims(i, compressed, this->width, this->height);
+					const auto [mipWidthM1, mipHeightM1] = ImageDimensions::getMipDims(i - 1, compressed, this->width, this->height);
 					for (int l = 0; l < mipDepth; l++) {
 						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, mipWidthM1, mipWidth, mipHeightM1, mipHeight, this->isSRGB(), filter);
 						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->depth) && mip.size() == length) {
