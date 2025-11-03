@@ -30,7 +30,6 @@ var structvtfpp_1_1Resource =
     [ "getDataAsLODControlInfo", "d3/d80/structvtfpp_1_1Resource.html#a6daa33ea618be36306e42de792eabe67", null ],
     [ "getDataAsPalette", "d3/d80/structvtfpp_1_1Resource.html#ab06b15eeeccfab7170dd4d959120ce12", null ],
     [ "getDataAsParticleSheet", "d3/d80/structvtfpp_1_1Resource.html#a162cf70a3c7acd75eadf7402ad1e9e72", null ],
-    [ "getOrder", "d3/d80/structvtfpp_1_1Resource.html#a6d50783e7de7b666ac09310e3d51531f", null ],
     [ "data", "d3/d80/structvtfpp_1_1Resource.html#af6f083ee840ba1a8cce2818e5e130c18", null ],
     [ "flags", "d3/d80/structvtfpp_1_1Resource.html#ae2617305852baf2d0f75223840f4fa8a", null ],
     [ "type", "d3/d80/structvtfpp_1_1Resource.html#a3bff6626aa65380f1f4e866998ed4621", null ]
