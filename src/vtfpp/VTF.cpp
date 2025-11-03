@@ -346,7 +346,9 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 
 		// Sort resources by their offset, in case certain VTFs are written
 		// weirdly and have resource data written out of order. So far I have
-		// found only one VTF in an official Valve game where this is the case
+		// found only one VTF in an official Valve game where this is the case.
+		// UPDATE: We do this intentionally to write image data at the end now!
+		// It fixes mip skipping issues, and should still work fine in every branch.
 		std::ranges::sort(this->resources, [](const Resource& lhs, const Resource& rhs) {
 			if ((lhs.flags & Resource::FLAG_LOCAL_DATA) && (rhs.flags & Resource::FLAG_LOCAL_DATA)) {
 				return lhs.type < rhs.type;
@@ -2118,7 +2120,7 @@ std::vector<std::byte> VTF::bake() const {
 				writer.write(resource.data);
 				resourceHeaderCurPos = writer.tell();
 			} else {
-				writer.write(resourceDataCurPos);
+				writer.write<uint32_t>(resourceDataCurPos);
 				resourceHeaderCurPos = writer.tell();
 				writer.seek_u(resourceDataCurPos).write(resource.data);
 				resourceDataCurPos = writer.tell();
