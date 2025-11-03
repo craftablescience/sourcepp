@@ -2225,7 +2225,7 @@ $(document).ready(function(){initNavTree('dd/d09/VTF_8cpp_source.html','../../')
 <div class="line"><a id="l02097" name="l02097"></a><span class="lineno"> 2097</span>        writer.seek_u(headerLengthPos).write&lt;uint32_t&gt;(resourceDataCurPos);</div>
 <div class="line"><a id="l02098" name="l02098"></a><span class="lineno"> 2098</span> </div>
 <div class="line"><a id="l02099" name="l02099"></a><span class="lineno"> 2099</span>        uint64_t resourceHeaderImagePos = 0;</div>
-<div class="line"><a id="l02100" name="l02100"></a><span class="lineno"> 2100</span>        <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; resource : sortedResources) {</div>
+<div class="line"><a id="l02100" name="l02100"></a><span class="lineno"> 2100</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; resource : sortedResources) {</div>
 <div class="line"><a id="l02101" name="l02101"></a><span class="lineno"> 2101</span>            writer.seek_u(resourceHeaderCurPos);</div>
 <div class="line"><a id="l02102" name="l02102"></a><span class="lineno"> 2102</span> </div>
 <div class="line"><a id="l02103" name="l02103"></a><span class="lineno"> 2103</span>            uint32_t resourceType = resource.type;</div>
@@ -2236,7 +2236,7 @@ $(document).ready(function(){initNavTree('dd/d09/VTF_8cpp_source.html','../../')
 <div class="line"><a id="l02108" name="l02108"></a><span class="lineno"> 2108</span>                <span class="comment">// type threeCC is little-endian</span></div>
 <div class="line"><a id="l02109" name="l02109"></a><span class="lineno"> 2109</span>                BufferStream::swap_endian(&amp;resourceType);</div>
 <div class="line"><a id="l02110" name="l02110"></a><span class="lineno"> 2110</span>            }</div>
-<div class="line"><a id="l02111" name="l02111"></a><span class="lineno"> 2111</span>            writer.write&lt;uint32_t&gt;(resource.type);</div>
+<div class="line"><a id="l02111" name="l02111"></a><span class="lineno"> 2111</span>            writer.write&lt;uint32_t&gt;(resourceType);</div>
 <div class="line"><a id="l02112" name="l02112"></a><span class="lineno"> 2112</span> </div>
 <div class="line"><a id="l02113" name="l02113"></a><span class="lineno"> 2113</span>            <span class="keywordflow">if</span> (resource.type == <a class="code hl_enumvalue" href="../../d3/d80/structvtfpp_1_1Resource.html#acd09d7ee06a97ae24066966fa8408e69a8cad7b5f073b32e2424593fdc9de31bd">Resource::TYPE_IMAGE_DATA</a>) {</div>
 <div class="line"><a id="l02114" name="l02114"></a><span class="lineno"> 2114</span>                resourceHeaderImagePos = writer.tell();</div>
