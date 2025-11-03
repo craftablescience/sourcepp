@@ -2113,6 +2113,7 @@ std::vector<std::byte> VTF::bake() const {
 			if (resource.type == Resource::TYPE_IMAGE_DATA) {
 				resourceHeaderImagePos = writer.tell();
 				writer.write<uint32_t>(0);
+				resourceHeaderCurPos = writer.tell();
 				continue;
 			}
 
@@ -2127,7 +2128,7 @@ std::vector<std::byte> VTF::bake() const {
 			}
 		}
 		if (resourceHeaderImagePos) {
-			writer.seek_u(resourceHeaderImagePos).write(resourceDataCurPos);
+			writer.seek_u(resourceHeaderImagePos).write<uint32_t>(resourceDataCurPos);
 			for (auto& resource : sortedResources) {
 				if (resource.type == Resource::TYPE_IMAGE_DATA) {
 					writer.seek_u(resourceDataCurPos).write(resource.data);
