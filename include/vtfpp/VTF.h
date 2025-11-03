@@ -47,24 +47,6 @@ struct Resource {
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 	};
-	static consteval std::array<Type, 11> getOrder() {
-		return {
-			TYPE_THUMBNAIL_DATA,
-			TYPE_PALETTE_DATA,
-			TYPE_FALLBACK_DATA,
-			TYPE_PARTICLE_SHEET_DATA,
-			TYPE_HOTSPOT_DATA,
-			// regular Source can't handle out of order resources, but Strata can,
-			// and it's the only branch that can read this and 7.6.
-			// Put this before the image data to fix resources being cut off when skipping mips
-			TYPE_AUX_COMPRESSION,
-			TYPE_IMAGE_DATA,
-			TYPE_EXTENDED_FLAGS,
-			TYPE_CRC,
-			TYPE_LOD_CONTROL_INFO,
-			TYPE_KEYVALUES_DATA,
-		};
-	}
 
 	enum Flags : uint8_t {
 		FLAG_NONE       = 0,

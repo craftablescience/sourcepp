@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <ranges>
 #include <unordered_map>
 #include <utility>
 
@@ -1412,7 +1413,7 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 	this->data.clear();
 	BufferStream writer{this->data};
 
-	for (auto resourceType : Resource::getOrder()) {
+	for (auto resourceType : resourceData | std::views::keys) {
 		if (!resourceData.contains(resourceType)) {
 			continue;
 		}
@@ -2198,17 +2199,21 @@ std::vector<std::byte> VTF::bake() const {
 				}
 				writer.seek_u(resourceStart);
 
-				for (const auto resourceType : Resource::getOrder()) {
-					if (hasAuxCompression && resourceType == Resource::TYPE_AUX_COMPRESSION) {
-						writeNonLocalResource(writer, resourceType, auxCompressionResourceData, this->platform);
-					} else if (hasAuxCompression && resourceType == Resource::TYPE_IMAGE_DATA) {
-						writeNonLocalResource(writer, resourceType, compressedImageResourceData, this->platform);
-					} else if (const auto* resource = this->getResource(resourceType)) {
-						if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
-							writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
-							writer.write(resource->data);
+				auto sortedResources = this->getResources();
+				std::ranges::sort(sortedResources, [](const Resource& lhs, const Resource& rhs) {
+					return lhs.type < rhs.type;
+				});
+				for (const auto& resource : sortedResources) {
+					if (hasAuxCompression && resource.type == Resource::TYPE_AUX_COMPRESSION) {
+						writeNonLocalResource(writer, resource.type, auxCompressionResourceData, this->platform);
+					} else if (hasAuxCompression && resource.type == Resource::TYPE_IMAGE_DATA) {
+						writeNonLocalResource(writer, resource.type, compressedImageResourceData, this->platform);
+					} else {
+						if ((resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() == sizeof(uint32_t)) {
+							writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource.type);
+							writer.write(resource.data);
 						} else {
-							writeNonLocalResource(writer, resource->type, resource->data, this->platform);
+							writeNonLocalResource(writer, resource.type, resource.data, this->platform);
 						}
 					}
 				}
@@ -2373,34 +2378,38 @@ std::vector<std::byte> VTF::bake() const {
 			}
 			writer.seek_u(resourceStart);
 
-			for (const auto resourceType : Resource::getOrder()) {
-				if (resourceType == Resource::TYPE_IMAGE_DATA) {
+			auto sortedResources = this->getResources();
+			std::ranges::sort(sortedResources, [](const Resource& lhs, const Resource& rhs) {
+				return lhs.type < rhs.type;
+			});
+			for (const auto& resource : sortedResources) {
+				if (resource.type == Resource::TYPE_IMAGE_DATA) {
 					auto curPos = writer.tell();
 					const auto imagePos = writer.seek(0, std::ios::end).tell();
 					writer.seek_u(preloadPos).write(std::max<uint16_t>(imagePos, 2048)).seek_u(curPos);
 
-					writeNonLocalResource(writer, resourceType, imageResourceData, this->platform);
+					writeNonLocalResource(writer, resource.type, imageResourceData, this->platform);
 
 					if (hasCompression) {
 						curPos = writer.tell();
 						writer.seek_u(compressionPos).write<uint32_t>(imageResourceData.size()).seek_u(curPos);
 					}
-				} else if (const auto* resource = this->getResource(resourceType)) {
-					std::vector<std::byte> resData{resource->data.begin(), resource->data.end()};
+				} else {
+					std::vector<std::byte> resData{resource.data.begin(), resource.data.end()};
 
-					if (resource->type == Resource::TYPE_THUMBNAIL_DATA) {
+					if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
 						::swapImageDataEndianForConsole<false>(resData, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
-					} else if (!(resource->flags & Resource::FLAG_LOCAL_DATA) && resData.size() >= sizeof(uint32_t)) {
+					} else if (!(resource.flags & Resource::FLAG_LOCAL_DATA) && resData.size() >= sizeof(uint32_t)) {
 						BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resData.data()));
 					}
 
-					if ((resource->flags & Resource::FLAG_LOCAL_DATA) && resource->data.size() == sizeof(uint32_t)) {
+					if ((resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() == sizeof(uint32_t)) {
 						writer.set_big_endian(false);
-						writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource->type);
+						writer.write<uint32_t>((Resource::FLAG_LOCAL_DATA << 24) | resource.type);
 						writer.set_big_endian(true);
 						writer.write(resData);
 					} else {
-						writeNonLocalResource(writer, resource->type, resData, this->platform);
+						writeNonLocalResource(writer, resource.type, resData, this->platform);
 					}
 				}
 			}

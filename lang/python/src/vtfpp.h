@@ -420,7 +420,6 @@ inline void register_python(py::module_& m) {
 		.value("LOCAL_DATA", Resource::FLAG_LOCAL_DATA);
 
 	cResource
-		.def_static("get_order", [] { return Resource::getOrder(); })
 		.def_ro("type",  &Resource::type)
 		.def_ro("flags", &Resource::flags)
 		.def("get_data_as_palette",                &Resource::getDataAsPalette, "frame"_a = 0)
