@@ -114,7 +114,7 @@ namespace {
 		case RGBA32323232F:
 			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
-			return CMP_FORMAT_ATI2N;
+			return CMP_FORMAT_ATI2N_XY;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
