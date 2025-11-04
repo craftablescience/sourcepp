@@ -356,14 +356,13 @@ namespace {
 			std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 				std::execution::par_unseq,
-#else
+#endif
 				destSpan.begin(), destSpan.end(), destSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
 					const auto nX = static_cast<float>(pixel.r) / 255.f * 2.f - 1.f;
 					const auto nY = static_cast<float>(pixel.g) / 255.f * 2.f - 1.f;
 					// Swap R and G to compensate for compressonator bug
 					return {pixel.g, pixel.r, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
 				});
-#endif
 		}
 		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
 			return ImageConversion::cropImageData(destData, newFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
