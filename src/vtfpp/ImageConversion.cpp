@@ -349,8 +349,25 @@ namespace {
 		return {};
 	}
 
-	if ((unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) && ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat) ) {
-		return ImageConversion::cropImageData(destData, newFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
+	if (ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat) ) {
+		if (oldFormat == ImageFormat::ATI2N && newFormat == ImageFormat::RGBA8888) {
+			// Hack to compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
+			std::span destSpan{reinterpret_cast<ImagePixel::RGBA8888*>(destData.data()), destData.size() / sizeof(ImagePixel::RGBA8888)};
+			std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+				std::execution::par_unseq,
+#else
+				destSpan.begin(), destSpan.end(), destSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
+					const auto nX = static_cast<float>(pixel.r) / 255.f * 2.f - 1.f;
+					const auto nY = static_cast<float>(pixel.g) / 255.f * 2.f - 1.f;
+					// Swap R and G to compensate for compressonator bug
+					return {pixel.g, pixel.r, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
+				});
+#endif
+		}
+		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
+			return ImageConversion::cropImageData(destData, newFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
+		}
 	}
 	return destData;
 }
@@ -2208,8 +2225,11 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 
 // NOLINTNEXTLINE(*-no-recursion)
 std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
-	if (imageData.empty() || format == ImageFormat::EMPTY || ImageFormatDetails::decompressedGreen(format) == 0) {
+	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
+	}
+	if (ImageFormatDetails::decompressedGreen(format) == 0) {
+		return {imageData.begin(), imageData.end()};
 	}
 	if (ImageFormatDetails::compressed(format)) {
 		// This is horrible but what can you do?
