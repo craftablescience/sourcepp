@@ -20,6 +20,15 @@ consteval uint32_t makeFourCC(const char fourCC[4]) {
 }
 
 /**
+ * Creates a EightCC identifier from a string of 8 characters.
+ * @param eightCC The human-readable FourCC.
+ * @return The EightCC identifier.
+ */
+consteval uint64_t makeEightCC(const char eightCC[8]) {
+	return eightCC[0] | (eightCC[1] << 8) | (eightCC[2] << 16) | (eightCC[3] << 24) | (static_cast<uint64_t>(eightCC[4]) << 32) | (static_cast<uint64_t>(eightCC[5]) << 40) | (static_cast<uint64_t>(eightCC[6]) << 48) | (static_cast<uint64_t>(eightCC[7]) << 56);
+}
+
+/**
  * Reads an integer from the stream, seeks there, reads a string, and seeks back.
  * @param stream The BufferStream to modify.
  * @param str String contents are read into this.
