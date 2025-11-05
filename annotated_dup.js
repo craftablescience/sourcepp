@@ -112,6 +112,7 @@ var annotated_dup =
       [ "Entry", "d9/d6b/classvpkpp_1_1Entry.html", "d9/d6b/classvpkpp_1_1Entry" ],
       [ "EntryOptions", "d6/d5b/structvpkpp_1_1EntryOptions.html", "d6/d5b/structvpkpp_1_1EntryOptions" ],
       [ "EXAMPLE", "d2/d8b/classvpkpp_1_1EXAMPLE.html", "d2/d8b/classvpkpp_1_1EXAMPLE" ],
+      [ "FGP", "d3/dd6/classvpkpp_1_1FGP.html", "d3/dd6/classvpkpp_1_1FGP" ],
       [ "FPX", "da/d42/classvpkpp_1_1FPX.html", "da/d42/classvpkpp_1_1FPX" ],
       [ "GCF", "d1/d01/classvpkpp_1_1GCF.html", "d1/d01/classvpkpp_1_1GCF" ],
       [ "GMA", "d6/d2c/classvpkpp_1_1GMA.html", "d6/d2c/classvpkpp_1_1GMA" ],

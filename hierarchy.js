@@ -145,6 +145,7 @@ var hierarchy =
     [ "vpkpp::GMA::Header", "dc/d1f/structvpkpp_1_1GMA_1_1Header.html", null ],
     [ "vpkpp::PackFile", "d2/dd2/classvpkpp_1_1PackFile.html", [
       [ "vpkpp::EXAMPLE", "d2/d8b/classvpkpp_1_1EXAMPLE.html", null ],
+      [ "vpkpp::FGP", "d3/dd6/classvpkpp_1_1FGP.html", null ],
       [ "vpkpp::GMA", "d6/d2c/classvpkpp_1_1GMA.html", null ],
       [ "vpkpp::PAK", "d9/daf/classvpkpp_1_1PAK.html", null ],
       [ "vpkpp::PCK", "d5/db5/classvpkpp_1_1PCK.html", null ],

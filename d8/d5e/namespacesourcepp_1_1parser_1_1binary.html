@@ -134,11 +134,43 @@ Functions</h2></td></tr>
 <tr class="memitem:a8354793be2858631751e2fe02a487478"><td class="memItemLeft" align="right" valign="top">consteval uint32_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478">makeFourCC</a> (const char fourCC[4])</td></tr>
 <tr class="memdesc:a8354793be2858631751e2fe02a487478"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a FourCC identifier from a string of 4 characters.  <br /></td></tr>
 <tr class="separator:a8354793be2858631751e2fe02a487478"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0e63044bd8349257c73953d50f82b5a"><td class="memItemLeft" align="right" valign="top">consteval uint64_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#af0e63044bd8349257c73953d50f82b5a">makeEightCC</a> (const char eightCC[8])</td></tr>
+<tr class="memdesc:af0e63044bd8349257c73953d50f82b5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Creates a EightCC identifier from a string of 8 characters.  <br /></td></tr>
+<tr class="separator:af0e63044bd8349257c73953d50f82b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a34a6d6858beecc2a4066c1524bc78397"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397">readStringAtOffset</a> (BufferStream &amp;stream, std::string &amp;str, std::ios::seekdir offsetFrom=std::ios::cur, std::size_t subtractFromOffset=sizeof(int32_t))</td></tr>
 <tr class="memdesc:a34a6d6858beecc2a4066c1524bc78397"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads an integer from the stream, seeks there, reads a string, and seeks back.  <br /></td></tr>
 <tr class="separator:a34a6d6858beecc2a4066c1524bc78397"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="af0e63044bd8349257c73953d50f82b5a" name="af0e63044bd8349257c73953d50f82b5a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0e63044bd8349257c73953d50f82b5a">&#9670;&#160;</a></span>makeEightCC()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">consteval uint64_t sourcepp::parser::binary::makeEightCC </td>
+          <td>(</td>
+          <td class="paramtype">const char&#160;</td>
+          <td class="paramname"><em>eightCC</em>[8]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Creates a EightCC identifier from a string of 8 characters. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">eightCC</td><td>The human-readable FourCC. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The EightCC identifier. </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="../../d9/db1/Binary_8h_source.html#l00027">27</a> of file <a class="el" href="../../d9/db1/Binary_8h_source.html">Binary.h</a>.</p>
+
+</div>
+</div>
 <a id="a8354793be2858631751e2fe02a487478" name="a8354793be2858631751e2fe02a487478"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8354793be2858631751e2fe02a487478">&#9670;&#160;</a></span>makeFourCC()</h2>
 

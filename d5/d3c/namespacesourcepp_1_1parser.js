@@ -1,6 +1,7 @@
 var namespacesourcepp_1_1parser =
 [
     [ "binary", "d8/d5e/namespacesourcepp_1_1parser_1_1binary.html", [
+      [ "makeEightCC", "d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#af0e63044bd8349257c73953d50f82b5a", null ],
       [ "makeFourCC", "d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a8354793be2858631751e2fe02a487478", null ],
       [ "readStringAtOffset", "d8/d5e/namespacesourcepp_1_1parser_1_1binary.html#a34a6d6858beecc2a4066c1524bc78397", null ]
     ] ],
