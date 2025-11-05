@@ -13,6 +13,7 @@ var classvpkpp_1_1ZIP =
     [ "getSupportedEntryAttributes", "da/de7/classvpkpp_1_1ZIP.html#a0ba2601d56377c7c5a8261f161e5e83f", null ],
     [ "hasEntryChecksums", "da/de7/classvpkpp_1_1ZIP.html#a0bbbda752f42df0c0dc9a34db6a10e62", null ],
     [ "isCaseSensitive", "da/de7/classvpkpp_1_1ZIP.html#ac14f026b842487b431f2fca23d24b78d", null ],
+    [ "isReadOnly", "da/de7/classvpkpp_1_1ZIP.html#a43d85d8bf998030bec6afb6abbb77e59", null ],
     [ "open", "da/de7/classvpkpp_1_1ZIP.html#a43c3702d26f0708f0f87627e627fb621", null ],
     [ "openZIP", "da/de7/classvpkpp_1_1ZIP.html#a73e7e5c33c377eef7df27083b5834527", null ],
     [ "readEntry", "da/de7/classvpkpp_1_1ZIP.html#aa5910f6aa2a6e53d2727fc741c5e2707", null ],

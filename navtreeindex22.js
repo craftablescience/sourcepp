@@ -1,5 +1,7 @@
 var NAVTREEINDEX22 =
 {
+"df/dc5/classsndpp_1_1WAV.html#acfe0b895afba8c228accbb27cff3bc6c":[3,0,6,0,21],
+"df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9":[3,0,6,0,20],
 "df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9":[1,4,6,0,20],
 "df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a0ee2eff1cc531c6d7882dcc455cb342f":[3,0,6,0,20,7],
 "df/dc5/classsndpp_1_1WAV.html#ae527435edde503c48ed11b6173a037c9a0ee2eff1cc531c6d7882dcc455cb342f":[1,4,6,0,20,7],
