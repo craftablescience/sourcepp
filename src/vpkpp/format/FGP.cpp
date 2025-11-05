@@ -7,7 +7,6 @@
 #include <BufferStream.h>
 #include <FileStream.h>
 #include <miniz.h>
-#include <sourcepp/FS.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
