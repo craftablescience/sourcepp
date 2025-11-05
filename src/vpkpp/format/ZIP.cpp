@@ -115,6 +115,12 @@ std::optional<std::vector<std::byte>> ZIP::readEntry(const std::string& path_) c
 	return out;
 }
 
+bool ZIP::isReadOnly() const noexcept {
+	uint8_t xzpVersion = 0;
+	mz_zip_get_valve_xzp_version(this->zipHandle, &xzpVersion);
+	return xzpVersion == 2 || xzpVersion == 3;
+}
+
 void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.flags = (static_cast<uint32_t>(options.zip_compressionType == EntryCompressionType::NO_OVERRIDE ? EntryCompressionType::NO_COMPRESS : options.zip_compressionType) << 16) | options.zip_compressionStrength;
 	entry.length = buffer.size();

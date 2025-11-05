@@ -186,11 +186,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="29"><code>vpkpp</code></td>
+    <td rowspan="31"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="29" align="center">C<br>C#<br>Python</td>
+    <td rowspan="31" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -274,20 +274,26 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td>XZP v6 (Half-Life 2 for XBOX)</td>
+    <td>XZP v6 (Xbox, Half-Life 2)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>XZP2 (X360 & PS3, misc. Source 1 titles)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
     <td>
-      ZIP, and some of its aliases:
-      <br> &bull; <a href="https://github.com/BEEmod/BEE2-items">BEE_PACK</a> (BEE2.4 Package)
-      <br> &bull; <a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a> (Source 1 Bonus Maps)
-      <br> &bull; FPK (Tactical Intervention)
-      <br> &bull; <a href="https://doomwiki.org/wiki/PK3">PK3</a> (Quake III)
-      <br> &bull; <a href="https://doomwiki.org/wiki/PK4">PK4</a> (Quake IV, Doom 3)
-      <br> &bull; PKZ (Quake II RTX)
+      ZIP
+      <br> &bull; <a href="https://github.com/BEEmod/BEE2-items">BEE_PACK</a> alias (BEE2.4 Package)
+      <br> &bull; <a href="https://developer.valvesoftware.com/wiki/Bonus_Maps">BMZ</a> alias (Source 1 Bonus Maps)
+      <br> &bull; FPK alias (Tactical Intervention)
+      <br> &bull; <a href="https://doomwiki.org/wiki/PK3">PK3</a> alias (Quake III)
+      <br> &bull; <a href="https://doomwiki.org/wiki/PK4">PK4</a> alias (Quake IV, Doom 3)
+      <br> &bull; PKZ alias (Quake II RTX)
     </td>
     <td align="center">✅</td>
     <td align="center">✅</td>

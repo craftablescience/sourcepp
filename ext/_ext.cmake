@@ -56,7 +56,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 860acee351f332387723472c7aca211c56eaeaa2)
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 9b29c6c10b90328b1fb01d53f05fad0c78574f28)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
