@@ -25,6 +25,14 @@ public:
 
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
+	bool renameEntry(const std::string& oldPath, const std::string& newPath) override;
+
+	bool renameDirectory(const std::string& oldDir, const std::string& newDir) override;
+
+	bool removeEntry(const std::string& path) override;
+
+	std::size_t removeDirectory(const std::string& dirName) override;
+
 	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;

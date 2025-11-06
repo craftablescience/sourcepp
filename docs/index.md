@@ -378,6 +378,7 @@ Anything using the `sourcepp` parser set that I know of, directly or indirectly.
 ### Tools
 
 - [gimp-vtf](https://github.com/chev2/gimp-vtf): A GIMP plugin to load and save VTF files.
+- [gm_addon_optimization_tricks](https://github.com/wrefgtzweve/gm_addon_optimization_tricks): A desktop tool to optimize Garry's Mod addons/maps.
 - [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp` libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from a user project or from installed Source games.
 - [MareTF](https://github.com/craftablescience/MareTF): An open source MIT-licensed CLI/GUI tool that can create, extract from, preview the contents of and write to every variant of VTF file. Replicates the functionality of Valve's `vtex.exe` and VTFEdit.
 - [Myst IV: Revolution](https://github.com/tomysshadow/M4Revolution): Performs various fixes for the game Myst IV: Revelation.

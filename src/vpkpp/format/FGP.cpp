@@ -129,6 +129,46 @@ std::optional<std::vector<std::byte>> FGP::readEntry(const std::string& path_) c
 	return data;
 }
 
+bool FGP::renameEntry(const std::string& oldPath, const std::string& newPath) {
+	if (PackFile::renameEntry(oldPath, newPath)) {
+		if (this->loadingScreenPath == oldPath) {
+			this->loadingScreenPath = newPath;
+		}
+		return true;
+	}
+	return false;
+}
+
+bool FGP::renameDirectory(const std::string& oldDir, const std::string& newDir) {
+	if (PackFile::renameDirectory(oldDir, newDir)) {
+		if (const auto cleanOldDir = this->cleanEntryPath(oldDir) + '/'; this->loadingScreenPath.starts_with(cleanOldDir)) {
+			this->loadingScreenPath = this->cleanEntryPath(newDir) + '/' + this->loadingScreenPath.substr(cleanOldDir.size());
+		}
+		return true;
+	}
+	return false;
+}
+
+bool FGP::removeEntry(const std::string& path) {
+	if (PackFile::removeEntry(path)) {
+		if (this->loadingScreenPath == path) {
+			this->loadingScreenPath = "";
+		}
+		return true;
+	}
+	return false;
+}
+
+std::size_t FGP::removeDirectory(const std::string& dirName) {
+	if (PackFile::removeDirectory(dirName)) {
+		if (this->loadingScreenPath.starts_with(this->cleanEntryPath(dirName) + '/')) {
+			this->loadingScreenPath = "";
+		}
+		return true;
+	}
+	return false;
+}
+
 void FGP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
 	// note: NOT a CRC32! check FGP::hashFilePath
 	entry.crc32 = FGP::hashFilePath(this->cleanEntryPath(path));
