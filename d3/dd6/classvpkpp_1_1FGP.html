@@ -167,6 +167,18 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a572647a79b42d73504f4c317eb2ad9b9"><td class="memItemLeft" align="right" valign="top">std::optional&lt; std::vector&lt; std::byte &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#a572647a79b42d73504f4c317eb2ad9b9">readEntry</a> (const std::string &amp;path_) const override</td></tr>
 <tr class="memdesc:a572647a79b42d73504f4c317eb2ad9b9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Try to read the entry's data to a bytebuffer.  <br /></td></tr>
 <tr class="separator:a572647a79b42d73504f4c317eb2ad9b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e5b21115b0e76c96d4bcb7d86cc6a23"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#a4e5b21115b0e76c96d4bcb7d86cc6a23">renameEntry</a> (const std::string &amp;oldPath, const std::string &amp;newPath) override</td></tr>
+<tr class="memdesc:a4e5b21115b0e76c96d4bcb7d86cc6a23"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename an existing entry.  <br /></td></tr>
+<tr class="separator:a4e5b21115b0e76c96d4bcb7d86cc6a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d37ae1a83a0fe35fdc87c4c95c24502"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#a6d37ae1a83a0fe35fdc87c4c95c24502">renameDirectory</a> (const std::string &amp;oldDir, const std::string &amp;newDir) override</td></tr>
+<tr class="memdesc:a6d37ae1a83a0fe35fdc87c4c95c24502"><td class="mdescLeft">&#160;</td><td class="mdescRight">Rename an existing directory.  <br /></td></tr>
+<tr class="separator:a6d37ae1a83a0fe35fdc87c4c95c24502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add03a96428746f48a936d6274b6f8a9b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#add03a96428746f48a936d6274b6f8a9b">removeEntry</a> (const std::string &amp;path) override</td></tr>
+<tr class="memdesc:add03a96428746f48a936d6274b6f8a9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an entry.  <br /></td></tr>
+<tr class="separator:add03a96428746f48a936d6274b6f8a9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a771fb613b8b2735146457c17b5c62dbf"><td class="memItemLeft" align="right" valign="top">std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#a771fb613b8b2735146457c17b5c62dbf">removeDirectory</a> (const std::string &amp;dirName) override</td></tr>
+<tr class="memdesc:a771fb613b8b2735146457c17b5c62dbf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove a directory.  <br /></td></tr>
+<tr class="separator:a771fb613b8b2735146457c17b5c62dbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4e88d3e3674b8f7fd61e4cdcd0a5b3b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/dd6/classvpkpp_1_1FGP.html#af4e88d3e3674b8f7fd61e4cdcd0a5b3b">bake</a> (const std::string &amp;outputDir_, <a class="el" href="../../d0/dff/structvpkpp_1_1BakeOptions.html">BakeOptions</a> options, const <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a25d1980a1a4a2bb4ed5c516c5b72f808">EntryCallback</a> &amp;callback) override</td></tr>
 <tr class="memdesc:af4e88d3e3674b8f7fd61e4cdcd0a5b3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">If output folder is an empty string, it will overwrite the original.  <br /></td></tr>
 <tr class="separator:af4e88d3e3674b8f7fd61e4cdcd0a5b3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -475,7 +487,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a51bfbd2aec9a3a0c37d800058adf5db7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00132">132</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00172">172</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -523,7 +535,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Implements <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a53588a5f99f4a4cf8fbe67268a9ca4b2">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00142">142</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00182">182</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -603,7 +615,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00276">276</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00316">316</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -634,7 +646,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#acd54146ca55df688b06b20926a636c66">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00266">266</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00306">306</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -662,7 +674,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00286">286</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00326">326</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -731,7 +743,7 @@ Additional Inherited Members</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a62dfd9906a76c6db9d906770852718c7">vpkpp::PackFile</a>.</p>
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00271">271</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00311">311</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -847,6 +859,154 @@ Additional Inherited Members</h2></td></tr>
 
 </div>
 </div>
+<a id="a771fb613b8b2735146457c17b5c62dbf" name="a771fb613b8b2735146457c17b5c62dbf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a771fb613b8b2735146457c17b5c62dbf">&#9670;&#160;</a></span>removeDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::size_t FGP::removeDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>dirName_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove a directory. </p>
+
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a2baa28d03d0c0892319547b10957d343">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00162">162</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+
+</div>
+</div>
+<a id="add03a96428746f48a936d6274b6f8a9b" name="add03a96428746f48a936d6274b6f8a9b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add03a96428746f48a936d6274b6f8a9b">&#9670;&#160;</a></span>removeEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FGP::removeEntry </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>path_</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Remove an entry. </p>
+
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#aed35a45b68bff1eedcc3a217cf7563b7">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00152">152</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a6d37ae1a83a0fe35fdc87c4c95c24502" name="a6d37ae1a83a0fe35fdc87c4c95c24502"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d37ae1a83a0fe35fdc87c4c95c24502">&#9670;&#160;</a></span>renameDirectory()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FGP::renameDirectory </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>oldDir_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>newDir_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rename an existing directory. </p>
+
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a38cdbbd142dd32068e21299b5072627d">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00142">142</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+
+</div>
+</div>
+<a id="a4e5b21115b0e76c96d4bcb7d86cc6a23" name="a4e5b21115b0e76c96d4bcb7d86cc6a23"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e5b21115b0e76c96d4bcb7d86cc6a23">&#9670;&#160;</a></span>renameEntry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool FGP::renameEntry </td>
+          <td>(</td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>oldPath_</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>newPath_</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Rename an existing entry. </p>
+
+<p>Reimplemented from <a class="el" href="../../d2/dd2/classvpkpp_1_1PackFile.html#a9209de4b9d185e2a3fba2a727ecae65a">vpkpp::PackFile</a>.</p>
+
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00132">132</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+
+</div>
+</div>
 <a id="a10ff07b6196e1d65e6534ea76fa666da" name="a10ff07b6196e1d65e6534ea76fa666da"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a10ff07b6196e1d65e6534ea76fa666da">&#9670;&#160;</a></span>setLoadingScreenFilePath()</h2>
 
@@ -863,7 +1023,7 @@ Additional Inherited Members</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00280">280</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d8/def/FGP_8cpp_source.html#l00320">320</a> of file <a class="el" href="../../d8/def/FGP_8cpp_source.html">FGP.cpp</a>.</p>
 
 </div>
 </div>
@@ -912,7 +1072,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/dc0/FGP_8h_source.html#l00046">46</a> of file <a class="el" href="../../d4/dc0/FGP_8h_source.html">FGP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/dc0/FGP_8h_source.html#l00054">54</a> of file <a class="el" href="../../d4/dc0/FGP_8h_source.html">FGP.h</a>.</p>
 
 </div>
 </div>
@@ -936,7 +1096,7 @@ Additional Inherited Members</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="../../d4/dc0/FGP_8h_source.html#l00045">45</a> of file <a class="el" href="../../d4/dc0/FGP_8h_source.html">FGP.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="../../d4/dc0/FGP_8h_source.html#l00053">53</a> of file <a class="el" href="../../d4/dc0/FGP_8h_source.html">FGP.h</a>.</p>
 
 </div>
 </div>
