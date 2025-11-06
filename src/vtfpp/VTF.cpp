@@ -680,6 +680,15 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				if (resource.type == Resource::TYPE_THUMBNAIL_DATA) {
 					::swapImageDataEndianForConsole<true>(resource.data, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
 				} else if (resource.type == Resource::TYPE_IMAGE_DATA) {
+					if (this->platform == PLATFORM_PS3_ORANGEBOX) {
+						bool ok;
+						const auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, ok);
+						if (!ok || reorderedFallbackData.size() != resource.data.size()) {
+							this->opened = false;
+							return;
+						}
+						std::memcpy(resource.data.data(), reorderedFallbackData.data(), resource.data.size());
+					}
 					::swapImageDataEndianForConsole<true>(resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 				} else if (!(resource.flags & Resource::FLAG_LOCAL_DATA) && resource.data.size() >= sizeof(uint32_t)) {
 					BufferStream::swap_endian(reinterpret_cast<uint32_t*>(resource.data.data()));
@@ -2384,7 +2393,15 @@ std::vector<std::byte> VTF::bake() const {
 					::swapImageDataEndianForConsole<false>(thumbnailResourceData, this->thumbnailFormat, 1, 1, 1, this->thumbnailWidth, this->thumbnailHeight, 1, this->platform);
 					resource.data = thumbnailResourceData;
 				} else if (resource.type == Resource::TYPE_IMAGE_DATA) {
-					imageResourceData = {resource.data.begin(), resource.data.end()};
+					if (this->platform == PLATFORM_PS3_ORANGEBOX) {
+						bool ok;
+						imageResourceData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, resource.data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, ok);
+						if (!ok || imageResourceData.size() != resource.data.size()) {
+							return {};
+						}
+					} else {
+						imageResourceData = {resource.data.begin(), resource.data.end()};
+					}
 					::swapImageDataEndianForConsole<false>(imageResourceData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 
 					// LZMA compression has not been observed on the PS3 copy of The Orange Box
