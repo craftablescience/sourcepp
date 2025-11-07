@@ -367,23 +367,21 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			stream.seek_u(savedPos);
 		}
 
-		if (movementCount > 0 && movementIndex != 0) {
-			const auto movementDataPos = animDescPos + movementIndex;
-			stream.seek_u(movementDataPos);
+		const auto movementDataPos = animDescPos + movementIndex;
+		stream.seek_u(movementDataPos);
 
-			for (int j = 0; j < movementCount; j++) {
-				auto& movement = animDesc.movements.emplace_back();
-				stream.read(movement.endFrame);
+		for (int j = 0; j < movementCount; j++) {
+			auto& movement = animDesc.movements.emplace_back();
+			stream.read(movement.endFrame);
 
-				movement.flags = static_cast<Movement::Flags>(stream.read<int32_t>());
+			movement.flags = static_cast<Movement::Flags>(stream.read<int32_t>());
 
-				stream
-					.read(movement.velocityStart)
-					.read(movement.velocityEnd)
-					.read(movement.yawEnd)
-					.read(movement.movement)
-					.read(movement.relativePosition);
-			}
+			stream
+				.read(movement.velocityStart)
+				.read(movement.velocityEnd)
+				.read(movement.yawEnd)
+				.read(movement.movement)
+				.read(movement.relativePosition);
 		}
 
 		if (ikRuleCount > 0 && ikRuleIndex != 0 && animDesc.animBlock == 0) {
@@ -544,54 +542,48 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.skip<int32_t>(2) // activitymodifierindex, numactivitymodifiers
 			.skip<int32_t>(5); // unused
 
-		if (ikLockCount > 0 && ikLockIndex != 0) {
-			const auto ikLockDataPos = sequenceDescPos + ikLockIndex;
-			stream.seek_u(ikLockDataPos);
+		const auto ikLockDataPos = sequenceDescPos + ikLockIndex;
+		stream.seek_u(ikLockDataPos);
 
-			for (int j = 0; j < ikLockCount; j++) {
-				auto& ikLock = sequenceDesc.ikLocks.emplace_back();
-				stream
-					.read(ikLock.chain)
-					.read(ikLock.posWeight)
-					.read(ikLock.localQWeight)
-					.read(ikLock.flags);
-				stream.skip<int32_t>(4);  // unused[4]
-			}
+		for (int j = 0; j < ikLockCount; j++) {
+			auto& ikLock = sequenceDesc.ikLocks.emplace_back();
+			stream
+				.read(ikLock.chain)
+				.read(ikLock.posWeight)
+				.read(ikLock.localQWeight)
+				.read(ikLock.flags);
+			stream.skip<int32_t>(4);  // unused[4]
 		}
 
-		if (eventCount > 0 && eventIndex != 0) {
-			const auto eventDataPos = sequenceDescPos + eventIndex;
-			stream.seek_u(eventDataPos);
+		const auto eventDataPos = sequenceDescPos + eventIndex;
+		stream.seek_u(eventDataPos);
 
-			for (int j = 0; j < eventCount; j++) {
-				auto& event = sequenceDesc.events.emplace_back();
+		for (int j = 0; j < eventCount; j++) {
+			auto& event = sequenceDesc.events.emplace_back();
 
-				stream
-					.read(event.cycle)
-					.read(event.event)
-					.read(event.type)
-					.read(event.options);
-				
-				parser::binary::readStringAtOffset(stream, event.eventName, std::ios::cur,
-					sizeof(float) + sizeof(int32_t) * 2 + 64);
-			}
+			stream
+				.read(event.cycle)
+				.read(event.event)
+				.read(event.type)
+				.read(event.options);
+
+			parser::binary::readStringAtOffset(stream, event.eventName, std::ios::cur,
+				sizeof(float) + sizeof(int32_t) * 2 + 64);
 		}
 
-		if (autoLayerCount > 0 && autoLayerIndex != 0) {
-			const auto autoLayerDataPos = sequenceDescPos + autoLayerIndex;
-			stream.seek_u(autoLayerDataPos);
+		const auto autoLayerDataPos = sequenceDescPos + autoLayerIndex;
+		stream.seek_u(autoLayerDataPos);
 
-			for (int j = 0; j < autoLayerCount; j++) {
-				auto& autoLayer = sequenceDesc.autoLayers.emplace_back();
-				stream
-					.read(autoLayer.sequence)
-					.read(autoLayer.pose)
-					.read(autoLayer.flags)
-					.read(autoLayer.start)
-					.read(autoLayer.peak)
-					.read(autoLayer.tail)
-					.read(autoLayer.end);
-			}
+		for (int j = 0; j < autoLayerCount; j++) {
+			auto& autoLayer = sequenceDesc.autoLayers.emplace_back();
+			stream
+				.read(autoLayer.sequence)
+				.read(autoLayer.pose)
+				.read(autoLayer.flags)
+				.read(autoLayer.start)
+				.read(autoLayer.peak)
+				.read(autoLayer.tail)
+				.read(autoLayer.end);
 		}
 
 		if (seqKeyValueSize > 0 && seqKeyValueIndex != 0) {
@@ -829,7 +821,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.skip<int32_t>(8); // unused
 	}
 
-	if (localNodeCount > 0 && localNodeIndex != 0 && localNodeNameIndex != 0) {
+	if (localNodeCount > 0) {
 		stream.seek(localNodeNameIndex);
 		this->localNodeNames.reserve(localNodeCount);
 		for (int i = 0; i < localNodeCount; i++) {
@@ -846,131 +838,119 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
-	if (localPoseParamCount > 0 && localPoseParamIndex != 0) {
+	if (localPoseParamCount > 0) {
 		stream.seek(localPoseParamIndex);
 
 		for (int i = 0; i < localPoseParamCount; i++) {
-			auto& poseParam = this->poseParameters.emplace_back();
-			parser::binary::readStringAtOffset(stream, poseParam.name);
-			stream
-				.read(poseParam.flags)
-				.read(poseParam.start)
-				.read(poseParam.end)
-				.read(poseParam.loop);
+		auto& poseParam = this->poseParameters.emplace_back();
+		parser::binary::readStringAtOffset(stream, poseParam.name);
+		stream
+			.read(poseParam.flags)
+			.read(poseParam.start)
+			.read(poseParam.end)
+			.read(poseParam.loop);
 		}
 	}
 
-	if (includeModelCount > 0 && includeModelIndex != 0) {
-		for (int i = 0; i < includeModelCount; i++) {
-			const auto includeModelPos = includeModelIndex + i * (sizeof(int32_t) * 2);
-			stream.seek_u(includeModelPos);
+	for (int i = 0; i < includeModelCount; i++) {
+		const auto includeModelPos = includeModelIndex + i * (sizeof(int32_t) * 2);
+		stream.seek_u(includeModelPos);
 
-			auto& includeModel = this->includeModels.emplace_back();
+		auto& includeModel = this->includeModels.emplace_back();
 
-			// lambda to read at relative offset
-			auto readStringAtRelativeOffset = [&](std::string& target) {
-				if (const auto offset = stream.read<int32_t>(); offset != 0) {
-					const auto savedPos = stream.tell();
-					stream.seek_u(includeModelPos + offset);
-					stream.read(target);
-					stream.seek_u(savedPos);
-				}
-			};
+		// lambda to read at relative offset
+		auto readStringAtRelativeOffset = [&](std::string& target) {
+			if (const auto offset = stream.read<int32_t>(); offset != 0) {
+				const auto savedPos = stream.tell();
+				stream.seek_u(includeModelPos + offset);
+				stream.read(target);
+				stream.seek_u(savedPos);
+			}
+		};
 
-			readStringAtRelativeOffset(includeModel.label);
-			readStringAtRelativeOffset(includeModel.name);
-		}
+		readStringAtRelativeOffset(includeModel.label);
+		readStringAtRelativeOffset(includeModel.name);
 	}
 
-	if (flexDescCount > 0 && flexDescIndex != 0) {
+	if (flexDescCount > 0) {
 		stream.seek(flexDescIndex);
-
 		for (int i = 0; i < flexDescCount; i++) {
 			auto& flexDescName = this->flexDescs.emplace_back();
 			parser::binary::readStringAtOffset(stream, flexDescName);
 		}
 	}
 
-	if (flexControllerCount > 0 && flexControllerIndex != 0) {
-		for (int i = 0; i < flexControllerCount; i++) {
-			const auto flexControllerPos = flexControllerIndex + i * (sizeof(int32_t) * 3 + sizeof(float) * 2);
-			stream.seek_u(flexControllerPos);
+	for (int i = 0; i < flexControllerCount; i++) {
+		const auto flexControllerPos = flexControllerIndex + i * (sizeof(int32_t) * 3 + sizeof(float) * 2);
+		stream.seek_u(flexControllerPos);
 
-			auto& flexController = this->flexControllers.emplace_back();
+		auto& flexController = this->flexControllers.emplace_back();
 
-			// ditto
-			auto readStringAtRelativeOffset = [&](std::string& target) {
-				if (const auto offset = stream.read<int32_t>(); offset != 0) {
-					const auto savedPos = stream.tell();
-					stream.seek_u(flexControllerPos + offset);
-					stream.read(target);
-					stream.seek_u(savedPos);
-				}
-			};
+		// ditto
+		auto readStringAtRelativeOffset = [&](std::string& target) {
+			if (const auto offset = stream.read<int32_t>(); offset != 0) {
+				const auto savedPos = stream.tell();
+				stream.seek_u(flexControllerPos + offset);
+				stream.read(target);
+				stream.seek_u(savedPos);
+			}
+		};
 
-			readStringAtRelativeOffset(flexController.type);
-			readStringAtRelativeOffset(flexController.name);
+		readStringAtRelativeOffset(flexController.type);
+		readStringAtRelativeOffset(flexController.name);
 
+		stream
+			.read(flexController.localToGlobal)
+			.read(flexController.min)
+			.read(flexController.max);
+	}
+
+	for (int i = 0; i < ikChainCount; i++) {
+		const auto ikChainPos = ikChainIndex + i * (sizeof(int32_t) * 4);
+		stream.seek_u(ikChainPos);
+
+		auto& ikChain = this->ikChains.emplace_back();
+		parser::binary::readStringAtOffset(stream, ikChain.name);
+		stream.read(ikChain.linkType);
+
+		const auto linkCount = stream.read<int32_t>();
+		const auto linkIndex = stream.read<int32_t>();
+
+		const auto linkDataPos = ikChainPos + linkIndex;
+		stream.seek_u(linkDataPos);
+
+		for (int j = 0; j < linkCount; j++) {
+			auto& link = ikChain.links.emplace_back();
 			stream
-				.read(flexController.localToGlobal)
-				.read(flexController.min)
-				.read(flexController.max);
+				.read(link.bone)
+				.read(link.kneeDir)
+				.skip<math::Vec3f>();  // unused
 		}
 	}
 
-	if (ikChainCount > 0 && ikChainIndex != 0) {
-		for (int i = 0; i < ikChainCount; i++) {
-			const auto ikChainPos = ikChainIndex + i * (sizeof(int32_t) * 4);
-			stream.seek_u(ikChainPos);
+	for (int i = 0; i < flexRulesCount; i++) {
+		const auto flexRulePos = flexRulesIndex + i * (sizeof(int32_t) * 3);
+		stream.seek_u(flexRulePos);
 
-			auto& ikChain = this->ikChains.emplace_back();
-			parser::binary::readStringAtOffset(stream, ikChain.name);
-			stream.read(ikChain.linkType);
+		auto& flexRule = this->flexRules.emplace_back();
+		stream.read(flexRule.flex);
 
-			const auto linkCount = stream.read<int32_t>();
+		const auto opCount = stream.read<int32_t>();
+		const auto opIndex = stream.read<int32_t>();
 
-			if (const auto linkIndex = stream.read<int32_t>(); linkCount > 0 && linkIndex != 0) {
-				const auto linkDataPos = ikChainPos + linkIndex;
-				stream.seek_u(linkDataPos);
+		const auto opDataPos = flexRulePos + opIndex;
+		stream.seek_u(opDataPos);
 
-				for (int j = 0; j < linkCount; j++) {
-					auto& link = ikChain.links.emplace_back();
-					stream
-						.read(link.bone)
-						.read(link.kneeDir)
-						.skip<math::Vec3f>();  // unused
-				}
-			}
+		for (int j = 0; j < opCount; j++) {
+			auto& op = flexRule.ops.emplace_back();
+			stream
+				.read(op.op)
+				.read(op.d.index);
 		}
 	}
 
-	if (flexRulesCount > 0 && flexRulesIndex != 0) {
-		for (int i = 0; i < flexRulesCount; i++) {
-			const auto flexRulePos = flexRulesIndex + i * (sizeof(int32_t) * 3);
-			stream.seek_u(flexRulePos);
-
-			auto& flexRule = this->flexRules.emplace_back();
-			stream.read(flexRule.flex);
-
-			const auto opCount = stream.read<int32_t>();
-
-			if (const auto opIndex = stream.read<int32_t>(); opCount > 0 && opIndex != 0) {
-				const auto opDataPos = flexRulePos + opIndex;
-				stream.seek_u(opDataPos);
-
-				for (int j = 0; j < opCount; j++) {
-					auto& op = flexRule.ops.emplace_back();
-					stream
-						.read(op.op)
-						.read(op.d.index);
-				}
-			}
-		}
-	}
-
-	if (mouthsCount > 0 && mouthsIndex != 0) {
+	if (mouthsCount > 0) {
 		stream.seek(mouthsIndex);
-
 		for (int i = 0; i < mouthsCount; i++) {
 			auto& mouth = this->mouths.emplace_back();
 			stream
@@ -980,7 +960,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
-	if (keyValueCount > 0 && keyValueIndex != 0) {
+	if (keyValueCount > 0) {
 		stream.seek(keyValueIndex);
 		stream.read(this->keyValues, keyValueCount - 1, false); // keyValueCount includes null terminator
 	}
@@ -990,9 +970,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.read(this->surfaceProperty);
 	}
 
-	if (localIKAutoplayLockCount > 0 && localIKAutoplayLockIndex != 0) {
+	if (localIKAutoplayLockCount > 0) {
 		stream.seek(localIKAutoplayLockIndex);
-
 		for (int i = 0; i < localIKAutoplayLockCount; i++) {
 			auto& ikLock = this->ikAutoplayLocks.emplace_back();
 			stream
@@ -1017,9 +996,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		stream.read(this->animationBlocksName);
 	}
 
-	if (animationBlocksCount > 0 && animationBlocksIndex != 0) {
+	if (animationBlocksCount > 0) {
 		stream.seek(animationBlocksIndex);
-
 		for (int i = 0; i < animationBlocksCount; i++) {
 			auto& animBlock = this->animationBlocks.emplace_back();
 			stream
@@ -1028,43 +1006,41 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
-	if (flexControllerUICount > 0 && flexControllerUIIndex != 0) {
-		for (int i = 0; i < flexControllerUICount; i++) {
-			const auto flexControllerUIPos = flexControllerUIIndex + i * (sizeof(int32_t) * 4 + sizeof(uint8_t) * 4);
-			stream.seek_u(flexControllerUIPos);
+	for (int i = 0; i < flexControllerUICount; i++) {
+		const auto flexControllerUIPos = flexControllerUIIndex + i * (sizeof(int32_t) * 4 + sizeof(uint8_t) * 4);
+		stream.seek_u(flexControllerUIPos);
 
-			auto& flexControllerUI = this->flexControllerUIs.emplace_back();
+		auto& flexControllerUI = this->flexControllerUIs.emplace_back();
 
-			parser::binary::readStringAtOffset(stream, flexControllerUI.name);
+		parser::binary::readStringAtOffset(stream, flexControllerUI.name);
 
-			const auto szindex0 = stream.read<int32_t>();
-			const auto szindex1 = stream.read<int32_t>();
-			const auto szindex2 = stream.read<int32_t>();
+		const auto szindex0 = stream.read<int32_t>();
+		const auto szindex1 = stream.read<int32_t>();
+		const auto szindex2 = stream.read<int32_t>();
 
-			stream
-				.read(flexControllerUI.remaptype)
-				.read(flexControllerUI.stereo);
+		stream
+			.read(flexControllerUI.remaptype)
+			.read(flexControllerUI.stereo);
 
-			stream.skip<uint8_t>(2); // unused
+		stream.skip<uint8_t>(2); // unused
 
-			// lambda to resolve controller name from szindex offset
-			auto resolveControllerName = [&](int32_t szindex, std::string& targetName) {
-				if (szindex != 0) {
-					const auto savedPos = stream.tell();
-					stream.seek_u(flexControllerUIPos + szindex);
-					stream.skip<int32_t>();
-					if (const auto controllerNameOffset = stream.read<int32_t>(); controllerNameOffset != 0) {
-						stream.seek_u(flexControllerUIPos + szindex + controllerNameOffset);
-						stream.read(targetName);
-					}
-					stream.seek_u(savedPos);
+		// lambda to resolve controller name from szindex offset
+		auto resolveControllerName = [&](int32_t szindex, std::string& targetName) {
+			if (szindex != 0) {
+				const auto savedPos = stream.tell();
+				stream.seek_u(flexControllerUIPos + szindex);
+				stream.skip<int32_t>();
+				if (const auto controllerNameOffset = stream.read<int32_t>(); controllerNameOffset != 0) {
+					stream.seek_u(flexControllerUIPos + szindex + controllerNameOffset);
+					stream.read(targetName);
 				}
-			};
+				stream.seek_u(savedPos);
+			}
+		};
 
-			resolveControllerName(szindex0, flexControllerUI.controllerName0);
-			resolveControllerName(szindex1, flexControllerUI.controllerName1);
-			resolveControllerName(szindex2, flexControllerUI.controllerName2);
-		}
+		resolveControllerName(szindex0, flexControllerUI.controllerName0);
+		resolveControllerName(szindex1, flexControllerUI.controllerName1);
+		resolveControllerName(szindex2, flexControllerUI.controllerName2);
 	}
 
 	return true;
