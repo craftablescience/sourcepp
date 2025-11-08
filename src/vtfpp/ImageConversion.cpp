@@ -412,7 +412,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(P8,                      pixel.p, pixel.p, pixel.p, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(I8,                      pixel.i, pixel.i, pixel.i, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(IA88,                    pixel.i, pixel.i, pixel.i, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(A8,                      0,       0,       0,       pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(A8,                      0xff,    0xff,    0xff,    pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,                pixel.r, pixel.g, pixel.b, pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888,                pixel.r, pixel.g, pixel.b, pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888,                pixel.r, pixel.g, pixel.b, 0xff);
