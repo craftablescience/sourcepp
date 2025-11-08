@@ -1139,9 +1139,7 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 		return false;
 	}
 
-	auto maxMipCount = ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
-
-	if ((this->platform != PLATFORM_PC && newMipCount > 1) || (this->platform == PLATFORM_PC && newMipCount > maxMipCount)) {
+	if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth); (this->platform != PLATFORM_PC && newMipCount > 1) || (this->platform == PLATFORM_PC && newMipCount > maxMipCount)) {
 		newMipCount = maxMipCount;
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth);
@@ -1962,7 +1960,6 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 	}
 
 	const auto faceCount = this->getFaceCount();
-	const bool compressed = ImageFormatDetails::compressed(this->format);
 
 	this->fallbackWidth = 8;
 	this->fallbackHeight = 8;
