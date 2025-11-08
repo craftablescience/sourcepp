@@ -2015,19 +2015,20 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 				break;
 			}
 			case ResizeFilter::NICE: {
+				static constexpr auto NICE_RADIUS = 3.f;
 				static constexpr auto SINC = [](float x) -> float {
 					if (x == 0.f) return 1.f;
 					const float a = x * math::pi_f32;
 					return sinf(a) / a;
 				};
 				static constexpr auto NICE_FILTER = [](float x, float, void*) -> float {
-					if (x >= 3.f || x <= -3.f) return 0.f;
-					return SINC(x) * SINC(x / 3.f);
+					if (x >= NICE_RADIUS || x <= -NICE_RADIUS) return 0.f;
+					return SINC(x) * SINC(x / NICE_RADIUS);
 				};
 				// Normally you would max(1, invScale), but stb is weird and immediately un-scales the result when downsampling.
 				// See stb_image_resize2.h L2977 (stbir__get_filter_pixel_width)
 				static constexpr auto NICE_SUPPORT = [](float invScale, void*) -> float {
-					return invScale * 3.f;
+					return invScale * NICE_RADIUS;
 				};
 				stbir_set_filter_callbacks(&resize, NICE_FILTER, NICE_SUPPORT, NICE_FILTER, NICE_SUPPORT);
 				break;
