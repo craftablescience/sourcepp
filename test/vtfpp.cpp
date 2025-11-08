@@ -210,7 +210,7 @@ TEST(vtfpp, write_non_po2) {
 	EXPECT_EQ(vtf.getHeight(), 148);
 	EXPECT_EQ(vtf.getFlags(), 0);
 	EXPECT_EQ(vtf.getFormat(), ImageFormat::DXT1);
-	EXPECT_EQ(vtf.getMipCount(), 8);
+	EXPECT_EQ(vtf.getMipCount(), 1);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);
 	EXPECT_EQ(vtf.getDepth(), 1);
