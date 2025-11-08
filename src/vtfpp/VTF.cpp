@@ -165,7 +165,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 		const bool compressed = ImageFormatDetails::compressed(format);
 		std::vector<std::byte> out(imageData.size());
 		for(int mip = mipCount - 1; mip >= 0; mip--) {
-			const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, compressed, width, height, depth);
+			const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, width, height, depth, compressed);
 			for (int frame = 0; frame < frameCount; frame++) {
 				for (int face = 0; face < faceCount; face++) {
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
@@ -194,7 +194,7 @@ template<bool ConvertingFromDDS>
 
 	if constexpr (ConvertingFromDDS) {
 		for (int i = mipCount - 1; i >= 0; i--) {
-			const auto mipDepth = ImageDimensions::getMipDim(i, false, depth);
+			const auto mipDepth = ImageDimensions::getMipDim(i, depth);
 			for (int j = 0; j < frameCount; j++) {
 				for (int k = 0; k < faceCount; k++) {
 					for (int l = 0; l < mipDepth; l++) {
@@ -212,7 +212,7 @@ template<bool ConvertingFromDDS>
 		for (int j = 0; j < frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int i = 0; i < mipCount; i++) {
-					const auto mipDepth = ImageDimensions::getMipDim(i, false, depth);
+					const auto mipDepth = ImageDimensions::getMipDim(i, depth);
 					for (int l = 0; l < mipDepth; l++) {
 						uint32_t oldOffset, length;
 						if (!ImageFormatDetails::getDataPosition(oldOffset, length, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, depth)) {
@@ -790,7 +790,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeMips) {
-		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(writer.getWidth(), writer.getHeight(), writer.getDepth()); maxMipCount > 1) {
+		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(writer.getWidthWithoutPadding(), writer.getHeightWithoutPadding(), writer.getDepth()); maxMipCount > 1) {
 			if (!writer.setMipCount(maxMipCount)) {
 				out = false;
 			}
@@ -993,19 +993,19 @@ void VTF::setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightRe
 }
 
 uint16_t VTF::getWidth(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, ImageFormatDetails::compressed(this->format), this->width);
+	return ImageDimensions::getMipDim(mip, this->width, ImageFormatDetails::compressed(this->format));
 }
 
 uint16_t VTF::getWidthWithoutPadding(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, false, this->width);
+	return ImageDimensions::getMipDim(mip, this->width);
 }
 
 uint16_t VTF::getHeight(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, ImageFormatDetails::compressed(this->format), this->height);
+	return ImageDimensions::getMipDim(mip, this->height, ImageFormatDetails::compressed(this->format));
 }
 
 uint16_t VTF::getHeightWithoutPadding(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, false, this->height);
+	return ImageDimensions::getMipDim(mip, this->height);
 }
 
 void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter) {
@@ -1138,7 +1138,10 @@ bool VTF::setMipCount(uint8_t newMipCount) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth); (this->platform != PLATFORM_PC && newMipCount > 1) || (this->platform == PLATFORM_PC && newMipCount > maxMipCount)) {
+
+	auto maxMipCount = ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
+
+	if ((this->platform != PLATFORM_PC && newMipCount > 1) || (this->platform == PLATFORM_PC && newMipCount > maxMipCount)) {
 		newMipCount = maxMipCount;
 	}
 	this->regenerateImageData(this->format, this->width, this->height, newMipCount, this->frameCount, this->getFaceCount(), this->depth);
@@ -1166,7 +1169,6 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 
 	auto* outputDataPtr = imageResource->data.data();
 	const auto faceCount = this->getFaceCount();
-	const bool compressed = ImageFormatDetails::compressed(this->format);
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
 	std::vector<std::future<void>> futures;
@@ -1175,11 +1177,11 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 	for (int j = 0; j < this->frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
 #ifdef SOURCEPP_BUILD_WITH_THREADS
-			futures.push_back(std::async(std::launch::async, [this, filter, outputDataPtr, faceCount, compressed, j, k] {
+			futures.push_back(std::async(std::launch::async, [this, filter, outputDataPtr, faceCount, j, k] {
 #endif
 				for (int i = 1; i < this->mipCount; i++) {
-					const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, this->width, this->height, this->depth);
-					const auto [mipWidthM1, mipHeightM1] = ImageDimensions::getMipDims(i - 1, compressed, this->width, this->height);
+					const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, this->width, this->height, this->depth);
+					const auto [mipWidthM1, mipHeightM1] = ImageDimensions::getMipDims(i - 1, this->width, this->height);
 					for (int l = 0; l < mipDepth; l++) {
 						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, mipWidthM1, mipWidth, mipHeightM1, mipHeight, this->isSRGB(), filter);
 						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->depth) && mip.size() == length) {
@@ -1252,7 +1254,7 @@ bool VTF::setFaceCount(bool isCubeMap) {
 }
 
 uint16_t VTF::getDepth(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, false, this->depth);
+	return ImageDimensions::getMipDim(mip, this->depth);
 }
 
 bool VTF::setDepth(uint16_t newDepth) {
@@ -1472,19 +1474,25 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 	if (!newFaceCount)  { newFaceCount  = 1; }
 	if (!newDepth)      { newDepth      = 1; }
 
-	const auto faceCount = this->getFaceCount();
-	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->depth == newDepth) {
-		return;
-	}
-
 	if (newMipCount > 1) {
+		// Valve code doesn't like it when you have compressed mips with padding unless they're lower than 4 on a given dimension!
+		// We could do some extra work to calculate this better, but I don't care, sorry
+		if (ImageFormatDetails::compressed(newFormat) && ((newWidth > 4 && !std::has_single_bit(newWidth)) || (newHeight > 4 && !std::has_single_bit(newHeight)))) {
+			newMipCount = 1;
+		}
+
 		this->flags &= ~(FLAG_V0_NO_MIP | FLAG_V0_NO_LOD);
 	} else {
 		this->flags |= FLAG_V0_NO_MIP | FLAG_V0_NO_LOD;
 	}
 
-	const bool compressed = ImageFormatDetails::compressed(this->format);
-	const bool newCompressed = ImageFormatDetails::compressed(newFormat);
+	const auto faceCount = this->getFaceCount();
+	if (this->format == newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->depth == newDepth) {
+		return;
+	}
+
+
+
 	std::vector<std::byte> newImageData;
 	if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
 		if (this->format != newFormat && this->width == newWidth && this->height == newHeight && this->mipCount == newMipCount && this->frameCount == newFrameCount && faceCount == newFaceCount && this->depth == newDepth) {
@@ -1492,8 +1500,8 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 		} else {
 			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newDepth));
 			for (int i = newMipCount - 1; i >= 0; i--) {
-				const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, compressed, this->width, this->height);
-				const auto [newMipWidth, newMipHeight, newMipDepth] = ImageDimensions::getMipDims(i, newCompressed, newWidth, newHeight, newDepth);
+				const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, this->width, this->height);
+				const auto [newMipWidth, newMipHeight, newMipDepth] = ImageDimensions::getMipDims(i, newWidth, newHeight, newDepth);
 				for (int j = 0; j < newFrameCount; j++) {
 					for (int k = 0; k < newFaceCount; k++) {
 						for (int l = 0; l < newMipDepth; l++) {
@@ -1720,11 +1728,11 @@ std::vector<std::byte> VTF::getImageDataAs(ImageFormat newFormat, uint8_t mip, u
 	}
 	if (this->format == ImageFormat::P8) {
 		if (const auto paletteData = this->getPaletteResourceFrame(frame); !paletteData.empty()) {
-			const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, ImageFormatDetails::compressed(ImageFormat::BGRA8888), this->width, this->height);
+			const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, this->width, this->height);
 			return ImageConversion::convertImageDataToFormat(ImageQuantize::convertP8ImageDataToBGRA8888(paletteData, rawImageData), ImageFormat::BGRA8888, newFormat, mipWidth, mipHeight);
 		}
 	}
-	const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, ImageFormatDetails::compressed(this->format), this->width, this->height);
+	const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, this->width, this->height);
 	return ImageConversion::convertImageDataToFormat(rawImageData, this->format, newFormat, mipWidth, mipHeight);
 }
 
@@ -1764,7 +1772,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	}
 	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->depth)) {
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
-		const auto [newWidth, newHeight] = ImageDimensions::getMipDims(mip, ImageFormatDetails::compressed(this->format), this->width, this->height);
+		const auto [newWidth, newHeight] = ImageDimensions::getMipDims(mip, this->width, this->height);
 		if (width_ != newWidth || height_ != newHeight) {
 			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), filter);
 		}
@@ -1963,7 +1971,7 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 	std::vector<std::byte> fallbackData;
 	fallbackData.resize(ImageFormatDetails::getDataLength(this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight));
 	for (int i = this->fallbackMipCount - 1; i >= 0; i--) {
-		const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, compressed, this->fallbackWidth, this->fallbackHeight);
+		const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, this->fallbackWidth, this->fallbackHeight);
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, mipWidth, this->height, mipHeight, this->isSRGB(), filter);
@@ -1984,7 +1992,7 @@ void VTF::removeFallback() {
 }
 
 std::vector<std::byte> VTF::saveFallbackToFile(uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
-	const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, ImageFormatDetails::compressed(this->format), this->fallbackWidth, this->fallbackHeight);
+	const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, this->fallbackWidth, this->fallbackHeight);
 	return ImageConversion::convertImageDataToFile(this->getFallbackDataRaw(mip, frame, face), this->format, mipWidth, mipHeight, fileFormat);
 }
 

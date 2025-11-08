@@ -114,7 +114,7 @@ namespace {
 		case RGBA32323232F:
 			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
-			return CMP_FORMAT_ATI2N_XY;
+			return CMP_FORMAT_ATI2N;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
@@ -301,10 +301,12 @@ namespace {
 
 	uint16_t unpaddedWidth = width, unpaddedHeight = height;
 	std::vector<std::byte> paddedImageData;
-	if ((width % 4 != 0 || height % 4 != 0) && !ImageFormatDetails::compressed(oldFormat) && ImageFormatDetails::compressed(newFormat)) {
+	if ((width % 4 != 0 || height % 4 != 0) && ImageFormatDetails::compressed(oldFormat) != ImageFormatDetails::compressed(newFormat)) {
 		uint16_t paddingWidth = (4 - (width % 4)) % 4, paddingHeight = (4 - (height % 4)) % 4;
-		paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
-		imageData = paddedImageData;
+		if (!ImageFormatDetails::compressed(oldFormat)) {
+			paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
+			imageData = paddedImageData;
+		}
 		width += paddingWidth;
 		height += paddingHeight;
 	}
@@ -360,8 +362,7 @@ namespace {
 				destSpan.begin(), destSpan.end(), destSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
 					const auto nX = static_cast<float>(pixel.r) / 255.f * 2.f - 1.f;
 					const auto nY = static_cast<float>(pixel.g) / 255.f * 2.f - 1.f;
-					// Swap R and G to compensate for compressonator bug
-					return {pixel.g, pixel.r, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
+					return {pixel.r, pixel.g, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
 				});
 		}
 		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
@@ -978,10 +979,9 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 		return {imageData.begin(), imageData.end()};
 	}
 
-	const bool compressed = ImageFormatDetails::compressed(oldFormat);
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, depth));
 	for(int mip = mipCount - 1; mip >= 0; mip--) {
-		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, compressed, width, height, depth);
+		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, width, height, depth);
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int face = 0; face < faceCount; face++) {
 				for (int slice = 0; slice < mipDepth; slice++) {

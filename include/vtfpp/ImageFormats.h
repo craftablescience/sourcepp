@@ -742,15 +742,15 @@ namespace ImageFormatDetails {
 namespace ImageDimensions {
 
 /**
- * Get the dimension at a given mip level.
+ * Get the dimension at a given mip level. Does not include padding added by compressed formats by default.
  * @param mip The mip level.
- * @param addCompressedFormatPadding Aligns the output dimension to 4 pixels.
  * This should not be enabled if the input dimension is depth, as compressed formats are compressed on 2D slices.
  * Otherwise, it should be enabled if <code>ImageFormatDetails::compressed(format)</code> is true.
  * @param dim The dimension of the largest mip in the texture. Can be width, height, or depth.
+ * @param addCompressedFormatPadding Aligns the output dimension to 4 pixels.
  * @return The dimension at the given mip level.
  */
-[[nodiscard]] constexpr uint16_t getMipDim(uint8_t mip, bool addCompressedFormatPadding, uint16_t dim) {
+[[nodiscard]] constexpr uint16_t getMipDim(uint8_t mip,  uint16_t dim, bool addCompressedFormatPadding = false) {
 	if (!dim) {
 		dim = 1;
 	}
@@ -764,14 +764,14 @@ namespace ImageDimensions {
 }
 
 /**
- * Get the width and height at a given mip level.
+ * Get the width and height at a given mip level. Does not include padding added by compressed formats by default.
  * @param mip The mip level.
- * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
  * @param width The width of the largest mip in the texture.
  * @param height The height of the largest mip in the texture.
+ * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
  * @return The width and height at the given mip level.
  */
-[[nodiscard]] constexpr std::pair<uint16_t, uint16_t> getMipDims(uint8_t mip, bool addCompressedFormatPadding, uint16_t width, uint16_t height) {
+[[nodiscard]] constexpr std::pair<uint16_t, uint16_t> getMipDims(uint8_t mip, uint16_t width, uint16_t height, bool addCompressedFormatPadding = false) {
 	for (int i = 0; i < mip && (width > 1 || height > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
 		if ((height >>= 1) < 1) height = 1;
@@ -784,15 +784,15 @@ namespace ImageDimensions {
 }
 
 /**
- * Get the width, height, and depth at a given mip level.
+ * Get the width, height, and depth at a given mip level. Does not include padding added by compressed formats by default.
  * @param mip The mip level.
- * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
  * @param width The width of the largest mip in the texture.
  * @param height The height of the largest mip in the texture.
  * @param depth The depth of the largest mip in the texture.
+ * @param addCompressedFormatPadding Aligns the output width and height to 4 pixels.
  * @return The width, height, and depth at the given mip level.
  */
-[[nodiscard]] constexpr std::tuple<uint16_t, uint16_t, uint16_t> getMipDims(uint8_t mip, bool addCompressedFormatPadding, uint16_t width, uint16_t height, uint16_t depth) {
+[[nodiscard]] constexpr std::tuple<uint16_t, uint16_t, uint16_t> getMipDims(uint8_t mip, uint16_t width, uint16_t height, uint16_t depth, bool addCompressedFormatPadding = false) {
 	for (int i = 0; i < mip && (width > 1 || height > 1 || depth > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
 		if ((height >>= 1) < 1) height = 1;
@@ -859,10 +859,9 @@ namespace ImageFormatDetails {
  * face count, width, height, and depth.
  */
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
-	const bool compressed = ImageFormatDetails::compressed(format);
 	uint32_t length = 0;
 	for (int i = mipCount - 1; i >= 0; i--) {
-		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, width, height, depth);
+		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, width, height, depth);
 		length += ImageFormatDetails::getDataLength(format, mipWidth, mipHeight, mipDepth) * frameCount * faceCount;
 	}
 	return length;
@@ -885,11 +884,10 @@ namespace ImageFormatDetails {
  * frame count, face count, width, height, and depth; possibly with padding after some frames.
  */
 [[nodiscard]] constexpr uint32_t getDataLengthXBOX(bool padded, ImageFormat format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth = 1) {
-	const bool compressed = ImageFormatDetails::compressed(format);
 	uint32_t length = 0;
 	for (int j = 0; j < frameCount; j++) {
 		for (int i = 0; i < mipCount; i++) {
-			const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, width, height, depth);
+			const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, width, height, depth);
 			length += ImageFormatDetails::getDataLength(format, mipWidth, mipHeight, mipDepth) * faceCount;
 		}
 		if (padded && j + 1 != frameCount && length > 512) {
@@ -917,11 +915,10 @@ namespace ImageFormatDetails {
  * @return True if the section of the texture was successfully found.
  */
 [[nodiscard]] constexpr bool getDataPosition(uint32_t& offset, uint32_t& length, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
-	const bool compressed = ImageFormatDetails::compressed(format);
 	offset = 0;
 	length = 0;
 	for (int i = mipCount - 1; i >= 0; i--) {
-		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, width, height, depth);
+		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, width, height, depth);
 		for (int j = 0; j < frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
 				for (int l = 0; l < mipDepth; l++) {
@@ -960,13 +957,12 @@ namespace ImageFormatDetails {
  * @return True if the section of the texture was successfully found.
  */
 [[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
-	const bool compressed = ImageFormatDetails::compressed(format);
 	offset = 0;
 	length = 0;
 	for (int j = 0; j < frameCount; j++) {
 		for (int k = 0; k < faceCount; k++) {
 			for (int i = 0; i < mipCount; i++) {
-				const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, compressed, width, height, depth);
+				const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, width, height, depth);
 				for (int l = 0; l < mipDepth; l++) {
 					const auto imageSize = ImageFormatDetails::getDataLength(format, mipWidth, mipHeight);
 					if (i == mip && j == frame && k == face && l == slice) {
