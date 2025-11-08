@@ -790,7 +790,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 		options.outputFormat = VTF::getDefaultCompressedFormat(writer.getFormat(), writer.getVersion(), options.isCubeMap);
 	}
 	if (options.computeMips) {
-		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(writer.getWidthWithoutPadding(), writer.getHeightWithoutPadding(), writer.getDepth()); maxMipCount > 1) {
+		if (const auto maxMipCount = ImageDimensions::getMaximumMipCount(writer.getWidth(), writer.getHeight(), writer.getDepth()); maxMipCount > 1) {
 			if (!writer.setMipCount(maxMipCount)) {
 				out = false;
 			}
@@ -993,19 +993,19 @@ void VTF::setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightRe
 }
 
 uint16_t VTF::getWidth(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, this->width, ImageFormatDetails::compressed(this->format));
-}
-
-uint16_t VTF::getWidthWithoutPadding(uint8_t mip) const {
 	return ImageDimensions::getMipDim(mip, this->width);
 }
 
-uint16_t VTF::getHeight(uint8_t mip) const {
-	return ImageDimensions::getMipDim(mip, this->height, ImageFormatDetails::compressed(this->format));
+uint16_t VTF::getPaddedWidth(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->width, ImageFormatDetails::compressed(this->format));
 }
 
-uint16_t VTF::getHeightWithoutPadding(uint8_t mip) const {
+uint16_t VTF::getHeight(uint8_t mip) const {
 	return ImageDimensions::getMipDim(mip, this->height);
+}
+
+uint16_t VTF::getPaddedHeight(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->height, ImageFormatDetails::compressed(this->format));
 }
 
 void VTF::setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter) {

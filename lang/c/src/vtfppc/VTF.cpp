@@ -218,10 +218,10 @@ SOURCEPP_API uint16_t vtfpp_vtf_get_width(vtfpp_vtf_handle_t handle, uint8_t mip
 	return Convert::vtf(handle)->getWidth(mip);
 }
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_width_without_padding(vtfpp_vtf_handle_t handle, uint8_t mip) {
+SOURCEPP_API uint16_t vtfpp_vtf_get_padded_width(vtfpp_vtf_handle_t handle, uint8_t mip) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::vtf(handle)->getWidthWithoutPadding(mip);
+	return Convert::vtf(handle)->getPaddedWidth(mip);
 }
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mip) {
@@ -230,10 +230,10 @@ SOURCEPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mi
 	return Convert::vtf(handle)->getHeight(mip);
 }
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_height_without_padding(vtfpp_vtf_handle_t handle, uint8_t mip) {
+SOURCEPP_API uint16_t vtfpp_vtf_get_padded_height(vtfpp_vtf_handle_t handle, uint8_t mip) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::vtf(handle)->getHeightWithoutPadding(mip);
+	return Convert::vtf(handle)->getPaddedHeight(mip);
 }
 
 SOURCEPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter) {

@@ -307,11 +307,11 @@ public:
 
 	[[nodiscard]] uint16_t getWidth(uint8_t mip = 0) const;
 
-	[[nodiscard]] uint16_t getWidthWithoutPadding(uint8_t mip = 0) const;
+	[[nodiscard]] uint16_t getPaddedWidth(uint8_t mip = 0) const;
 
 	[[nodiscard]] uint16_t getHeight(uint8_t mip = 0) const;
 
-	[[nodiscard]] uint16_t getHeightWithoutPadding(uint8_t mip = 0) const;
+	[[nodiscard]] uint16_t getPaddedHeight(uint8_t mip = 0) const;
 
 	void setSize(uint16_t newWidth, uint16_t newHeight, ImageConversion::ResizeFilter filter);
 

@@ -246,11 +246,11 @@ SOURCEPP_API void vtfpp_vtf_set_image_height_resize_method(vtfpp_vtf_handle_t ha
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_width(vtfpp_vtf_handle_t handle, uint8_t mip);
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_width_without_padding(vtfpp_vtf_handle_t handle, uint8_t mip);
+SOURCEPP_API uint16_t vtfpp_vtf_get_padded_width(vtfpp_vtf_handle_t handle, uint8_t mip);
 
 SOURCEPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mip);
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_height_without_padding(vtfpp_vtf_handle_t handle, uint8_t mip);
+SOURCEPP_API uint16_t vtfpp_vtf_get_padded_height(vtfpp_vtf_handle_t handle, uint8_t mip);
 
 SOURCEPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter);
 
