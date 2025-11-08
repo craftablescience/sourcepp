@@ -51,9 +51,9 @@ var namespacevtfpp =
     ] ],
     [ "ImageDimensions", "d6/d38/namespacevtfpp_1_1ImageDimensions.html", [
       [ "getMaximumMipCount", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a92001e554a275d536fc98eb427311580", null ],
-      [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a4219a9564f9f1e1ed2a464a1d3b8e0a7", null ],
-      [ "getMipDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a423da5c814b9b488e5daa064d593f6bb", null ],
-      [ "getMipDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a00d940fd544fc9cce07690a9fb2cc189", null ]
+      [ "getMipDim", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#af189536592ae4631205dfdbab446e3da", null ],
+      [ "getMipDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#ab5b0f765307cd610c2c25534b51b403b", null ],
+      [ "getMipDims", "d6/d38/namespacevtfpp_1_1ImageDimensions.html#a029ad4b4bbfa52fc58604d25ebbf44f5", null ]
     ] ],
     [ "ImageFormatDetails", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html", [
       [ "alpha", "db/d69/namespacevtfpp_1_1ImageFormatDetails.html#a1758f1115310feea3dbc7c1738c994a9", null ],
