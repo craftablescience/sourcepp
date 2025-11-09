@@ -25,7 +25,6 @@
 var NAVTREE =
 [
   [ "SourcePP", "index.html", [
-    [ "Cache Generation Steps", "dc/d45/md_src_steampp_cache_README.html", null ],
     [ "Namespaces", "namespaces.html", [
       [ "Other Languages", "index.html#autotoc_md0", null ],
       [ "Included Libraries", "index.html#autotoc_md1", null ],
@@ -92,11 +91,11 @@ var NAVTREEINDEX =
 "d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#aad10995a71aedb1cdd787e9de87b3017",
 "da/d01/ImageConversion_8h.html#aa3228c72993d1222c043202e4e9c0c72",
 "db/d88/classtoolpp_1_1FGDWriter_1_1EntityWriter_1_1KeyValueChoicesWriter.html#a6e3d201928f350488929734589c253e6",
-"dd/d01/XZP_8h.html#a74750d2fbea3bb4a9151b34cf4f3c497",
-"dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html#aea11f576a6f8d8f5f953c5f96b34089a",
-"de/d9a/GCF_8cpp_source.html",
-"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69a9ab120f5e4e714bc60d150db70431a4b",
-"functions_y.html"
+"dd/d01/XZP_8h_source.html",
+"dd/de9/structvpkpp_1_1GCF_1_1DirectoryEntry2.html",
+"de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html",
+"df/dc5/classsndpp_1_1WAV.html#a60edaec25b2e1b65cc529126e2ffcb69a9d00df66979eb06d829f8ef462590124",
+"functions_z.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
