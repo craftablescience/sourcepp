@@ -306,11 +306,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="33"><code>vtfpp</code></td>
+    <td rowspan="35"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="33" align="center">C<br>Python</td>
+    <td rowspan="35" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -323,6 +323,12 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td><a href="https://openexr.com">EXR</a> v1</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>FRAMES (PS3, Orange Box)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

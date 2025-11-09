@@ -10,6 +10,7 @@
 #include "ImageFormats.h"
 #include "ImageQuantize.h"
 #include "PPL.h"
+#include "PSFrames.h"
 #include "SHT.h"
 #include "TTX.h"
 #include "VTF.h"

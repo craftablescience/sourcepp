@@ -324,6 +324,24 @@ inline void register_python(py::module_& m) {
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&>(&PPL::bake), "ppl_path"_a);
 
+	py::class_<PSFrames>(vtfpp, "PSFrames")
+		.def("__init__", [](PSFrames* self, const py::bytes& psFramesData) {
+			return new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
+		}, "ps_frames_data"_a)
+		.def(py::init<const std::string&>(), "ps_frames_path"_a)
+		.def_prop_ro("frame_count", &PSFrames::getFrameCount)
+		.def_prop_ro("fps", &PSFrames::getFPS)
+		.def_prop_ro("width", &PSFrames::getWidth)
+		.def_prop_ro("height", &PSFrames::getHeight)
+		.def("get_image_data_as", [](const PSFrames& self, ImageFormat newFormat, uint16_t frame) {
+			const auto d = self.getImageDataAs(newFormat, frame);
+			return py::bytes{d.data(), d.size()};
+		}, "new_format"_a, "frame"_a)
+		.def("get_image_data_as_bgr888", [](const PSFrames& self, uint16_t frame) {
+			const auto d = self.getImageDataAsBGR888(frame);
+			return py::bytes{d.data(), d.size()};
+		}, "frame"_a);
+
 	auto cSHT = py::class_<SHT>(vtfpp, "SHT");
 	auto cSHTSequence = py::class_<SHT::Sequence>(cSHT, "Sequence");
 	auto cSHTSequenceFrame = py::class_<SHT::Sequence::Frame>(cSHTSequence, "Frame");

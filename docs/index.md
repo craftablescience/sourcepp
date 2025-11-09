@@ -271,11 +271,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td align="center">✅</td>
   </tr>
   <tr>
-    <td rowspan="17"><code>vtfpp</code></td>
+    <td rowspan="18"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="17" align="center">C<br>Python</td>
+    <td rowspan="18" align="center">C<br>Python</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/BMP_file_format">BMP</a></td>
@@ -286,6 +286,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td><a href="https://openexr.com">EXR</a> v1</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr>
+    <td>FRAMES (PS3, Orange Box)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr>
     <td><a href="https://en.wikipedia.org/wiki/GIF">GIF</a></td>
