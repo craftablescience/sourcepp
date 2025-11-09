@@ -175,7 +175,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td rowspan="17" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr>
-    <td>FGP v3 (PS3, Orange Box)</td>
+    <td>FGP v2-3 (PS3, Orange Box)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>

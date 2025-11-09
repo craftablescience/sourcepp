@@ -194,7 +194,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td>FGP v3 (PS3, Orange Box)</td>
+    <td>FGP v2-3 (PS3, Orange Box)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
