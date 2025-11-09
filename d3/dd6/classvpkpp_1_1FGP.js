@@ -4,6 +4,7 @@ var classvpkpp_1_1FGP =
     [ "bake", "d3/dd6/classvpkpp_1_1FGP.html#af4e88d3e3674b8f7fd61e4cdcd0a5b3b", null ],
     [ "create", "d3/dd6/classvpkpp_1_1FGP.html#a425cff80548841788991fa5949903aee", null ],
     [ "getGUID", "d3/dd6/classvpkpp_1_1FGP.html#ad42b3551bc1c7ccc22ad487eee52f8ad", null ],
+    [ "getHeaderSize", "d3/dd6/classvpkpp_1_1FGP.html#aedde91b0404bcddab069eac30995269a", null ],
     [ "getLoadingScreenFilePath", "d3/dd6/classvpkpp_1_1FGP.html#a97f5c29f639bd0314446de64a7177fec", null ],
     [ "getSupportedEntryAttributes", "d3/dd6/classvpkpp_1_1FGP.html#ace03982900c85f055e113affbb2c30dc", null ],
     [ "hashFilePath", "d3/dd6/classvpkpp_1_1FGP.html#acd0cb2d7a6b5d8f22aacafb95b0e1923", null ],
