@@ -400,6 +400,7 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - [props_scaling_recompiler](https://github.com/Ambiabstract/props_scaling_recompiler): Allows converting `prop_scalable` into a static prop, effectively implementing static prop scaling outside CS:GO.
   - [rock:sail](https://github.com/Le0X8/rocksail): CS2 client-side tool to use skins for free (only visible to the user of the tool).
   - [vpk2wad_nd](https://github.com/p2r3/vpk2wad_nd): Converts textures in a VPK to a WAD that can be used by Narbacular Drop maps.
+- [VTF Forge](https://github.com/Trico-Everfire/VTF-Forge): A modern multiplatform recreation of VTFEdit, using Qt.
 - [VTF Thumbnailer](htps://github.com/craftablescience/vtf-thumbnailer): Adds previews for VTF files in your file explorer of choice on Windows and Linux.
 
 ### Games
