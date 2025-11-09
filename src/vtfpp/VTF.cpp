@@ -1292,7 +1292,8 @@ void VTF::computeReflectivity() {
 		static constexpr auto getReflectivityForPixel = [](const ImagePixel::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
 			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
-			ref /= 255.f * 0.9f;
+			// I tweaked it a bit to produce 0.85 reflectivity at pure white
+			ref = ref / 255.f * 0.922f;
 			ref[0] *= ref[0];
 			ref[1] *= ref[1];
 			ref[2] *= ref[2];
