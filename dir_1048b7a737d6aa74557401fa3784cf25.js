@@ -5,6 +5,7 @@ var dir_1048b7a737d6aa74557401fa3784cf25 =
     [ "ImageFormats.h", "d1/d2d/ImageFormats_8h.html", "d1/d2d/ImageFormats_8h" ],
     [ "ImageQuantize.h", "d5/d53/ImageQuantize_8h.html", "d5/d53/ImageQuantize_8h" ],
     [ "PPL.h", "d5/d97/PPL_8h.html", "d5/d97/PPL_8h" ],
+    [ "PSFrames.h", "da/d42/PSFrames_8h.html", "da/d42/PSFrames_8h" ],
     [ "SHT.h", "d0/d51/SHT_8h.html", "d0/d51/SHT_8h" ],
     [ "TTX.h", "d0/d57/TTX_8h.html", "d0/d57/TTX_8h" ],
     [ "VTF.h", "d4/d91/VTF_8h.html", "d4/d91/VTF_8h" ],

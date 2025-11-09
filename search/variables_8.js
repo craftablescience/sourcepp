@@ -7,7 +7,7 @@ var searchData=
   ['header1_4',['header1',['../d5/d8b/classvpkpp_1_1VPK.html#afab12f6ed154cdb5ad3d3b51dcd915c8',1,'vpkpp::VPK']]],
   ['header2_5',['header2',['../d5/d8b/classvpkpp_1_1VPK.html#aaceee6cf5bd879b3c4b03cb88d2f317c',1,'vpkpp::VPK']]],
   ['headnode_6',['headNode',['../d3/db0/structbsppp_1_1BSPBrushModel__v0.html#a422eb77182dd7af266e8cad08de739e5',1,'bsppp::BSPBrushModel_v0']]],
-  ['height_7',['height',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a616650d3b0055a531a154dd85bc63ca3',1,'bsppp::BSPTextureData_v0::height()'],['../d1/dc9/structvtfpp_1_1PPL_1_1Image.html#a4842fc3a738b69be5960aa34fafeebfd',1,'vtfpp::PPL::Image::height()'],['../d8/df2/classvtfpp_1_1VTF.html#adc9bb8a8b8895f651b2fb9bebf0f0e32',1,'vtfpp::VTF::height()']]],
+  ['height_7',['height',['../d1/d93/structbsppp_1_1BSPTextureData__v0.html#a616650d3b0055a531a154dd85bc63ca3',1,'bsppp::BSPTextureData_v0::height()'],['../d1/dc9/structvtfpp_1_1PPL_1_1Image.html#a4842fc3a738b69be5960aa34fafeebfd',1,'vtfpp::PPL::Image::height()'],['../de/d2b/classvtfpp_1_1PSFrames.html#ac50e4bd4dcf5c68a04237922f26d8eb8',1,'vtfpp::PSFrames::height()'],['../d8/df2/classvtfpp_1_1VTF.html#adc9bb8a8b8895f651b2fb9bebf0f0e32',1,'vtfpp::VTF::height()']]],
   ['heightresizemethod_8',['heightResizeMethod',['../d3/d2b/structvtfpp_1_1VTF_1_1CreationOptions.html#ac26ed8e6bcb15408c99d8562f63374b7',1,'vtfpp::VTF::CreationOptions']]],
   ['highnote_9',['highNote',['../d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html#a839504eac6a62d0278647ec1fa0cc299',1,'sndpp::WAV::ChunkINST']]],
   ['highvelocity_10',['highVelocity',['../d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html#a0e5b65100d25aa893504e8cad51b417c',1,'sndpp::WAV::ChunkINST']]],

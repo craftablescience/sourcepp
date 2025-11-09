@@ -208,6 +208,7 @@ var hierarchy =
     [ "vtfpp::ImagePixel::UVWQ8888", "dd/d9f/structvtfpp_1_1ImagePixel_1_1UVWQ8888.html", null ],
     [ "vtfpp::PPL", "df/d32/classvtfpp_1_1PPL.html", null ],
     [ "vtfpp::PPL::Image", "d1/dc9/structvtfpp_1_1PPL_1_1Image.html", null ],
+    [ "vtfpp::PSFrames", "de/d2b/classvtfpp_1_1PSFrames.html", null ],
     [ "vtfpp::Resource", "d3/d80/structvtfpp_1_1Resource.html", null ],
     [ "vtfpp::SHT", "db/dde/classvtfpp_1_1SHT.html", null ],
     [ "vtfpp::SHT::Sequence", "d3/d32/structvtfpp_1_1SHT_1_1Sequence.html", null ],

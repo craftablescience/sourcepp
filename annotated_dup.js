@@ -167,6 +167,7 @@ var annotated_dup =
       ] ],
       [ "HOT", "da/d9a/classvtfpp_1_1HOT.html", "da/d9a/classvtfpp_1_1HOT" ],
       [ "PPL", "df/d32/classvtfpp_1_1PPL.html", "df/d32/classvtfpp_1_1PPL" ],
+      [ "PSFrames", "de/d2b/classvtfpp_1_1PSFrames.html", "de/d2b/classvtfpp_1_1PSFrames" ],
       [ "Resource", "d3/d80/structvtfpp_1_1Resource.html", "d3/d80/structvtfpp_1_1Resource" ],
       [ "SHT", "db/dde/classvtfpp_1_1SHT.html", "db/dde/classvtfpp_1_1SHT" ],
       [ "TTX", "df/d47/classvtfpp_1_1TTX.html", "df/d47/classvtfpp_1_1TTX" ],
