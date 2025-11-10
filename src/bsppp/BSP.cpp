@@ -424,7 +424,7 @@ bool BSP::bake(std::string_view outputPath) {
 					.write<uint32_t>(0)
 					.write<uint16_t>(0)
 					.write<uint16_t>(0)
-					.write<uint32_t>(0)
+					.write<uint32_t>(gameLumpCurrentOffset)
 					.write<uint32_t>(0);
 			}
 
