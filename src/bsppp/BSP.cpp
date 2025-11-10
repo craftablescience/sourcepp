@@ -404,7 +404,7 @@ bool BSP::bake(std::string_view outputPath) {
 				}
 			}
 			// NOLINTNEXTLINE(*-sizeof-container)
-			auto gameLumpCurrentOffset = stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
+			auto gameLumpCurrentOffset = !this->console * stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
 			stream.write<uint32_t>(this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed);
 
 			for (const auto& gameLump : this->stagedGameLumps) {
@@ -740,8 +740,7 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 			if (!decompress) {
 				lumps[i].data = stream.read_bytes(nextOffset - lumps[i].offset);
 			} else {
-				auto uncompressedData = compression::decompressValveLZMA(stream.read_bytes(nextOffset - lumps[i].offset));
-				if (uncompressedData) {
+				if (auto uncompressedData = compression::decompressValveLZMA(stream.read_bytes(nextOffset - lumps[i].offset))) {
 					lumps[i].data = *uncompressedData;
 				}
 			}
