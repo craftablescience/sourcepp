@@ -1,7 +1,6 @@
 <map id="sndpp::WAV::ChunkSMPL" name="sndpp::WAV::ChunkSMPL">
-<area shape="rect" id="node1" title=" " alt="" coords="131,489,312,515"/>
-<area shape="rect" id="node2" href="$d7/d3d/structsndpp_1_1WAV_1_1ChunkBase.html" title=" " alt="" coords="5,394,184,419"/>
-<area shape="rect" id="node3" title=" " alt="" coords="205,5,280,31"/>
-<area shape="rect" id="node5" href="$d7/dcc/structsndpp_1_1WAV_1_1ChunkSMPL_1_1SampleLoop.html" title=" " alt="" coords="271,167,452,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="259,387,504,427"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,489,187,515"/>
+<area shape="rect" id="node2" title=" " alt="" coords="59,5,133,31"/>
+<area shape="rect" id="node4" href="$d7/dcc/structsndpp_1_1WAV_1_1ChunkSMPL_1_1SampleLoop.html" title=" " alt="" coords="120,167,301,207"/>
+<area shape="rect" id="node3" title=" " alt="" coords="112,387,357,427"/>
 </map>

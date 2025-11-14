@@ -1,7 +1,11 @@
 var searchData=
 [
-  ['y_0',['y',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#a6b6d6bb92628754e363fd6852f2d6d61',1,'sourcepp::math::QuatCompressed48::y()'],['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#ad11e139717b262d6cd6e8a65aa728b5e',1,'sourcepp::math::QuatCompressed64::y()']]],
-  ['y1_1',['y1',['../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#aad10995a71aedb1cdd787e9de87b3017',1,'vtfpp::HOT::Rect::y1()'],['../db/d04/structvtfpp_1_1SHT_1_1Sequence_1_1Frame_1_1Bounds.html#a85ba67e1901938769921aa1b6fe853c6',1,'vtfpp::SHT::Sequence::Frame::Bounds::y1()']]],
-  ['y2_2',['y2',['../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html#a1ec3159a2e0e053bcb63ed4c706c5695',1,'vtfpp::HOT::Rect::y2()'],['../db/d04/structvtfpp_1_1SHT_1_1Sequence_1_1Frame_1_1Bounds.html#a15491e115248836eda1f62b7513ceb82',1,'vtfpp::SHT::Sequence::Frame::Bounds::y2()']]],
-  ['yawend_3',['yawEnd',['../d1/dbd/structmdlpp_1_1Movement.html#a5687b07c5e12b0aecb9adf1749ca7a3c',1,'mdlpp::Movement']]]
+  ['z_0',['z',['../d7/d84/structsourcepp_1_1math_1_1QuatCompressed48.html#af8f1d77049009b92ee307dfd6be67b68',1,'sourcepp::math::QuatCompressed48::z()'],['../d4/daf/structsourcepp_1_1math_1_1QuatCompressed64.html#aa62227f35533995483f6176e23d58577',1,'sourcepp::math::QuatCompressed64::z()']]],
+  ['zip_5fcompressionstrength_1',['zip_compressionStrength',['../d0/dff/structvpkpp_1_1BakeOptions.html#af56ee51a8f8197ae2999e950188c90b9',1,'vpkpp::BakeOptions::zip_compressionStrength()'],['../d6/d5b/structvpkpp_1_1EntryOptions.html#afe147cd4ba3789b9c10d7b0f9448f620',1,'vpkpp::EntryOptions::zip_compressionStrength()']]],
+  ['zip_5fcompressiontype_2',['zip_compressionType',['../d6/d5b/structvpkpp_1_1EntryOptions.html#ad4fa6d5fd900bc82c807bd0996597507',1,'vpkpp::EntryOptions']]],
+  ['zip_5fcompressiontypeoverride_3',['zip_compressionTypeOverride',['../d0/dff/structvpkpp_1_1BakeOptions.html#a029a5155177153cc4707d8d58cbfc90d',1,'vpkpp::BakeOptions']]],
+  ['zip_5fextension_4',['ZIP_EXTENSION',['../d5/d29/namespacevpkpp.html#a50c90d61c3ce05d48a2e0e5fb3cbab21',1,'vpkpp']]],
+  ['ziphandle_5',['zipHandle',['../da/de7/classvpkpp_1_1ZIP.html#aaf2e2d7b02453b445807c9b5112d0ffe',1,'vpkpp::ZIP']]],
+  ['zipopen_6',['zipOpen',['../da/de7/classvpkpp_1_1ZIP.html#a82d7f3bf2c41e484ed805ffc4039bffd',1,'vpkpp::ZIP']]],
+  ['zombie_5fpanic_5fsource_7',['ZOMBIE_PANIC_SOURCE',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#a8c1ec4b665bd3f644ff659546afc8e35',1,'vcryptpp::VICE::KnownCodes']]]
 ];

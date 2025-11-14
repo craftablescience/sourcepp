@@ -1,7 +1,23 @@
 var searchData=
 [
-  ['k_5ffiletypenames_0',['k_FileTypeNames',['../d8/d40/WAD3_8cpp.html#ab44d8e53965d25b20914aac13c12b2b2',1,'WAD3.cpp']]],
-  ['key_1',['key',['../d8/d1b/classbsppp_1_1BSPEntityKeyValues_1_1Element.html#afcaa1dc0f3358cb398cae8f0a383de6d',1,'bsppp::BSPEntityKeyValues::Element::key()'],['../de/d62/classkvpp_1_1KV1ElementBase.html#a00da99325feeed872adfdcb47fc423ad',1,'kvpp::KV1ElementBase::key()'],['../d3/d03/classkvpp_1_1KV1BinaryElement.html#a796ef90773fb20b000703545310aa470',1,'kvpp::KV1BinaryElement::key()']]],
-  ['keyvalues_2',['keyvalues',['../d7/db2/classbsppp_1_1BSPEntityKeyValues.html#ac16b0eeb15bdcae4ca767d54f7e441be',1,'bsppp::BSPEntityKeyValues']]],
-  ['knownarchives_3',['knownArchives',['../d4/ddb/classvpkpp_1_1VPK__VTMB.html#a6df50a69be1599700ecc221835e1650b',1,'vpkpp::VPK_VTMB']]]
+  ['l_0',['l',['../d3/df9/structvtfpp_1_1ImagePixel_1_1UVLX8888.html#a53f634becd2b6e64550308c6506c210d',1,'vtfpp::ImagePixel::UVLX8888']]],
+  ['l4d2_1',['l4d2',['../d5/dba/classbsppp_1_1BSP.html#ac44128bcadfd33a812bdbeb104dddafc',1,'bsppp::BSP']]],
+  ['language_2',['language',['../d3/dd7/structsndpp_1_1WAV_1_1ChunkCSET.html#a4a175c1b4e83677c94776fcfc66841ad',1,'sndpp::WAV::ChunkCSET']]],
+  ['leadingsamplecount_3',['leadingSampleCount',['../d9/d12/classsndpp_1_1XWV.html#a99f9ccc14e01e0736d2446b4240ea6f1',1,'sndpp::XWV']]],
+  ['left_5f4_5fdead_5f2_4',['LEFT_4_DEAD_2',['../d0/d17/namespacevcryptpp_1_1VICE_1_1KnownCodes.html#ae7fc9dc0c94e84c1111c5659c5369f96',1,'vcryptpp::VICE::KnownCodes']]],
+  ['length_5',['length',['../dd/dc7/structvpkpp_1_1VPK_1_1MD5Entry.html#a4ddbd93d688c5b45a0c28778697f8db9',1,'vpkpp::VPK::MD5Entry::length()'],['../d9/df5/structsndpp_1_1WAV_1_1ChunkPLST_1_1Segment.html#a9e031a1e5958899b6b5d2c3fb310808a',1,'sndpp::WAV::ChunkPLST::Segment::length()'],['../d9/de4/structvpkpp_1_1VPK_1_1FreedChunk.html#a0b9a5e409f4e9aa74734121a713ac9bc',1,'vpkpp::VPK::FreedChunk::length()'],['../d9/d6b/classvpkpp_1_1Entry.html#a8e30bb526350eb9411f805df99d546e9',1,'vpkpp::Entry::length()']]],
+  ['lightmaptextureminsinluxels_6',['lightmapTextureMinsInLuxels',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a2bce7bf74b99b83209477c2dad5aac77',1,'bsppp::BSPFace_v1::lightmapTextureMinsInLuxels()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#aac0f7ebbdd39d8950814d5323cfbcea9',1,'bsppp::BSPFace_v2::lightmapTextureMinsInLuxels()']]],
+  ['lightmaptexturesizeinluxels_7',['lightmapTextureSizeInLuxels',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a4a5ef2719330df817535bde897f0f685',1,'bsppp::BSPFace_v1::lightmapTextureSizeInLuxels()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#acb2db27a6d1689287bb74674dbd683b7',1,'bsppp::BSPFace_v2::lightmapTextureSizeInLuxels()']]],
+  ['lightmapvector1_8',['lightmapVector1',['../d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html#aae682fecabdb7832611f9ce3fc6d777d',1,'bsppp::BSPTextureInfo_v0']]],
+  ['lightmapvector2_9',['lightmapVector2',['../d3/d0f/structbsppp_1_1BSPTextureInfo__v0.html#aab86c5fe3da362d311bb2febb662de7c',1,'bsppp::BSPTextureInfo_v0']]],
+  ['lightoffset_10',['lightOffset',['../d6/d98/structbsppp_1_1BSPFace__v1.html#a0d006eaacbc46d43ac224593c2674c7c',1,'bsppp::BSPFace_v1::lightOffset()'],['../d8/d85/structbsppp_1_1BSPFace__v2.html#aa8a83312d7b538639fafc5427e83fcf6',1,'bsppp::BSPFace_v2::lightOffset()']]],
+  ['loadingscreenpath_11',['loadingScreenPath',['../d3/dd6/classvpkpp_1_1FGP.html#a498ce731fc4df851e0f9697753be55f4',1,'vpkpp::FGP']]],
+  ['localcount_12',['localcount',['../d0/d21/structvpkpp_1_1GCF_1_1DirectoryHeader.html#a0067cb75ada81714f4e30780553a2232',1,'vpkpp::GCF::DirectoryHeader']]],
+  ['lod_13',['LOD',['../d0/d4d/structmdlpp_1_1VVD_1_1Fixup.html#a8974dd183ea7e0955b8ffed95a9bde99',1,'mdlpp::VVD::Fixup']]],
+  ['loop_14',['loop',['../d3/d32/structvtfpp_1_1SHT_1_1Sequence.html#a6c1023d105945c360915a1bda66a61f8',1,'vtfpp::SHT::Sequence']]],
+  ['loopblock_15',['loopBlock',['../d9/d12/classsndpp_1_1XWV.html#a69aa2280c347a0b2554cdd8e98fa4d1f',1,'sndpp::XWV']]],
+  ['loops_16',['loops',['../de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html#a7bcd31a02433ab20e36b6c0a89ecb1d4',1,'sndpp::WAV::ChunkSMPL']]],
+  ['loopstart_17',['loopStart',['../d9/d12/classsndpp_1_1XWV.html#ae04829a74f293174b6c296cb983c397f',1,'sndpp::XWV']]],
+  ['lownote_18',['lowNote',['../d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html#ac0b79ba945cecda372b5572687967c61',1,'sndpp::WAV::ChunkINST']]],
+  ['lowvelocity_19',['lowVelocity',['../d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html#ae4838e308df016f71e675e945fe3bf1f',1,'sndpp::WAV::ChunkINST']]]
 ];

@@ -78,6 +78,7 @@ var annotated_dup =
       [ "StudioModel", "db/dee/structmdlpp_1_1StudioModel.html", "db/dee/structmdlpp_1_1StudioModel" ]
     ] ],
     [ "sndpp", "d3/db4/namespacesndpp.html", [
+      [ "RIFF", "d8/df3/classsndpp_1_1RIFF.html", "d8/df3/classsndpp_1_1RIFF" ],
       [ "WAV", "df/dc5/classsndpp_1_1WAV.html", "df/dc5/classsndpp_1_1WAV" ],
       [ "XWV", "d9/d12/classsndpp_1_1XWV.html", "d9/d12/classsndpp_1_1XWV" ]
     ] ],

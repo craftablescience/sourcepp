@@ -1,21 +1,24 @@
 <map id="include/sndpp/sndpp.h" name="include/sndpp/sndpp.h">
-<area shape="rect" id="node1" title=" " alt="" coords="359,5,526,31"/>
-<area shape="rect" id="node2" href="$df/da4/WAV_8h.html" title=" " alt="" coords="365,79,427,104"/>
-<area shape="rect" id="node19" href="$d2/d13/XWV_8h.html" title=" " alt="" coords="497,79,559,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,152,61,177"/>
-<area shape="rect" id="node4" title=" " alt="" coords="135,225,206,251"/>
-<area shape="rect" id="node5" title=" " alt="" coords="395,152,472,177"/>
-<area shape="rect" id="node6" title=" " alt="" coords="584,152,637,177"/>
-<area shape="rect" id="node7" title=" " alt="" coords="385,225,444,251"/>
-<area shape="rect" id="node8" title=" " alt="" coords="497,152,559,177"/>
-<area shape="rect" id="node9" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="137,152,319,177"/>
-<area shape="rect" id="node10" title=" " alt="" coords="38,225,111,251"/>
-<area shape="rect" id="node11" href="$db/d8a/Math_8h.html" title=" " alt="" coords="231,225,361,251"/>
-<area shape="rect" id="node12" title=" " alt="" coords="7,299,46,324"/>
-<area shape="rect" id="node13" title=" " alt="" coords="71,299,151,324"/>
-<area shape="rect" id="node14" title=" " alt="" coords="175,299,238,324"/>
-<area shape="rect" id="node15" title=" " alt="" coords="263,299,329,324"/>
-<area shape="rect" id="node16" title=" " alt="" coords="354,299,433,324"/>
-<area shape="rect" id="node17" title=" " alt="" coords="457,299,549,324"/>
-<area shape="rect" id="node18" title=" " alt="" coords="573,299,648,324"/>
+<area shape="rect" id="node1" title=" " alt="" coords="417,5,584,31"/>
+<area shape="rect" id="node2" href="$d6/d3e/RIFF_8h.html" title=" " alt="" coords="470,152,531,177"/>
+<area shape="rect" id="node18" href="$df/da4/WAV_8h.html" title=" " alt="" coords="553,79,614,104"/>
+<area shape="rect" id="node22" href="$d2/d13/XWV_8h.html" title=" " alt="" coords="383,152,445,177"/>
+<area shape="rect" id="node3" title=" " alt="" coords="391,225,445,251"/>
+<area shape="rect" id="node4" title=" " alt="" coords="383,299,442,324"/>
+<area shape="rect" id="node5" title=" " alt="" coords="608,225,668,251"/>
+<area shape="rect" id="node6" title=" " alt="" coords="469,225,532,251"/>
+<area shape="rect" id="node7" href="$d9/db1/Binary_8h.html" title=" " alt="" coords="133,225,316,251"/>
+<area shape="rect" id="node8" title=" " alt="" coords="36,299,107,324"/>
+<area shape="rect" id="node9" title=" " alt="" coords="131,299,204,324"/>
+<area shape="rect" id="node10" href="$db/d8a/Math_8h.html" title=" " alt="" coords="229,299,359,324"/>
+<area shape="rect" id="node11" title=" " alt="" coords="5,372,44,397"/>
+<area shape="rect" id="node12" title=" " alt="" coords="69,372,149,397"/>
+<area shape="rect" id="node13" title=" " alt="" coords="173,372,236,397"/>
+<area shape="rect" id="node14" title=" " alt="" coords="261,372,327,397"/>
+<area shape="rect" id="node15" title=" " alt="" coords="352,372,431,397"/>
+<area shape="rect" id="node16" title=" " alt="" coords="455,372,547,397"/>
+<area shape="rect" id="node17" title=" " alt="" coords="571,372,646,397"/>
+<area shape="rect" id="node19" title=" " alt="" coords="555,152,611,177"/>
+<area shape="rect" id="node20" title=" " alt="" coords="635,152,710,177"/>
+<area shape="rect" id="node21" title=" " alt="" coords="734,152,854,177"/>
 </map>

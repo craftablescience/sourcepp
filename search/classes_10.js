@@ -1,19 +1,5 @@
 var searchData=
 [
-  ['r16f_0',['R16F',['../dc/d23/structvtfpp_1_1ImagePixel_1_1R16F.html',1,'vtfpp::ImagePixel']]],
-  ['r32f_1',['R32F',['../de/da1/structvtfpp_1_1ImagePixel_1_1R32F.html',1,'vtfpp::ImagePixel']]],
-  ['r8_2',['R8',['../d8/d14/structvtfpp_1_1ImagePixel_1_1R8.html',1,'vtfpp::ImagePixel']]],
-  ['rect_3',['Rect',['../d9/d7b/structvtfpp_1_1HOT_1_1Rect.html',1,'vtfpp::HOT']]],
-  ['resource_4',['Resource',['../d3/d80/structvtfpp_1_1Resource.html',1,'vtfpp']]],
-  ['rg1616f_5',['RG1616F',['../d6/d4c/structvtfpp_1_1ImagePixel_1_1RG1616F.html',1,'vtfpp::ImagePixel']]],
-  ['rg3232f_6',['RG3232F',['../db/d93/structvtfpp_1_1ImagePixel_1_1RG3232F.html',1,'vtfpp::ImagePixel']]],
-  ['rgb323232f_7',['RGB323232F',['../d0/d5b/structvtfpp_1_1ImagePixel_1_1RGB323232F.html',1,'vtfpp::ImagePixel']]],
-  ['rgb565_8',['RGB565',['../d0/d92/structvtfpp_1_1ImagePixel_1_1RGB565.html',1,'vtfpp::ImagePixel']]],
-  ['rgb888_9',['RGB888',['../d0/d24/structvtfpp_1_1ImagePixel_1_1RGB888.html',1,'vtfpp::ImagePixel']]],
-  ['rgba1010102_10',['RGBA1010102',['../d4/d5b/structvtfpp_1_1ImagePixel_1_1RGBA1010102.html',1,'vtfpp::ImagePixel']]],
-  ['rgba16161616_11',['RGBA16161616',['../d9/d32/structvtfpp_1_1ImagePixel_1_1RGBA16161616.html',1,'vtfpp::ImagePixel']]],
-  ['rgba16161616f_12',['RGBA16161616F',['../d0/de9/structvtfpp_1_1ImagePixel_1_1RGBA16161616F.html',1,'vtfpp::ImagePixel']]],
-  ['rgba32323232f_13',['RGBA32323232F',['../d0/d9a/structvtfpp_1_1ImagePixel_1_1RGBA32323232F.html',1,'vtfpp::ImagePixel']]],
-  ['rgba8888_14',['RGBA8888',['../de/d5a/structvtfpp_1_1ImagePixel_1_1RGBA8888.html',1,'vtfpp::ImagePixel']]],
-  ['rgbx8888_15',['RGBX8888',['../d0/dc9/structvtfpp_1_1ImagePixel_1_1RGBX8888.html',1,'vtfpp::ImagePixel']]]
+  ['time_0',['Time',['../d5/d19/structdmxpp_1_1Value_1_1Time.html',1,'dmxpp::Value']]],
+  ['ttx_1',['TTX',['../df/d47/classvtfpp_1_1TTX.html',1,'vtfpp']]]
 ];

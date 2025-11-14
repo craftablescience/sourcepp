@@ -70,32 +70,19 @@ var hierarchy =
     [ "sourcepp::detail::member_type_helper< std::remove_cvref_t< T > >", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", [
       [ "sourcepp::member_type< T >", "d1/dc0/structsourcepp_1_1member__type.html", null ]
     ] ],
-    [ "sndpp::WAV", "df/dc5/classsndpp_1_1WAV.html", null ],
-    [ "sndpp::WAV::ChunkADTL::LABL", "da/d69/structsndpp_1_1WAV_1_1ChunkADTL_1_1LABL.html", null ],
-    [ "sndpp::WAV::ChunkADTL::LTXT", "de/d11/structsndpp_1_1WAV_1_1ChunkADTL_1_1LTXT.html", null ],
-    [ "sndpp::WAV::ChunkADTL::NOTE", "da/dd5/structsndpp_1_1WAV_1_1ChunkADTL_1_1NOTE.html", null ],
-    [ "sndpp::WAV::ChunkBase", "d7/d3d/structsndpp_1_1WAV_1_1ChunkBase.html", [
-      [ "sndpp::WAV::ChunkCSET", "d3/dd7/structsndpp_1_1WAV_1_1ChunkCSET.html", null ],
-      [ "sndpp::WAV::ChunkCUE", "d7/d40/structsndpp_1_1WAV_1_1ChunkCUE.html", null ],
-      [ "sndpp::WAV::ChunkDATA", "d2/d2f/structsndpp_1_1WAV_1_1ChunkDATA.html", null ],
-      [ "sndpp::WAV::ChunkFACT", "d9/d80/structsndpp_1_1WAV_1_1ChunkFACT.html", null ],
-      [ "sndpp::WAV::ChunkFLLR", "d6/d68/structsndpp_1_1WAV_1_1ChunkFLLR.html", null ],
-      [ "sndpp::WAV::ChunkFMT", "d6/d2c/structsndpp_1_1WAV_1_1ChunkFMT.html", null ],
-      [ "sndpp::WAV::ChunkINST", "d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html", null ],
-      [ "sndpp::WAV::ChunkJUNK", "d0/d02/structsndpp_1_1WAV_1_1ChunkJUNK.html", null ],
-      [ "sndpp::WAV::ChunkLIST", "d3/df5/structsndpp_1_1WAV_1_1ChunkLIST.html", [
-        [ "sndpp::WAV::ChunkADTL", "dc/ded/structsndpp_1_1WAV_1_1ChunkADTL.html", null ],
-        [ "sndpp::WAV::ChunkINFO", "d2/d68/structsndpp_1_1WAV_1_1ChunkINFO.html", null ]
-      ] ],
-      [ "sndpp::WAV::ChunkMD5", "d3/ded/structsndpp_1_1WAV_1_1ChunkMD5.html", null ],
-      [ "sndpp::WAV::ChunkPAD", "da/d95/structsndpp_1_1WAV_1_1ChunkPAD.html", null ],
-      [ "sndpp::WAV::ChunkPLST", "d3/d57/structsndpp_1_1WAV_1_1ChunkPLST.html", null ],
-      [ "sndpp::WAV::ChunkSMPL", "de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html", null ],
-      [ "sndpp::WAV::ChunkUnknown", "d5/de5/structsndpp_1_1WAV_1_1ChunkUnknown.html", null ]
+    [ "sndpp::RIFF", "d8/df3/classsndpp_1_1RIFF.html", [
+      [ "sndpp::WAV", "df/dc5/classsndpp_1_1WAV.html", null ]
     ] ],
+    [ "sndpp::WAV::ChunkCSET", "d3/dd7/structsndpp_1_1WAV_1_1ChunkCSET.html", null ],
+    [ "sndpp::WAV::ChunkCUE", "d7/d40/structsndpp_1_1WAV_1_1ChunkCUE.html", null ],
     [ "sndpp::WAV::ChunkCUE::CuePoint", "d2/dce/structsndpp_1_1WAV_1_1ChunkCUE_1_1CuePoint.html", null ],
-    [ "sndpp::WAV::ChunkINFO::META", "dc/d07/structsndpp_1_1WAV_1_1ChunkINFO_1_1META.html", null ],
+    [ "sndpp::WAV::ChunkFACT", "d9/d80/structsndpp_1_1WAV_1_1ChunkFACT.html", null ],
+    [ "sndpp::WAV::ChunkFMT", "d6/d2c/structsndpp_1_1WAV_1_1ChunkFMT.html", null ],
+    [ "sndpp::WAV::ChunkINST", "d5/d9c/structsndpp_1_1WAV_1_1ChunkINST.html", null ],
+    [ "sndpp::WAV::ChunkMD5", "d3/ded/structsndpp_1_1WAV_1_1ChunkMD5.html", null ],
+    [ "sndpp::WAV::ChunkPLST", "d3/d57/structsndpp_1_1WAV_1_1ChunkPLST.html", null ],
     [ "sndpp::WAV::ChunkPLST::Segment", "d9/df5/structsndpp_1_1WAV_1_1ChunkPLST_1_1Segment.html", null ],
+    [ "sndpp::WAV::ChunkSMPL", "de/d9d/structsndpp_1_1WAV_1_1ChunkSMPL.html", null ],
     [ "sndpp::WAV::ChunkSMPL::SampleLoop", "d7/dcc/structsndpp_1_1WAV_1_1ChunkSMPL_1_1SampleLoop.html", null ],
     [ "sndpp::XWV", "d9/d12/classsndpp_1_1XWV.html", null ],
     [ "sourcepp::detail::member_type_helper< T >", "d9/de7/structsourcepp_1_1detail_1_1member__type__helper.html", null ],
