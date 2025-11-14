@@ -124,7 +124,10 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td>XWV v4</td>
+    <td>
+      XWV (Xbox, Half-Life 2)
+      <br> &bull; X360, PS3 v4 modifications
+    </td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>

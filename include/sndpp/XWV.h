@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cstddef>
-#include <memory>
 #include <span>
 #include <string>
 #include <vector>
@@ -10,21 +8,24 @@
 
 namespace sndpp {
 
-constexpr auto XWV_SIGNATURE = sourcepp::parser::binary::makeFourCC("XWV ");
-
 class XWV {
 public:
-	enum class Frequency : uint8_t {
-		HZ_11025,
-		HZ_22050,
-		HZ_44100,
+	enum class Platform : uint32_t {
+		XBOX         = 20,
+		X360_AND_PS3 = sourcepp::parser::binary::makeFourCC("XWV "),
 	};
 
 	enum class Format : uint8_t {
-		PCM,
-		XMA,
-		ADPCM,
-		MP3,
+		PCM     = 0, // PCM16LE
+		XMA     = 1, // Xbox IMA-ADPCM (Xbox)
+		XMA2    = 1, // XMA2 (X360 and PS3)
+		MP3     = 3, // MP3 (X360 and PS3)
+	};
+
+	enum class Frequency : uint8_t {
+		HZ_11025 = 0,
+		HZ_22050 = 1,
+		HZ_44100 = 2,
 	};
 
 	explicit XWV(std::span<const std::byte> xwvData);
@@ -32,6 +33,8 @@ public:
 	explicit XWV(const std::string& xwvPath);
 
 	explicit operator bool() const;
+
+	[[nodiscard]] Platform getPlatform() const;
 
 	[[nodiscard]] const std::vector<std::byte>& getData() const;
 
@@ -57,16 +60,17 @@ public:
 
 protected:
 	std::vector<std::byte> data;
-	uint32_t decodedSampleCount{};
-	int32_t loopStart{};
-	uint16_t loopBlock{};
-	uint16_t leadingSampleCount{};
-	uint16_t trailingSampleCount{};
-	Format format{};
-	uint8_t bitsPerSample{};
-	Frequency frequency{};
-	uint8_t channelCount{};
-	uint8_t quality{};
+	Platform platform;
+	uint32_t decodedSampleCount;
+	int32_t loopStart;
+	uint16_t loopBlock;
+	uint16_t leadingSampleCount;
+	uint16_t trailingSampleCount;
+	Format format;
+	uint8_t bitsPerSample;
+	Frequency frequency;
+	uint8_t channelCount;
+	uint8_t quality;
 
 	bool opened = false;
 };

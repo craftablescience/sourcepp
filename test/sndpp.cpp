@@ -10,9 +10,8 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(wav.getSignature(), RIFF_SIGNATURE);
 	EXPECT_EQ(wav.getChunks().size(), 9);
 
-	const auto* fmt = wav.getChunkFMT();
+	const auto fmt = wav.getFirstWAVChunk<WAV::CHUNK_FMT>();
 	ASSERT_TRUE(fmt);
-	EXPECT_EQ(fmt->type, WAV::ChunkType::FMT);
 	EXPECT_EQ(fmt->format, 1);
 	EXPECT_EQ(fmt->channels, 2);
 	EXPECT_EQ(fmt->samplesPerSecond, 96000);
@@ -21,15 +20,15 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(fmt->bitsPerSample, 24);
 	EXPECT_TRUE(fmt->extraCompressionInfo.empty());
 
-	const auto* data = wav.getChunkDATA();
+	const auto data = wav.getFirstWAVChunk<WAV::CHUNK_DATA>();
 	ASSERT_TRUE(data);
-	EXPECT_EQ(data->type, WAV::ChunkType::DATA);
-	EXPECT_EQ(data->data.size(), 6156822);
+	EXPECT_EQ(data->size(), 6156822);
 }
 
-TEST(sndpp, read_xwv) {
+TEST(sndpp, read_xwv_x360) {
 	XWV xwv{ASSET_ROOT "sndpp/hl1_stinger_song27.360.wav"};
 	ASSERT_TRUE(xwv);
+	EXPECT_EQ(xwv.getPlatform(), XWV::Platform::X360_AND_PS3);
 	EXPECT_EQ(xwv.getData().size(), 585728);
 	EXPECT_EQ(xwv.getDecodedSampleCount(), 772096);
 	EXPECT_EQ(xwv.getLoopStart(), -1);
