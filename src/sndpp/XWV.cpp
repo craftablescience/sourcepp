@@ -29,7 +29,7 @@ XWV::XWV(std::span<const std::byte> xwvData) {
 		const auto dataOffset = stream.read<uint32_t>();
 		this->data = stream.at_bytes(dataLength, dataOffset);
 
-		stream >> this->loopStart >> this->format;
+		stream.read(this->loopStart).skip(2).read(this->format);
 
 		const auto packed = stream.read<uint8_t>();
 		this->frequency = static_cast<Frequency>(packed & 0x0f);

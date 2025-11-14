@@ -25,6 +25,23 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(data->size(), 6156822);
 }
 
+TEST(sndpp, read_xwv_xbox) {
+	XWV xwv{ASSET_ROOT "sndpp/industrial_suspense2_xbox.wav"};
+	ASSERT_TRUE(xwv);
+	EXPECT_EQ(xwv.getPlatform(), XWV::Platform::XBOX);
+	EXPECT_EQ(xwv.getData().size(), 481284);
+	EXPECT_EQ(xwv.getDecodedSampleCount(), 120321);
+	EXPECT_EQ(xwv.getLoopStart(), -1);
+	EXPECT_EQ(xwv.getLoopBlock(), 0);
+	EXPECT_EQ(xwv.getLeadingSampleCount(), 0);
+	EXPECT_EQ(xwv.getTrailingSampleCount(), 0);
+	EXPECT_EQ(xwv.getFormat(), XWV::Format::PCM);
+	EXPECT_EQ(xwv.getBitsPerSample(), 16);
+	EXPECT_EQ(xwv.getFrequency(), XWV::Frequency::HZ_11025);
+	EXPECT_EQ(xwv.getChannelCount(), 2);
+	EXPECT_EQ(xwv.getQuality(), 63);
+}
+
 TEST(sndpp, read_xwv_x360) {
 	XWV xwv{ASSET_ROOT "sndpp/hl1_stinger_song27.360.wav"};
 	ASSERT_TRUE(xwv);
@@ -35,7 +52,7 @@ TEST(sndpp, read_xwv_x360) {
 	EXPECT_EQ(xwv.getLoopBlock(), 0);
 	EXPECT_EQ(xwv.getLeadingSampleCount(), 0);
 	EXPECT_EQ(xwv.getTrailingSampleCount(), 0);
-	EXPECT_EQ(xwv.getFormat(), XWV::Format::XMA);
+	EXPECT_EQ(xwv.getFormat(), XWV::Format::XMA2);
 	EXPECT_EQ(xwv.getBitsPerSample(), 16);
 	EXPECT_EQ(xwv.getFrequency(), XWV::Frequency::HZ_44100);
 	EXPECT_EQ(xwv.getChannelCount(), 2);
