@@ -10,16 +10,17 @@ namespace sndpp {
 
 class XWV {
 public:
-	enum class Platform : uint32_t {
-		XBOX         = 20,
-		X360_AND_PS3 = sourcepp::parser::binary::makeFourCC("XWV "),
+	enum class Version : uint32_t {
+		V0 = 20, // This is actually just header size, but it's a good identifier
+		V1 = sourcepp::parser::binary::makeFourCC("XWV1"), // Seemingly not present in any actual releases but present in the 2006 SDK release
+		V4 = sourcepp::parser::binary::makeFourCC("XWV "), // Used on X360 and PS3 with no variation
 	};
 
 	enum class Format : uint8_t {
-		PCM     = 0, // PCM16LE
-		XMA     = 1, // Xbox IMA-ADPCM (Xbox)
-		XMA2    = 1, // XMA2 (X360 and PS3)
-		MP3     = 3, // MP3 (X360 and PS3)
+		PCM  = 0, // PCM16LE (v0+)
+		XMA  = 1, // Xbox IMA-ADPCM (v0+)
+		XMA2 = 2, // XMA2 (v4+) - note this slot is technically ADPCM, but it doesn't work in any official release, so it's been repurposed and XMA is remapped to XMA2 when parsing v4
+		MP3  = 3, // MP3 (v4+)
 	};
 
 	enum class Frequency : uint8_t {
@@ -34,9 +35,15 @@ public:
 
 	explicit operator bool() const;
 
-	[[nodiscard]] Platform getPlatform() const;
+	[[nodiscard]] Version getVersion() const;
 
-	[[nodiscard]] const std::vector<std::byte>& getData() const;
+	[[nodiscard]] const std::vector<std::byte>& getAudioDataRaw() const;
+
+	[[nodiscard]] const std::vector<std::byte>& getStaticData() const;
+
+	[[nodiscard]] const std::vector<std::byte>& getValveData() const;
+
+	[[nodiscard]] const std::vector<std::byte>& getSeekTableData() const;
 
 	[[nodiscard]] uint32_t getDecodedSampleCount() const;
 
@@ -59,8 +66,12 @@ public:
 	[[nodiscard]] uint8_t getQuality() const;
 
 protected:
-	std::vector<std::byte> data;
-	Platform platform;
+	std::vector<std::byte> audioData;
+	std::vector<std::byte> staticData;
+	std::vector<std::byte> valveData;
+	std::vector<std::byte> seekTable;
+
+	Version version;
 	uint32_t decodedSampleCount;
 	int32_t loopStart;
 	uint16_t loopBlock;

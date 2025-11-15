@@ -114,10 +114,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td rowspan="2" align="center"></td>
   </tr>
   <tr>
-    <td>
-      XWV (Xbox, Half-Life 2)
-      <br> &bull; X360, PS3 v4 modifications
-    </td>
+    <td>XWV v0-1, v4</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
   </tr>

@@ -25,11 +25,14 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(data->size(), 6156822);
 }
 
-TEST(sndpp, read_xwv_xbox) {
+TEST(sndpp, read_xwv_v0) {
 	XWV xwv{ASSET_ROOT "sndpp/industrial_suspense2_xbox.wav"};
 	ASSERT_TRUE(xwv);
-	EXPECT_EQ(xwv.getPlatform(), XWV::Platform::XBOX);
-	EXPECT_EQ(xwv.getData().size(), 481284);
+	EXPECT_EQ(xwv.getVersion(), XWV::Version::V0);
+	EXPECT_EQ(xwv.getAudioDataRaw().size(), 481284);
+	EXPECT_EQ(xwv.getStaticData().size(), 0);
+	EXPECT_EQ(xwv.getValveData().size(), 0);
+	EXPECT_EQ(xwv.getSeekTableData().size(), 0);
 	EXPECT_EQ(xwv.getDecodedSampleCount(), 120321);
 	EXPECT_EQ(xwv.getLoopStart(), -1);
 	EXPECT_EQ(xwv.getLoopBlock(), 0);
@@ -45,8 +48,11 @@ TEST(sndpp, read_xwv_xbox) {
 TEST(sndpp, read_xwv_x360) {
 	XWV xwv{ASSET_ROOT "sndpp/hl1_stinger_song27.360.wav"};
 	ASSERT_TRUE(xwv);
-	EXPECT_EQ(xwv.getPlatform(), XWV::Platform::X360_AND_PS3);
-	EXPECT_EQ(xwv.getData().size(), 585728);
+	EXPECT_EQ(xwv.getVersion(), XWV::Version::V4);
+	EXPECT_EQ(xwv.getAudioDataRaw().size(), 585728);
+	EXPECT_EQ(xwv.getStaticData().size(), 0);
+	EXPECT_EQ(xwv.getValveData().size(), 0);
+	EXPECT_EQ(xwv.getSeekTableData().size(), 0);
 	EXPECT_EQ(xwv.getDecodedSampleCount(), 772096);
 	EXPECT_EQ(xwv.getLoopStart(), -1);
 	EXPECT_EQ(xwv.getLoopBlock(), 0);
