@@ -385,6 +385,24 @@ struct QuatCompressed64 {
 };
 static_assert(std::is_trivially_copyable_v<QuatCompressed64>);
 
+/// Lower precision Vec3 compressed to 6 bytes
+struct Vec3Compressed48 {
+	uint16_t x : 16;
+	uint16_t y : 16;
+	uint16_t z : 16;
+
+	[[nodiscard]] Vec3f decompress() const {
+		// Convert from 16-bit unsigned integers to floating point values in the range [-1, 1]
+		// Note: Actual positions need to be multiplied by bone's positionScale after decompression
+		const float fx = (static_cast<float>(this->x) / 32767.5f) - 1.f; // x / ((2^16 - 1) / 2) - 1
+		const float fy = (static_cast<float>(this->y) / 32767.5f) - 1.f; // x / ((2^16 - 1) / 2) - 1
+		const float fz = (static_cast<float>(this->z) / 32767.5f) - 1.f; // x / ((2^16 - 1) / 2) - 1
+
+		return {fx, fy, fz};
+	}
+};
+static_assert(std::is_trivially_copyable_v<Vec3Compressed48>);
+
 template<uint8_t M, uint8_t N, Arithmetic P>
 class Mat {
 	static_assert(M >= 2, "Matrices must have at least two rows!");
