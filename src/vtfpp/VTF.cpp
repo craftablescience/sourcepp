@@ -399,6 +399,11 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		if (this->version < 5 && (this->format == ImageFormat::RGBA1010102 || this->format == ImageFormat::BGRA1010102 || this->format == ImageFormat::R16F)) {
 			this->format = static_cast<ImageFormat>(static_cast<int32_t>(this->format) - 3);
 		}
+		// We need to apply this transform because of the broken Borealis skybox in HL2.
+		// Thanks Valve! If this transform isn't applied it breaks conversion to console formats.
+		if (this->flags & FLAG_V0_NO_MIP && this->mipCount > 1) {
+			this->removeFlags(FLAG_V0_NO_MIP);
+		}
 	};
 
 	switch (this->platform) {
@@ -1960,11 +1965,6 @@ std::vector<std::byte> VTF::getFallbackDataAsRGBA8888(uint8_t mip, uint16_t fram
 
 void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 	if (!this->hasImageData()) {
-		return;
-	}
-
-	const auto* imageResource = this->getResourceInternal(Resource::TYPE_IMAGE_DATA);
-	if (!imageResource) {
 		return;
 	}
 
