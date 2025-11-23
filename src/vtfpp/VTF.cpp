@@ -832,8 +832,13 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imageData, format, width, height, options.filter);
-	createInternal(writer, options);
+	if (!writer.setImage(imageData, format, width, height, options.filter)) {
+		writer.opened = false;
+		return writer;
+	}
+	if (!createInternal(writer, options)) {
+		writer.opened = false;
+	}
 	return writer;
 }
 
@@ -862,8 +867,13 @@ VTF VTF::create(const std::string& imagePath, const CreationOptions& options) {
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	writer.setImage(imagePath, options.filter);
-	createInternal(writer, options);
+	if (!writer.setImage(imagePath, options.filter)) {
+		writer.opened = false;
+		return writer;
+	}
+	if (!createInternal(writer, options)) {
+		writer.opened = false;
+	}
 	return writer;
 }
 
