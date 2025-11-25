@@ -161,7 +161,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 								.read(strip.boneCount)
 								.read(strip.flags);
 
-							// do: bone stuff
+							// bone stuff
 							const auto boneStateChangeCount = stream.read<int32_t>();
 							const auto boneStateChangeOffset = stream.read<int32_t>();
 

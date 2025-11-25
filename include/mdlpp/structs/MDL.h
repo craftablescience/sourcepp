@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <optional>
 #include <string>
+#include <variant>
 #include <vector>
 
 #include "Generic.h"
@@ -14,30 +15,31 @@ namespace mdlpp::MDL {
 struct Bone {
 	enum Flags : int32_t {
 		FLAG_NONE                      = 0,
-		FLAG_CALCULATE_MASK            = 0x0000001F,
-		FLAG_PHYSICALLY_SIMULATED      = 0x00000001,
-		FLAG_PHYSICS_PROCEDURAL        = 0x00000002,
-		FLAG_ALWAYS_PROCEDURAL         = 0x00000004,
-		FLAG_SCREEN_ALIGN_SPHERE       = 0x00000008,
-		FLAG_SCREEN_ALIGN_CYLINDER     = 0x00000010,
-		FLAG_USED_MASK                 = 0x0007FF00,
-		FLAG_USED_BY_ANYTHING          = 0x0007FF00,
-		FLAG_USED_BY_HITBOX            = 0x00000100,
-		FLAG_USED_BY_ATTACHMENT        = 0x00000200,
-		FLAG_USED_BY_VERTEX_MASK       = 0x0003FC00,
-		FLAG_USED_BY_VERTEX_LOD0       = 0x00000400,
-		FLAG_USED_BY_VERTEX_LOD1       = 0x00000800,
-		FLAG_USED_BY_VERTEX_LOD2       = 0x00001000,
-		FLAG_USED_BY_VERTEX_LOD3       = 0x00002000,
-		FLAG_USED_BY_VERTEX_LOD4       = 0x00004000,
-		FLAG_USED_BY_VERTEX_LOD5       = 0x00008000,
-		FLAG_USED_BY_VERTEX_LOD6       = 0x00010000,
-		FLAG_USED_BY_VERTEX_LOD7       = 0x00020000,
-		FLAG_USED_BY_BONE_MERGE        = 0x00040000,
-		FLAG_TYPE_MASK                 = 0x00F00000,
-		FLAG_FIXED_ALIGNMENT           = 0x00100000,
-		FLAG_HAS_SAVEFRAME_POS         = 0x00200000,
-		FLAG_HAS_SAVEFRAME_ROT         = 0x00400000,
+		FLAG_PHYSICALLY_SIMULATED      = 1 << 0,
+		FLAG_PHYSICS_PROCEDURAL        = 1 << 1,
+		FLAG_ALWAYS_PROCEDURAL         = 1 << 2,
+		FLAG_SCREEN_ALIGN_SPHERE       = 1 << 3,
+		FLAG_SCREEN_ALIGN_CYLINDER     = 1 << 4,
+		FLAG_CALCULATE_MASK            = FLAG_PHYSICALLY_SIMULATED | FLAG_PHYSICS_PROCEDURAL | FLAG_ALWAYS_PROCEDURAL | FLAG_SCREEN_ALIGN_SPHERE | FLAG_SCREEN_ALIGN_CYLINDER,
+		FLAG_USED_BY_HITBOX            = 1 << 8,
+		FLAG_USED_BY_ATTACHMENT        = 1 << 9,
+		FLAG_USED_BY_VERTEX_LOD0       = 1 << 10,
+		FLAG_USED_BY_VERTEX_LOD1       = 1 << 11,
+		FLAG_USED_BY_VERTEX_LOD2       = 1 << 12,
+		FLAG_USED_BY_VERTEX_LOD3       = 1 << 13,
+		FLAG_USED_BY_VERTEX_LOD4       = 1 << 14,
+		FLAG_USED_BY_VERTEX_LOD5       = 1 << 15,
+		FLAG_USED_BY_VERTEX_LOD6       = 1 << 16,
+		FLAG_USED_BY_VERTEX_LOD7       = 1 << 17,
+		FLAG_USED_BY_BONE_MERGE        = 1 << 18,
+		FLAG_USED_BY_VERTEX_MASK       = FLAG_USED_BY_VERTEX_LOD0 | FLAG_USED_BY_VERTEX_LOD1 | FLAG_USED_BY_VERTEX_LOD2 | FLAG_USED_BY_VERTEX_LOD3 | FLAG_USED_BY_VERTEX_LOD4 | FLAG_USED_BY_VERTEX_LOD5 | FLAG_USED_BY_VERTEX_LOD6 | FLAG_USED_BY_VERTEX_LOD7,
+		FLAG_USED_MASK                 = FLAG_USED_BY_HITBOX | FLAG_USED_BY_ATTACHMENT | FLAG_USED_BY_VERTEX_MASK | FLAG_USED_BY_BONE_MERGE,
+		FLAG_USED_BY_ANYTHING          = FLAG_USED_MASK,
+		FLAG_FIXED_ALIGNMENT           = 1 << 20,
+		FLAG_HAS_SAVEFRAME_POS         = 1 << 21,
+		FLAG_HAS_SAVEFRAME_ROT         = 1 << 22,
+		FLAG_EMPTY_SLOT                = 1 << 23,
+		FLAG_TYPE_MASK                 = FLAG_FIXED_ALIGNMENT | FLAG_HAS_SAVEFRAME_POS | FLAG_HAS_SAVEFRAME_ROT | FLAG_EMPTY_SLOT,
 	};
 
 	//int32_t nameIndex;
@@ -101,8 +103,7 @@ struct AnimBoneData {
 	Flags flags;
 
 	// static data when RAW flags are set
-	std::optional<sourcepp::math::QuatCompressed48> staticRotation48;
-	std::optional<sourcepp::math::QuatCompressed64> staticRotation64;
+	std::variant<std::monostate, sourcepp::math::QuatCompressed48, sourcepp::math::QuatCompressed64> staticRotation;
 	std::optional<sourcepp::math::Vec3Compressed48> staticPosition;
 
 	// keyframe data when ANIM flags are set
@@ -119,8 +120,8 @@ struct IKError {
 };
 
 struct CompressedIKError {
-	float scale[6];
-	int16_t offset[6];
+	sourcepp::math::Vec<6, float> scale;
+	sourcepp::math::Vec<6, int16_t> offset;
 	std::vector<AnimValue> animValues;
 };
 
@@ -220,7 +221,9 @@ struct Event {
 	float cycle;
 	int32_t event;
 	int32_t type;
-	std::array<char, 64> options;
+
+	//char options[64];
+	std::string options;
 
 	//int32_t eventNameIndex;
 	std::string eventName;
@@ -316,10 +319,10 @@ SOURCEPP_BITFLAGS_ENUM(SequenceDesc::Flags)
 
 struct Material {
 	enum Flags : int32_t {
-		FLAG_NONE = 0,
-		// Note: mstudiotexture_t.flags field exists in MDL binary format but is never set by studiomdl compiler.
-		// The field remains 0 in all compiled MDL files. RELATIVE_TEXTURE_PATH_SPECIFIED (0x1) exists in the
-		// compiler source but is not written to the file format.
+		FLAG_NONE                              = 0,
+		FLAG_RELATIVE_TEXTURE_PATH_SPECIFIED   = 1 << 0,
+		// Note: mstudiotexture_t.flags field exists in the format but is never set by the studiomdl compiler.
+		// The engine might still check this flag, so it is exposed here anyway.
 	};
 
 	//int32_t nameIndex;
@@ -338,25 +341,25 @@ struct Eyeball {
 
 	int32_t bone;
 	sourcepp::math::Vec3f org;
-	float zoffset;
+	float zOffset;
 	float radius;
 	sourcepp::math::Vec3f up;
 	sourcepp::math::Vec3f forward;
 	int32_t texture;
 
 	//int32_t unused1;
-	float iris_scale;
+	float irisScale;
 	//int32_t unused2;
 
-	std::array<int32_t, 3> upperflexdesc;
-	std::array<int32_t, 3> lowerflexdesc;
-	std::array<float, 3> uppertarget;
-	std::array<float, 3> lowertarget;
+	std::array<int32_t, 3> upperFlexDesc;
+	std::array<int32_t, 3> lowerFlexDesc;
+	std::array<float, 3> upperTarget;
+	std::array<float, 3> lowerTarget;
 
-	int32_t upperlidflexdesc;
-	int32_t lowerlidflexdesc;
+	int32_t upperLidFlexDesc;
+	int32_t lowerLidFlexDesc;
 	//int32_t unused[4];
-	bool m_bNonFACS;
+	bool nonFACS;
 	//char unused3[3];
 	//int32_t unused4[7];
 };
@@ -379,11 +382,11 @@ struct VertexAnimWrinkle {
 	uint8_t side;
 	std::array<int16_t, 3> delta;
 	std::array<int16_t, 3> ndelta;
-	int16_t wrinkledelta;
+	int16_t wrinkleDelta;
 };
 
 struct MeshFlex {
-	int32_t flexdesc;
+	int32_t flexDescIndex;
 
 	// control curve
 	float target0;
@@ -396,8 +399,8 @@ struct MeshFlex {
 	std::vector<VertexAnim> vertAnims;
 	std::vector<VertexAnimWrinkle> vertAnimsWrinkle;
 
-	int32_t flexpair;
-	uint8_t vertanimtype;  // 0=normal, 1=wrinkle
+	int32_t flexPair;
+	uint8_t vertAnimType;  // 0=normal, 1=wrinkle
 	//uint8_t unusedchar[3];
 	//int32_t unused[6];
 };
@@ -508,7 +511,7 @@ struct FlexControllerUI {
 	std::string controllerName1;  // right controller (stereo)
 	std::string controllerName2;  // value controller (NWAY only)
 
-	uint8_t remaptype;
+	uint8_t remapType;
 	bool stereo;
 	//uint8_t unused[2];
 };
@@ -533,7 +536,7 @@ struct IKChain {
 struct Mouth {
 	int32_t bone;
 	sourcepp::math::Vec3f forward;
-	int32_t flexdesc;
+	int32_t flexDescIndex;
 };
 
 enum FlexOpType : int32_t {
@@ -725,7 +728,7 @@ struct MDL {
 	//int32_t includeModelIndex;
 	std::vector<IncludeModel> includeModels;
 
-	int32_t virtualModel;
+	// int32_t virtualModel;
 
 	//int32_t animationBlocksNameIndex;
 	//int32_t animationBlocksCount;
@@ -733,13 +736,13 @@ struct MDL {
 	std::string animationBlocksName;
 	std::vector<AnimBlock> animationBlocks;
 
-	int32_t animationBlockModel;
+	// int32_t animationBlockModel;
 
 	//int32_t boneTableByNameIndex;
 	std::vector<uint8_t> boneTableByName;
 
-	int32_t vertexBase;
-	int32_t offsetBase;
+	// int32_t vertexBase;
+	// int32_t offsetBase;
 
 	uint8_t directionalDotProduct;
 	uint8_t rootLOD;
@@ -755,7 +758,7 @@ struct MDL {
 	float vertAnimFixedPointScale;
 	//int32_t _unused2;
 
-	int32_t studiohdr2index;
+	int32_t studioHdr2Index;
 
 	//int32_t _unused3;
 
