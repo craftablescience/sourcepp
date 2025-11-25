@@ -27,7 +27,7 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
 
 # hat-trie
 if(SOURCEPP_USE_VPKPP)
-    add_sourcepp_remote_library(tsl_hat_trie https://github.com/Tessil/hat-trie 25fdf359711eb27e9e7ec0cfe19cc459ec6488d7)
+    add_sourcepp_remote_library(tsl_hat_trie https://github.com/Tessil/hat-trie f1380d704eccf753db5f9df175789fff8ff353e0)
 endif()
 
 
@@ -56,7 +56,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 9b29c6c10b90328b1fb01d53f05fad0c78574f28)
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng b1fd11fba9557ca208571c3484f34a38155a22b6)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
@@ -71,7 +71,7 @@ endif()
 # qoi
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
     if(NOT TARGET qoi)
-        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 316593b6de3576743506d4115e30bf03a12b587d)
+        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 44b233a95eda82fbd2e39a269199b73af0f4c4c3)
         add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
         target_include_directories(qoi INTERFACE "$<BUILD_INTERFACE:${qoi_SOURCE_DIR}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     endif()
@@ -135,5 +135,5 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp 74f6afd3e6ea8ff5b231ad2248b52bdcd1666c70 EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp a3dddea9b5d0d445c24c756a406713686abf1257 EXCLUDE_FROM_ALL)
 endif()
