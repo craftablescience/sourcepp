@@ -197,13 +197,14 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 
 	mz_zip_set_version_madeby(writeZipHandle, MZ_VERSION_MADEBY);
 
-	const auto time = std::time(nullptr);
+	const auto modifiedTime = std::time(nullptr);
+	const auto modifiedTimeDOS = mz_zip_time_t_to_dos_date(modifiedTime);
 
 	const bool overrideCompression = options.zip_compressionTypeOverride != EntryCompressionType::NO_OVERRIDE;
 
 	bool noneFailed = true;
-	this->runForAllEntries([this, &options, &callback, writeZipHandle, time, overrideCompression, &noneFailed](const std::string& path, const Entry& entry) {
-		auto binData = this->readEntry(path);
+	this->runForAllEntries([this, &options, &callback, writeZipHandle, modifiedTime, modifiedTimeDOS, overrideCompression, &noneFailed](const std::string& path, const Entry& entry) {
+		const auto binData = this->readEntry(path);
 		if (!binData) {
 			return;
 		}
@@ -220,8 +221,8 @@ bool ZIP::bakeTempZip(const std::string& writeZipPath, BakeOptions options, cons
 		fileInfo.filename = path.c_str();
 		fileInfo.filename_size = path.length();
 		fileInfo.version_madeby = MZ_VERSION_MADEBY;
-		fileInfo.creation_date = time;
-		fileInfo.modified_date = time;
+		fileInfo.creation_date = modifiedTime;
+		fileInfo.modified_date = modifiedTimeDOS;
 		fileInfo.compression_method = overrideCompression ? static_cast<uint16_t>(options.zip_compressionTypeOverride) : entry.flags >> 16;
 		fileInfo.flag = MZ_ZIP_FLAG_DATA_DESCRIPTOR | MZ_ZIP_FLAG_UTF8;
 		fileInfo.uncompressed_size = static_cast<int64_t>(entry.length);
