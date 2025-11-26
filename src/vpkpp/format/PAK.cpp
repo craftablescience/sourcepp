@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <vpkpp/format/PAK.h>
 
 #include <filesystem>
@@ -129,27 +131,28 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		stream.seek_out(0);
 
 		// Signature
-		stream.write(this->getSignature());
+		stream.write<uint32_t>(this->getSignature());
 
-		// Index and size of directory
-		static constexpr uint32_t DIRECTORY_INDEX = sizeof(PAK_SIGNATURE) + sizeof(uint32_t) * 2;
-		stream.write(DIRECTORY_INDEX);
-		const uint32_t directorySize = entriesToBake.size() * (sizeof(uint32_t) * 2 + this->getFilenameLength());
-		stream.write(directorySize);
+		// Offset and size of directory
+		static constexpr auto HEADER_OFFSET = sizeof(uint32_t) * 3;
+		stream
+			.write<uint32_t>(HEADER_OFFSET + fileData.size())
+			.write<uint32_t>(entriesToBake.size() * (sizeof(uint32_t) * 2 + this->getFilenameLength()));
+
+		// File data
+		stream.write(fileData);
 
 		// Directory
 		for (const auto& [path, entry] : entriesToBake) {
-			stream.write(path, false, this->getFilenameLength());
-			stream.write(static_cast<uint32_t>(entry->offset + DIRECTORY_INDEX + directorySize));
-			stream.write(static_cast<uint32_t>(entry->length));
+			stream
+				.write(path, true, this->getFilenameLength())
+				.write<uint32_t>(entry->offset + HEADER_OFFSET)
+				.write<uint32_t>(entry->length);
 
 			if (callback) {
 				callback(path, *entry);
 			}
 		}
-
-		// File data
-		stream.write(fileData);
 	}
 
 	// Clean up
