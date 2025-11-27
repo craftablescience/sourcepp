@@ -3,12 +3,7 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
-    inputs:
-      deploy:
-        type: boolean
-        required: true
-        default: true
-        description: 'Deploy manual build'
+    # nothing here
 
 jobs:
   build-docs:
@@ -30,8 +25,8 @@ jobs:
           path: docs/
 
   deploy-docs:
-    needs: build-docs
-    if: inputs.deploy
+    needs:
+      - build-docs
     permissions:
       pages: write
       id-token: write
