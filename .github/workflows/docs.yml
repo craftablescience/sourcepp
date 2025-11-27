@@ -7,7 +7,7 @@ on:
       deploy:
         type: boolean
         required: true
-        default: false
+        default: true
         description: 'Deploy manual build'
 
 jobs:
