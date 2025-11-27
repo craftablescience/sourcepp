@@ -1,0 +1,40 @@
+name: Deploy Docs
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    # nothing here
+
+jobs:
+  build-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      - name: Install Doxygen
+        uses: ssciwr/doxygen-install@v1
+
+      - name: Build Doxygen
+        run: doxygen
+
+      - name: Upload Docs
+        id: deployment
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: docs/
+
+  deploy-docs:
+    needs:
+      - build-docs
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{steps.deployment.outputs.page_url}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

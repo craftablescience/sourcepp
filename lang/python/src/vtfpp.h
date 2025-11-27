@@ -141,8 +141,8 @@ inline void register_python(py::module_& m) {
 		auto ImageDimensions = vtfpp.def_submodule("ImageDimensions");
 
 		ImageDimensions
-			.def("get_mip_dim", &getMipDim, "mip"_a, "add_compressed_format_padding"_a, "dim"_a)
-			.def("get_mip_dims", static_cast<std::tuple<uint16_t, uint16_t, uint16_t>(*)(uint8_t, bool, uint16_t, uint16_t, uint16_t)>(&getMipDims), "mip"_a, "add_compressed_format_padding"_a, "width"_a, "height"_a, "depth"_a = 1)
+			.def("get_mip_dim", &getMipDim, "mip"_a, "dim"_a, "add_compressed_format_padding"_a = false)
+			.def("get_mip_dims", static_cast<std::tuple<uint16_t, uint16_t, uint16_t>(*)(uint8_t, uint16_t, uint16_t, uint16_t, bool)>(&getMipDims), "mip"_a, "width"_a, "height"_a, "depth"_a = 1, "add_compressed_format_padding"_a = false)
 			.def("get_maximum_mip_count", &getMaximumMipCount, "width"_a, "height"_a, "depth"_a = 1);
 	}
 
@@ -323,6 +323,24 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&>(&PPL::bake), "ppl_path"_a);
+
+	py::class_<PSFrames>(vtfpp, "PSFrames")
+		.def("__init__", [](PSFrames* self, const py::bytes& psFramesData) {
+			return new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
+		}, "ps_frames_data"_a)
+		.def(py::init<const std::string&>(), "ps_frames_path"_a)
+		.def_prop_ro("frame_count", &PSFrames::getFrameCount)
+		.def_prop_ro("fps", &PSFrames::getFPS)
+		.def_prop_ro("width", &PSFrames::getWidth)
+		.def_prop_ro("height", &PSFrames::getHeight)
+		.def("get_image_data_as", [](const PSFrames& self, ImageFormat newFormat, uint16_t frame) {
+			const auto d = self.getImageDataAs(newFormat, frame);
+			return py::bytes{d.data(), d.size()};
+		}, "new_format"_a, "frame"_a)
+		.def("get_image_data_as_bgr888", [](const PSFrames& self, uint16_t frame) {
+			const auto d = self.getImageDataAsBGR888(frame);
+			return py::bytes{d.data(), d.size()};
+		}, "frame"_a);
 
 	auto cSHT = py::class_<SHT>(vtfpp, "SHT");
 	auto cSHTSequence = py::class_<SHT::Sequence>(cSHT, "Sequence");
@@ -553,12 +571,12 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("image_height_resize_method", &VTF::getImageHeightResizeMethod, &VTF::setImageHeightResizeMethod)
 		.def_prop_ro("width", [](const VTF& self) { return self.getWidth(); })
 		.def("width_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getWidth(mip); }, "mip"_a = 0)
-		.def_prop_ro("width_without_padding", [](const VTF& self) { return self.getWidthWithoutPadding(); })
-		.def("width_without_padding_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getWidthWithoutPadding(mip); }, "mip"_a = 0)
+		.def_prop_ro("padded_width", [](const VTF& self) { return self.getPaddedWidth(); })
+		.def("padded_width_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getPaddedWidth(mip); }, "mip"_a = 0)
 		.def_prop_ro("height", [](const VTF& self) { return self.getHeight(); })
 		.def("height_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getHeight(mip); }, "mip"_a = 0)
-		.def_prop_ro("height_without_padding", [](const VTF& self) { return self.getHeightWithoutPadding(); })
-		.def("height_without_padding_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getHeightWithoutPadding(mip); }, "mip"_a = 0)
+		.def_prop_ro("padded_height", [](const VTF& self) { return self.getPaddedHeight(); })
+		.def("padded_height_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getPaddedHeight(mip); }, "mip"_a = 0)
 		.def("set_size", &VTF::setSize, "width"_a, "height"_a, "filter"_a)
 		.def_prop_rw("flags", &VTF::getFlags, &VTF::setFlags)
 		.def("add_flags", &VTF::addFlags, "flags"_a)

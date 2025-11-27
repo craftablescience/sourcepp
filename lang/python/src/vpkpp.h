@@ -159,6 +159,8 @@ inline void register_python(py::module_& m) {
 
 	vpkpp.attr("FGP_SIGNATURE") = FGP_SIGNATURE;
 	vpkpp.attr("FGP_EXTENSION") = FGP_EXTENSION;
+	vpkpp.attr("FGP_HASHED_FILEPATH_PREFIX") = FGP_HASHED_FILEPATH_PREFIX;
+	vpkpp.attr("FGP_SOURCEPP_FILENAMES_SIGNATURE") = FGP_SOURCEPP_FILENAMES_SIGNATURE;
 
 	py::class_<FGP, PackFile>(vpkpp, "FGP")
 		.def_static("create", &FGP::create, "path"_a)

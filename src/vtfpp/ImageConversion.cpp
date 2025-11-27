@@ -114,7 +114,7 @@ namespace {
 		case RGBA32323232F:
 			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
-			return CMP_FORMAT_ATI2N_XY;
+			return CMP_FORMAT_ATI2N;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
@@ -301,10 +301,12 @@ namespace {
 
 	uint16_t unpaddedWidth = width, unpaddedHeight = height;
 	std::vector<std::byte> paddedImageData;
-	if ((width % 4 != 0 || height % 4 != 0) && !ImageFormatDetails::compressed(oldFormat) && ImageFormatDetails::compressed(newFormat)) {
+	if ((width % 4 != 0 || height % 4 != 0) && ImageFormatDetails::compressed(oldFormat) != ImageFormatDetails::compressed(newFormat)) {
 		uint16_t paddingWidth = (4 - (width % 4)) % 4, paddingHeight = (4 - (height % 4)) % 4;
-		paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
-		imageData = paddedImageData;
+		if (!ImageFormatDetails::compressed(oldFormat)) {
+			paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
+			imageData = paddedImageData;
+		}
 		width += paddingWidth;
 		height += paddingHeight;
 	}
@@ -360,8 +362,7 @@ namespace {
 				destSpan.begin(), destSpan.end(), destSpan.begin(), [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
 					const auto nX = static_cast<float>(pixel.r) / 255.f * 2.f - 1.f;
 					const auto nY = static_cast<float>(pixel.g) / 255.f * 2.f - 1.f;
-					// Swap R and G to compensate for compressonator bug
-					return {pixel.g, pixel.r, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
+					return {pixel.r, pixel.g, static_cast<uint8_t>(std::clamp(1.f - (nX * nX) - (nY * nY), 0.f, 1.f) * 255.f), pixel.a};
 				});
 		}
 		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
@@ -412,7 +413,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(P8,                      pixel.p, pixel.p, pixel.p, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(I8,                      pixel.i, pixel.i, pixel.i, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(IA88,                    pixel.i, pixel.i, pixel.i, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(A8,                      0,       0,       0,       pixel.a);
+		VTFPP_CASE_CONVERT_AND_BREAK(A8,                      0xff,    0xff,    0xff,    pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,                pixel.r, pixel.g, pixel.b, pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRA8888,                pixel.r, pixel.g, pixel.b, pixel.a);
 		VTFPP_CASE_CONVERT_AND_BREAK(BGRX8888,                pixel.r, pixel.g, pixel.b, 0xff);
@@ -978,10 +979,9 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 		return {imageData.begin(), imageData.end()};
 	}
 
-	const bool compressed = ImageFormatDetails::compressed(oldFormat);
 	std::vector<std::byte> out(ImageFormatDetails::getDataLength(newFormat, mipCount, frameCount, faceCount, width, height, depth));
 	for(int mip = mipCount - 1; mip >= 0; mip--) {
-		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, compressed, width, height, depth);
+		const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(mip, width, height, depth);
 		for (int frame = 0; frame < frameCount; frame++) {
 			for (int face = 0; face < faceCount; face++) {
 				for (int slice = 0; slice < mipDepth; slice++) {
@@ -2015,19 +2015,20 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 				break;
 			}
 			case ResizeFilter::NICE: {
+				static constexpr auto NICE_RADIUS = 3.f;
 				static constexpr auto SINC = [](float x) -> float {
 					if (x == 0.f) return 1.f;
 					const float a = x * math::pi_f32;
 					return sinf(a) / a;
 				};
 				static constexpr auto NICE_FILTER = [](float x, float, void*) -> float {
-					if (x >= 3.f || x <= -3.f) return 0.f;
-					return SINC(x) * SINC(x / 3.f);
+					if (x >= NICE_RADIUS || x <= -NICE_RADIUS) return 0.f;
+					return SINC(x) * SINC(x / NICE_RADIUS);
 				};
 				// Normally you would max(1, invScale), but stb is weird and immediately un-scales the result when downsampling.
 				// See stb_image_resize2.h L2977 (stbir__get_filter_pixel_width)
 				static constexpr auto NICE_SUPPORT = [](float invScale, void*) -> float {
-					return invScale * 3.f;
+					return invScale * NICE_RADIUS;
 				};
 				stbir_set_filter_callbacks(&resize, NICE_FILTER, NICE_SUPPORT, NICE_FILTER, NICE_SUPPORT);
 				break;

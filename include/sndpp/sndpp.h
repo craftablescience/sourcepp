@@ -5,5 +5,6 @@
  * include it the same way as any of the other SourcePP libraries.
  */
 
+#include "RIFF.h"
 #include "WAV.h"
 #include "XWV.h"

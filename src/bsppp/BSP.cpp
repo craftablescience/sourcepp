@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantParentheses
+
 #include <bsppp/BSP.h>
 
 #include <algorithm>
@@ -133,8 +135,7 @@ bool BSP::hasLump(BSPLump lumpIndex) const {
 bool BSP::isLumpCompressed(BSPLump lumpIndex) const {
 	if (this->hasLump(lumpIndex)) {
 		const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
-		return (this->stagedLumps.contains(lump) && this->stagedLumps.at(lump).first.uncompressedLength > 0)
-			|| (this->header.lumps[lump].uncompressedLength > 0);
+		return (this->stagedLumps.contains(lump) && this->stagedLumps.at(lump).first.uncompressedLength > 0) || this->header.lumps[lump].uncompressedLength > 0;
 	}
 	return false;
 }
@@ -155,7 +156,7 @@ std::optional<std::vector<std::byte>> BSP::getLumpData(BSPLump lumpIndex, bool n
 		return std::nullopt;
 	}
 
-	auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
 	std::vector<std::byte> lumpBytes;
 
 	if (this->stagedLumps.contains(lump)) {
@@ -306,7 +307,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		return;
 	}
 
-	auto lumpData = this->getLumpData(lumpIndex);
+	const auto lumpData = this->getLumpData(lumpIndex);
 	if (!lumpData) {
 		return;
 	}
@@ -385,6 +386,24 @@ bool BSP::bake(std::string_view outputPath) {
 
 	for (auto i : BSP_LUMP_ORDER) {
 		if (!this->hasLump(static_cast<BSPLump>(i))) {
+			const auto curPos = stream.tell();
+			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
+
+			const auto& lump = this->header.lumps[i];
+			if (!this->l4d2) {
+				stream
+					.write<uint32_t>(0)
+					.write<uint32_t>(0)
+					.write<uint32_t>(lump.version);
+			} else {
+				stream
+					.write<uint32_t>(lump.version)
+					.write<uint32_t>(0)
+					.write<uint32_t>(0);
+			}
+			stream
+				.write<uint32_t>(0)
+				.seek_u(curPos);
 			continue;
 		}
 
@@ -404,7 +423,7 @@ bool BSP::bake(std::string_view outputPath) {
 				}
 			}
 			// NOLINTNEXTLINE(*-sizeof-container)
-			auto gameLumpCurrentOffset = stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
+			auto gameLumpCurrentOffset = !this->console * stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
 			stream.write<uint32_t>(this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed);
 
 			for (const auto& gameLump : this->stagedGameLumps) {
@@ -424,7 +443,7 @@ bool BSP::bake(std::string_view outputPath) {
 					.write<uint32_t>(0)
 					.write<uint16_t>(0)
 					.write<uint16_t>(0)
-					.write<uint32_t>(0)
+					.write<uint32_t>(gameLumpCurrentOffset)
 					.write<uint32_t>(0);
 			}
 
@@ -436,7 +455,7 @@ bool BSP::bake(std::string_view outputPath) {
 			}
 
 			const auto curPos = stream.tell();
-			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
+			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
 			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(gameLumpOffset)
@@ -455,33 +474,32 @@ bool BSP::bake(std::string_view outputPath) {
 		}
 
 		if (this->stagedLumps.contains(i)) {
-			const auto& lumpPair = this->stagedLumps.at(i);
+			const auto&[lump, lumpData] = this->stagedLumps.at(i);
 			const auto curPos = stream.tell();
-			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
+			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
 			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(curPos)
-					.write<uint32_t>(lumpPair.second.size())
-					.write<uint32_t>(lumpPair.first.version);
+					.write<uint32_t>(lumpData.size())
+					.write<uint32_t>(lump.version);
 			} else {
 				stream
-					.write<uint32_t>(lumpPair.first.version)
+					.write<uint32_t>(lump.version)
 					.write<uint32_t>(curPos)
-					.write<uint32_t>(lumpPair.second.size());
+					.write<uint32_t>(lumpData.size());
 			}
 			stream
-				.write<uint32_t>(lumpPair.first.uncompressedLength)
+				.write<uint32_t>(lump.uncompressedLength)
 				.seek_u(curPos)
-				.write(lumpPair.second);
+				.write(lumpData);
 			continue;
 		}
 
-		const auto data = this->getLumpData(static_cast<BSPLump>(i), true);
-		if (data) {
+		if (const auto data = this->getLumpData(static_cast<BSPLump>(i), true)) {
 			const auto curPos = stream.tell();
-			stream.seek_u(lumpsHeaderOffset + (i * sizeof(Lump)));
+			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
 
-			auto& lump = this->header.lumps[i];
+			const auto& lump = this->header.lumps[i];
 			if (!this->l4d2) {
 				stream
 					.write<uint32_t>(curPos)
@@ -525,7 +543,7 @@ bool BSP::readHeader() {
 	}
 	reader.seek_in(0);
 
-	if (auto signature = reader.read<uint32_t>(); signature != BSP_SIGNATURE && signature != BSP_CONSOLE_SIGNATURE) {
+	if (const auto signature = reader.read<uint32_t>(); signature != BSP_SIGNATURE && signature != BSP_CONSOLE_SIGNATURE) {
 		// File is not a BSP
 		return false;
 	} else if (signature == BSP_CONSOLE_SIGNATURE) {
@@ -539,12 +557,12 @@ bool BSP::readHeader() {
 		reader.skip_in<uint32_t>();
 	}
 
-	for (auto& lump : this->header.lumps) {
+	for (auto& [offset, length, version, uncompressedLength] : this->header.lumps) {
 		reader
-			>> lump.offset
-			>> lump.length
-			>> lump.version
-			>> lump.uncompressedLength;
+			>> offset
+			>> length
+			>> version
+			>> uncompressedLength;
 	}
 
 	// If no offsets are larger than 1024 (less than the size of the BSP header, but greater
@@ -734,14 +752,13 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 		} else {
 			auto nextOffset = lumps[i + 1].offset;
 			if (nextOffset == 0) {
-				const auto id = static_cast<std::underlying_type_t<BSPLump>>(BSPLump::GAME_LUMP);
-				nextOffset = this->header.lumps[id].offset + this->header.lumps[id].length;
+				static constexpr auto gameLumpID = static_cast<std::underlying_type_t<BSPLump>>(BSPLump::GAME_LUMP);
+				nextOffset = this->header.lumps[gameLumpID].offset + this->header.lumps[gameLumpID].length;
 			}
 			if (!decompress) {
 				lumps[i].data = stream.read_bytes(nextOffset - lumps[i].offset);
 			} else {
-				auto uncompressedData = compression::decompressValveLZMA(stream.read_bytes(nextOffset - lumps[i].offset));
-				if (uncompressedData) {
+				if (auto uncompressedData = compression::decompressValveLZMA(stream.read_bytes(nextOffset - lumps[i].offset))) {
 					lumps[i].data = *uncompressedData;
 				}
 			}

@@ -9,6 +9,9 @@ namespace vpkpp {
 constexpr auto FGP_SIGNATURE = sourcepp::parser::binary::makeFourCC("FGP\0");
 constexpr std::string_view FGP_EXTENSION = ".grp";
 
+constexpr std::string_view FGP_HASHED_FILEPATH_PREFIX = "__hashed__/";
+constexpr auto FGP_SOURCEPP_FILENAMES_SIGNATURE = sourcepp::parser::binary::makeEightCC("PPECRUOS");
+
 class FGP : public PackFile {
 public:
 	/// Create an FGP file
@@ -49,6 +52,8 @@ protected:
 	using PackFile::PackFile;
 
 	void addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) override;
+
+	static uint32_t getHeaderSize(uint32_t version, uint32_t fileCount);
 
 	uint32_t version = 0;
 	std::string loadingScreenPath;

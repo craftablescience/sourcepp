@@ -1,7 +1,5 @@
 #pragma once
 
-#include <tuple>
-
 #include "VTF.h"
 
 namespace vtfpp {

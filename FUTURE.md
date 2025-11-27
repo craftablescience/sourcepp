@@ -30,14 +30,16 @@
   - Make something to construct StudioModel objects from a given model file like obj/glTF?
   - Parse animations/sequences
 - `sndpp`
-  - HL2X XWV read/write support
   - WAV write support
-  - XWV write support
+  - XWV (Xbox, X360/PS3) write support
+  - VDAT section read/write support
   - Conversion support between all formats
 - `toolpp`
   - Perhaps add the ability to parse TeamSpen's additions to the FGD format?
 - `vpkpp`
   - Cache file handles so they're not constantly getting closed/opened
+  - ORE write support
+  - PCK v3 read/write support
   - XZP write support
 - `vtfpp`
   - Add a MKS parser/writer
