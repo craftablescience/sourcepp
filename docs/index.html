@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="stylesheet" type="text/css" href="assets/css/sourcepp.css">
+		<link rel="alternate" type="application/rss+xml" title="SourcePP Releases" href="https://github.com/craftablescience/sourcepp/releases.atom">
+
+		<title>SourcePP</title>
+		<meta property="og:title" content="SourcePP">
+		<meta name="description" content="Several modern C++20 libraries for sanely parsing Valve formats.">
+		<meta name="og:description" content="Several modern C++20 libraries for sanely parsing Valve formats.">
+		<meta property="og:type" content="website">
+		<link rel="canonical" href="https://sourcepp.org/">
+		<meta property="og:url" content="https://sourcepp.org/">
+		<meta property="og:locale" content="en">
+		<meta property="og:image" content="https://sourcepp.org/assets/img/logo.png">
+		<meta property="og:image:alt" content="The SourcePP library logo, a printer taking in paper with random hexadecimal numbers and printing a photo of Cordon Freeman.">
+
+		<link rel="icon" href="favicon.ico" sizes="any">
+
+		<!-- edit CSS colors when editing this -->
+		<meta name="theme-color" content="#ab399b">
+		<meta name="color-scheme" content="dark">
+	</head>
+	<body>
+		<main>
+			<section id="header">
+				<img
+					id="header-logo"
+					width="128"
+					height="128"
+					src="assets/img/logo.png"
+					alt="The SourcePP library logo, a printer taking in paper with random hexadecimal numbers and printing a photo of Cordon Freeman."
+				/>
+				<div id="header-text">
+					<h1><abbr title="Source Pretty Parsers">SourcePP</abbr></h1>
+					<p>Several modern C++20 libraries for sanely parsing Valve formats.</p>
+				</div>
+				<div class="flex-break"></div>
+				<nav>
+					<a href="https://github.com/craftablescience/sourcepp" target="_blank" rel="noreferrer">Download from GitHub</a>
+					<a href="https://pypi.org/project/sourcepp" target="_blank" rel="noreferrer">View on PyPI</a>
+					<a href="/doxygen/" target="_blank" rel="noreferrer">Visit Docs</a>
+					<a href="https://discord.gg/ASgHFkX" target="_blank" rel="noreferrer">Join the Discord</a>
+					<a href="https://ko-fi.com/craftablescience" target="_blank" rel="noreferrer">Donate on Ko-fi</a>
+				</nav>
+			</section>
+			<section id="about">
+				<h2>About the Libraries</h2>
+				<p>
+					Source Pretty Parsers (SourcePP) is an MIT-licensed open source collection of several libraries, which can read and write many Source engine file formats.
+					Precompiled builds are distributed for Windows, Linux, and macOS, and should work without issue on any little-endian system (big-endian support is mostly
+					untested, some libraries will not work). Bindings of varying completeness exist for C, C#, and Python, and bindings for JavaScript and Rust are planned.
+					C++ and Python are the languages with the most support and development focus.
+				</p>
+				<p class="text-align-center">
+					Created by <a href="https://craftablescience.info" target="_blank" rel="noreferrer">craftablescience</a>, with contributions from <a href="#special-thanks">many lovely people</a>.
+				</p>
+			</section>
+			<section id="gallery">
+				<h2>Gallery</h2>
+				<p>
+					These are a list of tools and games using SourcePP that I know of, directly or indirectly. If you would like to be listed here,
+					<a href="mailto:lauralewisdev@gmail.com">email me</a> or <a href="https://discord.gg/ASgHFkX">join my Discord server</a>, I'd love to hear from you!
+				</p>
+				<h3>First-Party</h3>
+				<div class="card-group">
+					<div class="card">
+						<img
+							width="261"
+							height="300"
+							src="/assets/img/ps3_orangebox.png"
+							alt="The Blu-Ray case cover of The Orange Box for PlayStation 3."
+						/>
+						<h3><a href="https://github.com/craftablescience/fgptool" target="_blank" rel="noreferrer">fgptool</a></h3>
+						<p>A tool to crack the filepath hashes in The Orange Box PS3 file groups.</p>
+					</div>
+					<div class="card">
+						<img
+							width="200"
+							height="300"
+							src="/assets/img/missing.png"
+							alt="A placeholder missing image."
+						/>
+						<h3><a href="https://github.com/craftablescience/godotsource" target="_blank" rel="noreferrer">GodotSource</a></h3>
+						<p>Load Source engine assets in the Godot engine. Heavily WIP.</p>
+					</div>
+					<div class="card">
+						<img
+							width="356"
+							height="300"
+							src="/assets/img/maretf.png"
+							alt="The MareTF window with a VTF texture open."
+						/>
+						<h3><a href="https://github.com/craftablescience/MareTF" target="_blank" rel="noreferrer">MareTF</a></h3>
+						<p>Replicates the functionality of Valve's vtex executable and VTFEdit and more.</p>
+					</div>
+					<div class="card">
+						<img
+							width="200"
+							height="300"
+							src="/assets/img/missing.png"
+							alt="A placeholder missing image."
+						/>
+						<h3><a href="https://github.com/craftablescience/MareTF" target="_blank" rel="noreferrer">QVTF++</a></h3>
+						<p>A QImageIO plugin to load VTF textures in Qt applications.</p>
+					</div>
+					<div class="card">
+						<img
+							width="300"
+							height="300"
+							src="/assets/img/reloaded2ps3.png"
+							alt="The logo of Reloaded2PS3."
+						/>
+						<h3><a href="https://github.com/craftablescience/reloaded2ps3" target="_blank" rel="noreferrer">Reloaded2PS3</a></h3>
+						<p>Convert the PC version of Portal Reloaded to a playable PS3 game.</p>
+					</div>
+					<div class="card">
+						<img
+							width="347"
+							height="300"
+							src="/assets/img/vpkedit.png"
+							alt="A screenshot of VPKEdit with a VPK and an MDL preview open in wireframe mode."
+						/>
+						<h3><a href="https://github.com/craftablescience/VPKEdit" target="_blank" rel="noreferrer">VPKEdit</a></h3>
+						<p>Replicates the functionality of Valve's vpk executable and GCFScape and more.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/craftablescience/vtf-thumbnailer" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>VTF Thumbnailer</h3>
+						</a>
+						<p>Creates thumbnails for VTF textures.</p>
+					</div>
+				</div>
+				<h3>Third-Party</h3>
+				<div class="card-group">
+					<div class="card">
+						<a href="https://github.com/dresswithpockets/bsp-linux-fix" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>bsp-linux-fix</h3>
+						</a>
+						<p>Patches maps on the server to fix missing models & textures on Linux.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/Kitof/CS2-EomVotesFix" target="_blank" rel="noreferrer">
+							<img
+								width="369"
+								height="300"
+								src="/assets/img/cs2-eomvotesfix.png"
+								alt="A cropped end-of-match vote UI from Counter-Strike 2. Two maps are available to choose, Aztec and Safehouse."
+							/>
+							<h3>CS2-EomVotesFix</h3>
+						</a>
+						<p>Fix CS2 not displaying workshop map names and thumbnails during the End-of-Match vote.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/Seraphli/dham" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>dham</h3>
+						</a>
+						<p>Modifies Dota 2 hero aliases and saves the changes.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/chev2/gimp-vtf" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>gimp-vtf</h3>
+						</a>
+						<p>A GIMP 3.0 plugin that reads and writes VTF textures.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/wrefgtzweve/gm_addon_optimization_tricks" target="_blank" rel="noreferrer">
+							<img
+								width="392"
+								height="300"
+								src="/assets/img/gm_addon_optimization_tricks.png"
+								alt="A screenshot of the main menu of gm_addon_optimization_tricks."
+							/>
+							<h3>gm_addon_optimization_tricks</h3>
+						</a>
+						<p>A desktop tool to optimize Garry's Mod addons and maps from an easy-to-use interface.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/scorpius2k1/linux-bsp-casefolding-workaround" target="_blank" rel="noreferrer">
+							<img
+								width="274"
+								height="300"
+								src="/assets/img/lbspcfw.png"
+								alt="A before and after showing how the tool resolved issues finding packed map assets."
+							/>
+							<h3>Linux BSP Case Folding Workaround</h3>
+						</a>
+						<p>Patches maps on the client to fix missing models & textures on Linux.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/tomysshadow/M4Revolution" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>Myst IV: Revolution</h3>
+						</a>
+						<p>Various fixes for Myst IV: Revelation.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/koerismo/PBR-2-Source" target="_blank" rel="noreferrer">
+							<img
+								width="353"
+								height="300"
+								src="/assets/img/pbr-2-source.png"
+								alt="A screenshot of the main menu of PBR-2-Source."
+							/>
+							<h3>PBR-2-Source</h3>
+						</a>
+						<p>A Python-powered tool to convert PBR materials into Source Engine-compatible materials.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/Ambiabstract/props_scaling_recompiler" target="_blank" rel="noreferrer">
+							<img
+								width="400"
+								height="300"
+								src="/assets/img/prop_scaling_recompiler.png"
+								alt="A YouTube thumbnail of the Hammer 3D viewport with a fursona speaking Russian overlaid on top. The caption reads: prop_static scaling in SDK 2013."
+							/>
+							<h3>props_scaling_recompiler</h3>
+						</a>
+						<p>An automatic asset recompiler that allows you to scale props and/or convert them to prop_static within Hammer.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/cplbradley/RectMaker" target="_blank" rel="noreferrer">
+							<img
+								width="337"
+								height="300"
+								src="/assets/img/rectmaker.png"
+								alt="A screenshot of the main menu of RectMaker."
+							/>
+							<h3>RectMaker</h3>
+						</a>
+						<p>A freeware tool by "just wax" to create and modify hotspot definitions used in Hammer.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/Le0X8/rocksail" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>rock:sail</h3>
+						</a>
+						<p>Use paid skins, music, and agents for free in CS2.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/StrataSource/verifier" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>Verifier</h3>
+						</a>
+						<p>Builds an index of files to validate file contents later.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/p2r3/vpk2wad_nd" target="_blank" rel="noreferrer">
+							<img
+								width="200"
+								height="300"
+								src="/assets/img/missing.png"
+								alt="A placeholder missing image."
+							/>
+							<h3>vpk2wad_nd</h3>
+						</a>
+						<p>Ports VTF textures into Narbacular Drop WADs.</p>
+					</div>
+					<div class="card">
+						<a href="https://github.com/Trico-Everfire/VTF-Forge" target="_blank" rel="noreferrer">
+							<img
+								width="375"
+								height="300"
+								src="/assets/img/vtf_forge.png"
+								alt="The VTF Forge window with a VTF texture open."
+							/>
+							<h3>VTF Forge</h3>
+						</a>
+						<p>A modern multi-platform recreation of VTFEdit, using the Qt UI framework.</p>
+					</div>
+				</div>
+				<h3>Games</h3>
+				<div class="card-group">
+					<div class="card">
+						<a href="https://store.steampowered.com/app/440000/Portal_2_Community_Edition/" target="_blank" rel="noreferrer">
+							<img
+								width="460"
+								height="215"
+								src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/440000/header.jpg"
+								alt="The Steam header image for Portal 2: Community Edition."
+							/>
+							<h3>Portal 2: Community Edition</h3>
+						</a>
+						<ul>
+							<li>Local addon assets are packed with SourcePP.</li>
+							<li>Verifier and VPKEdit are shipped with the game.</li>
+						</ul>
+					</div>
+					<div class="card">
+						<a href="https://store.steampowered.com/app/669270/Momentum_Mod/" target="_blank" rel="noreferrer">
+							<img
+								width="460"
+								height="215"
+								src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/669270/header.jpg"
+								alt="The Steam header image for Momentum Mod."
+							/>
+							<h3>Momentum Mod</h3>
+						</a>
+						<ul>
+							<li>Some bundled textures are created and/or compressed with MareTF.</li>
+							<li>Some bundled assets are packed with VPKEdit.</li>
+						</ul>
+					</div>
+					<div class="card">
+						<a href="https://store.steampowered.com/app/2954780/Nightmare_House_The_Original_Mod/" target="_blank" rel="noreferrer">
+							<img
+								width="460"
+								height="215"
+								src="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2954780/header.jpg"
+								alt="The Steam header image for Nightmare House: The Original Mod."
+							/>
+							<h3>Nightmare House: The Original Mod</h3>
+						</a>
+						<ul>
+							<li>Game assets are packed with VPKEdit.</li>
+						</ul>
+					</div>
+				</div>
+			</section>
+			<section id="support">
+				<h2>Supported Formats</h2>
+				<!--suppress HtmlDeprecatedAttribute -->
+				<table cellspacing="0">
+					<tr class="support-table-no-offset">
+						<th>Library</th>
+						<th>Supports</th>
+						<th>Read</th>
+						<th>Write</th>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td>
+							bsppp
+							<ul>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td>
+							<a href="https://developer.valvesoftware.com/wiki/BSP_(Source)" target="_blank" rel="noreferrer">BSP</a> v17-27
+							<ul>
+								<li>Console modifications</li>
+								<li>Left 4 Dead 2 modifications</li>
+								<li><a href="https://stratasource.org" target="_blank" rel="noreferrer">Strata Source</a> modifications</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td>dmxpp<sup><a href="#support-footnote-1">*</a></sup></td>
+						<td>
+							<ul>
+								<li>
+									<a href="https://developer.valvesoftware.com/wiki/DMX" target="_blank" rel="noreferrer">DMX</a> Binary v1-5
+									<ul>
+										<li><a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> modifications</li>
+									</ul>
+								</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td>fspp<sup><a href="#support-footnote-1">*</a></sup></td>
+						<td>Source 1 filesystem accessor</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="2">
+							gamepp
+							<ul>
+								<li>C</li>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td>Get Source engine instance window title/position/size</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>Run commands in a Source engine instance remotely</td>
+						<td>❌</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="2">kvpp</td>
+						<td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Text<sup><a href="#support-footnote-2">&dagger;</a></sup></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Binary</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="3">mdlpp<sup><a href="#support-footnote-1">*</a></sup></td>
+						<td><a href="https://developer.valvesoftware.com/wiki/MDL_(Source)" target="_blank" rel="noreferrer">MDL</a> v44-49</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/VTX" target="_blank" rel="noreferrer">VTX</a> v7</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/VVD" target="_blank" rel="noreferrer">VVD</a> v4</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="2">sndpp<sup><a href="#support-footnote-1">*</a></sup></td>
+						<td>WAV</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>XWV v0-1, v4</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="3">
+							steampp
+							<ul>
+								<li>C</li>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td>Find Steam install folder</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>Find installed Steam games</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>Find Steam game library assets</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="2">
+							toolpp
+							<ul>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td>
+							<a href="https://developer.valvesoftware.com/wiki/FGD" target="_blank" rel="noreferrer">FGD (Source 1)</a>
+							<ul>
+								<li><a href="https://jack.hlfx.ru/en" target="_blank" rel="noreferrer">J.A.C.K.</a> modifications</li>
+								<li><a href="https://ficool2.github.io/HammerPlusPlus-Website" target="_blank" rel="noreferrer">Hammer++</a> modifications</li>
+								<li><a href="https://stratasource.org" target="_blank" rel="noreferrer">Strata Source</a> modifications</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="https://developer.valvesoftware.com/wiki/Command_Sequences" target="_blank" rel="noreferrer">WC</a> (CmdSeq) v0.1-0.2
+							<ul>
+								<li><a href="https://stratasource.org" target="_blank" rel="noreferrer">Strata Source</a> modifications</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="2">
+							vcryptpp
+							<ul>
+								<li>C</li>
+								<li>C#</li>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td><a href="https://developer.valvesoftware.com/wiki/VICE" target="_blank" rel="noreferrer">VICE</a> encrypted files</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/Vfont" target="_blank" rel="noreferrer">VFONT</a> encrypted font</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="16">
+							vpkpp
+							<ul>
+								<li>C</li>
+								<li>C#</li>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td>007 v1.1, v1.3 (007 - Nightfire)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>FGP v2-3 (PS3, Orange Box)</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>FPX v10 (Tactical Intervention)</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/GCF_archive" target="_blank" rel="noreferrer">GCF</a> v6</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>GMA v1-3 (Garry's Mod)</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>HOG (Descent)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>OL (Worldcraft Object Library)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>ORE (Narbacular Drop)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="https://quakewiki.org/wiki/.pak" target="_blank" rel="noreferrer">PAK</a> (Quake, WON Half-Life)
+							<ul>
+								<li><a href="https://en.wikipedia.org/wiki/Sin_(video_game)" target="_blank" rel="noreferrer">SiN</a> modifications</li>
+								<li><a href="https://store.steampowered.com/app/824600/HROT" target="_blank" rel="noreferrer">HROT</a> modifications</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html" target="_blank" rel="noreferrer">PCK</a> v1-2 (Godot Engine)</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="https://developer.valvesoftware.com/wiki/VPK" target="_blank" rel="noreferrer">VPK</a> pre-v1, v1-2, v54
+							<ul>
+								<li><a href="https://www.counter-strike.net/cs2" target="_blank" rel="noreferrer">Counter-Strike: 2</a> modifications</li>
+								<li><a href="https://clientmod.ru" target="_blank" rel="noreferrer">Counter-Strike: Source ClientMod</a> modifications</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>VPK (Vampire: The Masquerade - Bloodlines)</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>VPP v1-3 (Red Faction)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>WAD v3</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>XZP v6 (Xbox, Half-Life 2)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td>
+							ZIP
+							<ul>
+								<li><a href="https://github.com/BEEmod/BEE2-items" target="_blank" rel="noreferrer">BEE_PACK</a> alias (BEE2.4 Package)</li>
+								<li><a href="https://developer.valvesoftware.com/wiki/Bonus_Maps" target="_blank" rel="noreferrer">BMZ</a> alias (Source 1 Bonus Maps)</li>
+								<li>FPK alias (Tactical Intervention)</li>
+								<li><a href="https://doomwiki.org/wiki/PK3" target="_blank" rel="noreferrer">PK3</a> alias (Quake III)</li>
+								<li><a href="https://doomwiki.org/wiki/PK4" target="_blank" rel="noreferrer">PK4</a> alias (Quake IV, Doom 3)</li>
+								<li>PKZ alias (Quake II RTX)</li>
+								<li>XZP2 modifications (X360 & PS3, misc. Source 1 titles)</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr class="support-table-no-offset">
+						<td rowspan="18">
+							vtfpp
+							<ul>
+								<li>C</li>
+								<li>Python</li>
+							</ul>
+						</td>
+						<td><a href="https://wiki.mozilla.org/APNG_Specification" target="_blank" rel="noreferrer">APNG</a></td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/BMP_file_format" target="_blank" rel="noreferrer">BMP</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://openexr.com" target="_blank" rel="noreferrer">EXR</a> v1</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>FRAMES (PS3, Orange Box)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/GIF" target="_blank" rel="noreferrer">GIF</a></td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/RGBE_image_format" target="_blank" rel="noreferrer">HDR</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/JPEG" target="_blank" rel="noreferrer">JPEG</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>PIC</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/PNG" target="_blank" rel="noreferrer">PNG</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://netpbm.sourceforge.net/doc/pnm.html" target="_blank" rel="noreferrer">PNM</a> (PGM, PPM)</td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/PPL" target="_blank" rel="noreferrer">PPL</a> v0</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://www.adobe.com/creativecloud/file-types/image/raster/psd-file.html" target="_blank" rel="noreferrer">PSD</a></td>
+						<td>✅</td>
+						<td>❌</td>
+					</tr>
+					<tr>
+						<td><a href="https://qoiformat.org" target="_blank" rel="noreferrer">QOI</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://developer.valvesoftware.com/wiki/Animated_Particles" target="_blank" rel="noreferrer">SHT</a> v0-1</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://en.wikipedia.org/wiki/Truevision_TGA" target="_blank" rel="noreferrer">TGA</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>TTX (TTH, TTZ) v1.0</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="https://developer.valvesoftware.com/wiki/VTF_(Valve_Texture_Format)" target="_blank" rel="noreferrer">VTF</a> v7.0-7.6
+							<ul>
+								<li><a href="https://stratasource.org" target="_blank" rel="noreferrer">Strata Source</a> modifications</li>
+								<li><a href="https://developer.valvesoftware.com/wiki/Half-Life_2_(Xbox)/Modding_Guide" target="_blank" rel="noreferrer">XTF</a> v5.0 (Xbox, Half-Life 2)</li>
+								<li><a href="https://developer.valvesoftware.com/wiki/VTFX_file_format" target="_blank" rel="noreferrer">VTFX</a> v8 (X360 &amp; PS3, Orange Box)</li>
+								<li><a href="https://developer.valvesoftware.com/wiki/VTFX_file_format" target="_blank" rel="noreferrer">VTF3</a> v8 (PS3, Portal 2 &amp; CS:GO)</li>
+							</ul>
+						</td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+					<tr>
+						<td><a href="https://developers.google.com/speed/webp" target="_blank" rel="noreferrer">WebP</a></td>
+						<td>✅</td>
+						<td>✅</td>
+					</tr>
+				</table>
+				<p id="support-footnote-1">
+					<sup>*</sup> These libraries are incomplete and still in development. Their interfaces are unstable and will likely change in the future.
+					Libraries not starred should be considered stable, and their existing interfaces will not change much if at all. Note that wrappers
+					only exist for stable libraries.
+				</p>
+				<p id="support-footnote-2">
+					<sup>&dagger;</sup> Many text-based formats in Source are close to (if not identical to) KeyValues v1, such as <a href="https://developer.valvesoftware.com/wiki/VMT" target="_blank" rel="noreferrer">VMT</a>
+					and <a href="https://developer.valvesoftware.com/wiki/VMF_(Valve_Map_Format" target="_blank" rel="noreferrer">VMF</a>.
+				</p>
+			</section>
+			<section id="special-thanks">
+				<h2>Special Thanks</h2>
+				<ul>
+					<li>
+						bsppp
+						<ul>
+							<li>Partial library redesign, lump compression and game lump parsing/writing support contributed by <a href="https://github.com/Tholp1" target="_blank" rel="noreferrer">@Tholp</a>.</li>
+						</ul>
+					</li>
+					<li>
+						dmxpp
+						<ul>
+							<li>Support for srctools formats was contributed by <a href="https://github.com/TeamSpen210" target="_blank" rel="noreferrer">@TeamSpen210</a>.</li>
+						</ul>
+					</li>
+					<li>
+						steampp
+						<ul>
+							<li>Library is based on the <a href="https://github.com/Trico-Everfire/SteamAppPathProvider" target="_blank" rel="noreferrer">SteamAppPathProvider</a> library by <a href="https://github.com/Trico-Everfire" target="_blank" rel="noreferrer">@Trico Everfire</a> and <a href="https://momentum-mod.org" target="_blank" rel="noreferrer">Momentum Mod</a> contributors.</li>
+						</ul>
+					</li>
+					<li>
+						vpkpp
+						<ul>
+							<li>007 parser is based on <a href="https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt" target="_blank" rel="noreferrer">reverse-engineering work</a> by Alhexx.</li>
+							<li>GCF parser was contributed by <a href="https://github.com/eepycats" target="_blank" rel="noreferrer">@eepycats</a> and <a href="https://github.com/ymgve" target="_blank" rel="noreferrer">@ymgve</a>.</li>
+							<li>HOG parser was contributed by <a href="https://github.com/erysdren" target="_blank" rel="noreferrer">@erysdren</a>.</li>
+							<li>OL parser is based on <a href="https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy" target="_blank" rel="noreferrer">reverse-engineering work</a> by <a href="https://github.com/erysdren" target="_blank" rel="noreferrer">@erysdren</a>.</li>
+							<li>ORE parser is based on <a href="https://github.com/erysdren/narbacular-drop-tools" target="_blank" rel="noreferrer">reverse-engineering work</a> by <a href="https://github.com/erysdren" target="_blank" rel="noreferrer">@erysdren</a>.</li>
+							<li>VPP parser was contributed by <a href="https://github.com/erysdren" target="_blank" rel="noreferrer">@erysdren</a>.</li>
+							<li>WAD3 parser/writer was contributed by <a href="https://github.com/ozxybox" target="_blank" rel="noreferrer">@ozxybox</a>.</li>
+							<li>NICE/Lanczos-3 resize filter support was contributed by <a href="https://github.com/koerismo" target="_blank" rel="noreferrer">@koerismo</a>.</li>
+							<li>SHT parser/writer was contributed by <a href="https://github.com/Trico-Everfire" target="_blank" rel="noreferrer">@Trico Everfire</a>.</li>
+						</ul>
+					</li>
+					<li>
+						vtfpp
+						<ul>
+							<li>Initial VTF write support was loosely based on work by <a href="https://github.com/Trico-Everfire" target="_blank" rel="noreferrer">@Trico Everfire</a>.</li>
+							<li>HDRI to cubemap conversion code is modified from the <a href="https://github.com/ivarout/HdriToCubemap" target="_blank" rel="noreferrer">HdriToCubemap</a> library by <a href="https://github.com/ivarout" target="_blank" rel="noreferrer">@ivarout</a>.</li>
+						</ul>
+					</li>
+				</ul>
+			</section>
+			<footer>
+				Written with <span class="flag-trans">🩵</span> and published under <a href="https://opensource.org/license/MIT" target="_blank" rel="noreferrer">The MIT License</a>.
+			</footer>
+		</main>
+	</body>
+</html>

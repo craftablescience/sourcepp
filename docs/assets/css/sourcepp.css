@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
+
+:root {
+	font-family: "Lexend Deca", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 1.25em;
+
+	--color-accent-green-light: rgb(20, 130, 20);
+	--color-accent-green-dark: rgb(20, 100, 20);
+	--color-accent-green-left-gradient: linear-gradient(to left, var(--color-accent-green-light), var(--color-accent-green-dark));
+	--color-accent-green-right-gradient: linear-gradient(to right, var(--color-accent-green-light), var(--color-accent-green-dark));
+	--color-accent-pink-light: rgb(180, 60, 160);
+	--color-accent-pink-dark: rgb(130, 40, 120);
+	--color-accent-pink-left-gradient: linear-gradient(to left, var(--color-accent-pink-light), var(--color-accent-pink-dark));
+	--color-accent-pink-right-gradient: linear-gradient(to right, var(--color-accent-pink-light), var(--color-accent-pink-dark));
+	--color-background-light: rgb(90, 14, 80);
+	--color-background-dark: rgb(41, 14, 36);
+	--color-background-gradient: linear-gradient(to right, var(--color-background-light), var(--color-background-dark));
+	--border-size: 6px;
+
+	scrollbar-color: color-mix(in srgb, var(--color-background-light) 85%, #ffffff 15%) var(--color-background-dark);
+	scroll-behavior: smooth;
+}
+
+::selection {
+	background-color: color-mix(in srgb, var(--color-accent-green-dark) 75%, #000000 25%);
+	text-shadow: none;
+}
+
+p {
+	line-height: 1.4;
+}
+
+a {
+	color: inherit;
+	text-decoration-style: dashed;
+}
+
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+	vertical-align: middle;
+}
+
+.flex-break {
+	flex-basis: 100%;
+}
+
+.text-align-center {
+	text-align: center;
+}
+
+body {
+	background: url("../img/plus.svg") 16px 16px, var(--color-background-gradient) center/cover;
+	background-attachment: fixed;
+	margin: 0;
+	padding: 0;
+}
+
+main {
+	width: 60svw;
+	margin: 0 auto;
+	background-color: #00000022;
+
+	@media screen and (width < 1075px) {
+		width: 100%;
+	}
+
+	> section {
+		padding-bottom: 10svh;
+		margin: 0 5svw;
+	}
+
+	> :first-child {
+		padding: 35svh 0 23svh 0;
+	}
+
+	> section > h2 {
+		text-align: center;
+	}
+
+	footer {
+		background-color: #000000;
+		padding: 20px 0 20px 5svw;
+
+		.flag-trans {
+			background: linear-gradient(#00d2ff 32.5%, #ffa6b9 0 45%, white 0 57.5%, #ffa6b9 0 70%, #00d2ff 0);
+			background-clip: text;
+			color: transparent;
+		}
+	}
+}
+
+#header {
+	&, nav {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: center;
+		align-content: space-between;
+		gap: 16px;
+	}
+
+	#header-text h1 abbr {
+		text-decoration: none;
+	}
+
+	nav a {
+		text-decoration: none;
+		white-space: nowrap;
+		font-weight: bold;
+		padding: 0.5rem 0.5rem;
+		box-shadow: 0 0 8px #00000060;
+		transition: background-color 0.25s ease-out;
+
+		&:nth-child(odd) {
+			background-color: var(--color-accent-green-dark);
+
+			&:hover {
+				background-color: color-mix(in srgb, var(--color-accent-green-dark) 85%, #ffffff 15%);
+			}
+		}
+
+		&:nth-child(even) {
+			background-color: var(--color-accent-pink-dark);
+
+			&:hover {
+				background-color: color-mix(in srgb, var(--color-accent-pink-dark) 85%, #ffffff 15%);
+			}
+		}
+	}
+}
+
+#gallery {
+	> h3 {
+		padding-top: 2.5svh;
+		text-align: center;
+	}
+
+	.card-group {
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: center;
+		align-items: flex-start;
+		align-content: stretch;
+		gap: 16px;
+
+		.card {
+			width: min-content;
+			padding: 16px;
+			box-shadow: 0 0 8px #00000060;
+
+			&:nth-child(odd) {
+				background: var(--color-accent-green-right-gradient);
+			}
+
+			&:nth-child(even) {
+				background: var(--color-accent-pink-right-gradient);
+			}
+
+			img {
+				box-shadow: 0 0 8px #00000060;
+			}
+
+			h3 {
+				text-align: center;
+				margin: 16px 0;
+			}
+
+			p,
+			ul {
+				margin: 0;
+			}
+		}
+	}
+}
+
+#support {
+	table {
+		width: 100%;
+		box-shadow: 0 0 8px #00000060;
+
+		tr {
+			th,
+			td {
+				margin: 0;
+				padding: 0.5rem;
+				border: calc(var(--border-size) / 2) solid;
+				border-image-slice: 1;
+				border-spacing: 0;
+				background-color: color-mix(in srgb, var(--color-background-light) 50%, var(--color-background-dark) 50%);
+			}
+
+			th:nth-child(odd),
+			&:not(.support-table-no-offset) th:nth-child(even),
+			td:nth-child(odd),
+			&:not(.support-table-no-offset) td:nth-child(even) {
+				border-image-source: var(--color-accent-green-left-gradient);
+			}
+
+			th:nth-child(even),
+			&:not(.support-table-no-offset) th:nth-child(odd),
+			td:nth-child(even),
+			&:not(.support-table-no-offset) td:nth-child(odd) {
+				border-image-source: var(--color-accent-green-right-gradient);
+			}
+
+			&.support-table-no-offset th:first-child,
+			&.support-table-no-offset td:first-child {
+				border-left-width: var(--border-size);
+			}
+
+			th:last-child,
+			td:last-child {
+				border-right-width: var(--border-size);
+			}
+
+			&:first-child th,
+			&:first-child td {
+				border-top-width: var(--border-size);
+			}
+
+			&:last-child th,
+			&:last-child td,
+			&:nth-last-child(1 of .support-table-no-offset) th:first-child,
+			&:nth-last-child(1 of .support-table-no-offset) td:first-child {
+				border-bottom-width: var(--border-size);
+			}
+
+			&:not(.support-table-no-offset) td:nth-child(2),
+			td:nth-child(3),
+			&.support-table-no-offset td:nth-child(4) {
+				text-align: center;
+
+				@media screen and (width < 600px) {
+					display: none;
+				}
+			}
+
+			&:not(.support-table-no-offset) th:nth-child(2),
+			th:nth-child(3),
+			&.support-table-no-offset th:nth-child(4) {
+				@media screen and (width < 600px) {
+					display: none;
+				}
+			}
+
+			th > ul,
+			td > ul {
+				margin: 0;
+				padding: 0 0 0 20px;
+			}
+		}
+	}
+
+	sup > a {
+		text-decoration: none;
+	}
+}

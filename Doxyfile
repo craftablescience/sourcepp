@@ -74,7 +74,7 @@ PROJECT_ICON           = branding/logo.ico
 # entered, it will be relative to the location where Doxygen was started. If
 # left blank the current directory will be used.
 
-OUTPUT_DIRECTORY       = docs
+OUTPUT_DIRECTORY       = docs/doxygen
 
 # If the CREATE_SUBDIRS tag is set to YES then Doxygen will create up to 4096
 # sub-directories (in 2 levels) under the output directory of each output format
@@ -1208,7 +1208,7 @@ FILTER_SOURCE_PATTERNS =
 # (index.html). This can be useful if you have a project on for instance GitHub
 # and want to reuse the introduction page also for the Doxygen output.
 
-USE_MDFILE_AS_MAINPAGE = docs/index.md
+USE_MDFILE_AS_MAINPAGE = docs/doxygen/index.md
 
 # If the IMPLICIT_DIR_DOCS tag is set to YES, any README.md file found in sub-
 # directories of the project's root, is used as the documentation for that sub-
@@ -1377,7 +1377,7 @@ HTML_FILE_EXTENSION    = .html
 # of the possible markers and block names see the documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_HEADER            = docs/layout/header.html
+HTML_HEADER            = docs/doxygen/layout/header.html
 
 # The HTML_FOOTER tag can be used to specify a user-defined HTML footer for each
 # generated HTML page. If the tag is left blank Doxygen will generate a standard
@@ -1417,9 +1417,9 @@ HTML_STYLESHEET        =
 # documentation.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_STYLESHEET  = docs/layout/doxygen-awesome-css/doxygen-awesome.css \
-                         docs/layout/doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
-                         docs/layout/custom.css
+HTML_EXTRA_STYLESHEET  = docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome.css \
+                         docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome-sidebar-only.css \
+                         docs/doxygen/layout/custom.css
 
 # The HTML_EXTRA_FILES tag can be used to specify one or more extra images or
 # other source files which should be copied to the HTML output directory. Note
@@ -1429,10 +1429,10 @@ HTML_EXTRA_STYLESHEET  = docs/layout/doxygen-awesome-css/doxygen-awesome.css \
 # files will be copied as-is; there are no commands or markers available.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_EXTRA_FILES       = docs/layout/doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
-                         docs/layout/doxygen-awesome-css/doxygen-awesome-interactive-toc.js \
-                         docs/layout/doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
-                         docs/layout/doxygen-awesome-css/doxygen-awesome-tabs.js
+HTML_EXTRA_FILES       = docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome-fragment-copy-button.js \
+                         docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome-interactive-toc.js \
+                         docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome-paragraph-link.js \
+                         docs/doxygen/layout/doxygen-awesome-css/doxygen-awesome-tabs.js
 
 # The HTML_COLORSTYLE tag can be used to specify if the generated HTML output
 # should be rendered with a dark or light theme.
