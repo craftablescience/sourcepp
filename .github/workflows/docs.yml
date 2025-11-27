@@ -17,6 +17,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v5
 
+      - name: Install Doxygen
+        uses: ssciwr/doxygen-install@v1
+
       - name: Build Doxygen
         run: doxygen
 
