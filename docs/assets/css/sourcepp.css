@@ -86,7 +86,7 @@ main {
 
 	footer {
 		background-color: #000000;
-		padding: 20px 0 20px 5svw;
+		padding: 20px 5svw;
 
 		.flag-trans {
 			background: linear-gradient(#00d2ff 32.5%, #ffa6b9 0 45%, white 0 57.5%, #ffa6b9 0 70%, #00d2ff 0);
@@ -106,8 +106,14 @@ main {
 		gap: 16px;
 	}
 
-	#header-text h1 abbr {
-		text-decoration: none;
+	#header-text h1 {
+		@media screen and (width < 1075px) {
+			text-align: center;
+		}
+
+		abbr {
+			text-decoration: none;
+		}
 	}
 
 	nav a {
