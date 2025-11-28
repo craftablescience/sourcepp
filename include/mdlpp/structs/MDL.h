@@ -311,7 +311,8 @@ struct SequenceDesc {
 
 	int32_t blendCount;
 
-	int32_t animIndexIndex;
+	//int32_t animIndexIndex;
+	std::vector<int16_t> animIndices; // groupSize[0] * groupSize[1] (for animation blending)
 
 	int32_t movementIndex;
 
@@ -343,9 +344,11 @@ struct SequenceDesc {
 	//int32_t autoLayerIndex;
 	std::vector<AutoLayer> autoLayers;
 
-	int32_t weightListIndex;
+	//int32_t weightListIndex;
+	std::vector<float> boneWeights;
 
-	int32_t poseKeyIndex;
+	//int32_t poseKeyIndex;
+	std::vector<float> poseKeys;
 
 	//int32_t ikLockCount;
 	//int32_t ikLockIndex;
@@ -355,9 +358,13 @@ struct SequenceDesc {
 	//int32_t keyValueSize;
 	std::string keyValues;
 
-	int32_t cyclePoseIndex;
+	int32_t cyclePoseIndex; // index into poseParameters
 
-	//int32_t _unused0[7];
+	//int32_t activityModifierCount;
+	//int32_t activityModifierIndex;
+	std::vector<std::string> activityModifiers;
+
+	//int32_t _unused0[5];
 };
 SOURCEPP_BITFLAGS_ENUM(SequenceDesc::Flags)
 

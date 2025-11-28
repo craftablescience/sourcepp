@@ -522,7 +522,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				.read(movement.relativePosition);
 		}
 
-		if (ikRuleCount > 0 && ikRuleIndex != 0 && animDesc.animBlock == 0) {
+		if (ikRuleIndex != 0 && animDesc.animBlock == 0) {
 			const auto ikRuleDataPos = animDescPos + ikRuleIndex;
 			if (!seekAndValidate(stream, ikRuleDataPos)) {
 				return false;
@@ -637,14 +637,14 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		const auto eventCount = stream.read<int32_t>();
 		const auto eventIndex = stream.read<int32_t>();
 
-		// TODO: Parse animIndexIndex
-		// I think its an index to an array that maps the 2d blend to animation indices
-		// note: dont quote me on that
 		stream
 			.read(sequenceDesc.boundingBoxMin)
 			.read(sequenceDesc.boundingBoxMax)
-			.read(sequenceDesc.blendCount)
-			.read(sequenceDesc.animIndexIndex)
+			.read(sequenceDesc.blendCount);
+
+		const auto animIndexIndex = stream.read<int32_t>();
+
+		stream
 			.read(sequenceDesc.movementIndex)
 			.read(sequenceDesc.groupSize)
 			.read(sequenceDesc.paramIndex)
@@ -666,10 +666,8 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		const auto autoLayerCount = stream.read<int32_t>();
 		const auto autoLayerIndex = stream.read<int32_t>();
 
-		// TODO: Parse weightListIndex & poseKeyIndex
-		stream
-			.read(sequenceDesc.weightListIndex)
-			.read(sequenceDesc.poseKeyIndex);
+		const auto weightListIndex = stream.read<int32_t>();
+		const auto poseKeyIndex = stream.read<int32_t>();
 
 		const auto ikLockCount = stream.read<int32_t>();
 		const auto ikLockIndex = stream.read<int32_t>();
@@ -677,13 +675,45 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		const auto seqKeyValueIndex = stream.read<int32_t>();
 		const auto seqKeyValueSize = stream.read<int32_t>();
 
-		// TODO: Parse cyclePoseIndex
-		stream
-			.read(sequenceDesc.cyclePoseIndex);
+		stream.read(sequenceDesc.cyclePoseIndex);
 
-		stream
-			.skip<int32_t>(2) // activitymodifierindex, numactivitymodifiers
-			.skip<int32_t>(5); // unused
+		const auto activityModifierIndex = stream.read<int32_t>();
+		const auto activityModifierCount = stream.read<int32_t>();
+
+		stream.skip<int32_t>(5); // unused[5]
+
+		if (animIndexIndex != 0 && sequenceDesc.groupSize[0] > 0 && sequenceDesc.groupSize[1] > 0) {
+			stream.seek_u(sequenceDescPos + animIndexIndex);
+			const int blendCount = sequenceDesc.groupSize[0] * sequenceDesc.groupSize[1];
+			for (int j = 0; j < blendCount; j++) {
+				sequenceDesc.animIndices.push_back(stream.read<int16_t>());
+			}
+		}
+
+		// if boneCount is not set this will be garbage data so we check for it
+		if (weightListIndex != 0 && boneCount > 0) {
+			stream.seek_u(sequenceDescPos + weightListIndex);
+			for (int j = 0; j < boneCount; j++) {
+				sequenceDesc.boneWeights.push_back(stream.read<float>());
+			}
+		}
+
+		if (poseKeyIndex != 0) {
+			stream.seek_u(sequenceDescPos + poseKeyIndex);
+			const int poseKeyCount = sequenceDesc.groupSize[0] + sequenceDesc.groupSize[1];
+			for (int j = 0; j < poseKeyCount; j++) {
+				sequenceDesc.poseKeys.push_back(stream.read<float>());
+			}
+		}
+
+		if (activityModifierIndex != 0) {
+			for (int j = 0; j < activityModifierCount; j++) {
+				const auto modifierPos = sequenceDescPos + activityModifierIndex + j * sizeof(int32_t);
+				stream.seek_u(modifierPos);
+				auto& modifier = sequenceDesc.activityModifiers.emplace_back();
+				parser::binary::readStringAtOffset(stream, modifier);
+			}
+		}
 
 		const auto ikLockDataPos = sequenceDescPos + ikLockIndex;
 		stream.seek_u(ikLockDataPos);
@@ -828,7 +858,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 				stream.skip<int32_t>(8); // unused
 
-				if (meshFlexCount > 0 && meshFlexOffset != 0) {
+				if (meshFlexOffset != 0) {
 
 					for (int m = 0; m < meshFlexCount; m++) {
 						const auto flexPos = meshFlexOffset + m * (sizeof(int32_t) * 10 + sizeof(float) * 4 + sizeof(uint8_t) * 4);
@@ -852,7 +882,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 							.read(flex.flexPair)
 							.read(flex.vertAnimType);
 
-						if (numverts > 0 && vertindex != 0) {
+						if (vertindex != 0) {
 							// vertindex is relative to the flex structure base
 							const auto vertAnimPos = bodyPartPos + modelPos + meshPos + flexPos + vertindex;
 							if (!seekAndValidate(stream, vertAnimPos)) {
@@ -890,7 +920,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				}
 			}
 
-			if (eyeballsCount > 0 && eyeballsOffset != 0) {
+			if (eyeballsOffset != 0) {
 				for (int k = 0; k < eyeballsCount; k++) {
 					const auto eyeballPos = eyeballsOffset + k * (sizeof(int32_t) * 24 + sizeof(float) * 9 + sizeof(math::Vec3f) * 3 + sizeof(uint8_t) * 4);
 					if (!seekAndValidate(stream, bodyPartPos + modelPos + eyeballPos)) {
@@ -928,7 +958,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				}
 			}
 
-			if (modelAttachmentsCount > 0 && modelAttachmentsOffset != 0) {
+			if (modelAttachmentsOffset != 0) {
 				for (int k = 0; k < modelAttachmentsCount; k++) {
 					const auto attachmentPos = modelAttachmentsOffset + k * (sizeof(int32_t) + sizeof(uint32_t) + sizeof(int32_t) + sizeof(math::Mat3x4f) + sizeof(int32_t) * 8);
 					if (!seekAndValidate(stream, bodyPartPos + modelPos + attachmentPos)) {
@@ -1151,7 +1181,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		}
 	}
 
-	if (boneTableNameIndex != 0 && boneCount > 0) {
+	if (boneTableNameIndex != 0) {
 		stream.seek(boneTableNameIndex);
 		this->boneTableByName.reserve(boneCount);
 		for (int i = 0; i < boneCount; i++) {
