@@ -168,8 +168,10 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		.skip<int32_t>(); // _unused3
 
 	// header 2
+	// Note: some models have weird (dynamic??) header2 data with offsets (and size) pointing outside the file.
+	// Unlike the rest of this parser, I validate offset AND size, then skip invalid sections
+	// rather than failing the whole file. (Might want to change this). - cueki Nov 27, 2025
 	if (this->studioHdr2Index != 0) {
-		// TODO: Parse this
 		stream.seek_u(this->studioHdr2Index)
 			.read(this->header2.srcBoneTransformCount)
 			.read(this->header2.srcBoneTransformIndex)
@@ -179,9 +181,124 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(this->header2.nameIndex)
 			.read(this->header2.boneFlexDriverCount)
 			.read(this->header2.boneFlexDriverIndex);
-		// skip the 56 reserved int32 fields
-		stream.skip<int32_t>(56);
+		stream.skip<int32_t>(56); // reserved
 		this->hasHeader2 = true;
+
+		for (int i = 0; i < this->header2.srcBoneTransformCount; i++) {
+			const auto srcBoneTransformPos = this->studioHdr2Index + this->header2.srcBoneTransformIndex + i * (sizeof(int32_t) + sizeof(math::Mat3x4f) * 2);
+			if (srcBoneTransformPos + (sizeof(int32_t) + sizeof(math::Mat3x4f) * 2) > stream.size()) {
+				break;
+			}
+			auto& srcBoneTransform = this->srcBoneTransforms.emplace_back();
+
+			stream.seek_u(srcBoneTransformPos);
+			const auto nameOffset = stream.read<int32_t>();
+			const auto nameAbsOffset = srcBoneTransformPos + nameOffset;
+			if (nameOffset != 0 && nameAbsOffset > 0 && nameAbsOffset < stream.size()) {
+				stream.seek_u(nameAbsOffset)
+					.read(srcBoneTransform.name)
+					.seek_u(srcBoneTransformPos + sizeof(int32_t));
+			}
+
+			stream
+				.read(srcBoneTransform.pretransform)
+				.read(srcBoneTransform.posttransform);
+		}
+
+		if (this->header2.linearBoneIndex != 0) {
+			const auto linearBoneOffset = this->studioHdr2Index + this->header2.linearBoneIndex;
+			if (linearBoneOffset + sizeof(int32_t) * 16 <= stream.size()) {
+				this->linearBone = LinearBone{};
+				auto& lb = *this->linearBone;
+
+				stream.seek_u(linearBoneOffset)
+					.read(lb.boneCount);
+
+				const auto flagsIndex = stream.read<int32_t>();
+				const auto parentIndex = stream.read<int32_t>();
+				const auto posIndex = stream.read<int32_t>();
+				const auto quatIndex = stream.read<int32_t>();
+				const auto rotIndex = stream.read<int32_t>();
+				const auto poseToBoneIndex = stream.read<int32_t>();
+				const auto posScaleIndex = stream.read<int32_t>();
+				const auto rotScaleIndex = stream.read<int32_t>();
+				const auto qAlignmentIndex = stream.read<int32_t>();
+				stream.skip<int32_t>(6); // unused[6]
+
+				// we are reading from a struct of arrays instead of an array of structs
+				stream.seek_u(linearBoneOffset + flagsIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.flags.push_back(stream.read<int32_t>());
+				}
+
+				stream.seek_u(linearBoneOffset + parentIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.parent.push_back(stream.read<int32_t>());
+				}
+
+				stream.seek_u(linearBoneOffset + posIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.position.push_back(stream.read<math::Vec3f>());
+				}
+
+				stream.seek_u(linearBoneOffset + quatIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.quaternion.push_back(stream.read<math::Quat>());
+				}
+
+				stream.seek_u(linearBoneOffset + rotIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.rotation.push_back(stream.read<math::Vec3f>());
+				}
+
+				stream.seek_u(linearBoneOffset + poseToBoneIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.poseToBone.push_back(stream.read<math::Mat3x4f>());
+				}
+
+				stream.seek_u(linearBoneOffset + posScaleIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.positionScale.push_back(stream.read<math::Vec3f>());
+				}
+
+				stream.seek_u(linearBoneOffset + rotScaleIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.rotationScale.push_back(stream.read<math::Vec3f>());
+				}
+
+				stream.seek_u(linearBoneOffset + qAlignmentIndex);
+				for (int i = 0; i < lb.boneCount; i++) {
+					lb.quaternionAlignment.push_back(stream.read<math::Quat>());
+				}
+			}
+		}
+
+		for (int i = 0; i < this->header2.boneFlexDriverCount; i++) {
+			const auto boneFlexDriverPos = this->studioHdr2Index + this->header2.boneFlexDriverIndex + i * (sizeof(int32_t) * 6);
+			if (boneFlexDriverPos + (sizeof(int32_t) * 6) > stream.size()) {
+				break;
+			}
+			auto& boneFlexDriver = this->boneFlexDrivers.emplace_back();
+			stream.seek_u(boneFlexDriverPos)
+				.read(boneFlexDriver.boneIndex);
+
+			const auto controlCount = stream.read<int32_t>();
+			const auto controlIndex = stream.read<int32_t>();
+			stream.skip<int32_t>(3); // unused[3]
+
+			for (int j = 0; j < controlCount; j++) {
+				const auto controlPos = boneFlexDriverPos + controlIndex + j * (sizeof(int32_t) * 2 + sizeof(float) * 2);
+				if (controlPos + (sizeof(int32_t) * 2 + sizeof(float) * 2) > stream.size()) {
+					break;
+				}
+				auto& control = boneFlexDriver.controls.emplace_back();
+				stream.seek_u(controlPos)
+					.read(control.boneComponent)
+					.read(control.flexControllerIndex)
+					.read(control.min)
+					.read(control.max);
+			}
+		}
 	}
 
 	// Done reading sequentially, start seeking to offsets
@@ -654,7 +771,7 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		parser::binary::readStringAtOffset(stream, bodyPart.name);
 
 		const auto modelsCount = stream.read<int32_t>();
-		stream.skip<int32_t>(); // base
+		stream.read(bodyPart.base);
 		const auto modelsOffset = stream.read<int32_t>();
 
 		for (int j = 0; j < modelsCount; j++) {

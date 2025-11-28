@@ -12,6 +12,47 @@
 
 namespace mdlpp::MDL {
 
+// Header2 structs
+struct SrcBoneTransform {
+	//int32_t nameIndex;
+	std::string name;
+
+	sourcepp::math::Mat3x4f pretransform;
+	sourcepp::math::Mat3x4f posttransform;
+};
+
+struct LinearBone {
+	int32_t boneCount;
+
+	std::vector<int32_t> flags;
+	std::vector<int32_t> parent;
+	std::vector<sourcepp::math::Vec3f> position;
+	std::vector<sourcepp::math::Quat> quaternion;
+	std::vector<sourcepp::math::Vec3f> rotation;
+	std::vector<sourcepp::math::Mat3x4f> poseToBone;
+	std::vector<sourcepp::math::Vec3f> positionScale;
+	std::vector<sourcepp::math::Vec3f> rotationScale;
+	std::vector<sourcepp::math::Quat> quaternionAlignment;
+};
+
+struct BoneFlexDriverControl {
+	int32_t boneComponent;
+	int32_t flexControllerIndex;
+	float min;
+	float max;
+};
+
+struct BoneFlexDriver {
+	int32_t boneIndex;
+
+	//int32_t controlCount;
+	//int32_t controlIndex;
+	std::vector<BoneFlexDriverControl> controls;
+
+	//int32_t unused[3];
+};
+
+// Bone structs
 struct Bone {
 	enum Flags : int32_t {
 		FLAG_NONE                      = 0,
@@ -79,6 +120,7 @@ struct BoneController {
 	//int32_t _unused0[8];
 };
 
+// Hitbox structs
 struct HitboxSet {
 	//int32_t nameIndex;
 	std::string name;
@@ -88,6 +130,7 @@ struct HitboxSet {
 	std::vector<BBox> hitboxes;
 };
 
+// Animation structs
 struct AnimBoneData {
 	enum Flags : uint8_t {
 		FLAG_NONE     = 0,
@@ -217,6 +260,7 @@ struct AnimDesc {
 };
 SOURCEPP_BITFLAGS_ENUM(AnimDesc::Flags)
 
+// Sequence structs
 struct Event {
 	float cycle;
 	int32_t event;
@@ -317,6 +361,7 @@ struct SequenceDesc {
 };
 SOURCEPP_BITFLAGS_ENUM(SequenceDesc::Flags)
 
+// Material structs
 struct Material {
 	enum Flags : int32_t {
 		FLAG_NONE                              = 0,
@@ -335,6 +380,7 @@ struct Material {
 };
 SOURCEPP_BITFLAGS_ENUM(Material::Flags)
 
+// BodyPart structs (Model, Mesh, Flex, Eyeball, Attachment)
 struct Eyeball {
 	//int32_t sznameindex;
 	std::string name;
@@ -469,24 +515,17 @@ struct Model {
 	//int32_t _unused0[10];
 };
 
-struct PoseParameter {
-	//int32_t nameIndex;
+struct BodyPart {
+	//int32_t nameOffset;
 	std::string name;
 
-	int32_t flags;
-	float start;
-	float end;
-	float loop;
+	//int32_t modelsCount;
+	int32_t base; // multiplier for bodygroup skin index calculation?
+	//int32_t modelsOffset;
+	std::vector<Model> models;
 };
 
-struct IncludeModel {
-	//int32_t labelIndex;
-	std::string label;
-
-	//int32_t nameIndex;
-	std::string name;
-};
-
+// Flex structs
 struct FlexController {
 	//int32_t typeIndex;
 	std::string type;
@@ -497,46 +536,6 @@ struct FlexController {
 	int32_t localToGlobal;
 	float min;
 	float max;
-};
-
-struct FlexControllerUI {
-	//int32_t nameIndex;
-	std::string name;
-
-	// SIMPLE/STEREO/NWAY
-	//int32_t szindex0;
-	//int32_t szindex1;
-	//int32_t szindex2;
-	std::string controllerName0;  // non-stereo || left controller (stereo)
-	std::string controllerName1;  // right controller (stereo)
-	std::string controllerName2;  // value controller (NWAY only)
-
-	uint8_t remapType;
-	bool stereo;
-	//uint8_t unused[2];
-};
-
-struct IKLink {
-	int32_t bone;
-	sourcepp::math::Vec3f kneeDir;
-	//sourcepp::math::Vec3f unused;
-};
-
-struct IKChain {
-	//int32_t nameIndex;
-	std::string name;
-
-	int32_t linkType;
-
-	//int32_t linkCount;
-	//int32_t linkIndex;
-	std::vector<IKLink> links;
-};
-
-struct Mouth {
-	int32_t bone;
-	sourcepp::math::Vec3f forward;
-	int32_t flexDescIndex;
 };
 
 enum FlexOpType : int32_t {
@@ -579,22 +578,77 @@ struct FlexRule {
 	std::vector<FlexOp> ops;
 };
 
+// IK structs
+struct IKLink {
+	int32_t bone;
+	sourcepp::math::Vec3f kneeDir;
+	//sourcepp::math::Vec3f unused;
+};
+
+struct IKChain {
+	//int32_t nameIndex;
+	std::string name;
+
+	int32_t linkType;
+
+	//int32_t linkCount;
+	//int32_t linkIndex;
+	std::vector<IKLink> links;
+};
+
+// Mouth struct
+struct Mouth {
+	int32_t bone;
+	sourcepp::math::Vec3f forward;
+	int32_t flexDescIndex;
+};
+
+// Pose parameter struct
+struct PoseParameter {
+	//int32_t nameIndex;
+	std::string name;
+
+	int32_t flags;
+	float start;
+	float end;
+	float loop;
+};
+
+// Include model struct
+struct IncludeModel {
+	//int32_t labelIndex;
+	std::string label;
+
+	//int32_t nameIndex;
+	std::string name;
+};
+
+// Animation block struct
 struct AnimBlock {
 	// external offsets
 	int32_t dataStart;
 	int32_t dataEnd;
 };
 
-struct BodyPart {
-	//int32_t nameOffset;
+// Flex controller UI struct
+struct FlexControllerUI {
+	//int32_t nameIndex;
 	std::string name;
 
-	//int32_t modelsCount;
-	int32_t base; // No idea what this is, might as well expose it
-	//int32_t modelsOffset;
-	std::vector<Model> models;
+	// SIMPLE/STEREO/NWAY
+	//int32_t szindex0;
+	//int32_t szindex1;
+	//int32_t szindex2;
+	std::string controllerName0;  // non-stereo || left controller (stereo)
+	std::string controllerName1;  // right controller (stereo)
+	std::string controllerName2;  // value controller (NWAY only)
+
+	uint8_t remapType;
+	bool stereo;
+	//uint8_t unused[2];
 };
 
+// Main struct
 struct MDL {
 	[[nodiscard]] bool open(const std::byte* data, std::size_t size);
 
@@ -775,6 +829,10 @@ struct MDL {
 	};
 	Header2 header2{};
 	bool hasHeader2 = false;
+
+	std::vector<SrcBoneTransform> srcBoneTransforms;
+	std::optional<LinearBone> linearBone;
+	std::vector<BoneFlexDriver> boneFlexDrivers;
 };
 SOURCEPP_BITFLAGS_ENUM(MDL::Flags)
 
