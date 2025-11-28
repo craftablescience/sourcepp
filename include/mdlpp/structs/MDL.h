@@ -208,6 +208,26 @@ struct IKRule {
 	//int32_t unused[7];
 };
 
+struct LocalHierarchy {
+	int32_t bone{};
+	int32_t newParent{};
+	float start{};
+	float peak{};
+	float tail{};
+	float end{};
+	int32_t startFrame{};
+
+	//int32_t localAnimIndex;
+	std::optional<CompressedIKError> compressedIKError;
+
+	//int32_t unused[4];
+};
+
+struct AnimSection {
+	int32_t animBlock;
+	int32_t animIndex;
+};
+
 struct AnimDesc {
 	enum Flags : int32_t {
 		FLAG_NONE     = 0,
@@ -244,11 +264,13 @@ struct AnimDesc {
 
 	int32_t animBlockIKRuleIndex;
 
-	int32_t localHierarchyCount;
-	int32_t localHierarchyIndex;
+	//int32_t localHierarchyCount;
+	//int32_t localHierarchyIndex;
+	std::vector<LocalHierarchy> localHierarchies;
 
-	int32_t sectionIndex;
+	//int32_t sectionIndex;
 	int32_t sectionFrames;
+	std::vector<AnimSection> sections;
 
 	int16_t zeroFrameSpan;
 	int16_t zeroFrameCount;
