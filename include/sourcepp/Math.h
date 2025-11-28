@@ -385,6 +385,19 @@ struct QuatCompressed64 {
 };
 static_assert(std::is_trivially_copyable_v<QuatCompressed64>);
 
+/// Lower precision Vec3 compressed to 6 bytes
+struct Vec3Compressed48 : Vec3ui16 {
+	using Vec3ui16::Vec;
+
+	[[nodiscard]] Vec3f decompress() const {
+		const float fx = (static_cast<float>((*this)[0]) / 32767.5f) - 1.f;
+		const float fy = (static_cast<float>((*this)[1]) / 32767.5f) - 1.f;
+		const float fz = (static_cast<float>((*this)[2]) / 32767.5f) - 1.f;
+		return {fx, fy, fz};
+	}
+};
+static_assert(std::is_trivially_copyable_v<Vec3Compressed48>);
+
 template<uint8_t M, uint8_t N, Arithmetic P>
 class Mat {
 	static_assert(M >= 2, "Matrices must have at least two rows!");
