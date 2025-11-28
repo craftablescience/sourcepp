@@ -323,6 +323,13 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 			.read(bone.procIndex)
 			.read(bone.physicsBone);
 
+		// TODO: Parse procedural bone data at procIndex
+		// - STUDIO_PROC_AXISINTERP (1): mstudioaxisinterpbone_t - 152 bytes
+		// - STUDIO_PROC_QUATINTERP (2): mstudioquatinterpbone_t - 12 bytes + trigger array
+		// - STUDIO_PROC_AIMATBONE (3): mstudioaimatbone_t - 44 bytes
+		// - STUDIO_PROC_AIMATATTACH (4): mstudioaimatbone_t - 44 bytes
+		// - STUDIO_PROC_JIGGLE (5): mstudiojigglebone_t - 140 bytes (lol)
+
 		parser::binary::readStringAtOffset(stream, bone.surfacePropName, std::ios::cur, sizeof(int32_t) * 12 + sizeof(math::Vec3f) * 4 + sizeof(math::Quat) * 2 + sizeof(math::Mat3x4f) + sizeof(Bone::Flags));
 		stream.read(bone.contents);
 
@@ -400,19 +407,24 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 		const auto ikRuleCount = stream.read<int32_t>();
 		const auto ikRuleIndex = stream.read<int32_t>();
 
-		// TODO: Parse all this strange stuff
-		stream
-			.read(animDesc.animBlockIKRuleIndex)
-			.read(animDesc.localHierarchyCount)
-			.read(animDesc.localHierarchyIndex)
-			.read(animDesc.sectionIndex)
-			.read(animDesc.sectionFrames)
-			.read(animDesc.zeroFrameSpan)
+		stream.read(animDesc.animBlockIKRuleIndex);
+
+		const auto localHierarchyCount = stream.read<int32_t>();
+		const auto localHierarchyIndex = stream.read<int32_t>();
+
+		const auto sectionIndex = stream.read<int32_t>();
+		stream.read(animDesc.sectionFrames);
+
+		// TODO: Parse zeroframe bone data at zeroFrameIndex when animBlock != 0
+		// For each bone with BONE_HAS_SAVEFRAME_POS: read zeroFrameCount * Vector48
+		// For each bone with BONE_HAS_SAVEFRAME_ROT: read zeroFrameCount * Quaternion64
+		stream.read(animDesc.zeroFrameSpan)
 			.read(animDesc.zeroFrameCount)
 			.read(animDesc.zeroFrameIndex)
 			.read(animDesc.zeroFrameStallTime);
 
-		// TODO: Load external animations if animBlock != 0
+		// TODO: Load external animations from external file when animBlock != 0
+		// Animation data, IK rules (animBlockIKRuleIndex), and local hierarchy are in external blocks
 		if (animDesc.animIndex != 0 && animDesc.animBlock == 0) {
 			const auto animDataPos = animDescPos + animDesc.animIndex;
 			if (!seekAndValidate(stream, animDataPos)) {
@@ -617,6 +629,62 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 				}
 			}
 		}
+
+		if (localHierarchyIndex != 0 && animDesc.animBlock == 0) {
+			for (int j = 0; j < localHierarchyCount; j++) {
+				const auto localHierarchyPos = animDescPos + localHierarchyIndex + j * (sizeof(int32_t) * 2 + sizeof(float) * 4 + sizeof(int32_t) * 6);
+				stream.seek_u(localHierarchyPos);
+
+				auto& localHierarchy = animDesc.localHierarchies.emplace_back();
+				stream
+					.read(localHierarchy.bone)
+					.read(localHierarchy.newParent)
+					.read(localHierarchy.start)
+					.read(localHierarchy.peak)
+					.read(localHierarchy.tail)
+					.read(localHierarchy.end)
+					.read(localHierarchy.startFrame);
+
+				const auto localAnimIndex = stream.read<int32_t>();
+				stream.skip<int32_t>(4); // unused[4]
+
+				if (localAnimIndex != 0) {
+					const auto compErrorPos = localHierarchyPos + localAnimIndex;
+					stream.seek_u(compErrorPos);
+
+					localHierarchy.compressedIKError = CompressedIKError{};
+					stream
+						.read(localHierarchy.compressedIKError->scale)
+						.read(localHierarchy.compressedIKError->offset);
+
+					const auto compErrorDataPos = stream.tell();
+					for (uint8_t idx = 0; idx < localHierarchy.compressedIKError->offset.size(); idx++) {
+						const auto k = localHierarchy.compressedIKError->offset[idx];
+						if (k > 0) {
+							if (!seekAndValidate(stream, compErrorDataPos + k)) {
+								return false;
+							}
+							readAnimValueRLE(stream, animDesc.frameCount, localHierarchy.compressedIKError->animValues);
+						}
+					}
+				}
+			}
+		}
+
+		if (sectionIndex != 0 && animDesc.sectionFrames > 0) {
+			// NOTE: numsections is not stored in the file, only in studiomdl's internal s_animation_t.
+			// So I cannot guarantee this formula is correct - cueki
+			const int sectionCount = animDesc.frameCount / animDesc.sectionFrames + 2;
+			for (int j = 0; j < sectionCount; j++) {
+				const auto sectionPos = animDescPos + sectionIndex + j * sizeof(AnimSection);
+				stream.seek_u(sectionPos);
+
+				auto& section = animDesc.sections.emplace_back();
+				stream
+					.read(section.animBlock)
+					.read(section.animIndex);
+			}
+		}
 	}
 
 	stream.seek(sequenceDescOffset);
@@ -700,7 +768,10 @@ bool MDL::open(const std::byte* data, std::size_t size) {
 
 		if (poseKeyIndex != 0) {
 			stream.seek_u(sequenceDescPos + poseKeyIndex);
-			const int poseKeyCount = sequenceDesc.groupSize[0] + sequenceDesc.groupSize[1];
+			// pPoseKey(iParam, iAnim) indexes as iParam * groupsize[0] + iAnim
+			// iParam is 0 or 1 (2 params), iAnim is 0 to groupsize[0]-1
+			// So total keys = 2 * groupSize[0]
+			const int poseKeyCount = 2 * sequenceDesc.groupSize[0];
 			for (int j = 0; j < poseKeyCount; j++) {
 				sequenceDesc.poseKeys.push_back(stream.read<float>());
 			}
