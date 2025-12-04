@@ -210,7 +210,7 @@ add_sourcepp_library(bsppp             PYTHON                ) # sourcepp::bsppp
 add_sourcepp_library(dmxpp                         TEST      ) # sourcepp::dmxpp
 add_sourcepp_library(fspp                          TEST      ) # sourcepp::fspp
 add_sourcepp_library(gamepp   C        PYTHON      TEST      ) # sourcepp::gamepp
-add_sourcepp_library(kvpp                          TEST BENCH) # sourcepp::kvpp
+add_sourcepp_library(kvpp              PYTHON      TEST BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
 add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
 add_sourcepp_library(steampp  C        PYTHON      TEST      ) # sourcepp::steampp

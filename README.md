@@ -86,7 +86,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Text<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
-    <td rowspan="3" align="center"></td>
+    <td rowspan="3" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

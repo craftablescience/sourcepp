@@ -25,12 +25,14 @@ enum class KV1BinaryValueType : uint8_t {
 	COUNT,
 };
 
+using KV1BinaryPointer = uint32_t;
+
 using KV1BinaryValue = std::variant<
 	std::monostate,
 	std::string,
 	int32_t,
 	float,
-	void*,
+	KV1BinaryPointer,
 	std::wstring,
 	sourcepp::math::Vec4ui8,
 	uint64_t
@@ -40,7 +42,7 @@ template<typename V>
 concept KV1BinaryValueNoChildren = std::same_as<V, std::string>
                                 || std::same_as<V, int32_t>
                                 || std::same_as<V, float>
-                                || std::same_as<V, void*>
+                                || std::same_as<V, KV1BinaryPointer>
                                 || std::same_as<V, std::wstring>
                                 || std::same_as<V, sourcepp::math::Vec4ui8>
                                 || std::same_as<V, uint64_t>;
@@ -89,17 +91,8 @@ public:
 	/// Check if the element has one or more children with the given name
 	[[nodiscard]] bool hasChild(std::string_view childKey) const;
 
-	/// Get the number of child elements
-	[[nodiscard]] uint64_t getChildCount() const;
-
-	/// Get the number of child elements with the given key
-	[[nodiscard]] uint64_t getChildCount(std::string_view childKey) const;
-
-	/// Get the child elements of the element
-	[[nodiscard]] const std::vector<KV1BinaryElement>& getChildren() const;
-
 	/// Add a child element to the element
-	KV1BinaryElement& addChild(std::string_view key_);
+	KV1BinaryElement& addChild(std::string_view key_, KV1BinaryValue value_ = {});
 
 	/// Add a child element to the element
 	template<KV1BinaryValueNoChildren V>
@@ -109,6 +102,43 @@ public:
 		elem.setValue(std::move(value_));
 		this->children.push_back(elem);
 		return this->children.back();
+	}
+
+	/// Get the number of child elements
+	[[nodiscard]] uint64_t getChildCount() const;
+
+	/// Get the number of child elements with the given key
+	[[nodiscard]] uint64_t getChildCount(std::string_view childKey) const;
+
+	/// Get the child elements of the element
+	[[nodiscard]] const std::vector<KV1BinaryElement>& getChildren() const;
+
+	using iterator = std::vector<KV1BinaryElement>::iterator;
+
+	[[nodiscard]] constexpr iterator begin() {
+		return this->children.begin();
+	}
+
+	[[nodiscard]] constexpr iterator end() {
+		return this->children.end();
+	}
+
+	using const_iterator = std::vector<KV1BinaryElement>::const_iterator;
+
+	[[nodiscard]] constexpr const_iterator begin() const {
+		return this->children.begin();
+	}
+
+	[[nodiscard]] constexpr const_iterator end() const {
+		return this->children.end();
+	}
+
+	[[nodiscard]] constexpr const_iterator cbegin() const {
+		return this->children.cbegin();
+	}
+
+	[[nodiscard]] constexpr const_iterator cend() const {
+		return this->children.cend();
 	}
 
 	/// Get the child element of the element at the given index
@@ -141,38 +171,12 @@ public:
 	/// Remove a child element from the element. -1 means all children with the given key
 	void removeChild(std::string_view childKey, int n = -1);
 
-	using iterator = std::vector<KV1BinaryElement>::iterator;
-
-	[[nodiscard]] constexpr iterator begin() {
-		return this->children.begin();
-	}
-
-	[[nodiscard]] constexpr iterator end() {
-		return this->children.end();
-	}
-
-	using const_iterator = std::vector<KV1BinaryElement>::const_iterator;
-
-	[[nodiscard]] constexpr const_iterator begin() const {
-		return this->children.begin();
-	}
-
-	[[nodiscard]] constexpr const_iterator end() const {
-		return this->children.end();
-	}
-
-	[[nodiscard]] constexpr const_iterator cbegin() const {
-		return this->children.cbegin();
-	}
-
-	[[nodiscard]] constexpr const_iterator cend() const {
-		return this->children.cend();
-	}
-
 	/// Check if the given element is invalid
 	[[nodiscard]] bool isInvalid() const;
 
 	static const KV1BinaryElement& getInvalid();
+
+	[[nodiscard]] explicit operator bool() const;
 
 protected:
 	// NOLINTNEXTLINE(*-no-recursion)

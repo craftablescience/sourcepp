@@ -8,6 +8,10 @@
 #include "gamepp.h"
 #endif
 
+#ifdef KVPP
+#include "kvpp.h"
+#endif
+
 #ifdef STEAMPP
 #include "steampp.h"
 #endif
@@ -35,43 +39,33 @@ NB_MODULE(_sourcepp_impl, m) {
 
 #ifdef GAMEPP
 	gamepp::register_python(m);
-#else
-	m.def_submodule("gamepp");
+#endif
+
+#ifdef KVPP
+	kvpp::register_python(m);
 #endif
 
 #ifdef STEAMPP
 	steampp::register_python(m);
-#else
-	m.def_submodule("steampp");
 #endif
 
 #ifdef TOOLPP
 	toolpp::register_python(m);
-#else
-	m.def_submodule("toolpp");
 #endif
 
 #ifdef VCRYPTPP
 	vcryptpp::register_python(m);
-#else
-	m.def_submodule("vcryptpp");
 #endif
 
 #ifdef VPKPP
 	vpkpp::register_python(m);
-#else
-	m.def_submodule("vpkpp");
 #endif
 
 #ifdef BSPPP
 	bsppp::register_python(m);
-#else
-	m.def_submodule("bsppp");
 #endif
 
 #ifdef VTFPP
 	vtfpp::register_python(m);
-#else
-	m.def_submodule("vtfpp");
 #endif
 }

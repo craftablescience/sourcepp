@@ -1,9 +1,12 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <kvpp/KV1Binary.h>
 
 #include <format>
 #include <functional>
+#include <utility>
 
-#include <kvpp/KV1.h>
+#include <kvpp/KV1Writer.h>
 #include <sourcepp/FS.h>
 
 using namespace kvpp;
@@ -34,6 +37,14 @@ bool KV1BinaryElement::hasChild(std::string_view childKey) const {
 	return !this->operator[](childKey).isInvalid();
 }
 
+KV1BinaryElement& KV1BinaryElement::addChild(std::string_view key_, KV1BinaryValue value_) {
+	KV1BinaryElement elem;
+	elem.setKey(key_);
+	elem.setValue(std::move(value_));
+	this->children.push_back(elem);
+	return this->children.back();
+}
+
 uint64_t KV1BinaryElement::getChildCount() const {
 	return this->children.size();
 }
@@ -50,13 +61,6 @@ uint64_t KV1BinaryElement::getChildCount(std::string_view childKey) const {
 
 const std::vector<KV1BinaryElement>& KV1BinaryElement::getChildren() const {
 	return this->children;
-}
-
-KV1BinaryElement& KV1BinaryElement::addChild(std::string_view key_) {
-	KV1BinaryElement elem;
-	elem.setKey(key_);
-	this->children.push_back(elem);
-	return this->children.back();
 }
 
 const KV1BinaryElement& KV1BinaryElement::operator[](unsigned int n) const {
@@ -149,6 +153,10 @@ const KV1BinaryElement& KV1BinaryElement::getInvalid() {
 	return element;
 }
 
+KV1BinaryElement::operator bool() const {
+	return !this->isInvalid();
+}
+
 void KV1BinaryElement::read(BufferStreamReadOnly& stream, std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences) {
 	for (;;) {
 		const auto type = stream.read<KV1BinaryValueType>();
@@ -172,7 +180,7 @@ void KV1BinaryElement::read(BufferStreamReadOnly& stream, std::vector<KV1BinaryE
 				element.value = stream.read<float>();
 				break;
 			case POINTER:
-				element.value = reinterpret_cast<void*>(stream.read<int32_t>());
+				element.value = stream.read<KV1BinaryPointer>();
 				break;
 			case WSTRING: {
 				const auto len = stream.read<uint16_t>();
@@ -195,7 +203,7 @@ void KV1BinaryElement::read(BufferStreamReadOnly& stream, std::vector<KV1BinaryE
 			case UINT64:
 				element.value = stream.read<uint64_t>();
 				break;
-			case COUNT:
+			default:
 				break;
 		}
 	}
@@ -222,7 +230,7 @@ void KV1BinaryElement::write(BufferStream& stream, const std::vector<KV1BinaryEl
 				stream.write(*element.getValue<float>());
 				break;
 			case POINTER:
-				stream.write(static_cast<int32_t>(reinterpret_cast<uint64_t>(*element.getValue<void*>())));
+				stream.write(*element.getValue<KV1BinaryPointer>());
 				break;
 			case WSTRING: {
 				const auto val = *element.getValue<std::wstring>();
@@ -291,7 +299,7 @@ std::string KV1Binary::bakeText() const {
 				child = *element.getValue<float>();
 				break;
 			case POINTER:
-				child = reinterpret_cast<int64_t>(*element.getValue<void*>());
+				child = static_cast<int64_t>(*element.getValue<KV1BinaryPointer>());
 				break;
 			case WSTRING:
 				break;
