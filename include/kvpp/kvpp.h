@@ -7,3 +7,4 @@
 
 #include "KV1.h"
 #include "KV1Binary.h"
+#include "KV1Writer.h"

@@ -144,6 +144,39 @@ bool parser::text::tryToEatChar(BufferStream& stream, char c) {
 	return true;
 }
 
+std::string parser::text::readString(BufferStream& stream, std::string_view start, std::string_view end, const EscapeSequenceMap& escapeSequences) {
+	std::string out;
+
+	bool stopAtWhitespace = true;
+	char c = stream.read<char>();
+	if (start.find(c) != std::string_view::npos) {
+		stopAtWhitespace = false;
+	} else {
+		out += c;
+	}
+
+	for (c = stream.read<char>(); (stopAtWhitespace && !isWhitespace(c)) || (!stopAtWhitespace && end.find(c) == std::string_view::npos); c = stream.read<char>()) {
+		if (!escapeSequences.empty() && c == '\\') {
+			auto n = stream.read<char>();
+			if (stopAtWhitespace && isWhitespace(n)) {
+				break;
+			}
+			if (escapeSequences.contains(n)) {
+				out += escapeSequences.at(n);
+			} else if (!stopAtWhitespace && end.find(n) != std::string_view::npos) {
+				break;
+			} else {
+				out += c;
+				out += n;
+			}
+		} else {
+			out += c;
+		}
+	}
+
+	return out;
+}
+
 std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start, std::string_view end, const EscapeSequenceMap& escapeSequences) {
 	const auto startSpan = backing.tell();
 
@@ -177,8 +210,34 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }
 
+std::string parser::text::readUnquotedString(BufferStream& stream, const EscapeSequenceMap& escapeSequences) {
+	return readString(stream, "", "", escapeSequences);
+}
+
 std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, const EscapeSequenceMap& escapeSequences) {
 	return readStringToBuffer(stream, backing, "", "", escapeSequences);
+}
+
+std::string parser::text::readUnquotedString(BufferStream& stream, std::string_view end, const EscapeSequenceMap& escapeSequences) {
+	std::string out;
+
+	for (char c = stream.read<char>(); !isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
+		if (!escapeSequences.empty() && c == '\\') {
+			auto n = stream.read<char>();
+			if (escapeSequences.contains(n)) {
+				out += escapeSequences.at(n);
+			} else if (isWhitespace(n) || end.find(n) != std::string_view::npos) {
+				break;
+			} else {
+				out += c;
+				out += n;
+			}
+		} else {
+			out += c;
+		}
+	}
+
+	return out;
 }
 
 std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences) {
