@@ -8,9 +8,6 @@
 #include <variant>
 #include <vector>
 
-#include <BufferStream.h>
-#include <sourcepp/parser/Text.h>
-
 namespace kvpp {
 
 enum class KV1BinaryValueType : uint8_t {
@@ -113,6 +110,9 @@ public:
 	/// Get the child elements of the element
 	[[nodiscard]] const std::vector<KV1BinaryElement>& getChildren() const;
 
+	/// Get the child elements of the element
+	[[nodiscard]] std::vector<KV1BinaryElement>& getChildren();
+
 	using iterator = std::vector<KV1BinaryElement>::iterator;
 
 	[[nodiscard]] constexpr iterator begin() {
@@ -179,11 +179,6 @@ public:
 	[[nodiscard]] explicit operator bool() const;
 
 protected:
-	// NOLINTNEXTLINE(*-no-recursion)
-	static void read(BufferStreamReadOnly& stream, std::vector<KV1BinaryElement>& elements, const sourcepp::parser::text::EscapeSequenceMap& escapeSequences);
-
-	static void write(BufferStream& stream, const std::vector<KV1BinaryElement>& elements, const sourcepp::parser::text::EscapeSequenceMap& escapeSequences);
-
 	std::string key;
 	KV1BinaryValue value;
 	std::vector<KV1BinaryElement> children;

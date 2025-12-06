@@ -6,7 +6,9 @@
 #include <functional>
 #include <utility>
 
+#include <BufferStream.h>
 #include <kvpp/KV1Writer.h>
+#include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
 
 using namespace kvpp;
@@ -60,6 +62,10 @@ uint64_t KV1BinaryElement::getChildCount(std::string_view childKey) const {
 }
 
 const std::vector<KV1BinaryElement>& KV1BinaryElement::getChildren() const {
+	return this->children;
+}
+
+std::vector<KV1BinaryElement> & KV1BinaryElement::getChildren() {
 	return this->children;
 }
 
@@ -157,104 +163,6 @@ KV1BinaryElement::operator bool() const {
 	return !this->isInvalid();
 }
 
-void KV1BinaryElement::read(BufferStreamReadOnly& stream, std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences) {
-	for (;;) {
-		const auto type = stream.read<KV1BinaryValueType>();
-		if (type == KV1BinaryValueType::COUNT) {
-			break;
-		}
-		KV1BinaryElement& element = elements.emplace_back();
-		element.key = stream.read_string();
-		switch (type) {
-			using enum KV1BinaryValueType;
-			case CHILDREN:
-				KV1BinaryElement::read(stream, element.children, escapeSequences);
-				break;
-			case STRING:
-				element.value = stream.read_string();
-				break;
-			case INT32:
-				element.value = stream.read<int32_t>();
-				break;
-			case FLOAT:
-				element.value = stream.read<float>();
-				break;
-			case POINTER:
-				element.value = stream.read<KV1BinaryPointer>();
-				break;
-			case WSTRING: {
-				const auto len = stream.read<uint16_t>();
-				std::wstring value;
-				for (int i = 0; i < len; i++) {
-					value += stream.read<char16_t>();
-				}
-				element.value = value;
-				break;
-			}
-			case COLOR_RGBA: {
-				math::Vec4ui8 value;
-				value[0] = stream.read<uint8_t>();
-				value[1] = stream.read<uint8_t>();
-				value[2] = stream.read<uint8_t>();
-				value[3] = stream.read<uint8_t>();
-				element.value = value;
-				break;
-			}
-			case UINT64:
-				element.value = stream.read<uint64_t>();
-				break;
-			default:
-				break;
-		}
-	}
-}
-
-void KV1BinaryElement::write(BufferStream& stream, const std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences) {
-	for (const auto& element : elements) {
-		const auto type = static_cast<KV1BinaryValueType>(element.getValue().index());
-		stream
-			.write(type)
-			.write(element.getKey());
-		switch (type) {
-			using enum KV1BinaryValueType;
-			case CHILDREN:
-				KV1BinaryElement::write(stream, element.children, escapeSequences);
-				break;
-			case STRING:
-				stream.write(*element.getValue<std::string>());
-				break;
-			case INT32:
-				stream.write(*element.getValue<int32_t>());
-				break;
-			case FLOAT:
-				stream.write(*element.getValue<float>());
-				break;
-			case POINTER:
-				stream.write(*element.getValue<KV1BinaryPointer>());
-				break;
-			case WSTRING: {
-				const auto val = *element.getValue<std::wstring>();
-				stream
-					.write<uint16_t>(val.size() + 1)
-					.write(reinterpret_cast<const char16_t*>(val.data()), val.size() * sizeof(char16_t) / sizeof(wchar_t))
-					.write<uint16_t>(0);
-				break;
-			}
-			case COLOR_RGBA: {
-				const auto val = *element.getValue<math::Vec4ui8>();
-				stream << val[0] << val[1] << val[2] << val[3];
-				break;
-			}
-			case UINT64:
-				stream.write(*element.getValue<uint64_t>());
-				break;
-			case COUNT:
-				break;
-		}
-	}
-	stream.write(KV1BinaryValueType::COUNT);
-}
-
 KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool useEscapeSequences_)
 		: KV1BinaryElement()
 		, useEscapeSequences(useEscapeSequences_) {
@@ -262,13 +170,114 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool useEscapeSequences
 		return;
 	}
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
-	KV1BinaryElement::read(stream, this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+
+	std::function<void(std::vector<KV1BinaryElement>&, const parser::text::EscapeSequenceMap&)> recursiveReader;
+	recursiveReader = [&stream, &recursiveReader](std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences) {
+		for (;;) {
+			const auto type = stream.read<KV1BinaryValueType>();
+			if (type == KV1BinaryValueType::COUNT) {
+				break;
+			}
+			KV1BinaryElement& element = elements.emplace_back();
+			element.setKey(stream.read_string());
+			switch (type) {
+				using enum KV1BinaryValueType;
+				case CHILDREN:
+					recursiveReader(element.getChildren(), escapeSequences);
+					break;
+				case STRING:
+					element.setValue(stream.read_string());
+					break;
+				case INT32:
+					element.setValue(stream.read<int32_t>());
+					break;
+				case FLOAT:
+					element.setValue(stream.read<float>());
+					break;
+				case POINTER:
+					element.setValue(stream.read<KV1BinaryPointer>());
+					break;
+				case WSTRING: {
+					const auto len = stream.read<uint16_t>();
+					std::wstring value;
+					for (int i = 0; i < len; i++) {
+						value += stream.read<char16_t>();
+					}
+					element.setValue(std::move(value));
+					break;
+				}
+				case COLOR_RGBA: {
+					math::Vec4ui8 value;
+					value[0] = stream.read<uint8_t>();
+					value[1] = stream.read<uint8_t>();
+					value[2] = stream.read<uint8_t>();
+					value[3] = stream.read<uint8_t>();
+					element.setValue(value);
+					break;
+				}
+				case UINT64:
+					element.setValue(stream.read<uint64_t>());
+					break;
+				default:
+					break;
+			}
+		}
+	};
+	recursiveReader(this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
 }
 
 std::vector<std::byte> KV1Binary::bake() const {
 	std::vector<std::byte> buffer;
 	BufferStream stream{buffer};
-	KV1BinaryElement::write(stream, this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+
+	std::function<void(const std::vector<KV1BinaryElement>&, const parser::text::EscapeSequenceMap&)> recursiveWriter;
+	recursiveWriter = [&stream, &recursiveWriter](const std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences){
+		for (const auto& element : elements) {
+			const auto type = static_cast<KV1BinaryValueType>(element.getValue().index());
+			stream
+				.write(type)
+				.write(element.getKey());
+			switch (type) {
+				using enum KV1BinaryValueType;
+				case CHILDREN:
+					recursiveWriter(element.getChildren(), escapeSequences);
+					break;
+				case STRING:
+					stream.write(*element.getValue<std::string>());
+					break;
+				case INT32:
+					stream.write(*element.getValue<int32_t>());
+					break;
+				case FLOAT:
+					stream.write(*element.getValue<float>());
+					break;
+				case POINTER:
+					stream.write(*element.getValue<KV1BinaryPointer>());
+					break;
+				case WSTRING: {
+					const auto val = *element.getValue<std::wstring>();
+					stream
+						.write<uint16_t>(val.size() + 1)
+						.write(reinterpret_cast<const char16_t*>(val.data()), val.size() * sizeof(char16_t) / sizeof(wchar_t))
+						.write<uint16_t>(0);
+					break;
+				}
+				case COLOR_RGBA: {
+					const auto val = *element.getValue<math::Vec4ui8>();
+					stream << val[0] << val[1] << val[2] << val[3];
+					break;
+				}
+				case UINT64:
+					stream.write(*element.getValue<uint64_t>());
+					break;
+				case COUNT:
+					break;
+			}
+		}
+		stream.write(KV1BinaryValueType::COUNT);
+	};
+	recursiveWriter(this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+
 	buffer.resize(stream.size());
 	return buffer;
 }
