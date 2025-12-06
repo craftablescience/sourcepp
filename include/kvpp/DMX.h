@@ -84,7 +84,7 @@ enum class ID : uint8_t {
 
 	VALUE_START = 1,
 	ELEMENT = 1,
-	INT = 2,
+	INT32 = 2,
 	FLOAT = 3,
 	BOOL = 4,
 	STRING = 5,
@@ -101,7 +101,7 @@ enum class ID : uint8_t {
 
 	ARRAY_START = 15,
 	ARRAY_ELEMENT = 15,
-	ARRAY_INT = 16,
+	ARRAY_INT32 = 16,
 	ARRAY_FLOAT = 17,
 	ARRAY_BOOL = 18,
 	ARRAY_STRING = 19,
@@ -145,7 +145,7 @@ enum class ID : uint8_t {
 [[nodiscard]] constexpr ID stringToID(std::string_view id) {
 	using enum ID;
 	if (id == "element")    return ELEMENT;
-	if (id == "int")        return INT;
+	if (id == "int")        return INT32;
 	if (id == "float")      return FLOAT;
 	if (id == "bool")       return BOOL;
 	if (id == "string")     return STRING;
@@ -180,9 +180,9 @@ public:
 
 	void setKey(std::string key_);
 
-	[[nodiscard]] bool isArray() const;
-
 	[[nodiscard]] DMXValue::ID getValueType() const;
+
+	[[nodiscard]] bool isValueArray() const;
 
 	[[nodiscard]] const DMXValue::Generic& getValue() const;
 

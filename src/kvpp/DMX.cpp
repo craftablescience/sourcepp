@@ -20,7 +20,7 @@ std::string DMXValue::IDToString(ID id) {
 			break;
 		case ID::ELEMENT:
 			return "element";
-		case ID::INT:
+		case ID::INT32:
 			return "int";
 		case ID::FLOAT:
 			return "float";
@@ -47,7 +47,7 @@ std::string DMXValue::IDToString(ID id) {
 		case ID::MATRIX_4X4:
 			return "matrix";
 		case ID::ARRAY_ELEMENT:
-		case ID::ARRAY_INT:
+		case ID::ARRAY_INT32:
 		case ID::ARRAY_FLOAT:
 		case ID::ARRAY_BOOL:
 		case ID::ARRAY_STRING:
@@ -81,12 +81,12 @@ void DMXAttribute::setKey(std::string key_) {
 	this->key = std::move(key_);
 }
 
-bool DMXAttribute::isArray() const {
-	return static_cast<DMXValue::ID>(this->value.index()) >= DMXValue::ID::ARRAY_START;
-}
-
 DMXValue::ID DMXAttribute::getValueType() const {
 	return static_cast<DMXValue::ID>(this->value.index());
+}
+
+bool DMXAttribute::isValueArray() const {
+	return this->getValueType() >= DMXValue::ID::ARRAY_START;
 }
 
 const DMXValue::Generic& DMXAttribute::getValue() const {
@@ -105,7 +105,7 @@ std::string DMXAttribute::getValueString() const {
 			}
 			return '#' + std::to_string(index);
 		}
-		case INT:
+		case INT32:
 			return std::to_string(this->getValue<int32_t>());
 		case FLOAT:
 			return std::to_string(this->getValue<float>());
@@ -179,7 +179,7 @@ std::string DMXAttribute::getValueString() const {
 			}
 			return out + ']';
 		}
-		case ARRAY_INT: {
+		case ARRAY_INT32: {
 			const auto ints = this->getValue<std::vector<int32_t>>();
 			std::string out = "[";
 			for (int i = 0; i < ints.size(); i++) {
@@ -645,7 +645,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 					}
 					return value;
 				}
-				case INT:
+				case INT32:
 					return stream.read<int32_t>();
 				case FLOAT:
 					return stream.read<float>();
@@ -698,7 +698,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				}
 				case ARRAY_ELEMENT:
 					return readArrayValue.operator()<DMXValue::Element>(type);
-				case ARRAY_INT:
+				case ARRAY_INT32:
 					return readArrayValue.operator()<int32_t>(type);
 				case ARRAY_FLOAT:
 					return readArrayValue.operator()<float>(type);
