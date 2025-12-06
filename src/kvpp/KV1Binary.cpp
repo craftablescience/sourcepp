@@ -43,7 +43,7 @@ KV1BinaryElement& KV1BinaryElement::addChild(std::string_view key_, KV1BinaryVal
 	KV1BinaryElement elem;
 	elem.setKey(key_);
 	elem.setValue(std::move(value_));
-	this->children.push_back(elem);
+	this->children.push_back(std::move(elem));
 	return this->children.back();
 }
 
@@ -110,7 +110,9 @@ const KV1BinaryElement& KV1BinaryElement::operator()(std::string_view childKey, 
 			if (count == n) {
 				return element;
 			}
-			++count;
+			if (++count > n) {
+				break;
+			}
 		}
 	}
 	return getInvalid();
@@ -123,7 +125,9 @@ KV1BinaryElement& KV1BinaryElement::operator()(std::string_view childKey, unsign
 			if (count == n) {
 				return element;
 			}
-			++count;
+			if (++count > n) {
+				break;
+			}
 		}
 	}
 	return this->addChild(childKey);
@@ -142,7 +146,7 @@ void KV1BinaryElement::removeChild(std::string_view childKey, int n) {
 			if (n < 0 || count == n) {
 				element = this->children.erase(element);
 				if (count == n) {
-					return;
+					break;
 				}
 			}
 			++count;

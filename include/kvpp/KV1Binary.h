@@ -97,7 +97,7 @@ public:
 		KV1BinaryElement elem;
 		elem.setKey(key_);
 		elem.setValue(std::move(value_));
-		this->children.push_back(elem);
+		this->children.push_back(std::move(elem));
 		return this->children.back();
 	}
 
@@ -168,7 +168,7 @@ public:
 	/// Remove a child element from the element.
 	void removeChild(unsigned int n);
 
-	/// Remove a child element from the element. -1 means all children with the given key
+	/// Remove a child element from the element with the given key. -1 means all children with the given key
 	void removeChild(std::string_view childKey, int n = -1);
 
 	/// Check if the given element is invalid

@@ -209,7 +209,9 @@ public:
 				if (count == n) {
 					return element;
 				}
-				++count;
+				if (++count > n) {
+					break;
+				}
 			}
 		}
 		return this->addChild(childKey);
@@ -222,7 +224,7 @@ public:
 		}
 	}
 
-	/// Remove a child element from the element. -1 means all children with the given key
+	/// Remove a child element from the element with the given key. -1 means all children with the given key
 	void removeChild(std::string_view childKey, int n = -1) {
 		unsigned int count = 0;
 		for (auto element = this->children.begin(); element != this->children.end(); ++element) {
@@ -230,7 +232,7 @@ public:
 				if (n < 0 || count == n) {
 					element = this->children.erase(element);
 					if (count == n) {
-						return;
+						break;
 					}
 				}
 				++count;
