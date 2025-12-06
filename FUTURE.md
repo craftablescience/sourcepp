@@ -6,14 +6,9 @@
 ### Future Improvements
 
 - `bsppp`
-  - Console paklump support
-    - Note that XBOX uses XZP lump, X360, PS3 use PC lump but console style zip
+  - Console paklump write support
   - Support parsing more lumps
   - Think about GoldSrc support
-- `dmxpp`
-  - Add support for v9+ DMX files
-  - Add support for keyvalues2 and keyvalues2_flat formats
-  - Add write support
 - `fspp`
   - Continue adding Source engine filesystem features
 - `gamepp`
@@ -22,8 +17,9 @@
       which would then allow reading output from the console
   - Add a method to take a screenshot of the game and move the file to a user-specified location
 - `kvpp`
+  - Add read support for all DMX encodings understood by the library to exist
+  - Add DMX write support
   - Add a KV3 parser/writer
-  - Move DMX/KV2 code here
 - `mdlpp`
   - Add a save method to write the constituent parts of a StudioModel to disk
   - Add an SMD parser/writer

@@ -207,7 +207,6 @@ endif()
 
 # Add libraries
 add_sourcepp_library(bsppp             PYTHON                ) # sourcepp::bsppp
-add_sourcepp_library(dmxpp                         TEST      ) # sourcepp::dmxpp
 add_sourcepp_library(fspp                          TEST      ) # sourcepp::fspp
 add_sourcepp_library(gamepp   C        PYTHON      TEST      ) # sourcepp::gamepp
 add_sourcepp_library(kvpp              PYTHON      TEST BENCH) # sourcepp::kvpp

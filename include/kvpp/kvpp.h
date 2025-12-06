@@ -5,6 +5,7 @@
  * include it the same way as any of the other SourcePP libraries.
  */
 
+#include "DMX.h"
 #include "KV1.h"
 #include "KV1Binary.h"
 #include "KV1Writer.h"

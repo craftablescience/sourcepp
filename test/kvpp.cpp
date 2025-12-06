@@ -6,6 +6,27 @@
 using namespace kvpp;
 using namespace sourcepp;
 
+// v1 and v2 are identical afaik...
+TEST(kvpp, dmx_binary_v2_read) {
+	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v2.dmx")};
+	ASSERT_TRUE(dmx);
+}
+
+TEST(kvpp, dmx_binary_v3_read) {
+	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v3.dmx")};
+	ASSERT_TRUE(dmx);
+}
+
+TEST(kvpp, dmx_binary_v4_read) {
+	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v4.dmx")};
+	ASSERT_TRUE(dmx);
+}
+
+TEST(kvpp, dmx_binary_v5_read) {
+	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v5.dmx")};
+	ASSERT_TRUE(dmx);
+}
+
 TEST(kvpp, read_empty) {
 	KV1 kv1{""};
 	EXPECT_TRUE(kv1.getChildren().empty());
@@ -472,7 +493,7 @@ TEST(kvpp, write_includes) {
 }
 
 TEST(kvpp, binary_read) {
-	KV1Binary kv1{fs::readFileBuffer(ASSET_ROOT "kvpp/binary.vdf")};
+	KV1Binary kv1{fs::readFileBuffer(ASSET_ROOT "kvpp/kv1/binary.vdf")};
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "");
 	ASSERT_EQ(kv1[0].getChildCount(), 3);
