@@ -49,17 +49,6 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="1"><code>dmxpp</code><sup>*</sup></td>
-    <td>
-      <a href="https://developer.valvesoftware.com/wiki/DMX" target="_blank" rel="noreferrer">DMX</a> Binary v1-5
-      <br> &bull; <a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> modifications
-    </td>
-    <td align="center">✅</td>
-    <td align="center">❌</td>
-    <td rowspan="1" align="center"></td>
-  </tr>
-  <tr><!-- empty row to disable GitHub striped bg color --></tr>
-  <tr>
     <td rowspan="1"><code>fspp</code><sup>*</sup></td>
     <td>Source 1 filesystem accessor</td>
     <td align="center">✅</td>
@@ -82,15 +71,24 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="3"><code>kvpp</code></td>
-    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Text<sup>&dagger;</sup></td>
+    <td rowspan="5"><code>kvpp</code></td>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/DMX" target="_blank" rel="noreferrer">DMX</a> Binary v1-5
+      <br> &bull; <a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> modifications
+    </td>
     <td align="center">✅</td>
-    <td align="center">✅</td>
-    <td rowspan="3" align="center">Python</td>
+    <td align="center">❌</td>
+    <td rowspan="5" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
     <td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Binary</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td><a href="https://developer.valvesoftware.com/wiki/KeyValues" target="_blank" rel="noreferrer">KeyValues</a> v1 Text<sup>&dagger;</sup></td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
