@@ -53,51 +53,62 @@ inline void register_python(py::module_& m) {
 				.def("__len__", &V::size)
 				.def("__setitem__", [](V& self, uint8_t index, typename V::value_type val) { self[index] = val; })
 				.def("__getitem__", [](V& self, uint8_t index) { return self[index]; })
+				.def("mag", &V::mag)
+				.def("sum", &V::sum)
 				.def_static("zero", &V::zero)
 				.def("is_zero", &V::isZero);
 		};
 
-		registerVecType.operator()<Vec2i8>("Vec2i8");
-		registerVecType.operator()<Vec2i16>("Vec2i16");
-		registerVecType.operator()<Vec2i32>("Vec2i32");
-		registerVecType.operator()<Vec2i64>("Vec2i64");
+		#define SOURCEPP_VEC_DEFINE(S) \
+			registerVecType.operator()<Vec##S##i8>(  "Vec" #S "i8"  ); \
+			registerVecType.operator()<Vec##S##i16>( "Vec" #S "i16" ); \
+			registerVecType.operator()<Vec##S##i32>( "Vec" #S "i32" ); \
+			registerVecType.operator()<Vec##S##i64>( "Vec" #S "i64" ); \
+			registerVecType.operator()<Vec##S##ui8>( "Vec" #S "ui8" ); \
+			registerVecType.operator()<Vec##S##ui16>("Vec" #S "ui16"); \
+			registerVecType.operator()<Vec##S##ui32>("Vec" #S "ui32"); \
+			registerVecType.operator()<Vec##S##ui64>("Vec" #S "ui64"); \
+			registerVecType.operator()<Vec##S##f32>( "Vec" #S "f32" ); \
+			registerVecType.operator()<Vec##S##f64>( "Vec" #S "f64" )
 
-		registerVecType.operator()<Vec2ui8>("Vec2ui8");
-		registerVecType.operator()<Vec2ui16>("Vec2ui16");
-		registerVecType.operator()<Vec2ui32>("Vec2ui32");
-		registerVecType.operator()<Vec2ui64>("Vec2ui64");
+		SOURCEPP_VEC_DEFINE(2);
+		SOURCEPP_VEC_DEFINE(3);
+		SOURCEPP_VEC_DEFINE(4);
 
-		//registerVecType.operator()<Vec2f16>("Vec2f16");
-		registerVecType.operator()<Vec2f32>("Vec2f32");
-		registerVecType.operator()<Vec2f64>("Vec2f64");
+		#undef SOURCEPP_VEC_DEFINE
 
-		registerVecType.operator()<Vec3i8>("Vec3i8");
-		registerVecType.operator()<Vec3i16>("Vec3i16");
-		registerVecType.operator()<Vec3i32>("Vec3i32");
-		registerVecType.operator()<Vec3i64>("Vec3i64");
+		const auto registerMatType = [&math]<typename M>(std::string_view name) {
+			py::class_<M>(math, name.data())
+				.def("rows", &M::rows)
+				.def("cols", &M::cols)
+				.def("__setitem__", [](M& self, uint8_t index, typename M::value_type val) { self[index / self.rows()][index % self.rows()] = val; })
+				.def("__getitem__", [](M& self, uint8_t index) { return self[index / self.rows()][index % self.rows()]; })
+				;
+		};
 
-		registerVecType.operator()<Vec3ui8>("Vec3ui8");
-		registerVecType.operator()<Vec3ui16>("Vec3ui16");
-		registerVecType.operator()<Vec3ui32>("Vec3ui32");
-		registerVecType.operator()<Vec3ui64>("Vec3ui64");
+		#define SOURCEPP_MAT_DEFINE(M, N) \
+			registerMatType.operator()<Mat##M##x##N##i8>(  "Mat" #M "x" #N "i8"  ); \
+			registerMatType.operator()<Mat##M##x##N##i16>( "Mat" #M "x" #N "i16" ); \
+			registerMatType.operator()<Mat##M##x##N##i32>( "Mat" #M "x" #N "i32" ); \
+			registerMatType.operator()<Mat##M##x##N##i64>( "Mat" #M "x" #N "i64" ); \
+			registerMatType.operator()<Mat##M##x##N##ui8>( "Mat" #M "x" #N "ui8" ); \
+			registerMatType.operator()<Mat##M##x##N##ui16>("Mat" #M "x" #N "ui16"); \
+			registerMatType.operator()<Mat##M##x##N##ui32>("Mat" #M "x" #N "ui32"); \
+			registerMatType.operator()<Mat##M##x##N##ui64>("Mat" #M "x" #N "ui64"); \
+			registerMatType.operator()<Mat##M##x##N##f32>( "Mat" #M "x" #N "f32" ); \
+			registerMatType.operator()<Mat##M##x##N##f64>( "Mat" #M "x" #N "f64" )
 
-		//registerVecType.operator()<Vec3f16>("Vec3f16");
-		registerVecType.operator()<Vec3f32>("Vec3f32");
-		registerVecType.operator()<Vec3f64>("Vec3f64");
+		SOURCEPP_MAT_DEFINE(2, 2);
+		SOURCEPP_MAT_DEFINE(3, 3);
+		SOURCEPP_MAT_DEFINE(4, 4);
+		SOURCEPP_MAT_DEFINE(2, 3);
+		SOURCEPP_MAT_DEFINE(3, 2);
+		SOURCEPP_MAT_DEFINE(2, 4);
+		SOURCEPP_MAT_DEFINE(4, 2);
+		SOURCEPP_MAT_DEFINE(3, 4);
+		SOURCEPP_MAT_DEFINE(4, 3);
 
-		registerVecType.operator()<Vec4i8>("Vec4i8");
-		registerVecType.operator()<Vec4i16>("Vec4i16");
-		registerVecType.operator()<Vec4i32>("Vec4i32");
-		registerVecType.operator()<Vec4i64>("Vec4i64");
-
-		registerVecType.operator()<Vec4ui8>("Vec4ui8");
-		registerVecType.operator()<Vec4ui16>("Vec4ui16");
-		registerVecType.operator()<Vec4ui32>("Vec4ui32");
-		registerVecType.operator()<Vec4ui64>("Vec4ui64");
-
-		//registerVecType.operator()<Vec4f16>("Vec4f16");
-		registerVecType.operator()<Vec4f32>("Vec4f32");
-		registerVecType.operator()<Vec4f64>("Vec4f64");
+		#undef SOURCEPP_MAT_DEFINE
 	}
 }
 

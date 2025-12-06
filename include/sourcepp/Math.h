@@ -65,23 +65,22 @@ template<std::unsigned_integral T>
 	return 0;
 }
 
-template<uint8_t S, Arithmetic P>
+template<uint8_t S_, Arithmetic P>
 struct Vec {
+	static constexpr uint8_t S = S_;
 	static_assert(S >= 2, "Vectors must have at least two values!");
+
+	using value_type = P;
 
 	P values[S];
 
-	// By defining these constructors, the type becomes nontrivial...
-#if 1
 	constexpr Vec() = default;
 
+	// ReSharper disable once CppNonExplicitConvertingConstructor
 	template<std::convertible_to<P>... Vals>
 	requires (sizeof...(Vals) == S)
 	constexpr Vec(Vals... vals) // NOLINT(*-explicit-constructor)
 			: values{static_cast<P>(vals)...} {}
-#endif
-
-	using value_type = P;
 
 	[[nodiscard]] constexpr const P* data() const {
 		return this->values;
@@ -385,18 +384,36 @@ struct QuatCompressed64 {
 };
 static_assert(std::is_trivially_copyable_v<QuatCompressed64>);
 
-template<uint8_t M, uint8_t N, Arithmetic P>
-class Mat {
+template<uint8_t M_, uint8_t N_, Arithmetic P>
+struct Mat {
+	static constexpr uint8_t M = M_;
 	static_assert(M >= 2, "Matrices must have at least two rows!");
+	static constexpr uint8_t N = N_;
 	static_assert(N >= 2, "Matrices must have at least two columns!");
 
-public:
-	[[nodiscard]] P* operator[](uint8_t i) { return this->data[i]; }
+	using value_type = P;
 
-	[[nodiscard]] const P* operator[](uint8_t i) const { return this->data[i]; }
+	P values[M][N];
 
-private:
-	P data[M][N];
+	[[nodiscard]] constexpr const P* data() const {
+		return this->values;
+	}
+
+	[[nodiscard]] constexpr P* data() {
+		return this->values;
+	}
+
+	[[nodiscard]] constexpr uint8_t rows() const {
+		return M;
+	}
+
+	[[nodiscard]] constexpr uint8_t cols() const {
+		return N;
+	}
+
+	[[nodiscard]] P* operator[](uint8_t i) { return this->values[i]; }
+
+	[[nodiscard]] const P* operator[](uint8_t i) const { return this->values[i]; }
 };
 static_assert(std::is_trivially_copyable_v<Mat<2, 2, float>>);
 
