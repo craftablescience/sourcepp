@@ -32,18 +32,18 @@ public:
 			return this->value;
 		} else if constexpr (std::same_as<V, bool>) {
 			return static_cast<bool>(this->getValue<int32_t>());
-		} else if constexpr (std::same_as<V, int32_t>) {
+		} else if constexpr (std::same_as<V, int32_t> || std::same_as<V, int64_t>) {
+			V out = 0;
 			if (this->value.length() == 10 && this->value.starts_with("0x") && sourcepp::parser::text::isNumber(this->value.substr(2))) {
-				return std::stoi(std::string{this->value.substr(2)}, nullptr, 16);
+				sourcepp::string::toInt(this->value.substr(2), out, 16);
+			} else {
+				sourcepp::string::toInt(this->value, out);
 			}
-			return std::stoi(std::string{this->value});
-		} else if constexpr (std::same_as<V, int64_t>) {
-			if (this->value.length() == 18 && this->value.starts_with("0x") && sourcepp::parser::text::isNumber(this->value.substr(2))) {
-				return std::stoll(std::string{this->value.substr(2)}, nullptr, 16);
-			}
-			return std::stoll(std::string{this->value});
+			return out;
 		} else if constexpr (std::same_as<V, float>) {
-			return std::stof(std::string{this->value});
+			float out = 0.f;
+			sourcepp::string::toFloat(this->value, out);
+			return out;
 		}
 		return V{};
 	}
