@@ -972,7 +972,7 @@ bool DMX::isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
 DMXGUID DMX::createRandomGUID() {
 	static std::random_device random_device{};
 	static std::mt19937 generator{random_device()};
-	std::uniform_int_distribution distribution{std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max()};
+	std::uniform_int_distribution<short> distribution{std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max()};
 
 	DMXGUID guid;
 	for (auto& byte : guid) {
