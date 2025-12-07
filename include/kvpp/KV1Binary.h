@@ -186,7 +186,7 @@ protected:
 
 class KV1Binary : public KV1BinaryElement {
 public:
-	explicit KV1Binary(std::span<const std::byte> kv1Data = {}, bool useEscapeSequences_ = false);
+	explicit KV1Binary(std::span<const std::byte> kv1Data = {});
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
@@ -195,9 +195,6 @@ public:
 	[[nodiscard]] std::string bakeText() const;
 
 	void bakeText(const std::string& kv1Path) const;
-
-protected:
-	bool useEscapeSequences;
 };
 
 } // namespace kvpp

@@ -265,9 +265,9 @@ inline void register_python(py::module_& m) {
 		.def("__bool__", &KV1BinaryElement::operator bool);
 
 	py::class_<KV1Binary, KV1BinaryElement>(kvpp, "KV1Binary")
-		.def("__init__", [](KV1Binary* self, const py::bytes& kv1Data, bool useEscapeSequences = false) {
-			return new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}, useEscapeSequences};
-		}, "kv1_data"_a, "use_escape_sequences"_a = false)
+		.def("__init__", [](KV1Binary* self, const py::bytes& kv1Data) {
+			return new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}};
+		}, "kv1_data"_a)
 		.def("bake", [](const KV1Binary& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};

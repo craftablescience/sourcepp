@@ -167,16 +167,15 @@ KV1BinaryElement::operator bool() const {
 	return !this->isInvalid();
 }
 
-KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool useEscapeSequences_)
-		: KV1BinaryElement()
-		, useEscapeSequences(useEscapeSequences_) {
+KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
+		: KV1BinaryElement() {
 	if (kv1Data.empty()) {
 		return;
 	}
 	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
 
-	std::function<void(std::vector<KV1BinaryElement>&, const parser::text::EscapeSequenceMap&)> recursiveReader;
-	recursiveReader = [&stream, &recursiveReader](std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences) {
+	std::function<void(std::vector<KV1BinaryElement>&)> recursiveReader;
+	recursiveReader = [&stream, &recursiveReader](std::vector<KV1BinaryElement>& elements) {
 		for (;;) {
 			const auto type = stream.read<KV1BinaryValueType>();
 			if (type == KV1BinaryValueType::COUNT) {
@@ -187,7 +186,7 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool useEscapeSequences
 			switch (type) {
 				using enum KV1BinaryValueType;
 				case CHILDREN:
-					recursiveReader(element.getChildren(), escapeSequences);
+					recursiveReader(element.getChildren());
 					break;
 				case STRING:
 					element.setValue(stream.read_string());
@@ -227,15 +226,15 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool useEscapeSequences
 			}
 		}
 	};
-	recursiveReader(this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+	recursiveReader(this->children);
 }
 
 std::vector<std::byte> KV1Binary::bake() const {
 	std::vector<std::byte> buffer;
 	BufferStream stream{buffer};
 
-	std::function<void(const std::vector<KV1BinaryElement>&, const parser::text::EscapeSequenceMap&)> recursiveWriter;
-	recursiveWriter = [&stream, &recursiveWriter](const std::vector<KV1BinaryElement>& elements, const parser::text::EscapeSequenceMap& escapeSequences){
+	std::function<void(const std::vector<KV1BinaryElement>&)> recursiveWriter;
+	recursiveWriter = [&stream, &recursiveWriter](const std::vector<KV1BinaryElement>& elements){
 		for (const auto& element : elements) {
 			const auto type = static_cast<KV1BinaryValueType>(element.getValue().index());
 			stream
@@ -244,7 +243,7 @@ std::vector<std::byte> KV1Binary::bake() const {
 			switch (type) {
 				using enum KV1BinaryValueType;
 				case CHILDREN:
-					recursiveWriter(element.getChildren(), escapeSequences);
+					recursiveWriter(element.getChildren());
 					break;
 				case STRING:
 					stream.write(*element.getValue<std::string>());
@@ -280,7 +279,7 @@ std::vector<std::byte> KV1Binary::bake() const {
 		}
 		stream.write(KV1BinaryValueType::COUNT);
 	};
-	recursiveWriter(this->children, parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
+	recursiveWriter(this->children);
 
 	buffer.resize(stream.size());
 	return buffer;
