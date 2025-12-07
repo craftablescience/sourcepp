@@ -18,6 +18,158 @@ inline void register_python(py::module_& m) {
 	auto kvpp = m.def_submodule("kvpp");
 	using namespace kvpp;
 
+	{
+		auto DMXValue = kvpp.def_submodule("DMXValue");
+		using namespace DMXValue;
+
+		py::class_<Element>(DMXValue, "Element")
+			.def(py::init())
+			.def_rw("index", &Element::index)
+			.def_rw("external_guid", &Element::externalGUID);
+
+		py::class_<Time>(DMXValue, "Time")
+			.def(py::init())
+			.def_rw("seconds", &Time::seconds);
+
+		py::class_<Color>(DMXValue, "Color")
+			.def(py::init())
+			.def_rw("r", &Color::r)
+			.def_rw("g", &Color::g)
+			.def_rw("b", &Color::b)
+			.def_rw("a", &Color::a);
+
+		py::class_<EulerAngles, sourcepp::math::EulerAngles>(DMXValue, "EulerAngles");
+
+		py::class_<Quaternion>(DMXValue, "Quaternion");
+
+		py::enum_<ID>(DMXValue, "ID")
+			.value("INVALID",            ID::INVALID)
+			.value("VALUE_START",        ID::VALUE_START)
+			.value("ELEMENT",            ID::ELEMENT)
+			.value("INT32",              ID::INT32)
+			.value("FLOAT",              ID::FLOAT)
+			.value("BOOL",               ID::BOOL)
+			.value("STRING",             ID::STRING)
+			.value("BYTEARRAY",          ID::BYTEARRAY)
+			.value("TIME",               ID::TIME)
+			.value("COLOR",              ID::COLOR)
+			.value("VECTOR2",            ID::VECTOR2)
+			.value("VECTOR3",            ID::VECTOR3)
+			.value("VECTOR4",            ID::VECTOR4)
+			.value("EULER_ANGLES",       ID::EULER_ANGLES)
+			.value("QUATERNION",         ID::QUATERNION)
+			.value("MATRIX_4X4",         ID::MATRIX_4X4)
+			.value("VALUE_END",          ID::VALUE_END)
+			.value("ARRAY_START",        ID::ARRAY_START)
+			.value("ARRAY_ELEMENT",      ID::ARRAY_ELEMENT)
+			.value("ARRAY_INT32",        ID::ARRAY_INT32)
+			.value("ARRAY_FLOAT",        ID::ARRAY_FLOAT)
+			.value("ARRAY_BOOL",         ID::ARRAY_BOOL)
+			.value("ARRAY_STRING",       ID::ARRAY_STRING)
+			.value("ARRAY_BYTEARRAY",    ID::ARRAY_BYTEARRAY)
+			.value("ARRAY_TIME",         ID::ARRAY_TIME)
+			.value("ARRAY_COLOR",        ID::ARRAY_COLOR)
+			.value("ARRAY_VECTOR2",      ID::ARRAY_VECTOR2)
+			.value("ARRAY_VECTOR3",      ID::ARRAY_VECTOR3)
+			.value("ARRAY_VECTOR4",      ID::ARRAY_VECTOR4)
+			.value("ARRAY_EULER_ANGLES", ID::ARRAY_EULER_ANGLES)
+			.value("ARRAY_QUATERNION",   ID::ARRAY_QUATERNION)
+			.value("ARRAY_MATRIX_4X4",   ID::ARRAY_MATRIX_4X4)
+			.value("ARRAY_END",          ID::ARRAY_END);
+
+		DMXValue.def("array_id_to_inner_id", &arrayIDToInnerID, "id"_a);
+
+		DMXValue.def("inner_id_to_array_id", &innerIDToArrayID, "id"_a);
+
+		DMXValue.def("id_to_string", &IDToString, "id"_a);
+
+		DMXValue.def("string_to_id", &stringToID, "id"_a);
+	}
+
+	py::class_<DMXAttribute>(kvpp, "DMXAttribute")
+		.def("is_invalid", &DMXAttribute::isInvalid)
+		.def("__bool__", &DMXAttribute::operator bool)
+		.def_prop_rw("key", &DMXAttribute::getKey, &DMXAttribute::setKey)
+		.def_prop_ro("value_type", &DMXAttribute::getValueType)
+		.def("is_value_array", &DMXAttribute::isValueArray)
+		.def_prop_rw("value", [](const DMXAttribute& self) {
+			return self.getValue();
+		}, [](DMXAttribute& self, DMXValue::Generic value) {
+			self.setValue(std::move(value));
+		})
+		.def("get_value_string", &DMXAttribute::getValueString);
+
+	py::class_<DMXElement>(kvpp, "DMXElement")
+		.def("__bool__", &DMXElement::operator bool)
+		.def_prop_rw("type", &DMXElement::getType, &DMXElement::setType)
+		.def_prop_rw("key", &DMXElement::getKey, &DMXElement::setKey)
+		.def_prop_rw("guid", &DMXElement::getGUID, &DMXElement::setGUID)
+		.def("has_attribute", &DMXElement::hasAttribute, "attribute_key"_a)
+		.def("__contains__", &DMXElement::hasAttribute, "attribute_key"_a)
+		.def("add_attribute", &DMXElement::addAttribute, "key"_a, "value"_a = DMXValue::Generic{}, py::rv_policy::reference_internal)
+		.def("get_attribute_count", py::overload_cast<>(&DMXElement::getAttributeCount, py::const_))
+		.def("__len__", py::overload_cast<>(&DMXElement::getAttributeCount, py::const_))
+		.def("get_attribute_count_with_key", py::overload_cast<std::string_view>(&DMXElement::getAttributeCount, py::const_))
+		.def("__iter__", [](const DMXElement& self) {
+			return py::make_iterator(py::type<DMXElement>(), "iterator", self);
+		}, py::keep_alive<0, 1>())
+		.def("__getitem__", py::overload_cast<unsigned int>(&DMXElement::operator[]), "n"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&DMXElement::operator[]), "attribute_key"_a, py::rv_policy::reference_internal)
+		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&DMXElement::operator()), "attribute_key"_a, "n"_a, py::rv_policy::reference_internal)
+		.def("remove_child", py::overload_cast<unsigned int>(&DMXElement::removeAttribute), "n"_a)
+		.def("__delitem__", py::overload_cast<unsigned int>(&DMXElement::removeAttribute), "n"_a)
+		.def("remove_child", py::overload_cast<std::string_view, int>(&DMXElement::removeAttribute), "attribute_key"_a, "n"_a = -1)
+		.def("get_invalid_attribute", &DMXElement::getInvalidAttribute);
+
+	auto cDMX = py::class_<DMX>(kvpp, "DMX");
+
+	py::enum_<DMX::Encoding>(cDMX, "Encoding")
+		.value("INVALID",             DMX::ENCODING_INVALID)
+		.value("BINARY_OLD",          DMX::ENCODING_BINARY_OLD)
+		.value("BINARY_OLD_SFM",      DMX::ENCODING_BINARY_OLD_SFM)
+		.value("BINARY",              DMX::ENCODING_BINARY)
+		.value("BINARY_UTF8",         DMX::ENCODING_BINARY_UTF8)
+		.value("KEYVALUES2_OLD",      DMX::ENCODING_KEYVALUES2_OLD)
+		.value("KEYVALUES2",          DMX::ENCODING_KEYVALUES2)
+		.value("KEYVALUES2_UTF8",     DMX::ENCODING_KEYVALUES2_UTF8)
+		.value("KEYVALUES2_FLAT_OLD", DMX::ENCODING_KEYVALUES2_FLAT_OLD)
+		.value("KEYVALUES2_FLAT",     DMX::ENCODING_KEYVALUES2_FLAT)
+		.value("KEYVALUES2_NOGUIDS",  DMX::ENCODING_KEYVALUES2_NOGUIDS);
+
+	cDMX
+		.def(py::init<DMX::Encoding, int, std::string, int>(), "encoding_type"_a, "encoding_version"_a, "format_type"_a, "format_version"_a)
+		.def("__init__", [](DMX* self, const py::bytes& dmxData) {
+			return new(self) DMX{std::span{static_cast<const std::byte*>(dmxData.data()), dmxData.size()}};
+		}, "dmx_data"_a)
+		.def(py::init<std::string_view>(), "dmx_data"_a)
+		.def("__bool__", &DMX::operator bool)
+		.def_prop_rw("encoding_type", &DMX::getEncodingType, &DMX::setEncodingType)
+		.def_prop_rw("encoding_version", &DMX::getEncodingVersion, &DMX::setEncodingVersion)
+		.def_prop_rw("format_type", &DMX::getFormatType, &DMX::setFormatType)
+		.def_prop_rw("format_version", &DMX::getFormatVersion, &DMX::setFormatVersion)
+		.def("has_element", &DMX::hasElement, "key"_a)
+		.def("__contains__", &DMX::hasElement, "key"_a)
+		.def("add_element", &DMX::addElement, "type"_a, "key"_a)
+		.def("get_element_count", py::overload_cast<>(&DMX::getElementCount, py::const_))
+		.def("__len__", py::overload_cast<>(&DMX::getElementCount, py::const_))
+		.def("get_element_count_with_key", py::overload_cast<std::string_view>(&DMX::getElementCount, py::const_), "key"_a)
+		.def("__iter__", [](const DMX& self) {
+			return py::make_iterator(py::type<DMX>(), "iterator", self);
+		}, py::keep_alive<0, 1>())
+		.def("__getitem__", py::overload_cast<unsigned int>(&DMX::operator[]), "n"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&DMX::operator[]), "key"_a, py::rv_policy::reference_internal)
+		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&DMX::operator()), "key"_a, "n"_a, py::rv_policy::reference_internal)
+		.def("remove_child", py::overload_cast<unsigned int>(&DMX::removeElement), "n"_a)
+		.def("__delitem__", py::overload_cast<unsigned int>(&DMX::removeElement), "n"_a)
+		.def("bake", [](const DMX& self) {
+			const auto d = self.bake();
+			return py::bytes{d.data(), d.size()};
+		})
+		.def("bake_to_file", py::overload_cast<const std::string&>(&DMX::bake, py::const_), "dmx_path"_a)
+		.def_static("is_encoding_version_valid", &DMX::isEncodingVersionValid, "encoding_type"_a, "encoding_version"_a)
+		.def_static("create_random_guid", &DMX::createRandomGUID)
+		.def_static("get_invalid_element", &DMX::getInvalidElement);
+
 	py::class_<KV1ElementReadable<>>(kvpp, "KV1ElementReadable")
 		.def_prop_ro("key", &KV1ElementReadable<>::getKey)
 		.def_prop_ro("value", [](const KV1ElementReadable<>& self) {
@@ -25,15 +177,16 @@ inline void register_python(py::module_& m) {
 		})
 		.def_prop_ro("conditional", &KV1ElementReadable<>::getConditional)
 		.def("has_child", &KV1ElementReadable<>::hasChild, "child_key"_a)
+		.def("__contains__", &KV1ElementReadable<>::hasChild, "child_key"_a)
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1ElementReadable<>::getChildCount, py::const_), "child_key"_a)
 		.def("__iter__", [](const KV1ElementReadable<>& self) {
 			return py::make_iterator(py::type<KV1ElementReadable<>>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
-		.def("__getitem__", py::overload_cast<unsigned int>(&KV1ElementReadable<>::operator[], py::const_), "n"_a)
-		.def("__getitem__", py::overload_cast<std::string_view>(&KV1ElementReadable<>::operator[], py::const_), "child_key"_a)
-		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1ElementReadable<>::operator(), py::const_), "child_key"_a, "n"_a)
+		.def("__getitem__", py::overload_cast<unsigned int>(&KV1ElementReadable<>::operator[], py::const_), "n"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&KV1ElementReadable<>::operator[], py::const_), "child_key"_a, py::rv_policy::reference_internal)
+		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1ElementReadable<>::operator(), py::const_), "child_key"_a, "n"_a, py::rv_policy::reference_internal)
 		.def("is_invalid", &KV1ElementReadable<>::isInvalid)
 		.def("get_invalid", &KV1ElementReadable<>::getInvalid)
 		.def("__bool__", &KV1ElementReadable<>::operator bool);
@@ -48,20 +201,20 @@ inline void register_python(py::module_& m) {
 		}, &KV1ElementWritable<>::setValue<std::string_view>)
 		.def_prop_rw("conditional", &KV1ElementWritable<>::getConditional, &KV1ElementWritable<>::setConditional)
 		.def("has_child", &KV1ElementWritable<>::hasChild, "child_key"_a)
-		.def("add_child", &KV1ElementWritable<>::addChild<>, "key"_a, "value"_a = "", "conditional"_a = "")
+		.def("__contains__", &KV1ElementWritable<>::hasChild, "child_key"_a)
+		.def("add_child", &KV1ElementWritable<>::addChild<>, "key"_a, "value"_a = "", "conditional"_a = "", py::rv_policy::reference_internal)
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1ElementWritable<>::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1ElementWritable<>::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1ElementWritable<>::getChildCount, py::const_), "child_key"_a)
 		.def("__iter__", [](const KV1ElementWritable<>& self) {
 			return py::make_iterator(py::type<KV1ElementWritable<>>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
-		.def("__getitem__", py::overload_cast<unsigned int>(&KV1ElementWritable<>::operator[]), "n"_a)
-		.def("__getitem__", py::overload_cast<std::string_view>(&KV1ElementWritable<>::operator[]), "child_key"_a)
-		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1ElementWritable<>::operator()), "child_key"_a, "n"_a)
+		.def("__getitem__", py::overload_cast<unsigned int>(&KV1ElementWritable<>::operator[]), "n"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&KV1ElementWritable<>::operator[]), "child_key"_a, py::rv_policy::reference_internal)
+		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1ElementWritable<>::operator()), "child_key"_a, "n"_a, py::rv_policy::reference_internal)
 		.def("remove_child", py::overload_cast<unsigned int>(&KV1ElementWritable<>::removeChild), "n"_a)
 		.def("__delitem__", py::overload_cast<unsigned int>(&KV1ElementWritable<>::removeChild), "n"_a)
 		.def("remove_child", py::overload_cast<std::string_view, int>(&KV1ElementWritable<>::removeChild), "child_key"_a, "n"_a = -1)
-		.def("__delitem__", py::overload_cast<std::string_view, int>(&KV1ElementWritable<>::removeChild), "child_key"_a, "n"_a = -1)
 		.def("is_invalid", &KV1ElementWritable<>::isInvalid)
 		.def("get_invalid", &KV1ElementWritable<>::getInvalid)
 		.def("__bool__", &KV1ElementWritable<>::operator bool);
@@ -91,22 +244,22 @@ inline void register_python(py::module_& m) {
 			self.setValue(std::move(value));
 		})
 		.def("has_child", &KV1BinaryElement::hasChild, "child_key"_a)
-		.def("add_child", [](KV1BinaryElement& self, std::string_view key, KV1BinaryValue value = {}) {
-			self.addChild(key, std::move(value));
-		}, "key"_a, "value"_a = KV1BinaryValue{})
+		.def("__contains__", &KV1BinaryElement::hasChild, "child_key"_a)
+		.def("add_child", [](KV1BinaryElement& self, std::string_view key, KV1BinaryValue value = {}) -> KV1BinaryElement& {
+			return self.addChild(key, std::move(value));
+		}, "key"_a, "value"_a = KV1BinaryValue{}, py::rv_policy::reference_internal)
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1BinaryElement::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1BinaryElement::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1BinaryElement::getChildCount, py::const_), "child_key"_a)
 		.def("__iter__", [](const KV1BinaryElement& self) {
 			return py::make_iterator(py::type<KV1BinaryElement>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
-		.def("__getitem__", py::overload_cast<unsigned int>(&KV1BinaryElement::operator[]), "n"_a)
-		.def("__getitem__", py::overload_cast<std::string_view>(&KV1BinaryElement::operator[]), "child_key"_a)
-		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1BinaryElement::operator()), "child_key"_a, "n"_a)
+		.def("__getitem__", py::overload_cast<unsigned int>(&KV1BinaryElement::operator[]), "n"_a, py::rv_policy::reference_internal)
+		.def("__getitem__", py::overload_cast<std::string_view>(&KV1BinaryElement::operator[]), "child_key"_a, py::rv_policy::reference_internal)
+		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1BinaryElement::operator()), "child_key"_a, "n"_a, py::rv_policy::reference_internal)
 		.def("remove_child", py::overload_cast<unsigned int>(&KV1BinaryElement::removeChild), "n"_a)
 		.def("__delitem__", py::overload_cast<unsigned int>(&KV1BinaryElement::removeChild), "n"_a)
 		.def("remove_child", py::overload_cast<std::string_view, int>(&KV1BinaryElement::removeChild), "child_key"_a, "n"_a = -1)
-		.def("__delitem__", py::overload_cast<std::string_view, int>(&KV1BinaryElement::removeChild), "child_key"_a, "n"_a = -1)
 		.def("is_invalid", &KV1BinaryElement::isInvalid)
 		.def("get_invalid", &KV1BinaryElement::getInvalid)
 		.def("__bool__", &KV1BinaryElement::operator bool);
