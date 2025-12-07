@@ -322,7 +322,7 @@ DMXAttribute& DMXAttribute::operator=(DMXValue::Generic value_) {
 }
 
 DMXElement::operator bool() const {
-	return !this->type.empty() || !this->key.empty() || this->guid != DMXGUID{};
+	return !this->type.empty() || !this->key.empty() || this->guid != DMXValue::GUID{};
 }
 
 std::string_view DMXElement::getType() const {
@@ -341,11 +341,11 @@ void DMXElement::setKey(std::string key_) {
 	this->key = std::move(key_);
 }
 
-const DMXGUID& DMXElement::getGUID() const {
+const DMXValue::GUID& DMXElement::getGUID() const {
 	return this->guid;
 }
 
-void DMXElement::setGUID(const DMXGUID& guid_) {
+void DMXElement::setGUID(const DMXValue::GUID& guid_) {
 	this->guid = guid_;
 }
 
@@ -638,7 +638,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 					return std::monostate{};
 				case ELEMENT: {
 					DMXValue::Element value;
-					value.index = stream.read<uint32_t>();
+					value.index = stream.read<int32_t>();
 					if (value.index == -2) {
 						// Read in the ASCII GUID
 						value.externalGUID = stream.read_string();
@@ -969,12 +969,12 @@ bool DMX::isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
 	return false;
 }
 
-DMXGUID DMX::createRandomGUID() {
+DMXValue::GUID DMX::createRandomGUID() {
 	static std::random_device random_device{};
 	static std::mt19937 generator{random_device()};
 	std::uniform_int_distribution<short> distribution{std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max()};
 
-	DMXGUID guid;
+	DMXValue::GUID guid;
 	for (auto& byte : guid) {
 		byte = static_cast<std::byte>(distribution(generator));
 	}

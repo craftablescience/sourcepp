@@ -11,13 +11,16 @@
 
 namespace kvpp {
 
-using DMXGUID = std::array<std::byte, 16>;
-
 namespace DMXValue {
 
+using GUID = std::array<std::byte, 16>;
+
 struct Element {
-	uint32_t index;
+	int32_t index;
 	std::string externalGUID;
+
+	static constexpr int32_t NULL_INDEX = -1;
+	static constexpr int32_t EXTERNAL_INDEX = -2;
 };
 
 using ByteArray = std::vector<std::byte>;
@@ -225,10 +228,10 @@ public:
 	void setKey(std::string key_);
 
 	// Get the GUID associated with this element
-	[[nodiscard]] const DMXGUID& getGUID() const;
+	[[nodiscard]] const DMXValue::GUID& getGUID() const;
 
 	// Set the GUID associated with this element
-	void setGUID(const DMXGUID& guid_);
+	void setGUID(const DMXValue::GUID& guid_);
 
 	/// Check if the element has one or more children with the given name
 	[[nodiscard]] bool hasAttribute(std::string_view attributeKey) const;
@@ -313,7 +316,7 @@ protected:
 
 	std::string type;
 	std::string key;
-	DMXGUID guid{};
+	DMXValue::GUID guid{};
 	std::vector<DMXAttribute> attributes;
 };
 
@@ -434,7 +437,7 @@ public:
 
 	[[nodiscard]] static bool isEncodingVersionValid(Encoding encodingType, int encodingVersion);
 
-	[[nodiscard]] static DMXGUID createRandomGUID();
+	[[nodiscard]] static DMXValue::GUID createRandomGUID();
 
 	[[nodiscard]] static const DMXElement& getInvalidElement();
 
