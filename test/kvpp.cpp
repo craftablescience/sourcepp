@@ -1,34 +1,97 @@
+// ReSharper disable CppDFATimeOver
+
 #include <gtest/gtest.h>
 
 #include <kvpp/kvpp.h>
 #include <sourcepp/FS.h>
 
 using namespace kvpp;
+using namespace kvpp::literals;
 using namespace sourcepp;
 
 // v1 and v2 are identical afaik...
-TEST(kvpp, dmx_binary_v2_read) {
-	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v2.dmx")};
+TEST(kvpp, dmx_binary_v2_pcf_v1_read) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v2_pcf_v1.dmx")};
 	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 2);
+	EXPECT_EQ(dmx.getFormatType(), "pcf");
+	EXPECT_EQ(dmx.getFormatVersion(), 1);
+	EXPECT_EQ(dmx.getElementCount(), 937);
 }
 
-TEST(kvpp, dmx_binary_v3_read) {
-	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v3.dmx")};
+TEST(kvpp, dmx_binary_v3_model_v15_read) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v3_model_v15.dmx")};
 	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 3);
+	EXPECT_EQ(dmx.getFormatType(), "model");
+	EXPECT_EQ(dmx.getFormatVersion(), 15);
+	EXPECT_EQ(dmx.getElementCount(), 40);
+}
+
+TEST(kvpp, dmx_binary_v3_pcf_v2_read) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v3_pcf_v2.dmx")};
+	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 3);
+	EXPECT_EQ(dmx.getFormatType(), "pcf");
+	EXPECT_EQ(dmx.getFormatVersion(), 2);
+	EXPECT_EQ(dmx.getElementCount(), 43);
 }
 
 TEST(kvpp, dmx_binary_v4_read) {
-	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v4.dmx")};
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v4_pcf_v2.dmx")};
 	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 4);
+	EXPECT_EQ(dmx.getFormatType(), "pcf");
+	EXPECT_EQ(dmx.getFormatVersion(), 2);
+	EXPECT_EQ(dmx.getElementCount(), 69);
 }
 
 TEST(kvpp, dmx_binary_v5_read) {
-	DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary/v5.dmx")};
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v5_pcf_v2.dmx")};
 	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 5);
+	EXPECT_EQ(dmx.getFormatType(), "pcf");
+	EXPECT_EQ(dmx.getFormatVersion(), 2);
+	EXPECT_EQ(dmx.getElementCount(), 473);
+}
+
+TEST(kvpp, dmx_binary_v9_model_v22) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v9_model_v22.dmx")};
+	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 9);
+	EXPECT_EQ(dmx.getFormatType(), "model");
+	EXPECT_EQ(dmx.getFormatVersion(), 22);
+	EXPECT_EQ(dmx.getElementCount(), 702);
+}
+
+TEST(kvpp, dmx_binary_v9_vtex_v1) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v9_vtex_v1.dmx")};
+	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 9);
+	EXPECT_EQ(dmx.getFormatType(), "vtex");
+	EXPECT_EQ(dmx.getFormatVersion(), 1);
+	EXPECT_EQ(dmx.getElementCount(), 5);
+}
+
+TEST(kvpp, dmx_binary_seqids_v9_vtex_v1) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_seqids_v9_vtex_v1.dmx")};
+	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY_SEQIDS);
+	EXPECT_EQ(dmx.getEncodingVersion(), 9);
+	EXPECT_EQ(dmx.getFormatType(), "vtex");
+	EXPECT_EQ(dmx.getFormatVersion(), 1);
+	EXPECT_EQ(dmx.getElementCount(), 5);
 }
 
 TEST(kvpp, read_empty) {
-	KV1 kv1{""};
+	const KV1 kv1{""};
 	EXPECT_TRUE(kv1.getChildren().empty());
 }
 
@@ -36,16 +99,16 @@ TEST(kvpp, write_empty) {
 	KV1Writer kv1Writer;
 	EXPECT_TRUE(kv1Writer.getChildren().empty());
 
-	KV1 kv1{kv1Writer.bake()};
+	const KV1 kv1{kv1Writer.bake()};
 	EXPECT_TRUE(kv1.getChildren().empty());
 }
 
 TEST(kvpp, read_block) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 "block"
 {
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "block");
 	EXPECT_STREQ(kv1[0].getValue().data(), "");
@@ -70,14 +133,14 @@ TEST(kvpp, write_block) {
 }
 
 TEST(kvpp, read_blocks) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 "block1"
 {
 }
 "block2"
 {
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 2);
 	EXPECT_STREQ(kv1[0].getKey().data(), "block1");
 	EXPECT_STREQ(kv1[0].getValue().data(), "");
@@ -112,13 +175,13 @@ TEST(kvpp, write_blocks) {
 }
 
 TEST(kvpp, read_keys) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 "keys"
 {
     "test"   "1"
     "test 2"  0
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "keys");
 	EXPECT_STREQ(kv1["keys"].getValue().data(), "");
@@ -162,7 +225,7 @@ TEST(kvpp, write_keys) {
 }
 
 TEST(kvpp, read_escaped) {
-	KV1 kv1{R"(
+	const KV1 kv1{R"(
 "\"keys\""
 {
     "te\"st"  "\\1\in"
@@ -212,14 +275,14 @@ TEST(kvpp, write_escaped) {
 }
 
 TEST(kvpp, read_comments) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 "keys"
 {   // cool
     "test"   "1" // so nice
     "test 2"  0  // here's another one
 }
 // Wowie
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "keys");
 	EXPECT_STREQ(kv1["keys"].getValue().data(), "");
@@ -233,7 +296,7 @@ TEST(kvpp, read_comments) {
 }
 
 TEST(kvpp, read_subkeys) {
-	KV1 kv1{R"(
+	auto kv1 = R"(
 "keys"
 {
     "test"   "1"
@@ -246,7 +309,7 @@ TEST(kvpp, read_subkeys) {
 	}
 	"test 3" "1"
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "keys");
 	EXPECT_STREQ(kv1["keys"].getValue().data(), "");
@@ -320,7 +383,7 @@ TEST(kvpp, write_subkeys) {
 }
 
 TEST(kvpp, read_conditionals) {
-	KV1 kv1{R"(
+	auto kv1 = R"(
 "keys"
 {
     "test"   "1"    [$WIN32]
@@ -333,7 +396,7 @@ TEST(kvpp, read_conditionals) {
 	}
 	"test 3" "1"  [$GAME_CONSOLE && !$WIN32]
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 1);
 	EXPECT_STREQ(kv1[0].getKey().data(), "keys");
 	EXPECT_STREQ(kv1["keys"].getValue().data(), "");
@@ -415,11 +478,11 @@ TEST(kvpp, write_conditionals) {
 }
 
 TEST(kvpp, read_multiple) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 entity 0
 entity 1
 entity 2
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 3);
 	for (int i = 0; i < kv1.getChildCount("entity"); i++) {
 		EXPECT_STREQ(kv1[i].getKey().data(), "entity");
@@ -452,13 +515,13 @@ TEST(kvpp, write_multiple) {
 }
 
 TEST(kvpp, read_includes) {
-	KV1 kv1{R"(
+	const auto kv1 = R"(
 #base "resources\parent.res"
 
 resources\child.res
 {
 }
-)"};
+)"_kv1;
 	ASSERT_EQ(kv1.getChildren().size(), 2);
 	EXPECT_STREQ(kv1[0].getKey().data(), "#base");
 	EXPECT_STREQ(kv1["#base"].getValue().data(), "resources\\parent.res");

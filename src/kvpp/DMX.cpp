@@ -2,56 +2,47 @@
 
 #include <kvpp/DMX.h>
 
+#include <format>
 #include <limits>
 #include <random>
 #include <sstream>
 #include <utility>
 
 #include <BufferStream.h>
+#include <iomanip>
 #include <sourcepp/FS.h>
 
 using namespace kvpp;
 using namespace sourcepp;
 
 // NOLINTNEXTLINE(*-no-recursion)
-std::string DMXValue::IDToString(ID id) {
+std::string DMXValue::idToString(ID id) {
 	switch (id) {
-		case ID::INVALID:
-			break;
-		case ID::ELEMENT:
-			return "element";
-		case ID::INT32:
-			return "int";
-		case ID::FLOAT:
-			return "float";
-		case ID::BOOL:
-			return "bool";
-		case ID::STRING:
-			return "string";
-		case ID::BYTEARRAY:
-			return "binary";
-		case ID::TIME:
-			return "time";
-		case ID::COLOR:
-			return "color";
-		case ID::VECTOR2:
-			return "vector2";
-		case ID::VECTOR3:
-			return "vector3";
-		case ID::VECTOR4:
-			return "vector4";
-		case ID::EULER_ANGLES:
-			return "angle";
-		case ID::QUATERNION:
-			return "quaternion";
-		case ID::MATRIX_4X4:
-			return "matrix";
+		case ID::INVALID: break;
+		case ID::ELEMENT:      return "element";
+		case ID::INT32:        return "int";
+		case ID::FLOAT:        return "float";
+		case ID::BOOL:         return "bool";
+		case ID::STRING:       return "string";
+		case ID::BYTEARRAY:    return "binary";
+		case ID::UUID:         return "objectid";
+		case ID::TIME:         return "time";
+		case ID::COLOR:        return "color";
+		case ID::VECTOR2:      return "vector2";
+		case ID::VECTOR3:      return "vector3";
+		case ID::VECTOR4:      return "vector4";
+		case ID::EULER_ANGLES: return "angle";
+		case ID::QUATERNION:   return "quaternion";
+		case ID::MATRIX_4X4:   return "matrix";
+		case ID::UINT64:       return "uint64";
+		case ID::UINT8:        return "uint8";
 		case ID::ARRAY_ELEMENT:
 		case ID::ARRAY_INT32:
 		case ID::ARRAY_FLOAT:
 		case ID::ARRAY_BOOL:
 		case ID::ARRAY_STRING:
 		case ID::ARRAY_BYTEARRAY:
+		case ID::ARRAY_UUID:
 		case ID::ARRAY_TIME:
 		case ID::ARRAY_COLOR:
 		case ID::ARRAY_VECTOR2:
@@ -60,7 +51,9 @@ std::string DMXValue::IDToString(ID id) {
 		case ID::ARRAY_EULER_ANGLES:
 		case ID::ARRAY_QUATERNION:
 		case ID::ARRAY_MATRIX_4X4:
-			return IDToString(arrayIDToInnerID(id)) + "_array";
+		case ID::ARRAY_UINT64:
+		case ID::ARRAY_UINT8:
+			return idToString(arrayIDToInnerID(id)) + "_array";
 	}
 	return "invalid";
 }
@@ -97,7 +90,7 @@ std::string DMXAttribute::getValueString() const {
 	switch (const auto type = this->getValueType()) {
 		using enum DMXValue::ID;
 		case INVALID:
-			return DMXValue::IDToString(type);
+			return DMXValue::idToString(type);
 		case ELEMENT: {
 			const auto [index, stubGUID] = this->getValue<DMXValue::Element>();
 			if (index == -2) {
@@ -106,22 +99,28 @@ std::string DMXAttribute::getValueString() const {
 			return '#' + std::to_string(index);
 		}
 		case INT32:
-			return std::to_string(this->getValue<int32_t>());
+			return std::format("{}", this->getValue<int32_t>());
 		case FLOAT:
-			return std::to_string(this->getValue<float>());
+			return std::format("{}", this->getValue<float>());
 		case BOOL:
-			return this->getValue<bool>() ? "true" : "false";
+			return std::format("{}", static_cast<int>(this->getValue<bool>()));
 		case STRING:
 			return this->getValue<std::string>();
 		case BYTEARRAY: {
-			std::string out;
+			std::stringstream hex;
+			hex << std::hex << std::setfill('0');
 			for (auto byte : this->getValue<DMXValue::ByteArray>()) {
-				std::stringstream ss;
-				ss << std::hex << std::uppercase;
-				ss << static_cast<unsigned char>(byte);
-				out += ss.str();
+				hex << std::setw(2) << static_cast<unsigned char>(byte);
 			}
-			return out;
+			return hex.str();
+		}
+		case UUID: {
+			std::stringstream hex;
+			hex << std::hex << std::setfill('0');
+			for (auto byte : this->getValue<DMXValue::UUID>()) {
+				hex << std::setw(2) << static_cast<unsigned char>(byte);
+			}
+			return hex.str();
 		}
 		case TIME:
 			return std::to_string(this->getValue<float>());
@@ -167,6 +166,10 @@ std::string DMXAttribute::getValueString() const {
 			}
 			return out;
 		}
+		case UINT64:
+			return std::format("{}", this->getValue<uint64_t>());
+		case UINT8:
+			return std::format("{}", static_cast<int>(this->getValue<uint8_t>()));
 		case ARRAY_ELEMENT: {
 			const auto elements = this->getValue<std::vector<DMXValue::Element>>();
 			std::string out = "[";
@@ -215,14 +218,25 @@ std::string DMXAttribute::getValueString() const {
 			const auto bytearrays = this->getValue<std::vector<DMXValue::ByteArray>>();
 			std::string out = "[";
 			for (int i = 0; i < bytearrays.size(); i++) {
-				std::string hex;
+				std::stringstream hex;
+				hex << std::hex << std::setfill('0');
 				for (auto byte : bytearrays[i]) {
-					std::stringstream ss;
-					ss << std::hex << std::uppercase;
-					ss << static_cast<unsigned char>(byte);
-					hex += ss.str();
+					hex << std::setw(2) << static_cast<unsigned char>(byte);
 				}
-				out += (i == 0 ? "" : " ") + hex + (i == bytearrays.size() - 1 ? "" : ",\n");
+				out += (i == 0 ? "" : " ") + hex.str() + (i == bytearrays.size() - 1 ? "" : ",\n");
+			}
+			return out + ']';
+		}
+		case ARRAY_UUID: {
+			const auto uuids = this->getValue<std::vector<DMXValue::UUID>>();
+			std::string out = "[";
+			for (int i = 0; i < uuids.size(); i++) {
+				std::stringstream hex;
+				hex << std::hex << std::setfill('0');
+				for (auto byte : uuids[i]) {
+					hex << std::setw(2) << static_cast<unsigned char>(byte);
+				}
+				out += (i == 0 ? "" : " ") + hex.str() + (i == uuids.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
 		}
@@ -306,8 +320,22 @@ std::string DMXAttribute::getValueString() const {
 			}
 			return out + ']';
 		}
-		default:
-			break;
+		case ARRAY_UINT64: {
+			const auto ints = this->getValue<std::vector<uint64_t>>();
+			std::string out = "[";
+			for (int i = 0; i < ints.size(); i++) {
+				out += (i == 0 ? "" : " ") + std::to_string(ints[i]) + (i == ints.size() - 1 ? "" : ",");
+			}
+			return out + ']';
+		}
+		case ARRAY_UINT8: {
+			const auto ints = this->getValue<std::vector<uint8_t>>();
+			std::string out = "[";
+			for (int i = 0; i < ints.size(); i++) {
+				out += (i == 0 ? "" : " ") + std::to_string(ints[i]) + (i == ints.size() - 1 ? "" : ",");
+			}
+			return out + ']';
+		}
 	}
 	return "";
 }
@@ -322,7 +350,7 @@ DMXAttribute& DMXAttribute::operator=(DMXValue::Generic value_) {
 }
 
 DMXElement::operator bool() const {
-	return !this->type.empty() || !this->key.empty() || this->guid != DMXValue::GUID{};
+	return !this->type.empty() || !this->key.empty() || this->uuid != DMXValue::UUID{};
 }
 
 std::string_view DMXElement::getType() const {
@@ -341,12 +369,12 @@ void DMXElement::setKey(std::string key_) {
 	this->key = std::move(key_);
 }
 
-const DMXValue::GUID& DMXElement::getGUID() const {
-	return this->guid;
+const DMXValue::UUID& DMXElement::getUUID() const {
+	return this->uuid;
 }
 
-void DMXElement::setGUID(const DMXValue::GUID& guid_) {
-	this->guid = guid_;
+void DMXElement::setUUID(const DMXValue::UUID& guid_) {
+	this->uuid = guid_;
 }
 
 bool DMXElement::hasAttribute(std::string_view attributeKey) const {
@@ -541,14 +569,16 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 			this->encodingType = ENCODING_BINARY;
 		} else if (encodingTypeStr == "unicode_binary") {
 			this->encodingType = ENCODING_BINARY_UTF8;
+		} else if (encodingTypeStr == "binary_seqids") {
+			this->encodingType = ENCODING_BINARY_SEQIDS;
 		} else if (encodingTypeStr == "keyvalues2") {
 			this->encodingType = ENCODING_KEYVALUES2;
 		} else if (encodingTypeStr == "unicode_keyvalues2") {
 			this->encodingType = ENCODING_KEYVALUES2_UTF8;
 		} else if (encodingTypeStr == "keyvalues2_flat") {
 			this->encodingType = ENCODING_KEYVALUES2_FLAT;
-		} else if (encodingTypeStr == "keyvalues2_noguids") {
-			this->encodingType = ENCODING_KEYVALUES2_NOGUIDS;
+		} else if (encodingTypeStr == "keyvalues2_noids") {
+			this->encodingType = ENCODING_KEYVALUES2_NOIDS;
 		} else {
 			this->encodingType = ENCODING_INVALID;
 			return;
@@ -560,35 +590,27 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 		return;
 	}
 
-	// ENCODING_BINARY
-	// ENCODING_BINARY_UTF8
 	const auto readBinary = [this, &stream] {
 		// Version-specific conditionals
+		const bool isLegacyEncoding = this->encodingType == ENCODING_BINARY_OLD || this->encodingType == ENCODING_BINARY_OLD_SFM;
+		const DMXValue::IDVersion attributeIDVersion = isLegacyEncoding || this->encodingVersion < 3 ? DMXValue::IDVersion::V1 : this->encodingVersion < 9 ? DMXValue::IDVersion::V2 : DMXValue::IDVersion::V3;
+		const bool stringListExists = !isLegacyEncoding && this->encodingVersion > 1;
+		const bool elementNamesAndStringValuesAreStoredInStringList = !isLegacyEncoding && this->encodingVersion > 3;
 		const bool stringListLengthIsShort = this->encodingVersion < 4;
 		const bool stringListIndicesAreShort = this->encodingVersion < 5;
-		const bool elementNamesAreStoredInStringList = this->encodingVersion >= 4;
-		const bool stringValuesAreStoredInStringList = this->encodingVersion >= 4;
+		const bool preloadAttributeListExists = !isLegacyEncoding && this->encodingVersion > 5;
 
 		// Eat the null terminator for the header.
 		if (stream.read<char>() != 0) {
 			return false;
 		}
 
-		// String list
+		// Helper to read a string index and get the string from the list
 		std::vector<std::string> stringList;
-		uint32_t stringCount;
-		if (stringListLengthIsShort) {
-			stringCount = stream.read<uint16_t>();
-		} else {
-			stringCount = stream.read<uint32_t>();
-		}
-		stringList.reserve(stringCount);
-		for (int i = 0; i < stringCount; i++) {
-			stringList.push_back(stream.read_string());
-		}
-
-		// Read a string index and get the string from the list
-		const auto readStringFromIndex = [stringListIndicesAreShort, &stringList](BufferStream& stream_) -> std::string {
+		const auto readStringFromIndex = [stringListExists, stringListIndicesAreShort, &stringList](BufferStream& stream_) -> std::string {
+			if (!stringListExists) {
+				return stream_.read_string();
+			}
 			uint32_t index;
 			if (stringListIndicesAreShort) {
 				index = stream_.read<uint16_t>();
@@ -602,26 +624,9 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 			return stringList.at(index);
 		};
 
-		// Read elements
-		const auto elementCount = stream.read<int32_t>();
-		this->elements.reserve(elementCount);
-
-		for (int i = 0; i < elementCount; i++) {
-			this->elements.push_back(DMXElement{});
-			auto& element = this->elements.back();
-
-			element.setType(readStringFromIndex(stream));
-			if (elementNamesAreStoredInStringList) {
-				element.setKey(readStringFromIndex(stream));
-			} else {
-				element.setKey(stream.read_string());
-			}
-			element.setGUID(stream.read_bytes<16>());
-		}
-
 		// Helper to read a value for an attribute
 		std::function<DMXValue::Generic(DMXValue::ID, bool)> readValue;
-		readValue = [&stream, &readValue, &readStringFromIndex](DMXValue::ID type, bool useStringList) -> DMXValue::Generic {
+		readValue = [&stream, &readStringFromIndex, &readValue](DMXValue::ID type, bool useStringList) -> DMXValue::Generic {
 			const auto readArrayValue = [&stream, &readValue]<typename T>(DMXValue::ID type_) {
 				std::vector<T> out;
 				auto size = stream.read<uint32_t>();
@@ -652,9 +657,11 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				case BOOL:
 					return stream.read<bool>();
 				case STRING:
-					return useStringList ? readStringFromIndex(stream) : stream.read_string();
+					return parser::text::convertEscapesToSpecialChars(useStringList ? readStringFromIndex(stream) : stream.read_string(), parser::text::getDefaultEscapeSequences());
 				case BYTEARRAY:
 					return stream.read_bytes(stream.read<uint32_t>());
+				case UUID:
+					return stream.read_bytes<16>();
 				case TIME:
 					return DMXValue::Time{static_cast<float>(static_cast<double>(stream.read<int32_t>()) / 10000.0)};
 				case COLOR: {
@@ -696,6 +703,10 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 						>> value[3][0] >> value[3][1] >> value[3][2] >> value[3][3];
 					return value;
 				}
+				case UINT64:
+					return stream.read<uint64_t>();
+				case UINT8:
+					return stream.read<uint8_t>();
 				case ARRAY_ELEMENT:
 					return readArrayValue.operator()<DMXValue::Element>(type);
 				case ARRAY_INT32:
@@ -708,6 +719,8 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 					return readArrayValue.operator()<std::string>(type);
 				case ARRAY_BYTEARRAY:
 					return readArrayValue.operator()<std::vector<std::byte>>(type);
+				case ARRAY_UUID:
+					return readArrayValue.operator()<DMXValue::UUID>(type);
 				case ARRAY_TIME:
 					return readArrayValue.operator()<DMXValue::Time>(type);
 				case ARRAY_COLOR:
@@ -724,12 +737,16 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 					return readArrayValue.operator()<DMXValue::Quaternion>(type);
 				case ARRAY_MATRIX_4X4:
 					return readArrayValue.operator()<DMXValue::Matrix4x4>(type);
+				case ARRAY_UINT64:
+					return readArrayValue.operator()<uint64_t>(type);
+				case ARRAY_UINT8:
+					return readArrayValue.operator()<uint8_t>(type);
 			}
 			return std::monostate{};
 		};
 
-		// Read element attributes
-		for (auto& element : this->elements) {
+		// Helper to read element attributes
+		const auto readAttributes = [&stream, attributeIDVersion, &readStringFromIndex, &readValue](DMXElement& element, bool useStringList) {
 			const auto attributeCount = stream.read<int32_t>();
 			element.attributes.reserve(attributeCount);
 
@@ -738,9 +755,63 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				auto& attribute = element.attributes.back();
 
 				attribute.setKey(readStringFromIndex(stream));
-				const auto attributeType = DMXValue::byteToID(stream.read<std::byte>());
-				attribute.setValue(readValue(attributeType, stringValuesAreStoredInStringList));
+
+				auto attributeID = DMXValue::ID::INVALID;
+				switch (attributeIDVersion) {
+					// ReSharper disable once CppDFAUnreachableCode
+					case DMXValue::IDVersion::V1: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv1>(stream.read<std::byte>())); break;
+					case DMXValue::IDVersion::V2: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv2>(stream.read<std::byte>())); break;
+					case DMXValue::IDVersion::V3: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv3>(stream.read<std::byte>())); break;
+				}
+				attribute.setValue(readValue(attributeID, useStringList));
 			}
+		};
+
+		// Preload attributes
+		if (preloadAttributeListExists) {
+			if (const auto preloadElementCount = stream.read<uint32_t>()) {
+				this->prefixAttributeContainers.reserve(preloadElementCount);
+				for (uint32_t i = 0; i < preloadElementCount; i++) {
+					auto& element = this->addPrefixAttributeContainer();
+					readAttributes(element, false);
+				}
+			}
+		}
+
+		// String list
+		if (stringListExists) {
+			uint32_t stringCount;
+			if (stringListLengthIsShort) {
+				stringCount = stream.read<uint16_t>();
+			} else {
+				stringCount = stream.read<uint32_t>();
+			}
+			stringList.reserve(stringCount);
+			for (int i = 0; i < stringCount; i++) {
+				stringList.push_back(stream.read_string());
+			}
+		}
+
+		// Read elements
+		const auto elementCount = stream.read<int32_t>();
+		this->elements.reserve(elementCount);
+
+		for (int i = 0; i < elementCount; i++) {
+			this->elements.push_back(DMXElement{});
+			auto& element = this->elements.back();
+
+			element.setType(readStringFromIndex(stream));
+			if (elementNamesAndStringValuesAreStoredInStringList) {
+				element.setKey(readStringFromIndex(stream));
+			} else {
+				element.setKey(stream.read_string());
+			}
+			element.setUUID(stream.read_bytes<16>());
+		}
+
+		// Read element attributes
+		for (auto& element : this->elements) {
+			readAttributes(element, elementNamesAndStringValuesAreStoredInStringList);
 		}
 
 		return true;
@@ -749,11 +820,12 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 	bool parseSuccess = false;
 	switch (this->encodingType) {
 		case ENCODING_INVALID:
+			break;
 		case ENCODING_BINARY_OLD:
 		case ENCODING_BINARY_OLD_SFM:
-			break;
 		case ENCODING_BINARY:
 		case ENCODING_BINARY_UTF8:
+		case ENCODING_BINARY_SEQIDS:
 			parseSuccess = readBinary();
 			break;
 		case ENCODING_KEYVALUES2_OLD:
@@ -761,7 +833,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 		case ENCODING_KEYVALUES2_UTF8:
 		case ENCODING_KEYVALUES2_FLAT_OLD:
 		case ENCODING_KEYVALUES2_FLAT:
-		case ENCODING_KEYVALUES2_NOGUIDS:
+		case ENCODING_KEYVALUES2_NOIDS:
 			break;
 	}
 	if (!parseSuccess) {
@@ -811,6 +883,29 @@ void DMX::setFormatVersion(int formatVersion_) {
 	this->formatVersion = formatVersion_;
 }
 
+DMXElement& DMX::addPrefixAttributeContainer() {
+	this->prefixAttributeContainers.push_back(DMXElement{});
+	return this->prefixAttributeContainers.back();
+}
+
+uint64_t DMX::getPrefixAttributeContainerCount() const {
+	return this->prefixAttributeContainers.size();
+}
+
+const std::vector<DMXElement>& DMX::getPrefixAttributeContainers() const {
+	return this->prefixAttributeContainers;
+}
+
+std::vector<DMXElement> & DMX::getPrefixAttributeContainers() {
+	return this->prefixAttributeContainers;
+}
+
+void DMX::removePrefixAttributeContainer(unsigned int n) {
+	if (this->prefixAttributeContainers.size() > n) {
+		this->prefixAttributeContainers.erase(this->prefixAttributeContainers.begin() + n);
+	}
+}
+
 bool DMX::hasElement(std::string_view key) const {
 	return !this->operator[](key);
 }
@@ -819,7 +914,7 @@ DMXElement& DMX::addElement(std::string type, std::string key) {
 	DMXElement elem;
 	elem.setType(std::move(type));
 	elem.setKey(std::move(key));
-	elem.setGUID(createRandomGUID());
+	elem.setUUID(createRandomUUID());
 	this->elements.push_back(std::move(elem));
 	return this->elements.back();
 }
@@ -940,6 +1035,10 @@ void DMX::removeElement(unsigned int n) {
 }
 
 std::vector<std::byte> DMX::bake() const {
+	if (!isEncodingVersionValid(this->encodingType, this->encodingVersion)) {
+		return {};
+	}
+
 	// todo: bake
 	return {};
 }
@@ -948,37 +1047,16 @@ void DMX::bake(const std::string& dmxPath) const {
 	fs::writeFileBuffer(dmxPath, this->bake());
 }
 
-bool DMX::isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
-	switch (encodingType) {
-		case ENCODING_INVALID:
-		case ENCODING_BINARY_OLD:
-		case ENCODING_BINARY_OLD_SFM:
-			break;
-		case ENCODING_BINARY:
-		case ENCODING_BINARY_UTF8:
-			// todo: we don't actually support obscure parts of v1 and v2 but it mostly works
-			return encodingVersion >= 1 && encodingVersion <= 5;
-		case ENCODING_KEYVALUES2_OLD:
-		case ENCODING_KEYVALUES2:
-		case ENCODING_KEYVALUES2_UTF8:
-		case ENCODING_KEYVALUES2_FLAT_OLD:
-		case ENCODING_KEYVALUES2_FLAT:
-		case ENCODING_KEYVALUES2_NOGUIDS:
-			break;
-	}
-	return false;
-}
-
-DMXValue::GUID DMX::createRandomGUID() {
+DMXValue::UUID DMX::createRandomUUID() {
 	static std::random_device random_device{};
 	static std::mt19937 generator{random_device()};
 	std::uniform_int_distribution<short> distribution{std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max()};
 
-	DMXValue::GUID guid;
-	for (auto& byte : guid) {
+	DMXValue::UUID uuid;
+	for (auto& byte : uuid) {
 		byte = static_cast<std::byte>(distribution(generator));
 	}
-	return guid;
+	return uuid;
 }
 
 const DMXElement& DMX::getInvalidElement() {

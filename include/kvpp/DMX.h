@@ -13,7 +13,7 @@ namespace kvpp {
 
 namespace DMXValue {
 
-using GUID = std::array<std::byte, 16>;
+using UUID = std::array<std::byte, 16>;
 
 struct Element {
 	int32_t index;
@@ -48,6 +48,414 @@ struct Quaternion : sourcepp::math::Quat {};
 
 using Matrix4x4 = sourcepp::math::Mat4x4f;
 
+enum class IDv1 : uint8_t {
+	INVALID = 0,
+
+	VALUE_START,
+	ELEMENT = VALUE_START,
+	INT32,
+	FLOAT,
+	BOOL,
+	STRING,
+	BYTEARRAY,
+	UUID,
+	COLOR,
+	VECTOR2,
+	VECTOR3,
+	VECTOR4,
+	EULER_ANGLES,
+	QUATERNION,
+	MATRIX_4X4,
+	VALUE_END = MATRIX_4X4,
+
+	ARRAY_START,
+	ARRAY_ELEMENT = ARRAY_START,
+	ARRAY_INT32,
+	ARRAY_FLOAT,
+	ARRAY_BOOL,
+	ARRAY_STRING,
+	ARRAY_BYTEARRAY,
+	ARRAY_UUID,
+	ARRAY_COLOR,
+	ARRAY_VECTOR2,
+	ARRAY_VECTOR3,
+	ARRAY_VECTOR4,
+	ARRAY_EULER_ANGLES,
+	ARRAY_QUATERNION,
+	ARRAY_MATRIX_4X4,
+	ARRAY_END = ARRAY_MATRIX_4X4,
+};
+
+enum class IDv2 : uint8_t {
+	INVALID = 0,
+
+	VALUE_START,
+	ELEMENT = VALUE_START,
+	INT32,
+	FLOAT,
+	BOOL,
+	STRING,
+	BYTEARRAY,
+	TIME,
+	COLOR,
+	VECTOR2,
+	VECTOR3,
+	VECTOR4,
+	EULER_ANGLES,
+	QUATERNION,
+	MATRIX_4X4,
+	VALUE_END = MATRIX_4X4,
+
+	ARRAY_START,
+	ARRAY_ELEMENT = ARRAY_START,
+	ARRAY_INT32,
+	ARRAY_FLOAT,
+	ARRAY_BOOL,
+	ARRAY_STRING,
+	ARRAY_BYTEARRAY,
+	ARRAY_TIME,
+	ARRAY_COLOR,
+	ARRAY_VECTOR2,
+	ARRAY_VECTOR3,
+	ARRAY_VECTOR4,
+	ARRAY_EULER_ANGLES,
+	ARRAY_QUATERNION,
+	ARRAY_MATRIX_4X4,
+	ARRAY_END = ARRAY_MATRIX_4X4,
+};
+
+enum class IDv3 : uint8_t {
+	INVALID = 0,
+
+	VALUE_START,
+	ELEMENT = VALUE_START,
+	INT32,
+	FLOAT,
+	BOOL,
+	STRING,
+	BYTEARRAY,
+	TIME,
+	COLOR,
+	VECTOR2,
+	VECTOR3,
+	VECTOR4,
+	EULER_ANGLES,
+	QUATERNION,
+	MATRIX_4X4,
+	UINT64,
+	UINT8,
+	VALUE_END = UINT8,
+
+	ARRAY_START = 33,
+	ARRAY_ELEMENT = ARRAY_START,
+	ARRAY_INT32,
+	ARRAY_FLOAT,
+	ARRAY_BOOL,
+	ARRAY_STRING,
+	ARRAY_BYTEARRAY,
+	ARRAY_TIME,
+	ARRAY_COLOR,
+	ARRAY_VECTOR2,
+	ARRAY_VECTOR3,
+	ARRAY_VECTOR4,
+	ARRAY_EULER_ANGLES,
+	ARRAY_QUATERNION,
+	ARRAY_MATRIX_4X4,
+	ARRAY_UINT64,
+	ARRAY_UINT8,
+	ARRAY_END = ARRAY_UINT8,
+};
+
+/// Not representative of DMX encoding version, although the attribute type enum variances are linked to that
+enum class IDVersion {
+	V1,
+	V2,
+	V3,
+};
+
+enum class ID : uint8_t {
+	INVALID = 0,
+
+	VALUE_START,
+	ELEMENT = VALUE_START,
+	INT32,
+	FLOAT,
+	BOOL,
+	STRING,
+	BYTEARRAY,
+	UUID,
+	TIME,
+	COLOR,
+	VECTOR2,
+	VECTOR3,
+	VECTOR4,
+	EULER_ANGLES,
+	QUATERNION,
+	MATRIX_4X4,
+	UINT64,
+	UINT8,
+	VALUE_END = UINT8,
+
+	ARRAY_START,
+	ARRAY_ELEMENT = ARRAY_START,
+	ARRAY_INT32,
+	ARRAY_FLOAT,
+	ARRAY_BOOL,
+	ARRAY_STRING,
+	ARRAY_BYTEARRAY,
+	ARRAY_UUID,
+	ARRAY_TIME,
+	ARRAY_COLOR,
+	ARRAY_VECTOR2,
+	ARRAY_VECTOR3,
+	ARRAY_VECTOR4,
+	ARRAY_EULER_ANGLES,
+	ARRAY_QUATERNION,
+	ARRAY_MATRIX_4X4,
+	ARRAY_UINT64,
+	ARRAY_UINT8,
+	ARRAY_END = ARRAY_UINT8,
+};
+
+[[nodiscard]] constexpr ID decodeID(IDv1 id) {
+	switch (id) {
+		case IDv1::INVALID:            return ID::INVALID;
+		case IDv1::ELEMENT:            return ID::ELEMENT;
+		case IDv1::INT32:              return ID::INT32;
+		case IDv1::FLOAT:              return ID::FLOAT;
+		case IDv1::BOOL:               return ID::BOOL;
+		case IDv1::STRING:             return ID::STRING;
+		case IDv1::BYTEARRAY:          return ID::BYTEARRAY;
+		case IDv1::UUID:               return ID::UUID;
+		case IDv1::COLOR:              return ID::COLOR;
+		case IDv1::VECTOR2:            return ID::VECTOR2;
+		case IDv1::VECTOR3:            return ID::VECTOR3;
+		case IDv1::VECTOR4:            return ID::VECTOR4;
+		case IDv1::EULER_ANGLES:       return ID::EULER_ANGLES;
+		case IDv1::QUATERNION:         return ID::QUATERNION;
+		case IDv1::MATRIX_4X4:         return ID::MATRIX_4X4;
+		case IDv1::ARRAY_ELEMENT:      return ID::ARRAY_ELEMENT;
+		case IDv1::ARRAY_INT32:        return ID::ARRAY_INT32;
+		case IDv1::ARRAY_FLOAT:        return ID::ARRAY_FLOAT;
+		case IDv1::ARRAY_BOOL:         return ID::ARRAY_BOOL;
+		case IDv1::ARRAY_STRING:       return ID::ARRAY_STRING;
+		case IDv1::ARRAY_BYTEARRAY:    return ID::ARRAY_BYTEARRAY;
+		case IDv1::ARRAY_UUID:         return ID::ARRAY_UUID;
+		case IDv1::ARRAY_COLOR:        return ID::ARRAY_COLOR;
+		case IDv1::ARRAY_VECTOR2:      return ID::ARRAY_VECTOR2;
+		case IDv1::ARRAY_VECTOR3:      return ID::ARRAY_VECTOR3;
+		case IDv1::ARRAY_VECTOR4:      return ID::ARRAY_VECTOR4;
+		case IDv1::ARRAY_EULER_ANGLES: return ID::ARRAY_EULER_ANGLES;
+		case IDv1::ARRAY_QUATERNION:   return ID::ARRAY_QUATERNION;
+		case IDv1::ARRAY_MATRIX_4X4:   return ID::ARRAY_MATRIX_4X4;
+	}
+	return ID::INVALID;
+}
+
+[[nodiscard]] constexpr ID decodeID(IDv2 id) {
+	switch (id) {
+		case IDv2::INVALID:            return ID::INVALID;
+		case IDv2::ELEMENT:            return ID::ELEMENT;
+		case IDv2::INT32:              return ID::INT32;
+		case IDv2::FLOAT:              return ID::FLOAT;
+		case IDv2::BOOL:               return ID::BOOL;
+		case IDv2::STRING:             return ID::STRING;
+		case IDv2::BYTEARRAY:          return ID::BYTEARRAY;
+		case IDv2::TIME:               return ID::TIME;
+		case IDv2::COLOR:              return ID::COLOR;
+		case IDv2::VECTOR2:            return ID::VECTOR2;
+		case IDv2::VECTOR3:            return ID::VECTOR3;
+		case IDv2::VECTOR4:            return ID::VECTOR4;
+		case IDv2::EULER_ANGLES:       return ID::EULER_ANGLES;
+		case IDv2::QUATERNION:         return ID::QUATERNION;
+		case IDv2::MATRIX_4X4:         return ID::MATRIX_4X4;
+		case IDv2::ARRAY_ELEMENT:      return ID::ARRAY_ELEMENT;
+		case IDv2::ARRAY_INT32:        return ID::ARRAY_INT32;
+		case IDv2::ARRAY_FLOAT:        return ID::ARRAY_FLOAT;
+		case IDv2::ARRAY_BOOL:         return ID::ARRAY_BOOL;
+		case IDv2::ARRAY_STRING:       return ID::ARRAY_STRING;
+		case IDv2::ARRAY_BYTEARRAY:    return ID::ARRAY_BYTEARRAY;
+		case IDv2::ARRAY_TIME:         return ID::ARRAY_TIME;
+		case IDv2::ARRAY_COLOR:        return ID::ARRAY_COLOR;
+		case IDv2::ARRAY_VECTOR2:      return ID::ARRAY_VECTOR2;
+		case IDv2::ARRAY_VECTOR3:      return ID::ARRAY_VECTOR3;
+		case IDv2::ARRAY_VECTOR4:      return ID::ARRAY_VECTOR4;
+		case IDv2::ARRAY_EULER_ANGLES: return ID::ARRAY_EULER_ANGLES;
+		case IDv2::ARRAY_QUATERNION:   return ID::ARRAY_QUATERNION;
+		case IDv2::ARRAY_MATRIX_4X4:   return ID::ARRAY_MATRIX_4X4;
+	}
+	return ID::INVALID;
+}
+
+[[nodiscard]] constexpr ID decodeID(IDv3 id) {
+	switch (id) {
+		case IDv3::INVALID:            return ID::INVALID;
+		case IDv3::ELEMENT:            return ID::ELEMENT;
+		case IDv3::INT32:              return ID::INT32;
+		case IDv3::FLOAT:              return ID::FLOAT;
+		case IDv3::BOOL:               return ID::BOOL;
+		case IDv3::STRING:             return ID::STRING;
+		case IDv3::BYTEARRAY:          return ID::BYTEARRAY;
+		case IDv3::TIME:               return ID::TIME;
+		case IDv3::COLOR:              return ID::COLOR;
+		case IDv3::VECTOR2:            return ID::VECTOR2;
+		case IDv3::VECTOR3:            return ID::VECTOR3;
+		case IDv3::VECTOR4:            return ID::VECTOR4;
+		case IDv3::EULER_ANGLES:       return ID::EULER_ANGLES;
+		case IDv3::QUATERNION:         return ID::QUATERNION;
+		case IDv3::MATRIX_4X4:         return ID::MATRIX_4X4;
+		case IDv3::UINT64:             return ID::UINT64;
+		case IDv3::UINT8:              return ID::UINT8;
+		case IDv3::ARRAY_ELEMENT:      return ID::ARRAY_ELEMENT;
+		case IDv3::ARRAY_INT32:        return ID::ARRAY_INT32;
+		case IDv3::ARRAY_FLOAT:        return ID::ARRAY_FLOAT;
+		case IDv3::ARRAY_BOOL:         return ID::ARRAY_BOOL;
+		case IDv3::ARRAY_STRING:       return ID::ARRAY_STRING;
+		case IDv3::ARRAY_BYTEARRAY:    return ID::ARRAY_BYTEARRAY;
+		case IDv3::ARRAY_TIME:         return ID::ARRAY_TIME;
+		case IDv3::ARRAY_COLOR:        return ID::ARRAY_COLOR;
+		case IDv3::ARRAY_VECTOR2:      return ID::ARRAY_VECTOR2;
+		case IDv3::ARRAY_VECTOR3:      return ID::ARRAY_VECTOR3;
+		case IDv3::ARRAY_VECTOR4:      return ID::ARRAY_VECTOR4;
+		case IDv3::ARRAY_EULER_ANGLES: return ID::ARRAY_EULER_ANGLES;
+		case IDv3::ARRAY_QUATERNION:   return ID::ARRAY_QUATERNION;
+		case IDv3::ARRAY_MATRIX_4X4:   return ID::ARRAY_MATRIX_4X4;
+		case IDv3::ARRAY_UINT64:       return ID::ARRAY_UINT64;
+		case IDv3::ARRAY_UINT8:        return ID::ARRAY_UINT8;
+	}
+	return ID::INVALID;
+}
+
+[[nodiscard]] constexpr std::byte encodeID(ID id, IDVersion version, bool& incompatible) {
+	incompatible = false;
+	switch (version) {
+		case IDVersion::V1: {
+			auto out = IDv1::INVALID;
+			switch (id) {
+				case ID::INVALID:            break;
+				case ID::ELEMENT:            out = IDv1::ELEMENT; break;
+				case ID::INT32:              out = IDv1::INT32; break;
+				case ID::FLOAT:              out = IDv1::FLOAT; break;
+				case ID::BOOL:               out = IDv1::BOOL; break;
+				case ID::STRING:             out = IDv1::STRING; break;
+				case ID::BYTEARRAY:          out = IDv1::BYTEARRAY; break;
+				case ID::UUID:               out = IDv1::UUID; break;
+				case ID::TIME:               out = IDv1::BYTEARRAY; incompatible = true; break;
+				case ID::COLOR:              out = IDv1::COLOR; break;
+				case ID::VECTOR2:            out = IDv1::VECTOR2; break;
+				case ID::VECTOR3:            out = IDv1::VECTOR3; break;
+				case ID::VECTOR4:            out = IDv1::VECTOR4; break;
+				case ID::EULER_ANGLES:       out = IDv1::EULER_ANGLES; break;
+				case ID::QUATERNION:         out = IDv1::QUATERNION; break;
+				case ID::MATRIX_4X4:         out = IDv1::MATRIX_4X4; break;
+				case ID::UINT64:
+				case ID::UINT8:              out = IDv1::BYTEARRAY; incompatible = true; break;
+				case ID::ARRAY_ELEMENT:      out = IDv1::ARRAY_ELEMENT; break;
+				case ID::ARRAY_INT32:        out = IDv1::ARRAY_INT32; break;
+				case ID::ARRAY_FLOAT:        out = IDv1::ARRAY_FLOAT; break;
+				case ID::ARRAY_BOOL:         out = IDv1::ARRAY_BOOL; break;
+				case ID::ARRAY_STRING:       out = IDv1::ARRAY_STRING; break;
+				case ID::ARRAY_BYTEARRAY:    out = IDv1::ARRAY_BYTEARRAY; break;
+				case ID::ARRAY_UUID:         out = IDv1::ARRAY_UUID; break;
+				case ID::ARRAY_TIME:         out = IDv1::ARRAY_BYTEARRAY; incompatible = true; break;
+				case ID::ARRAY_COLOR:        out = IDv1::ARRAY_COLOR; break;
+				case ID::ARRAY_VECTOR2:      out = IDv1::ARRAY_VECTOR2; break;
+				case ID::ARRAY_VECTOR3:      out = IDv1::ARRAY_VECTOR3; break;
+				case ID::ARRAY_VECTOR4:      out = IDv1::ARRAY_VECTOR4; break;
+				case ID::ARRAY_EULER_ANGLES: out = IDv1::ARRAY_EULER_ANGLES; break;
+				case ID::ARRAY_QUATERNION:   out = IDv1::ARRAY_QUATERNION; break;
+				case ID::ARRAY_MATRIX_4X4:   out = IDv1::ARRAY_MATRIX_4X4; break;
+				case ID::ARRAY_UINT64:
+				case ID::ARRAY_UINT8:        out = IDv1::ARRAY_BYTEARRAY; incompatible = true; break;
+			}
+			return static_cast<std::byte>(out);
+		}
+		case IDVersion::V2: {
+			auto out = IDv2::INVALID;
+			switch (id) {
+				case ID::INVALID:            break;
+				case ID::ELEMENT:            out = IDv2::ELEMENT; break;
+				case ID::INT32:              out = IDv2::INT32; break;
+				case ID::FLOAT:              out = IDv2::FLOAT; break;
+				case ID::BOOL:               out = IDv2::BOOL; break;
+				case ID::STRING:             out = IDv2::STRING; break;
+				case ID::BYTEARRAY:          out = IDv2::BYTEARRAY; break;
+				case ID::UUID:               out = IDv2::BYTEARRAY; incompatible = true; break;
+				case ID::TIME:               out = IDv2::TIME; break;
+				case ID::COLOR:              out = IDv2::COLOR; break;
+				case ID::VECTOR2:            out = IDv2::VECTOR2; break;
+				case ID::VECTOR3:            out = IDv2::VECTOR3; break;
+				case ID::VECTOR4:            out = IDv2::VECTOR4; break;
+				case ID::EULER_ANGLES:       out = IDv2::EULER_ANGLES; break;
+				case ID::QUATERNION:         out = IDv2::QUATERNION; break;
+				case ID::MATRIX_4X4:         out = IDv2::MATRIX_4X4; break;
+				case ID::UINT64:
+				case ID::UINT8:              out = IDv2::BYTEARRAY; incompatible = true; break;
+				case ID::ARRAY_ELEMENT:      out = IDv2::ARRAY_ELEMENT; break;
+				case ID::ARRAY_INT32:        out = IDv2::ARRAY_INT32; break;
+				case ID::ARRAY_FLOAT:        out = IDv2::ARRAY_FLOAT; break;
+				case ID::ARRAY_BOOL:         out = IDv2::ARRAY_BOOL; break;
+				case ID::ARRAY_STRING:       out = IDv2::ARRAY_STRING; break;
+				case ID::ARRAY_BYTEARRAY:    out = IDv2::ARRAY_BYTEARRAY; break;
+				case ID::ARRAY_UUID:         out = IDv2::BYTEARRAY; incompatible = true; break;
+				case ID::ARRAY_TIME:         out = IDv2::ARRAY_TIME; break;
+				case ID::ARRAY_COLOR:        out = IDv2::ARRAY_COLOR; break;
+				case ID::ARRAY_VECTOR2:      out = IDv2::ARRAY_VECTOR2; break;
+				case ID::ARRAY_VECTOR3:      out = IDv2::ARRAY_VECTOR3; break;
+				case ID::ARRAY_VECTOR4:      out = IDv2::ARRAY_VECTOR4; break;
+				case ID::ARRAY_EULER_ANGLES: out = IDv2::ARRAY_EULER_ANGLES; break;
+				case ID::ARRAY_QUATERNION:   out = IDv2::ARRAY_QUATERNION; break;
+				case ID::ARRAY_MATRIX_4X4:   out = IDv2::ARRAY_MATRIX_4X4; break;
+				case ID::ARRAY_UINT64:
+				case ID::ARRAY_UINT8:        out = IDv2::ARRAY_BYTEARRAY; incompatible = true; break;
+			}
+			return static_cast<std::byte>(out);
+		}
+		case IDVersion::V3: {
+			auto out = IDv3::INVALID;
+			switch (id) {
+				case ID::INVALID:            break;
+				case ID::ELEMENT:            out = IDv3::ELEMENT; break;
+				case ID::INT32:              out = IDv3::INT32; break;
+				case ID::FLOAT:              out = IDv3::FLOAT; break;
+				case ID::BOOL:               out = IDv3::BOOL; break;
+				case ID::STRING:             out = IDv3::STRING; break;
+				case ID::BYTEARRAY:          out = IDv3::BYTEARRAY; break;
+				case ID::UUID:               out = IDv3::BYTEARRAY; incompatible = true; break;
+				case ID::TIME:               out = IDv3::TIME; break;
+				case ID::COLOR:              out = IDv3::COLOR; break;
+				case ID::VECTOR2:            out = IDv3::VECTOR2; break;
+				case ID::VECTOR3:            out = IDv3::VECTOR3; break;
+				case ID::VECTOR4:            out = IDv3::VECTOR4; break;
+				case ID::EULER_ANGLES:       out = IDv3::EULER_ANGLES; break;
+				case ID::QUATERNION:         out = IDv3::QUATERNION; break;
+				case ID::MATRIX_4X4:         out = IDv3::MATRIX_4X4; break;
+				case ID::UINT64:             out = IDv3::UINT64; break;
+				case ID::UINT8:              out = IDv3::UINT8; break;
+				case ID::ARRAY_ELEMENT:      out = IDv3::ARRAY_ELEMENT; break;
+				case ID::ARRAY_INT32:        out = IDv3::ARRAY_INT32; break;
+				case ID::ARRAY_FLOAT:        out = IDv3::ARRAY_FLOAT; break;
+				case ID::ARRAY_BOOL:         out = IDv3::ARRAY_BOOL; break;
+				case ID::ARRAY_STRING:       out = IDv3::ARRAY_STRING; break;
+				case ID::ARRAY_BYTEARRAY:    out = IDv3::ARRAY_BYTEARRAY; break;
+				case ID::ARRAY_UUID:         out = IDv3::BYTEARRAY; incompatible = true; break;
+				case ID::ARRAY_TIME:         out = IDv3::ARRAY_TIME; break;
+				case ID::ARRAY_COLOR:        out = IDv3::ARRAY_COLOR; break;
+				case ID::ARRAY_VECTOR2:      out = IDv3::ARRAY_VECTOR2; break;
+				case ID::ARRAY_VECTOR3:      out = IDv3::ARRAY_VECTOR3; break;
+				case ID::ARRAY_VECTOR4:      out = IDv3::ARRAY_VECTOR4; break;
+				case ID::ARRAY_EULER_ANGLES: out = IDv3::ARRAY_EULER_ANGLES; break;
+				case ID::ARRAY_QUATERNION:   out = IDv3::ARRAY_QUATERNION; break;
+				case ID::ARRAY_MATRIX_4X4:   out = IDv3::ARRAY_MATRIX_4X4; break;
+				case ID::ARRAY_UINT64:       out = IDv3::ARRAY_UINT64; break;
+				case ID::ARRAY_UINT8:        out = IDv3::ARRAY_UINT8; break;
+			}
+			return static_cast<std::byte>(out);
+		}
+	}
+	return {};
+}
+
 using Generic = std::variant<
 	std::monostate,
 
@@ -57,6 +465,7 @@ using Generic = std::variant<
 	bool,
 	std::string,
 	std::vector<std::byte>,
+	UUID,
 	Time,
 	Color,
 	Vector2,
@@ -65,6 +474,8 @@ using Generic = std::variant<
 	EulerAngles,
 	Quaternion,
 	Matrix4x4,
+	uint64_t,
+	uint8_t,
 
 	std::vector<Element>,
 	std::vector<int32_t>,
@@ -72,6 +483,7 @@ using Generic = std::variant<
 	std::vector<bool>,
 	std::vector<std::string>,
 	std::vector<std::vector<std::byte>>,
+	std::vector<UUID>,
 	std::vector<Time>,
 	std::vector<Color>,
 	std::vector<Vector2>,
@@ -79,54 +491,10 @@ using Generic = std::variant<
 	std::vector<Vector4>,
 	std::vector<EulerAngles>,
 	std::vector<Quaternion>,
-	std::vector<Matrix4x4>
+	std::vector<Matrix4x4>,
+	std::vector<uint64_t>,
+	std::vector<uint8_t>
 >;
-
-enum class ID : uint8_t {
-	INVALID = 0,
-
-	VALUE_START = 1,
-	ELEMENT = 1,
-	INT32 = 2,
-	FLOAT = 3,
-	BOOL = 4,
-	STRING = 5,
-	BYTEARRAY = 6,
-	TIME = 7, // OBJECT_ID in v1 & v2
-	COLOR = 8,
-	VECTOR2 = 9,
-	VECTOR3 = 10,
-	VECTOR4 = 11,
-	EULER_ANGLES = 12,
-	QUATERNION = 13,
-	MATRIX_4X4 = 14,
-	VALUE_END = 14,
-
-	ARRAY_START = 15,
-	ARRAY_ELEMENT = 15,
-	ARRAY_INT32 = 16,
-	ARRAY_FLOAT = 17,
-	ARRAY_BOOL = 18,
-	ARRAY_STRING = 19,
-	ARRAY_BYTEARRAY = 20,
-	ARRAY_TIME = 21, // ARRAY_OBJECT_ID in v1 & v2
-	ARRAY_COLOR = 22,
-	ARRAY_VECTOR2 = 23,
-	ARRAY_VECTOR3 = 24,
-	ARRAY_VECTOR4 = 25,
-	ARRAY_EULER_ANGLES = 26,
-	ARRAY_QUATERNION = 27,
-	ARRAY_MATRIX_4X4 = 28,
-	ARRAY_END = 28,
-};
-
-[[nodiscard]] constexpr std::byte IDToByte(ID id) {
-	return static_cast<std::byte>(id);
-}
-
-[[nodiscard]] constexpr ID byteToID(std::byte id) {
-	return static_cast<ID>(id);
-}
 
 [[nodiscard]] constexpr ID arrayIDToInnerID(ID id) {
 	if (id >= ID::ARRAY_START) {
@@ -142,7 +510,7 @@ enum class ID : uint8_t {
 	return id;
 }
 
-[[nodiscard]] std::string IDToString(ID id);
+[[nodiscard]] std::string idToString(ID id);
 
 // NOLINTNEXTLINE(*-no-recursion)
 [[nodiscard]] constexpr ID stringToID(std::string_view id) {
@@ -153,6 +521,7 @@ enum class ID : uint8_t {
 	if (id == "bool")       return BOOL;
 	if (id == "string")     return STRING;
 	if (id == "binary")     return BYTEARRAY;
+	if (id == "objectid")   return UUID;
 	if (id == "time")       return TIME;
 	if (id == "color")      return COLOR;
 	if (id == "vector2")    return VECTOR2;
@@ -161,6 +530,8 @@ enum class ID : uint8_t {
 	if (id == "angle")      return EULER_ANGLES;
 	if (id == "quaternion") return QUATERNION;
 	if (id == "matrix")     return MATRIX_4X4;
+	if (id == "uint64")     return UINT64;
+	if (id == "uint8")      return UINT8;
 	if (id.ends_with("_array")) {
 		return innerIDToArrayID(stringToID(id.substr(0, id.length() - 6)));
 	}
@@ -227,11 +598,11 @@ public:
 	/// Set the key associated with the element
 	void setKey(std::string key_);
 
-	// Get the GUID associated with this element
-	[[nodiscard]] const DMXValue::GUID& getGUID() const;
+	// Get the UUID associated with this element
+	[[nodiscard]] const DMXValue::UUID& getUUID() const;
 
-	// Set the GUID associated with this element
-	void setGUID(const DMXValue::GUID& guid_);
+	// Set the UUID associated with this element
+	void setUUID(const DMXValue::UUID& guid_);
 
 	/// Check if the element has one or more children with the given name
 	[[nodiscard]] bool hasAttribute(std::string_view attributeKey) const;
@@ -316,7 +687,7 @@ protected:
 
 	std::string type;
 	std::string key;
-	DMXValue::GUID guid{};
+	DMXValue::UUID uuid{};
 	std::vector<DMXAttribute> attributes;
 };
 
@@ -328,12 +699,13 @@ public:
 		ENCODING_BINARY_OLD_SFM,
 		ENCODING_BINARY,
 		ENCODING_BINARY_UTF8,
+		ENCODING_BINARY_SEQIDS,
 		ENCODING_KEYVALUES2_OLD,
+		ENCODING_KEYVALUES2_FLAT_OLD,
 		ENCODING_KEYVALUES2,
 		ENCODING_KEYVALUES2_UTF8,
-		ENCODING_KEYVALUES2_FLAT_OLD,
 		ENCODING_KEYVALUES2_FLAT,
-		ENCODING_KEYVALUES2_NOGUIDS,
+		ENCODING_KEYVALUES2_NOIDS,
 	};
 
 	DMX(Encoding encodingType_, int encodingVersion_, std::string formatType_, int formatVersion_);
@@ -359,6 +731,17 @@ public:
 	[[nodiscard]] int getFormatVersion() const;
 
 	void setFormatVersion(int formatVersion_);
+
+	DMXElement& addPrefixAttributeContainer();
+
+	/// Get the number of prefix attributes
+	[[nodiscard]] uint64_t getPrefixAttributeContainerCount() const;
+
+	[[nodiscard]] const std::vector<DMXElement>& getPrefixAttributeContainers() const;
+
+	[[nodiscard]] std::vector<DMXElement>& getPrefixAttributeContainers();
+
+	void removePrefixAttributeContainer(unsigned int n);
 
 	/// Check if the element list has one or more elements with the given name
 	[[nodiscard]] bool hasElement(std::string_view key) const;
@@ -435,9 +818,32 @@ public:
 
 	void bake(const std::string& dmxPath) const;
 
-	[[nodiscard]] static bool isEncodingVersionValid(Encoding encodingType, int encodingVersion);
+	[[nodiscard]] static constexpr bool isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
+		switch (encodingType) {
+			case ENCODING_INVALID:
+				break;
+			case ENCODING_BINARY_OLD:
+				return encodingVersion >= 1 && encodingVersion <= 2;
+			case ENCODING_BINARY_OLD_SFM:
+				return encodingVersion >= 1 && encodingVersion <= 9;
+			case ENCODING_BINARY:
+			case ENCODING_BINARY_UTF8:
+			case ENCODING_BINARY_SEQIDS:
+				return (encodingVersion >= 1 && encodingVersion <= 5) || encodingVersion == 9;
+			case ENCODING_KEYVALUES2_OLD:
+			case ENCODING_KEYVALUES2_FLAT_OLD:
+				return encodingVersion == 1;
+			case ENCODING_KEYVALUES2:
+			case ENCODING_KEYVALUES2_UTF8:
+			case ENCODING_KEYVALUES2_FLAT:
+				return encodingVersion >= 1 && encodingVersion <= 4;
+			case ENCODING_KEYVALUES2_NOIDS:
+				return encodingVersion == 1;
+		}
+		return false;
+	}
 
-	[[nodiscard]] static DMXValue::GUID createRandomGUID();
+	[[nodiscard]] static DMXValue::UUID createRandomUUID();
 
 	[[nodiscard]] static const DMXElement& getInvalidElement();
 
@@ -447,6 +853,7 @@ protected:
 	std::string formatType;
 	int formatVersion = -1;
 
+	std::vector<DMXElement> prefixAttributeContainers;
 	std::vector<DMXElement> elements;
 };
 

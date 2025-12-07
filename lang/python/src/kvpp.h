@@ -38,9 +38,123 @@ inline void register_python(py::module_& m) {
 			.def_rw("b", &Color::b)
 			.def_rw("a", &Color::a);
 
-		py::class_<EulerAngles, sourcepp::math::EulerAngles>(DMXValue, "EulerAngles");
+		py::class_<EulerAngles, sourcepp::math::EulerAngles>(DMXValue, "EulerAngles"); // NOLINT(*-unused-raii)
 
-		py::class_<Quaternion>(DMXValue, "Quaternion");
+		py::class_<Quaternion>(DMXValue, "Quaternion"); // NOLINT(*-unused-raii)
+
+		py::enum_<IDv1>(DMXValue, "IDv1")
+			.value("INVALID",            IDv1::INVALID)
+			.value("VALUE_START",        IDv1::VALUE_START)
+			.value("ELEMENT",            IDv1::ELEMENT)
+			.value("INT32",              IDv1::INT32)
+			.value("FLOAT",              IDv1::FLOAT)
+			.value("BOOL",               IDv1::BOOL)
+			.value("STRING",             IDv1::STRING)
+			.value("BYTEARRAY",          IDv1::BYTEARRAY)
+			.value("UUID",               IDv1::UUID)
+			.value("COLOR",              IDv1::COLOR)
+			.value("VECTOR2",            IDv1::VECTOR2)
+			.value("VECTOR3",            IDv1::VECTOR3)
+			.value("VECTOR4",            IDv1::VECTOR4)
+			.value("EULER_ANGLES",       IDv1::EULER_ANGLES)
+			.value("QUATERNION",         IDv1::QUATERNION)
+			.value("MATRIX_4X4",         IDv1::MATRIX_4X4)
+			.value("VALUE_END",          IDv1::VALUE_END)
+			.value("ARRAY_START",        IDv1::ARRAY_START)
+			.value("ARRAY_ELEMENT",      IDv1::ARRAY_ELEMENT)
+			.value("ARRAY_INT32",        IDv1::ARRAY_INT32)
+			.value("ARRAY_FLOAT",        IDv1::ARRAY_FLOAT)
+			.value("ARRAY_BOOL",         IDv1::ARRAY_BOOL)
+			.value("ARRAY_STRING",       IDv1::ARRAY_STRING)
+			.value("ARRAY_BYTEARRAY",    IDv1::ARRAY_BYTEARRAY)
+			.value("ARRAY_UUID",         IDv1::ARRAY_UUID)
+			.value("ARRAY_COLOR",        IDv1::ARRAY_COLOR)
+			.value("ARRAY_VECTOR2",      IDv1::ARRAY_VECTOR2)
+			.value("ARRAY_VECTOR3",      IDv1::ARRAY_VECTOR3)
+			.value("ARRAY_VECTOR4",      IDv1::ARRAY_VECTOR4)
+			.value("ARRAY_EULER_ANGLES", IDv1::ARRAY_EULER_ANGLES)
+			.value("ARRAY_QUATERNION",   IDv1::ARRAY_QUATERNION)
+			.value("ARRAY_MATRIX_4X4",   IDv1::ARRAY_MATRIX_4X4)
+			.value("ARRAY_END",          IDv1::ARRAY_END);
+
+		py::enum_<IDv2>(DMXValue, "IDv2")
+			.value("INVALID",            IDv2::INVALID)
+			.value("VALUE_START",        IDv2::VALUE_START)
+			.value("ELEMENT",            IDv2::ELEMENT)
+			.value("INT32",              IDv2::INT32)
+			.value("FLOAT",              IDv2::FLOAT)
+			.value("BOOL",               IDv2::BOOL)
+			.value("STRING",             IDv2::STRING)
+			.value("BYTEARRAY",          IDv2::BYTEARRAY)
+			.value("TIME",               IDv2::TIME)
+			.value("COLOR",              IDv2::COLOR)
+			.value("VECTOR2",            IDv2::VECTOR2)
+			.value("VECTOR3",            IDv2::VECTOR3)
+			.value("VECTOR4",            IDv2::VECTOR4)
+			.value("EULER_ANGLES",       IDv2::EULER_ANGLES)
+			.value("QUATERNION",         IDv2::QUATERNION)
+			.value("MATRIX_4X4",         IDv2::MATRIX_4X4)
+			.value("VALUE_END",          IDv2::VALUE_END)
+			.value("ARRAY_START",        IDv2::ARRAY_START)
+			.value("ARRAY_ELEMENT",      IDv2::ARRAY_ELEMENT)
+			.value("ARRAY_INT32",        IDv2::ARRAY_INT32)
+			.value("ARRAY_FLOAT",        IDv2::ARRAY_FLOAT)
+			.value("ARRAY_BOOL",         IDv2::ARRAY_BOOL)
+			.value("ARRAY_STRING",       IDv2::ARRAY_STRING)
+			.value("ARRAY_BYTEARRAY",    IDv2::ARRAY_BYTEARRAY)
+			.value("ARRAY_TIME",         IDv2::ARRAY_TIME)
+			.value("ARRAY_COLOR",        IDv2::ARRAY_COLOR)
+			.value("ARRAY_VECTOR2",      IDv2::ARRAY_VECTOR2)
+			.value("ARRAY_VECTOR3",      IDv2::ARRAY_VECTOR3)
+			.value("ARRAY_VECTOR4",      IDv2::ARRAY_VECTOR4)
+			.value("ARRAY_EULER_ANGLES", IDv2::ARRAY_EULER_ANGLES)
+			.value("ARRAY_QUATERNION",   IDv2::ARRAY_QUATERNION)
+			.value("ARRAY_MATRIX_4X4",   IDv2::ARRAY_MATRIX_4X4)
+			.value("ARRAY_END",          IDv2::ARRAY_END);
+
+		py::enum_<IDv3>(DMXValue, "IDv3")
+			.value("INVALID",            IDv3::INVALID)
+			.value("VALUE_START",        IDv3::VALUE_START)
+			.value("ELEMENT",            IDv3::ELEMENT)
+			.value("INT32",              IDv3::INT32)
+			.value("FLOAT",              IDv3::FLOAT)
+			.value("BOOL",               IDv3::BOOL)
+			.value("STRING",             IDv3::STRING)
+			.value("BYTEARRAY",          IDv3::BYTEARRAY)
+			.value("TIME",               IDv3::TIME)
+			.value("COLOR",              IDv3::COLOR)
+			.value("VECTOR2",            IDv3::VECTOR2)
+			.value("VECTOR3",            IDv3::VECTOR3)
+			.value("VECTOR4",            IDv3::VECTOR4)
+			.value("EULER_ANGLES",       IDv3::EULER_ANGLES)
+			.value("QUATERNION",         IDv3::QUATERNION)
+			.value("MATRIX_4X4",         IDv3::MATRIX_4X4)
+			.value("UINT64",             IDv3::UINT64)
+			.value("UINT8",              IDv3::UINT8)
+			.value("VALUE_END",          IDv3::VALUE_END)
+			.value("ARRAY_START",        IDv3::ARRAY_START)
+			.value("ARRAY_ELEMENT",      IDv3::ARRAY_ELEMENT)
+			.value("ARRAY_INT32",        IDv3::ARRAY_INT32)
+			.value("ARRAY_FLOAT",        IDv3::ARRAY_FLOAT)
+			.value("ARRAY_BOOL",         IDv3::ARRAY_BOOL)
+			.value("ARRAY_STRING",       IDv3::ARRAY_STRING)
+			.value("ARRAY_BYTEARRAY",    IDv3::ARRAY_BYTEARRAY)
+			.value("ARRAY_TIME",         IDv3::ARRAY_TIME)
+			.value("ARRAY_COLOR",        IDv3::ARRAY_COLOR)
+			.value("ARRAY_VECTOR2",      IDv3::ARRAY_VECTOR2)
+			.value("ARRAY_VECTOR3",      IDv3::ARRAY_VECTOR3)
+			.value("ARRAY_VECTOR4",      IDv3::ARRAY_VECTOR4)
+			.value("ARRAY_EULER_ANGLES", IDv3::ARRAY_EULER_ANGLES)
+			.value("ARRAY_QUATERNION",   IDv3::ARRAY_QUATERNION)
+			.value("ARRAY_MATRIX_4X4",   IDv3::ARRAY_MATRIX_4X4)
+			.value("ARRAY_UINT64",       IDv3::UINT64)
+			.value("ARRAY_UINT8",        IDv3::UINT8)
+			.value("ARRAY_END",          IDv3::ARRAY_END);
+
+		py::enum_<IDVersion>(DMXValue, "IDVersion")
+			.value("V1", IDVersion::V1)
+			.value("V2", IDVersion::V2)
+			.value("V3", IDVersion::V3);
 
 		py::enum_<ID>(DMXValue, "ID")
 			.value("INVALID",            ID::INVALID)
@@ -51,6 +165,7 @@ inline void register_python(py::module_& m) {
 			.value("BOOL",               ID::BOOL)
 			.value("STRING",             ID::STRING)
 			.value("BYTEARRAY",          ID::BYTEARRAY)
+			.value("UUID",               ID::UUID)
 			.value("TIME",               ID::TIME)
 			.value("COLOR",              ID::COLOR)
 			.value("VECTOR2",            ID::VECTOR2)
@@ -59,6 +174,8 @@ inline void register_python(py::module_& m) {
 			.value("EULER_ANGLES",       ID::EULER_ANGLES)
 			.value("QUATERNION",         ID::QUATERNION)
 			.value("MATRIX_4X4",         ID::MATRIX_4X4)
+			.value("UINT64",             ID::UINT64)
+			.value("UINT8",              ID::UINT8)
 			.value("VALUE_END",          ID::VALUE_END)
 			.value("ARRAY_START",        ID::ARRAY_START)
 			.value("ARRAY_ELEMENT",      ID::ARRAY_ELEMENT)
@@ -67,6 +184,7 @@ inline void register_python(py::module_& m) {
 			.value("ARRAY_BOOL",         ID::ARRAY_BOOL)
 			.value("ARRAY_STRING",       ID::ARRAY_STRING)
 			.value("ARRAY_BYTEARRAY",    ID::ARRAY_BYTEARRAY)
+			.value("ARRAY_UUID",         ID::ARRAY_UUID)
 			.value("ARRAY_TIME",         ID::ARRAY_TIME)
 			.value("ARRAY_COLOR",        ID::ARRAY_COLOR)
 			.value("ARRAY_VECTOR2",      ID::ARRAY_VECTOR2)
@@ -75,13 +193,27 @@ inline void register_python(py::module_& m) {
 			.value("ARRAY_EULER_ANGLES", ID::ARRAY_EULER_ANGLES)
 			.value("ARRAY_QUATERNION",   ID::ARRAY_QUATERNION)
 			.value("ARRAY_MATRIX_4X4",   ID::ARRAY_MATRIX_4X4)
+			.value("ARRAY_UINT64",       ID::ARRAY_UINT64)
+			.value("ARRAY_UINT8",        ID::ARRAY_UINT8)
 			.value("ARRAY_END",          ID::ARRAY_END);
+
+		DMXValue.def("decode_id_v1", py::overload_cast<IDv1>(&decodeID), "id"_a);
+
+		DMXValue.def("decode_id_v2", py::overload_cast<IDv2>(&decodeID), "id"_a);
+
+		DMXValue.def("decode_id_v3", py::overload_cast<IDv3>(&decodeID), "id"_a);
+
+		DMXValue.def("encode_id", [](ID id, IDVersion version) -> std::pair<uint8_t, bool> {
+			bool incompatible;
+			const auto out = static_cast<uint8_t>(encodeID(id, version, incompatible));
+			return {out, incompatible};
+		}, "id"_a, "version"_a);
 
 		DMXValue.def("array_id_to_inner_id", &arrayIDToInnerID, "id"_a);
 
 		DMXValue.def("inner_id_to_array_id", &innerIDToArrayID, "id"_a);
 
-		DMXValue.def("id_to_string", &IDToString, "id"_a);
+		DMXValue.def("id_to_string", &idToString, "id"_a);
 
 		DMXValue.def("string_to_id", &stringToID, "id"_a);
 	}
@@ -103,13 +235,14 @@ inline void register_python(py::module_& m) {
 		.def("__bool__", &DMXElement::operator bool)
 		.def_prop_rw("type", &DMXElement::getType, &DMXElement::setType)
 		.def_prop_rw("key", &DMXElement::getKey, &DMXElement::setKey)
-		.def_prop_rw("guid", &DMXElement::getGUID, &DMXElement::setGUID)
+		.def_prop_rw("uuid", &DMXElement::getUUID, &DMXElement::setUUID)
 		.def("has_attribute", &DMXElement::hasAttribute, "attribute_key"_a)
 		.def("__contains__", &DMXElement::hasAttribute, "attribute_key"_a)
 		.def("add_attribute", &DMXElement::addAttribute, "key"_a, "value"_a = DMXValue::Generic{}, py::rv_policy::reference_internal)
 		.def("get_attribute_count", py::overload_cast<>(&DMXElement::getAttributeCount, py::const_))
 		.def("__len__", py::overload_cast<>(&DMXElement::getAttributeCount, py::const_))
 		.def("get_attribute_count_with_key", py::overload_cast<std::string_view>(&DMXElement::getAttributeCount, py::const_))
+		.def("get_attributes", py::overload_cast<>(&DMXElement::getAttributes))
 		.def("__iter__", [](const DMXElement& self) {
 			return py::make_iterator(py::type<DMXElement>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
@@ -129,12 +262,13 @@ inline void register_python(py::module_& m) {
 		.value("BINARY_OLD_SFM",      DMX::ENCODING_BINARY_OLD_SFM)
 		.value("BINARY",              DMX::ENCODING_BINARY)
 		.value("BINARY_UTF8",         DMX::ENCODING_BINARY_UTF8)
+		.value("BINARY_SEQIDS",       DMX::ENCODING_BINARY_SEQIDS)
 		.value("KEYVALUES2_OLD",      DMX::ENCODING_KEYVALUES2_OLD)
+		.value("KEYVALUES2_FLAT_OLD", DMX::ENCODING_KEYVALUES2_FLAT_OLD)
 		.value("KEYVALUES2",          DMX::ENCODING_KEYVALUES2)
 		.value("KEYVALUES2_UTF8",     DMX::ENCODING_KEYVALUES2_UTF8)
-		.value("KEYVALUES2_FLAT_OLD", DMX::ENCODING_KEYVALUES2_FLAT_OLD)
 		.value("KEYVALUES2_FLAT",     DMX::ENCODING_KEYVALUES2_FLAT)
-		.value("KEYVALUES2_NOGUIDS",  DMX::ENCODING_KEYVALUES2_NOGUIDS);
+		.value("KEYVALUES2_NOIDS",    DMX::ENCODING_KEYVALUES2_NOIDS);
 
 	cDMX
 		.def(py::init<DMX::Encoding, int, std::string, int>(), "encoding_type"_a, "encoding_version"_a, "format_type"_a, "format_version"_a)
@@ -147,12 +281,17 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("encoding_version", &DMX::getEncodingVersion, &DMX::setEncodingVersion)
 		.def_prop_rw("format_type", &DMX::getFormatType, &DMX::setFormatType)
 		.def_prop_rw("format_version", &DMX::getFormatVersion, &DMX::setFormatVersion)
+		.def("add_prefix_attribute_container", &DMX::addPrefixAttributeContainer, py::rv_policy::reference_internal)
+		.def("get_prefix_attribute_container_count", &DMX::getPrefixAttributeContainerCount)
+		.def("get_prefix_attribute_containers", py::overload_cast<>(&DMX::getPrefixAttributeContainers))
+		.def("remove_prefix_attribute_container", &DMX::removePrefixAttributeContainer, "n"_a)
 		.def("has_element", &DMX::hasElement, "key"_a)
 		.def("__contains__", &DMX::hasElement, "key"_a)
 		.def("add_element", &DMX::addElement, "type"_a, "key"_a)
 		.def("get_element_count", py::overload_cast<>(&DMX::getElementCount, py::const_))
 		.def("__len__", py::overload_cast<>(&DMX::getElementCount, py::const_))
 		.def("get_element_count_with_key", py::overload_cast<std::string_view>(&DMX::getElementCount, py::const_), "key"_a)
+		.def("get_elements", py::overload_cast<>(&DMX::getElements))
 		.def("__iter__", [](const DMX& self) {
 			return py::make_iterator(py::type<DMX>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
@@ -167,7 +306,7 @@ inline void register_python(py::module_& m) {
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&>(&DMX::bake, py::const_), "dmx_path"_a)
 		.def_static("is_encoding_version_valid", &DMX::isEncodingVersionValid, "encoding_type"_a, "encoding_version"_a)
-		.def_static("create_random_guid", &DMX::createRandomGUID)
+		.def_static("create_random_uuid", &DMX::createRandomUUID)
 		.def_static("get_invalid_element", &DMX::getInvalidElement);
 
 	py::class_<KV1ElementReadable<>>(kvpp, "KV1ElementReadable")
@@ -181,6 +320,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1ElementReadable<>::getChildCount, py::const_), "child_key"_a)
+		.def("get_children", py::overload_cast<>(&KV1ElementReadable<>::getChildren, py::const_))
 		.def("__iter__", [](const KV1ElementReadable<>& self) {
 			return py::make_iterator(py::type<KV1ElementReadable<>>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
@@ -206,6 +346,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1ElementWritable<>::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1ElementWritable<>::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1ElementWritable<>::getChildCount, py::const_), "child_key"_a)
+		.def("get_children", py::overload_cast<>(&KV1ElementWritable<>::getChildren))
 		.def("__iter__", [](const KV1ElementWritable<>& self) {
 			return py::make_iterator(py::type<KV1ElementWritable<>>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
@@ -251,6 +392,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("child_count", py::overload_cast<>(&KV1BinaryElement::getChildCount, py::const_))
 		.def("__len__", py::overload_cast<>(&KV1BinaryElement::getChildCount, py::const_))
 		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1BinaryElement::getChildCount, py::const_), "child_key"_a)
+		.def("get_children", py::overload_cast<>(&KV1BinaryElement::getChildren))
 		.def("__iter__", [](const KV1BinaryElement& self) {
 			return py::make_iterator(py::type<KV1BinaryElement>(), "iterator", self);
 		}, py::keep_alive<0, 1>())
