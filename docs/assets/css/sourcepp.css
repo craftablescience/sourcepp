@@ -47,6 +47,16 @@ video {
 	vertical-align: middle;
 }
 
+code {
+	background-color: var(--color-background-dark);
+	padding: 0 0.2rem;
+	border-radius: 0.2rem;
+
+	&::selection {
+		background-color: color-mix(in srgb, var(--color-background-dark) 70%, var(--color-accent-green-dark) 30%);
+	}
+}
+
 .flex-break {
 	flex-basis: 100%;
 }
