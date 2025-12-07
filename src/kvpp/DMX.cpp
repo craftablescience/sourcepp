@@ -502,14 +502,14 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 	static constexpr std::string_view HEADER_FORMAT_OLD = "<!-- DMXVersion %63s_v%i -->";
 
 #ifdef _WIN32
-	bool headerParsed = sscanf_s(header.c_str(), HEADER_FORMAT.data(), encodingTypeData.data(), MAX_FORMAT, &this->encodingVersion, formatTypeData.data(), MAX_FORMAT, &this->formatVersion);
+	bool headerParsed = sscanf_s(header.c_str(), HEADER_FORMAT.data(), encodingTypeData.data(), MAX_FORMAT_LENGTH, &this->encodingVersion, formatTypeData.data(), MAX_FORMAT_LENGTH, &this->formatVersion);
 #else
 	bool headerParsed = std::sscanf(header.c_str(), HEADER_FORMAT.data(), encodingTypeData.data(), &this->encodingVersion, formatTypeData.data(), &this->formatVersion); // NOLINT(*-err34-c)
 #endif
 	if (!headerParsed) {
 		// Try old header, then bail if it's genuinely malformed
 #ifdef _WIN32
-		headerParsed = sscanf_s(header.c_str(), HEADER_FORMAT_OLD.data(), encodingTypeData.data(), MAX_FORMAT, &this->encodingVersion);
+		headerParsed = sscanf_s(header.c_str(), HEADER_FORMAT_OLD.data(), encodingTypeData.data(), MAX_FORMAT_LENGTH, &this->encodingVersion);
 #else
 		headerParsed = std::sscanf(header.c_str(), HEADER_FORMAT_OLD.data(), encodingTypeData.data(), &this->encodingVersion); // NOLINT(*-err34-c)
 #endif
