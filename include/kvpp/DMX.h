@@ -698,12 +698,10 @@ public:
 		ENCODING_BINARY_OLD,
 		ENCODING_BINARY_OLD_SFM,
 		ENCODING_BINARY,
-		ENCODING_BINARY_UTF8,
 		ENCODING_BINARY_SEQIDS,
 		ENCODING_KEYVALUES2_OLD,
 		ENCODING_KEYVALUES2_FLAT_OLD,
 		ENCODING_KEYVALUES2,
-		ENCODING_KEYVALUES2_UTF8,
 		ENCODING_KEYVALUES2_FLAT,
 		ENCODING_KEYVALUES2_NOIDS,
 	};
@@ -719,6 +717,10 @@ public:
 	[[nodiscard]] Encoding getEncodingType() const;
 
 	void setEncodingType(Encoding encodingType_);
+
+	[[nodiscard]] bool doesEncodingTypeHaveUnicodePrefix() const;
+
+	void shouldEncodingTypeHaveUnicodePrefix(bool encodingTypeHasUnicodePrefix_);
 
 	[[nodiscard]] int getEncodingVersion() const;
 
@@ -827,14 +829,12 @@ public:
 			case ENCODING_BINARY_OLD_SFM:
 				return encodingVersion >= 1 && encodingVersion <= 9;
 			case ENCODING_BINARY:
-			case ENCODING_BINARY_UTF8:
 			case ENCODING_BINARY_SEQIDS:
 				return (encodingVersion >= 1 && encodingVersion <= 5) || encodingVersion == 9;
 			case ENCODING_KEYVALUES2_OLD:
 			case ENCODING_KEYVALUES2_FLAT_OLD:
 				return encodingVersion == 1;
 			case ENCODING_KEYVALUES2:
-			case ENCODING_KEYVALUES2_UTF8:
 			case ENCODING_KEYVALUES2_FLAT:
 				return encodingVersion >= 1 && encodingVersion <= 4;
 			case ENCODING_KEYVALUES2_NOIDS:
@@ -849,6 +849,7 @@ public:
 
 protected:
 	Encoding encodingType = ENCODING_INVALID;
+	bool encodingTypeHasUnicodePrefix = false;
 	int encodingVersion = -1;
 	std::string formatType;
 	int formatVersion = -1;

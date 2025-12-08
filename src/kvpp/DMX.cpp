@@ -546,9 +546,15 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 			return;
 		}
 
-		this->formatType = "unknown";
+		this->formatType = "dmx";
 
-		if (const std::string_view encodingTypeStr = encodingTypeData.data(); encodingTypeStr == "binary") {
+		std::string_view encodingTypeStr = encodingTypeData.data();
+		if (encodingTypeStr.starts_with("unicode_")) {
+			this->encodingTypeHasUnicodePrefix = true;
+			encodingTypeStr = encodingTypeStr.substr(8);
+		}
+
+		if (encodingTypeStr == "binary") {
 			this->encodingType = ENCODING_BINARY_OLD;
 		} else if (encodingTypeStr == "sfm") {
 			this->encodingType = ENCODING_BINARY_OLD_SFM;
@@ -565,16 +571,18 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 	} else {
 		this->formatType = formatTypeData.data();
 
-		if (const std::string_view encodingTypeStr = encodingTypeData.data(); encodingTypeStr == "binary") {
+		std::string_view encodingTypeStr = encodingTypeData.data();
+		if (encodingTypeStr.starts_with("unicode_")) {
+			this->encodingTypeHasUnicodePrefix = true;
+			encodingTypeStr = encodingTypeStr.substr(8);
+		}
+
+		if (encodingTypeStr == "binary") {
 			this->encodingType = ENCODING_BINARY;
-		} else if (encodingTypeStr == "unicode_binary") {
-			this->encodingType = ENCODING_BINARY_UTF8;
 		} else if (encodingTypeStr == "binary_seqids") {
 			this->encodingType = ENCODING_BINARY_SEQIDS;
 		} else if (encodingTypeStr == "keyvalues2") {
 			this->encodingType = ENCODING_KEYVALUES2;
-		} else if (encodingTypeStr == "unicode_keyvalues2") {
-			this->encodingType = ENCODING_KEYVALUES2_UTF8;
 		} else if (encodingTypeStr == "keyvalues2_flat") {
 			this->encodingType = ENCODING_KEYVALUES2_FLAT;
 		} else if (encodingTypeStr == "keyvalues2_noids") {
@@ -657,7 +665,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				case BOOL:
 					return stream.read<bool>();
 				case STRING:
-					return parser::text::convertEscapesToSpecialChars(useStringList ? readStringFromIndex(stream) : stream.read_string(), parser::text::getDefaultEscapeSequences());
+					return useStringList ? readStringFromIndex(stream) : stream.read_string();
 				case BYTEARRAY:
 					return stream.read_bytes(stream.read<uint32_t>());
 				case UUID:
@@ -824,13 +832,11 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 		case ENCODING_BINARY_OLD:
 		case ENCODING_BINARY_OLD_SFM:
 		case ENCODING_BINARY:
-		case ENCODING_BINARY_UTF8:
 		case ENCODING_BINARY_SEQIDS:
 			parseSuccess = readBinary();
 			break;
 		case ENCODING_KEYVALUES2_OLD:
 		case ENCODING_KEYVALUES2:
-		case ENCODING_KEYVALUES2_UTF8:
 		case ENCODING_KEYVALUES2_FLAT_OLD:
 		case ENCODING_KEYVALUES2_FLAT:
 		case ENCODING_KEYVALUES2_NOIDS:
@@ -855,6 +861,17 @@ DMX::Encoding DMX::getEncodingType() const {
 
 void DMX::setEncodingType(Encoding encodingType_) {
 	this->encodingType = encodingType_;
+	if (!isEncodingVersionValid(this->encodingType, this->encodingVersion)) {
+		this->encodingVersion = 1;
+	}
+}
+
+bool DMX::doesEncodingTypeHaveUnicodePrefix() const {
+	return this->encodingTypeHasUnicodePrefix;
+}
+
+void DMX::shouldEncodingTypeHaveUnicodePrefix(bool encodingTypeHasUnicodePrefix_) {
+	this->encodingTypeHasUnicodePrefix = encodingTypeHasUnicodePrefix_;
 }
 
 int DMX::getEncodingVersion() const {

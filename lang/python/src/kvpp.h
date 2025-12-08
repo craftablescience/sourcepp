@@ -261,12 +261,10 @@ inline void register_python(py::module_& m) {
 		.value("BINARY_OLD",          DMX::ENCODING_BINARY_OLD)
 		.value("BINARY_OLD_SFM",      DMX::ENCODING_BINARY_OLD_SFM)
 		.value("BINARY",              DMX::ENCODING_BINARY)
-		.value("BINARY_UTF8",         DMX::ENCODING_BINARY_UTF8)
 		.value("BINARY_SEQIDS",       DMX::ENCODING_BINARY_SEQIDS)
 		.value("KEYVALUES2_OLD",      DMX::ENCODING_KEYVALUES2_OLD)
 		.value("KEYVALUES2_FLAT_OLD", DMX::ENCODING_KEYVALUES2_FLAT_OLD)
 		.value("KEYVALUES2",          DMX::ENCODING_KEYVALUES2)
-		.value("KEYVALUES2_UTF8",     DMX::ENCODING_KEYVALUES2_UTF8)
 		.value("KEYVALUES2_FLAT",     DMX::ENCODING_KEYVALUES2_FLAT)
 		.value("KEYVALUES2_NOIDS",    DMX::ENCODING_KEYVALUES2_NOIDS);
 
@@ -278,6 +276,7 @@ inline void register_python(py::module_& m) {
 		.def(py::init<std::string_view>(), "dmx_data"_a)
 		.def("__bool__", &DMX::operator bool)
 		.def_prop_rw("encoding_type", &DMX::getEncodingType, &DMX::setEncodingType)
+		.def_prop_rw("encoding_type_has_unicode_prefix", &DMX::doesEncodingTypeHaveUnicodePrefix, &DMX::shouldEncodingTypeHaveUnicodePrefix)
 		.def_prop_rw("encoding_version", &DMX::getEncodingVersion, &DMX::setEncodingVersion)
 		.def_prop_rw("format_type", &DMX::getFormatType, &DMX::setFormatType)
 		.def_prop_rw("format_version", &DMX::getFormatVersion, &DMX::setFormatVersion)
