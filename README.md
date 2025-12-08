@@ -77,7 +77,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
       <br> &bull; Legacy binary v1-2 encoding (<code>binary_vN</code>)
       <br> &bull; Legacy SFM v1-9 encoding (<code>sfm_vN</code>)
       <br> &bull; Binary v1-5, v9 encodings (<code>binary</code>, <code>binary_seqids</code>)
-      <br> &bull; <a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> binary v1-5, v9 encoding (<code>unicode_binary</code>)
+      <br> &bull; <a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> encodings (<code>unicode_*</code>)
     </td>
     <td align="center">✅</td>
     <td align="center">❌</td>
