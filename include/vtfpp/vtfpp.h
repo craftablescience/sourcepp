@@ -13,4 +13,5 @@
 #include "PSFrames.h"
 #include "SHT.h"
 #include "TTX.h"
+#include "VBF.h"
 #include "VTF.h"

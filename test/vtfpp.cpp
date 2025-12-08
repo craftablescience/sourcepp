@@ -154,6 +154,17 @@ TEST(vtfpp, read_ttx_no_ttz) {
 	EXPECT_EQ(vtf.getThumbnailHeight(), 4);
 }
 
+TEST(vtfpp, read_vbf) {
+	const VBF vbf{ASSET_ROOT "vtfpp/test.vbf"};
+	ASSERT_TRUE(vbf);
+	EXPECT_EQ(vbf.getPageSize()[0], 512);
+	EXPECT_EQ(vbf.getPageSize()[1], 256);
+	EXPECT_EQ(vbf.getMaxGlyphSize()[0], 27);
+	EXPECT_EQ(vbf.getMaxGlyphSize()[1], 30);
+	EXPECT_EQ(vbf.getFlags(), VBF::FLAG_BOLD | VBF::FLAG_OUTLINE | VBF::FLAG_ANTIALIASED);
+	EXPECT_EQ(vbf.getAscent(), 0);
+}
+
 #ifdef SOURCEPP_BUILD_TESTS_EXTRA
 
 #define TEST_WRITE_FMT(Format, Flags) \

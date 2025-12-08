@@ -302,11 +302,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="35"><code>vtfpp</code></td>
+    <td rowspan="37"><code>vtfpp</code></td>
     <td><a href="https://wiki.mozilla.org/APNG_Specification" target="_blank" rel="noreferrer">APNG</a></td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="35" align="center">C<br>Python</td>
+    <td rowspan="37" align="center">C<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -397,6 +397,12 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td>TTX (TTH, TTZ) v1.0</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>VBF v3</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

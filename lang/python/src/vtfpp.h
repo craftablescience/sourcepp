@@ -407,6 +407,38 @@ inline void register_python(py::module_& m) {
 		})
 		.def("bake_to_file", py::overload_cast<const std::string&, const std::string&>(&TTX::bake, py::const_), "tth_path"_a, "ttz_path"_a);
 
+	vtfpp.attr("VBF_SIGNATURE") = VBF_SIGNATURE;
+
+	auto cVBF = py::class_<VBF>(vtfpp, "VBF");
+
+	py::enum_<VBF::Flags>(cVBF, "Flags", py::is_flag())
+		.value("NONE",        VBF::FLAG_NONE)
+		.value("BOLD",        VBF::FLAG_BOLD)
+		.value("ITALIC",      VBF::FLAG_ITALIC)
+		.value("OUTLINE",     VBF::FLAG_OUTLINE)
+		.value("DROP_SHADOW", VBF::FLAG_DROP_SHADOW)
+		.value("BLUR",        VBF::FLAG_BLUR)
+		.value("SCANLINE",    VBF::FLAG_SCANLINE)
+		.value("ANTIALIASED", VBF::FLAG_ANTIALIASED)
+		.value("CUSTOM",      VBF::FLAG_CUSTOM);
+
+	py::class_<VBF::Glyph>(cVBF, "Glyph")
+		.def_rw("position", &VBF::Glyph::position)
+		.def_rw("size", &VBF::Glyph::size)
+		.def_rw("abc_spacing", &VBF::Glyph::abcSpacing);
+
+	cVBF
+		.def("__init__", [](VBF* self, const py::bytes& vbfData) {
+			return new(self) VBF{std::span{static_cast<const std::byte*>(vbfData.data()), vbfData.size()}};
+		}, "vbf_data"_a)
+		.def(py::init<const std::string&>(), "vbf_path"_a)
+		.def("__bool__", &VBF::operator bool)
+		.def_prop_ro("page_size", &VBF::getPageSize)
+		.def_prop_ro("max_glyph_size", &VBF::getMaxGlyphSize)
+		.def_prop_ro("flags", &VBF::getFlags)
+		.def_prop_ro("ascent", &VBF::getAscent)
+		.def_prop_ro("glyphs", &VBF::getGlyphs);
+
 	vtfpp.attr("VTF_SIGNATURE") = VTF_SIGNATURE;
 	vtfpp.attr("XTF_SIGNATURE") = XTF_SIGNATURE;
 	vtfpp.attr("VTFX_SIGNATURE") = VTFX_SIGNATURE;

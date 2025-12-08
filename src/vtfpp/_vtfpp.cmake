@@ -9,6 +9,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/PSFrames.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/SHT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/TTX.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/VBF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/VTF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
         SOURCES
@@ -19,6 +20,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_LIST_DIR}/PSFrames.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SHT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/TTX.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/VBF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/VTF.cpp")
 
 sourcepp_add_tbb(sourcepp_vtfpp)
