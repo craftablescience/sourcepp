@@ -6825,7 +6825,7 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
       }
    }
 
-   // remove weird white matte from PSD
+#if 0 // doesn't seem like RGB is premultiplied
    if (channelCount >= 4) {
       if (ri->bits_per_channel == 16) {
          for (i=0; i < w*h; ++i) {
@@ -6853,6 +6853,7 @@ static void *stbi__psd_load(stbi__context *s, int *x, int *y, int *comp, int req
          }
       }
    }
+#endif
 
    // convert to desired output format
    if (req_comp && req_comp != 4) {
