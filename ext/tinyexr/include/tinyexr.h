@@ -5934,7 +5934,7 @@ static bool ReconstructTileOffsets(OffsetData& offset_data,
         if (size_t(tileX) >= offset_data.offsets[size_t(level_idx)][size_t(tileY)].size()) {
           return false;
         }
-
+        
         offset_data.offsets[size_t(level_idx)][size_t(tileY)][size_t(tileX)] = tileOffset;
       }
     }
@@ -6620,6 +6620,7 @@ int LoadEXRFromMemory(float **out_rgba, int *width, int *height,
 
   ret = ParseEXRHeaderFromMemory(&exr_header, &exr_version, memory, size, err);
   if (ret != TINYEXR_SUCCESS) {
+    FreeEXRHeader(&exr_header);
     return ret;
   }
 
@@ -6633,6 +6634,8 @@ int LoadEXRFromMemory(float **out_rgba, int *width, int *height,
   InitEXRImage(&exr_image);
   ret = LoadEXRImageFromMemory(&exr_image, &exr_header, memory, size, err);
   if (ret != TINYEXR_SUCCESS) {
+    FreeEXRHeader(&exr_header);
+    FreeEXRImage(&exr_image);
     return ret;
   }
 
@@ -6936,7 +6939,7 @@ struct MemoryMappedFile {
     if (read_bytes != size) {
       // TODO: Try to read data until reading `size` bytes.
       fclose(fp);
-      size = 0;
+      size = 0; 
       data = nullptr;
       return;
     }
@@ -7787,7 +7790,7 @@ static size_t SaveEXRNPartImageToMemory(const EXRImage* exr_images,
           SetErrorMessage("Failed to compute Tile offsets",
                           err);
           return TINYEXR_ERROR_INVALID_DATA;
-
+          
         }
         total_chunk_count += chunk_count[i];
       }

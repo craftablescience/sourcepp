@@ -4,7 +4,7 @@ add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/Buf
 
 # compressonator
 if(SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator a599efbe2e30f7c8e3287e15436ec6c1be580b99)
+    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator e06368c682f1bc26362c01aaebe929137bcca589)
 endif()
 
 
@@ -135,5 +135,5 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp a3dddea9b5d0d445c24c756a406713686abf1257 EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp 934b7d7448c2d2850be9fa3aa4a924d51fff9823 EXCLUDE_FROM_ALL)
 endif()
