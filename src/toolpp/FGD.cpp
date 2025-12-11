@@ -621,7 +621,7 @@ FGDWriter FGDWriter::begin() {
 FGDWriter& FGDWriter::include(const std::filesystem::path& fgdPath) {
 	this->writer
 		.write("@include \""sv, false)
-		.write(fgdPath, false)
+		.write(fgdPath.string(), false)
 		.write("\"\n\n"sv, false);
 	return *this;
 }
