@@ -508,7 +508,7 @@ DMX::DMX(Encoding encodingType_, int encodingVersion_, std::string formatType_, 
 		, formatVersion{formatVersion_} {}
 
 DMX::DMX(std::span<const std::byte> dmxData) {
-	BufferStreamReadOnly stream{dmxData.data(), dmxData.size()};
+	BufferStreamReadOnly stream{dmxData};
 
 	// Header can be at most MAX_HEADER characters long followed by either a null terminator or newline
 	static constexpr int MAX_FORMAT_LENGTH = 64;

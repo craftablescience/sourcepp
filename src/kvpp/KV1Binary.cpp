@@ -172,7 +172,7 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
 	if (kv1Data.empty()) {
 		return;
 	}
-	BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
+	BufferStreamReadOnly stream{kv1Data};
 
 	std::function<void(std::vector<KV1BinaryElement>&)> recursiveReader;
 	recursiveReader = [&stream, &recursiveReader](std::vector<KV1BinaryElement>& elements) {

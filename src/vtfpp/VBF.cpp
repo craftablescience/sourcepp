@@ -9,7 +9,7 @@ using namespace sourcepp;
 using namespace vtfpp;
 
 VBF::VBF(std::span<const std::byte> vbfData) {
-	BufferStreamReadOnly stream{vbfData.data(), vbfData.size()};
+	BufferStreamReadOnly stream{vbfData};
 
 	if (stream.read<uint32_t>() != VBF_SIGNATURE) {
 		return;

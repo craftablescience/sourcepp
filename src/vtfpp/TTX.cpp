@@ -131,13 +131,13 @@ std::pair<std::vector<std::byte>, std::vector<std::byte>> TTX::bake() const {
 		<< this->aspectRatioType;
 
 	// VTF data
-	const auto vtfData = this->vtf.bake();
+	auto vtfData = this->vtf.bake();
 	if (vtfData.empty()) {
 		return {};
 	}
 	uint32_t vtfChunkLength;
 	{
-		BufferStreamReadOnly streamVTF{vtfData.data(), vtfData.size()};
+		BufferStreamReadOnly streamVTF{vtfData};
 		vtfChunkLength = streamVTF.skip<uint32_t>(3).read<uint32_t>();
 		if (this->vtf.hasThumbnailData()) {
 			vtfChunkLength += this->vtf.getThumbnailDataRaw().size();

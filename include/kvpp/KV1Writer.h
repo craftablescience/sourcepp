@@ -348,7 +348,7 @@ public:
 		if (kv1Data.empty()) {
 			return;
 		}
-		BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
+		BufferStreamReadOnly stream{kv1Data};
 		try {
 			KV1ElementWritable<S>::read(stream, this->children, sourcepp::parser::text::getDefaultEscapeSequencesOrNone(this->useEscapeSequences));
 		} catch (const std::overflow_error&) {}

@@ -221,7 +221,7 @@ public:
 		if (kv1Data.empty()) {
 			return;
 		}
-		BufferStreamReadOnly stream{kv1Data.data(), kv1Data.size()};
+		BufferStreamReadOnly stream{kv1Data};
 
 		// Multiply by 2 to ensure buffer will have enough space (very generous)
 		this->backingData.resize(kv1Data.size() * 2);
