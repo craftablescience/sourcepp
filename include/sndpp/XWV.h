@@ -1,7 +1,7 @@
 #pragma once
 
+#include <filesystem>
 #include <span>
-#include <string>
 #include <vector>
 
 #include <sourcepp/parser/Binary.h>
@@ -31,7 +31,7 @@ public:
 
 	explicit XWV(std::span<const std::byte> xwvData);
 
-	explicit XWV(const std::string& xwvPath);
+	explicit XWV(const std::filesystem::path& xwvPath);
 
 	explicit operator bool() const;
 

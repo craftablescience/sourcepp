@@ -134,7 +134,7 @@ XWV::XWV(std::span<const std::byte> xwvData)
 	this->opened = true;
 }
 
-XWV::XWV(const std::string& xwvPath)
+XWV::XWV(const std::filesystem::path& xwvPath)
 		: XWV(fs::readFileBuffer(xwvPath)) {}
 
 XWV::operator bool() const {

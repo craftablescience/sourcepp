@@ -16,5 +16,5 @@ WAV::WAV(std::vector<std::byte>&& wavData)
 WAV::WAV(std::span<const std::byte> wavData)
 		: RIFF{wavData, WAV_TYPE} {}
 
-WAV::WAV(const std::string& wavPath)
+WAV::WAV(const std::filesystem::path& wavPath)
 		: RIFF{wavPath, WAV_TYPE} {}

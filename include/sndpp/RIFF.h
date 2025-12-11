@@ -1,7 +1,7 @@
 #pragma once
 
+#include <filesystem>
 #include <span>
-#include <string>
 #include <utility>
 #include <vector>
 
@@ -21,7 +21,7 @@ public:
 
 	explicit RIFF(std::span<const std::byte> riffData, uint32_t type_);
 
-	explicit RIFF(const std::string& riffPath, uint32_t type_);
+	explicit RIFF(const std::filesystem::path& riffPath, uint32_t type_);
 
 	[[nodiscard]] explicit operator bool() const;
 

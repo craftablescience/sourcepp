@@ -3,7 +3,6 @@
 #include <algorithm>
 
 #include <BufferStream.h>
-#include <filesystem>
 #include <sourcepp/FS.h>
 
 using namespace sndpp;
@@ -48,7 +47,7 @@ RIFF::RIFF(std::vector<std::byte>&& riffData, uint32_t type_)
 RIFF::RIFF(std::span<const std::byte> riffData, uint32_t type_)
 		: RIFF{std::vector<std::byte>{riffData.begin(), riffData.end()}, type_} {}
 
-RIFF::RIFF(const std::string& riffPath, uint32_t type_)
+RIFF::RIFF(const std::filesystem::path& riffPath, uint32_t type_)
 		: RIFF{fs::readFileBuffer(riffPath), type_} {}
 
 RIFF::operator bool() const {

@@ -173,7 +173,7 @@ public:
 
 	explicit WAV(std::span<const std::byte> wavData);
 
-	explicit WAV(const std::string& wavPath);
+	explicit WAV(const std::filesystem::path& wavPath);
 
 	template<ChunkType Type>
 	[[nodiscard]] auto getFirstWAVChunk() const {
