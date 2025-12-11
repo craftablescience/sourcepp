@@ -1,6 +1,7 @@
 #pragma once
 
 #include <concepts>
+#include <filesystem>
 #include <optional>
 #include <span>
 #include <string>
@@ -188,13 +189,15 @@ class KV1Binary : public KV1BinaryElement {
 public:
 	explicit KV1Binary(std::span<const std::byte> kv1Data = {});
 
+	explicit KV1Binary(const std::filesystem::path& kv1Path);
+
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	void bake(const std::string& kv1Path) const;
+	void bake(const std::filesystem::path& kv1Path) const;
 
 	[[nodiscard]] std::string bakeText() const;
 
-	void bakeText(const std::string& kv1Path) const;
+	void bakeText(const std::filesystem::path& kv1Path) const;
 };
 
 } // namespace kvpp

@@ -229,6 +229,9 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
 	recursiveReader(this->children);
 }
 
+KV1Binary::KV1Binary(const std::filesystem::path& kv1Path)
+		: KV1Binary(fs::readFileBuffer(kv1Path)) {}
+
 std::vector<std::byte> KV1Binary::bake() const {
 	std::vector<std::byte> buffer;
 	BufferStream stream{buffer};
@@ -285,7 +288,7 @@ std::vector<std::byte> KV1Binary::bake() const {
 	return buffer;
 }
 
-void KV1Binary::bake(const std::string& kv1Path) const  {
+void KV1Binary::bake(const std::filesystem::path& kv1Path) const  {
 	fs::writeFileBuffer(kv1Path, this->bake());
 }
 
@@ -331,6 +334,6 @@ std::string KV1Binary::bakeText() const {
 	return writer.bake();
 }
 
-void KV1Binary::bakeText(const std::string& kv1Path) const {
+void KV1Binary::bakeText(const std::filesystem::path& kv1Path) const {
 	fs::writeFileText(kv1Path, this->bakeText());
 }

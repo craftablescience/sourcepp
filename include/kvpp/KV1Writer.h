@@ -362,7 +362,7 @@ public:
 		return buffer;
 	}
 
-	void bake(const std::string& kv1Path) const {
+	void bake(const std::filesystem::path& kv1Path) const {
 		sourcepp::fs::writeFileText(kv1Path, this->bake());
 	}
 

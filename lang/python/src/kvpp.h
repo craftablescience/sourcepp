@@ -303,7 +303,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&DMX::bake, py::const_), "dmx_path"_a)
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&DMX::bake, py::const_), "dmx_path"_a)
 		.def_static("is_encoding_version_valid", &DMX::isEncodingVersionValid, "encoding_type"_a, "encoding_version"_a)
 		.def_static("create_random_uuid", &DMX::createRandomUUID)
 		.def_static("get_invalid_element", &DMX::getInvalidElement);
@@ -362,7 +362,7 @@ inline void register_python(py::module_& m) {
 	py::class_<KV1Writer<>, KV1ElementWritable<>>(kvpp, "KV1Writer")
 		.def(py::init<std::string_view, bool>(), "kv1_data"_a = "", "use_escape_sequences"_a = false)
 		.def("bake", py::overload_cast<>(&KV1Writer<>::bake, py::const_))
-		.def("bake_to_file", py::overload_cast<const std::string&>(&KV1Writer<>::bake, py::const_), "kv1_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&KV1Writer<>::bake, py::const_), "kv1_path"_a);
 
 	py::enum_<KV1BinaryValueType>(kvpp, "KV1BinaryValueType")
 		.value("CHILDREN",   KV1BinaryValueType::CHILDREN)
@@ -413,9 +413,9 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&KV1Binary::bake, py::const_), "kv1_path"_a)
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&KV1Binary::bake, py::const_), "kv1_path"_a)
 		.def("bake_text", py::overload_cast<>(&KV1Binary::bakeText, py::const_))
-		.def("bake_text_to_file", py::overload_cast<const std::string&>(&KV1Binary::bakeText, py::const_), "kv1_path"_a);
+		.def("bake_text_to_file", py::overload_cast<const std::filesystem::path&>(&KV1Binary::bakeText, py::const_), "kv1_path"_a);
 }
 
 } // namespace gamepp

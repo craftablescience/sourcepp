@@ -1060,7 +1060,7 @@ std::vector<std::byte> DMX::bake() const {
 	return {};
 }
 
-void DMX::bake(const std::string& dmxPath) const {
+void DMX::bake(const std::filesystem::path& dmxPath) const {
 	fs::writeFileBuffer(dmxPath, this->bake());
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <filesystem>
 #include <span>
 #include <string>
 #include <string_view>
@@ -818,7 +819,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	void bake(const std::string& dmxPath) const;
+	void bake(const std::filesystem::path& dmxPath) const;
 
 	[[nodiscard]] static constexpr bool isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
 		switch (encodingType) {
