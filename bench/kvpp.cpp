@@ -23,20 +23,20 @@ namespace {
 
 constexpr int SMALL_DIMS = 16;
 
-[[nodiscard]] const std::string& getKeyValuesSmall() {
+[[nodiscard]] std::string_view getKeyValuesSmall() {
 	static std::string str = ::getCustomSizedKeyValues2D(SMALL_DIMS, SMALL_DIMS);
 	return str;
 }
 
 constexpr int LARGE_DIMS = 64;
 
-[[nodiscard]] const std::string& getKeyValuesLarge() {
+[[nodiscard]] std::string_view getKeyValuesLarge() {
 	static std::string str = ::getCustomSizedKeyValues2D(LARGE_DIMS, LARGE_DIMS);
 	return str;
 }
 
 void BM_kvpp_read_small(benchmark::State& state) {
-	const auto& kvStr = getKeyValuesSmall();
+	auto kvStr = getKeyValuesSmall();
 	for ([[maybe_unused]] auto _: state) {
 		benchmark::DoNotOptimize(KV1{kvStr});
 	}
@@ -44,7 +44,7 @@ void BM_kvpp_read_small(benchmark::State& state) {
 BENCHMARK(BM_kvpp_read_small);
 
 void BM_speedykeyv_read_small(benchmark::State& state) {
-	const auto& kvStr = getKeyValuesSmall();
+	auto kvStr = getKeyValuesSmall();
 	for ([[maybe_unused]] auto _: state) {
 		benchmark::DoNotOptimize(KeyValueRoot{kvStr.c_str()});
 	}
@@ -52,7 +52,7 @@ void BM_speedykeyv_read_small(benchmark::State& state) {
 BENCHMARK(BM_speedykeyv_read_small);
 
 void BM_kvpp_read_large(benchmark::State& state) {
-	const auto& kvStr = getKeyValuesLarge();
+	auto kvStr = getKeyValuesLarge();
 	for ([[maybe_unused]] auto _: state) {
 		benchmark::DoNotOptimize(KV1{kvStr});
 	}
@@ -60,7 +60,7 @@ void BM_kvpp_read_large(benchmark::State& state) {
 BENCHMARK(BM_kvpp_read_large);
 
 void BM_speedykeyv_read_large(benchmark::State& state) {
-	const auto& kvStr = getKeyValuesLarge();
+	auto kvStr = getKeyValuesLarge();
 	for ([[maybe_unused]] auto _: state) {
 		benchmark::DoNotOptimize(KeyValueRoot{kvStr.c_str()});
 	}
