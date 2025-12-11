@@ -4,7 +4,7 @@ add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/Buf
 
 # compressonator
 if(SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator 3e64e5a20f7ae5b6f741db5a6e3b96d898fa5380)
+    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator 2da56bb0befb2c7fa3818d61c26637f1efc4de81)
 endif()
 
 
