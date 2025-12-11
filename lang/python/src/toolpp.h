@@ -48,7 +48,7 @@ inline void register_python(py::module_& m) {
 		.value("KEYVALUES_STRATA", CmdSeq::Type::KEYVALUES_STRATA);
 
 	cCmdSeq
-		.def(py::init<const std::string&>(), "path"_a)
+		.def(py::init<const std::filesystem::path&>(), "path"_a)
 		.def(py::init<CmdSeq::Type>(), "type"_a)
 		.def("__bool__", &CmdSeq::operator bool, py::is_operator())
 		.def_prop_rw("type", &CmdSeq::getType, &CmdSeq::setType)
@@ -59,7 +59,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&CmdSeq::bake, py::const_), "path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&CmdSeq::bake, py::const_), "path"_a);
 
 	auto cFGD = py::class_<FGD>(toolpp, "FGD");
 	auto cFGDEntity = py::class_<FGD::Entity>(cFGD, "Entity");
@@ -131,7 +131,7 @@ inline void register_python(py::module_& m) {
 
 	cFGD
 		.def(py::init())
-		.def(py::init<const std::string&>(), "fgd_path"_a)
+		.def(py::init<const std::filesystem::path&>(), "fgd_path"_a)
 		.def("load", &FGD::load, "fgd_path"_a)
 		.def_prop_ro("version", &FGD::getVersion)
 		.def_prop_ro("map_size", &FGD::getMapSize)
@@ -142,8 +142,8 @@ inline void register_python(py::module_& m) {
 	auto cFGDWriter = py::class_<FGDWriter>(toolpp, "FGDWriter");
 
 	py::class_<FGDWriter::AutoVisGroupWriter>(cFGDWriter, "AutoVisGroupWriter")
-		.def("visgroup", &FGDWriter::AutoVisGroupWriter::visGroup, "name"_a, "entities"_a, py::rv_policy::reference)
-		.def("end_auto_visgroup", &FGDWriter::AutoVisGroupWriter::endAutoVisGroup,                       py::rv_policy::reference);
+		.def("visgroup", py::overload_cast<std::string_view, std::span<const std::string_view>>(&FGDWriter::AutoVisGroupWriter::visGroup), "name"_a, "entities"_a, py::rv_policy::reference)
+		.def("end_auto_visgroup", &FGDWriter::AutoVisGroupWriter::endAutoVisGroup, py::rv_policy::reference);
 
 	auto cFGDWriterEntityWriter = py::class_<FGDWriter::EntityWriter>(cFGDWriter, "EntityWriter");
 
@@ -168,14 +168,14 @@ inline void register_python(py::module_& m) {
 		.def("include", &FGDWriter::include, "fgd_path"_a, py::rv_policy::reference)
 		.def("version", &FGDWriter::version, "version"_a, py::rv_policy::reference)
 		.def("map_size", &FGDWriter::mapSize, "map_size"_a, py::rv_policy::reference)
-		.def("material_exclusion_dirs", &FGDWriter::materialExclusionDirs, "material_exclusion_dirs"_a, py::rv_policy::reference)
+		.def("material_exclusion_dirs", py::overload_cast<std::span<const std::string_view>>(&FGDWriter::materialExclusionDirs), "material_exclusion_dirs"_a, py::rv_policy::reference)
 		.def("begin_auto_visgroup", &FGDWriter::beginAutoVisGroup, "parent_name"_a)
-		.def("begin_entity", &FGDWriter::beginEntity, "class_type"_a, "class_properties"_a, "name"_a, "description"_a = "", "docs_url"_a = "")
+		.def("begin_entity", py::overload_cast<std::string_view, std::span<const std::string_view>, std::string_view, std::string_view, std::string_view>(&FGDWriter::beginEntity), "class_type"_a, "class_properties"_a, "name"_a, "description"_a = "", "docs_url"_a = "")
 		.def("bake", [](const FGDWriter& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&FGDWriter::bake, py::const_), "path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&FGDWriter::bake, py::const_), "path"_a);
 }
 
 } // namespace vcryptpp

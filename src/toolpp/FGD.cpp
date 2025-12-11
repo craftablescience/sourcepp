@@ -1,3 +1,6 @@
+// ReSharper disable CppRedundantQualifier
+// ReSharper disable CppUseStructuredBinding
+
 #include <toolpp/FGD.h>
 
 #include <algorithm>
@@ -9,7 +12,6 @@
 #include <sourcepp/parser/Text.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/Math.h>
-#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace std::string_view_literals;
@@ -42,6 +44,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 				stream.skip();
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
 			}
+			// ReSharper disable once CppDFALocalValueEscapesFunction
 			return out;
 		}
 
@@ -76,6 +79,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 	}
 
 	backing << '\0';
+	// ReSharper disable once CppRedundantCastExpression
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }
 
@@ -345,7 +349,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 	}
 }
 
-void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
+void overwriteEntity(FGD::Entity& oldEntity, const FGD::Entity& newEntity) {
 	oldEntity.classProperties = newEntity.classProperties;
 	if (!newEntity.description.empty()) {
 		oldEntity.description = newEntity.description;
@@ -354,7 +358,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 		oldEntity.docsURL = newEntity.docsURL;
 	}
 	for (const auto& field : newEntity.fields) {
-		if (auto it = std::find_if(oldEntity.fields.begin(), oldEntity.fields.end(), [&field](const auto& oldField) {
+		if (auto it = std::ranges::find_if(oldEntity.fields, [&field](const auto& oldField) {
 			return oldField.name == field.name;
 		}); it != oldEntity.fields.end()) {
 			it->valueType = field.valueType;
@@ -374,7 +378,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 		}
 	}
 	for (const auto& field : newEntity.fieldsWithChoices) {
-		if (auto it = std::find_if(oldEntity.fieldsWithChoices.begin(), oldEntity.fieldsWithChoices.end(), [&field](const auto& oldField) {
+		if (auto it = std::ranges::find_if(oldEntity.fieldsWithChoices, [&field](const auto& oldField) {
 			return oldField.name == field.name;
 		}); it != oldEntity.fieldsWithChoices.end()) {
 			it->readonly = field.readonly;
@@ -394,7 +398,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 		}
 	}
 	for (const auto& field : newEntity.fieldsWithFlags) {
-		if (auto it = std::find_if(oldEntity.fieldsWithFlags.begin(), oldEntity.fieldsWithFlags.end(), [&field](const auto& oldField) {
+		if (auto it = std::ranges::find_if(oldEntity.fieldsWithFlags, [&field](const auto& oldField) {
 			return oldField.name == field.name;
 		}); it != oldEntity.fieldsWithFlags.end()) {
 			it->readonly = field.readonly;
@@ -405,7 +409,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 		}
 	}
 	for (const auto& input : newEntity.inputs) {
-		if (auto it = std::find_if(oldEntity.inputs.begin(), oldEntity.inputs.end(), [&input](const auto& oldInput) {
+		if (auto it = std::ranges::find_if(oldEntity.inputs, [&input](const auto& oldInput) {
 			return oldInput.name == input.name;
 		}); it != oldEntity.inputs.end()) {
 			it->valueType = input.valueType;
@@ -417,7 +421,7 @@ void overwriteEntity(FGD::Entity& oldEntity, FGD::Entity& newEntity) {
 		}
 	}
 	for (const auto& output : newEntity.outputs) {
-		if (auto it = std::find_if(oldEntity.outputs.begin(), oldEntity.outputs.end(), [&output](const auto& oldOutput) {
+		if (auto it = std::ranges::find_if(oldEntity.outputs, [&output](const auto& oldOutput) {
 			return oldOutput.name == output.name;
 		}); it != oldEntity.outputs.end()) {
 			it->valueType = output.valueType;
@@ -476,7 +480,7 @@ void readEntity(BufferStreamReadOnly& stream, BufferStream& backing, std::string
 }
 
 void writeOptionalKeyValueStrings(BufferStream& writer, std::initializer_list<std::string_view> strings) {
-	static constexpr auto writeOptionalString = [](BufferStream& stream, const std::string& str) {
+	static constexpr auto writeOptionalString = [](BufferStream& stream, std::string_view str) {
 		if (!str.empty()) {
 			stream
 				.write(" : \""sv, false)
@@ -499,11 +503,11 @@ void writeOptionalKeyValueStrings(BufferStream& writer, std::initializer_list<st
 
 } // namespace
 
-FGD::FGD(const std::string& fgdPath) {
+FGD::FGD(const std::filesystem::path& fgdPath) {
 	this->load(fgdPath);
 }
 
-void FGD::load(const std::string& fgdPath) {
+void FGD::load(const std::filesystem::path& fgdPath) {
 	auto fgdData = fs::readFileText(fgdPath);
 	if (fgdData.empty()) {
 		return;
@@ -512,7 +516,6 @@ void FGD::load(const std::string& fgdPath) {
 
 	try {
 		std::vector seenPaths{fgdPath};
-		string::normalizeSlashes(seenPaths.front());
 		this->readEntities(stream, fgdPath, seenPaths);
 	} catch (const std::overflow_error&) {}
 }
@@ -538,7 +541,7 @@ const std::vector<FGD::AutoVisGroup>& FGD::getAutoVisGroups() const {
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, std::vector<std::string>& seenPaths) {
+void FGD::readEntities(BufferStreamReadOnly& stream, const std::filesystem::path& path, std::vector<std::filesystem::path>& seenPaths) {
 	auto& backingString = this->backingData.emplace_back();
 	// Multiply by 2 to ensure buffer will have enough space (very generous)
 	backingString.resize(stream.size() * 2);
@@ -556,9 +559,8 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, st
 		if (string::iequals(classType, "include")) {
 			parser::text::eatWhitespace(stream);
 			// Assume the include path is relative to the current file being processed
-			auto fgdPath = (std::filesystem::path{path}.parent_path() / parser::text::readStringToBuffer(stream, backing)).string();
-			string::normalizeSlashes(fgdPath);
-			if (std::find(seenPaths.begin(), seenPaths.end(), fgdPath) != seenPaths.end()) {
+			auto fgdPath = std::filesystem::path{path}.parent_path() / parser::text::readStringToBuffer(stream, backing);
+			if (std::ranges::find(seenPaths, fgdPath) != seenPaths.end()) {
 				continue;
 			}
 			seenPaths.push_back(fgdPath);
@@ -570,6 +572,7 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::string& path, st
 
 			BufferStreamReadOnly newStream{fgdData};
 			try {
+				// ReSharper disable once CppDFAInfiniteRecursion
 				this->readEntities(newStream, fgdPath, seenPaths);
 			} catch (const std::overflow_error&) {}
 		} else if (string::iequals(classType, "version")) {
@@ -615,7 +618,7 @@ FGDWriter FGDWriter::begin() {
 	return {};
 }
 
-FGDWriter& FGDWriter::include(const std::string& fgdPath) {
+FGDWriter& FGDWriter::include(const std::filesystem::path& fgdPath) {
 	this->writer
 		.write("@include \""sv, false)
 		.write(fgdPath, false)
@@ -641,7 +644,11 @@ FGDWriter& FGDWriter::mapSize(math::Vec2i mapSize) {
 	return *this;
 }
 
-FGDWriter& FGDWriter::materialExclusionDirs(const std::vector<std::string>& dirs) {
+FGDWriter& FGDWriter::materialExclusionDirs(std::initializer_list<std::string_view> dirs) {
+	return this->materialExclusionDirs(std::span{dirs});
+}
+
+FGDWriter& FGDWriter::materialExclusionDirs(std::span<const std::string_view> dirs) {
 	this->writer.write("@MaterialExclusion\n[\n"sv, false);
 	for (const auto& dir : dirs) {
 		this->writer << '\t' << '\"';
@@ -652,7 +659,7 @@ FGDWriter& FGDWriter::materialExclusionDirs(const std::vector<std::string>& dirs
 	return *this;
 }
 
-FGDWriter::AutoVisGroupWriter FGDWriter::beginAutoVisGroup(const std::string& parentName) {
+FGDWriter::AutoVisGroupWriter FGDWriter::beginAutoVisGroup(std::string_view parentName) {
 	this->writer
 		.write("@AutoVisGroup = \""sv, false)
 		.write(parentName, false)
@@ -660,7 +667,11 @@ FGDWriter::AutoVisGroupWriter FGDWriter::beginAutoVisGroup(const std::string& pa
 	return AutoVisGroupWriter{*this};
 }
 
-FGDWriter::AutoVisGroupWriter& FGDWriter::AutoVisGroupWriter::visGroup(const std::string& name, const std::vector<std::string>& entities) {
+FGDWriter::AutoVisGroupWriter &FGDWriter::AutoVisGroupWriter::visGroup(std::string_view name, std::initializer_list<std::string_view> entities) {
+	return this->visGroup(name, std::span{entities});
+}
+
+FGDWriter::AutoVisGroupWriter& FGDWriter::AutoVisGroupWriter::visGroup(std::string_view name, std::span<const std::string_view> entities) {
 	this->parent.writer
 	    .write("\t\""sv, false)
 	    .write(name, false)
@@ -680,7 +691,11 @@ FGDWriter& FGDWriter::AutoVisGroupWriter::endAutoVisGroup() const {
 	return this->parent;
 }
 
-FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, const std::vector<std::string>& classProperties, const std::string& name, const std::string& description, const std::string& docsURL) {
+FGDWriter::EntityWriter FGDWriter::beginEntity(std::string_view classType, std::initializer_list<std::string_view> classProperties, std::string_view name, std::string_view description, std::string_view docsURL) {
+	return this->beginEntity(classType, std::span{classProperties}, name, description, docsURL);
+}
+
+FGDWriter::EntityWriter FGDWriter::beginEntity(std::string_view classType, std::span<const std::string_view> classProperties, std::string_view name, std::string_view description, std::string_view docsURL) {
 	this->writer
 		.write('@')
 		.write(classType, false);
@@ -720,7 +735,7 @@ FGDWriter::EntityWriter FGDWriter::beginEntity(const std::string& classType, con
 	return EntityWriter{*this};
 }
 
-FGDWriter::EntityWriter& FGDWriter::EntityWriter::keyValue(const std::string& name, const std::string& valueType, const std::string& displayName, const std::string& valueDefault, const std::string& description, bool readOnly, bool report) {
+FGDWriter::EntityWriter& FGDWriter::EntityWriter::keyValue(std::string_view name, std::string_view valueType, std::string_view displayName, std::string_view valueDefault, std::string_view description, bool readOnly, bool report) {
 	this->parent.writer
 		.write('\t')
 		.write(name, false)
@@ -738,7 +753,7 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::keyValue(const std::string& na
 	return *this;
 }
 
-FGDWriter::EntityWriter::KeyValueChoicesWriter FGDWriter::EntityWriter::beginKeyValueChoices(const std::string& name, const std::string& displayName, const std::string& valueDefault, const std::string& description, bool readOnly, bool report) {
+FGDWriter::EntityWriter::KeyValueChoicesWriter FGDWriter::EntityWriter::beginKeyValueChoices(std::string_view name, std::string_view displayName, std::string_view valueDefault, std::string_view description, bool readOnly, bool report) {
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
@@ -754,7 +769,7 @@ FGDWriter::EntityWriter::KeyValueChoicesWriter FGDWriter::EntityWriter::beginKey
 	return KeyValueChoicesWriter{*this};
 }
 
-FGDWriter::EntityWriter::KeyValueChoicesWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::choice(const std::string& value, const std::string& displayName) {
+FGDWriter::EntityWriter::KeyValueChoicesWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::choice(std::string_view value, std::string_view displayName) {
 	this->parent.parent.writer
 		.write("\t\t\""sv, false)
 		.write(value, false)
@@ -769,7 +784,7 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueChoicesWriter::endKeyV
 	return this->parent;
 }
 
-FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyValueFlags(const std::string& name, const std::string& displayName, const std::string& description, bool readOnly, bool report) {
+FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyValueFlags(std::string_view name, std::string_view displayName, std::string_view description, bool readOnly, bool report) {
 	this->parent.writer
 	    .write('\t')
 	    .write(name, false)
@@ -785,7 +800,7 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyVa
 	return KeyValueFlagsWriter{*this};
 }
 
-FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::flag(uint64_t value, const std::string& displayName, bool enabledByDefault, const std::string& description) {
+FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::flag(uint64_t value, std::string_view displayName, bool enabledByDefault, std::string_view description) {
 	this->parent.parent.writer
 		.write("\t\t"sv, false)
 	    .write(std::to_string(value), false)
@@ -808,7 +823,7 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::endKeyVal
 	return this->parent;
 }
 
-FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name, const std::string& valueType, const std::string& description) {
+FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(std::string_view name, std::string_view valueType, std::string_view description) {
 	this->parent.writer
 	    .write('\t')
 		.write("input "sv, false)
@@ -826,7 +841,7 @@ FGDWriter::EntityWriter& FGDWriter::EntityWriter::input(const std::string& name,
 	return *this;
 }
 
-FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(const std::string& name, const std::string& valueType, const std::string& description) {
+FGDWriter::EntityWriter& FGDWriter::EntityWriter::output(std::string_view name, std::string_view valueType, std::string_view description) {
 	this->parent.writer
 	    .write('\t')
 	    .write("output "sv, false)
@@ -850,6 +865,7 @@ FGDWriter& FGDWriter::EntityWriter::endEntity() const {
 }
 
 std::string FGDWriter::bake() const {
+	// ReSharper disable once CppRedundantCastExpression
 	std::string_view out{this->backingData.data(), static_cast<std::string_view::size_type>(this->writer.tell())};
 	while (out.ends_with("\n\n")) {
 		out = out.substr(0, out.size() - 1);
@@ -857,6 +873,6 @@ std::string FGDWriter::bake() const {
 	return std::string{out};
 }
 
-bool FGDWriter::bake(const std::string& fgdPath) const {
+bool FGDWriter::bake(const std::filesystem::path& fgdPath) const {
 	return fs::writeFileText(fgdPath, this->bake());
 }

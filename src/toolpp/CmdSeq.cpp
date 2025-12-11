@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <toolpp/CmdSeq.h>
 
 #include <cstring>
@@ -59,15 +61,19 @@ std::string CmdSeq::Command::getExecutableDisplayName() const {
 	return this->executable;
 }
 
-CmdSeq::CmdSeq(const std::string& path)
+CmdSeq::CmdSeq(Type type_)
+		: type(type_)
+		, version(0.2f) {}
+
+CmdSeq::CmdSeq(const std::filesystem::path& cmdSeqPath)
 		: type(Type::INVALID)
 		, version(0.2f) {
 	{
-		FileStream reader{path};
+		FileStream reader{cmdSeqPath};
 		if (!reader) {
 			return;
 		}
-		if (auto binStr = reader.seek_in(0).read_string(10); binStr == "Worldcraft") {
+		if (const auto binStr = reader.seek_in(0).read_string(10); binStr == "Worldcraft") {
 			this->type = Type::BINARY;
 		} else {
 			auto kvStr = reader.seek_in(0).read_string(19);
@@ -84,17 +90,13 @@ CmdSeq::CmdSeq(const std::string& path)
 		case INVALID:
 			break;
 		case BINARY:
-			this->parseBinary(path);
+			this->parseBinary(cmdSeqPath);
 			break;
 		case KEYVALUES_STRATA:
-			this->parseKeyValuesStrata(path);
+			this->parseKeyValuesStrata(cmdSeqPath);
 			break;
 	}
 }
-
-CmdSeq::CmdSeq(Type type_)
-		: type(type_)
-		, version(0.2f) {}
 
 CmdSeq::operator bool() const {
 	return this->type != Type::INVALID;
@@ -120,7 +122,7 @@ void CmdSeq::setVersion(bool isV02) {
 	}
 }
 
-void CmdSeq::parseBinary(const std::string& path) {
+void CmdSeq::parseBinary(const std::filesystem::path& path) {
 	FileStream reader{path};
 	if (!reader) {
 		return;
@@ -154,7 +156,7 @@ void CmdSeq::parseBinary(const std::string& path) {
 	}
 }
 
-void CmdSeq::parseKeyValuesStrata(const std::string& path) {
+void CmdSeq::parseKeyValuesStrata(const std::filesystem::path& path) {
 	this->version = 0.2f;
 
 	const KV1 cmdSeq{fs::readFileText(path)};
@@ -266,7 +268,7 @@ std::vector<std::byte> CmdSeq::bake() const {
 	return {};
 }
 
-bool CmdSeq::bake(const std::string& path) const {
+bool CmdSeq::bake(const std::filesystem::path& path) const {
 	FileStream writer{path};
 	if (!writer) {
 		return false;

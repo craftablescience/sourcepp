@@ -1,6 +1,6 @@
 #pragma once
 
-#include <cstddef>
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -51,9 +51,9 @@ public:
 		KEYVALUES_STRATA,
 	};
 
-	explicit CmdSeq(const std::string& path);
-
 	explicit CmdSeq(Type type_);
+
+	explicit CmdSeq(const std::filesystem::path& cmdSeqPath);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -71,12 +71,12 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& path) const; // NOLINT(*-use-nodiscard)
+	bool bake(const std::filesystem::path& path) const; // NOLINT(*-use-nodiscard)
 
 protected:
-	void parseBinary(const std::string& path);
+	void parseBinary(const std::filesystem::path& path);
 
-	void parseKeyValuesStrata(const std::string& path);
+	void parseKeyValuesStrata(const std::filesystem::path& path);
 
 	[[nodiscard]] std::vector<std::byte> bakeBinary() const;
 
