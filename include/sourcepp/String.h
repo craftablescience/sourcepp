@@ -78,11 +78,11 @@ void denormalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool s
 
 std::from_chars_result toBool(std::string_view number, bool& out, int base = 10);
 
-inline std::from_chars_result toInt(std::string_view number, std::integral auto& out, int base = 10) {
+std::from_chars_result toInt(std::string_view number, std::integral auto& out, int base = 10) {
 	return std::from_chars(number.data(), number.data() + number.size(), out, base);
 }
 
-inline std::from_chars_result toFloat(std::string_view number, std::floating_point auto& out) {
+std::from_chars_result toFloat(std::string_view number, std::floating_point auto& out) {
 #ifdef __APPLE__
 	// Piece of shit compiler
 	out = std::stof(std::string{number});

@@ -67,7 +67,7 @@ constexpr std::array<double, 25> besselI0B{
 
 } // namespace detail
 
-constexpr double besselI0(double x) {
+[[nodiscard]] constexpr double besselI0(double x) {
 	if (x < 0) {
 		x = -x;
 	}
@@ -78,7 +78,7 @@ constexpr double besselI0(double x) {
 	return std::exp(x) * chebyshev(32.0 / x - 2.0, detail::besselI0B) / std::sqrt(x);
 }
 
-constexpr double kaiserWindow(double x, double b) {
+[[nodiscard]] constexpr double kaiserWindow(double x, double b) {
 	const auto d = besselI0(b);
 	if (d == 0.0) {
 		return 0.0;

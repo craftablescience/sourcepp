@@ -8,9 +8,9 @@
 
 namespace sourcepp::fs {
 
-std::vector<std::byte> readFileBuffer(const std::filesystem::path& filepath, std::size_t startOffset = 0);
+[[nodiscard]] std::vector<std::byte> readFileBuffer(const std::filesystem::path& filepath, std::size_t startOffset = 0);
 
-std::string readFileText(const std::filesystem::path& filepath, std::size_t startOffset = 0);
+[[nodiscard]] std::string readFileText(const std::filesystem::path& filepath, std::size_t startOffset = 0);
 
 bool writeFileBuffer(const std::filesystem::path& filepath, std::span<const std::byte> buffer);
 

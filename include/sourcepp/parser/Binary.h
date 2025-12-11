@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantParentheses
+
 #pragma once
 
 #include <cstddef>
@@ -15,7 +17,7 @@ namespace sourcepp::parser::binary {
  * @param fourCC The human-readable FourCC.
  * @return The FourCC identifier.
  */
-consteval uint32_t makeFourCC(const char fourCC[4]) {
+[[nodiscard]] consteval uint32_t makeFourCC(const char fourCC[4]) {
 	return fourCC[0] | (fourCC[1] << 8) | (fourCC[2] << 16) | (fourCC[3] << 24);
 }
 
@@ -24,7 +26,7 @@ consteval uint32_t makeFourCC(const char fourCC[4]) {
  * @param eightCC The human-readable FourCC.
  * @return The EightCC identifier.
  */
-consteval uint64_t makeEightCC(const char eightCC[8]) {
+[[nodiscard]] consteval uint64_t makeEightCC(const char eightCC[8]) {
 	return eightCC[0] | (eightCC[1] << 8) | (eightCC[2] << 16) | (eightCC[3] << 24) | (static_cast<uint64_t>(eightCC[4]) << 32) | (static_cast<uint64_t>(eightCC[5]) << 40) | (static_cast<uint64_t>(eightCC[6]) << 48) | (static_cast<uint64_t>(eightCC[7]) << 56);
 }
 
