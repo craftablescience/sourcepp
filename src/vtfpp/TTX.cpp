@@ -16,7 +16,7 @@ TTX::TTX(VTF&& vtf_)
 }
 
 TTX::TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData) {
-	BufferStreamReadOnly header{tthData.data(), tthData.size()};
+	BufferStreamReadOnly header{tthData};
 
 	if (header.read<uint32_t>() != TTH_SIGNATURE) {
 		return;

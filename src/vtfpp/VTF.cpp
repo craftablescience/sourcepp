@@ -671,7 +671,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 			// The resources vector isn't modified by setResourceInternal when we're not adding a new one, so this is fine
 			for (const auto& resource : this->resources) {
 				// Decompress LZMA resources
-				if (BufferStreamReadOnly rsrcStream{resource.data.data(), resource.data.size()}; rsrcStream.read<uint32_t>() == compression::VALVE_LZMA_SIGNATURE) {
+				if (BufferStreamReadOnly rsrcStream{resource.data}; rsrcStream.read<uint32_t>() == compression::VALVE_LZMA_SIGNATURE) {
 					if (auto decompressedData = compression::decompressValveLZMA(resource.data)) {
 						this->setResourceInternal(resource.type, *decompressedData);
 

@@ -58,7 +58,7 @@ std::optional<std::vector<std::byte>> compression::decompressValveLZMA(std::span
 	std::vector<std::byte> uncompressedData;
 	{
 		// Switch out Valve header with normal one
-		BufferStreamReadOnly in{data.data(), data.size()};
+		BufferStreamReadOnly in{data};
 		if (in.read<uint32_t>() != VALVE_LZMA_SIGNATURE) {
 			return std::nullopt;
 		}

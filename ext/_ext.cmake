@@ -1,5 +1,5 @@
 # bufferstream
-add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 070a5f0a510da1b982dd68f204ad154d8aaf55b1)
+add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream a7a727dd679c87d1b22a57785cfec9908fcd8a04)
 
 
 # compressonator

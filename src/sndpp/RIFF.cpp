@@ -20,7 +20,7 @@ RIFF::RIFF(uint32_t type, uint32_t signature)
 RIFF::RIFF(std::vector<std::byte>&& riffData, uint32_t type_)
 		: type{type_}
 		, data{std::move(riffData)} {
-	BufferStreamReadOnly stream{this->data.data(), this->data.size()};
+	BufferStreamReadOnly stream{this->data};
 
 	stream >> this->signature;
 	if (signature == RIFX_SIGNATURE || signature == FFIR_SIGNATURE) {

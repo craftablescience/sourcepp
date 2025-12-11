@@ -13,7 +13,7 @@ PPL::PPL(uint32_t modelChecksum, ImageFormat format_, uint32_t version_)
 		, format(format_) {}
 
 PPL::PPL(std::span<const std::byte> pplData) {
-	BufferStreamReadOnly reader{pplData.data(), pplData.size()};
+	BufferStreamReadOnly reader{pplData};
 	reader >> this->version >> this->checksum >> this->format;
 
 	const auto imageCount = reader.read<uint32_t>();

@@ -9,7 +9,7 @@ HOT::HOT()
 		: opened(true) {}
 
 HOT::HOT(std::span<const std::byte> hotData) {
-    BufferStreamReadOnly stream{hotData.data(), hotData.size()};
+    BufferStreamReadOnly stream{hotData};
 
 	stream >> this->version >> this->flags;
 	if (this->version != 1) {

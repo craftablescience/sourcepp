@@ -40,7 +40,7 @@ std::vector<std::byte> VFONT::encrypt(std::span<const std::byte> data, uint8_t s
 }
 
 std::vector<std::byte> VFONT::decrypt(std::span<const std::byte> data) {
-	BufferStreamReadOnly reader{data.data(), data.size()};
+	BufferStreamReadOnly reader{data};
 
 	if (reader.seek(SIGNATURE.length(), std::ios::end).read_string(SIGNATURE.length()) != SIGNATURE) {
 		return {};

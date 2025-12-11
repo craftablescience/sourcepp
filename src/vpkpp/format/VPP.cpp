@@ -232,7 +232,9 @@ std::optional<std::vector<std::byte>> VPP::readEntry(const std::string& path_) c
 		BufferStreamReadOnly stream{this->uncondensedData.data(), this->uncondensedData.size()};
 		stream.seek_u(entry->offset);
 		return stream.read_bytes(entry->length);
-	} else if (this->flags & FLAG_COMPRESSED) {
+	}
+
+	if (this->flags & FLAG_COMPRESSED) {
 		// Compressed entry
 		if (!entry->compressedLength) {
 			return std::nullopt;
@@ -242,20 +244,20 @@ std::optional<std::vector<std::byte>> VPP::readEntry(const std::string& path_) c
 			return std::nullopt;
 		}
 		stream.seek_in_u(this->entryBaseOffset + entry->offset);
-		auto compressedData = stream.read_bytes(entry->compressedLength);
+		const auto compressedData = stream.read_bytes(entry->compressedLength);
 		mz_ulong uncompressedLength = entry->length;
 		std::vector<std::byte> uncompressedData(uncompressedLength);
 		mz_uncompress(reinterpret_cast<unsigned char*>(uncompressedData.data()), &uncompressedLength, reinterpret_cast<const unsigned char*>(compressedData.data()), entry->compressedLength);
 		return uncompressedData;
-	} else {
-		// Uncompressed entry
-		FileStream stream{this->fullFilePath};
-		if (!stream) {
-			return std::nullopt;
-		}
-		stream.seek_in_u(this->entryBaseOffset + entry->offset);
-		return stream.read_bytes(entry->length);
 	}
+
+	// Uncompressed entry
+	FileStream stream{this->fullFilePath};
+	if (!stream) {
+		return std::nullopt;
+	}
+	stream.seek_in_u(this->entryBaseOffset + entry->offset);
+	return stream.read_bytes(entry->length);
 }
 
 Attribute VPP::getSupportedEntryAttributes() const {

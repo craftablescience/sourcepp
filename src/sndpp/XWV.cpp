@@ -23,7 +23,7 @@ XWV::XWV(std::span<const std::byte> xwvData)
 		: version{Version::V0}
 		, loopStart{-1}
 		, format{Format::PCM} {
-	BufferStreamReadOnly stream{xwvData.data(), xwvData.size()};
+	BufferStreamReadOnly stream{xwvData};
 
 	switch (stream >> this->version; this->version) {
 		case Version::V0: {

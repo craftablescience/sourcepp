@@ -10,7 +10,7 @@ using namespace vtfpp;
 SHT::SHT() : opened(true) {}
 
 SHT::SHT(std::span<const std::byte> shtData) {
-    BufferStreamReadOnly stream{shtData.data(), shtData.size()};
+    BufferStreamReadOnly stream{shtData};
 
 	stream >> this->version;
 
