@@ -1,9 +1,9 @@
 #pragma once
 
+#include <filesystem>
 #include <cstddef>
 #include <optional>
 #include <span>
-#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -23,7 +23,7 @@ public:
 
 	explicit PPL(std::span<const std::byte> pplData);
 
-	explicit PPL(const std::string& pplPath);
+	explicit PPL(const std::filesystem::path& pplPath);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -53,17 +53,17 @@ public:
 
 	bool setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	bool setImage(const std::filesystem::path& imagePath, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	bool setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
-	bool saveImageToFile(const std::string& imagePath, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
+	bool saveImageToFile(const std::filesystem::path& imagePath, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] std::vector<std::byte> bake();
 
-	bool bake(const std::string& pplPath);
+	bool bake(const std::filesystem::path& pplPath);
 
 protected:
 	uint32_t version{};

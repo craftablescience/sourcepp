@@ -12,7 +12,7 @@ public:
 
 	explicit TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData = {});
 
-	explicit TTX(const std::string& tthPath, const std::string& ttzPath = "");
+	explicit TTX(const std::filesystem::path& tthPath, const std::filesystem::path& ttzPath = {});
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -44,7 +44,7 @@ public:
 
 	[[nodiscard]] std::pair<std::vector<std::byte>, std::vector<std::byte>> bake() const;
 
-	bool bake(const std::string& tthPath, const std::string& ttzPath) const; // NOLINT(*-use-nodiscard)
+	bool bake(const std::filesystem::path& tthPath, const std::filesystem::path& ttzPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	bool opened = false;

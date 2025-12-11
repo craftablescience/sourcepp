@@ -1,7 +1,7 @@
 #pragma once
 
+#include <filesystem>
 #include <span>
-#include <string>
 #include <vector>
 
 #include <vtfpp/ImageFormats.h>
@@ -15,7 +15,7 @@ public:
 
 	explicit PSFrames(std::span<const std::byte> psFramesData);
 
-	explicit PSFrames(const std::string& psFramesPath);
+	explicit PSFrames(const std::filesystem::path& psFramesPath);
 
 	[[nodiscard]] uint32_t getFrameCount() const;
 

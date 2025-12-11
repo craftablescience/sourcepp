@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <filesystem>
 
 #include <sourcepp/parser/Binary.h>
 #include <sourcepp/Macros.h>
@@ -32,7 +33,7 @@ public:
 
 	explicit VBF(std::span<const std::byte> vbfData);
 
-	explicit VBF(const std::string& vbfPath);
+	explicit VBF(const std::filesystem::path& vbfPath);
 
 	[[nodiscard]] explicit operator bool() const;
 

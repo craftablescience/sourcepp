@@ -37,7 +37,7 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](HOT* self, const py::bytes& hotData) {
 			return new(self) HOT{{static_cast<const std::byte*>(hotData.data()), hotData.size()}};
 		}, "hot_data"_a)
-		.def(py::init<const std::string&>(), "hot_path"_a)
+		.def(py::init<const std::filesystem::path&>(), "hot_path"_a)
 		.def("__bool__", &HOT::operator bool, py::is_operator())
 		.def_prop_rw("version", &HOT::getVersion, &HOT::setVersion)
 		.def_prop_rw("flags", &HOT::getFlags, &HOT::setFlags)
@@ -46,7 +46,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&HOT::bake, py::const_), "hot_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&HOT::bake, py::const_), "hot_path"_a);
 
 	py::enum_<ImageFormat>(vtfpp, "ImageFormat")
 		.value("RGBA8888",           ImageFormat::RGBA8888)
@@ -288,7 +288,7 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](PPL* self, const py::bytes& pplData) {
 			return new(self) PPL{{static_cast<const std::byte*>(pplData.data()), pplData.size()}};
 		}, "ppl_data"_a)
-		.def(py::init<const std::string&>(), "path"_a)
+		.def(py::init<const std::filesystem::path&>(), "path"_a)
 		.def("__bool__", &PPL::operator bool, py::is_operator())
 		.def_prop_rw("version", &PPL::getVersion, &PPL::setVersion)
 		.def_prop_rw("model_checksum", &PPL::getModelChecksum, &PPL::setModelChecksum)
@@ -311,24 +311,24 @@ inline void register_python(py::module_& m) {
 		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter, quality);
 		}, "imageData"_a, "format"_a, "width"_a, "height"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_from_file", py::overload_cast<const std::string&, uint32_t, float>(&PPL::setImage), "image_path"_a, "lod"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_resized_from_file", py::overload_cast<const std::string&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter, float>(&PPL::setImage), "image_path"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_from_file", py::overload_cast<const std::filesystem::path&, uint32_t, float>(&PPL::setImage), "image_path"_a, "lod"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_resized_from_file", py::overload_cast<const std::filesystem::path&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter, float>(&PPL::setImage), "image_path"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("save_image", [](const PPL& self, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(lod, fileFormat);
 			return py::bytes{d.data(), d.size()};
 		}, "lod"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("save_image_to_file", py::overload_cast<const std::string&, uint32_t, ImageConversion::FileFormat>(&PPL::saveImageToFile, py::const_), "image_path"_a, "lod"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
+		.def("save_image_to_file", py::overload_cast<const std::filesystem::path&, uint32_t, ImageConversion::FileFormat>(&PPL::saveImageToFile, py::const_), "image_path"_a, "lod"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("bake", [](PPL& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&PPL::bake), "ppl_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&PPL::bake), "ppl_path"_a);
 
 	py::class_<PSFrames>(vtfpp, "PSFrames")
 		.def("__init__", [](PSFrames* self, const py::bytes& psFramesData) {
 			return new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
 		}, "ps_frames_data"_a)
-		.def(py::init<const std::string&>(), "ps_frames_path"_a)
+		.def(py::init<const std::filesystem::path&>(), "ps_frames_path"_a)
 		.def_prop_ro("frame_count", &PSFrames::getFrameCount)
 		.def_prop_ro("fps", &PSFrames::getFPS)
 		.def_prop_ro("width", &PSFrames::getWidth)
@@ -368,7 +368,7 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](SHT* self, const py::bytes& shtData) {
 			return new(self) SHT{{static_cast<const std::byte*>(shtData.data()), shtData.size()}};
 		}, "sht_data"_a)
-		.def(py::init<const std::string&>(), "sht_path"_a)
+		.def(py::init<const std::filesystem::path&>(), "sht_path"_a)
 		.def("__bool__", &SHT::operator bool, py::is_operator())
 		.def_prop_rw("version", &SHT::getVersion, &SHT::setVersion)
 		.def_prop_rw("sequences", [](const SHT& self) -> std::vector<SHT::Sequence> { return self.getSequences(); }, [](SHT& self, const std::vector<SHT::Sequence>& sequences) { self.getSequences() = sequences; })
@@ -378,7 +378,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&SHT::bake, py::const_), "sht_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&SHT::bake, py::const_), "sht_path"_a);
 
 	vtfpp.attr("TTH_SIGNATURE") = TTH_SIGNATURE;
 
@@ -389,7 +389,7 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](TTX* self, const py::bytes& tthData, const py::bytes& ttzData) {
 			return new(self) TTX{{static_cast<const std::byte*>(tthData.data()), tthData.size()}, {static_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
 		}, "tth_data"_a, "ttz_data"_a)
-		.def(py::init<const std::string&, const std::string&>(), "tth_path"_a, "ttz_path"_a)
+		.def(py::init<const std::filesystem::path&, const std::filesystem::path&>(), "tth_path"_a, "ttz_path"_a)
 		.def("__bool__", &TTX::operator bool, py::is_operator())
 		.def_prop_rw("version_major", &TTX::getMajorVersion, &TTX::setMajorVersion)
 		.def_prop_rw("version_minor", &TTX::getMinorVersion, &TTX::setMinorVersion)
@@ -405,7 +405,7 @@ inline void register_python(py::module_& m) {
 			const auto [d1, d2] = self.bake();
 			return {py::bytes{d1.data(), d1.size()}, py::bytes{d2.data(), d2.size()}};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&, const std::string&>(&TTX::bake, py::const_), "tth_path"_a, "ttz_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&, const std::filesystem::path&>(&TTX::bake, py::const_), "tth_path"_a, "ttz_path"_a);
 
 	vtfpp.attr("VBF_SIGNATURE") = VBF_SIGNATURE;
 
@@ -431,7 +431,7 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](VBF* self, const py::bytes& vbfData) {
 			return new(self) VBF{std::span{static_cast<const std::byte*>(vbfData.data()), vbfData.size()}};
 		}, "vbf_data"_a)
-		.def(py::init<const std::string&>(), "vbf_path"_a)
+		.def(py::init<const std::filesystem::path&>(), "vbf_path"_a)
 		.def("__bool__", &VBF::operator bool)
 		.def_prop_ro("page_size", &VBF::getPageSize)
 		.def_prop_ro("max_glyph_size", &VBF::getMaxGlyphSize)
@@ -585,18 +585,18 @@ inline void register_python(py::module_& m) {
 		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false) {
 			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
 		}, "vtf_data"_a, "parse_header_only"_a = false)
-		.def(py::init<const std::string&, bool>(), "vtf_path"_a, "parse_header_only"_a = false)
+		.def(py::init<const std::filesystem::path&, bool>(), "vtf_path"_a, "parse_header_only"_a = false)
 		.def("__bool__", &VTF::operator bool, py::is_operator())
-		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const VTF::CreationOptions& options) {
+		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const VTF::CreationOptions& options) {
 			VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, vtfPath, options);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_blank_and_bake", static_cast<bool(*)(ImageFormat, uint16_t, uint16_t, const std::string&, const VTF::CreationOptions&)>(&VTF::create), "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_blank_and_bake", static_cast<bool(*)(ImageFormat, uint16_t, uint16_t, const std::filesystem::path&, const VTF::CreationOptions&)>(&VTF::create), "format"_a, "width"_a, "height"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
 		.def_static("create", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const VTF::CreationOptions& options) {
 			return VTF::create({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, options);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "creation_options"_a = VTF::CreationOptions{})
 		.def_static("create_blank", static_cast<VTF(*)(ImageFormat, uint16_t, uint16_t, const VTF::CreationOptions&)>(&VTF::create), "format"_a, "width"_a, "height"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_from_file_and_bake", static_cast<bool(*)(const std::string&, const std::string&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
-		.def_static("create_from_file", static_cast<VTF(*)(const std::string&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_from_file_and_bake", static_cast<bool(*)(const std::filesystem::path&, const std::filesystem::path&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "vtf_path"_a, "creation_options"_a = VTF::CreationOptions{})
+		.def_static("create_from_file", static_cast<VTF(*)(const std::filesystem::path&, const VTF::CreationOptions&)>(&VTF::create), "image_path"_a, "creation_options"_a = VTF::CreationOptions{})
 		.def_prop_rw("platform", &VTF::getPlatform, &VTF::setPlatform)
 		.def_prop_rw("version", &VTF::getVersion, &VTF::setVersion)
 		.def_prop_rw("image_width_resize_method", &VTF::getImageWidthResizeMethod, &VTF::setImageWidthResizeMethod)
@@ -689,12 +689,12 @@ inline void register_python(py::module_& m) {
 		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			return self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice, quality);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "filter"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_from_file", py::overload_cast<const std::string&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t, float>(&VTF::setImage), "image_path"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_from_file", py::overload_cast<const std::filesystem::path&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t, float>(&VTF::setImage), "image_path"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("save_image", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(mip, frame, face, slice, fileFormat);
 			return py::bytes{d.data(), d.size()};
 		}, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("save_image_to_file", py::overload_cast<const std::string&, uint8_t, uint16_t, uint8_t, uint16_t, ImageConversion::FileFormat>(&VTF::saveImageToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
+		.def("save_image_to_file", py::overload_cast<const std::filesystem::path&, uint8_t, uint16_t, uint8_t, uint16_t, ImageConversion::FileFormat>(&VTF::saveImageToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("has_thumbnail_data", &VTF::hasThumbnailData)
 		.def("get_thumbnail_data_raw", [](const VTF& self) {
 			const auto d = self.getThumbnailDataRaw();
@@ -711,14 +711,14 @@ inline void register_python(py::module_& m) {
 		.def("set_thumbnail", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			return self.setThumbnail({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, quality);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_thumbnail_from_file", py::overload_cast<const std::string&, float>(&VTF::setThumbnail), "image_path"_a, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_thumbnail_from_file", py::overload_cast<const std::filesystem::path&, float>(&VTF::setThumbnail), "image_path"_a, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("compute_thumbnail", &VTF::computeThumbnail, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("remove_thumbnail", &VTF::removeThumbnail)
 		.def("save_thumbnail", [](const VTF& self, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveThumbnailToFile(fileFormat);
 			return py::bytes{d.data(), d.size()};
 		}, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("save_thumbnail_to_file", py::overload_cast<const std::string&, ImageConversion::FileFormat>(&VTF::saveThumbnailToFile, py::const_), "image_path"_a, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
+		.def("save_thumbnail_to_file", py::overload_cast<const std::filesystem::path&, ImageConversion::FileFormat>(&VTF::saveThumbnailToFile, py::const_), "image_path"_a, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("has_fallback_data", &VTF::hasFallbackData)
 		.def("get_fallback_data_raw", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) {
 			const auto d = self.getFallbackDataRaw(mip, frame, face);
@@ -738,7 +738,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.saveFallbackToFile(mip, frame, face, fileFormat);
 			return py::bytes{d.data(), d.size()};
 		}, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("save_fallback_to_file", py::overload_cast<const std::string&, uint8_t, uint16_t, uint8_t, ImageConversion::FileFormat>(&VTF::saveFallbackToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
+		.def("save_fallback_to_file", py::overload_cast<const std::filesystem::path&, uint8_t, uint16_t, uint8_t, ImageConversion::FileFormat>(&VTF::saveFallbackToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def_prop_rw("console_mip_scale", &VTF::getConsoleMipScale, &VTF::setConsoleMipScale)
 		.def("estimate_bake_size", [](const VTF& self) {
 			bool isExact;
@@ -749,7 +749,7 @@ inline void register_python(py::module_& m) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};
 		})
-		.def("bake_to_file", py::overload_cast<const std::string&>(&VTF::bake, py::const_), "vtf_path"_a);
+		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&VTF::bake, py::const_), "vtf_path"_a);
 }
 
 } // namespace vtfpp

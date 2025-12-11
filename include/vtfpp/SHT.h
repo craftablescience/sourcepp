@@ -1,9 +1,8 @@
 #pragma once
 
 #include <array>
-#include <cstddef>
+#include <filesystem>
 #include <span>
-#include <string>
 #include <vector>
 
 #include <sourcepp/Math.h>
@@ -43,7 +42,7 @@ public:
 
 	explicit SHT(std::span<const std::byte> shtData);
 
-	explicit SHT(const std::string& shtPath);
+	explicit SHT(const std::filesystem::path& shtPath);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -63,7 +62,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& shtPath) const; // NOLINT(*-use-nodiscard)
+	bool bake(const std::filesystem::path& shtPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	bool opened;

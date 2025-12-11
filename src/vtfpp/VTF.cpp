@@ -707,7 +707,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly)
 		: VTF(std::vector<std::byte>{vtfData.begin(), vtfData.end()}, parseHeaderOnly) {}
 
-VTF::VTF(const std::string& vtfPath, bool parseHeaderOnly)
+VTF::VTF(const std::filesystem::path& vtfPath, bool parseHeaderOnly)
 		: VTF(fs::readFileBuffer(vtfPath), parseHeaderOnly) {}
 
 VTF::VTF(const VTF& other) {
@@ -812,7 +812,7 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 	return out;
 }
 
-bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options) {
+bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -826,7 +826,7 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	return writer.bake(vtfPath);
 }
 
-bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options) {
+bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
 	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, width, height, vtfPath, options);
@@ -853,7 +853,7 @@ VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, const Creat
 	return create(imageData, format, width, height, options);
 }
 
-bool VTF::create(const std::string& imagePath, const std::string& vtfPath, const CreationOptions& options) {
+bool VTF::create(const std::filesystem::path& imagePath, const std::filesystem::path& vtfPath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -867,7 +867,7 @@ bool VTF::create(const std::string& imagePath, const std::string& vtfPath, const
 	return writer.bake(vtfPath);
 }
 
-VTF VTF::create(const std::string& imagePath, const CreationOptions& options) {
+VTF VTF::create(const std::filesystem::path& imagePath, const CreationOptions& options) {
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
@@ -1669,7 +1669,7 @@ void VTF::removeExtendedFlagsResource() {
 	this->removeResourceInternal(Resource::TYPE_EXTENDED_FLAGS);
 }
 
-void VTF::setKeyValuesDataResource(const std::string& value) {
+void VTF::setKeyValuesDataResource(std::string_view value) {
 	std::vector<std::byte> keyValuesData;
 	BufferStream writer{keyValuesData};
 
@@ -1796,7 +1796,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	return true;
 }
 
-bool VTF::setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
+bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -1830,7 +1830,7 @@ std::vector<std::byte> VTF::saveImageToFile(uint8_t mip, uint16_t frame, uint8_t
 	return ImageConversion::convertImageDataToFile(this->getImageDataRaw(mip, frame, face, slice), this->format, this->getWidth(mip), this->getHeight(mip), fileFormat);
 }
 
-bool VTF::saveImageToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, ImageConversion::FileFormat fileFormat) const {
+bool VTF::saveImageToFile(const std::filesystem::path& imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, ImageConversion::FileFormat fileFormat) const {
 	if (auto data_ = this->saveImageToFile(mip, frame, face, slice, fileFormat); !data_.empty()) {
 		return fs::writeFileBuffer(imagePath, data_);
 	}
@@ -1870,7 +1870,7 @@ void VTF::setThumbnail(std::span<const std::byte> imageData_, ImageFormat format
 	this->thumbnailHeight = height_;
 }
 
-bool VTF::setThumbnail(const std::string& imagePath, float quality) {
+bool VTF::setThumbnail(const std::filesystem::path& imagePath, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -1926,7 +1926,7 @@ std::vector<std::byte> VTF::saveThumbnailToFile(ImageConversion::FileFormat file
 	return ImageConversion::convertImageDataToFile(this->getThumbnailDataRaw(), this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, fileFormat);
 }
 
-bool VTF::saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat) const {
+bool VTF::saveThumbnailToFile(const std::filesystem::path& imagePath, ImageConversion::FileFormat fileFormat) const {
 	if (auto data_ = this->saveThumbnailToFile(fileFormat); !data_.empty()) {
 		return fs::writeFileBuffer(imagePath, data_);
 	}
@@ -2002,7 +2002,7 @@ std::vector<std::byte> VTF::saveFallbackToFile(uint8_t mip, uint16_t frame, uint
 	return ImageConversion::convertImageDataToFile(this->getFallbackDataRaw(mip, frame, face), this->format, mipWidth, mipHeight, fileFormat);
 }
 
-bool VTF::saveFallbackToFile(const std::string& imagePath, uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
+bool VTF::saveFallbackToFile(const std::filesystem::path& imagePath, uint8_t mip, uint16_t frame, uint8_t face, ImageConversion::FileFormat fileFormat) const {
 	if (auto data_ = this->saveFallbackToFile(mip, frame, face, fileFormat); !data_.empty()) {
 		return fs::writeFileBuffer(imagePath, data_);
 	}
@@ -2459,6 +2459,6 @@ std::vector<std::byte> VTF::bake() const {
 	return out;
 }
 
-bool VTF::bake(const std::string& vtfPath) const {
+bool VTF::bake(const std::filesystem::path& vtfPath) const {
 	return fs::writeFileBuffer(vtfPath, this->bake());
 }

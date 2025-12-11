@@ -34,7 +34,7 @@ PPL::PPL(std::span<const std::byte> pplData) {
 	}
 }
 
-PPL::PPL(const std::string& pplPath)
+PPL::PPL(const std::filesystem::path& pplPath)
 		: PPL(fs::readFileBuffer(pplPath)) {}
 
 PPL::operator bool() const {
@@ -125,7 +125,7 @@ bool PPL::setImage(std::span<const std::byte> imageData, ImageFormat format_, ui
 	return true;
 }
 
-bool PPL::setImage(const std::string& imagePath, uint32_t lod, float quality) {
+bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t lod, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -144,7 +144,7 @@ bool PPL::setImage(const std::string& imagePath, uint32_t lod, float quality) {
 	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, lod, quality);
 }
 
-bool PPL::setImage(const std::string& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, ImageConversion::ResizeFilter filter, float quality) {
+bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, ImageConversion::ResizeFilter filter, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -170,7 +170,7 @@ std::vector<std::byte> PPL::saveImageToFile(uint32_t lod, ImageConversion::FileF
 	return {};
 }
 
-bool PPL::saveImageToFile(const std::string& imagePath, uint32_t lod, ImageConversion::FileFormat fileFormat) const {
+bool PPL::saveImageToFile(const std::filesystem::path& imagePath, uint32_t lod, ImageConversion::FileFormat fileFormat) const {
 	if (auto data = this->saveImageToFile(lod, fileFormat); !data.empty()) {
 		return fs::writeFileBuffer(imagePath, data);
 	}
@@ -213,6 +213,6 @@ std::vector<std::byte> PPL::bake() {
 	return out;
 }
 
-bool PPL::bake(const std::string& pplPath) {
+bool PPL::bake(const std::filesystem::path& pplPath) {
 	return fs::writeFileBuffer(pplPath, this->bake());
 }

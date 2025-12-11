@@ -33,7 +33,7 @@ SHT::SHT(std::span<const std::byte> shtData) {
     this->opened = true;
 }
 
-SHT::SHT(const std::string& shtPath)
+SHT::SHT(const std::filesystem::path& shtPath)
 		: SHT(fs::readFileBuffer(shtPath)) {}
 
 SHT::operator bool() const {
@@ -114,6 +114,6 @@ std::vector<std::byte> SHT::bake() const {
     return sheetData;
 }
 
-bool SHT::bake(const std::string& shtPath) const {
+bool SHT::bake(const std::filesystem::path& shtPath) const {
     return fs::writeFileBuffer(shtPath, this->bake());
 }

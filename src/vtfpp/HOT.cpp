@@ -24,7 +24,7 @@ HOT::HOT(std::span<const std::byte> hotData) {
     this->opened = true;
 }
 
-HOT::HOT(const std::string& hotPath)
+HOT::HOT(const std::filesystem::path& hotPath)
 		: HOT(fs::readFileBuffer(hotPath)) {}
 
 HOT::operator bool() const {
@@ -77,6 +77,6 @@ std::vector<std::byte> HOT::bake() const {
     return hotspotData;
 }
 
-bool HOT::bake(const std::string& hotPath) const {
+bool HOT::bake(const std::filesystem::path& hotPath) const {
     return fs::writeFileBuffer(hotPath, this->bake());
 }

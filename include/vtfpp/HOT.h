@@ -1,8 +1,8 @@
 #pragma once
 
+#include <filesystem>
 #include <cstddef>
 #include <span>
-#include <string>
 #include <vector>
 
 #include <sourcepp/Macros.h>
@@ -29,7 +29,7 @@ public:
 
 	explicit HOT(std::span<const std::byte> hotData);
 
-	explicit HOT(const std::string& hotPath);
+	explicit HOT(const std::filesystem::path& hotPath);
 
 	[[nodiscard]] explicit operator bool() const;
 
@@ -47,7 +47,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& hotPath) const; // NOLINT(*-use-nodiscard)
+	bool bake(const std::filesystem::path& hotPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	bool opened;

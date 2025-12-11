@@ -41,7 +41,7 @@ VBF::VBF(std::span<const std::byte> vbfData) {
 	}
 }
 
-VBF::VBF(const std::string& vbfPath)
+VBF::VBF(const std::filesystem::path& vbfPath)
 		: VBF(fs::readFileBuffer(vbfPath)) {}
 
 VBF::operator bool() const {

@@ -2,8 +2,10 @@
 
 #include <array>
 #include <cstddef>
+#include <filesystem>
 #include <span>
 #include <string>
+#include <string_view>
 #include <tuple>
 #include <utility>
 #include <variant>
@@ -263,7 +265,7 @@ public:
 
 	explicit VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly = false);
 
-	explicit VTF(const std::string& vtfPath, bool parseHeaderOnly = false);
+	explicit VTF(const std::filesystem::path& vtfPath, bool parseHeaderOnly = false);
 
 	VTF(const VTF& other);
 
@@ -275,17 +277,17 @@ public:
 
 	[[nodiscard]] explicit operator bool() const;
 
-	static bool create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options);
+	static bool create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options);
 
-	static bool create(ImageFormat format, uint16_t width, uint16_t height, const std::string& vtfPath, const CreationOptions& options);
+	static bool create(ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options);
 
 	[[nodiscard]] static VTF create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options);
 
 	[[nodiscard]] static VTF create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options);
 
-	static bool create(const std::string& imagePath, const std::string& vtfPath, const CreationOptions& options);
+	static bool create(const std::filesystem::path& imagePath, const std::filesystem::path& vtfPath, const CreationOptions& options);
 
-	[[nodiscard]] static VTF create(const std::string& imagePath, const CreationOptions& options);
+	[[nodiscard]] static VTF create(const std::filesystem::path& imagePath, const CreationOptions& options);
 
 	[[nodiscard]] Platform getPlatform() const;
 
@@ -414,7 +416,7 @@ public:
 
 	void removeExtendedFlagsResource();
 
-	void setKeyValuesDataResource(const std::string& value);
+	void setKeyValuesDataResource(std::string_view value);
 
 	void removeKeyValuesDataResource();
 
@@ -440,11 +442,11 @@ public:
 
 	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::string& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+	bool setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
-	bool saveImageToFile(const std::string& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
+	bool saveImageToFile(const std::filesystem::path& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] bool hasThumbnailData() const;
 
@@ -456,7 +458,7 @@ public:
 
 	void setThumbnail(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setThumbnail(const std::string& imagePath, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY); // NOLINT(*-use-nodiscard)
+	bool setThumbnail(const std::filesystem::path& imagePath, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY); // NOLINT(*-use-nodiscard)
 
 	void computeThumbnail(ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
@@ -464,7 +466,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> saveThumbnailToFile(ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
-	bool saveThumbnailToFile(const std::string& imagePath, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
+	bool saveThumbnailToFile(const std::filesystem::path& imagePath, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] bool hasFallbackData() const;
 
@@ -480,7 +482,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> saveFallbackToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
-	bool saveFallbackToFile(const std::string& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
+	bool saveFallbackToFile(const std::filesystem::path& imagePath, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] uint8_t getConsoleMipScale() const;
 
@@ -492,7 +494,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	bool bake(const std::string& vtfPath) const; // NOLINT(*-use-nodiscard)
+	bool bake(const std::filesystem::path& vtfPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	static bool createInternal(VTF& writer, CreationOptions options);

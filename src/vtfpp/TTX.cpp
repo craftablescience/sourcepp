@@ -58,7 +58,7 @@ TTX::TTX(std::span<const std::byte> tthData, std::span<const std::byte> ttzData)
 	this->opened = true;
 }
 
-TTX::TTX(const std::string& tthPath, const std::string& ttzPath)
+TTX::TTX(const std::filesystem::path& tthPath, const std::filesystem::path& ttzPath)
 		: TTX(fs::readFileBuffer(tthPath), fs::readFileBuffer(ttzPath)) {}
 
 TTX::operator bool() const {
@@ -168,7 +168,7 @@ std::pair<std::vector<std::byte>, std::vector<std::byte>> TTX::bake() const {
 	return data;
 }
 
-bool TTX::bake(const std::string& tthPath, const std::string& ttzPath) const {
+bool TTX::bake(const std::filesystem::path& tthPath, const std::filesystem::path& ttzPath) const {
 	const auto [tthData, ttzData] = this->bake();
 	const bool tth = fs::writeFileBuffer(tthPath, tthData);
 	if (!ttzData.empty()) {

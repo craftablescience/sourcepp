@@ -25,7 +25,7 @@ PSFrames::PSFrames(std::vector<std::byte>&& psFramesData) {
 PSFrames::PSFrames(std::span<const std::byte> psFramesData)
 		: PSFrames(std::vector<std::byte>{psFramesData.begin(), psFramesData.end()}) {}
 
-PSFrames::PSFrames(const std::string& psFramesPath)
+PSFrames::PSFrames(const std::filesystem::path& psFramesPath)
 		: PSFrames(fs::readFileBuffer(psFramesPath)) {}
 
 uint32_t PSFrames::getFrameCount() const {
