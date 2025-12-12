@@ -2,6 +2,8 @@
  * Based on SteamAppPathProvider. See README.md and THIRDPARTY_LEGAL_NOTICES.txt for more information.
  */
 
+// ReSharper disable CppRedundantQualifier
+
 #include <steampp/steampp.h>
 
 #include <algorithm>
@@ -26,7 +28,7 @@ using namespace steampp;
 
 namespace {
 
-bool isAppUsingGoldSrcEnginePredicate(std::string_view installDir) {
+bool isAppUsingGoldSrcEnginePredicate(const std::filesystem::path& installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
 	std::error_code ec;
 	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry){
@@ -34,7 +36,7 @@ bool isAppUsingGoldSrcEnginePredicate(std::string_view installDir) {
 	});
 }
 
-bool isAppUsingSourceEnginePredicate(std::string_view installDir) {
+bool isAppUsingSourceEnginePredicate(const std::filesystem::path& installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
 	std::error_code ec;
 	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry){
@@ -42,7 +44,7 @@ bool isAppUsingSourceEnginePredicate(std::string_view installDir) {
 	});
 }
 
-bool isAppUsingSource2EnginePredicate(std::string_view installDir) {
+bool isAppUsingSource2EnginePredicate(const std::filesystem::path& installDir) {
 	std::filesystem::directory_iterator dirIterator{installDir, std::filesystem::directory_options::skip_permission_denied};
 	std::error_code ec;
 	return std::any_of(std::filesystem::begin(dirIterator), std::filesystem::end(dirIterator), [&ec](const auto& entry) {
@@ -60,7 +62,7 @@ bool isAppUsingSource2EnginePredicate(std::string_view installDir) {
 }
 
 // Note: this can't be a template because gcc threw a fit. No idea why
-std::unordered_set<AppID> getAppsKnownToUseEngine(bool(*p)(std::string_view)) {
+std::unordered_set<AppID> getAppsKnownToUseEngine(bool(*p)(const std::filesystem::path&)) {
 	if (p == &::isAppUsingGoldSrcEnginePredicate) {
 		return {
 #include "cache/EngineGoldSrc.inl"
@@ -79,7 +81,7 @@ std::unordered_set<AppID> getAppsKnownToUseEngine(bool(*p)(std::string_view)) {
 	return {};
 }
 
-template<bool(*P)(std::string_view)>
+template<bool(*P)(const std::filesystem::path&)>
 bool isAppUsingEngine(const Steam* steam, AppID appID) {
 	static std::unordered_set<AppID> knownIs = ::getAppsKnownToUseEngine(P);
 	if (knownIs.contains(appID)) {
@@ -108,13 +110,13 @@ bool isAppUsingEngine(const Steam* steam, AppID appID) {
 	return false;
 }
 
-[[nodiscard]] std::string getAppArtPath(const KV1Binary& assetCache, AppID appID, std::string_view steamInstallDir, std::string_view id) {
+[[nodiscard]] std::filesystem::path getAppArtPath(const KV1Binary& assetCache, AppID appID, const std::filesystem::path& steamInstallDir, std::string_view id) {
 	if (
 		!assetCache[0].hasChild("cache_version") || !assetCache[0].hasChild("0") ||
 		static_cast<KV1BinaryValueType>(assetCache[0]["cache_version"].getValue().index()) != KV1BinaryValueType::INT32 ||
 		*assetCache[0]["cache_version"].getValue<int32_t>() != 2
 	) {
-		return "";
+		return {};
 	}
 	const auto idStr = std::format("{}", appID);
 	// note: the "0" here means use the english version of the library assets. there's no easily accessible way to grab
@@ -122,11 +124,11 @@ bool isAppUsingEngine(const Steam* steam, AppID appID) {
 	// if the asset exists, there will always be a base english asset present so no need to search for language overrides
 	const auto& cache = assetCache[0]["0"][idStr];
 	if (cache.isInvalid() || !cache.hasChild(id)) {
-		return "";
+		return {};
 	}
-	auto path = (std::filesystem::path{steamInstallDir} / "appcache" / "librarycache" / idStr / *cache[id].getValue<std::string>()).string();
+	auto path = steamInstallDir / "appcache" / "librarycache" / idStr / *cache[id].getValue<std::string>();
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		return "";
+		return {};
 	}
 	return path;
 }
@@ -139,22 +141,26 @@ Steam::Steam() {
 
 #ifdef _WIN32
 	{
-		// 16383 being the maximum length of a path
-		static constexpr DWORD STEAM_LOCATION_MAX_SIZE = 16383;
-		std::unique_ptr<char[]> steamLocationData{new char[STEAM_LOCATION_MAX_SIZE]};
+		// 16384 being the maximum length of a null-terminated path
+		static constexpr DWORD STEAM_LOCATION_MAX_SIZE = 16384;
+		std::unique_ptr<wchar_t[]> steamLocationData{new wchar_t[STEAM_LOCATION_MAX_SIZE] {}};
 
 		HKEY steam;
-		if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, R"(SOFTWARE\Valve\Steam)", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &steam) != ERROR_SUCCESS) {
+		if (
+			RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Valve\\Steam", 0, KEY_QUERY_VALUE | KEY_WOW64_32KEY, &steam) != ERROR_SUCCESS &&
+			RegOpenKeyExW(HKEY_LOCAL_MACHINE, L"SOFTWARE\\Valve\\Steam", 0, KEY_QUERY_VALUE | KEY_WOW64_64KEY, &steam) != ERROR_SUCCESS
+		) {
 			return;
 		}
 
-		DWORD steamLocationSize = STEAM_LOCATION_MAX_SIZE;
-		if (RegQueryValueExA(steam, "InstallPath", nullptr, nullptr, reinterpret_cast<LPBYTE>(steamLocationData.get()), &steamLocationSize) != ERROR_SUCCESS) {
+		DWORD steamLocationSize = STEAM_LOCATION_MAX_SIZE * sizeof(wchar_t);
+		if (RegQueryValueExW(steam, L"InstallPath", nullptr, nullptr, reinterpret_cast<LPBYTE>(steamLocationData.get()), &steamLocationSize) != ERROR_SUCCESS) {
+			RegCloseKey(steam);
 			return;
 		}
-
 		RegCloseKey(steam);
-		steamLocation = steamLocationSize > 0 ? std::string(steamLocationData.get(), steamLocationSize - 1) : "";
+
+		steamLocation = steamLocationSize > 0 ? std::filesystem::path{steamLocationData.get()} : std::filesystem::path{};
 	}
 #else
 	{
@@ -173,16 +179,15 @@ Steam::Steam() {
 	}
 
 	if (!std::filesystem::exists(steamLocation, ec)) {
-		std::string location;
+		std::filesystem::path location;
 		std::filesystem::path d{"cwd/steamclient64.dll"};
 		for (const auto& entry : std::filesystem::directory_iterator{"/proc/"}) {
 			if (std::filesystem::exists(entry / d, ec)) {
 				ec.clear();
-				const auto s = std::filesystem::read_symlink(entry.path() / "cwd", ec);
+				location = std::filesystem::read_symlink(entry.path() / "cwd", ec);
 				if (ec) {
 					continue;
 				}
-				location = s.string();
 				break;
 			}
 		}
@@ -193,10 +198,10 @@ Steam::Steam() {
 	}
 #endif
 
-	if (!std::filesystem::exists(steamLocation.string(), ec)) {
+	if (!std::filesystem::exists(steamLocation, ec)) {
 		return;
 	}
-	this->steamInstallDir = steamLocation.string();
+	this->steamInstallDir = steamLocation;
 
 	auto libraryFoldersFilePath = steamLocation / "config" / "libraryfolders.vdf";
 	if (!std::filesystem::exists(libraryFoldersFilePath, ec)) {
@@ -206,7 +211,7 @@ Steam::Steam() {
 		}
 	}
 
-	KV1 libraryFolders{fs::readFileText(libraryFoldersFilePath.string())};
+	KV1 libraryFolders{fs::readFileText(libraryFoldersFilePath), true};
 
 	const auto& libraryFoldersValue = libraryFolders["libraryfolders"];
 	if (libraryFoldersValue.isInvalid()) {
@@ -227,25 +232,12 @@ Steam::Steam() {
 		}
 
 		std::filesystem::path libraryFolderPath{folderPath.getValue()};
-		{
-			std::string libraryFolderPathProcessedEscapes;
-			bool hitBackslash = false;
-			for (char c : libraryFolderPath.string()) {
-				if (hitBackslash || c != '\\') {
-					libraryFolderPathProcessedEscapes += c;
-					hitBackslash = false;
-				} else {
-					hitBackslash = true;
-				}
-			}
-			libraryFolderPath = libraryFolderPathProcessedEscapes;
-		}
 		libraryFolderPath /= "steamapps";
 
 		if (!std::filesystem::exists(libraryFolderPath, ec)) {
 			continue;
 		}
-		this->libraryDirs.push_back(libraryFolderPath.string());
+		this->libraryDirs.push_back(libraryFolderPath);
 
 		for (const auto& entry : std::filesystem::directory_iterator{libraryFolderPath, std::filesystem::directory_options::skip_permission_denied}) {
 			auto entryName = entry.path().filename().string();
@@ -253,7 +245,7 @@ Steam::Steam() {
 				continue;
 			}
 
-			KV1 appManifest(fs::readFileText(entry.path().string()));
+			KV1 appManifest(fs::readFileText(entry.path()));
 
 			const auto& appState = appManifest["AppState"];
 			if (appState.isInvalid()) {
@@ -283,20 +275,20 @@ Steam::Steam() {
 
 	const auto assetCacheFilePath = steamLocation / "appcache" / "librarycache" / "assetcache.vdf";
 	if (std::filesystem::exists(assetCacheFilePath, ec)) {
-		this->assetCache = KV1Binary{fs::readFileBuffer(assetCacheFilePath.string())};
+		this->assetCache = KV1Binary{fs::readFileBuffer(assetCacheFilePath)};
 	}
 }
 
-std::string_view Steam::getInstallDir() const {
+const std::filesystem::path& Steam::getInstallDir() const {
 	return this->steamInstallDir;
 }
 
-const std::vector<std::string>& Steam::getLibraryDirs() const {
+std::span<const std::filesystem::path> Steam::getLibraryDirs() const {
 	return this->libraryDirs;
 }
 
-std::string Steam::getSourceModDir() const {
-	return (std::filesystem::path{this->steamInstallDir} / "steamapps" / "sourcemods").string();
+std::filesystem::path Steam::getSourceModDir() const {
+	return this->steamInstallDir / "steamapps" / "sourcemods";
 }
 
 std::vector<AppID> Steam::getInstalledApps() const {
@@ -315,23 +307,23 @@ std::string_view Steam::getAppName(AppID appID) const {
 	return this->gameDetails.at(appID).name;
 }
 
-std::string Steam::getAppInstallDir(AppID appID) const {
+std::filesystem::path Steam::getAppInstallDir(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
-	return (std::filesystem::path{this->libraryDirs[this->gameDetails.at(appID).libraryInstallDirsIndex]} / "common" / this->gameDetails.at(appID).installDir).string();
+	return this->libraryDirs[this->gameDetails.at(appID).libraryInstallDirsIndex] / "common" / this->gameDetails.at(appID).installDir;
 }
 
-std::string Steam::getAppIconPath(AppID appID) const {
+std::filesystem::path Steam::getAppIconPath(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
 	if (const auto cachedPath = ::getAppArtPath(this->assetCache, appID, this->steamInstallDir, "4f"); !cachedPath.empty()) {
 		return cachedPath;
 	}
-	auto path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID) / "icon.jpg").string();
+	auto path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}", appID) / "icon.jpg";
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / (std::to_string(appID) + "_icon.jpg")).string();
+		path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}_icon.jpg", appID);
 		if (!std::filesystem::exists(path, ec)) {
 			return "";
 		}
@@ -339,16 +331,16 @@ std::string Steam::getAppIconPath(AppID appID) const {
 	return path;
 }
 
-std::string Steam::getAppLogoPath(AppID appID) const {
+std::filesystem::path Steam::getAppLogoPath(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
 	if (const auto cachedPath = ::getAppArtPath(this->assetCache, appID, this->steamInstallDir, "2f"); !cachedPath.empty()) {
 		return cachedPath;
 	}
-	auto path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID) / "logo.png").string();
+	auto path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}", appID) / "logo.png";
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / (std::to_string(appID) + "_logo.png")).string();
+		path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}_logo.png", appID);
 		if (!std::filesystem::exists(path, ec)) {
 			return "";
 		}
@@ -356,16 +348,16 @@ std::string Steam::getAppLogoPath(AppID appID) const {
 	return path;
 }
 
-std::string Steam::getAppHeroPath(AppID appID) const {
+std::filesystem::path Steam::getAppHeroPath(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
 	if (const auto cachedPath = ::getAppArtPath(this->assetCache, appID, this->steamInstallDir, "1f"); !cachedPath.empty()) {
 		return cachedPath;
 	}
-	auto path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID) / "library_hero.jpg").string();
+	auto path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}", appID) / "library_hero.jpg";
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / (std::to_string(appID) + "_library_hero.jpg")).string();
+		path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}_library_hero.jpg", appID);
 		if (!std::filesystem::exists(path, ec)) {
 			return "";
 		}
@@ -373,16 +365,16 @@ std::string Steam::getAppHeroPath(AppID appID) const {
 	return path;
 }
 
-std::string Steam::getAppBoxArtPath(AppID appID) const {
+std::filesystem::path Steam::getAppBoxArtPath(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
 	if (const auto cachedPath = ::getAppArtPath(this->assetCache, appID, this->steamInstallDir, "0f"); !cachedPath.empty()) {
 		return cachedPath;
 	}
-	auto path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID) / "library_600x900.jpg").string();
+	auto path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}", appID) / "library_600x900.jpg";
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / (std::to_string(appID) + "_library_600x900.jpg")).string();
+		path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}_library_600x900.jpg", appID);
 		if (!std::filesystem::exists(path, ec)) {
 			return "";
 		}
@@ -390,16 +382,16 @@ std::string Steam::getAppBoxArtPath(AppID appID) const {
 	return path;
 }
 
-std::string Steam::getAppStoreArtPath(AppID appID) const {
+std::filesystem::path Steam::getAppStoreArtPath(AppID appID) const {
 	if (!this->gameDetails.contains(appID)) {
 		return "";
 	}
 	if (const auto cachedPath = ::getAppArtPath(this->assetCache, appID, this->steamInstallDir, "3f"); !cachedPath.empty()) {
 		return cachedPath;
 	}
-	auto path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / std::to_string(appID) / "header.jpg").string();
+	auto path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}", appID) / "header.jpg";
 	if (std::error_code ec; !std::filesystem::exists(path, ec)) {
-		path = (std::filesystem::path{this->steamInstallDir} / "appcache" / "librarycache" / (std::to_string(appID) + "_header.jpg")).string();
+		path = this->steamInstallDir / "appcache" / "librarycache" / std::format("{}_header.jpg", appID);
 		if (!std::filesystem::exists(path, ec)) {
 			return "";
 		}

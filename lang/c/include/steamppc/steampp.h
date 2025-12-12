@@ -8,7 +8,7 @@ SOURCEPP_TYPEDF(steampp, appid, uint32_t);
 SOURCEPP_HANDLE(steampp, steam);
 SOURCEPP_STATIC(steampp, steam,   steampp_steam_handle_t, new); // REQUIRES MANUAL FREE: steampp_steam_free
 SOURCEPP_STATIC(steampp, steam,                     void, free, steampp_steam_handle_t* handle);
-SOURCEPP_METHOD(steampp, steam,              const char*, get_install_dir);
+SOURCEPP_METHOD(steampp, steam,        sourcepp_string_t, get_install_dir);
 SOURCEPP_METHOD(steampp, steam,  sourcepp_string_array_t, get_library_dirs); // REQUIRES MANUAL FREE: sourcepp_string_array_free
 SOURCEPP_METHOD(steampp, steam,        sourcepp_string_t, get_sourcemod_dir); // REQUIRES MANUAL FREE: sourcepp_string_free
 SOURCEPP_METHOD(steampp, steam, sourcepp_buffer_uint32_t, get_installed_apps); // REQUIRES MANUAL FREE: sourcepp_buffer_free

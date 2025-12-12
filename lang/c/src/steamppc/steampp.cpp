@@ -24,22 +24,26 @@ SOURCEPP_STATIC(steampp, steam, void, free, steampp_steam_handle_t* handle) {
 	*handle = nullptr;
 }
 
-SOURCEPP_METHOD(steampp, steam, const char*, get_install_dir) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, "");
+SOURCEPP_METHOD(steampp, steam, sourcepp_string_t, get_install_dir) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::steam(handle)->getInstallDir().data();
+	return Convert::toString(Convert::steam(handle)->getInstallDir().string());
 }
 
 SOURCEPP_METHOD(steampp, steam, sourcepp_string_array_t, get_library_dirs) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_ARRAY_INVALID);
 
-	return Convert::toStringArray(Convert::steam(handle)->getLibraryDirs());
+	std::vector<std::string> libraryDirs;
+	for (const auto& dir : Convert::steam(handle)->getLibraryDirs()) {
+		libraryDirs.push_back(dir.string());
+	}
+	return Convert::toStringArray(libraryDirs);
 }
 
 SOURCEPP_METHOD(steampp, steam, sourcepp_string_t, get_sourcemod_dir) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getSourceModDir());
+	return Convert::toString(Convert::steam(handle)->getSourceModDir().string());
 }
 
 SOURCEPP_METHOD(steampp, steam, sourcepp_buffer_uint32_t, get_installed_apps) {
@@ -69,37 +73,37 @@ SOURCEPP_METHOE(steampp, steam, const char*, get_app_name, steampp_appid_t appID
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_install_dir, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppInstallDir(appID));
+	return Convert::toString(Convert::steam(handle)->getAppInstallDir(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_icon_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppIconPath(appID));
+	return Convert::toString(Convert::steam(handle)->getAppIconPath(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_logo_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppLogoPath(appID));
+	return Convert::toString(Convert::steam(handle)->getAppLogoPath(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_hero_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppHeroPath(appID));
+	return Convert::toString(Convert::steam(handle)->getAppHeroPath(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_box_art_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppBoxArtPath(appID));
+	return Convert::toString(Convert::steam(handle)->getAppBoxArtPath(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, sourcepp_string_t, get_app_store_art_path, steampp_appid_t appID) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::steam(handle)->getAppStoreArtPath(appID));
+	return Convert::toString(Convert::steam(handle)->getAppStoreArtPath(appID).string());
 }
 
 SOURCEPP_METHOE(steampp, steam, int, is_app_using_goldsrc_engine, steampp_appid_t appID) {
