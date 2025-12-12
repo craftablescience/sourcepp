@@ -1,0 +1,32 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      ci:
+        patterns: ["*"]
+    commit-message:
+      prefix: "ci"
+
+  - package-ecosystem: "pip"
+    directories:
+      - "/bench/"
+    schedule:
+      interval: "weekly"
+    groups:
+      bench:
+        patterns: ["*"]
+    commit-message:
+      prefix: "bench"
+
+  - package-ecosystem: "nuget"
+    directory: "/lang/csharp/"
+    schedule:
+      interval: "weekly"
+    groups:
+      csharp:
+        patterns: ["*"]
+    commit-message:
+      prefix: "csharp"
