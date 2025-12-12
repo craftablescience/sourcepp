@@ -19,12 +19,12 @@ namespace {
 
 [[nodiscard]] std::string getAppInstallDir(AppID appID) {
 	static Steam steam;
-	return steam.getAppInstallDir(appID);
+	return steam.getAppInstallDir(appID).string();
 }
 
 } // namespace
 
-std::optional<FileSystem> FileSystem::load(steampp::AppID appID, std::string_view gameID, const FileSystemOptions& options) {
+std::optional<FileSystem> FileSystem::load(AppID appID, std::string_view gameID, const FileSystemOptions& options) {
 	const auto gamePath = ::getAppInstallDir(appID);
 	if (gamePath.empty()) {
 		return std::nullopt;
