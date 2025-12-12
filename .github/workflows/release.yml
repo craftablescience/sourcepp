@@ -23,7 +23,7 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Set up MSVC [Windows]
         if: matrix.os == 'windows-latest'
@@ -36,7 +36,7 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Upload Artifact (C++)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cpp-dist-${{matrix.os}}
           path: |
@@ -51,7 +51,7 @@ jobs:
         run: cmake --build build --config Release
 
       - name: Upload Artifact (C)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: c-dist-${{matrix.os}}
           path: |
@@ -69,7 +69,7 @@ jobs:
         working-directory: '${{github.workspace}}/lang/python'
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'
@@ -84,7 +84,7 @@ jobs:
           pipx run twine check dist/*
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: python-dist-sdist
           path: '${{github.workspace}}/lang/python/dist/*.tar.gz'
@@ -101,10 +101,10 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Setup Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.13'
 
@@ -118,7 +118,7 @@ jobs:
           python -m cibuildwheel --output-dir dist
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: python-dist-bdist-${{matrix.os}}
           path: '${{github.workspace}}/lang/python/dist/*.whl'
@@ -137,7 +137,7 @@ jobs:
       id-token: write
     steps:
       - name: Download Wheels
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: python-dist-*
           path: dist
@@ -158,7 +158,7 @@ jobs:
       contents: write
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: '*-dist-*'
           path: dist/
