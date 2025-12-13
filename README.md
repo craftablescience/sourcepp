@@ -187,11 +187,17 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="31"><code>vpkpp</code></td>
+    <td rowspan="33"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="31" align="center">C<br>C#<br>Python</td>
+    <td rowspan="33" align="center">C<br>C#<br>Python</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>APK (Fairy Tale Busters)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
