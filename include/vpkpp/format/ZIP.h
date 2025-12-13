@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include "../PackFile.h"
@@ -22,7 +24,7 @@ public:
 	/// Open a ZIP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "3F3FDBC4F5D44B1F8A8E3AF5611B561B";
+	static constexpr std::string_view GUID = "3F3FDBC4F5D44B1F8A8E3AF5611B561B";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return ZIP::GUID;

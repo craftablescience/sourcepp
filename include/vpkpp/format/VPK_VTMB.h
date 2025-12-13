@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include "../PackFile.h"
@@ -14,7 +16,7 @@ public:
 	/// Open Vampire: The Masquerade - Bloodlines VPK files
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "5942653FBD0F4A2D9EF33CDDA668C396";
+	static constexpr std::string_view GUID = "5942653FBD0F4A2D9EF33CDDA668C396";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return VPK_VTMB::GUID;

@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include "../PackFile.h"
@@ -12,7 +14,7 @@ public:
 	/// Open a HOG file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "FDE9941424FF4EC1BC4C90A7DA52AF87";
+	static constexpr std::string_view GUID = "FDE9941424FF4EC1BC4C90A7DA52AF87";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return HOG::GUID;

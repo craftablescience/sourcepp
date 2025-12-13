@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include "VPK.h"
@@ -16,7 +18,7 @@ public:
 	/// Open an FPX file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "57D4C78A6198489C81D715D42DD21D2F";
+	static constexpr std::string_view GUID = "57D4C78A6198489C81D715D42DD21D2F";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return FPX::GUID;

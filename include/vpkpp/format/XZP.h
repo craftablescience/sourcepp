@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include <sourcepp/parser/Binary.h>
@@ -15,7 +17,7 @@ public:
 	/// Open an XZP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "A682CF9BCA0A4980A920B5C00C8E0945";
+	static constexpr std::string_view GUID = "A682CF9BCA0A4980A920B5C00C8E0945";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return XZP::GUID;

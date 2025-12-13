@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include <sourcepp/parser/Binary.h>
@@ -32,7 +34,7 @@ public:
 	/// Open a PAK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "C282210FE64D46D1AE364D7E8E925542";
+	static constexpr std::string_view GUID = "C282210FE64D46D1AE364D7E8E925542";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return PAK::GUID;

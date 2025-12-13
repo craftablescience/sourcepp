@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include "../PackFile.h"
@@ -14,7 +16,7 @@ public:
 	/// Open an ORE file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "E7E541C05CFE4934B1CDA931EF2E1D99";
+	static constexpr std::string_view GUID = "E7E541C05CFE4934B1CDA931EF2E1D99";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return ORE::GUID;

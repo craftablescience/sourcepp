@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include <sourcepp/parser/Binary.h>
@@ -20,7 +22,7 @@ public:
 	/// Open an FGP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "BF4352054D444027AD27A8DF69178A82";
+	static constexpr std::string_view GUID = "BF4352054D444027AD27A8DF69178A82";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return FGP::GUID;

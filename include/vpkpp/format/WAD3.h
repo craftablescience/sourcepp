@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #pragma once
 
 #include <sourcepp/parser/Binary.h>
@@ -21,7 +23,7 @@ public:
 	/// Open a WAD3 file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr inline std::string_view GUID = "1B4D626A278F47B9B2D4ADB244218B03";
+	static constexpr std::string_view GUID = "1B4D626A278F47B9B2D4ADB244218B03";
 
 	[[nodiscard]] constexpr std::string_view getGUID() const override {
 		return WAD3::GUID;
