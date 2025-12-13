@@ -157,6 +157,14 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("is_read_only", &PackFileReadOnly::isReadOnly)
 		.def("__str__", &PackFileReadOnly::operator std::string);
 
+	vpkpp.attr("APK_SIGNATURE") = APK_SIGNATURE;
+	vpkpp.attr("APK_EXTENSION") = APK_EXTENSION;
+
+	py::class_<APK, PackFile>(vpkpp, "APK")
+		.def_static("create", &APK::create, "path"_a)
+		.def_static("open", &APK::open, "path"_a, "callback"_a = nullptr)
+		.def_ro_static("GUID", &APK::GUID);
+
 	vpkpp.attr("FGP_SIGNATURE") = FGP_SIGNATURE;
 	vpkpp.attr("FGP_EXTENSION") = FGP_EXTENSION;
 	vpkpp.attr("FGP_HASHED_FILEPATH_PREFIX") = FGP_HASHED_FILEPATH_PREFIX;
