@@ -64,6 +64,7 @@ inline void register_python(py::module_& m) {
 			KnownCodes.attr("TACTICAL_INTERVENTION")           = TACTICAL_INTERVENTION;
 			KnownCodes.attr("TEAM_FORTRESS_2")                 = TEAM_FORTRESS_2;
 			KnownCodes.attr("TEAM_FORTRESS_2_ITEMS")           = TEAM_FORTRESS_2_ITEMS;
+			KnownCodes.attr("FAIRY_TALE_BUSTERS")              = FAIRY_TALE_BUSTERS;
 			KnownCodes.attr("THE_SHIP")                        = THE_SHIP;
 			KnownCodes.attr("ZOMBIE_PANIC_SOURCE")             = ZOMBIE_PANIC_SOURCE;
 

@@ -34,6 +34,7 @@ constexpr std::string_view NUCLEAR_DAWN = "TA+*veh9";
 constexpr std::string_view TACTICAL_INTERVENTION = "71B4Dt1Z";
 constexpr std::string_view TEAM_FORTRESS_2 = "E2NcUkG2";
 constexpr std::string_view TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
+constexpr std::string_view FAIRY_TALE_BUSTERS = TEAM_FORTRESS_2;
 constexpr std::string_view THE_SHIP = "eb3A4m79";
 constexpr std::string_view ZOMBIE_PANIC_SOURCE = "5R0ni0pZ";
 
