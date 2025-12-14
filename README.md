@@ -444,27 +444,27 @@ These are only the tools and games using `sourcepp` that I know of. If you would
 
 ### Tools
 
+- [bsp-linux-fix](https://github.com/dresswithpockets/bsp-linux-fix): Patches maps which have improperly cased packed assets by repacking the assets, fixing an issue on Linux.
+- [CS2-EomVotesFix](https://github.com/Kitof/CS2-EomVotesFix): Fixes displaying workshop map names and thumbnails during end-of-match voting for LAN events.
+- [dham](https://github.com/Seraphli/dham): Modifies Dota 2 hero aliases based on a configuration file and packages the changes.
 - [fgptool](https://github.com/craftablescience/fgptool): A tool to crack the filepath hashes in The Orange Box PS3 file groups.
 - [gimp-vtf](https://github.com/chev2/gimp-vtf): A GIMP plugin to load and save VTF files.
 - [gm_addon_optimization_tricks](https://github.com/wrefgtzweve/gm_addon_optimization_tricks): A desktop tool to optimize Garry's Mod addons/maps.
 - [GodotSource](https://github.com/craftablescience/godotsource): A work-in-progress set of bindings to connect the `sourcepp` libraries to Godot. Allows GDScript to work with the libraries, and allows Godot to directly load Source engine assets from a user project or from installed Source games.
+- [Linux BSP Case Folding Workaround](https://github.com/scorpius2k1/linux-bsp-casefolding-workaround): A bash script designed to resolve issues with improperly cased packed map assets in Source engine games on Linux. Extracting the assets allows the game to find them properly.
 - [MareTF](https://github.com/craftablescience/MareTF): An open source MIT-licensed CLI/GUI tool that can create, extract from, preview the contents of and write to every variant of VTF file. Replicates the functionality of Valve's `vtex.exe` and VTFEdit.
 - [Myst IV: Revolution](https://github.com/tomysshadow/M4Revolution): Performs various fixes for the game Myst IV: Revelation.
 - [PBR-2-Source](https://github.com/koerismo/PBR-2-Source): A Python-powered GUI for converting PBR materials into materials compatible with the Source engine.
+- [props_scaling_recompiler](https://github.com/Ambiabstract/props_scaling_recompiler): Allows converting `prop_scalable` into a static prop, effectively implementing static prop scaling outside CS:GO.
 - [QVTF++](https://github.com/craftablescience/qvtfpp): A QImageIO plugin to load VTF textures, based on panzi's QVTF plugin.
 - [RectMaker](https://github.com/cplbradley/RectMaker): A freeware GUI tool that can create and modify `.rect` files used in Hammer++'s hotspotting algorithm.
 - [reloaded2ps3](https://github.com/craftablescience/reloaded2ps3): Convert the PC version of Portal Reloaded to a playable PS3 game.
+- [rock:sail](https://github.com/Le0X8/rocksail): CS2 client-side tool to use skins for free (only visible to the user of the tool).
 - [Verifier](https://github.com/StrataSource/verifier): A small program that can build an index of a game's files, and validate existing files based on that index. Similar to Steam's "Verify integrity of game files" option, but without overwriting any files.
 - [VPKEdit](https://github.com/craftablescience/VPKEdit): An open source MIT-licensed CLI/GUI tool that can create, extract from, preview the contents of and write to several pack file formats. Replicates the functionality of Valve's `vpk.exe` and GCFScape.
-  - [bsp-linux-fix](https://github.com/dresswithpockets/bsp-linux-fix): Patches maps which have improperly cased packed assets by repacking the assets, fixing an issue on Linux.
-  - [CS2-EomVotesFix](https://github.com/Kitof/CS2-EomVotesFix): Fixes displaying workshop map names and thumbnails during end-of-match voting for LAN events.
-  - [dham](https://github.com/Seraphli/dham): Modifies Dota 2 hero aliases based on a configuration file and packages the changes.
-  - [Linux BSP Case Folding Workaround](https://github.com/scorpius2k1/linux-bsp-casefolding-workaround): A bash script designed to resolve issues with improperly cased packed map assets in Source engine games on Linux. Extracting the assets allows the game to find them properly.
-  - [props_scaling_recompiler](https://github.com/Ambiabstract/props_scaling_recompiler): Allows converting `prop_scalable` into a static prop, effectively implementing static prop scaling outside CS:GO.
-  - [rock:sail](https://github.com/Le0X8/rocksail): CS2 client-side tool to use skins for free (only visible to the user of the tool).
-  - [vpk2wad_nd](https://github.com/p2r3/vpk2wad_nd): Converts textures in a VPK to a WAD that can be used by Narbacular Drop maps.
+- [vpk2wad_nd](https://github.com/p2r3/vpk2wad_nd): Converts textures in a VPK to a WAD that can be used by Narbacular Drop maps.
 - [VTF Forge](https://github.com/Trico-Everfire/VTF-Forge): A modern multiplatform recreation of VTFEdit, using Qt.
-- [VTF Thumbnailer](htps://github.com/craftablescience/vtf-thumbnailer): Adds previews for VTF files in your file explorer of choice on Windows and Linux.
+- [VTF Thumbnailer](https://github.com/craftablescience/vtf-thumbnailer): Adds previews for VTF files in your file explorer of choice on Windows and Linux.
 
 ### Games
 
