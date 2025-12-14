@@ -21,6 +21,13 @@ out/
 docs/doxygen/html/
 
 
+# Bindings
+lang/c/include/*/
+!lang/c/include/sourceppc
+lang/c/src/*/
+!lang/c/src/sourceppc
+
+
 # Test
 test/res/
 test/Helpers.h

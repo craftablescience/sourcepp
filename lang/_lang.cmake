@@ -2,6 +2,8 @@ macro(sourcepp_lang_setup_pre)
     # Shared C code
     if(SOURCEPP_BUILD_C_WRAPPERS)
         include_subdirectory(lang/c/src/sourceppc PROPAGATE ${PROJECT_NAME}c_SOURCES)
+        set(${PROJECT_NAME}_C "${PROJECT_NAME}_c")
+        set(${${PROJECT_NAME}_C}_LIBS "")
     endif()
 
 
@@ -47,6 +49,26 @@ endmacro()
 
 
 macro(sourcepp_lang_setup_post)
+    if(SOURCEPP_BUILD_C_WRAPPERS)
+        # Create bindgen executable
+        add_executable(${PROJECT_NAME}_bindgen "${CMAKE_CURRENT_SOURCE_DIR}/lang/_bindgen/_bindgen.cpp")
+        target_link_libraries(${PROJECT_NAME}_bindgen PRIVATE sourcepp::kvpp)
+
+        if(SOURCEPP_BUILD_C_WRAPPERS)
+            foreach(TARGET IN LISTS ${${PROJECT_NAME}_C}_LIBS)
+                set(__BINDING_C_INCDIR "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/${TARGET}c")
+                set(__BINDING_C_SRCDIR "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/${TARGET}c")
+                add_custom_command(
+                        OUTPUT "${__BINDING_C_INCDIR}/${TARGET}.h" "${__BINDING_C_SRCDIR}/${TARGET}.cpp"
+                        COMMAND ${PROJECT_NAME}_bindgen "C" "${TARGET}" "${CMAKE_CURRENT_SOURCE_DIR}/lang/_bindgen/${TARGET}.kv" "${__BINDING_C_INCDIR}" "${__BINDING_C_SRCDIR}"
+                        DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/lang/_bindgen/${TARGET}.kv"
+                        VERBATIM)
+                add_pretty_parser(${TARGET} C SOURCES "${__BINDING_C_INCDIR}/${TARGET}.h" "${__BINDING_C_SRCDIR}/${TARGET}.cpp")
+            endforeach()
+        endif()
+    endif()
+
+
     # Python bindings (post)
     if(SOURCEPP_BUILD_PYTHON_WRAPPERS)
         nanobind_add_module(${${PROJECT_NAME}_PYTHON} NB_STATIC STABLE_ABI LTO

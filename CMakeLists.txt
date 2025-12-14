@@ -153,7 +153,7 @@ add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
 add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
 add_sourcepp_library(steampp           PYTHON      TEST      ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp          PYTHON      TEST      ) # sourcepp::vcryptpp
+add_sourcepp_library(vcryptpp C        PYTHON      TEST      ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp             PYTHON      TEST      ) # sourcepp::vpkpp
 add_sourcepp_library(vtfpp             PYTHON      TEST BENCH) # sourcepp::vtfpp
 
