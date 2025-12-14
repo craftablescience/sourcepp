@@ -11,7 +11,8 @@ function(add_sourcepp_library TARGET)
 
         # Add C
         if(SOURCEPP_BUILD_C_WRAPPERS AND OPTIONS_C)
-            include("${CMAKE_CURRENT_SOURCE_DIR}/lang/c/src/${TARGET}c/_${TARGET}c.cmake")
+            list(APPEND ${${PROJECT_NAME}_C}_LIBS ${TARGET})
+            list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_C}_LIBS)
         endif()
 
         # Add C#

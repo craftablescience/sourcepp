@@ -2,8 +2,6 @@
 
 #include <cstdlib>
 
-#include <sourceppc/Helpers.h>
-
 SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size) {
 	sourcepp_buffer_t buffer;
 	if (size > 0) {
@@ -17,8 +15,6 @@ SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size) {
 }
 
 SOURCEPP_API void sourcepp_buffer_free(sourcepp_buffer_t* buffer) {
-	SOURCEPP_EARLY_RETURN(buffer);
-
 	if (buffer->data) {
 		std::free(buffer->data);
 		buffer->data = nullptr;

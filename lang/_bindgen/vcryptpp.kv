@@ -1,0 +1,58 @@
+namespace vcryptpp {
+	namespace VFONT {
+		constant SIGNATURE [std::string_view]
+		constant MAGIC [uint8_t]
+		function encrypt [std::vector<std::byte>] {
+			parameter data [std::span<const std::byte>]
+			parameter saltLength [uint8_t] { default 2 }
+		}
+		function decrypt [std::vector<std::byte>] {
+			parameter data [std::span<const std::byte>]
+		}
+	}
+	namespace VICE {
+		namespace KnownCodes {
+			constant DEFAULT [std::string_view]
+			constant BLOODY_GOOD_TIME [std::string_view]
+			constant CONTAGION_WEAPONS [std::string_view]
+			constant CONTAGION_SCRIPTS [std::string_view]
+			constant COUNTER_STRIKE_SOURCE [std::string_view]
+			constant COUNTER_STRIKE_GLOBAL_OFFENSIVE [std::string_view]
+			constant COUNTER_STRIKE_2 [std::string_view]
+			constant COUNTER_STRIKE_PROMOD [std::string_view]
+			constant DAY_OF_DEFEAT_SOURCE [std::string_view]
+			constant DYSTOPIA_1_2 [std::string_view]
+			constant DYSTOPIA_1_3 [std::string_view]
+			constant FORTRESS_FOREVER_PRE_GREENLIGHT [std::string_view]
+			constant GOLDEN_EYE_SOURCE [std::string_view]
+			constant HALF_LIFE_2_CTF [std::string_view]
+			constant HALF_LIFE_2_DM [std::string_view]
+			constant INSURGENCY [std::string_view]
+			constant LEFT_4_DEAD_2 [std::string_view]
+			constant NO_MORE_ROOM_IN_HELL [std::string_view]
+			constant NUCLEAR_DAWN [std::string_view]
+			constant TACTICAL_INTERVENTION [std::string_view]
+			constant TEAM_FORTRESS_2 [std::string_view]
+			constant TEAM_FORTRESS_2_ITEMS [std::string_view]
+			constant FAIRY_TALE_BUSTERS [std::string_view]
+			constant THE_SHIP [std::string_view]
+			constant ZOMBIE_PANIC_SOURCE [std::string_view]
+			constant GPU_DEFAULT [std::string_view]
+			constant GPU_ALIEN_SWARM [std::string_view]
+			constant GPU_DOTA_2 [std::string_view]
+			constant GPU_HALF_LIFE_2_EPISODE_2 [std::string_view]
+			constant GPU_LEFT_4_DEAD_1 [std::string_view]
+			constant GPU_LEFT_4_DEAD_2 [std::string_view]
+			constant GPU_PORTAL_2 [std::string_view]
+			constant GPU_TEAM_FORTRESS_2 [std::string_view]
+		}
+		function encrypt [std::vector<std::byte>] {
+			parameter data [std::span<const std::byte>]
+			parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT }
+		}
+		function decrypt [std::vector<std::byte>] {
+			parameter data [std::span<const std::byte>]
+			parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT }
+		}
+	}
+}
