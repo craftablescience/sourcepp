@@ -1,13 +1,15 @@
 #include <sourceppc/Convert.hpp>
 
-sourcepp_string_t Convert::toString(std::string_view str) {
-	auto newStr = sourcepp_string_new(str.size());
+using namespace sourceppc;
+
+sourcepp_string_t c::toString(std::string_view str) {
+	const auto newStr = sourcepp_string_new(str.size());
 	std::memcpy(newStr.data, str.data(), str.size());
 	return newStr;
 }
 
-sourcepp_string_array_t Convert::toStringArray(const std::vector<std::string>& stringVec) {
-	auto array = sourcepp_string_array_new(stringVec.size());
+sourcepp_string_array_t c::toStringArray(const std::vector<std::string>& stringVec) {
+	const auto array = sourcepp_string_array_new(stringVec.size());
 	for (size_t i = 0; i < stringVec.size(); i++) {
 		array.data[i] = static_cast<char*>(std::malloc(sizeof(char) * (stringVec[i].length() + 1)));
 		std::memcpy(array.data[i], stringVec[i].c_str(), stringVec[i].length());
@@ -16,7 +18,7 @@ sourcepp_string_array_t Convert::toStringArray(const std::vector<std::string>& s
 	return array;
 }
 
-size_t Convert::writeStringToMem(std::string_view str, char* buffer, size_t bufferLen) {
+size_t c::writeStringToMem(std::string_view str, char* buffer, size_t bufferLen) {
 	if (str.length() >= bufferLen) {
 		std::memcpy(buffer, str.data(), bufferLen);
 		buffer[bufferLen - 1] = '\0';
@@ -27,7 +29,7 @@ size_t Convert::writeStringToMem(std::string_view str, char* buffer, size_t buff
 	return str.length() - 1;
 }
 
-size_t Convert::writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen) {
+size_t c::writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen) {
 	if (vec.size() >= bufferLen) {
 		std::memcpy(buffer, vec.data(), bufferLen);
 		return bufferLen;
