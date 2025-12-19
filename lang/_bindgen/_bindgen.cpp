@@ -208,7 +208,7 @@ int main(int argc, const char* argv[]) {
 	}
 	const std::string_view language{argv[1]};
 	const std::string target{argv[2]};
-	const KV1 defs{fs::readFileText(argv[3])};
+	const KV1 defs{fs::readFileText(argv[3]), true};
 
 	if (language == "C") {
 		if (argc < 6) {
