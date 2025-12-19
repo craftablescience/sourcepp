@@ -1,0 +1,35 @@
+namespace gamepp {
+	class GameInstance {
+		function find [std::optional<$SELF>] {
+			parameter windowNameOverride [std::string_view] { default "\"\"" }
+		}
+		property windowTitle [std::string] {
+			get getWindowTitle
+		}
+		property windowPos [sourcepp::math::Vec2i] {
+			get getWindowPos
+		}
+		property windowSize [std::string] {
+			get getWindowSize
+		}
+		method command [const $SELF&] {
+			parameter command [std::string_view]
+		}
+		method inputBegin [const $SELF&] {
+			parameter input [std::string_view]
+		}
+		method inputEnd [const $SELF&] {
+			parameter input [std::string_view]
+		}
+		method inputOnce [const $SELF&] {
+			parameter input [std::string_view]
+		}
+		method inputHold [const $SELF&] {
+			parameter input [std::string_view]
+			parameter sec [double]
+		}
+		method wait [const $SELF&] {
+			parameter sec [double]
+		}
+	}
+}

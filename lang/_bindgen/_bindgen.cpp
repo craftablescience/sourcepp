@@ -1,5 +1,10 @@
+#include <cctype>
+#include <deque>
+#include <format>
 #include <sstream>
-#include <unordered_set>
+#include <tuple>
+
+#include <iostream>
 
 #include <kvpp/kvpp.h>
 #include <sourcepp/FS.h>
@@ -9,43 +14,89 @@ using namespace sourcepp;
 
 namespace {
 
-constexpr std::string_view NAMESPACE{"namespace"};
-constexpr std::string_view CONSTANT{"constant"};
-constexpr std::string_view FUNCTION{"function"};
-constexpr std::string_view FUNCTION_PARAMETER{"parameter"};
-constexpr std::string_view FUNCTION_PARAMETER_DEFAULT{"default"};
+constexpr std::string_view NAMESPACE                 {"namespace"};
+constexpr std::string_view TYPE                        {"type"};
+constexpr std::string_view CONSTANT                    {"constant"};
+constexpr std::string_view FUNCTION                    {"function"};
+constexpr std::string_view FUNCTION_PARAMETER            {"parameter"};
+constexpr std::string_view FUNCTION_PARAMETER_DEFAULT      {"default"};
+constexpr std::string_view ENUM                        {"enum"};
+constexpr std::string_view CLASS                       {"class"};
+constexpr std::string_view CLASS_PROPERTY                {"property"};
+constexpr std::string_view CLASS_PROPERTY_GET              {"get"};
+constexpr std::string_view CLASS_PROPERTY_SET              {"set"};
+constexpr std::string_view CLASS_METHOD                  {"method"};
+constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 
 [[nodiscard]] int c(std::string_view target, const KV1<>& defs, std::string_view incDir, std::string_view srcDir) {
-	// Conversions from C++ -> C return types
-	struct ConversionTypeInfo {
-		std::string_view cppType;
-		std::string_view cppInnerElement;
-		std::string_view cTypeEquivalent;
-		std::string_view cConversionFunctionSuffix;
+	// C containers
+	struct CContainerTypeInfo {
+		std::string_view cType;
+		std::string_view cConversionFunctionSuffix; // sourcepp::c::to<Suffix>
 		std::string_view cFreeFunction;
 	};
+	static constexpr std::array C_CONVERSION_TYPE_INFO{
+		CContainerTypeInfo{"sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
+		CContainerTypeInfo{"sourcepp_string_t", "String", "sourcepp_string_free"},
+	};
+
+	// Conversions from C++ <-> C types
+	struct ConversionTypeInfo {
+		std::string_view cppType;
+		std::string_view cppInnerType;
+		std::variant<std::string_view, const CContainerTypeInfo*> cType;
+
+		[[nodiscard]] std::string_view getCType() const {
+			if (std::holds_alternative<std::string_view>(cType)) {
+				return std::get<std::string_view>(cType);
+			}
+			return std::get<const CContainerTypeInfo*>(cType)->cType;
+		}
+	};
+	static std::vector TYPE_CONVERTERS{
+		ConversionTypeInfo{"void*",                        "",                "void*"},
+		ConversionTypeInfo{"char",                         "",                "char"},
+		ConversionTypeInfo{"bool",                         "",                "int"},
+		ConversionTypeInfo{"std::byte",                    "",                "unsigned char"},
+		ConversionTypeInfo{"uint8_t",                      "",                "unsigned char"},
+		ConversionTypeInfo{"int8_t",                       "",                "signed char"},
+		ConversionTypeInfo{"uint16_t",                     "",                "unsigned short"},
+		ConversionTypeInfo{"int16_t",                      "",                "short"},
+		ConversionTypeInfo{"uint32_t",                     "",                "unsigned int"},
+		ConversionTypeInfo{"int32_t",                      "",                "int"},
+		ConversionTypeInfo{"uint64_t",                     "",                "unsigned long long"},
+		ConversionTypeInfo{"int64_t",                      "",                "long long"},
+		ConversionTypeInfo{"std::span<std::byte>",         "std::byte",       &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::span<const std::byte>",   "const std::byte", &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::string_view",             "const char",      &C_CONVERSION_TYPE_INFO[1]},
+		ConversionTypeInfo{"std::filesystem::path",        "",                &C_CONVERSION_TYPE_INFO[1]},
+		ConversionTypeInfo{"std::vector<std::byte>",       "std::byte",       &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::vector<const std::byte>", "const std::byte", &C_CONVERSION_TYPE_INFO[0]},
+	};
 	static constexpr auto getTypeConverterFor = [](std::string_view cppType) -> const ConversionTypeInfo& {
-		static constexpr std::array returnTypeConverters{
-			ConversionTypeInfo{"char"},
-			ConversionTypeInfo{"bool",                         "",                "int",             },
-			ConversionTypeInfo{"std::byte",                    "",                "unsigned char"    },
-			ConversionTypeInfo{"uint8_t"},
-			ConversionTypeInfo{"std::span<std::byte>",         "std::byte",       "sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
-			ConversionTypeInfo{"std::span<const std::byte>",   "const std::byte", "sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
-			ConversionTypeInfo{"std::string_view",             "const char",      "sourcepp_string_t", "String", "sourcepp_string_free"},
-			ConversionTypeInfo{"std::vector<std::byte>",       "std::byte",       "sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
-			ConversionTypeInfo{"std::vector<const std::byte>", "const std::byte", "sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
-		};
 		if (cppType.starts_with("const ")) {
 			cppType = cppType.substr(6);
 		}
 		if (
-			const auto it = std::ranges::find_if(returnTypeConverters, [cppType](const ConversionTypeInfo& typeInfo) { return typeInfo.cppType == cppType; });
-			it != std::end(returnTypeConverters)
+			const auto it = std::ranges::find_if(TYPE_CONVERTERS, [cppType](const ConversionTypeInfo& typeInfo) {
+				return typeInfo.cppType == cppType;
+			});
+			it != std::end(TYPE_CONVERTERS)
 		) {
 			return *it;
 		}
-		throw std::runtime_error{"Cannot find conversion function for C++ type " + std::string{cppType}};
+		throw std::runtime_error{std::format("Cannot find conversion function for C++ type {}", cppType).c_str()};
+	};
+
+	static constexpr auto camelCaseToSnakeCase = [](std::string_view str) {
+		std::string out;
+		for (int i = 0; i < str.size(); i++) {
+			if (i > 0 && std::isupper(str[i]) && std::islower(str[i - 1])) {
+				out += '_';
+			}
+			out += static_cast<char>(std::tolower(str[i]));
+		}
+		return out;
 	};
 
 	std::ostringstream h;
@@ -73,57 +124,85 @@ constexpr std::string_view FUNCTION_PARAMETER_DEFAULT{"default"};
 		// The signature in the C header
 		[[nodiscard]] std::string signature() const {
 			const std::string defaultSuffix{!this->defaultValue.empty() ? " /*= " + this->defaultValue + "*/" : ""};
-			if (const auto typeInfo = getTypeConverterFor(type); !typeInfo.cppInnerElement.empty()) {
-				if (typeInfo.cppInnerElement == "char" || typeInfo.cppInnerElement.ends_with(" char")) {
-					return std::string{typeInfo.cppInnerElement.starts_with("const ") ? "const " : ""} + "char* " + this->name + defaultSuffix;
+			const auto typeInfo = getTypeConverterFor(type);
+			if (std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType)) {
+				const auto converter = std::get<const CContainerTypeInfo*>(typeInfo.cType);
+				if (converter == &C_CONVERSION_TYPE_INFO[0]) {
+					// Intentionally not using default value here
+					return (typeInfo.cppInnerType.starts_with("const ") ? "const " : "") + std::string{getTypeConverterFor(typeInfo.cppInnerType).getCType()} + "* " + this->name + ", unsigned long long " + this->name + std::string{PARAMETER_SIZE_SUFFIX};
 				}
-				// Intentionally not using default value here
-				return (typeInfo.cppInnerElement.starts_with("const ") ? "const " : "") + std::string{getTypeConverterFor(typeInfo.cppInnerElement).cTypeEquivalent} + "* " + this->name + ", uint64_t " + this->name + std::string{PARAMETER_SIZE_SUFFIX};
+				if (converter == &C_CONVERSION_TYPE_INFO[1]) {
+					return std::string{typeInfo.cppInnerType.starts_with("const ") ? "const " : ""} + "char* " + this->name + defaultSuffix;
+				}
+				throw std::runtime_error{std::format("Unchecked conversion type info for {}", converter->cType).c_str()};
 			}
-			return this->type + ' ' + this->name + defaultSuffix;
+			return std::format("{} {}{}", getTypeConverterFor(this->type).getCType(), this->name, defaultSuffix);
 		}
 
 		// Accessing the parameter from C++
 		[[nodiscard]] std::string access() const {
-			if (const auto typeInfo = getTypeConverterFor(type); !typeInfo.cppInnerElement.empty() && !(typeInfo.cppInnerElement == "char" || typeInfo.cppInnerElement.ends_with(" char"))) {
-				return this->type + "{reinterpret_cast<" + std::string{typeInfo.cppInnerElement} + "*>(" + this->name + "), reinterpret_cast<" + std::string{typeInfo.cppInnerElement} + "*>(" + this->name + " + " + this->name + std::string{PARAMETER_SIZE_SUFFIX} + ")}";
+			const auto typeInfo = getTypeConverterFor(type);
+			if (std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType)) {
+				const auto converter = std::get<const CContainerTypeInfo*>(typeInfo.cType);
+				if (converter == &C_CONVERSION_TYPE_INFO[0]) {
+					return this->type + "{reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + "), reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + " + " + this->name + std::string{PARAMETER_SIZE_SUFFIX} + ")}";
+				}
+				if (converter == &C_CONVERSION_TYPE_INFO[1]) {
+					return name;
+				}
+				throw std::runtime_error{std::format("Unchecked conversion type info for {}", converter->cType).c_str()};
 			}
 			return name;
 		}
 	};
 
 	// Namespaces are appended to each identifier
-	std::vector<std::string> namespacesStore;
+	std::deque<std::string> namespacesStore;
+
+	// Apply current namespaces to an identifier
+	const auto applyNamespacesTo = [&namespacesStore](std::string_view cIdentifier) {
+		std::string identifier;
+		for (const auto& n : namespacesStore) {
+			identifier += string::toLower(n);
+			identifier += '_';
+		}
+		return identifier + camelCaseToSnakeCase(cIdentifier);
+	};
+
+	// Add a typedef
+	const auto addTypeDef = [&h, &applyNamespacesTo](std::string_view cppAlias, std::string_view cppType) {
+		static std::deque<std::string> cAliases;
+		cAliases.push_back(applyNamespacesTo(std::string{cppAlias} + "_t"));
+		TYPE_CONVERTERS.push_back({cppAlias, "", cAliases.back()});
+		h << "typedef " << getTypeConverterFor(cppType).getCType() << ' ' << cAliases.back() << ";\n\n";
+	};
 
 	// Add a constant or function
-	const auto addFunction = [&h, &cpp, &namespacesStore](std::string_view name, std::string_view type, bool isConstant, std::span<ParameterInfo> parameters) {
+	const auto addFunction = [&h, &cpp, &namespacesStore, &applyNamespacesTo](std::string_view name, std::string_view type, std::string_view clasz, bool isConstant, std::deque<ParameterInfo>& parameters) {
 		const auto typeInfo = getTypeConverterFor(type);
+		const CContainerTypeInfo* cTypeInfo = std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType) ? std::get<const CContainerTypeInfo*>(typeInfo.cType) : nullptr;
 
 		// Notify consumer of manual free requirement
-		if (!typeInfo.cFreeFunction.empty()) {
-			h << "// REQUIRES MANUAL FREE: " << typeInfo.cFreeFunction << '\n';
+		if (cTypeInfo) {
+			h << "// REQUIRES MANUAL FREE: " << cTypeInfo->cFreeFunction << '\n';
 		}
 
 		// Expose to consumer
 		h << "SOURCEPP_API ";
 		cpp << "SOURCEPP_API ";
 
-		// Return type
-		if (!typeInfo.cTypeEquivalent.empty()) {
-			h << typeInfo.cTypeEquivalent << ' ';
-			cpp << typeInfo.cTypeEquivalent << ' ';
-		} else {
-			h << type << ' ';
-			cpp << type << ' ';
+		// Add class to namespace list if appropriate, remove it later
+		if (!clasz.empty()) {
+			namespacesStore.emplace_back(clasz);
 		}
 
+		// Return type
+		h << typeInfo.getCType() << ' ';
+		cpp << typeInfo.getCType() << ' ';
+
 		// Namespaced identifier
-		for (const auto& n : namespacesStore) {
-			h << string::toLower(n) << '_';
-			cpp << string::toLower(n) << '_';
-		}
-		h << string::toLower(name) << '(';
-		cpp << string::toLower(name) << '(';
+		h << applyNamespacesTo(name) << '(';
+		cpp << applyNamespacesTo(name) << '(';
 
 		// Parameters
 		for (int i = 0; i < parameters.size(); i++) {
@@ -139,11 +218,21 @@ constexpr std::string_view FUNCTION_PARAMETER_DEFAULT{"default"};
 
 		// Implementation
 		cpp << "\treturn ";
-		if (!typeInfo.cConversionFunctionSuffix.empty()) {
-			cpp << "sourceppc::c::to" << typeInfo.cConversionFunctionSuffix << '(';
+		if (cTypeInfo && !cTypeInfo->cConversionFunctionSuffix.empty()) {
+			cpp << "sourceppc::c::to" << cTypeInfo->cConversionFunctionSuffix << '(';
 		}
-		for (const auto& n : namespacesStore) {
-			cpp << n << "::";
+		if (!clasz.empty()) {
+			parameters.pop_front();
+			cpp << "static_cast<";
+		}
+		for (int i = 0; i < namespacesStore.size() - 1; i++) {
+			cpp << namespacesStore[i] << "::";
+		}
+		cpp << namespacesStore.back();
+		if (!clasz.empty()) {
+			cpp << "*>(self)->";
+		} else {
+			cpp << "::";
 		}
 		cpp << name;
 		if (!isConstant) {
@@ -156,39 +245,67 @@ constexpr std::string_view FUNCTION_PARAMETER_DEFAULT{"default"};
 			}
 			cpp << ')';
 		}
-		if (!typeInfo.cConversionFunctionSuffix.empty()) {
+		if (cTypeInfo && !cTypeInfo->cConversionFunctionSuffix.empty()) {
 			cpp << ')';
 		}
 		cpp << ";\n}\n\n";
+
+		// Remove class "namespace"
+		if (!clasz.empty()) {
+			namespacesStore.pop_back();
+		}
 	};
 
-	std::function<void(const KV1ElementReadable<>&, std::vector<std::string>&)> readDefs;
-	readDefs = [&addFunction, &readDefs](const KV1ElementReadable<>& defs_, std::vector<std::string>& namespaces) {
+	std::function<void(const KV1ElementReadable<>&, std::deque<std::string>&)> readDefs;
+	readDefs = [&addTypeDef, &addFunction, &readDefs](const KV1ElementReadable<>& defs_, std::deque<std::string>& namespaces) {
+		static constexpr auto collectParameters = [](const KV1ElementReadable<>& kv) {
+			std::deque<ParameterInfo> parameters;
+			for (const auto& p : kv) {
+				if (p.getKey() == FUNCTION_PARAMETER) {
+					auto& [parameterName, parameterType, parameterDefaultValue] = parameters.emplace_back();
+					parameterName = p.getValue();
+					parameterType = p.getConditional();
+					for (const auto& d : p) {
+						if (d.getKey() == FUNCTION_PARAMETER_DEFAULT) {
+							parameterDefaultValue = d.getValue();
+							break;
+						}
+					}
+				}
+			}
+			return parameters;
+		};
 		for (const auto& kv : defs_) {
 			if (kv.getKey() == NAMESPACE) {
 				namespaces.emplace_back(kv.getValue());
 				readDefs(kv, namespaces);
 				namespaces.pop_back();
+			} else if (kv.getKey() == TYPE) {
+				addTypeDef(kv.getValue(), kv.getConditional());
 			} else if (kv.getKey() == CONSTANT) {
 				// Constants are accessible from dedicated functions, because making them defines
 				// would necessitate another generation step and making them globals is icky
-				addFunction(kv.getValue(), kv.getConditional(), true, {});
+				std::deque<ParameterInfo> parameters;
+				addFunction(kv.getValue(), kv.getConditional(), "", true, parameters);
 			} else if (kv.getKey() == FUNCTION) {
-				std::vector<ParameterInfo> parameters;
-				for (const auto& p : kv) {
-					if (p.getKey() == FUNCTION_PARAMETER) {
-						auto& [parameterName, parameterType, parameterDefaultValue] = parameters.emplace_back();
-						parameterName = p.getValue();
-						parameterType = p.getConditional();
-						for (const auto& d : p) {
-							if (d.getKey() == FUNCTION_PARAMETER_DEFAULT) {
-								parameterDefaultValue = d.getValue();
-								break;
-							}
-						}
+				auto parameters = collectParameters(kv);
+				addFunction(kv.getValue(), kv.getConditional(), "", false, parameters);
+			} else if (kv.getKey() == CLASS) {
+				const auto cppClassType = std::string{kv.getValue()} + "Handle";
+				addTypeDef(cppClassType, "void*");
+				for (const auto& m : kv) {
+					if (m.getKey() == CLASS_METHOD) {
+						auto parameters = collectParameters(m);
+						parameters.push_front({
+							.name = "self",
+							.type = cppClassType,
+						});
+						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
+					} else if (m.getKey() == FUNCTION) {
+						auto parameters = collectParameters(m);
+						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
 					}
 				}
-				addFunction(kv.getValue(), kv.getConditional(), false, parameters);
 			}
 		}
 	};
@@ -208,7 +325,7 @@ int main(int argc, const char* argv[]) {
 	}
 	const std::string_view language{argv[1]};
 	const std::string target{argv[2]};
-	const KV1 defs{fs::readFileText(argv[3])};
+	const KV1 defs{fs::readFileText(argv[3]), true};
 
 	if (language == "C") {
 		if (argc < 6) {
