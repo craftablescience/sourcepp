@@ -308,32 +308,8 @@ inline void register_python(py::module_& m) {
 		.def_static("create_random_uuid", &DMX::createRandomUUID)
 		.def_static("get_invalid_element", &DMX::getInvalidElement);
 
-	py::class_<KV1ElementReadable<>>(kvpp, "KV1ElementReadable")
-		.def_prop_ro("key", &KV1ElementReadable<>::getKey)
-		.def_prop_ro("value", [](const KV1ElementReadable<>& self) {
-			return self.getValue();
-		})
-		.def_prop_ro("conditional", &KV1ElementReadable<>::getConditional)
-		.def("has_child", &KV1ElementReadable<>::hasChild, "child_key"_a)
-		.def("__contains__", &KV1ElementReadable<>::hasChild, "child_key"_a)
-		.def_prop_ro("child_count", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
-		.def("__len__", py::overload_cast<>(&KV1ElementReadable<>::getChildCount, py::const_))
-		.def("get_child_count_with_key", py::overload_cast<std::string_view>(&KV1ElementReadable<>::getChildCount, py::const_), "child_key"_a)
-		.def("get_children", py::overload_cast<>(&KV1ElementReadable<>::getChildren, py::const_))
-		.def("__iter__", [](const KV1ElementReadable<>& self) {
-			return py::make_iterator(py::type<KV1ElementReadable<>>(), "iterator", self);
-		}, py::keep_alive<0, 1>())
-		.def("__getitem__", py::overload_cast<unsigned int>(&KV1ElementReadable<>::operator[], py::const_), "n"_a, py::rv_policy::reference_internal)
-		.def("__getitem__", py::overload_cast<std::string_view>(&KV1ElementReadable<>::operator[], py::const_), "child_key"_a, py::rv_policy::reference_internal)
-		.def("get_child", py::overload_cast<std::string_view, unsigned int>(&KV1ElementReadable<>::operator(), py::const_), "child_key"_a, "n"_a, py::rv_policy::reference_internal)
-		.def("is_invalid", &KV1ElementReadable<>::isInvalid)
-		.def("get_invalid", &KV1ElementReadable<>::getInvalid)
-		.def("__bool__", &KV1ElementReadable<>::operator bool);
-
-	py::class_<KV1<>, KV1ElementReadable<>>(kvpp, "KV1")
-		.def(py::init<std::string_view, bool>(), "kv1_data"_a, "use_escape_sequences"_a = false);
-
-	py::class_<KV1ElementWritable<>>(kvpp, "KV1ElementWritable")
+	// Note: KV1Writer is used as KV1 for Python bindings because it uses std::string storage.
+	py::class_<KV1ElementWritable<>>(kvpp, "KV1Element")
 		.def_prop_rw("key", &KV1ElementWritable<>::getKey, &KV1ElementWritable<>::setKey)
 		.def_prop_rw("value", [](const KV1ElementWritable<>& self) {
 			return self.getValue();
@@ -359,7 +335,7 @@ inline void register_python(py::module_& m) {
 		.def("get_invalid", &KV1ElementWritable<>::getInvalid)
 		.def("__bool__", &KV1ElementWritable<>::operator bool);
 
-	py::class_<KV1Writer<>, KV1ElementWritable<>>(kvpp, "KV1Writer")
+	py::class_<KV1Writer<>, KV1ElementWritable<>>(kvpp, "KV1")
 		.def(py::init<std::string_view, bool>(), "kv1_data"_a = "", "use_escape_sequences"_a = false)
 		.def("bake", py::overload_cast<>(&KV1Writer<>::bake, py::const_))
 		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&KV1Writer<>::bake, py::const_), "kv1_path"_a);
