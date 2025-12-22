@@ -401,6 +401,7 @@ namespace ImageFormatDetails {
 		case ABGR8888:
 		case CONSOLE_ABGR8888_LINEAR:
 		case IA88:
+		case A8:
 		case ARGB8888:
 		case CONSOLE_ARGB8888_LINEAR:
 		case BGRA8888:
@@ -436,7 +437,6 @@ namespace ImageFormatDetails {
 		case BGR565:
 		case R32F:
 		case RGB323232F:
-		case A8:
 		case EMPTY:
 		case RG3232F:
 		case RG1616F:
