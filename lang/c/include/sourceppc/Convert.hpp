@@ -40,6 +40,8 @@ std::vector<T> fromBuffer(const sourcepp_buffer_t& buffer) {
 
 sourcepp_string_t toString(std::string_view str);
 
+sourcepp_string_t toString(const std::filesystem::path& path);
+
 sourcepp_string_array_t toStringArray(const std::vector<std::string>& stringVec);
 
 size_t writeStringToMem(std::string_view str, char* buffer, size_t bufferLen);

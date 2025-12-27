@@ -22,11 +22,11 @@ constexpr std::string_view FUNCTION_PARAMETER            {"parameter"};
 constexpr std::string_view FUNCTION_PARAMETER_DEFAULT      {"default"};
 constexpr std::string_view ENUM                        {"enum"};
 constexpr std::string_view CLASS                       {"class"};
+constexpr std::string_view CLASS_CONSTRUCTOR             {"constructor"};
 constexpr std::string_view CLASS_PROPERTY                {"property"};
 constexpr std::string_view CLASS_PROPERTY_GET              {"get"};
 constexpr std::string_view CLASS_PROPERTY_SET              {"set"};
 constexpr std::string_view CLASS_METHOD                  {"method"};
-constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 
 [[nodiscard]] int c(std::string_view target, const KV1<>& defs, std::string_view incDir, std::string_view srcDir) {
 	// C containers
@@ -54,6 +54,7 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 		}
 	};
 	static std::vector TYPE_CONVERTERS{
+		ConversionTypeInfo{"void" ,                        "",                "void"},
 		ConversionTypeInfo{"void*",                        "",                "void*"},
 		ConversionTypeInfo{"char",                         "",                "char"},
 		ConversionTypeInfo{"bool",                         "",                "int"},
@@ -91,7 +92,7 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 	static constexpr auto camelCaseToSnakeCase = [](std::string_view str) {
 		std::string out;
 		for (int i = 0; i < str.size(); i++) {
-			if (i > 0 && std::isupper(str[i]) && std::islower(str[i - 1])) {
+			if (i > 0 && ((std::isupper(str[i]) && std::islower(str[i - 1])) || (!std::isdigit(str[i]) && std::isdigit(str[i - 1])))) {
 				out += '_';
 			}
 			out += static_cast<char>(std::tolower(str[i]));
@@ -178,6 +179,8 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 	};
 
 	// Add a constant or function
+	static constexpr std::string_view CLASS_CTOR_NAME = "new";
+	static constexpr std::string_view CLASS_DTOR_NAME = "free";
 	const auto addFunction = [&h, &cpp, &namespacesStore, &applyNamespacesTo](std::string_view name, std::string_view type, std::string_view clasz, bool isConstant, std::deque<ParameterInfo>& parameters) {
 		const auto typeInfo = getTypeConverterFor(type);
 		const CContainerTypeInfo* cTypeInfo = std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType) ? std::get<const CContainerTypeInfo*>(typeInfo.cType) : nullptr;
@@ -204,6 +207,13 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 		h << applyNamespacesTo(name) << '(';
 		cpp << applyNamespacesTo(name) << '(';
 
+		const auto writeNamespacedCPPIdentifier = [&cpp, &namespacesStore] {
+			for (int i = 0; i < namespacesStore.size() - 1; i++) {
+				cpp << namespacesStore[i] << "::";
+			}
+			cpp << namespacesStore.back();
+		};
+
 		// Parameters
 		for (int i = 0; i < parameters.size(); i++) {
 			h << parameters[i].signature();
@@ -216,33 +226,52 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 		h << ");\n\n";
 		cpp << ") {\n";
 
-		// Implementation
-		cpp << "\treturn ";
-		if (cTypeInfo && !cTypeInfo->cConversionFunctionSuffix.empty()) {
-			cpp << "sourceppc::c::to" << cTypeInfo->cConversionFunctionSuffix << '(';
-		}
-		if (!clasz.empty()) {
-			parameters.pop_front();
-			cpp << "static_cast<";
-		}
-		for (int i = 0; i < namespacesStore.size() - 1; i++) {
-			cpp << namespacesStore[i] << "::";
-		}
-		cpp << namespacesStore.back();
-		if (!clasz.empty()) {
-			cpp << "*>(self)->";
-		} else {
-			cpp << "::";
-		}
-		cpp << name;
-		if (!isConstant) {
-			cpp << '(';
+		const auto writeParameterAccess = [&cpp, &parameters] {
 			for (int i = 0; i < parameters.size(); i++) {
 				cpp << parameters[i].access();
 				if (i < parameters.size() - 1) {
 					cpp << ", ";
 				}
 			}
+		};
+
+		// Implementation
+		cpp << "\treturn ";
+
+		if (!clasz.empty()) {
+			if (name == CLASS_CTOR_NAME) {
+				cpp << "new ";
+				writeNamespacedCPPIdentifier();
+				cpp << '{';
+				writeParameterAccess();
+				cpp << "};\n}\n\n";
+				goto cleanup;
+			}
+			if (name == CLASS_DTOR_NAME) {
+				cpp << "delete static_cast<";
+				writeNamespacedCPPIdentifier();
+				cpp << "*>(self);\n}\n\n";
+				goto cleanup;
+			}
+		}
+
+		if (cTypeInfo && !cTypeInfo->cConversionFunctionSuffix.empty()) {
+			cpp << "sourceppc::c::to" << cTypeInfo->cConversionFunctionSuffix << '(';
+		}
+		if (!clasz.empty()) {
+			cpp << "static_cast<";
+		}
+		writeNamespacedCPPIdentifier();
+		if (!clasz.empty()) {
+			cpp << "*>(self)->";
+			parameters.pop_front();
+		} else {
+			cpp << "::";
+		}
+		cpp << name;
+		if (!isConstant) {
+			cpp << '(';
+			writeParameterAccess();
 			cpp << ')';
 		}
 		if (cTypeInfo && !cTypeInfo->cConversionFunctionSuffix.empty()) {
@@ -250,6 +279,7 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 		}
 		cpp << ";\n}\n\n";
 
+		cleanup:
 		// Remove class "namespace"
 		if (!clasz.empty()) {
 			namespacesStore.pop_back();
@@ -294,18 +324,28 @@ constexpr std::string_view CLASS_METHOD_MUTABLE            {"mutable"};
 				const auto cppClassType = std::string{kv.getValue()} + "Handle";
 				addTypeDef(cppClassType, "void*");
 				for (const auto& m : kv) {
-					if (m.getKey() == CLASS_METHOD) {
+					if (m.getKey() == CLASS_CONSTRUCTOR) {
+						auto parameters = collectParameters(m);
+						addFunction(CLASS_CTOR_NAME, cppClassType, kv.getValue(), false, parameters);
+					} else if (m.getKey() == CLASS_METHOD) {
 						auto parameters = collectParameters(m);
 						parameters.push_front({
 							.name = "self",
 							.type = cppClassType,
 						});
 						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
-					} else if (m.getKey() == FUNCTION) {
+					} /*else if (m.getKey() == FUNCTION) {
 						auto parameters = collectParameters(m);
 						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
-					}
+					}*/
 				}
+				std::deque parameters{
+					ParameterInfo{
+						.name = "self",
+						.type = cppClassType,
+					},
+				};
+				addFunction(CLASS_DTOR_NAME, "void", kv.getValue(), false, parameters);
 			}
 		}
 	};
