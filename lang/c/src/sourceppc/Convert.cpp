@@ -8,6 +8,10 @@ sourcepp_string_t c::toString(std::string_view str) {
 	return newStr;
 }
 
+sourcepp_string_t c::toString(const std::filesystem::path& path) {
+	return toString(std::string_view{path.string()});
+}
+
 sourcepp_string_array_t c::toStringArray(const std::vector<std::string>& stringVec) {
 	const auto array = sourcepp_string_array_new(stringVec.size());
 	for (size_t i = 0; i < stringVec.size(); i++) {
