@@ -96,11 +96,14 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		throw std::runtime_error{std::format("Cannot find conversion function for C++ type {}", cppType).c_str()};
 	};
 
-	static constexpr auto camelCaseToSnakeCase = [](std::string_view str) {
+	static constexpr auto anyCaseToSnakeCase = [](std::string_view str) {
 		std::string out;
 		for (int i = 0; i < str.size(); i++) {
 			if (i > 0 && ((std::isupper(str[i]) && std::islower(str[i - 1])) || (!std::isdigit(str[i]) && std::isdigit(str[i - 1])))) {
 				out += '_';
+			}
+			if (!out.empty() && out.back() == '_' && str[i] == '_') {
+				continue;
 			}
 			out += static_cast<char>(std::tolower(str[i]));
 		}
@@ -174,10 +177,10 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 	const auto applyNamespacesTo = [&namespacesStore](std::string_view cIdentifier) {
 		std::string identifier;
 		for (const auto& n : namespacesStore) {
-			identifier += string::toLower(n);
+			identifier += anyCaseToSnakeCase(n);
 			identifier += '_';
 		}
-		return identifier + camelCaseToSnakeCase(cIdentifier);
+		return identifier + anyCaseToSnakeCase(cIdentifier);
 	};
 
 	// Add a typedef
