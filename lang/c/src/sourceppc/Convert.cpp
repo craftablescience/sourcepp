@@ -12,12 +12,23 @@ sourcepp_string_t c::toString(const std::filesystem::path& path) {
 	return toString(std::string_view{path.string()});
 }
 
-sourcepp_string_array_t c::toStringArray(const std::vector<std::string>& stringVec) {
+sourcepp_string_array_t c::toStringArray(std::span<const std::string_view> stringVec) {
 	const auto array = sourcepp_string_array_new(stringVec.size());
 	for (size_t i = 0; i < stringVec.size(); i++) {
 		array.data[i] = static_cast<char*>(std::malloc(sizeof(char) * (stringVec[i].length() + 1)));
-		std::memcpy(array.data[i], stringVec[i].c_str(), stringVec[i].length());
+		std::memcpy(array.data[i], stringVec[i].data(), stringVec[i].length());
 		array.data[i][stringVec[i].length()] = '\0';
+	}
+	return array;
+}
+
+sourcepp_string_array_t c::toStringArray(std::span<const std::filesystem::path> stringVec) {
+	const auto array = sourcepp_string_array_new(stringVec.size());
+	for (size_t i = 0; i < stringVec.size(); i++) {
+		const auto str = stringVec[i].string();
+		array.data[i] = static_cast<char*>(std::malloc(sizeof(char) * (str.length() + 1)));
+		std::memcpy(array.data[i], str.data(), str.length());
+		array.data[i][str.length()] = '\0';
 	}
 	return array;
 }

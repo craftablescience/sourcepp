@@ -2,16 +2,16 @@ namespace steampp {
 	type AppID [uint32_t]
 	class Steam {
 		constructor {}
-		property installDir [const std::filesystem::path&] {
+		prop_method installDir [const std::filesystem::path&] {
 			get getInstallDir
 		}
-		property libraryDirs [std::span<const std::filesystem::path>] {
+		prop_method libraryDirs [std::span<const std::filesystem::path>] {
 			get getLibraryDirs
 		}
-		property sourceModDir [std::string] {
+		prop_method sourceModDir [std::string] {
 			get getSourceModDir
 		}
-		property installedApps [std::vector<AppID>] {
+		prop_method installedApps [std::vector<AppID>] {
 			get getInstalledApps
 		}
 		method isAppInstalled [bool] {

@@ -23,10 +23,10 @@ constexpr std::string_view FUNCTION_PARAMETER_DEFAULT      {"default"};
 constexpr std::string_view ENUM                        {"enum"};
 constexpr std::string_view CLASS                       {"class"};
 constexpr std::string_view CLASS_CONSTRUCTOR             {"constructor"};
-constexpr std::string_view CLASS_PROPERTY                {"property"};
-constexpr std::string_view CLASS_PROPERTY_GET              {"get"};
-constexpr std::string_view CLASS_PROPERTY_SET              {"set"};
 constexpr std::string_view CLASS_METHOD                  {"method"};
+constexpr std::string_view CLASS_PROP_METHOD             {"prop_method"};
+constexpr std::string_view CLASS_PROP_METHOD_GET           {"get"};
+constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 
 [[nodiscard]] int c(std::string_view target, const KV1<>& defs, std::string_view incDir, std::string_view srcDir) {
 	// C containers
@@ -36,8 +36,9 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 		std::string_view cFreeFunction;
 	};
 	static constexpr std::array C_CONVERSION_TYPE_INFO{
-		CContainerTypeInfo{"sourcepp_buffer_t", "Buffer", "sourcepp_buffer_free"},
-		CContainerTypeInfo{"sourcepp_string_t", "String", "sourcepp_string_free"},
+		CContainerTypeInfo{"sourcepp_buffer_t",       "Buffer",      "sourcepp_buffer_free"},
+		CContainerTypeInfo{"sourcepp_string_t",       "String",      "sourcepp_string_free"},
+		CContainerTypeInfo{"sourcepp_string_array_t", "StringArray", "sourcepp_string_array_free"},
 	};
 
 	// Conversions from C++ <-> C types
@@ -54,29 +55,35 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 		}
 	};
 	static std::vector TYPE_CONVERTERS{
-		ConversionTypeInfo{"void" ,                        "",                "void"},
-		ConversionTypeInfo{"void*",                        "",                "void*"},
-		ConversionTypeInfo{"char",                         "",                "char"},
-		ConversionTypeInfo{"bool",                         "",                "int"},
-		ConversionTypeInfo{"std::byte",                    "",                "unsigned char"},
-		ConversionTypeInfo{"uint8_t",                      "",                "unsigned char"},
-		ConversionTypeInfo{"int8_t",                       "",                "signed char"},
-		ConversionTypeInfo{"uint16_t",                     "",                "unsigned short"},
-		ConversionTypeInfo{"int16_t",                      "",                "short"},
-		ConversionTypeInfo{"uint32_t",                     "",                "unsigned int"},
-		ConversionTypeInfo{"int32_t",                      "",                "int"},
-		ConversionTypeInfo{"uint64_t",                     "",                "unsigned long long"},
-		ConversionTypeInfo{"int64_t",                      "",                "long long"},
-		ConversionTypeInfo{"std::span<std::byte>",         "std::byte",       &C_CONVERSION_TYPE_INFO[0]},
-		ConversionTypeInfo{"std::span<const std::byte>",   "const std::byte", &C_CONVERSION_TYPE_INFO[0]},
-		ConversionTypeInfo{"std::string_view",             "const char",      &C_CONVERSION_TYPE_INFO[1]},
-		ConversionTypeInfo{"std::filesystem::path",        "",                &C_CONVERSION_TYPE_INFO[1]},
-		ConversionTypeInfo{"std::vector<std::byte>",       "std::byte",       &C_CONVERSION_TYPE_INFO[0]},
-		ConversionTypeInfo{"std::vector<const std::byte>", "const std::byte", &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"void" ,                                  "",                            "void"},
+		ConversionTypeInfo{"void*",                                  "",                            "void*"},
+		ConversionTypeInfo{"char",                                   "",                            "char"},
+		ConversionTypeInfo{"bool",                                   "",                            "int"},
+		ConversionTypeInfo{"std::byte",                              "",                            "unsigned char"},
+		ConversionTypeInfo{"uint8_t",                                "",                            "unsigned char"},
+		ConversionTypeInfo{"int8_t",                                 "",                            "signed char"},
+		ConversionTypeInfo{"uint16_t",                               "",                            "unsigned short"},
+		ConversionTypeInfo{"int16_t",                                "",                            "short"},
+		ConversionTypeInfo{"uint32_t",                               "",                            "unsigned int"},
+		ConversionTypeInfo{"int32_t",                                "",                            "int"},
+		ConversionTypeInfo{"uint64_t",                               "",                            "unsigned long long"},
+		ConversionTypeInfo{"int64_t",                                "",                            "long long"},
+		ConversionTypeInfo{"std::span<std::byte>",                   "std::byte",                   &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::span<const std::byte>",             "const std::byte",             &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::span<const std::filesystem::path>", "const std::filesystem::path", &C_CONVERSION_TYPE_INFO[2]},
+		ConversionTypeInfo{"std::string",                            "char",                        &C_CONVERSION_TYPE_INFO[1]},
+		ConversionTypeInfo{"std::string_view",                       "const char",                  &C_CONVERSION_TYPE_INFO[1]},
+		ConversionTypeInfo{"std::filesystem::path",                  "",                            &C_CONVERSION_TYPE_INFO[1]},
+		ConversionTypeInfo{"std::vector<std::byte>",                 "std::byte",                   &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::vector<const std::byte>",           "const std::byte",             &C_CONVERSION_TYPE_INFO[0]},
+		ConversionTypeInfo{"std::vector<uint32_t>",                  "uint32_t",                    &C_CONVERSION_TYPE_INFO[0]},
 	};
 	static constexpr auto getTypeConverterFor = [](std::string_view cppType) -> const ConversionTypeInfo& {
 		if (cppType.starts_with("const ")) {
 			cppType = cppType.substr(6);
+		}
+		if (cppType.ends_with("&")) {
+			cppType = cppType.substr(0, cppType.size() - 1);
 		}
 		if (
 			const auto it = std::ranges::find_if(TYPE_CONVERTERS, [cppType](const ConversionTypeInfo& typeInfo) {
@@ -135,6 +142,9 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 				if (converter == &C_CONVERSION_TYPE_INFO[1]) {
 					return std::string{typeInfo.cppInnerType.starts_with("const ") ? "const " : ""} + "char* " + this->name + defaultSuffix;
 				}
+				if (converter == &C_CONVERSION_TYPE_INFO[2]) {
+					throw std::runtime_error{"todo: implement this"};
+				}
 				throw std::runtime_error{std::format("Unchecked conversion type info for {}", converter->cType).c_str()};
 			}
 			return std::format("{} {}{}", getTypeConverterFor(this->type).getCType(), this->name, defaultSuffix);
@@ -148,7 +158,7 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 				if (converter == &C_CONVERSION_TYPE_INFO[0]) {
 					return this->type + "{reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + "), reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + " + " + this->name + std::string{PARAMETER_SIZE_SUFFIX} + ")}";
 				}
-				if (converter == &C_CONVERSION_TYPE_INFO[1]) {
+				if (converter == &C_CONVERSION_TYPE_INFO[1] || converter == &C_CONVERSION_TYPE_INFO[2]) {
 					return name;
 				}
 				throw std::runtime_error{std::format("Unchecked conversion type info for {}", converter->cType).c_str()};
@@ -174,8 +184,12 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 	const auto addTypeDef = [&h, &applyNamespacesTo](std::string_view cppAlias, std::string_view cppType) {
 		static std::deque<std::string> cAliases;
 		cAliases.push_back(applyNamespacesTo(std::string{cppAlias} + "_t"));
-		TYPE_CONVERTERS.push_back({cppAlias, "", cAliases.back()});
-		h << "typedef " << getTypeConverterFor(cppType).getCType() << ' ' << cAliases.back() << ";\n\n";
+		const auto& cAlias = cAliases.back();
+		TYPE_CONVERTERS.push_back({cppAlias, "", cAlias});
+		// hack
+		cAliases.push_back("std::vector<" + std::string{cppAlias} + '>');
+		TYPE_CONVERTERS.push_back({cAliases.back(), cAlias, &C_CONVERSION_TYPE_INFO[0]});
+		h << "typedef " << getTypeConverterFor(cppType).getCType() << ' ' << cAlias << ";\n\n";
 	};
 
 	// Add a constant or function
@@ -334,6 +348,27 @@ constexpr std::string_view CLASS_METHOD                  {"method"};
 							.type = cppClassType,
 						});
 						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
+					} else if (m.getKey() == CLASS_PROP_METHOD) {
+						if (m.hasChild(CLASS_PROP_METHOD_GET)) {
+							auto parameters = collectParameters(m[CLASS_PROP_METHOD_GET]);
+							parameters.push_front({
+								.name = "self",
+								.type = cppClassType,
+							});
+							addFunction(m[CLASS_PROP_METHOD_GET].getValue(), m.getConditional(), kv.getValue(), false, parameters);
+						}
+						if (m.hasChild(CLASS_PROP_METHOD_SET)) {
+							auto parameters = collectParameters(m[CLASS_PROP_METHOD_SET]);
+							parameters.push_front({
+								.name = "value",
+								.type = std::string{m.getConditional()},
+							});
+							parameters.push_front({
+								.name = "self",
+								.type = cppClassType,
+							});
+							addFunction(m[CLASS_PROP_METHOD_SET].getValue(), m.getConditional(), kv.getValue(), false, parameters);
+						}
 					} /*else if (m.getKey() == FUNCTION) {
 						auto parameters = collectParameters(m);
 						addFunction(m.getValue(), m.getConditional(), kv.getValue(), false, parameters);
