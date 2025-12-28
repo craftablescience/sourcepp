@@ -1973,6 +1973,11 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do?
+		const auto container = ImageFormatDetails::containerFormat(format);
+		return convertImageDataToFormat(resizeImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, newWidth, height, newHeight, srgb, filter, edge), container, format, newWidth, newHeight);
+	}
 
 	STBIR_RESIZE resize;
 	const auto setEdgeModesAndFiltersAndDoResize = [edge, filter, &resize] {
