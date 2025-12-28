@@ -1481,12 +1481,12 @@ void VTF::removeResourceInternal(Resource::Type type) {
 }
 
 void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t newHeight, uint8_t newMipCount, uint16_t newFrameCount, uint8_t newFaceCount, uint16_t newDepth, ImageConversion::ResizeFilter filter, float quality) {
-	if (!newWidth)      { newWidth      = 1; }
-	if (!newHeight)     { newHeight     = 1; }
-	if (!newMipCount)   { newMipCount   = 1; }
-	if (!newFrameCount) { newFrameCount = 1; }
-	if (!newFaceCount)  { newFaceCount  = 1; }
-	if (!newDepth)      { newDepth      = 1; }
+	if (!newWidth)      newWidth      = 1;
+	if (!newHeight)     newHeight     = 1;
+	if (!newMipCount)   newMipCount   = 1;
+	if (!newFrameCount) newFrameCount = 1;
+	if (!newFaceCount)  newFaceCount  = 1;
+	if (!newDepth)      newDepth      = 1;
 
 	if (newMipCount > 1) {
 		// Valve code doesn't like it when you have compressed mips with padding unless they're lower than 4 on a given dimension!
@@ -1512,19 +1512,38 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 		} else {
 			newImageData.resize(ImageFormatDetails::getDataLength(this->format, newMipCount, newFrameCount, newFaceCount, newWidth, newHeight, newDepth));
 			for (int i = newMipCount - 1; i >= 0; i--) {
-				const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, this->width, this->height);
 				const auto [newMipWidth, newMipHeight, newMipDepth] = ImageDimensions::getMipDims(i, newWidth, newHeight, newDepth);
+
+				int sourceMipIndex = 0;
+				for (int mip = 0, bestScore = std::numeric_limits<int>::max(); mip < this->mipCount; mip++) {
+					const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(mip, this->width, this->height, false);
+					if (mipWidth == newMipWidth && mipHeight == newMipHeight) {
+						break;
+					}
+					const auto widthDiff = static_cast<int>(mipWidth) - static_cast<int>(newMipWidth);
+					const auto heightDiff = static_cast<int>(mipHeight) - static_cast<int>(newMipHeight);
+					if (widthDiff < 0 || heightDiff < 0) {
+						continue;
+					}
+					if (const auto score = widthDiff + heightDiff; score < bestScore) {
+						bestScore = score;
+						sourceMipIndex = mip;
+					}
+				}
+				const auto [sourceMipWidth, sourceMipHeight] = ImageDimensions::getMipDims(sourceMipIndex, this->width, this->height);
+
 				for (int j = 0; j < newFrameCount; j++) {
 					for (int k = 0; k < newFaceCount; k++) {
 						for (int l = 0; l < newMipDepth; l++) {
-							if (i < this->mipCount && j < this->frameCount && k < faceCount && l < this->depth) {
-								auto imageSpan = this->getImageDataRaw(i, j, k, l);
-								std::vector<std::byte> image{imageSpan.begin(), imageSpan.end()};
-								if (this->width != newWidth || this->height != newHeight) {
-									image = ImageConversion::resizeImageData(image, this->format, mipWidth, newMipWidth, mipHeight, newMipHeight, this->isSRGB(), filter);
+							if (j < this->frameCount && k < faceCount && l < this->depth) {
+								auto imageSpan = this->getImageDataRaw(sourceMipIndex, j, k, l);
+								std::vector<std::byte> imageBacking;
+								if (sourceMipWidth != newMipWidth || sourceMipHeight != newMipHeight) {
+									imageBacking = ImageConversion::resizeImageData(imageSpan, this->format, sourceMipWidth, newMipWidth, sourceMipHeight, newMipHeight, this->isSRGB(), filter);
+									imageSpan = imageBacking;
 								}
-								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newDepth) && image.size() == length) {
-									std::memcpy(newImageData.data() + offset, image.data(), length);
+								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newDepth) && imageSpan.size() == length) {
+									std::memcpy(newImageData.data() + offset, imageSpan.data(), length);
 								}
 							}
 						}
