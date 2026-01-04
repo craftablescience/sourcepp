@@ -1,10 +1,9 @@
 add_pretty_parser(sndpp
-        PRECOMPILED_HEADERS
+        SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/RIFF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/sndpp.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/WAV.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/XWV.h"
-        SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/RIFF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/WAV.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/XWV.cpp")
