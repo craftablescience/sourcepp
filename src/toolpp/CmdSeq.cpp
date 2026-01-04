@@ -79,7 +79,7 @@ CmdSeq::CmdSeq(const std::filesystem::path& cmdSeqPath)
 			auto kvStr = reader.seek_in(0).read_string(19);
 			string::toLower(kvStr);
 			if (kvStr == "\"command sequences\"") {
-				this->type = Type::KEYVALUES_STRATA;
+				this->type = cmdSeqPath.extension() == ".cfg" ? Type::KEYVALUES_HPP : Type::KEYVALUES_STRATA;
 			} else {
 				return;
 			}
@@ -91,6 +91,9 @@ CmdSeq::CmdSeq(const std::filesystem::path& cmdSeqPath)
 			break;
 		case BINARY:
 			this->parseBinary(cmdSeqPath);
+			break;
+		case KEYVALUES_HPP:
+			this->parseKeyValuesHPP(cmdSeqPath);
 			break;
 		case KEYVALUES_STRATA:
 			this->parseKeyValuesStrata(cmdSeqPath);
@@ -110,11 +113,11 @@ void CmdSeq::setType(Type type_) {
 	this->type = type_;
 }
 
-float CmdSeq::getVersion() const {
+float CmdSeq::getBinaryVersion() const {
 	return this->version;
 }
 
-void CmdSeq::setVersion(bool isV02) {
+void CmdSeq::setBinaryVersion(bool isV02) {
 	if (isV02) {
 		this->version = 0.2f;
 	} else {
@@ -152,6 +155,32 @@ void CmdSeq::parseBinary(const std::filesystem::path& path) {
 			if (version > 0.15f) {
 				waitForKeypress = reader.read<int32_t>();
 			}
+		}
+	}
+}
+
+void CmdSeq::parseKeyValuesHPP(const std::filesystem::path& path) {
+	this->version = 0.2f;
+
+	const KV1 cmdSeq{fs::readFileText(path)};
+	for (const auto& kvSequence : cmdSeq["Command Sequences"].getChildren()) {
+		auto& [seqName, seqCommands] = this->sequences.emplace_back();
+		seqName = kvSequence.getKey();
+
+		for (const auto& kvCommand : kvSequence.getChildren()) {
+			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
+			string::toBool(kvCommand["enable"].getValue(), enabled);
+			const auto specialCmd = kvCommand["specialcmd"].getValue();
+			if (parser::text::isNumber(specialCmd)) {
+				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+				if (special == Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS) {
+					special = Command::Special::COPY_FILE_IF_EXISTS;
+				}
+			} else {
+				special = ::specialCmdFromString(specialCmd);
+			}
+			executable = kvCommand["run"].getValue();
+			arguments = kvCommand["parms"].getValue();
 		}
 	}
 }
@@ -200,7 +229,7 @@ std::vector<std::byte> CmdSeq::bakeBinary() const {
 
 	writer
 		.write("Worldcraft Command Sequences\r\n\x1a", 31)
-		.write<float>(this->getVersion())
+		.write<float>(this->getBinaryVersion())
 		.write<uint32_t>(this->getSequences().size());
 
 	for (const auto& [seqName, seqCommands] : this->getSequences()) {
@@ -219,13 +248,35 @@ std::vector<std::byte> CmdSeq::bakeBinary() const {
 				.write(pathToTheoreticallyExistingFile, true, 260)
 				.write<uint32_t>(useProcessWindow);
 
-			if (this->getVersion() > 0.15f) {
+			if (this->getBinaryVersion() > 0.15f) {
 				writer.write<uint32_t>(waitForKeypress);
 			}
 		}
 	}
 
 	out.resize(writer.size());
+	return out;
+}
+
+std::vector<std::byte> CmdSeq::bakeKeyValuesHPP() const {
+	KV1Writer kv;
+	auto& kvFile = kv.addChild("Command Sequences");
+	for (const auto& [seqName, seqCommands] : this->getSequences()) {
+		auto& kvSequence = kvFile.addChild(seqName);
+		for (int i = 1; i <= seqCommands.size(); i++) {
+			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
+			auto& kvCommand = kvSequence.addChild(std::to_string(i));
+			kvCommand["enable"] = enabled;
+			kvCommand["specialcmd"] = static_cast<int>(special);
+			kvCommand["run"] = executable;
+			kvCommand["parms"] = arguments;
+		}
+	}
+
+	const auto kvStr = kv.bake();
+	std::vector<std::byte> out;
+	out.resize(kvStr.length());
+	std::memcpy(out.data(), kvStr.data(), kvStr.length());
 	return out;
 }
 
@@ -262,6 +313,8 @@ std::vector<std::byte> CmdSeq::bake() const {
 			return {};
 		case BINARY:
 			return this->bakeBinary();
+		case KEYVALUES_HPP:
+			return this->bakeKeyValuesHPP();
 		case KEYVALUES_STRATA:
 			return this->bakeKeyValuesStrata();
 	}

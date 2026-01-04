@@ -48,6 +48,7 @@ public:
 	enum class Type {
 		INVALID,
 		BINARY,
+		KEYVALUES_HPP,
 		KEYVALUES_STRATA,
 	};
 
@@ -61,9 +62,9 @@ public:
 
 	void setType(Type type_);
 
-	[[nodiscard]] float getVersion() const;
+	[[nodiscard]] float getBinaryVersion() const;
 
-	void setVersion(bool isV02);
+	void setBinaryVersion(bool isV02);
 
 	[[nodiscard]] std::vector<Sequence>& getSequences();
 
@@ -76,9 +77,13 @@ public:
 protected:
 	void parseBinary(const std::filesystem::path& path);
 
+	void parseKeyValuesHPP(const std::filesystem::path& path);
+
 	void parseKeyValuesStrata(const std::filesystem::path& path);
 
 	[[nodiscard]] std::vector<std::byte> bakeBinary() const;
+
+	[[nodiscard]] std::vector<std::byte> bakeKeyValuesHPP() const;
 
 	[[nodiscard]] std::vector<std::byte> bakeKeyValuesStrata() const;
 

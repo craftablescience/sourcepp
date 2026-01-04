@@ -166,6 +166,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   <tr>
     <td>
       <a href="https://developer.valvesoftware.com/wiki/Command_Sequences" target="_blank" rel="noreferrer">WC</a> (CmdSeq) v0.1-0.2
+      <br> &bull; <a href="https://ficool2.github.io/HammerPlusPlus-Website" target="_blank" rel="noreferrer">Hammer++</a> modifications
       <br> &bull; <a href="https://stratasource.org" target="_blank" rel="noreferrer">Strata Source</a> modifications
     </td>
     <td align="center">✅</td>

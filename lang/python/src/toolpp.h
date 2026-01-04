@@ -45,6 +45,7 @@ inline void register_python(py::module_& m) {
 	py::enum_<CmdSeq::Type>(cCmdSeq, "Type")
 		.value("INVALID",          CmdSeq::Type::INVALID)
 		.value("BINARY",           CmdSeq::Type::BINARY)
+		.value("KEYVALUES_HPP",    CmdSeq::Type::KEYVALUES_HPP)
 		.value("KEYVALUES_STRATA", CmdSeq::Type::KEYVALUES_STRATA);
 
 	cCmdSeq
@@ -52,8 +53,8 @@ inline void register_python(py::module_& m) {
 		.def(py::init<CmdSeq::Type>(), "type"_a)
 		.def("__bool__", &CmdSeq::operator bool, py::is_operator())
 		.def_prop_rw("type", &CmdSeq::getType, &CmdSeq::setType)
-		.def_prop_ro("version", &CmdSeq::getVersion)
-		.def("set_version", &CmdSeq::setVersion, "is_v02"_a)
+		.def_prop_ro("binary_version", &CmdSeq::getBinaryVersion)
+		.def("set_binary_version", &CmdSeq::setBinaryVersion, "is_v02"_a)
 		.def("sequences", py::overload_cast<>(&CmdSeq::getSequences), py::rv_policy::reference_internal)
 		.def("bake", [](const CmdSeq& self) {
 			const auto d = self.bake();
