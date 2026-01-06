@@ -21,6 +21,7 @@ constexpr std::string_view FUNCTION                    {"function"};
 constexpr std::string_view FUNCTION_PARAMETER            {"parameter"};
 constexpr std::string_view FUNCTION_PARAMETER_DEFAULT      {"default"};
 constexpr std::string_view ENUM                        {"enum"};
+constexpr std::string_view ENUM_VALUE                    {"value"};
 constexpr std::string_view CLASS                       {"class"};
 constexpr std::string_view CLASS_CONSTRUCTOR             {"constructor"};
 constexpr std::string_view CLASS_METHOD                  {"method"};
@@ -43,13 +44,13 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 
 	// Conversions from C++ <-> C types
 	struct ConversionTypeInfo {
-		std::string_view cppType;
-		std::string_view cppInnerType;
-		std::variant<std::string_view, const CContainerTypeInfo*> cType;
+		std::string cppType;
+		std::string cppInnerType;
+		std::variant<std::string, const CContainerTypeInfo*> cType;
 
 		[[nodiscard]] std::string_view getCType() const {
-			if (std::holds_alternative<std::string_view>(cType)) {
-				return std::get<std::string_view>(cType);
+			if (std::holds_alternative<std::string>(cType)) {
+				return std::get<std::string>(cType);
 			}
 			return std::get<const CContainerTypeInfo*>(cType)->cType;
 		}
@@ -137,7 +138,7 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		// The signature in the C header
 		[[nodiscard]] std::string signature() const {
 			const std::string defaultSuffix{!this->defaultValue.empty() ? " /*= " + this->defaultValue + "*/" : ""};
-			const auto typeInfo = getTypeConverterFor(type);
+			const auto& typeInfo = getTypeConverterFor(type);
 			if (std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType)) {
 				const auto converter = std::get<const CContainerTypeInfo*>(typeInfo.cType);
 				if (converter == &C_CONVERSION_TYPE_INFO[0]) {
@@ -157,18 +158,19 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 
 		// Accessing the parameter from C++
 		[[nodiscard]] std::string access() const {
-			const auto typeInfo = getTypeConverterFor(type);
-			if (std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType)) {
-				const auto converter = std::get<const CContainerTypeInfo*>(typeInfo.cType);
+			const auto& [cppType, cppInnerType, cType] = getTypeConverterFor(this->type);
+			if (std::holds_alternative<const CContainerTypeInfo*>(cType)) {
+				const auto converter = std::get<const CContainerTypeInfo*>(cType);
 				if (converter == &C_CONVERSION_TYPE_INFO[0]) {
-					return this->type + "{reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + "), reinterpret_cast<" + std::string{typeInfo.cppInnerType} + "*>(" + this->name + " + " + this->name + std::string{PARAMETER_SIZE_SUFFIX} + ")}";
+					return this->type + "{reinterpret_cast<" + cppInnerType + "*>(" + this->name + "), reinterpret_cast<" + cppInnerType + "*>(" + this->name + " + " + this->name + std::string{PARAMETER_SIZE_SUFFIX} + ")}";
 				}
 				if (converter == &C_CONVERSION_TYPE_INFO[1] || converter == &C_CONVERSION_TYPE_INFO[2]) {
-					return name;
+					goto defaultAccess;
 				}
 				throw std::runtime_error{std::format("Unchecked conversion type info for {}", converter->cType).c_str()};
 			}
-			return name;
+			defaultAccess:
+			return "static_cast<" + cppType + ">(" + this->name + ')';
 		}
 	};
 
@@ -185,23 +187,39 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		return identifier + anyCaseToSnakeCase(cIdentifier);
 	};
 
+	// C++ variant of the function before, except without a parameter
+	const auto getCurrentCPPNamespace = [&namespacesStore](std::string_view cppIdentifier = "") {
+		std::string identifier;
+		for (int i = 0; i < namespacesStore.size() - 1; i++) {
+			identifier += namespacesStore[i] + "::";
+		}
+		if (!namespacesStore.empty()) {
+			identifier += namespacesStore.back();
+		}
+		if (!cppIdentifier.empty()) {
+			if (!identifier.empty()) {
+				identifier += "::";
+			}
+			identifier += cppIdentifier;
+		}
+		return identifier;
+	};
+
 	// Add a typedef
 	const auto addTypeDef = [&h, &applyNamespacesTo](std::string_view cppAlias, std::string_view cppType) {
-		static std::deque<std::string> cAliases;
-		cAliases.push_back(applyNamespacesTo(std::string{cppAlias} + "_t"));
-		const auto& cAlias = cAliases.back();
-		TYPE_CONVERTERS.push_back({cppAlias, "", cAlias});
+		const auto cAlias = applyNamespacesTo(cppAlias) + "_t";
+		TYPE_CONVERTERS.push_back({std::string{cppAlias}, "", cAlias});
 		// hack
-		cAliases.push_back("std::vector<" + std::string{cppAlias} + '>');
-		TYPE_CONVERTERS.push_back({cAliases.back(), cAlias, &C_CONVERSION_TYPE_INFO[0]});
+		const auto cAliasVector = "std::vector<" + std::string{cppAlias} + '>';
+		TYPE_CONVERTERS.push_back({cAliasVector, cAlias, &C_CONVERSION_TYPE_INFO[0]});
 		h << "typedef " << getTypeConverterFor(cppType).getCType() << ' ' << cAlias << ";\n\n";
 	};
 
 	// Add a constant or function
 	static constexpr std::string_view CLASS_CTOR_NAME = "new";
 	static constexpr std::string_view CLASS_DTOR_NAME = "free";
-	const auto addFunction = [&h, &cpp, &namespacesStore, &applyNamespacesTo](std::string_view name, std::string_view type, std::string_view clasz, bool isConstant, std::deque<ParameterInfo>& parameters) {
-		const auto typeInfo = getTypeConverterFor(type);
+	const auto addFunction = [&h, &cpp, &namespacesStore, &applyNamespacesTo, &getCurrentCPPNamespace](std::string_view name, std::string_view type, std::string_view clasz, bool isConstant, std::deque<ParameterInfo>& parameters) {
+		const auto& typeInfo = getTypeConverterFor(type);
 		const CContainerTypeInfo* cTypeInfo = std::holds_alternative<const CContainerTypeInfo*>(typeInfo.cType) ? std::get<const CContainerTypeInfo*>(typeInfo.cType) : nullptr;
 
 		// Notify consumer of manual free requirement
@@ -225,13 +243,6 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		// Namespaced identifier
 		h << applyNamespacesTo(name) << '(';
 		cpp << applyNamespacesTo(name) << '(';
-
-		const auto writeNamespacedCPPIdentifier = [&cpp, &namespacesStore] {
-			for (int i = 0; i < namespacesStore.size() - 1; i++) {
-				cpp << namespacesStore[i] << "::";
-			}
-			cpp << namespacesStore.back();
-		};
 
 		// Parameters
 		for (int i = 0; i < parameters.size(); i++) {
@@ -259,17 +270,13 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 
 		if (!clasz.empty()) {
 			if (name == CLASS_CTOR_NAME) {
-				cpp << "new ";
-				writeNamespacedCPPIdentifier();
-				cpp << '{';
+				cpp << "new " << getCurrentCPPNamespace() << '{';
 				writeParameterAccess();
 				cpp << "};\n}\n\n";
 				goto cleanup;
 			}
 			if (name == CLASS_DTOR_NAME) {
-				cpp << "delete static_cast<";
-				writeNamespacedCPPIdentifier();
-				cpp << "*>(self);\n}\n\n";
+				cpp << "delete static_cast<" << getCurrentCPPNamespace() << "*>(self);\n}\n\n";
 				goto cleanup;
 			}
 		}
@@ -280,7 +287,7 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		if (!clasz.empty()) {
 			cpp << "static_cast<";
 		}
-		writeNamespacedCPPIdentifier();
+		cpp << getCurrentCPPNamespace();
 		if (!clasz.empty()) {
 			cpp << "*>(self)->";
 			parameters.pop_front();
@@ -305,8 +312,28 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		}
 	};
 
+	// Add an enum
+	const auto addEnum = [&h, &namespacesStore, &applyNamespacesTo, &getCurrentCPPNamespace](std::string_view name, std::string_view /*type*/, std::deque<std::pair<std::string_view, int>>& values) {
+		// Full API macro will lead to a warning about unused visibility
+		h << "SOURCEPP_EXTERN typedef enum {\n";
+
+		// Values
+		namespacesStore.emplace_back(name);
+		for (const auto& [valueName, valueValue] : values) {
+			h << '\t' << string::toUpper(applyNamespacesTo(valueName)) << " = " << valueValue << ",\n";
+		}
+		namespacesStore.pop_back();
+
+		// Finish typedef
+		const auto cEnumName = applyNamespacesTo(name) + "_e";
+		h << "} " << cEnumName << ";\n\n";
+
+		TYPE_CONVERTERS.push_back({getCurrentCPPNamespace(name), "", cEnumName});
+	};
+
+	// Process binding data
 	std::function<void(const KV1ElementReadable<>&, std::deque<std::string>&)> readDefs;
-	readDefs = [&addTypeDef, &addFunction, &readDefs](const KV1ElementReadable<>& defs_, std::deque<std::string>& namespaces) {
+	readDefs = [&addTypeDef, &addFunction, &addEnum, &readDefs](const KV1ElementReadable<>& defs_, std::deque<std::string>& namespaces) {
 		static constexpr auto collectParameters = [](const KV1ElementReadable<>& kv) {
 			std::deque<ParameterInfo> parameters;
 			for (const auto& p : kv) {
@@ -324,6 +351,24 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 			}
 			return parameters;
 		};
+		static constexpr auto collectValues = [](const KV1ElementReadable<>& kv) {
+			std::deque<std::pair<std::string_view, int>> values;
+			for (const auto& v : kv) {
+				if (v.getKey() == ENUM_VALUE) {
+					std::pair<std::string_view, int> value;
+					value.first = v.getValue();
+					if (!v.getConditional().empty()) {
+						string::toInt(v.getConditional(), value.second);
+					} else if (!values.empty()) {
+						value.second = values.back().second + 1;
+					} else {
+						value.second = 0;
+					}
+					values.push_back(std::move(value));
+				}
+			}
+			return values;
+		};
 		for (const auto& kv : defs_) {
 			if (kv.getKey() == NAMESPACE) {
 				namespaces.emplace_back(kv.getValue());
@@ -339,6 +384,9 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 			} else if (kv.getKey() == FUNCTION) {
 				auto parameters = collectParameters(kv);
 				addFunction(kv.getValue(), kv.getConditional(), "", false, parameters);
+			} else if (kv.getKey() == ENUM) {
+				auto values = collectValues(kv);
+				addEnum(kv.getValue(), kv.getConditional(), values);
 			} else if (kv.getKey() == CLASS) {
 				const auto cppClassType = std::string{kv.getValue()} + "_Handle";
 				addTypeDef(cppClassType, "void*");

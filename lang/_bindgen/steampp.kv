@@ -2,51 +2,21 @@ namespace steampp {
 	type AppID [uint32_t]
 	class Steam {
 		constructor {}
-		prop_method installDir [const std::filesystem::path&] {
-			get getInstallDir
-		}
-		prop_method libraryDirs [std::span<const std::filesystem::path>] {
-			get getLibraryDirs
-		}
-		prop_method sourceModDir [std::string] {
-			get getSourceModDir
-		}
-		prop_method installedApps [std::vector<AppID>] {
-			get getInstalledApps
-		}
-		method isAppInstalled [bool] {
-			parameter appID [AppID]
-		}
-		method getAppName [std::string_view] {
-			parameter appID [AppID]
-		}
-		method getAppInstallDir [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method getAppIconPath [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method getAppLogoPath [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method getAppHeroPath [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method getAppBoxArtPath [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method getAppStoreArtPath [std::filesystem::path] {
-			parameter appID [AppID]
-		}
-		method isAppUsingGoldSrcEngine [bool] {
-			parameter appID [AppID]
-		}
-		method isAppUsingSourceEngine [bool] {
-			parameter appID [AppID]
-		}
-		method isAppUsingSource2Engine [bool] {
-			parameter appID [AppID]
-		}
+		prop_method installDir [const std::filesystem::path&] { get getInstallDir }
+		prop_method libraryDirs [std::span<const std::filesystem::path>] { get getLibraryDirs }
+		prop_method sourceModDir [std::string] { get getSourceModDir }
+		prop_method installedApps [std::vector<AppID>] { get getInstalledApps }
+		method isAppInstalled [bool] { parameter appID [AppID] }
+		method getAppName [std::string_view] { parameter appID [AppID] }
+		method getAppInstallDir [std::filesystem::path] { parameter appID [AppID] }
+		method getAppIconPath [std::filesystem::path] { parameter appID [AppID] }
+		method getAppLogoPath [std::filesystem::path] { parameter appID [AppID] }
+		method getAppHeroPath [std::filesystem::path] { parameter appID [AppID] }
+		method getAppBoxArtPath [std::filesystem::path] { parameter appID [AppID] }
+		method getAppStoreArtPath [std::filesystem::path] { parameter appID [AppID] }
+		method isAppUsingGoldSrcEngine [bool] { parameter appID [AppID] }
+		method isAppUsingSourceEngine [bool] { parameter appID [AppID] }
+		method isAppUsingSource2Engine [bool] { parameter appID [AppID] }
 		operator isValid [bool]
 	}
 }

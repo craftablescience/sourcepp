@@ -2,13 +2,8 @@ namespace vcryptpp {
 	namespace VFONT {
 		constant SIGNATURE [std::string_view]
 		constant MAGIC [uint8_t]
-		function encrypt [std::vector<std::byte>] {
-			parameter data [std::span<const std::byte>]
-			parameter saltLength [uint8_t] { default 2 }
-		}
-		function decrypt [std::vector<std::byte>] {
-			parameter data [std::span<const std::byte>]
-		}
+		function encrypt [std::vector<std::byte>] { parameter data [std::span<const std::byte>] parameter saltLength [uint8_t] { default 2 } }
+		function decrypt [std::vector<std::byte>] { parameter data [std::span<const std::byte>] }
 	}
 	namespace VICE {
 		namespace KnownCodes {
@@ -46,13 +41,7 @@ namespace vcryptpp {
 			constant GPU_PORTAL_2 [std::string_view]
 			constant GPU_TEAM_FORTRESS_2 [std::string_view]
 		}
-		function encrypt [std::vector<std::byte>] {
-			parameter data [std::span<const std::byte>]
-			parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT }
-		}
-		function decrypt [std::vector<std::byte>] {
-			parameter data [std::span<const std::byte>]
-			parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT }
-		}
+		function encrypt [std::vector<std::byte>] { parameter data [std::span<const std::byte>] parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT } }
+		function decrypt [std::vector<std::byte>] { parameter data [std::span<const std::byte>] parameter code [std::string_view] { default vcryptpp::VICE::KnownCodes::DEFAULT } }
 	}
 }
