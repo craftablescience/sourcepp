@@ -370,7 +370,7 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 								.name = "self",
 								.type = cppClassType,
 							});
-							addFunction(m[CLASS_PROP_METHOD_SET].getValue(), m.getConditional(), kv.getValue(), false, parameters);
+							addFunction(m[CLASS_PROP_METHOD_SET].getValue(), "void", kv.getValue(), false, parameters);
 						}
 					} /*else if (m.getKey() == FUNCTION) {
 						auto parameters = collectParameters(m);
