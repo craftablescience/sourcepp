@@ -68,6 +68,8 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 		ConversionTypeInfo{"int32_t",                                "",                            "int"},
 		ConversionTypeInfo{"uint64_t",                               "",                            "unsigned long long"},
 		ConversionTypeInfo{"int64_t",                                "",                            "long long"},
+		ConversionTypeInfo{"float",                                  "",                            "float"},
+		ConversionTypeInfo{"double",                                 "",                            "double"},
 		ConversionTypeInfo{"std::span<std::byte>",                   "std::byte",                   &C_CONVERSION_TYPE_INFO[0]},
 		ConversionTypeInfo{"std::span<const std::byte>",             "const std::byte",             &C_CONVERSION_TYPE_INFO[0]},
 		ConversionTypeInfo{"std::span<const std::filesystem::path>", "const std::filesystem::path", &C_CONVERSION_TYPE_INFO[2]},
