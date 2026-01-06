@@ -338,7 +338,7 @@ constexpr std::string_view CLASS_PROP_METHOD_SET           {"set"};
 				auto parameters = collectParameters(kv);
 				addFunction(kv.getValue(), kv.getConditional(), "", false, parameters);
 			} else if (kv.getKey() == CLASS) {
-				const auto cppClassType = std::string{kv.getValue()} + "Handle";
+				const auto cppClassType = std::string{kv.getValue()} + "_Handle";
 				addTypeDef(cppClassType, "void*");
 				for (const auto& m : kv) {
 					if (m.getKey() == CLASS_CONSTRUCTOR) {
