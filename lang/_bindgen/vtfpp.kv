@@ -1,0 +1,38 @@
+namespace vtfpp {
+	class HOT {
+		constructor {}
+		//constructor from_mem {
+		//	parameter hotData [std::span<const std::byte>]
+		//}
+		//constructor from_file {
+		//	parameter hotPath [const std::filesystem::path&]
+		//}
+		operator isValid [bool]
+		prop_method version [uint8_t] {
+			get getVersion
+			set setVersion
+		}
+		prop_method flags [uint8_t] {
+			get getFlags
+			set setFlags
+		}
+		method bake [std::vector<std::byte>] {
+			unique bakeToMem
+		}
+		//method bake [bool] {
+		//	unique bakeToFile
+		//	parameter hotPath [const std::filesystem::path&]
+		//}
+	}
+	enum ImageFormat [int32_t] {
+		value RGBA8888
+		value ABGR8888
+	}
+	namespace ImageConversion {
+		constant DEFAULT_COMPRESSED_QUALITY [float]
+		function convertImageDataToFormat [std::vector<std::byte>] {
+			parameter imageData [std::span<const std::byte>]
+			parameter oldFormat [vtfpp::ImageFormat]
+		}
+	}
+}
