@@ -501,7 +501,7 @@ These are only the tools and games using `sourcepp` that I know of. If you would
 ## Special Thanks
 
 - `bsppp` partial library redesign, lump compression and game lump parsing/writing support contributed by [@Tholp](https://github.com/Tholp1).
-- `dmxpp`'s support for srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
+- `kvpp`'s support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
 - `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`'s 007 parser is based on [reverse-engineering work](https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt) by Alhexx.
 - `vpkpp`'s GCF parser was contributed by [@eepycats](https://github.com/eepycats) and [@ymgve](https://github.com/ymgve).
