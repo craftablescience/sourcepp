@@ -24,8 +24,8 @@ function(add_sourcepp_library TARGET)
             add_custom_command(TARGET sourcepp::${TARGET}c POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/sourcepp_${TARGET}c${CMAKE_SHARED_LIBRARY_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}")
         endif()
 
-        # Add Python, WASM
-        foreach(LANGUAGE "PYTHON" "WASM")
+        # Add Python, Quirrel, WASM
+        foreach(LANGUAGE "PYTHON" "QUIRREL" "WASM")
             if(SOURCEPP_BUILD_${LANGUAGE}_WRAPPERS AND OPTIONS_${LANGUAGE})
                 string(TOLOWER "${LANGUAGE}" LANGUAGE_LOWER)
                 list(APPEND ${${PROJECT_NAME}_${LANGUAGE}}_DEPS sourcepp::${TARGET})

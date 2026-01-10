@@ -37,6 +37,15 @@ macro(sourcepp_lang_setup_pre)
     endif()
 
 
+    # Quirrel bindings (pre)
+    if(SOURCEPP_BUILD_QUIRREL_WRAPPERS)
+        set(${PROJECT_NAME}_QUIRREL "${PROJECT_NAME}_quirrel")
+        set(${${PROJECT_NAME}_QUIRREL}_DEPS    "")
+        set(${${PROJECT_NAME}_QUIRREL}_SOURCES "")
+        set(${${PROJECT_NAME}_QUIRREL}_DEFINES "")
+    endif()
+
+
     # WASM bindings (pre)
     if(SOURCEPP_BUILD_WASM_WRAPPERS)
         set(${PROJECT_NAME}_WASM "${PROJECT_NAME}_wasm")
@@ -82,6 +91,15 @@ macro(sourcepp_lang_setup_post)
                 file(INSTALL \${STUB_FILE} DESTINATION \"\${CMAKE_INSTALL_PREFIX}/${PROJECT_NAME}/\${STUB_DIR}\")
             endforeach()
         ")
+    endif()
+
+
+    # Quirrel bindings (post)
+    if(SOURCEPP_BUILD_QUIRREL_WRAPPERS)
+        add_library(${${PROJECT_NAME}_QUIRREL} "${CMAKE_CURRENT_SOURCE_DIR}/lang/quirrel/src/${PROJECT_NAME}.cpp" ${${${PROJECT_NAME}_QUIRREL}_SOURCES})
+        target_include_directories(${${PROJECT_NAME}_QUIRREL} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/lang/quirrel/include")
+        target_compile_definitions(${${PROJECT_NAME}_QUIRREL} PRIVATE ${${${PROJECT_NAME}_QUIRREL}_DEFINES})
+        target_link_libraries(${${PROJECT_NAME}_QUIRREL} PRIVATE squirrel ${${${PROJECT_NAME}_QUIRREL}_DEPS})
     endif()
 
 

@@ -78,6 +78,12 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
 endif()
 
 
+# quirrel
+if(SOURCEPP_BUILD_QUIRREL_WRAPPERS)
+    add_sourcepp_remote_library(squirrel https://github.com/GaijinEntertainment/quirrel 0c29502a9abf2f3388a0dbee83d2ce7e1f229892)
+endif()
+
+
 # stb
 if(SOURCEPP_USE_VTFPP)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/stb")

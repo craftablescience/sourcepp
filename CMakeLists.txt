@@ -34,10 +34,11 @@ option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURC
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 
-option(SOURCEPP_BUILD_C_WRAPPERS      "Build C wrappers for supported libraries"      OFF)
-option(SOURCEPP_BUILD_CSHARP_WRAPPERS "Build C# wrappers for supported libraries"     OFF)
-option(SOURCEPP_BUILD_PYTHON_WRAPPERS "Build Python wrappers for supported libraries" OFF)
-option(SOURCEPP_BUILD_WASM_WRAPPERS   "Build WASM wrappers for supported libraries"   OFF)
+option(SOURCEPP_BUILD_C_WRAPPERS       "Build C wrappers for supported libraries"       OFF)
+option(SOURCEPP_BUILD_CSHARP_WRAPPERS  "Build C# wrappers for supported libraries"      OFF)
+option(SOURCEPP_BUILD_PYTHON_WRAPPERS  "Build Python wrappers for supported libraries"  OFF)
+option(SOURCEPP_BUILD_QUIRREL_WRAPPERS "Build Quirrel wrappers for supported libraries" OFF)
+option(SOURCEPP_BUILD_WASM_WRAPPERS    "Build WASM wrappers for supported libraries"    OFF)
 
 option(SOURCEPP_BUILD_BENCHMARKS         "Build benchmarks for supported libraries"  OFF)
 option(SOURCEPP_BUILD_WITH_TBB           "Build with support for std::execution"     OFF)
@@ -78,9 +79,10 @@ endif()
 
 if(EMSCRIPTEN)
     # Don't generate any other bindings besides JS
-    set(SOURCEPP_BUILD_CSHARP_WRAPPERS OFF CACHE INTERNAL "" FORCE)
-    set(SOURCEPP_BUILD_PYTHON_WRAPPERS OFF CACHE INTERNAL "" FORCE)
-    set(SOURCEPP_BUILD_WASM_WRAPPERS    ON CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_CSHARP_WRAPPERS  OFF CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_PYTHON_WRAPPERS  OFF CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_QUIRREL_WRAPPERS OFF CACHE INTERNAL "" FORCE)
+    set(SOURCEPP_BUILD_WASM_WRAPPERS     ON CACHE INTERNAL "" FORCE)
 else()
     if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
         # Rely on C bindings
@@ -145,17 +147,17 @@ sourcepp_test_setup_pre()
 
 
 # Add libraries
-add_sourcepp_library(bsppp             PYTHON                ) # sourcepp::bsppp
-add_sourcepp_library(fspp                          TEST      ) # sourcepp::fspp
-add_sourcepp_library(gamepp   C        PYTHON      TEST      ) # sourcepp::gamepp
-add_sourcepp_library(kvpp              PYTHON      TEST BENCH) # sourcepp::kvpp
-add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
-add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
-add_sourcepp_library(steampp  C        PYTHON      TEST      ) # sourcepp::steampp
-add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
-add_sourcepp_library(vcryptpp C CSHARP PYTHON      TEST      ) # sourcepp::vcryptpp
-add_sourcepp_library(vpkpp    C CSHARP PYTHON      TEST      ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp    C        PYTHON      TEST BENCH) # sourcepp::vtfpp
+add_sourcepp_library(bsppp             PYTHON                        ) # sourcepp::bsppp
+add_sourcepp_library(fspp                                  TEST      ) # sourcepp::fspp
+add_sourcepp_library(gamepp   C        PYTHON              TEST      ) # sourcepp::gamepp
+add_sourcepp_library(kvpp              PYTHON              TEST BENCH) # sourcepp::kvpp
+add_sourcepp_library(mdlpp                                 TEST      ) # sourcepp::mdlpp
+add_sourcepp_library(sndpp                                 TEST      ) # sourcepp::sndpp
+add_sourcepp_library(steampp  C        PYTHON              TEST      ) # sourcepp::steampp
+add_sourcepp_library(toolpp            PYTHON              TEST      ) # sourcepp::toolpp
+add_sourcepp_library(vcryptpp C CSHARP PYTHON QUIRREL      TEST      ) # sourcepp::vcryptpp
+add_sourcepp_library(vpkpp    C CSHARP PYTHON              TEST      ) # sourcepp::vpkpp
+add_sourcepp_library(vtfpp    C        PYTHON              TEST BENCH) # sourcepp::vtfpp
 
 
 # Bindings (post)
@@ -169,7 +171,7 @@ sourcepp_test_setup_post()
 # Print options
 print_options(OPTIONS
         USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP "\n"
-        BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WASM_WRAPPERS "\n"
+        BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_QUIRREL_WRAPPERS BUILD_WASM_WRAPPERS "\n"
         BUILD_BENCHMARKS BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT LINK_STATIC_MSVC_RUNTIME "\n")
 
 if(SOURCEPP_USE_VPKPP)
