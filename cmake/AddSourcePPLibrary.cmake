@@ -24,21 +24,16 @@ function(add_sourcepp_library TARGET)
             add_custom_command(TARGET sourcepp::${TARGET}c POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_BINARY_DIR}/sourcepp_${TARGET}c${CMAKE_SHARED_LIBRARY_SUFFIX}" "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/${TARGET}")
         endif()
 
-        # Add Python
-        if(SOURCEPP_BUILD_PYTHON_WRAPPERS AND OPTIONS_PYTHON)
-            list(APPEND ${${PROJECT_NAME}_PYTHON}_DEPS sourcepp::${TARGET})
-            list(APPEND ${${PROJECT_NAME}_PYTHON}_DEFINES ${TARGET_UPPER})
-            list(APPEND ${${PROJECT_NAME}_PYTHON}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${TARGET}.h")
-            list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_PYTHON}_DEPS ${${PROJECT_NAME}_PYTHON}_DEFINES ${${PROJECT_NAME}_PYTHON}_SOURCES)
-        endif()
-
-        # Add WASM
-        if(SOURCEPP_BUILD_WASM_WRAPPERS AND OPTIONS_WASM)
-            list(APPEND ${${PROJECT_NAME}_WASM}_DEPS sourcepp::${TARGET})
-            list(APPEND ${${PROJECT_NAME}_WASM}_DEFINES ${TARGET_UPPER})
-            list(APPEND ${${PROJECT_NAME}_WASM}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lang/wasm/src/${TARGET}.h")
-            list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_WASM}_DEPS ${${PROJECT_NAME}_WASM}_DEFINES ${${PROJECT_NAME}_WASM}_SOURCES)
-        endif()
+        # Add Python, WASM
+        foreach(LANGUAGE "PYTHON" "WASM")
+            if(SOURCEPP_BUILD_${LANGUAGE}_WRAPPERS AND OPTIONS_${LANGUAGE})
+                string(TOLOWER "${LANGUAGE}" LANGUAGE_LOWER)
+                list(APPEND ${${PROJECT_NAME}_${LANGUAGE}}_DEPS sourcepp::${TARGET})
+                list(APPEND ${${PROJECT_NAME}_${LANGUAGE}}_DEFINES "SOURCEPP_${TARGET_UPPER}")
+                list(APPEND ${${PROJECT_NAME}_${LANGUAGE}}_SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/lang/${LANGUAGE_LOWER}/src/${TARGET}.h")
+                list(APPEND PROPAGATE_VARS ${${PROJECT_NAME}_${LANGUAGE}}_DEPS ${${PROJECT_NAME}_${LANGUAGE}}_DEFINES ${${PROJECT_NAME}_${LANGUAGE}}_SOURCES)
+            endif()
+        endforeach()
 
         # Add tests
         if(SOURCEPP_BUILD_TESTS AND OPTIONS_TEST)
