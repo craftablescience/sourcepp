@@ -1,10 +1,7 @@
 #pragma once
 
 #include <array>
-#include <cstddef>
-#include <cstdint>
 #include <span>
-#include <vector>
 
 #include "MDL.h"
 
@@ -13,13 +10,7 @@ namespace mdlpp::VTX {
 struct MaterialReplacement {
 	int16_t materialID;
 	//int32_t replacementMaterialNameOffset;
-	std::string replacementMaterialName;
-};
-
-struct MaterialReplacementList {
-	//int32_t numReplacements;
-	//int32_t replacementOffset;
-	std::vector<MaterialReplacement> replacements;
+	std::string newMaterialPath;
 };
 
 struct BoneStateChange {
@@ -36,8 +27,8 @@ struct Vertex {
 
 struct Strip {
 	enum Flags : uint8_t {
-		FLAG_NONE = 0,
-		FLAG_IS_TRILIST = 1 << 0,
+		FLAG_NONE        = 0,
+		FLAG_IS_TRILIST  = 1 << 0,
 		FLAG_IS_TRISTRIP = 1 << 1,
 	};
 
@@ -56,18 +47,18 @@ struct Strip {
 	//int32_t boneStateChangeOffset;
 	std::vector<BoneStateChange> boneStateChanges;
 
-	// On MDL version >= 49:
 	//int32_t numTopologyIndices;
-	//int32_t topologyOffset;
+	int32_t topologyIndicesOffset = 0;
+	std::span<uint16_t> topologyIndices;
 };
 SOURCEPP_BITFLAGS_ENUM(Strip::Flags)
 
 struct StripGroup {
 	enum Flags : uint8_t {
-		FLAG_NONE = 0,
-		FLAG_IS_FLEXED = 1 << 0,
-		FLAG_IS_HW_SKINNED = 1 << 1,
-		FLAG_IS_DELTA_FLEXED = 1 << 2,
+		FLAG_NONE              = 0,
+		FLAG_IS_FLEXED         = 1 << 0,
+		FLAG_IS_HW_SKINNED     = 1 << 1,
+		FLAG_IS_DELTA_FLEXED   = 1 << 2,
 		FLAG_SUPPRESS_HW_MORPH = 1 << 3,
 	};
 
@@ -85,9 +76,9 @@ struct StripGroup {
 
 	Flags flags;
 
-	// on MDL version >= 49:
 	//int32_t numTopologyIndices;
 	//int32_t topologyOffset;
+	std::vector<uint16_t> topologyIndices;
 };
 SOURCEPP_BITFLAGS_ENUM(StripGroup::Flags)
 
@@ -144,7 +135,7 @@ struct VTX {
 	int32_t numLODs;
 
 	//int32_t materialReplacementListOffset;
-	std::vector<MaterialReplacementList> materialReplacementLists; // One per LOD
+	std::array<std::vector<MaterialReplacement>, MAX_LOD_COUNT> materialReplacementLists;
 
 	//int32_t bodyPartCount;
 	//int32_t bodyPartOffset;

@@ -41,7 +41,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, Has
 				const auto replacementListPos = materialReplacementListOffset + i * (sizeof(int32_t) * 2);
 				stream.seek_u(replacementListPos);
 
-				auto& replacementList = this->materialReplacementLists.emplace_back();
+				auto& replacementList = this->materialReplacementLists[i];
 
 				const auto replacementCount = stream.read<int32_t>();
 				const auto replacementOffset = stream.read<int32_t>();
@@ -51,10 +51,10 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, Has
 						const auto replacementPos = replacementOffset + j * (sizeof(int16_t) + sizeof(int32_t));
 						stream.seek_u(replacementListPos + replacementPos);
 
-						auto& replacement = replacementList.replacements.emplace_back();
+						auto& replacement = replacementList.emplace_back();
 						stream.read(replacement.materialID);
 
-						parser::binary::readStringAtOffset(stream, replacement.replacementMaterialName, std::ios::cur, 6);
+						parser::binary::readStringAtOffset(stream, replacement.newMaterialPath, std::ios::cur, 6);
 					}
 				}
 			}
@@ -143,8 +143,16 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, Has
 							stream.read(stripGroup.flags);
 
 							if (useTopology) {
-								// mesh topology
-								stream.skip<int32_t>(2);
+								const auto topologyIndexCount = stream.read<int32_t>();
+								const auto topologyIndexOffset = stream.read<int32_t>();
+
+								stripGroupCurrentPos = stream.tell();
+								stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + topologyIndexOffset);
+								for (int n = 0; n < topologyIndexCount; n++) {
+									auto& topologyIndex = stripGroup.topologyIndices.emplace_back();
+									stream.read(topologyIndex);
+								}
+								stream.seek_u(stripGroupCurrentPos);
 							}
 
 							stream.seek_u(bodyPartPos + modelPos + modelLODPos + meshPos + stripGroupPos + stripOffset);
@@ -186,8 +194,10 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, Has
 								}
 
 								if (useTopology) {
-									// mesh topology
-									stream.skip<int32_t>(2);
+									const auto topologyIndicesCount = stream.read<int32_t>();
+									stream.read(strip.topologyIndicesOffset);
+									// Note: offset is in elements, not bytes
+									strip.topologyIndices = std::span(stripGroup.topologyIndices.begin() + strip.topologyIndicesOffset, topologyIndicesCount);
 								}
 							}
 						}
