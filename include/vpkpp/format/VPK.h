@@ -72,12 +72,6 @@ public:
 	/// Open a VPK file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "98148F7C8701469CB2D8F8620FD738A3";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return VPK::GUID;
-	}
-
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}

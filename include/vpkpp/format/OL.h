@@ -14,12 +14,6 @@ public:
 	/// Open an OL file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "5982C9BB0C5B4F9184FA0935A3E3C119";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return OL::GUID;
-	}
-
 	[[nodiscard]] constexpr bool isCaseSensitive() const override {
 		return true;
 	}

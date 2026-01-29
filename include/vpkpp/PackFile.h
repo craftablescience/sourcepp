@@ -57,16 +57,6 @@ public:
 	/// Returns a sorted list of supported extensions for opening, e.g. {".bsp", ".vpk"}
 	[[nodiscard]] static std::vector<std::string> getOpenableExtensions();
 
-	/// Get the GUID corresponding to the pack file type
-	[[nodiscard]] virtual constexpr std::string_view getGUID() const = 0;
-
-	/// Check if the pack file is an instance of the given pack file class
-	template<typename T>
-	requires requires (const T&) {{T::GUID} -> std::convertible_to<std::string_view>;}
-	[[nodiscard]] bool isInstanceOf() const {
-		return this->getGUID() == T::GUID;
-	}
-
 	/// Returns true if the format has a checksum for each entry
 	[[nodiscard]] virtual constexpr bool hasEntryChecksums() const {
 		return false;

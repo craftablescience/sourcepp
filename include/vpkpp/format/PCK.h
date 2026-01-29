@@ -41,12 +41,6 @@ public:
 	/// Open a PCK file (potentially embedded in an executable)
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "28F4A6FF40EB46E38D47EEC6EFB47C4F";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return PCK::GUID;
-	}
-
 	[[nodiscard]] constexpr bool isCaseSensitive() const override {
 		return true;
 	}

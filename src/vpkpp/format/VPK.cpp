@@ -44,7 +44,7 @@ std::string removeVPKAndOrDirSuffix(const std::string& path, bool isFPX) {
 }
 
 bool isFPX(const VPK* vpk) {
-	return vpk->isInstanceOf<FPX>();
+	return dynamic_cast<const FPX*>(vpk);
 }
 
 } // namespace

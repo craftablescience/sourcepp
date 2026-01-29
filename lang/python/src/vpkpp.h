@@ -16,7 +16,6 @@ class PackFileTrampoline : public PackFile {
 public:
 	NB_TRAMPOLINE(PackFile, 18);
 
-	[[nodiscard]] std::string_view getGUID() const override { NB_OVERRIDE_PURE_NAME("guid", getGUID); }
 	[[nodiscard]] bool hasEntryChecksums() const override { NB_OVERRIDE_NAME("has_entry_checksums", hasEntryChecksums); }
 	[[nodiscard]] std::vector<std::string> verifyEntryChecksums() const override { NB_OVERRIDE_NAME("verify_entry_checksums", verifyEntryChecksums); }
 	[[nodiscard]] bool hasPackFileChecksum() const override { NB_OVERRIDE_NAME("has_pack_file_checksum", hasPackFileChecksum); }
@@ -100,7 +99,6 @@ inline void register_python(py::module_& m) {
 	cPackFile
 		.def_static("open", &PackFile::open, "path"_a, "callback"_a = nullptr, "request_callback"_a = nullptr)
 		.def_static("get_openable_extensions", &PackFile::getOpenableExtensions)
-		.def_prop_ro("guid", &PackFile::getGUID)
 		.def_prop_ro("has_entry_checksums", &PackFile::hasEntryChecksums)
 		.def("verify_entry_checksums", &PackFile::verifyEntryChecksums)
 		.def_prop_ro("has_pack_file_checksum", &PackFile::hasPackFileChecksum)
@@ -162,8 +160,7 @@ inline void register_python(py::module_& m) {
 
 	py::class_<APK, PackFile>(vpkpp, "APK")
 		.def_static("create", &APK::create, "path"_a)
-		.def_static("open", &APK::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &APK::GUID);
+		.def_static("open", &APK::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("FGP_SIGNATURE") = FGP_SIGNATURE;
 	vpkpp.attr("FGP_EXTENSION") = FGP_EXTENSION;
@@ -173,7 +170,6 @@ inline void register_python(py::module_& m) {
 	py::class_<FGP, PackFile>(vpkpp, "FGP")
 		.def_static("create", &FGP::create, "path"_a)
 		.def_static("open", &FGP::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &FGP::GUID)
 		.def_prop_rw("loading_screen_filepath", &FGP::getLoadingScreenFilePath, &FGP::setLoadingScreenFilePath)
 		.def_static("hash_filepath", &FGP::hashFilePath);
 
@@ -185,14 +181,12 @@ inline void register_python(py::module_& m) {
 
 	py::class_<FPX, VPK>(vpkpp, "FPX")
 		.def_static("create", &FPX::create, "path"_a)
-		.def_static("open", &FPX::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &FPX::GUID);
+		.def_static("open", &FPX::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("GCF_EXTENSION") = GCF_EXTENSION;
 
 	py::class_<GCF, PackFileReadOnly>(vpkpp, "GCF")
 		.def_static("open", &GCF::open, "path"_a, "callback"_a = nullptr, "request_callback"_a = nullptr)
-		.def_ro_static("GUID", &GCF::GUID)
 		.def_prop_ro("version", &GCF::getVersion)
 		.def_prop_ro("appid", &GCF::getAppID)
 		.def_prop_ro("appversion", &GCF::getAppVersion);
@@ -201,37 +195,32 @@ inline void register_python(py::module_& m) {
 	vpkpp.attr("GMA_EXTENSION") = GMA_EXTENSION;
 
 	py::class_<GMA, PackFile>(vpkpp, "GMA")
-		.def_static("open", &GMA::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &GMA::GUID);
+		.def_static("open", &GMA::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("HOG_SIGNATURE") = HOG_SIGNATURE;
 	vpkpp.attr("HOG_EXTENSION") = HOG_EXTENSION;
 
 	py::class_<HOG, PackFileReadOnly>(vpkpp, "HOG")
-		.def_static("open", &HOG::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &HOG::GUID);
+		.def_static("open", &HOG::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("OL_SIGNATURE") = OL_SIGNATURE;
 	vpkpp.attr("OL_EXTENSION") = OL_EXTENSION;
 
 	py::class_<OL, PackFileReadOnly>(vpkpp, "OL")
 		.def_static("open", &OL::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &OL::GUID)
 		.def_prop_ro("notes", &OL::getNotes)
 		.def("get_entry_notes", &OL::getEntryNotes, "path"_a);
 
 	vpkpp.attr("OO7_EXTENSION") = OO7_EXTENSION;
 
 	py::class_<OO7, PackFileReadOnly>(vpkpp, "OO7")
-		.def_static("open", &OO7::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &OO7::GUID);
+		.def_static("open", &OO7::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("ORE_EXTENSION") = ORE_EXTENSION;
 
 	py::class_<ORE, PackFileReadOnly>(vpkpp, "ORE")
 		.def_static("create", &ORE::create, "path"_a)
-		.def_static("open", &ORE::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &ORE::GUID);
+		.def_static("open", &ORE::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("PAK_FILENAME_MAX_SIZE") = PAK_FILENAME_MAX_SIZE;
 	vpkpp.attr("PAK_SIGNATURE") = PAK_SIGNATURE;
@@ -252,7 +241,6 @@ inline void register_python(py::module_& m) {
 	cPAK
 		.def_static("create", &PAK::create, "path"_a, "type"_a = PAK::Type::PAK)
 		.def_static("open", &PAK::open, "path"_a, "type"_a = PAK::Type::PAK)
-		.def_ro_static("GUID", &PAK::GUID)
 		.def_prop_rw("type", &PAK::getType, &PAK::setType);
 
 	vpkpp.attr("PCK_SIGNATURE") = PCK_SIGNATURE;
@@ -262,7 +250,6 @@ inline void register_python(py::module_& m) {
 	py::class_<PCK, PackFile>(vpkpp, "PCK")
 		.def_static("create", &PCK::create, "path"_a, "version"_a = 2, "godot_major_version"_a = 0, "godot_minor_version"_a = 0, "godot_patch_version"_a = 0)
 		.def_static("open", &PCK::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &PCK::GUID)
 		.def_prop_rw("version", &PCK::getVersion, &PCK::setVersion)
 		.def("get_godot_version", &PCK::getGodotVersion)
 		.def("set_godot_version", &PCK::setGodotVersion, "major"_a = 0, "minor"_a = 0, "patch"_a = 0);
@@ -280,7 +267,6 @@ inline void register_python(py::module_& m) {
 	cVPK
 		.def_static("create", &VPK::create, "path"_a, "version"_a = 2)
 		.def_static("open", &VPK::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &VPK::GUID)
 		.def_static("generate_keypair_files", &VPK::generateKeyPairFiles, "name"_a)
 		.def("sign_from_file", py::overload_cast<const std::string&>(&VPK::sign), "filename"_a)
 		.def("sign_from_mem", [](VPK& self, const py::bytes& privateKey, const py::bytes& publicKey) {
@@ -297,8 +283,7 @@ inline void register_python(py::module_& m) {
 
 	py::class_<VPK_VTMB, PackFile>(vpkpp, "VPK_VTMB")
 		.def_static("create", &VPK_VTMB::create, "path"_a)
-		.def_static("open", &VPK_VTMB::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &VPK_VTMB::GUID);
+		.def_static("open", &VPK_VTMB::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("VPP_SIGNATURE_LIL") = VPP_SIGNATURE_LIL;
 	vpkpp.attr("VPP_SIGNATURE_BIG") = VPP_SIGNATURE_BIG;
@@ -315,8 +300,7 @@ inline void register_python(py::module_& m) {
 		.value("CONDENSED", VPP::Flags::FLAG_CONDENSED);
 
 	cVPP
-		.def_static("open", &VPP::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &VPP::GUID);
+		.def_static("open", &VPP::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("WAD3_FILENAME_MAX_SIZE") = WAD3_FILENAME_MAX_SIZE;
 	vpkpp.attr("WAD3_SIGNATURE") = WAD3_SIGNATURE;
@@ -324,16 +308,14 @@ inline void register_python(py::module_& m) {
 
 	py::class_<WAD3, PackFile>(vpkpp, "WAD3")
 		.def_static("create", &WAD3::create, "path"_a)
-		.def_static("open", &WAD3::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &WAD3::GUID);
+		.def_static("open", &WAD3::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("XZP_HEADER_SIGNATURE") = XZP_HEADER_SIGNATURE;
 	vpkpp.attr("XZP_FOOTER_SIGNATURE") = XZP_FOOTER_SIGNATURE;
 	vpkpp.attr("XZP_EXTENSION") = XZP_EXTENSION;
 
 	py::class_<XZP, PackFileReadOnly>(vpkpp, "XZP")
-		.def_static("open", &XZP::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &XZP::GUID);
+		.def_static("open", &XZP::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("BEE_EXTENSION") = BEE_EXTENSION;
 	vpkpp.attr("BMZ_EXTENSION") = BMZ_EXTENSION;
@@ -346,7 +328,6 @@ inline void register_python(py::module_& m) {
 	py::class_<ZIP, PackFile>(vpkpp, "ZIP")
 		.def_static("create", &ZIP::create, "path"_a)
 		.def_static("open", &ZIP::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &ZIP::GUID)
 		.def("get_entry_compression_type", &ZIP::getEntryCompressionType, "path"_a)
 		.def("set_entry_compression_type", &ZIP::setEntryCompressionType, "path"_a, "type"_a)
 		.def("get_entry_compression_strength", &ZIP::getEntryCompressionStrength, "path"_a)

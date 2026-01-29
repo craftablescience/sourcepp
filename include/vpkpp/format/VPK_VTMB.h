@@ -16,12 +16,6 @@ public:
 	/// Open Vampire: The Masquerade - Bloodlines VPK files
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "5942653FBD0F4A2D9EF33CDDA668C396";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return VPK_VTMB::GUID;
-	}
-
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) override;

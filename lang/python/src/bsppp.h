@@ -308,8 +308,7 @@ inline void register_python(py::module_& m) {
 	bsppp.attr("BSP_EXTENSION") = BSP_EXTENSION;
 
 	py::class_<PakLump, vpkpp::PackFile>(bsppp, "PakLump")
-		.def_static("open", &PakLump::open, "path"_a, "callback"_a = nullptr)
-		.def_ro_static("GUID", &PakLump::GUID);
+		.def_static("open", &PakLump::open, "path"_a, "callback"_a = nullptr);
 }
 
 } // namespace bsppp

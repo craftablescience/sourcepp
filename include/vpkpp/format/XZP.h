@@ -17,12 +17,6 @@ public:
 	/// Open an XZP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "A682CF9BCA0A4980A920B5C00C8E0945";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return XZP::GUID;
-	}
-
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	[[nodiscard]] Attribute getSupportedEntryAttributes() const override;

@@ -40,27 +40,20 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-// REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pak_guid(vpkpp_pack_file_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
-
-	return convert::toString(PAK::GUID);
-}
-
 SOURCEPP_API vpkpp_pak_type_e vpkpp_pak_get_type(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_PAK_TYPE_PAK);
 
-	auto* pak = Convert::packFile(handle);
-	SOURCEPP_EARLY_RETURN_VAL(pak->isInstanceOf<PAK>(), VPKPP_PAK_TYPE_PAK);
+	const auto* pak = dynamic_cast<PAK*>(Convert::packFile(handle));
+	SOURCEPP_EARLY_RETURN_VAL(pak, VPKPP_PAK_TYPE_PAK);
 
-	return static_cast<vpkpp_pak_type_e>(dynamic_cast<PAK*>(pak)->getType());
+	return static_cast<vpkpp_pak_type_e>(pak->getType());
 }
 
 SOURCEPP_API void vpkpp_pak_set_type(vpkpp_pack_file_handle_t handle, vpkpp_pak_type_e type) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	auto* pak = Convert::packFile(handle);
-	SOURCEPP_EARLY_RETURN(pak->isInstanceOf<PAK>());
+	auto* pak = dynamic_cast<PAK*>(Convert::packFile(handle));
+	SOURCEPP_EARLY_RETURN(pak);
 
-	return dynamic_cast<PAK*>(pak)->setType(static_cast<PAK::Type>(type));
+	return pak->setType(static_cast<PAK::Type>(type));
 }

@@ -15,12 +15,6 @@ public:
 	/// Open a 007 file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "7E4766FD0F7340069AA923C9D3DAB37B";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return OO7::GUID;
-	}
-
 	[[nodiscard]] bool hasPackFileChecksum() const override;
 
 	[[nodiscard]] bool verifyPackFileChecksum() const override;

@@ -22,12 +22,6 @@ public:
 	/// Open an FGP file
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr);
 
-	static constexpr std::string_view GUID = "BF4352054D444027AD27A8DF69178A82";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return FGP::GUID;
-	}
-
 	[[nodiscard]] std::optional<std::vector<std::byte>> readEntry(const std::string& path_) const override;
 
 	bool renameEntry(const std::string& oldPath, const std::string& newPath) override;

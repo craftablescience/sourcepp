@@ -140,12 +140,6 @@ protected:
 public:
 	[[nodiscard]] static std::unique_ptr<PackFile> open(const std::string& path, const EntryCallback& callback = nullptr, const OpenPropertyRequest& requestProperty = nullptr);
 
-	static constexpr std::string_view GUID = "0C088488F666451E9361297528F2446D";
-
-	[[nodiscard]] constexpr std::string_view getGUID() const override {
-		return GCF::GUID;
-	}
-
 	[[nodiscard]] constexpr bool hasEntryChecksums() const override {
 		return true;
 	}

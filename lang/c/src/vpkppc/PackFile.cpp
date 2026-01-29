@@ -30,12 +30,6 @@ SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions() {
 	return convert::toStringArray(PackFile::getOpenableExtensions());
 }
 
-SOURCEPP_API sourcepp_string_t vpkpp_get_guid(vpkpp_pack_file_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
-
-	return convert::toString(Convert::packFile(handle)->getGUID());
-}
-
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
