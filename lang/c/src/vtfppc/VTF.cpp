@@ -70,7 +70,7 @@ SOURCEPP_API void vtfpp_resource_get_data_as_lod(vtfpp_resource_handle_t handle,
 SOURCEPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_resource_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::resource(handle)->getDataAsKeyValuesData());
+	return convert::toString(Convert::resource(handle)->getDataAsKeyValuesData());
 }
 
 SOURCEPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle) {
@@ -455,7 +455,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_raw(vtfpp
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataRaw(*width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
+	return convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataRaw(*width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
@@ -463,7 +463,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as(vtfpp_
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataAs(Convert::imageFormat(format), *width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
+	return convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataAs(Convert::imageFormat(format), *width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
@@ -471,7 +471,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba88
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataAsRGBA8888(*width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
+	return convert::toBuffer(Convert::vtf(handle)->getParticleSheetFrameDataAsRGBA8888(*width, *height, shtSequenceID, shtFrame, shtBounds, mip, frame, face, slice));
 }
 
 SOURCEPP_API void vtfpp_vtf_set_particle_sheet_resource(vtfpp_vtf_handle_t handle, vtfpp_sht_handle_t sht) {
@@ -591,13 +591,13 @@ SOURCEPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getImageDataAs(Convert::imageFormat(format), mip, frame, face, slice));
+	return convert::toBuffer(Convert::vtf(handle)->getImageDataAs(Convert::imageFormat(format), mip, frame, face, slice));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getImageDataAsRGBA8888(mip, frame, face, slice));
+	return convert::toBuffer(Convert::vtf(handle)->getImageDataAsRGBA8888(mip, frame, face, slice));
 }
 
 SOURCEPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
@@ -640,13 +640,13 @@ SOURCEPP_API const unsigned char* vtfpp_vtf_get_thumbnail_data_raw(vtfpp_vtf_han
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getThumbnailDataAs(Convert::imageFormat(format)));
+	return convert::toBuffer(Convert::vtf(handle)->getThumbnailDataAs(Convert::imageFormat(format)));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as_rgba8888(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->getThumbnailDataAsRGBA8888());
+	return convert::toBuffer(Convert::vtf(handle)->getThumbnailDataAsRGBA8888());
 }
 
 SOURCEPP_API void vtfpp_vtf_set_thumbnail(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float quality) {
@@ -679,7 +679,7 @@ SOURCEPP_API int vtfpp_vtf_save_thumbnail_to_file(vtfpp_vtf_handle_t handle, con
 SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_bake(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::vtf(handle)->bake());
+	return convert::toBuffer(Convert::vtf(handle)->bake());
 }
 
 SOURCEPP_API int vtfpp_vtf_bake_to_file(vtfpp_vtf_handle_t handle, const char* vtfPath) {

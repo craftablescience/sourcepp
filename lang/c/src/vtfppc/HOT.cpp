@@ -108,7 +108,7 @@ SOURCEPP_API void vtfpp_hot_remove_rect_at_index(vtfpp_hot_handle_t handle, uint
 SOURCEPP_API sourcepp_buffer_t vtfpp_hot_bake(vtfpp_hot_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::hot(handle)->bake());
+	return convert::toBuffer(Convert::hot(handle)->bake());
 }
 
 SOURCEPP_API int vtfpp_hot_bake_to_file(vtfpp_hot_handle_t handle, const char* hotPath) {

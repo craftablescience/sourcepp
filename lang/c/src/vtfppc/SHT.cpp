@@ -241,7 +241,7 @@ SOURCEPP_API uint8_t vtfpp_sht_get_frame_bounds_count(vtfpp_sht_handle_t handle)
 SOURCEPP_API sourcepp_buffer_t vtfpp_sht_bake(vtfpp_sht_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::sht(handle)->bake());
+	return convert::toBuffer(Convert::sht(handle)->bake());
 }
 
 SOURCEPP_API int vtfpp_sht_bake_to_file(vtfpp_sht_handle_t handle, const char* shtPath) {

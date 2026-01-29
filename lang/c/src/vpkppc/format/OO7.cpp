@@ -23,5 +23,5 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_007_open(const char* path, vpkpp_ent
 SOURCEPP_API sourcepp_string_t vpkpp_007_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(OO7::GUID);
+	return convert::toString(OO7::GUID);
 }

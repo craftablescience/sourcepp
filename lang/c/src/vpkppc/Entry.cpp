@@ -41,7 +41,7 @@ SOURCEPP_API uint64_t vpkpp_entry_get_offset(vpkpp_entry_handle_t handle) {
 SOURCEPP_API sourcepp_buffer_t vpkpp_entry_get_extra_data(vpkpp_entry_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::entry(handle)->extraData);
+	return convert::toBuffer(Convert::entry(handle)->extraData);
 }
 
 SOURCEPP_API uint32_t vpkpp_entry_get_crc32(vpkpp_entry_handle_t handle) {

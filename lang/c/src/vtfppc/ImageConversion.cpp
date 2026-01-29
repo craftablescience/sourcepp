@@ -15,7 +15,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_form
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::convertImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(oldFormat), static_cast<ImageFormat>(newFormat), width, height, quality));
+	return convert::toBuffer(ImageConversion::convertImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(oldFormat), static_cast<ImageFormat>(newFormat), width, height, quality));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality) {
@@ -30,7 +30,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const 
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(depth, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::convertSeveralImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(oldFormat), static_cast<ImageFormat>(newFormat), mipCount, frameCount, faceCount, width, height, depth, quality));
+	return convert::toBuffer(ImageConversion::convertSeveralImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(oldFormat), static_cast<ImageFormat>(newFormat), mipCount, frameCount, faceCount, width, height, depth, quality));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
@@ -45,7 +45,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(co
 	for (int i = 0; i < faces.size(); i++) {
 		out.insert(out.end(), faces[i].begin(), faces[i].end());
 	}
-	return Convert::toBuffer(out);
+	return convert::toBuffer(out);
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap_ex(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t resolution, int bilinear) {
@@ -60,7 +60,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap_ex
 	for (int i = 0; i < faces.size(); i++) {
 		out.insert(out.end(), faces[i].begin(), faces[i].end());
 	}
-	return Convert::toBuffer(out);
+	return convert::toBuffer(out);
 }
 
 SOURCEPP_API vtfpp_image_conversion_file_format_e vtfpp_image_conversion_get_default_file_format_for_image_format(vtfpp_image_format_e format) {
@@ -74,7 +74,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_file
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::convertImageDataToFile({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height, static_cast<ImageConversion::FileFormat>(fileFormat)));
+	return convert::toBuffer(ImageConversion::convertImageDataToFile({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height, static_cast<ImageConversion::FileFormat>(fileFormat)));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_file_to_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e* format, int* width, int* height, int* frameCount) {
@@ -85,7 +85,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_file_to_image_data
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(frameCount, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::convertFileToImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, reinterpret_cast<ImageFormat&>(*format), *width, *height, *frameCount));
+	return convert::toBuffer(ImageConversion::convertFileToImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, reinterpret_cast<ImageFormat&>(*format), *width, *height, *frameCount));
 }
 
 SOURCEPP_API uint16_t vtfpp_image_conversion_get_resized_dim(uint16_t n, vtfpp_image_conversion_resize_method_e method) {
@@ -108,7 +108,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data(const un
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(newHeight, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::resizeImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, height, newHeight, srgb, static_cast<ImageConversion::ResizeFilter>(filter), static_cast<ImageConversion::ResizeEdge>(edge)));
+	return convert::toBuffer(ImageConversion::resizeImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, height, newHeight, srgb, static_cast<ImageConversion::ResizeFilter>(filter), static_cast<ImageConversion::ResizeEdge>(edge)));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t* widthOut, vtfpp_image_conversion_resize_method_e widthResize, uint16_t height, uint16_t newHeight, uint16_t* heightOut, vtfpp_image_conversion_resize_method_e heightResize, int srgb, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge) {
@@ -122,7 +122,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(c
 	SOURCEPP_EARLY_RETURN_VAL(newHeight, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(heightOut, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::resizeImageDataStrict({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, *widthOut, static_cast<ImageConversion::ResizeMethod>(widthResize), height, newHeight, *heightOut, static_cast<ImageConversion::ResizeMethod>(heightResize), srgb, static_cast<ImageConversion::ResizeFilter>(filter), static_cast<ImageConversion::ResizeEdge>(edge)));
+	return convert::toBuffer(ImageConversion::resizeImageDataStrict({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, *widthOut, static_cast<ImageConversion::ResizeMethod>(widthResize), height, newHeight, *heightOut, static_cast<ImageConversion::ResizeMethod>(heightResize), srgb, static_cast<ImageConversion::ResizeFilter>(filter), static_cast<ImageConversion::ResizeEdge>(edge)));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_crop_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {
@@ -134,7 +134,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_crop_image_data(const unsi
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(newHeight, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::cropImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, xOffset, height, newHeight, yOffset));
+	return convert::toBuffer(ImageConversion::cropImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, newWidth, xOffset, height, newHeight, yOffset));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_gamma_correct_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float gamma) {
@@ -144,7 +144,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_gamma_correct_image_data(c
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::gammaCorrectImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height, gamma));
+	return convert::toBuffer(ImageConversion::gammaCorrectImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height, gamma));
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_invert_green_channel_for_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
@@ -154,5 +154,5 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_invert_green_channel_for_i
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(ImageConversion::invertGreenChannelForImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height));
+	return convert::toBuffer(ImageConversion::invertGreenChannelForImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, static_cast<ImageFormat>(format), width, height));
 }

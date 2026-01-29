@@ -33,5 +33,5 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_vtmb_open(const char* path, vpkp
 SOURCEPP_API sourcepp_string_t vpkpp_vpk_vtmb_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(VPK_VTMB::GUID);
+	return convert::toString(VPK_VTMB::GUID);
 }

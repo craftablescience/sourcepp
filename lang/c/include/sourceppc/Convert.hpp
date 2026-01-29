@@ -17,7 +17,7 @@
 #include "Buffer.h"
 #include "String.h"
 
-namespace Convert {
+namespace convert {
 
 template<typename T>
 requires (std::is_trivially_copyable_v<T> && !std::is_pointer_v<T>)
@@ -58,4 +58,4 @@ size_t writeVectorToMem(const std::vector<T>& vec, T* buffer, size_t bufferLen) 
 	return vec.size();
 }
 
-} // namespace Convert
+} // namespace convert

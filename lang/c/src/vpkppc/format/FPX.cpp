@@ -33,5 +33,5 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fpx_open(const char* path, vpkpp_ent
 SOURCEPP_API sourcepp_string_t vpkpp_fpx_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(FPX::GUID);
+	return convert::toString(FPX::GUID);
 }

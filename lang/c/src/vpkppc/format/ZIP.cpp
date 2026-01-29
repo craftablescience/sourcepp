@@ -34,7 +34,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_zip_open(const char* path, vpkpp_ent
 SOURCEPP_API sourcepp_string_t vpkpp_zip_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(ZIP::GUID);
+	return convert::toString(ZIP::GUID);
 }
 
 SOURCEPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path) {

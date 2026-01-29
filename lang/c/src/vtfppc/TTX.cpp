@@ -85,7 +85,7 @@ SOURCEPP_API void vtfpp_ttx_set_aspect_ratio_type(vtfpp_ttx_handle_t handle, uin
 SOURCEPP_API sourcepp_buffer_uint64_t vtfpp_ttx_get_mip_flags(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return Convert::toBuffer(Convert::ttx(handle)->getMipFlags());
+	return convert::toBuffer(Convert::ttx(handle)->getMipFlags());
 }
 
 SOURCEPP_API void vtfpp_ttx_set_mip_flags(vtfpp_ttx_handle_t handle, const uint64_t* mipFlags, size_t mipFlagsLen) {
@@ -136,7 +136,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_ttx_bake(vtfpp_ttx_handle_t handle, size_t*
 	std::vector<std::byte> out;
 	out.insert(out.end(), tthData.begin(), tthData.end());
 	out.insert(out.end(), ttzData.begin(), ttzData.end());
-	return Convert::toBuffer(out);
+	return convert::toBuffer(out);
 }
 
 SOURCEPP_API int vtfpp_ttx_bake_to_file(vtfpp_ttx_handle_t handle, const char* tthPath, const char* ttzPath) {

@@ -33,5 +33,5 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_wad3_open(const char* path, vpkpp_en
 SOURCEPP_API sourcepp_string_t vpkpp_wad3_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(WAD3::GUID);
+	return convert::toString(WAD3::GUID);
 }

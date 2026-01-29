@@ -24,7 +24,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_ol_open(const char* path, vpkpp_entr
 SOURCEPP_API sourcepp_string_t vpkpp_ol_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(OL::GUID);
+	return convert::toString(OL::GUID);
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_ol_get_notes(vpkpp_pack_file_handle_t handle) {
@@ -33,7 +33,7 @@ SOURCEPP_API sourcepp_string_t vpkpp_ol_get_notes(vpkpp_pack_file_handle_t handl
 	auto* ol = Convert::packFile(handle);
 	SOURCEPP_EARLY_RETURN_VAL(ol->isInstanceOf<OL>(), SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(dynamic_cast<OL*>(Convert::packFile(handle))->getNotes());
+	return convert::toString(dynamic_cast<OL*>(Convert::packFile(handle))->getNotes());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_ol_get_entry_notes(vpkpp_pack_file_handle_t handle, const char* path) {
@@ -44,5 +44,5 @@ SOURCEPP_API sourcepp_string_t vpkpp_ol_get_entry_notes(vpkpp_pack_file_handle_t
 	SOURCEPP_EARLY_RETURN_VAL(ol->isInstanceOf<OL>(), SOURCEPP_STRING_INVALID);
 
 	const auto notes = dynamic_cast<OL*>(Convert::packFile(handle))->getEntryNotes(path);
-	return Convert::toString(notes ? *notes : "");
+	return convert::toString(notes ? *notes : "");
 }

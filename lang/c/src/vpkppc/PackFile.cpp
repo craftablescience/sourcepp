@@ -18,7 +18,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_c
 	auto packFile = PackFile::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
 		callback(path.c_str(), const_cast<Entry*>(&entry));
 	} : static_cast<PackFile::EntryCallback>(nullptr), requestProperty ? [requestProperty](PackFile* packFile_, PackFile::OpenProperty property) {
-		return Convert::fromBuffer<std::byte>(requestProperty(packFile_, static_cast<vpkpp_pack_file_open_property_e>(property)));
+		return convert::fromBuffer<std::byte>(requestProperty(packFile_, static_cast<vpkpp_pack_file_open_property_e>(property)));
 	} : static_cast<PackFile::OpenPropertyRequest>(nullptr));
 	if (!packFile) {
 		return nullptr;
@@ -27,13 +27,13 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_c
 }
 
 SOURCEPP_API sourcepp_string_array_t vpkpp_get_openable_extensions() {
-	return Convert::toStringArray(PackFile::getOpenableExtensions());
+	return convert::toStringArray(PackFile::getOpenableExtensions());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_guid(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getGUID());
+	return convert::toString(Convert::packFile(handle)->getGUID());
 }
 
 SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle) {
@@ -45,7 +45,7 @@ SOURCEPP_API int vpkpp_has_entry_checksums(vpkpp_pack_file_handle_t handle) {
 SOURCEPP_API sourcepp_string_array_t vpkpp_verify_entry_checksums(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_ARRAY_INVALID);
 
-	return Convert::toStringArray(Convert::packFile(handle)->verifyEntryChecksums());
+	return convert::toStringArray(Convert::packFile(handle)->verifyEntryChecksums());
 }
 
 SOURCEPP_API int vpkpp_has_pack_file_checksum(vpkpp_pack_file_handle_t handle) {
@@ -101,7 +101,7 @@ SOURCEPP_API sourcepp_buffer_t vpkpp_read_entry(vpkpp_pack_file_handle_t handle,
 	SOURCEPP_EARLY_RETURN_VAL(path, SOURCEPP_BUFFER_INVALID);
 
 	if (auto binary = Convert::packFile(handle)->readEntry(path)) {
-		return Convert::toBuffer(*binary);
+		return convert::toBuffer(*binary);
 	}
 	return SOURCEPP_BUFFER_INVALID;
 }
@@ -111,7 +111,7 @@ SOURCEPP_API sourcepp_string_t vpkpp_read_entry_text(vpkpp_pack_file_handle_t ha
 	SOURCEPP_EARLY_RETURN_VAL(path, SOURCEPP_STRING_INVALID);
 
 	if (auto text = Convert::packFile(handle)->readEntryText(path)) {
-		return Convert::toString(*text);
+		return convert::toString(*text);
 	}
 	return SOURCEPP_STRING_INVALID;
 }
@@ -269,37 +269,37 @@ SOURCEPP_API void vpkpp_run_for_all_entries(vpkpp_pack_file_handle_t handle, vpk
 SOURCEPP_API sourcepp_string_t vpkpp_get_filepath(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getFilepath());
+	return convert::toString(Convert::packFile(handle)->getFilepath());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_truncated_filepath(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getTruncatedFilepath());
+	return convert::toString(Convert::packFile(handle)->getTruncatedFilepath());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_filename(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getFilename());
+	return convert::toString(Convert::packFile(handle)->getFilename());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_truncated_filename(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getTruncatedFilename());
+	return convert::toString(Convert::packFile(handle)->getTruncatedFilename());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_filestem(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getFilestem());
+	return convert::toString(Convert::packFile(handle)->getFilestem());
 }
 
 SOURCEPP_API sourcepp_string_t vpkpp_get_truncated_filestem(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(Convert::packFile(handle)->getTruncatedFilestem());
+	return convert::toString(Convert::packFile(handle)->getTruncatedFilestem());
 }
 
 SOURCEPP_API vpkpp_attribute_e vpkpp_get_supported_entry_attributes(vpkpp_pack_file_handle_t handle) {
@@ -311,7 +311,7 @@ SOURCEPP_API vpkpp_attribute_e vpkpp_get_supported_entry_attributes(vpkpp_pack_f
 SOURCEPP_API sourcepp_string_t vpkpp_to_string(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(std::string{*Convert::packFile(handle)});
+	return convert::toString(std::string{*Convert::packFile(handle)});
 }
 
 SOURCEPP_API void vpkpp_close(vpkpp_pack_file_handle_t* handle) {
@@ -324,5 +324,5 @@ SOURCEPP_API void vpkpp_close(vpkpp_pack_file_handle_t* handle) {
 SOURCEPP_API sourcepp_string_t vpkpp_escape_entry_path_for_write(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, SOURCEPP_STRING_INVALID);
 
-	return Convert::toString(PackFile::escapeEntryPathForWrite(path));
+	return convert::toString(PackFile::escapeEntryPathForWrite(path));
 }

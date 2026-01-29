@@ -4,7 +4,7 @@
 
 #include <sourceppc/Helpers.h>
 
-SOURCEPP_STATIC(sourcepp, buffer, sourcepp_buffer_t, new, size_t size) {
+SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size) {
 	sourcepp_buffer_t buffer;
 	if (size > 0) {
 		buffer.size = static_cast<int64_t>(size);
@@ -16,7 +16,7 @@ SOURCEPP_STATIC(sourcepp, buffer, sourcepp_buffer_t, new, size_t size) {
 	return buffer;
 }
 
-SOURCEPP_STATIC(sourcepp, buffer, void, free, sourcepp_buffer_t* buffer) {
+SOURCEPP_API void sourcepp_buffer_free(sourcepp_buffer_t* buffer) {
 	SOURCEPP_EARLY_RETURN(buffer);
 
 	if (buffer->data) {

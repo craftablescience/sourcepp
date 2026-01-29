@@ -2,16 +2,18 @@
 
 #include "API.h"
 
-SOURCEPP_STRUCT_BEGIN() {
-	SOURCEPP_STRUCT_FIELD(int64_t, size, -1);
-	SOURCEPP_STRUCT_FIELD(void*,   data, NULL);
-} SOURCEPP_STRUCT_END(sourcepp, buffer);
+SOURCEPP_EXTERN typedef struct {
+	int64_t size;
+	void* data;
+} sourcepp_buffer_t;
 
 #define SOURCEPP_BUFFER_INVALID (SOURCEPP_CAST_CTOR(sourcepp_buffer_t) {.size = -1, .data = NULL})
 
-SOURCEPP_STATIC(sourcepp, buffer, sourcepp_buffer_t, new, size_t size);
-SOURCEPP_STATIC(sourcepp, buffer,              void, free, sourcepp_buffer_t* buffer);
+SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size);
 
-// These really only exist as a bit of a hack to tell the user the data type they contain
-SOURCEPP_TYPEDF(sourcepp, buffer_uint32, sourcepp_buffer_t);
-SOURCEPP_TYPEDF(sourcepp, buffer_uint64, sourcepp_buffer_t);
+SOURCEPP_API void sourcepp_buffer_free(sourcepp_buffer_t* buffer);
+
+typedef sourcepp_buffer_t sourcepp_buffer_uint8_t;
+typedef sourcepp_buffer_t sourcepp_buffer_uint16_t;
+typedef sourcepp_buffer_t sourcepp_buffer_uint32_t;
+typedef sourcepp_buffer_t sourcepp_buffer_uint64_t;

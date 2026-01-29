@@ -1,5 +1,5 @@
 macro(sourcepp_lang_setup_pre)
-    # Shared C code
+    # C bindings
     if(SOURCEPP_BUILD_C_WRAPPERS)
         include_subdirectory(lang/c/src/sourceppc PROPAGATE ${PROJECT_NAME}c_SOURCES)
     endif()
