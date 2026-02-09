@@ -489,7 +489,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(BGR888_BLUESCREEN,       pixel.a == 0xff ? ImagePixel::BGR888_BLUESCREEN{pixel.b, pixel.g, pixel.r} : ImagePixel::BGR888_BLUESCREEN{0xff, 0, 0});
 		VTFPP_CASE_CONVERT_AND_BREAK(RGB565,                  {VTFPP_REMAP_FROM_8(pixel.r, 5), VTFPP_REMAP_FROM_8(pixel.g, 6), VTFPP_REMAP_FROM_8(pixel.b, 5)});
 		VTFPP_CASE_CONVERT_AND_BREAK(P8,                      {pixel.r});
-		VTFPP_CASE_CONVERT_AND_BREAK(I8,                      {pixel.r});
+		VTFPP_CASE_CONVERT_AND_BREAK(I8,                      {std::clamp<uint8_t>(0.299 * pixel.r + 0.518 * pixel.g + 0.183 * pixel.b, std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max())}); // sRGB constants from Asahi Lina
 		VTFPP_CASE_CONVERT_AND_BREAK(IA88,                    {pixel.r, pixel.a});
 		VTFPP_CASE_CONVERT_AND_BREAK(A8,                      {pixel.a});
 		VTFPP_CASE_CONVERT_AND_BREAK(ARGB8888,                {pixel.a, pixel.r, pixel.g, pixel.b});
@@ -510,7 +510,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_RGB888_LINEAR,   {pixel.r, pixel.g, pixel.b});
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGR888_LINEAR,   {pixel.b, pixel.g, pixel.r});
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRX5551_LINEAR, {VTFPP_REMAP_FROM_8(pixel.b, 5), VTFPP_REMAP_FROM_8(pixel.g, 5), VTFPP_REMAP_FROM_8(pixel.r, 5), 1});
-		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_I8_LINEAR,       {pixel.r});
+		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_I8_LINEAR,       {std::clamp<uint8_t>(0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b, std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max())}); // linear constants from Rec. 709 HDTV standard
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRX8888_LE,     {pixel.b, pixel.g, pixel.r, 0xff});
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRA8888_LE,     {pixel.b, pixel.g, pixel.r, pixel.a});
 		VTFPP_CASE_CONVERT_AND_BREAK(R8,                      {pixel.r});
