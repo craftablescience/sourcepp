@@ -81,6 +81,7 @@ namespace {
 template<std::unsigned_integral T, bool ExistingDataIsSwizzled>
 constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t depth) {
 	width *= ImageFormatDetails::bpp(format) / (sizeof(T) * 8);
+
 	const auto zIndex = [
 		widthL2 = static_cast<int>(math::log2ceil(width)),
 		heightL2 = static_cast<int>(math::log2ceil(height)),
@@ -110,6 +111,7 @@ constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std:
 
 	const auto* inputPtr = reinterpret_cast<const T*>(inputData.data());
 	auto* outputPtr = reinterpret_cast<T*>(outputData.data());
+
 	for (uint16_t x = 0; x < width; x++) {
 		for (uint16_t y = 0; y < height; y++) {
 			for (uint16_t z = 0; z < depth; z++) {
@@ -118,6 +120,59 @@ constexpr void swizzleUncompressedImageData(std::span<std::byte> inputData, std:
 				} else {
 					reinterpret_cast<T*>(outputData.data())[zIndex(x, y, z)] = *inputPtr++;
 				}
+			}
+		}
+	}
+}
+
+template<bool ExistingDataIsSwizzled>
+void swizzleUncompressedImageDataXBOX(std::span<std::byte> inputData, std::span<std::byte> outputData, ImageFormat format, uint16_t width, uint16_t height, uint16_t depth) {
+	const auto zIndex = [
+		widthL2 = static_cast<int>(math::log2ceil(width)),
+		heightL2 = static_cast<int>(math::log2ceil(height)),
+		depthL2 = static_cast<int>(math::log2ceil(depth))
+	](int32_t x, int32_t y, int32_t z) {
+		int widthL2m = widthL2;
+		int heightL2m = heightL2;
+		int depthL2m = depthL2;
+		uint32_t offset = 0;
+		uint32_t shiftCount = 0;
+
+		while (widthL2m > 0 || heightL2m > 0 || depthL2m > 0) {
+			if (widthL2m > 0) {
+				offset |= (x & 1) << shiftCount++;
+				x >>= 1;
+				widthL2m--;
+			}
+			if (heightL2m > 0) {
+				offset |= (y & 1) << shiftCount++;
+				y >>= 1;
+				heightL2m--;
+			}
+			if (depthL2m > 0) {
+				offset |= (z & 1) << shiftCount++;
+				z >>= 1;
+				depthL2m--;
+			}
+		}
+		return offset;
+	};
+
+	const auto stride = ImageFormatDetails::bpp(format) / 8;
+
+	uint32_t linearIndex = 0;
+	for (uint16_t z = 0; z < depth; z++) {
+		for (uint16_t y = 0; y < height; y++) {
+			for (uint16_t x = 0; x < width; x++) {
+				const auto codedIndex = zIndex(x, y, z);
+				for (uint32_t b = 0; b < stride; b++) {
+					if constexpr (ExistingDataIsSwizzled) {
+						outputData[linearIndex * stride + b] = inputData[codedIndex * stride + b];
+					} else {
+						outputData[codedIndex * stride + b] = inputData[linearIndex * stride + b];
+					}
+				}
+				linearIndex++;
 			}
 		}
 	}
@@ -171,7 +226,9 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 					if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, format, mip, mipCount, frame, frameCount, face, faceCount, width, height)) {
 						std::span imageDataSpan{imageData.data() + offset, length * mipDepth};
 						std::span outSpan{out.data() + offset, length * mipDepth};
-						if (ImageFormatDetails::bpp(format) % 32 == 0) {
+						if (platform == VTF::PLATFORM_XBOX) {
+							::swizzleUncompressedImageDataXBOX<ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, mipDepth);
+						} else if (ImageFormatDetails::bpp(format) % 32 == 0) {
 							::swizzleUncompressedImageData<uint32_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, mipDepth);
 						} else if (ImageFormatDetails::bpp(format) % 16 == 0) {
 							::swizzleUncompressedImageData<uint16_t, ConvertingFromSource>(imageDataSpan, outSpan, format, mipWidth, mipHeight, mipDepth);
@@ -2347,13 +2404,14 @@ std::vector<std::byte> VTF::bake() const {
 			bool hasFallbackResource = false;
 			if (const auto* fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA); fallbackResource && this->hasFallbackData()) {
 				hasFallbackResource = true;
+				std::vector<std::byte> reorderedFallbackData{fallbackResource->data.begin(), fallbackResource->data.end()};
+				::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 				bool ok;
-				auto reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, fallbackResource->data, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
+				reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(false, reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, ok);
 				if (ok) {
-					::swapImageDataEndianForConsole<false>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight, 1, this->platform);
 					writer.write(reorderedFallbackData);
 				} else {
-					writer.pad(fallbackResource->data.size());
+					return {};
 				}
 			}
 
@@ -2367,13 +2425,14 @@ std::vector<std::byte> VTF::bake() const {
 			writer.seek_u(imageOffsetPos).write<uint16_t>(imageOffset).seek_u(imageOffset);
 
 			if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); imageResource && this->hasImageData()) {
+				std::vector<std::byte> reorderedImageData{imageResource->data.begin(), imageResource->data.end()};
+				::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 				bool ok;
-				auto reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, imageResource->data, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, ok);
+				reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<false>(true, reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, ok);
 				if (ok) {
-					::swapImageDataEndianForConsole<false>(reorderedImageData, this->format, this->mipCount, this->frameCount, this->getFaceCount(), this->width, this->height, this->depth, this->platform);
 					writer.write(reorderedImageData);
 				} else {
-					writer.pad(imageResource->data.size());
+					return {};
 				}
 			}
 			if (writer.tell() > 512) {
