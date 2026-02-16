@@ -25,7 +25,7 @@ std::string DMXValue::idToString(ID id) {
 		case ID::BOOL:         return "bool";
 		case ID::STRING:       return "string";
 		case ID::BYTEARRAY:    return "binary";
-		case ID::UUID:         return "objectid";
+		case ID::UUID:         return "elementid";
 		case ID::TIME:         return "time";
 		case ID::COLOR:        return "color";
 		case ID::VECTOR2:      return "vector2";

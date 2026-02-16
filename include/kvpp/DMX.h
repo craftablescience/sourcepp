@@ -522,7 +522,7 @@ using Generic = std::variant<
 	if (id == "bool")       return BOOL;
 	if (id == "string")     return STRING;
 	if (id == "binary")     return BYTEARRAY;
-	if (id == "objectid")   return UUID;
+	if (id == "elementid")   return UUID;
 	if (id == "time")       return TIME;
 	if (id == "color")      return COLOR;
 	if (id == "vector2")    return VECTOR2;
