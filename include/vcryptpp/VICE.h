@@ -36,6 +36,7 @@ constexpr std::string_view TEAM_FORTRESS_2 = "E2NcUkG2";
 constexpr std::string_view TEAM_FORTRESS_2_ITEMS = "A5fSXbf7";
 constexpr std::string_view FAIRY_TALE_BUSTERS = TEAM_FORTRESS_2;
 constexpr std::string_view THE_SHIP = "eb3A4m79";
+constexpr std::string_view VALVE_TRACKER = "\rU\xf3\xd3\xad\x06WG";
 constexpr std::string_view ZOMBIE_PANIC_SOURCE = "5R0ni0pZ";
 
 constexpr std::string_view GPU_DEFAULT = "X8bU2qll";
