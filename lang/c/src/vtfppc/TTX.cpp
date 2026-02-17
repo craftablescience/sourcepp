@@ -1,17 +1,16 @@
 #include <vtfppc/TTX.h>
 
-#include <vtfpp/TTX.h>
-
 #include <sourceppc/Helpers.h>
-#include <vtfppc/Convert.hpp>
 
 using namespace sourceppc;
 using namespace vtfpp;
 
+const uint32_t VTFPP_TTH_SIGNATURE = TTH_SIGNATURE;
+
 SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_create(vtfpp_vtf_handle_t vtf) {
 	SOURCEPP_EARLY_RETURN_VAL(vtf, nullptr);
 
-	auto vtfCopy = *Convert::vtf(vtf);
+	auto vtfCopy = *convert::handle<VTF>(vtf);
 	return new TTX{std::move(vtfCopy)};
 }
 
@@ -34,94 +33,101 @@ SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_file(const char* tthPath, co
 	return new TTX{tthPath, ttzPath};
 }
 
+SOURCEPP_API void vtfpp_ttx_free(vtfpp_ttx_handle_t* handle) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	delete convert::handle<TTX>(*handle);
+	*handle = nullptr;
+}
+
 SOURCEPP_API int vtfpp_ttx_is_valid(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
-	return Convert::ttx(handle)->operator bool();
+	return convert::handle<TTX>(handle)->operator bool();
 }
 
 SOURCEPP_API uint8_t vtfpp_ttx_get_major_version(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::ttx(handle)->getMajorVersion();
+	return convert::handle<TTX>(handle)->getMajorVersion();
 }
 
 SOURCEPP_API uint8_t vtfpp_ttx_get_minor_version(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::ttx(handle)->getMinorVersion();
+	return convert::handle<TTX>(handle)->getMinorVersion();
 }
 
 SOURCEPP_API void vtfpp_ttx_set_version(vtfpp_ttx_handle_t handle, uint8_t majorVersion, uint8_t minorVersion) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::ttx(handle)->setVersion(majorVersion, minorVersion);
+	convert::handle<TTX>(handle)->setVersion(majorVersion, minorVersion);
 }
 
 SOURCEPP_API void vtfpp_ttx_set_major_version(vtfpp_ttx_handle_t handle, uint8_t majorVersion) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::ttx(handle)->setMajorVersion(majorVersion);
+	convert::handle<TTX>(handle)->setMajorVersion(majorVersion);
 }
 
 SOURCEPP_API void vtfpp_ttx_set_minor_version(vtfpp_ttx_handle_t handle, uint8_t minorVersion) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::ttx(handle)->setMinorVersion(minorVersion);
+	convert::handle<TTX>(handle)->setMinorVersion(minorVersion);
 }
 
 SOURCEPP_API uint8_t vtfpp_ttx_get_aspect_ratio_type(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::ttx(handle)->getAspectRatioType();
+	return convert::handle<TTX>(handle)->getAspectRatioType();
 }
 
 SOURCEPP_API void vtfpp_ttx_set_aspect_ratio_type(vtfpp_ttx_handle_t handle, uint8_t aspectRatioType) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::ttx(handle)->setAspectRatioType(aspectRatioType);
+	convert::handle<TTX>(handle)->setAspectRatioType(aspectRatioType);
 }
 
 SOURCEPP_API sourcepp_buffer_uint64_t vtfpp_ttx_get_mip_flags(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
 
-	return convert::toBuffer(Convert::ttx(handle)->getMipFlags());
+	return convert::toBuffer(convert::handle<TTX>(handle)->getMipFlags());
 }
 
 SOURCEPP_API void vtfpp_ttx_set_mip_flags(vtfpp_ttx_handle_t handle, const uint64_t* mipFlags, size_t mipFlagsLen) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	if (!mipFlags || !mipFlagsLen) {
-		Convert::ttx(handle)->getMipFlags().clear();
+		convert::handle<TTX>(handle)->getMipFlags().clear();
 	} else {
-		std::span<const uint64_t> mipFlagsSpan{mipFlags, mipFlagsLen};
-		Convert::ttx(handle)->getMipFlags().assign(mipFlagsSpan.begin(), mipFlagsSpan.end());
+		std::span mipFlagsSpan{mipFlags, mipFlagsLen};
+		convert::handle<TTX>(handle)->getMipFlags().assign(mipFlagsSpan.begin(), mipFlagsSpan.end());
 	}
 }
 
 SOURCEPP_API vtfpp_vtf_handle_t vtfpp_ttx_get_vtf(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, nullptr);
 
-	return &Convert::ttx(handle)->getVTF();
+	return &convert::handle<TTX>(handle)->getVTF();
 }
 
 SOURCEPP_API void vtfpp_ttx_set_vtf(vtfpp_ttx_handle_t handle, vtfpp_vtf_handle_t vtf) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(vtf);
 
-	Convert::ttx(handle)->getVTF() = *Convert::vtf(vtf);
+	convert::handle<TTX>(handle)->getVTF() = *convert::handle<VTF>(vtf);
 }
 
 SOURCEPP_API int16_t vtfpp_ttx_get_compression_level(vtfpp_ttx_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return Convert::ttx(handle)->getCompressionLevel();
+	return convert::handle<TTX>(handle)->getCompressionLevel();
 }
 
 SOURCEPP_API void vtfpp_ttx_set_compression_level(vtfpp_ttx_handle_t handle, int16_t compressionLevel) {
 	SOURCEPP_EARLY_RETURN(handle);
 
-	Convert::ttx(handle)->setCompressionLevel(compressionLevel);
+	convert::handle<TTX>(handle)->setCompressionLevel(compressionLevel);
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_ttx_bake(vtfpp_ttx_handle_t handle, size_t* tthLen, size_t* ttzLen) {
@@ -129,7 +135,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_ttx_bake(vtfpp_ttx_handle_t handle, size_t*
 	SOURCEPP_EARLY_RETURN_VAL(tthLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(ttzLen, SOURCEPP_BUFFER_INVALID);
 
-	auto [tthData, ttzData] = Convert::ttx(handle)->bake();
+	auto [tthData, ttzData] = convert::handle<TTX>(handle)->bake();
 	*tthLen = tthData.size();
 	*ttzLen = ttzData.size();
 
@@ -144,12 +150,5 @@ SOURCEPP_API int vtfpp_ttx_bake_to_file(vtfpp_ttx_handle_t handle, const char* t
 	SOURCEPP_EARLY_RETURN_VAL(tthPath, false);
 	SOURCEPP_EARLY_RETURN_VAL(ttzPath, false);
 
-	return Convert::ttx(handle)->bake(tthPath, ttzPath);
-}
-
-SOURCEPP_API void vtfpp_ttx_close(vtfpp_ttx_handle_t* handle) {
-	SOURCEPP_EARLY_RETURN(handle);
-
-	delete Convert::ttx(*handle);
-	*handle = nullptr;
+	return convert::handle<TTX>(handle)->bake(tthPath, ttzPath);
 }

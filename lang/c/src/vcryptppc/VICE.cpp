@@ -1,5 +1,3 @@
-// ReSharper disable CppUseAuto
-
 #include <vcryptppc/VICE.h>
 
 #include <sourceppc/Helpers.h>

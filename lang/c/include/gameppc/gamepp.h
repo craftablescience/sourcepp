@@ -24,12 +24,4 @@ SOURCEPP_API void gamepp_game_instance_wait(gamepp_game_instance_handle_t handle
 
 #include <gamepp/gamepp.h>
 
-namespace sourceppc::convert {
-
-inline gamepp::GameInstance* cast(gamepp_game_instance_handle_t handle) {
-	return static_cast<gamepp::GameInstance*>(handle);
-}
-
-} // namespace sourceppc::convert
-
 #endif

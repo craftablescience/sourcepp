@@ -32,12 +32,4 @@ SOURCEPP_API int steampp_steam_is_valid(steampp_steam_handle_t handle);
 
 #include <steampp/steampp.h>
 
-namespace sourceppc::convert {
-
-inline steampp::Steam* cast(steampp_steam_handle_t handle) {
-	return static_cast<steampp::Steam*>(handle);
-}
-
-} // namespace sourceppc::convert
-
 #endif
