@@ -22,10 +22,10 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_hot_handle_t;
 
-SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_create(); // REQUIRES MANUAL FREE: vtfpp_hot_free
-SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_open_from_mem(const unsigned char* hotData, size_t hotLen); // REQUIRES MANUAL FREE: vtfpp_hot_free
-SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_open_from_file(const char* hotPath); // REQUIRES MANUAL FREE: vtfpp_hot_free
-SOURCEPP_API void vtfpp_hot_free(vtfpp_hot_handle_t* handle);
+SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_create(); // REQUIRES MANUAL FREE: vtfpp_hot_close
+SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_open_from_mem(const unsigned char* hotData, size_t hotLen); // REQUIRES MANUAL FREE: vtfpp_hot_close
+SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_open_from_file(const char* hotPath); // REQUIRES MANUAL FREE: vtfpp_hot_close
+SOURCEPP_API void vtfpp_hot_close(vtfpp_hot_handle_t* handle);
 SOURCEPP_API int vtfpp_hot_is_valid(vtfpp_hot_handle_t handle);
 SOURCEPP_API uint8_t vtfpp_hot_get_version(vtfpp_hot_handle_t handle);
 SOURCEPP_API void vtfpp_hot_set_version(vtfpp_hot_handle_t handle, uint8_t version);

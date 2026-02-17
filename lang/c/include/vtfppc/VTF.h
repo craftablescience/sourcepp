@@ -194,17 +194,17 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_vtf_handle_t;
 
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty(); // REQUIRES MANUAL FREE: vtfpp_vtf_free
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_free
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_free
-SOURCEPP_API void vtfpp_vtf_free(vtfpp_vtf_handle_t* handle);
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty(); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+SOURCEPP_API void vtfpp_vtf_close(vtfpp_vtf_handle_t* handle);
 SOURCEPP_API int vtfpp_vtf_is_valid(vtfpp_vtf_handle_t handle);
 SOURCEPP_API int vtfpp_vtf_create_from_mem_and_bake(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
 SOURCEPP_API int vtfpp_vtf_create_blank_and_bake(vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_mem(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_free
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_blank(vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_free
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_mem(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_blank(vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
 SOURCEPP_API int vtfpp_vtf_create_from_file_and_bake(const char* imagePath, const char* vtfPath, vtfpp_vtf_creation_options_t options);
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_file(const char* imagePath, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_free
+SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_file(const char* imagePath, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
 SOURCEPP_API vtfpp_vtf_platform_e vtfpp_vtf_get_platform(vtfpp_vtf_handle_t handle);
 SOURCEPP_API void vtfpp_vtf_set_platform(vtfpp_vtf_handle_t handle, vtfpp_vtf_platform_e platform);
 SOURCEPP_API uint32_t vtfpp_vtf_get_version(vtfpp_vtf_handle_t handle);

@@ -2,7 +2,8 @@
 
 #include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
-#include <vtfppc/ImageFormats.h>
+
+#include "ImageFormats.h"
 
 // Skipping vtfpp::ImagePixel, not super useful
 

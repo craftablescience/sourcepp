@@ -18,7 +18,7 @@ SOURCEPP_API vtfpp_psframes_handle_t vtfpp_psframes_open_from_file(const char* p
 	return new PSFrames{psframesPath};
 }
 
-SOURCEPP_API void vtfpp_psframes_free(vtfpp_psframes_handle_t* handle) {
+SOURCEPP_API void vtfpp_psframes_close(vtfpp_psframes_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<PSFrames>(*handle);

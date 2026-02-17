@@ -2,15 +2,16 @@
 
 #include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
-#include <vtfppc/ImageConversion.h>
+
+#include "ImageConversion.h"
 
 typedef void* vtfpp_ppl_handle_t;
 
-SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_create(uint32_t modelChecksum); // REQUIRES MANUAL FREE: vtfpp_ppl_free
-SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_create_with_options(uint32_t modelChecksum, vtfpp_image_format_e format, uint32_t version); // REQUIRES MANUAL FREE: vtfpp_ppl_free
-SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_ppl_free
-SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_open_from_file(const char* pplPath); // REQUIRES MANUAL FREE: vtfpp_ppl_free
-SOURCEPP_API void vtfpp_ppl_free(vtfpp_ppl_handle_t* handle);
+SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_create(uint32_t modelChecksum); // REQUIRES MANUAL FREE: vtfpp_ppl_close
+SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_create_with_options(uint32_t modelChecksum, vtfpp_image_format_e format, uint32_t version); // REQUIRES MANUAL FREE: vtfpp_ppl_close
+SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_ppl_close
+SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_open_from_file(const char* pplPath); // REQUIRES MANUAL FREE: vtfpp_ppl_close
+SOURCEPP_API void vtfpp_ppl_close(vtfpp_ppl_handle_t* handle);
 SOURCEPP_API int vtfpp_ppl_is_valid(vtfpp_ppl_handle_t handle);
 SOURCEPP_API uint32_t vtfpp_ppl_get_version(vtfpp_ppl_handle_t handle);
 SOURCEPP_API void vtfpp_ppl_set_version(vtfpp_ppl_handle_t handle, uint32_t version);

@@ -28,10 +28,10 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_sht_handle_t;
 
-SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_create(); // REQUIRES MANUAL FREE: vtfpp_sht_free
-SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_open_from_mem(const unsigned char* shtData, size_t shtLen); // REQUIRES MANUAL FREE: vtfpp_sht_free
-SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_open_from_file(const char* shtPath); // REQUIRES MANUAL FREE: vtfpp_sht_free
-SOURCEPP_API void vtfpp_sht_free(vtfpp_sht_handle_t* handle);
+SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_create(); // REQUIRES MANUAL FREE: vtfpp_sht_close
+SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_open_from_mem(const unsigned char* shtData, size_t shtLen); // REQUIRES MANUAL FREE: vtfpp_sht_close
+SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_open_from_file(const char* shtPath); // REQUIRES MANUAL FREE: vtfpp_sht_close
+SOURCEPP_API void vtfpp_sht_close(vtfpp_sht_handle_t* handle);
 SOURCEPP_API int vtfpp_sht_is_valid(vtfpp_sht_handle_t handle);
 SOURCEPP_API uint32_t vtfpp_sht_get_version(vtfpp_sht_handle_t handle);
 SOURCEPP_API void vtfpp_sht_set_version(vtfpp_sht_handle_t handle, uint32_t version);

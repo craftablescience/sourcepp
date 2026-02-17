@@ -33,7 +33,7 @@ SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_file(const char* tthPath, co
 	return new TTX{tthPath, ttzPath};
 }
 
-SOURCEPP_API void vtfpp_ttx_free(vtfpp_ttx_handle_t* handle) {
+SOURCEPP_API void vtfpp_ttx_close(vtfpp_ttx_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<TTX>(*handle);

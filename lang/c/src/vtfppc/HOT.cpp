@@ -22,7 +22,7 @@ SOURCEPP_API vtfpp_hot_handle_t vtfpp_hot_open_from_file(const char* hotPath) {
 	return new HOT{hotPath};
 }
 
-SOURCEPP_API void vtfpp_hot_free(vtfpp_hot_handle_t* handle) {
+SOURCEPP_API void vtfpp_hot_close(vtfpp_hot_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<HOT>(*handle);

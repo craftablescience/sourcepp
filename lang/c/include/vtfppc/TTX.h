@@ -2,16 +2,17 @@
 
 #include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
-#include <vtfppc/VTF.h>
+
+#include "VTF.h"
 
 SOURCEPP_EXTERNVAR const uint32_t VTFPP_TTH_SIGNATURE;
 
 typedef void* vtfpp_ttx_handle_t;
 
-SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_create(vtfpp_vtf_handle_t vtf); // REQUIRES MANUAL FREE: vtfpp_ttx_free
-SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_mem(const unsigned char* tthData, size_t tthLen, const unsigned char* ttzData, size_t ttzLen); // REQUIRES MANUAL FREE: vtfpp_ttx_free
-SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_file(const char* tthPath, const char* ttzPath); // REQUIRES MANUAL FREE: vtfpp_ttx_free
-SOURCEPP_API void vtfpp_ttx_free(vtfpp_ttx_handle_t* handle);
+SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_create(vtfpp_vtf_handle_t vtf); // REQUIRES MANUAL FREE: vtfpp_ttx_close
+SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_mem(const unsigned char* tthData, size_t tthLen, const unsigned char* ttzData, size_t ttzLen); // REQUIRES MANUAL FREE: vtfpp_ttx_close
+SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_open_from_file(const char* tthPath, const char* ttzPath); // REQUIRES MANUAL FREE: vtfpp_ttx_close
+SOURCEPP_API void vtfpp_ttx_close(vtfpp_ttx_handle_t* handle);
 SOURCEPP_API int vtfpp_ttx_is_valid(vtfpp_ttx_handle_t handle);
 SOURCEPP_API uint8_t vtfpp_ttx_get_major_version(vtfpp_ttx_handle_t handle);
 SOURCEPP_API uint8_t vtfpp_ttx_get_minor_version(vtfpp_ttx_handle_t handle);

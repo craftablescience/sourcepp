@@ -28,7 +28,7 @@ SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_open_from_file(const char* pplPath) {
 	return new PPL{pplPath};
 }
 
-SOURCEPP_API void vtfpp_ppl_free(vtfpp_ppl_handle_t* handle) {
+SOURCEPP_API void vtfpp_ppl_close(vtfpp_ppl_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<PPL>(*handle);

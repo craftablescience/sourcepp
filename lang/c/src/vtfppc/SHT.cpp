@@ -22,7 +22,7 @@ SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_open_from_file(const char* shtPath) {
 	return new SHT{shtPath};
 }
 
-SOURCEPP_API void vtfpp_sht_free(vtfpp_sht_handle_t* handle) {
+SOURCEPP_API void vtfpp_sht_close(vtfpp_sht_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<SHT>(*handle);

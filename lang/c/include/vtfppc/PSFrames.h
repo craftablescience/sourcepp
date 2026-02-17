@@ -2,13 +2,14 @@
 
 #include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
-#include <vtfppc/ImageFormats.h>
+
+#include "ImageFormats.h"
 
 typedef void* vtfpp_psframes_handle_t;
 
-SOURCEPP_API vtfpp_psframes_handle_t vtfpp_psframes_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_psframes_free
-SOURCEPP_API vtfpp_psframes_handle_t vtfpp_psframes_open_from_file(const char* psframesPath); // REQUIRES MANUAL FREE: vtfpp_psframes_free
-SOURCEPP_API void vtfpp_psframes_free(vtfpp_psframes_handle_t* handle);
+SOURCEPP_API vtfpp_psframes_handle_t vtfpp_psframes_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_psframes_close
+SOURCEPP_API vtfpp_psframes_handle_t vtfpp_psframes_open_from_file(const char* psframesPath); // REQUIRES MANUAL FREE: vtfpp_psframes_close
+SOURCEPP_API void vtfpp_psframes_close(vtfpp_psframes_handle_t* handle);
 SOURCEPP_API uint32_t vtfpp_psframes_get_frame_count(vtfpp_psframes_handle_t handle);
 SOURCEPP_API uint32_t vtfpp_psframes_get_fps(vtfpp_psframes_handle_t handle);
 SOURCEPP_API uint16_t vtfpp_psframes_get_width(vtfpp_psframes_handle_t handle);

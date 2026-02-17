@@ -20,7 +20,7 @@ SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_file(const char* vbfPath) {
 	return new VBF{vbfPath};
 }
 
-SOURCEPP_API void vtfpp_vbf_free(vtfpp_vbf_handle_t* handle) {
+SOURCEPP_API void vtfpp_vbf_close(vtfpp_vbf_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<VBF>(*handle);

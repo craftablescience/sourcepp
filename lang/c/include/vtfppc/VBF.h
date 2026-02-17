@@ -2,8 +2,6 @@
 
 #include <sourceppc/API.h>
 
-#include "vtfpp/VBF.h"
-
 SOURCEPP_EXTERNVAR const uint32_t VTFPP_VBF_SIGNATURE;
 
 SOURCEPP_EXTERN typedef enum {
@@ -32,9 +30,9 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_vbf_handle_t;
 
-SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_vbf_free
-SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_file(const char* vbfPath); // REQUIRES MANUAL FREE: vtfpp_vbf_free
-SOURCEPP_API void vtfpp_vbf_free(vtfpp_vbf_handle_t* handle);
+SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_vbf_close
+SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_file(const char* vbfPath); // REQUIRES MANUAL FREE: vtfpp_vbf_close
+SOURCEPP_API void vtfpp_vbf_close(vtfpp_vbf_handle_t* handle);
 SOURCEPP_API int vtfpp_vbf_is_valid(vtfpp_vbf_handle_t handle);
 SOURCEPP_API uint16_t vtfpp_vbf_get_page_width(vtfpp_vbf_handle_t handle);
 SOURCEPP_API uint16_t vtfpp_vbf_get_page_height(vtfpp_vbf_handle_t handle);

@@ -128,7 +128,7 @@ SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, in
 	return new VTF{vtfPath, static_cast<bool>(parseHeaderOnly)};
 }
 
-SOURCEPP_API void vtfpp_vtf_free(vtfpp_vtf_handle_t* handle) {
+SOURCEPP_API void vtfpp_vtf_close(vtfpp_vtf_handle_t* handle) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	delete convert::handle<VTF>(*handle);
