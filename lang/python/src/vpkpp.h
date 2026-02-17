@@ -132,7 +132,7 @@ inline void register_python(py::module_& m) {
 		.def("remove_entry", &PackFile::removeEntry, "path"_a)
 		.def("__delitem__", &PackFile::removeEntry, "path"_a)
 		.def("remove_directory", &PackFile::removeDirectory, "dir"_a)
-		.def("bake", &PackFile::bake, "output_dir"_a = "", "bake_options"_a = BakeOptions{}, "callback"_a = nullptr)
+		.def("bake", py::overload_cast<const std::string&, BakeOptions, const PackFile::EntryCallback&>(&PackFile::bake), "output_dir"_a = "", "bake_options"_a = BakeOptions{}, "callback"_a = nullptr)
 		.def("extract_entry", &PackFile::extractEntry, "entry_path"_a, "filepath"_a)
 		.def("extract_directory", &PackFile::extractDirectory, "dir"_a, "output_dir"_a)
 		.def("extract_all", py::overload_cast<const std::string&, bool>(&PackFile::extractAll, py::const_), "output_dir"_a, "create_under_pack_file_dir"_a = true)

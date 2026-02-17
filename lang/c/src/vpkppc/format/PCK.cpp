@@ -1,12 +1,13 @@
 #include <vpkppc/format/PCK.h>
 
-#include <vpkpp/format/PCK.h>
-
 #include <sourceppc/Helpers.h>
-#include <vpkppc/Convert.hpp>
 
 using namespace sourceppc;
 using namespace vpkpp;
+
+const uint32_t VPKPP_PCK_SIGNATURE = PCK_SIGNATURE;
+const char* VPKPP_PCK_PATH_PREFIX  = PCK_PATH_PREFIX.data();
+const char* VPKPP_PCK_EXTENSION    = PCK_EXTENSION.data();
 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
@@ -31,8 +32,8 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_create_with_options(const char* 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
-	auto packFile = PCK::open(path, callback ? [callback](const std::string& path, const Entry& entry) {
-		callback(path.c_str(), const_cast<Entry*>(&entry));
+	auto packFile = PCK::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {
+		callback(entryPath.c_str(), const_cast<Entry*>(&entry));
 	} : static_cast<PackFile::EntryCallback>(nullptr));
 	if (!packFile) {
 		return nullptr;

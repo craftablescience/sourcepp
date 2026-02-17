@@ -131,7 +131,16 @@ public:
 	virtual std::size_t removeDirectory(const std::string& dirName_);
 
 	/// If output folder is an empty string, it will overwrite the original
-	virtual bool bake(const std::string& outputDir_ /*= ""*/, BakeOptions options /*= {}*/, const EntryCallback& callback /*= nullptr*/) = 0;
+	bool bake();
+
+	/// If output folder is an empty string, it will overwrite the original
+	bool bake(const std::string& outputDir_);
+
+	/// If output folder is an empty string, it will overwrite the original
+	bool bake(const std::string& outputDir_, BakeOptions options);
+
+	/// If output folder is an empty string, it will overwrite the original
+	virtual bool bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) = 0;
 
 	/// Extract the given entry to disk at the given file path
 	bool extractEntry(const std::string& entryPath, const std::string& filepath) const; // NOLINT(*-use-nodiscard)

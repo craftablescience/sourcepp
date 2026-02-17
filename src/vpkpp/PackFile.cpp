@@ -360,6 +360,18 @@ std::size_t PackFile::removeDirectory(const std::string& dirName_) {
 	return count;
 }
 
+bool PackFile::bake() {
+	return this->bake("", {}, nullptr);
+}
+
+bool PackFile::bake(const std::string& outputDir_) {
+	return this->bake(outputDir_, {}, nullptr);
+}
+
+bool PackFile::bake(const std::string& outputDir_, BakeOptions options) {
+	return this->bake(outputDir_, options, nullptr);
+}
+
 bool PackFile::extractEntry(const std::string& entryPath, const std::string& filepath) const {
 	if (filepath.empty()) {
 		return false;

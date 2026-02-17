@@ -5,6 +5,7 @@
  * include it the same way as any of the other SourcePP libraries.
  */
 
+#include "format/APK.h"
 #include "format/FGP.h"
 #include "format/FPX.h"
 #include "format/GCF.h"

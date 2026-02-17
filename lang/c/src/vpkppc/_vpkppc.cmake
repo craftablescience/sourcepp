@@ -1,5 +1,6 @@
 add_pretty_parser(vpkpp C
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/APK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/FGP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/GCF.h"
@@ -22,7 +23,7 @@ add_pretty_parser(vpkpp C
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/PackFile.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/vpkpp.h"
         SOURCES
-        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/Convert.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/format/APK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FGP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"
@@ -39,6 +40,5 @@ add_pretty_parser(vpkpp C
         "${CMAKE_CURRENT_LIST_DIR}/format/WAD3.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/XZP.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/ZIP.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Convert.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Entry.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PackFile.cpp")
