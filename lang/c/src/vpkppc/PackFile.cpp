@@ -6,10 +6,10 @@
 
 #include <vpkpp/PackFile.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vpkpp;
 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_open(const char* path, vpkpp_entry_callback_t callback, vpkpp_pack_file_open_property_request_t requestProperty) {

@@ -1,19 +1,9 @@
 #include <steamppc/steampp.h>
 
-#include <steampp/steampp.h>
-
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 
+using namespace sourceppc;
 using namespace steampp;
-
-namespace convert {
-
-Steam* cast(steampp_steam_handle_t handle) {
-	return static_cast<Steam*>(handle);
-}
-
-} // namespace convert
 
 SOURCEPP_API steampp_steam_handle_t steampp_steam_new() {
 	auto* steam = new Steam{};

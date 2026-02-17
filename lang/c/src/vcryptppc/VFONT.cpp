@@ -1,9 +1,8 @@
 #include <vcryptppc/VFONT.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
-#include <vcryptpp/vcryptpp.h>
 
+using namespace sourceppc;
 using namespace vcryptpp;
 
 SOURCEPP_API sourcepp_buffer_t vcryptpp_vfont_encrypt(const unsigned char* buffer, size_t bufferLen, uint8_t saltLen) {

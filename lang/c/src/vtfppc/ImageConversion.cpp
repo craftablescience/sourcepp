@@ -2,9 +2,9 @@
 
 #include <vtfpp/ImageConversion.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint16_t width, uint16_t height, float quality) {

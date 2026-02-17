@@ -4,6 +4,7 @@
 
 #include <sourceppc/Helpers.h>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API int8_t vtfpp_image_format_details_red(vtfpp_image_format_e format) {

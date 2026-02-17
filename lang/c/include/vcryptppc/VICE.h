@@ -40,3 +40,10 @@ extern const char* VCRYPTPP_VICE_KNOWN_CODES_GPU_TEAM_FORTRESS_2;
 
 SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_encrypt(const unsigned char* buffer, size_t bufferLen, const char* code); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_decrypt(const unsigned char* buffer, size_t bufferLen, const char* code); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+
+// C++ conversion routines
+#ifdef __cplusplus
+
+#include <vcryptpp/vcryptpp.h>
+
+#endif

@@ -2,10 +2,9 @@
 
 #include <vcryptppc/VICE.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
-#include <vcryptpp/vcryptpp.h>
 
+using namespace sourceppc;
 using namespace vcryptpp;
 
 const char* VCRYPTPP_VICE_KNOWN_CODES_DEFAULT = "x9Ke0BY7";

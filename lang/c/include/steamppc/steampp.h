@@ -26,3 +26,18 @@ SOURCEPP_API int steampp_steam_is_app_using_goldsrc_engine(steampp_steam_handle_
 SOURCEPP_API int steampp_steam_is_app_using_source_engine(steampp_steam_handle_t handle, steampp_appid_t appID);
 SOURCEPP_API int steampp_steam_is_app_using_source_2_engine(steampp_steam_handle_t handle, steampp_appid_t appID);
 SOURCEPP_API int steampp_steam_is_valid(steampp_steam_handle_t handle);
+
+// C++ conversion routines
+#ifdef __cplusplus
+
+#include <steampp/steampp.h>
+
+namespace sourceppc::convert {
+
+inline steampp::Steam* cast(steampp_steam_handle_t handle) {
+	return static_cast<steampp::Steam*>(handle);
+}
+
+} // namespace sourceppc::convert
+
+#endif

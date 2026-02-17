@@ -1,19 +1,9 @@
 #include <gameppc/gamepp.h>
 
-#include <gamepp/gamepp.h>
-
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 
 using namespace gamepp;
-
-namespace convert {
-
-GameInstance* cast(gamepp_game_instance_handle_t handle) {
-	return static_cast<GameInstance*>(handle);
-}
-
-} // namespace convert
+using namespace sourceppc;
 
 SOURCEPP_API gamepp_game_instance_handle_t gamepp_game_instance_find() {
 	const auto instance = GameInstance::find();

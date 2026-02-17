@@ -18,3 +18,18 @@ SOURCEPP_API void gamepp_game_instance_input_end(gamepp_game_instance_handle_t h
 SOURCEPP_API void gamepp_game_instance_input_once(gamepp_game_instance_handle_t handle, const char* input);
 SOURCEPP_API void gamepp_game_instance_input_hold(gamepp_game_instance_handle_t handle, const char* input, double sec);
 SOURCEPP_API void gamepp_game_instance_wait(gamepp_game_instance_handle_t handle, double sec);
+
+// C++ conversion routines
+#ifdef __cplusplus
+
+#include <gamepp/gamepp.h>
+
+namespace sourceppc::convert {
+
+inline gamepp::GameInstance* cast(gamepp_game_instance_handle_t handle) {
+	return static_cast<gamepp::GameInstance*>(handle);
+}
+
+} // namespace sourceppc::convert
+
+#endif

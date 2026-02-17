@@ -2,9 +2,10 @@
 
 #include <vpkpp/format/FPX.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
+#include <vpkppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vpkpp;
 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fpx_create(const char* path) {

@@ -2,10 +2,10 @@
 
 #include <vtfpp/VTF.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vtfppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API vtfpp_resource_type_e vtfpp_resource_get_type(vtfpp_resource_handle_t handle) {

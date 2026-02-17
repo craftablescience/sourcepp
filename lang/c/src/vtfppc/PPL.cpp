@@ -2,10 +2,10 @@
 
 #include <vtfpp/PPL.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vtfppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API vtfpp_ppl_handle_t vtfpp_ppl_create(uint32_t modelChecksum) {

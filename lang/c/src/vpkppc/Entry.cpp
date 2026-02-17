@@ -2,10 +2,10 @@
 
 #include <vpkpp/Entry.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vpkppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vpkpp;
 
 SOURCEPP_API uint32_t vpkpp_entry_get_flags(vpkpp_entry_handle_t handle) {

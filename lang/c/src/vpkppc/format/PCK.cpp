@@ -2,9 +2,10 @@
 
 #include <vpkpp/format/PCK.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
+#include <vpkppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vpkpp;
 
 SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pck_create(const char* path) {

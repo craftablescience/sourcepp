@@ -2,10 +2,10 @@
 
 #include <vtfpp/SHT.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vtfppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API vtfpp_sht_handle_t vtfpp_sht_create() {

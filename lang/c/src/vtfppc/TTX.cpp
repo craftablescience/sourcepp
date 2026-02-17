@@ -2,10 +2,10 @@
 
 #include <vtfpp/TTX.h>
 
-#include <sourceppc/Convert.hpp>
 #include <sourceppc/Helpers.h>
 #include <vtfppc/Convert.hpp>
 
+using namespace sourceppc;
 using namespace vtfpp;
 
 SOURCEPP_API vtfpp_ttx_handle_t vtfpp_ttx_create(vtfpp_vtf_handle_t vtf) {
