@@ -13,6 +13,12 @@ std::vector<std::byte> fs::readFileBuffer(const std::filesystem::path& filepath,
 	return stream.read_bytes(std::filesystem::file_size(filepath) - startOffset);
 }
 
+std::vector<std::byte> fs::readFileBuffer(const std::filesystem::path& filepath, bool& exists, std::size_t startOffset) {
+	auto buffer = readFileBuffer(filepath, startOffset);
+	exists = !buffer.empty() || std::filesystem::exists(filepath);
+	return buffer;
+}
+
 std::string fs::readFileText(const std::filesystem::path& filepath, std::size_t startOffset) {
 	FileStream stream{filepath};
 	if (!stream) {
@@ -20,6 +26,12 @@ std::string fs::readFileText(const std::filesystem::path& filepath, std::size_t 
 	}
 	stream.seek_in_u(startOffset);
 	return stream.read_string();
+}
+
+std::string fs::readFileText(const std::filesystem::path& filepath, bool& exists, std::size_t startOffset) {
+	auto text = readFileText(filepath, startOffset);
+	exists = !text.empty() || std::filesystem::exists(filepath);
+	return text;
 }
 
 bool fs::writeFileBuffer(const std::filesystem::path& filepath, std::span<const std::byte> buffer) {

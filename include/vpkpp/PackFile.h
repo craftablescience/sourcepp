@@ -104,19 +104,19 @@ public:
 	}
 
 	/// Add a new entry from a file path - the first parameter is the path in the PackFile, the second is the path on disk
-	void addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options = {});
+	bool addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options = {});
+	bool addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options = {});
 
 	/// Add a new entry from a buffer
-	void addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options = {});
+	bool addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options = {});
 
 	/// Adds new entries using the contents of a given directory
-	void addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});
+	int64_t addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options = {});
 
 	/// Adds new entries using the contents of a given directory
-	void addDirectory(const std::string& entryBaseDir_, const std::string& dir, const EntryCreation& creation);
+	int64_t addDirectory(const std::string& entryBaseDir_, const std::string& dir, const EntryCreation& creation);
 
 	/// Rename an existing entry
 	virtual bool renameEntry(const std::string& oldPath_, const std::string& newPath_); // NOLINT(*-use-nodiscard)

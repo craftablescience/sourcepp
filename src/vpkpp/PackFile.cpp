@@ -194,12 +194,16 @@ std::optional<std::string> PackFile::readEntryText(const std::string& path) cons
 	return out;
 }
 
-void PackFile::addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options) {
+bool PackFile::addEntry(const std::string& entryPath, const std::string& filepath, EntryOptions options) {
 	if (this->isReadOnly()) {
-		return;
+		return false;
 	}
 
-	auto buffer = fs::readFileBuffer(filepath);
+	bool fileExists;
+	auto buffer = fs::readFileBuffer(filepath, fileExists);
+	if (!fileExists) {
+		return false;
+	}
 
 	Entry entry{};
 	entry.unbaked = true;
@@ -210,11 +214,12 @@ void PackFile::addEntry(const std::string& entryPath, const std::string& filepat
 	const auto path = this->cleanEntryPath(entryPath);
 	this->addEntryInternal(entry, path, buffer, options);
 	this->unbakedEntries.emplace(path, entry);
+	return true;
 }
 
-void PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options) {
+bool PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer, EntryOptions options) {
 	if (this->isReadOnly()) {
-		return;
+		return false;
 	}
 
 	Entry entry{};
@@ -225,21 +230,23 @@ void PackFile::addEntry(const std::string& path, std::vector<std::byte>&& buffer
 	this->addEntryInternal(entry, path_, buffer, options);
 	entry.unbakedData = std::move(buffer);
 	this->unbakedEntries.emplace(path_, entry);
+	return true;
 }
 
-void PackFile::addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options) {
+bool PackFile::addEntry(const std::string& path, std::span<const std::byte> buffer, EntryOptions options) {
 	this->addEntry(path, std::vector<std::byte>{buffer.begin(), buffer.end()}, options);
+	return true;
 }
 
-void PackFile::addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options) {
-	this->addDirectory(entryBaseDir, dir, [options](const std::string&) {
+int64_t PackFile::addDirectory(const std::string& entryBaseDir, const std::string& dir, EntryOptions options) {
+	return this->addDirectory(entryBaseDir, dir, [options](const std::string&) {
 		return options;
 	});
 }
 
-void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string& dir, const EntryCreation& creation) {
-	if (!std::filesystem::exists(dir) || std::filesystem::status(dir).type() != std::filesystem::file_type::directory) {
-		return;
+int64_t PackFile::addDirectory(const std::string& entryBaseDir_, const std::string& dir, const EntryCreation& creation) {
+	if (this->isReadOnly() || !std::filesystem::exists(dir) || !std::filesystem::is_directory(dir)) {
+		return -1;
 	}
 
 	auto entryBaseDir = this->cleanEntryPath(entryBaseDir_);
@@ -247,6 +254,7 @@ void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string&
 		entryBaseDir += '/';
 	}
 	const auto dirLen = std::filesystem::absolute(dir).string().length() + 1;
+	int64_t filesAdded = 0;
 	for (const auto& file : std::filesystem::recursive_directory_iterator(dir, std::filesystem::directory_options::skip_permission_denied)) {
 		if (!file.is_regular_file()) {
 			continue;
@@ -263,8 +271,9 @@ void PackFile::addDirectory(const std::string& entryBaseDir_, const std::string&
 		if (entryPath.empty()) {
 			continue;
 		}
-		this->addEntry(entryPath, absPath, creation ? creation(entryPath) : EntryOptions{});
+		filesAdded += this->addEntry(entryPath, absPath, creation ? creation(entryPath) : EntryOptions{});
 	}
+	return filesAdded;
 }
 
 bool PackFile::renameEntry(const std::string& oldPath_, const std::string& newPath_) {
