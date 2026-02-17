@@ -956,7 +956,7 @@ namespace ImageFormatDetails {
  * @param depth The depth of the texture.
  * @return True if the section of the texture was successfully found.
  */
-[[nodiscard]] constexpr bool getDataPositionXbox(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
+[[nodiscard]] constexpr bool getDataPositionXBOX(uint32_t& offset, uint32_t& length, bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) {
 	offset = 0;
 	length = 0;
 	for (int j = 0; j < frameCount; j++) {

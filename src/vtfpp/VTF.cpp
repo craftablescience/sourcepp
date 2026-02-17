@@ -256,7 +256,7 @@ template<bool ConvertingFromDDS>
 				for (int k = 0; k < faceCount; k++) {
 					for (int l = 0; l < mipDepth; l++) {
 						uint32_t oldOffset, length;
-						if (!ImageFormatDetails::getDataPositionXbox(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, depth)) {
+						if (!ImageFormatDetails::getDataPositionXBOX(oldOffset, length, padded, format, i, mipCount, j, frameCount, k, faceCount, width, height, l, depth)) {
 							ok = false;
 							return {};
 						}

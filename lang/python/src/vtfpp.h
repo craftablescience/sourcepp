@@ -129,10 +129,10 @@ inline void register_python(py::module_& m) {
 
 		ImageFormatDetails.def("get_data_position_xbox", [](bool padded, ImageFormat format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice = 0, uint16_t depth = 1) -> std::pair<uint32_t, uint32_t> {
 			uint32_t offset, length;
-			if (getDataPositionXbox(offset, length, padded, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
-					return {offset, length};
-				}
-				return {0, 0};
+			if (getDataPositionXBOX(offset, length, padded, format, mip, mipCount, frame, frameCount, face, faceCount, width, height, slice, depth)) {
+				return {offset, length};
+			}
+			return {0, 0};
 		}, "padded"_a, "format"_a, "mip"_a, "mip_count"_a, "frame"_a, "frame_count"_a, "face"_a, "face_count"_a, "width"_a, "height"_a, "slice"_a = 0, "depth"_a = 1);
 	}
 
