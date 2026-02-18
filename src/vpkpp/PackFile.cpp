@@ -107,6 +107,12 @@ void fixFilePathForWindows(std::string& path) {
 
 #endif
 
+bool checkForExtractionEscapeAttempt(const std::filesystem::path& outputDir, const std::string& filepath) {
+	const auto absOutDir = std::filesystem::absolute(outputDir).lexically_normal();
+	const auto absFilePath = std::filesystem::absolute(outputDir / std::filesystem::path{filepath}).lexically_normal();
+	return !absFilePath.string().starts_with(absOutDir.string());
+}
+
 } // namespace
 
 PackFile::PackFile(std::string fullFilePath_)
@@ -409,7 +415,7 @@ bool PackFile::extractDirectory(const std::string& dir_, const std::string& outp
 #ifdef _WIN32
 		::fixFilePathForWindows(outputPath);
 #endif
-		if (!this->extractEntry(path, (outputDirPath / outputPath).string())) {
+		if (::checkForExtractionEscapeAttempt(outputDirPath, outputPath) || !this->extractEntry(path, (outputDirPath / outputPath).string())) {
 			noneFailed = false;
 		}
 	});
@@ -431,7 +437,7 @@ bool PackFile::extractAll(const std::string& outputDir, bool createUnderPackFile
 #ifdef _WIN32
 		::fixFilePathForWindows(entryPath);
 #endif
-		if (!this->extractEntry(path, (outputDirPath / entryPath).string())) {
+		if (::checkForExtractionEscapeAttempt(outputDirPath, entryPath) || !this->extractEntry(path, (outputDirPath / entryPath).string())) {
 			noneFailed = false;
 		}
 	});
@@ -496,7 +502,7 @@ bool PackFile::extractAll(const std::string& outputDir, const EntryPredicate& pr
 #ifdef _WIN32
 		::fixFilePathForWindows(savePath);
 #endif
-		if (!this->extractEntry(path, (outputDirPath / savePath.substr(rootDirLen)).string())) {
+		if (::checkForExtractionEscapeAttempt(outputDirPath, savePath.substr(rootDirLen)) || !this->extractEntry(path, (outputDirPath / savePath.substr(rootDirLen)).string())) {
 			noneFailed = false;
 		}
 	}
