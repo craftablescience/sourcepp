@@ -121,10 +121,11 @@ namespace {
 			return CMP_FORMAT_RGBA_1010102;
 		case STRATA_R8:
 			return CMP_FORMAT_R_8;
+		case TFALL2_BC6H:
+			return CMP_FORMAT_BC6H;
 		case TFALL2_BC7:
 		case STRATA_BC7:
 			return CMP_FORMAT_BC7;
-		case TFALL2_BC6H:
 		case STRATA_BC6H:
 			return CMP_FORMAT_BC6H_SF;
 		case RGB565:
