@@ -1519,7 +1519,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getWidth(), 256);
 	EXPECT_EQ(vtf.getHeight(), 256);
 	EXPECT_EQ(vtf.getFlags(), VTF::FLAG_V0_MULTI_BIT_ALPHA);
-	EXPECT_EQ(vtf.getFormat(), ImageFormat::BC7);
+	EXPECT_EQ(vtf.getFormat(), ImageFormat::STRATA_BC7);
 	EXPECT_EQ(vtf.getMipCount(), 9);
 	EXPECT_EQ(vtf.getFrameCount(), 1);
 	EXPECT_EQ(vtf.getFaceCount(), 1);

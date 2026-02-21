@@ -119,11 +119,13 @@ namespace {
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
 			return CMP_FORMAT_RGBA_1010102;
-		case R8:
+		case STRATA_R8:
 			return CMP_FORMAT_R_8;
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_BC7:
 			return CMP_FORMAT_BC7;
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return CMP_FORMAT_BC6H_SF;
 		case RGB565:
 		case IA88:
@@ -176,7 +178,7 @@ namespace {
 		case P8:
 		case R32F:
 		case R16F:
-		case R8:
+		case STRATA_R8:
 			return STBIR_1CHANNEL;
 		case ARGB8888:
 			return STBIR_ARGB;
@@ -195,8 +197,10 @@ namespace {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 		case RGB565:
 		case A8:
 		case RGB888_BLUESCREEN:
@@ -248,7 +252,7 @@ namespace {
 		case UVWQ8888:
 		case UVLX8888:
 		case RGBX8888:
-		case R8:
+		case STRATA_R8:
 			return srgb ? STBIR_TYPE_UINT8_SRGB : STBIR_TYPE_UINT8;
 		case R16F:
 		case RG1616F:
@@ -287,8 +291,10 @@ namespace {
 		case CONSOLE_RGBA16161616_LINEAR:
 		case CONSOLE_BGRX8888_LE:
 		case CONSOLE_BGRA8888_LE:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			break;
 	}
 	return -1;
@@ -337,7 +343,11 @@ namespace {
 	options.dwSize = sizeof(options);
 	if (quality >= 0.f) {
 		options.fquality  = std::min(quality, 1.f);
-	} else if (oldFormat == ImageFormat::BC7 || newFormat == ImageFormat::BC7 || oldFormat == ImageFormat::BC6H || newFormat == ImageFormat::BC6H) {
+	} else if (
+		oldFormat == ImageFormat::TFALL2_BC6H || newFormat == ImageFormat::TFALL2_BC6H ||
+		oldFormat == ImageFormat::TFALL2_BC7  || newFormat == ImageFormat::TFALL2_BC7  ||
+		oldFormat == ImageFormat::STRATA_BC7  || newFormat == ImageFormat::STRATA_BC7  ||
+		oldFormat == ImageFormat::STRATA_BC6H || newFormat == ImageFormat::STRATA_BC6H) {
 		options.fquality = 0.1f;
 	} else {
 		options.fquality = 1.f;
@@ -435,7 +445,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_I8_LINEAR,       pixel.i, pixel.i, pixel.i, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRX8888_LE,     pixel.r, pixel.g, pixel.b, 0xff);
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRA8888_LE,     pixel.r, pixel.g, pixel.b, pixel.a);
-		VTFPP_CASE_CONVERT_AND_BREAK(R8,                      pixel.r, 0,       0,       0xff);
+		VTFPP_CASE_CONVERT_AND_BREAK(STRATA_R8,               pixel.r, 0,       0,       0xff);
 		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
@@ -513,7 +523,7 @@ namespace {
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_I8_LINEAR,       {std::clamp<uint8_t>(0.2126 * pixel.r + 0.7152 * pixel.g + 0.0722 * pixel.b, std::numeric_limits<uint8_t>::min(), std::numeric_limits<uint8_t>::max())}); // linear constants from Rec. 709 HDTV standard
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRX8888_LE,     {pixel.b, pixel.g, pixel.r, 0xff});
 		VTFPP_CASE_CONVERT_AND_BREAK(CONSOLE_BGRA8888_LE,     {pixel.b, pixel.g, pixel.r, pixel.a});
-		VTFPP_CASE_CONVERT_AND_BREAK(R8,                      {pixel.r});
+		VTFPP_CASE_CONVERT_AND_BREAK(STRATA_R8,               {pixel.r});
 		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 
@@ -899,7 +909,11 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		return {};
 	}
 
-	if (oldFormat == newFormat) {
+	if (
+		oldFormat == newFormat ||
+		((oldFormat == ImageFormat::TFALL2_BC6H && newFormat == ImageFormat::STRATA_BC6H) || (oldFormat == ImageFormat::STRATA_BC6H && newFormat == ImageFormat::TFALL2_BC6H)) ||
+		((oldFormat == ImageFormat::TFALL2_BC7  && newFormat == ImageFormat::STRATA_BC7)  || (oldFormat == ImageFormat::STRATA_BC7  && newFormat == ImageFormat::TFALL2_BC7))
+	) {
 		return {imageData.begin(), imageData.end()};
 	}
 
@@ -2214,7 +2228,7 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRX5551,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   1});
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(BGRA4444,          {VTFPP_APPLY_GAMMA_BLUE(pixel.b), VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_RED(pixel.r),   pixel.a});
 		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(RGBX8888,          {VTFPP_APPLY_GAMMA_RED(pixel.r),  VTFPP_APPLY_GAMMA_GREEN(pixel.g), VTFPP_APPLY_GAMMA_BLUE(pixel.b),  0xff});
-		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(R8,                {VTFPP_APPLY_GAMMA_RED(pixel.r)});
+		VTFPP_CASE_GAMMA_CORRECT_AND_BREAK(STRATA_R8,         {VTFPP_APPLY_GAMMA_RED(pixel.r)});
 		default: SOURCEPP_DEBUG_BREAK; break;
 	}
 

@@ -88,9 +88,23 @@ inline void register_python(py::module_& m) {
 		.value("RGBA1010102",        ImageFormat::RGBA1010102)
 		.value("BGRA1010102",        ImageFormat::BGRA1010102)
 		.value("R16F",               ImageFormat::R16F)
-		.value("R8",                 ImageFormat::R8)
-		.value("BC7",                ImageFormat::BC7)
-		.value("BC6H",               ImageFormat::BC6H);
+		.value("CONSOLE_BGRX8888_LINEAR", ImageFormat::CONSOLE_BGRX8888_LINEAR)
+		.value("CONSOLE_RGBA8888_LINEAR",  ImageFormat::CONSOLE_RGBA8888_LINEAR)
+		.value("CONSOLE_ABGR8888_LINEAR", ImageFormat::CONSOLE_ABGR8888_LINEAR)
+		.value("CONSOLE_ARGB8888_LINEAR", ImageFormat::CONSOLE_ARGB8888_LINEAR)
+		.value("CONSOLE_BGRA8888_LINEAR", ImageFormat::CONSOLE_BGRA8888_LINEAR)
+		.value("CONSOLE_RGB888_LINEAR", ImageFormat::CONSOLE_RGB888_LINEAR)
+		.value("CONSOLE_BGR888_LINEAR", ImageFormat::CONSOLE_BGR888_LINEAR)
+		.value("CONSOLE_BGRX5551_LINEAR", ImageFormat::CONSOLE_BGRX5551_LINEAR)
+		.value("CONSOLE_I8_LINEAR", ImageFormat::CONSOLE_I8_LINEAR)
+		.value("CONSOLE_RGBA16161616_LINEAR", ImageFormat::CONSOLE_RGBA16161616_LINEAR)
+		.value("CONSOLE_BGRX8888_LE", ImageFormat::CONSOLE_BGRX8888_LE)
+		.value("CONSOLE_BGRA8888_LE", ImageFormat::CONSOLE_BGRA8888_LE)
+		.value("TFALL2_BC6H",        ImageFormat::TFALL2_BC6H)
+		.value("TFALL2_BC7",         ImageFormat::TFALL2_BC7)
+		.value("STRATA_R8",          ImageFormat::STRATA_R8)
+		.value("STRATA_BC7",         ImageFormat::STRATA_BC7)
+		.value("STRATA_BC6H",        ImageFormat::STRATA_BC6H);
 
 	{
 		using namespace ImageFormatDetails;

@@ -56,9 +56,12 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE,
 	VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE,
 
-	VTFPP_IMAGE_FORMAT_R8 = 69,
-	VTFPP_IMAGE_FORMAT_BC7,
-	VTFPP_IMAGE_FORMAT_BC6H,
+	VTFPP_IMAGE_FORMAT_TFALL2_BC6H = 66,
+	VTFPP_IMAGE_FORMAT_TFALL2_BC7,
+
+	VTFPP_IMAGE_FORMAT_STRATA_R8 = 69,
+	VTFPP_IMAGE_FORMAT_STRATA_BC7,
+	VTFPP_IMAGE_FORMAT_STRATA_BC6H,
 } vtfpp_image_format_e;
 
 SOURCEPP_API int8_t vtfpp_image_format_details_red(vtfpp_image_format_e format);
@@ -148,9 +151,11 @@ inline vtfpp::ImageFormat cast(vtfpp_image_format_e value) {
 		case VTFPP_IMAGE_FORMAT_CONSOLE_RGBA16161616_LINEAR: return vtfpp::ImageFormat::CONSOLE_RGBA16161616_LINEAR;
 		case VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE:         return vtfpp::ImageFormat::CONSOLE_BGRX8888_LE;
 		case VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE:         return vtfpp::ImageFormat::CONSOLE_BGRA8888_LE;
-		case VTFPP_IMAGE_FORMAT_R8:                          return vtfpp::ImageFormat::R8;
-		case VTFPP_IMAGE_FORMAT_BC7:                         return vtfpp::ImageFormat::BC7;
-		case VTFPP_IMAGE_FORMAT_BC6H:                        return vtfpp::ImageFormat::BC6H;
+		case VTFPP_IMAGE_FORMAT_TFALL2_BC6H:                 return vtfpp::ImageFormat::TFALL2_BC6H;
+		case VTFPP_IMAGE_FORMAT_TFALL2_BC7:                  return vtfpp::ImageFormat::TFALL2_BC7;
+		case VTFPP_IMAGE_FORMAT_STRATA_R8:                   return vtfpp::ImageFormat::STRATA_R8;
+		case VTFPP_IMAGE_FORMAT_STRATA_BC7:                  return vtfpp::ImageFormat::STRATA_BC7;
+		case VTFPP_IMAGE_FORMAT_STRATA_BC6H:                 return vtfpp::ImageFormat::STRATA_BC6H;
 	}
 	return vtfpp::ImageFormat::RGBA8888;
 }
@@ -208,9 +213,11 @@ inline vtfpp_image_format_e cast(vtfpp::ImageFormat value) {
 		case vtfpp::ImageFormat::CONSOLE_RGBA16161616_LINEAR: return VTFPP_IMAGE_FORMAT_CONSOLE_RGBA16161616_LINEAR;
 		case vtfpp::ImageFormat::CONSOLE_BGRX8888_LE:         return VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE;
 		case vtfpp::ImageFormat::CONSOLE_BGRA8888_LE:         return VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE;
-		case vtfpp::ImageFormat::R8:                          return VTFPP_IMAGE_FORMAT_R8;
-		case vtfpp::ImageFormat::BC7:                         return VTFPP_IMAGE_FORMAT_BC7;
-		case vtfpp::ImageFormat::BC6H:                        return VTFPP_IMAGE_FORMAT_BC6H;
+		case vtfpp::ImageFormat::TFALL2_BC6H:                 return VTFPP_IMAGE_FORMAT_TFALL2_BC6H;
+		case vtfpp::ImageFormat::TFALL2_BC7:                  return VTFPP_IMAGE_FORMAT_TFALL2_BC7;
+		case vtfpp::ImageFormat::STRATA_R8:                   return VTFPP_IMAGE_FORMAT_STRATA_R8;
+		case vtfpp::ImageFormat::STRATA_BC7:                  return VTFPP_IMAGE_FORMAT_STRATA_BC7;
+		case vtfpp::ImageFormat::STRATA_BC6H:                 return VTFPP_IMAGE_FORMAT_STRATA_BC6H;
 	}
 	return VTFPP_IMAGE_FORMAT_RGBA8888;
 }

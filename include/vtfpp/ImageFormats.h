@@ -71,10 +71,15 @@ enum class ImageFormat : int32_t {
 	CONSOLE_BGRA8888_LE,
 	// endregion
 
+	// region Titanfall 2 Formats
+	TFALL2_BC6H = 66,
+	TFALL2_BC7 = 67,
+	// endregion
+
 	// region Strata Source Formats
-	R8 = 69,
-	BC7,
-	BC6H,
+	STRATA_R8 = 69,
+	STRATA_BC7,
+	STRATA_BC6H,
 	// endregion
 };
 
@@ -129,7 +134,7 @@ namespace ImageFormatDetails {
 		case UVWQ8888:
 		case UVLX8888:
 		case RGBX8888:
-		case R8:
+		case STRATA_R8:
 			return 8;
 		case RGB565:
 		case BGR565:
@@ -148,8 +153,10 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			return -1;
 	}
 	return 0;
@@ -170,9 +177,11 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_BC7:
 			return 8;
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return 16;
 		default:
 			break;
@@ -241,7 +250,7 @@ namespace ImageFormatDetails {
 		case A8:
 		case EMPTY:
 		case R16F:
-		case R8:
+		case STRATA_R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -249,8 +258,10 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			return -1;
 	}
 	return 0;
@@ -271,9 +282,11 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_BC7:
 			return 8;
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return 16;
 		default:
 			break;
@@ -341,7 +354,7 @@ namespace ImageFormatDetails {
 		case RG3232F:
 		case RG1616F:
 		case R16F:
-		case R8:
+		case STRATA_R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -349,8 +362,10 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			return -1;
 	}
 	return 0;
@@ -371,9 +386,11 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_BC7:
 			return 8;
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return 16;
 		default:
 			break;
@@ -441,7 +458,7 @@ namespace ImageFormatDetails {
 		case RG3232F:
 		case RG1616F:
 		case R16F:
-		case R8:
+		case STRATA_R8:
 			return 0;
 		case DXT1:
 		case DXT3:
@@ -449,8 +466,10 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case BC7:
-		case BC6H:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			return -1;
 	}
 	return 0;
@@ -466,7 +485,8 @@ namespace ImageFormatDetails {
 	switch (format) {
 		using enum ImageFormat;
 		case DXT5:
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_BC7:
 			return 8;
 		case DXT3:
 			return 4;
@@ -475,7 +495,8 @@ namespace ImageFormatDetails {
 		case DXT1:
 		case ATI2N:
 		case ATI1N:
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return 0;
 		default:
 			break;
@@ -544,10 +565,12 @@ namespace ImageFormatDetails {
 		case A8:
 		case DXT3:
 		case DXT5:
-		case BC7:
-		case BC6H:
 		case ATI2N:
-		case R8:
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+		case STRATA_BC7:
+		case STRATA_BC6H:
+		case STRATA_R8:
 			return 8;
 		case ATI1N:
 		case DXT1:
@@ -577,7 +600,8 @@ namespace ImageFormatDetails {
 		case RG1616F:
 		case RGBA16161616F:
 		case RGBA32323232F:
-		case BC6H:
+		case TFALL2_BC6H:
+		case STRATA_BC6H:
 			return RGBA32323232F;
 		case RGBA16161616:
 		case CONSOLE_RGBA16161616_LINEAR:
@@ -623,8 +647,9 @@ namespace ImageFormatDetails {
 		case ATI2N:
 		case ATI1N:
 		case RGBX8888:
-		case R8:
-		case BC7:
+		case TFALL2_BC7:
+		case STRATA_R8:
+		case STRATA_BC7:
 			return RGBA8888;
 		case EMPTY:
 			break;
@@ -674,8 +699,10 @@ namespace ImageFormatDetails {
 			case DXT1_ONE_BIT_ALPHA:
 			case ATI2N:
 			case ATI1N:
-			case BC7:
-			case BC6H:
+			case TFALL2_BC6H:
+			case TFALL2_BC7:
+			case STRATA_BC7:
+			case STRATA_BC6H:
 				return true;
 			default:
 				break;
