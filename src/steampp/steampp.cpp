@@ -175,26 +175,26 @@ Steam::Steam() {
 			// Use the regular install path
 			steamLocation = home / ".steam" / "steam";
 		}
-#endif
-	}
 
-	if (!std::filesystem::exists(steamLocation, ec)) {
-		std::filesystem::path location;
-		std::filesystem::path d{"cwd/steamclient64.dll"};
-		for (const auto& entry : std::filesystem::directory_iterator{"/proc/"}) {
-			if (std::filesystem::exists(entry / d, ec)) {
-				ec.clear();
-				location = std::filesystem::read_symlink(entry.path() / "cwd", ec);
-				if (ec) {
-					continue;
+		if (!std::filesystem::exists(steamLocation, ec)) {
+			std::filesystem::path location;
+			std::filesystem::path d{"cwd/steamclient64.dll"};
+			for (const auto& entry : std::filesystem::directory_iterator{"/proc/"}) {
+				if (std::filesystem::exists(entry / d, ec)) {
+					ec.clear();
+					location = std::filesystem::read_symlink(entry.path() / "cwd", ec);
+					if (ec) {
+						continue;
+					}
+					break;
 				}
-				break;
 			}
+			if (location.empty()) {
+				return;
+			}
+			steamLocation = location;
 		}
-		if (location.empty()) {
-			return;
-		}
-		steamLocation = location;
+#endif
 	}
 #endif
 
