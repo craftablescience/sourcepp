@@ -164,7 +164,10 @@ Steam::Steam() {
 	}
 #else
 	{
-		const std::filesystem::path HOME{std::getenv("HOME")};
+		std::filesystem::path HOME{"~"};
+		if (const auto* homeEnv = std::getenv("HOME")) {
+			HOME = homeEnv;
+		}
 #ifdef __APPLE__
 		steamLocation = HOME / "Library" / "Application Support" / "Steam";
 #else
