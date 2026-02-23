@@ -60,8 +60,8 @@
 17535, // D.I.P.R.I.P. Dedicated Server
 17550, // Eternal Silence
 17555, // Eternal Silence Dedicated Server
-17570, // Pirates, Vikings, and Knights II
-17575, // Pirates, Vikings, and Knights II Dedicated Server
+17570, // Pirates Vikings & Knights II
+17575, // Pirates Vikings & Knights II Dedicated Server
 17580, // Dystopia
 17585, // Dystopia Dedicated Server
 17590, // Dystopia Beta
@@ -222,6 +222,7 @@
 1454890, // Titanfall­™
 1523440, // HEAT REBORN BETA
 1583720, // Entropy : Zero 2
+1614410, // Undead Awakening Playtest
 1617130, // Jabroni Brawl: Episode 3 - Beta Playtest
 1636310, // Portal: Forbidden Testing Tracks
 1786950, // Klaus Veen's Treason
@@ -230,7 +231,6 @@
 1828210, // Requiem Of Science
 1875450, // Treason Playtest
 1875500, // Treason Dedicated Server
-1950750, // KAYF-LIFE: Complete Edition
 2012840, // Portal with RTX
 2050090, // GROWTH
 2084070, // Ruby: Tunnel Vision
@@ -244,13 +244,16 @@
 2266250, // Portal: Revolution Authoring Tools
 2296760, // Hortensie
 2410180, // Portal: Prelude RTX
+2420570, // Portal BAGLEY
 2477290, // Half-Life 2 RTX
 2601770, // Portal 2: Project 2009
 2615420, // Portal: Ambition
 2665240, // Portal Ambition Demo
+2698930, // Portal: Catalyst
 2716490, // Portal 2: Confinement
 2734280, // VANCE
 2750510, // AMYGDALA: Prelude Demo
+2766240, // Portal: System Failure
 2954780, // Nightmare House: The Original Mod
 3043220, // Portal: Lost in Aperture
 3172910, // NEOTOKYO;REBUILD
@@ -260,6 +263,8 @@
 3418380, // A Nights Haunting: Source
 3489490, // SourceWorld
 3529100, // Portal 2 with RTX
+3545060, // Team Fortress 2 Classified
+3557020, // Team Fortress 2 Classified Dedicated Server
 3564500, // Lambda Fortress
 3575880, // Fernandez Big Mystery
 3581620, // Fernandez Big Mystery Demo
@@ -268,4 +273,9 @@
 3704420, // NEOTOKYO;REBUILD Dedicated Server
 3754860, // Lest - Deluxe 24
 3758670, // Team Fortress 2: Reborn
-3768450, // Better Fortress 2 - Open Beta
+3768450, // Custom Fortress - Beta
+3826520, // Team Fortress 2: Gold Rush
+3852670, // X-tal
+3947210, // The Inverse Dedicated Server
+4007540, // Team Fortress 2: Gold Rush Dedicated Server
+4160860, // Siobhan's Wacky MvM

@@ -30,6 +30,11 @@
 2842160, // Half-Life: ESCAPE 2.0
 3368040, // Half-Life: The Classic Collection
 3416640, // Half-Life: Cross Product Multiplayer
-3619040, // Half-Life Classic
+3431990, // Half-Life: Element 64 Demo
+3619040, // Half-Life Legacy
+3771220, // Half-Life Arena
 3791420, // Half-Life: Cross Product Campaign Demo
 3807180, // Half-Life: Cross Product Multiplayer Dedicated Server
+3825360, // Zombie Panic!
+3903990, // Half-Life: Cross Product Beta
+4250830, // Half-Life Legacy Dedicated Server
