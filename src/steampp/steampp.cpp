@@ -164,19 +164,33 @@ Steam::Steam() {
 	}
 #else
 	{
-		std::filesystem::path home{std::getenv("HOME")};
+		const std::filesystem::path HOME{std::getenv("HOME")};
 #ifdef __APPLE__
-		steamLocation = home / "Library" / "Application Support" / "Steam";
+		steamLocation = HOME / "Library" / "Application Support" / "Steam";
 #else
-		// Snap install takes priority, the .steam symlink may exist simultaneously with Snap installs
-		steamLocation = home / "snap" / "steam" / "common" / ".steam" / "steam";
-
-		if (!std::filesystem::exists(steamLocation, ec)) {
-			// Use the regular install path
-			steamLocation = home / ".steam" / "steam";
+		std::filesystem::path XDG_DATA_HOME{HOME / ".local" / "share"};
+		if (const auto* xdgDataHomeEnv = std::getenv("XDG_DATA_HOME")) {
+			XDG_DATA_HOME = xdgDataHomeEnv;
 		}
 
-		if (!std::filesystem::exists(steamLocation, ec)) {
+		const std::array locations{
+			HOME / "snap" / "steam" / "common" / ".local" / "share" / "Steam", // snap install
+			HOME / "snap" / "steam" / "common" / ".steam" / "steam", // snap symlink
+			HOME / ".var" / "app" / "com.valvesoftware.Steam" / ".local" / "share" / "Steam", // flatpak install
+			HOME / ".var" / "app" / "com.valvesoftware.Steam" / ".steam" / "steam", // flatpak symlink
+			XDG_DATA_HOME / "Steam", // expected install (XDG_DATA_HOME)
+			HOME / ".local" / "share" / "Steam", // expected install (HOME)
+			HOME / ".steam" / "steam", // expected symlink
+		};
+
+		for (const auto& location : locations) {
+			if (std::filesystem::exists(location, ec)) {
+				steamLocation = location;
+				break;
+			}
+		}
+		if (steamLocation.empty()) {
+			// Find where the Steam process is running from
 			std::filesystem::path location;
 			std::filesystem::path d{"cwd/steamclient64.dll"};
 			for (const auto& entry : std::filesystem::directory_iterator{"/proc/"}) {
@@ -198,7 +212,7 @@ Steam::Steam() {
 	}
 #endif
 
-	if (!std::filesystem::exists(steamLocation, ec)) {
+	if (steamLocation.empty()) {
 		return;
 	}
 	this->steamInstallDir = steamLocation;
