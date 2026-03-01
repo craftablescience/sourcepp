@@ -53,7 +53,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 				auto n = stream.read<char>();
 				if (n == 'n') {
 					backing << '\n';
-				} else if (END.find(n) != std::string_view::npos) {
+				} else if (n == '\n') {
 					break;
 				} else {
 					backing << c << n;
