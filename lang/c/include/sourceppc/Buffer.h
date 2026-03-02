@@ -3,11 +3,11 @@
 #include "API.h"
 
 SOURCEPP_EXTERN typedef struct {
-	int64_t size;
 	void* data;
+	int64_t size;
 } sourcepp_buffer_t;
 
-#define SOURCEPP_BUFFER_INVALID (SOURCEPP_CAST_CTOR(sourcepp_buffer_t) {.size = -1, .data = NULL})
+#define SOURCEPP_BUFFER_INVALID (SOURCEPP_CAST_CTOR(sourcepp_buffer_t) {.data = NULL, .size = -1})
 
 SOURCEPP_API sourcepp_buffer_t sourcepp_buffer_new(size_t size);
 

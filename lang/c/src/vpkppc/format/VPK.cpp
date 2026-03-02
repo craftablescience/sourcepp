@@ -47,13 +47,13 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-SOURCEPP_API bool vpkpp_vpk_generate_keypair_files(const char* path) {
+SOURCEPP_API int vpkpp_vpk_generate_keypair_files(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, false);
 
 	return VPK::generateKeyPairFiles(path);
 }
 
-SOURCEPP_API bool vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, const char* filename) {
+SOURCEPP_API int vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, const char* filename) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(filename, false);
 
@@ -63,7 +63,7 @@ SOURCEPP_API bool vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, cons
 	return vpk->sign(filename);
 }
 
-SOURCEPP_API bool vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const unsigned char* privateKeyBuffer, size_t privateKeyLen, const unsigned char* publicKeyBuffer, size_t publicKeyLen) {
+SOURCEPP_API int vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const unsigned char* privateKeyBuffer, size_t privateKeyLen, const unsigned char* publicKeyBuffer, size_t publicKeyLen) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(privateKeyBuffer, false);
 	SOURCEPP_EARLY_RETURN_VAL(privateKeyLen, false);
