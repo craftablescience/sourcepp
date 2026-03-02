@@ -80,7 +80,7 @@ SOURCEPP_API int vtfpp_image_format_details_compressed(vtfpp_image_format_e form
 SOURCEPP_API int vtfpp_image_format_details_transparent(vtfpp_image_format_e format);
 SOURCEPP_API int vtfpp_image_format_details_opaque(vtfpp_image_format_e format);
 SOURCEPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format);
-SOURCEPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int add_compressed_format_padding);
+SOURCEPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int addCompressedFormatPadding);
 
 // Skipping vtfpp::ImageDimensions::getMipDims
 

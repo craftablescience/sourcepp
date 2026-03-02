@@ -144,6 +144,8 @@ SOURCEPP_EXTERN typedef enum {
 SOURCEPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_UNCHANGED;
 SOURCEPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_DEFAULT;
 
+#pragma pack(push, 1)
+
 SOURCEPP_EXTERN typedef struct {
 	uint32_t version;
 	vtfpp_image_format_e outputFormat;
@@ -168,6 +170,8 @@ SOURCEPP_EXTERN typedef struct {
 	int invertGreenChannel;
 	uint8_t consoleMipScale;
 } vtfpp_vtf_creation_options_t;
+
+#pragma pack(pop)
 
 #define VTFPP_VTF_CREATION_OPTIONS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_vtf_creation_options_t) { \
 	.version = 4, \

@@ -71,8 +71,8 @@ SOURCEPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format)
 	return ImageFormatDetails::console(convert::cast(format));
 }
 
-SOURCEPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int add_compressed_format_padding) {
-	return ImageDimensions::getMipDim(mip, dim, add_compressed_format_padding);
+SOURCEPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int addCompressedFormatPadding) {
+	return ImageDimensions::getMipDim(mip, dim, addCompressedFormatPadding);
 }
 
 SOURCEPP_API uint8_t vtfpp_image_dimensions_get_maximum_mip_count(uint16_t width, uint16_t height, uint16_t depth) {

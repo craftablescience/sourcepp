@@ -10,6 +10,8 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_HOT_RECT_FLAG_IS_ALTERNATE      = 1 << 2,
 } vtfpp_hot_rect_flags_e;
 
+#pragma pack(push, 1)
+
 SOURCEPP_EXTERN typedef struct {
 	uint8_t flags;
 	uint16_t x1;
@@ -17,6 +19,8 @@ SOURCEPP_EXTERN typedef struct {
 	uint16_t x2;
 	uint16_t y2;
 } vtfpp_hot_rect_t;
+
+#pragma pack(pop)
 
 #define VTFPP_HOT_RECT_INVALID (SOURCEPP_CAST_CTOR(vtfpp_hot_rect_t) {.flags = VTFPP_HOT_RECT_FLAG_NONE, .x1 = 0, .y1 = 0, .x2 = 0, .y2 = 0})
 

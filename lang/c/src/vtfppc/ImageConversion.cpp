@@ -19,7 +19,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_form
 	return convert::toBuffer(ImageConversion::convertImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(oldFormat), convert::cast(newFormat), width, height, quality));
 }
 
-SOURCEPP_API sourcepp_buffer_t vtfpp_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality) {
+SOURCEPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_several_image_data_to_format(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e oldFormat, vtfpp_image_format_e newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(oldFormat != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
