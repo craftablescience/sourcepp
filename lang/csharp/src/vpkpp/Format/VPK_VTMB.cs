@@ -1,70 +1,29 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+public class VPK_VTMB : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
+	protected VPK_VTMB(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class VPK_VTMB
+	public static VPK_VTMB? Create(string path)
+	{
+		var handle = DLL.vpkpp_vpk_vtmb_create(path);
+		return handle == nint.Zero ? null : new VPK_VTMB(handle);
+	}
+
+	public new static VPK_VTMB? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_vpk_vtmb_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_vtmb_create")]
-			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_vtmb_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_vpk_vtmb_guid")]
-			public static partial sourcepp.String GUID();
-		}
-    }
-
-    public class VPK_VTMB : PackFile
-    {
-        private protected unsafe VPK_VTMB(void* handle) : base(handle) {}
-
-        public static VPK_VTMB? Create(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.VPK_VTMB.Create(path);
-                return handle == null ? null : new VPK_VTMB(handle);
-            }
-        }
-
-        public new static VPK_VTMB? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.VPK_VTMB.Open(path, 0);
-                return handle == null ? null : new VPK_VTMB(handle);
-            }
-        }
-
-        public new static VPK_VTMB? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.VPK_VTMB.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new VPK_VTMB(handle);
-            }
-        }
-
-		public static string GUID
-		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.VPK_VTMB.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new VPK_VTMB(handle);
 	}
 }

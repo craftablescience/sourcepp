@@ -1,113 +1,57 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+// ReSharper disable once InconsistentNaming
+public enum PAKType
 {
-    using EntryCallback = Action<string, Entry>;
+	PAK,
+	SIN,
+	HROT,
+}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class PAK
+public class PAK : PackFile
+{
+	protected PAK(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
+
+	public static PAK? Create(string path)
+	{
+		var handle = DLL.vpkpp_pak_create(path);
+		return handle == nint.Zero ? null : new PAK(handle);
+	}
+	
+	public static PAK? Create(string path, PAKType type)
+	{
+		var handle = DLL.vpkpp_pak_create_with_options(path, type);
+		return handle == nint.Zero ? null : new PAK(handle);
+	}
+
+	public new static PAK? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_pak_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_create")]
-			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new PAK(handle);
+	}
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_create_with_options")]
-			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path, int hrot);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_guid")]
-			public static partial sourcepp.String GUID();
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_get_type")]
-			public static partial int GetType(void* handle);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_pak_set_type")]
-			public static partial void SetType(void* handle, int type);
+	public PAKType Type
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vpkpp_pak_get_type(Handle);
 		}
-    }
-
-    public enum PAKType
-    {
-        PAK  = 0,
-        SIN  = 1,
-        HROT = 2,
-    }
-
-    public class PAK : PackFile
-    {
-        private protected unsafe PAK(void* handle) : base(handle) {}
-
-        public static PAK? Create(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.PAK.Create(path);
-                return handle == null ? null : new PAK(handle);
-            }
-        }
-
-        public static PAK? Create(string path, PAKType type)
-        {
-            unsafe
-            {
-                var handle = Extern.PAK.Create(path, (int) type);
-                return handle == null ? null : new PAK(handle);
-            }
-        }
-
-        public new static PAK? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.PAK.Open(path, 0);
-                return handle == null ? null : new PAK(handle);
-            }
-        }
-
-        public new static PAK? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.PAK.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new PAK(handle);
-            }
-        }
-
-		public static string GUID
+		set
 		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.PAK.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
-
-		public PAKType Type
-		{
-			get
-			{
-				unsafe
-				{
-					return (PAKType) Extern.PAK.GetType(Handle);
-				}
-			}
-			set
-			{
-			    unsafe
-			    {
-			        Extern.PAK.SetType(Handle, (int) value);
-			    }
-			}
+			ThrowIfDisposed();
+			DLL.vpkpp_pak_set_type(Handle, value);
 		}
 	}
 }

@@ -1,0 +1,40 @@
+﻿using System;
+
+namespace sourcepp.sourcepp;
+
+internal sealed class Buffer(DLL.Buffer buf) : ManagedNativeObject
+{
+	private DLL.Buffer _buf = buf;
+
+	protected override void DisposeCallback()
+	{
+		DLL.sourcepp_buffer_free(ref _buf);
+	}
+
+	public bool IsValid
+	{
+		get
+		{
+			ThrowIfDisposed();
+			unsafe
+			{
+				return _buf.Data is not null || _buf.Size == 0;
+			}
+		}
+	}
+
+	public Span<byte> ReadSpan()
+	{
+		ThrowIfDisposed();
+		unsafe
+		{
+			return new Span<byte>(_buf.Data, (int) _buf.Size);
+		}
+	}
+
+	public byte[] Read()
+	{
+		ThrowIfDisposed();
+		return ReadSpan().ToArray();
+	}
+}

@@ -1,0 +1,85 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <Title>SourcePP</Title>
+    <Version>${SOURCEPP_VERSION}</Version>
+    <IsTrimmable>True</IsTrimmable>
+    <IsAotCompatible>True</IsAotCompatible>
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+
+    <Authors>craftablescience</Authors>
+    <PackageProjectUrl>https://github.com/craftablescience/sourcepp</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/craftablescience/sourcepp</RepositoryUrl>
+    <PackageTags>source;source-engine;file-formats</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../../LICENSE" Pack="True" PackagePath="./" />
+    <None Include="../../../README.md" Pack="True" PackagePath="./" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
+  </PropertyGroup>
+
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_gameppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_gameppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_sourceppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_sourceppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_vcryptppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_vcryptppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_vpkppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_vpkppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

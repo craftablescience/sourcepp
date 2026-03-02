@@ -26,6 +26,15 @@ test/res/
 test/Helpers.h
 
 
+# C#
+bin/
+obj/
+TestResults/
+*.DotSettings.user
+
+lang/csharp/src/sourcepp.csproj
+
+
 # Python
 .mypy_cache/
 .venv/

@@ -1,58 +1,53 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using EntryCallback = Action<string, Entry>;
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+public class GCF : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
+	protected GCF(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class GCF
+	public new static GCF? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? requestProperty = null)
+	{
+		var handle = DLL.vpkpp_gcf_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback, IntPtr requestProperty);
+			callback(entryPath, new Entry(entry, false));
+		} : null, requestProperty is not null ? (handle, property) =>
+		{
+			var data = requestProperty(new PackFile(handle, false), property);
+			return sourcepp.DLL.sourcepp_buffer_new((ulong) data.Length);
+		} : null);
+		return handle == nint.Zero ? null : new GCF(handle);
+	}
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gcf_guid")]
-			public static partial sourcepp.String GUID();
+	public uint Version
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vpkpp_gcf_get_version(Handle);
 		}
 	}
 
-    public class GCF : PackFile
-    {
-        private protected unsafe GCF(void* handle) : base(handle) {}
-
-        public new static GCF? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.GCF.Open(path, 0);
-                return handle == null ? null : new GCF(handle);
-            }
-        }
-
-        public new static GCF? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.GCF.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative), 0);
-                return handle == null ? null : new GCF(handle);
-            }
-        }
-
-		public static string GUID
+	public uint AppId
+	{
+		get
 		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.GCF.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
+			ThrowIfDisposed();
+			return DLL.vpkpp_gcf_get_appid(Handle);
+		}
+	}
+
+	public uint AppVersion
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vpkpp_gcf_get_app_version(Handle);
 		}
 	}
 }

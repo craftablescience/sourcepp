@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="src/sourcepp.csproj" />
+  <Project Path="test/sourcepp.test.csproj" />
+</Solution>

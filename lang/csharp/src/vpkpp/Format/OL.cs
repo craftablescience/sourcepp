@@ -1,85 +1,38 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+public class OL : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
+	protected OL(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class OL
+	public new static OL? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_ol_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new OL(handle);
+	}
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_guid")]
-			public static partial sourcepp.String GUID();
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_get_notes")]
-			public static partial sourcepp.String GetNotes(void* handle);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_ol_get_entry_notes")]
-			public static partial sourcepp.String GetEntryNotes(void* handle, [MarshalAs(UnmanagedType.LPStr)] string path);
+	public string Notes
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return new sourcepp.String(DLL.vpkpp_ol_get_notes(Handle)).Read();
 		}
 	}
 
-    public class OL : PackFile
-    {
-        private protected unsafe OL(void* handle) : base(handle) {}
-
-        public new static OL? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.OL.Open(path, 0);
-                return handle == null ? null : new OL(handle);
-            }
-        }
-
-        public new static OL? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.OL.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new OL(handle);
-            }
-        }
-
-		public string GetEntryNotes(string path)
-		{
-			unsafe
-			{
-				var str = Extern.OL.GetEntryNotes(Handle, path);
-            	return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-			}
-		}
-
-		public string Notes
-		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.OL.GetNotes(Handle);
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
-
-		public static string GUID
-		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.OL.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
+	public string EntryNotes(string path)
+	{
+		ThrowIfDisposed();
+		return new sourcepp.String(DLL.vpkpp_ol_get_entry_notes(Handle, path)).Read();
 	}
 }

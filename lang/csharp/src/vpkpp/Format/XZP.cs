@@ -1,58 +1,23 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+public class XZP : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
+	protected XZP(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class XZP
+	public new static XZP? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_xzp_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_xzp_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_xzp_guid")]
-			public static partial sourcepp.String GUID();
-		}
-    }
-
-    public class XZP : PackFile
-    {
-        private protected unsafe XZP(void* handle) : base(handle) {}
-
-        public new static XZP? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.XZP.Open(path, 0);
-                return handle == null ? null : new XZP(handle);
-            }
-        }
-
-        public new static XZP? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.XZP.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new XZP(handle);
-            }
-        }
-
-		public static string GUID
-		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.XZP.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new XZP(handle);
 	}
 }

@@ -1,70 +1,48 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+public class FGP : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
+	protected FGP(nint handle, bool managed = true) : base(handle, managed)
+	{
+	}
 
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class FGP
+	public static FGP? Create(string path)
+	{
+		var handle = DLL.vpkpp_fgp_create(path);
+		return handle == nint.Zero ? null : new FGP(handle);
+	}
+
+	public new static FGP? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_fgp_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fgp_create")]
-			public static partial void* Create([MarshalAs(UnmanagedType.LPStr)] string path);
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new FGP(handle);
+	}
 
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fgp_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_fgp_guid")]
-			public static partial sourcepp.String GUID();
-		}
-    }
-
-    public class FGP : PackFile
-    {
-        private protected unsafe FGP(void* handle) : base(handle) {}
-
-        public static FGP? Create(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.FGP.Create(path);
-                return handle == null ? null : new FGP(handle);
-            }
-        }
-
-        public new static FGP? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.FGP.Open(path, 0);
-                return handle == null ? null : new FGP(handle);
-            }
-        }
-
-        public new static FGP? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.FGP.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new FGP(handle);
-            }
-        }
-
-		public static string GUID
+	public string LoadingScreenFilepath
+	{
+		get
 		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.FGP.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
+			ThrowIfDisposed();
+			return new sourcepp.String(DLL.vpkpp_fgp_get_loading_screen_file_path(Handle)).Read();
 		}
+		set
+		{
+			ThrowIfDisposed();
+			DLL.vpkpp_fgp_set_loading_screen_file_path(Handle, value);
+		}
+	}
+
+	public static uint HashFilepath(string path)
+	{
+		return DLL.vpkpp_fgp_hash_file_path(path);
 	}
 }

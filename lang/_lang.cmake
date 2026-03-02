@@ -1,7 +1,14 @@
 macro(sourcepp_lang_setup_pre)
+    # C# bindings
+    if(SOURCEPP_BUILD_CSHARP_WRAPPERS)
+        configure_file("${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp.csproj.in" "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp.csproj")
+        add_custom_target(sourcepp_csharp DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/lang/csharp/src/sourcepp.csproj")
+    endif()
+
+
     # C bindings
     if(SOURCEPP_BUILD_C_WRAPPERS)
-        include_subdirectory(lang/c/src/sourceppc PROPAGATE ${PROJECT_NAME}c_SOURCES)
+        include_subdirectory(lang/c/src/sourceppc)
     endif()
 
 

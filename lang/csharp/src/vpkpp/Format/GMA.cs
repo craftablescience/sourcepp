@@ -1,58 +1,23 @@
 using System;
-using System.Runtime.InteropServices;
 
-namespace vpkpp.Format
+namespace sourcepp.vpkpp.Format;
+
+using OpenPropertyRequest = Func<PackFile, OpenProperty, byte[]>;
+
+using EntryCallback = Action<string, Entry>;
+
+public class GMA : PackFile
 {
-    using EntryCallback = Action<string, Entry>;
-
-    internal static unsafe partial class Extern
-    {
-		internal static unsafe partial class GMA
-		{
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gma_open")]
-			public static partial void* Open([MarshalAs(UnmanagedType.LPStr)] string path, IntPtr callback);
-
-			[LibraryImport("sourcepp_vpkppc", EntryPoint = "vpkpp_gma_guid")]
-			public static partial sourcepp.String GUID();
-		}
+	protected GMA(nint handle, bool managed = true) : base(handle, managed)
+	{
 	}
 
-    public class GMA : PackFile
-    {
-        private protected unsafe GMA(void* handle) : base(handle) {}
-
-        public new static GMA? Open(string path)
-        {
-            unsafe
-            {
-                var handle = Extern.GMA.Open(path, 0);
-                return handle == null ? null : new GMA(handle);
-            }
-        }
-
-        public new static GMA? Open(string path, EntryCallback callback)
-        {
-            unsafe
-            {
-                EntryCallbackNative callbackNative = (path, entry) =>
-                {
-                    callback(path, new Entry(entry, true));
-                };
-                var handle = Extern.GMA.Open(path, Marshal.GetFunctionPointerForDelegate(callbackNative));
-                return handle == null ? null : new GMA(handle);
-            }
-        }
-
-		public static string GUID
+	public new static GMA? Open(string path, EntryCallback? callback = null, OpenPropertyRequest? _ = null)
+	{
+		var handle = DLL.vpkpp_gma_open(path, callback is not null ? (entryPath, entry) =>
 		{
-			get
-			{
-				unsafe
-				{
-					var str = Extern.GMA.GUID();
-					return sourcepp.StringUtils.ConvertToStringAndDelete(ref str);
-				}
-			}
-		}
+			callback(entryPath, new Entry(entry, false));
+		} : null);
+		return handle == nint.Zero ? null : new GMA(handle);
 	}
 }
