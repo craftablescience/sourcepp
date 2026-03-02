@@ -559,6 +559,8 @@ inline void register_python(py::module_& m) {
 		.value("V5_CSGO_YCOCG",                                   VTF::FLAG_V5_CSGO_YCOCG)
 		.value("V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES",              VTF::FLAG_V5_CSGO_ASYNC_SKIP_INITIAL_LOW_RES)
 		.value("MASK_V5_CSGO",                                    VTF::FLAG_MASK_V5_CSGO)
+		.value("V6_IGNORE_PICMIP",                                VTF::FLAG_V6_IGNORE_PICMIP)
+		.value("MASK_V6",                                         VTF::FLAG_MASK_V6)
 		.value("MASK_INTERNAL",                                   VTF::FLAG_MASK_INTERNAL);
 
 	py::enum_<VTF::Platform>(cVTF, "Platform")
