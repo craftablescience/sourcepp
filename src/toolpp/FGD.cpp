@@ -50,10 +50,14 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 
 		for (c = stream.read<char>(); END.find(c) == std::string_view::npos; c = stream.read<char>()) {
 			if (c == '\\') {
-				auto n = stream.read<char>();
+				const auto n = stream.read<char>();
 				if (n == 'n') {
 					backing << '\n';
-				} else if (END.find(n) != std::string_view::npos) {
+				} else if (n == 't') {
+					backing << '\t';
+				} else if (n == '\"') {
+					backing << '\"';
+				} else if (END.find(c) != std::string_view::npos) {
 					break;
 				} else {
 					backing << c << n;
