@@ -151,7 +151,7 @@ add_sourcepp_library(gamepp   C CSHARP PYTHON      TEST      ) # sourcepp::gamep
 add_sourcepp_library(kvpp              PYTHON      TEST BENCH) # sourcepp::kvpp
 add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
 add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
-add_sourcepp_library(steampp  C        PYTHON      TEST      ) # sourcepp::steampp
+add_sourcepp_library(steampp  C CSHARP PYTHON      TEST      ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON      TEST      ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP PYTHON      TEST      ) # sourcepp::vpkpp

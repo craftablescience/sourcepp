@@ -36,7 +36,7 @@ public class PackFile : sourcepp.ManagedNativeHandle
 		return handle == nint.Zero ? null : new PackFile(handle);
 	}
 
-	public static List<string> OpenableExtensions => new sourcepp.StringArray(DLL.vpkpp_pack_file_get_openable_extensions()).Read();
+	public static string[] OpenableExtensions => new sourcepp.StringArray(DLL.vpkpp_pack_file_get_openable_extensions()).Read();
 
 	public bool HasEntryChecksums
 	{
@@ -47,7 +47,7 @@ public class PackFile : sourcepp.ManagedNativeHandle
 		}
 	}
 
-	public List<string> VerifyEntryChecksums()
+	public string[] VerifyEntryChecksums()
 	{
 		ThrowIfDisposed();
 		return new sourcepp.StringArray(DLL.vpkpp_pack_file_verify_entry_checksums(Handle)).Read();
@@ -109,7 +109,7 @@ public class PackFile : sourcepp.ManagedNativeHandle
 	{
 		ThrowIfDisposed();
 		var data = new sourcepp.Buffer(DLL.vpkpp_pack_file_read_entry(Handle, path));
-		return data.IsValid ? data.Read() : null;
+		return data.IsValid ? data.Read<byte>() : null;
 	}
 	
 	public string? ReadEntryText(string path)

@@ -49,15 +49,15 @@ internal sealed class StringArray(DLL.StringArray arr) : ManagedNativeObject
 		}
 	}
 
-	public List<string> Read()
+	public string[] Read()
 	{
 		ThrowIfDisposed();
-		var strings = new List<string>();
+		var strings = new string[_arr.Size];
 		for (long i = 0; i < _arr.Size; i++)
 		{
 			unsafe
 			{
-				strings.Add(Marshal.PtrToStringUTF8(_arr.Data[i]) ?? "");
+				strings[i] = Marshal.PtrToStringUTF8(_arr.Data[i]) ?? "";
 			}
 		}
 		return strings;

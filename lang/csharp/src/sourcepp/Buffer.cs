@@ -23,18 +23,18 @@ internal sealed class Buffer(DLL.Buffer buf) : ManagedNativeObject
 		}
 	}
 
-	public Span<byte> ReadSpan()
+	public Span<T> ReadSpan<T>()
 	{
 		ThrowIfDisposed();
 		unsafe
 		{
-			return new Span<byte>(_buf.Data, (int) _buf.Size);
+			return new Span<T>(_buf.Data, (int) _buf.Size);
 		}
 	}
 
-	public byte[] Read()
+	public T[] Read<T>()
 	{
 		ThrowIfDisposed();
-		return ReadSpan().ToArray();
+		return ReadSpan<T>().ToArray();
 	}
 }

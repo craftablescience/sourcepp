@@ -135,7 +135,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td>Find Steam install folder</td>
     <td align="center">✅</td>
     <td align="center">-</td>
-    <td rowspan="5" align="center">C<br>Python</td>
+    <td rowspan="5" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

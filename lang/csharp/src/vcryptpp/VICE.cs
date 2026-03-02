@@ -46,7 +46,7 @@ public static class VICE
 
 	public static byte[] Decrypt(byte[] buffer, string code = KnownCodes.DEFAULT)
 	{
-		return new sourcepp.Buffer(DLL.vcryptpp_vice_decrypt(buffer, (ulong) buffer.LongLength, code)).Read();
+		return new sourcepp.Buffer(DLL.vcryptpp_vice_decrypt(buffer, (ulong) buffer.LongLength, code)).Read<byte>();
 	}
 
 	public static byte[] Decrypt(IEnumerable<byte> buffer, string code = KnownCodes.DEFAULT)
@@ -56,7 +56,7 @@ public static class VICE
 
 	public static byte[] Encrypt(byte[] buffer, string code)
 	{
-		return new sourcepp.Buffer(DLL.vcryptpp_vice_encrypt(buffer, (ulong) buffer.LongLength, code)).Read();
+		return new sourcepp.Buffer(DLL.vcryptpp_vice_encrypt(buffer, (ulong) buffer.LongLength, code)).Read<byte>();
 	}
 
 	public static byte[] Encrypt(IEnumerable<byte> buffer, string code)

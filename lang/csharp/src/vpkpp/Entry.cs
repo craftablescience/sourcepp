@@ -58,7 +58,7 @@ public class Entry : sourcepp.ManagedNativeHandle
 		get
 		{
 			ThrowIfDisposed();
-			return new sourcepp.Buffer(DLL.vpkpp_entry_get_extra_data(Handle)).Read();
+			return new sourcepp.Buffer(DLL.vpkpp_entry_get_extra_data(Handle)).Read<byte>();
 		}
 	}
 
