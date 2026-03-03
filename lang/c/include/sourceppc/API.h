@@ -3,7 +3,7 @@
 #if defined(_WIN32) || defined(__CYGWIN__)
 	// Little hacky but works great. NO C++ ALLOWED!!
     #ifdef __cplusplus
-		#define SOURCEPP_EXPORT __declspec(dllexport)
+		#define SOURCEPP_EXPORT
 	#else
 		#define SOURCEPP_EXPORT __declspec(dllimport)
 	#endif
