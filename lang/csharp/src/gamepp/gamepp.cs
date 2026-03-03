@@ -2,7 +2,7 @@ namespace sourcepp.gamepp;
 
 public sealed class GameInstance : sourcepp.ManagedNativeHandle
 {
-	private GameInstance(nint handle) : base(handle, DLL.gamepp_game_instance_free)
+	internal GameInstance(nint handle) : base(handle, DLL.gamepp_game_instance_free)
 	{
 	}
 

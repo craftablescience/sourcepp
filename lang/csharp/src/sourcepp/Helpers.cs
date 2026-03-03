@@ -26,13 +26,13 @@ public abstract class ManagedNativeObject : IDisposable
 
 public class ManagedNativeHandle : ManagedNativeObject
 {
-	protected delegate void DisposeNative(ref nint value);
+	internal delegate void DisposeNative(ref nint value);
 
-	protected nint Handle;
-	protected readonly DisposeNative DisposeNativeFunc;
+	internal nint Handle;
+	internal readonly DisposeNative? DisposeNativeFunc;
 	public readonly bool Managed;
 
-	protected ManagedNativeHandle(nint handle, DisposeNative disposeNativeFunc, bool managed = false)
+	internal ManagedNativeHandle(nint handle, DisposeNative? disposeNativeFunc, bool managed = true)
 	{
 		Handle = handle;
 		DisposeNativeFunc = disposeNativeFunc;
@@ -41,7 +41,7 @@ public class ManagedNativeHandle : ManagedNativeObject
 
 	protected override void DisposeCallback()
 	{
-		if (Managed)
+		if (Managed && DisposeNativeFunc is not null)
 		{
 			DisposeNativeFunc(ref Handle);
 		}

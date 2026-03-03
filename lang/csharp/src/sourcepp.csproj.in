@@ -82,4 +82,17 @@
     </Content>
   </ItemGroup>
 
+  <ItemGroup Condition="$(IsWindows) == 'True'">
+    <Content Include="sourcepp_vtfppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsLinux) == 'True'">
+    <Content Include="sourcepp_vtfppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

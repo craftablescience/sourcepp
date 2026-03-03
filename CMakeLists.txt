@@ -155,7 +155,7 @@ add_sourcepp_library(steampp  C CSHARP PYTHON      TEST      ) # sourcepp::steam
 add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON      TEST      ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP PYTHON      TEST      ) # sourcepp::vpkpp
-add_sourcepp_library(vtfpp    C        PYTHON      TEST BENCH) # sourcepp::vtfpp
+add_sourcepp_library(vtfpp    C CSHARP PYTHON      TEST BENCH) # sourcepp::vtfpp
 
 
 # Bindings (post)

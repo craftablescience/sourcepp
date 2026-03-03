@@ -4,7 +4,7 @@ namespace sourcepp.steampp;
 
 public sealed class Steam : sourcepp.ManagedNativeHandle
 {
-	private Steam(nint handle) : base(handle, DLL.steampp_steam_free)
+	internal Steam(nint handle) : base(handle, DLL.steampp_steam_free)
 	{
 	}
 
@@ -54,43 +54,43 @@ public sealed class Steam : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.steampp_steam_is_app_installed(Handle, appId));
 	}
 
-	public string AppName(uint appId)
+	public string GetAppName(uint appId)
 	{
 		ThrowIfDisposed();
 		return DLL.steampp_steam_get_app_name(Handle, appId);
 	}
 
-	public string AppInstallDir(uint appId)
+	public string GetAppInstallDir(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_install_dir(Handle, appId)).Read();
 	}
 	
-	public string AppIconPath(uint appId)
+	public string GetAppIconPath(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_icon_path(Handle, appId)).Read();
 	}
 	
-	public string AppLogoPath(uint appId)
+	public string GetAppLogoPath(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_logo_path(Handle, appId)).Read();
 	}
 	
-	public string AppHeroPath(uint appId)
+	public string GetAppHeroPath(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_hero_path(Handle, appId)).Read();
 	}
 	
-	public string AppBoxArtPath(uint appId)
+	public string GetAppBoxArtPath(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_box_art_path(Handle, appId)).Read();
 	}
 	
-	public string AppStoreArtPath(uint appId)
+	public string GetAppStoreArtPath(uint appId)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.String(DLL.steampp_steam_get_app_store_art_path(Handle, appId)).Read();
