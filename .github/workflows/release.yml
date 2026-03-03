@@ -94,16 +94,15 @@ jobs:
         run: cp -a "${{github.workspace}}/out/dist/." "${{github.workspace}}/lang/csharp/src/"
 
       - name: Build Package
-        run: |
-          dotnet build --configuration Release --no-restore
-          dotnet pack --configuration Release
+        run: dotnet build --configuration Release --no-restore
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v7
         with:
           name: csharp-dist
           path: |
-            lang/csharp/src/bin/Release/sourcepp.*.nupkg      
+            lang/csharp/src/bin/Release/sourcepp.*.*.*.nupkg
+            lang/csharp/src/bin/Release/sourcepp.*.*.*.symbols.nupkg
 
       - name: Upload to NuGet
         if: inputs.release

@@ -41,14 +41,17 @@ jobs:
         run: cmake --build build --config ${{matrix.build_type}}
 
       - name: Setup .NET Core
+        if: matrix.os != 'windows-latest'
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: '10'
 
       - name: Configure CMake (C#)
+        if: matrix.os != 'windows-latest'
         run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_CSHARP_WRAPPERS=ON
 
       - name: Build (C#)
+        if: matrix.os != 'windows-latest'
         run: |
           cmake --build build --config ${{matrix.build_type}}
           dotnet build lang/csharp --configuration Release
