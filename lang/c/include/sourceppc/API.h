@@ -1,13 +1,6 @@
 #pragma once
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-	// Little hacky but works great. NO C++ ALLOWED!!
-    #ifdef __cplusplus
-		#define SOURCEPP_EXPORT
-	#else
-		#define SOURCEPP_EXPORT __declspec(dllimport)
-	#endif
-#elif defined(__GNUC__)
+#if defined(__GNUC__)
 	#define SOURCEPP_EXPORT __attribute__((__visibility__("default")))
 #else
 	#define SOURCEPP_EXPORT

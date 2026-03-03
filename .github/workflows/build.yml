@@ -8,8 +8,8 @@ on:
     # nothing here
 
 jobs:
-  c_cpp_build:
-    name: '[C/C++/C#/Python] Build (${{matrix.os}})'
+  build:
+    name: 'Build (${{matrix.os}})'
     strategy:
       fail-fast: false
       matrix:
