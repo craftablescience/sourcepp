@@ -33,13 +33,13 @@ SOURCEPP_API void sourcepp_string_array_free(sourcepp_string_array_t* array);
 
 namespace sourceppc::convert {
 
-sourcepp_string_t toString(std::string_view str);
+SOURCEPP_EXPORT sourcepp_string_t toString(std::string_view str);
 
-sourcepp_string_array_t toStringArray(const std::vector<std::string>& stringVec);
+SOURCEPP_EXPORT sourcepp_string_array_t toStringArray(const std::vector<std::string>& stringVec);
 
-size_t writeStringToMem(std::string_view str, char* buffer, size_t bufferLen);
+SOURCEPP_EXPORT size_t writeStringToMem(std::string_view str, char* buffer, size_t bufferLen);
 
-size_t writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen);
+SOURCEPP_EXPORT size_t writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen);
 
 // requires clause copied from BufferStream - not including here because that header is HEAVY
 template<typename T>

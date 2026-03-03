@@ -53,13 +53,13 @@ SOURCEPP_API void sourcepp_string_array_free(sourcepp_string_array_t* array) {
 
 using namespace sourceppc;
 
-sourcepp_string_t convert::toString(std::string_view str) {
+SOURCEPP_EXPORT sourcepp_string_t convert::toString(std::string_view str) {
 	const auto newStr = sourcepp_string_new(str.size());
 	std::memcpy(newStr.data, str.data(), str.size());
 	return newStr;
 }
 
-sourcepp_string_array_t convert::toStringArray(const std::vector<std::string>& stringVec) {
+SOURCEPP_EXPORT sourcepp_string_array_t convert::toStringArray(const std::vector<std::string>& stringVec) {
 	const auto array = sourcepp_string_array_new(stringVec.size());
 	for (size_t i = 0; i < stringVec.size(); i++) {
 		array.data[i] = static_cast<char*>(std::malloc(sizeof(char) * (stringVec[i].length() + 1)));
@@ -69,7 +69,7 @@ sourcepp_string_array_t convert::toStringArray(const std::vector<std::string>& s
 	return array;
 }
 
-size_t convert::writeStringToMem(std::string_view str, char* buffer, size_t bufferLen) {
+SOURCEPP_EXPORT size_t convert::writeStringToMem(std::string_view str, char* buffer, size_t bufferLen) {
 	if (str.length() >= bufferLen) {
 		std::memcpy(buffer, str.data(), bufferLen);
 		buffer[bufferLen - 1] = '\0';
@@ -80,7 +80,7 @@ size_t convert::writeStringToMem(std::string_view str, char* buffer, size_t buff
 	return str.length() - 1;
 }
 
-size_t convert::writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen) {
+SOURCEPP_EXPORT size_t convert::writeVectorToMem(const std::vector<std::byte>& vec, unsigned char* buffer, size_t bufferLen) {
 	if (vec.size() >= bufferLen) {
 		std::memcpy(buffer, vec.data(), bufferLen);
 		return bufferLen;
