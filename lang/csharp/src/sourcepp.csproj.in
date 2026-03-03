@@ -27,11 +27,18 @@
 
   <PropertyGroup>
     <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'True'">True</IsOSX>
     <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsWindows) == 'True'">
     <Content Include="sourcepp_gameppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsOSX) == 'True'">
+    <Content Include="sourcepp_gameppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -49,6 +56,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup Condition="$(IsOSX) == 'True'">
+    <Content Include="sourcepp_sourceppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup Condition="$(IsLinux) == 'True'">
     <Content Include="sourcepp_sourceppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
@@ -58,6 +71,12 @@
 
   <ItemGroup Condition="$(IsWindows) == 'True'">
     <Content Include="sourcepp_vcryptppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsOSX) == 'True'">
+    <Content Include="sourcepp_vcryptppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -75,6 +94,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup Condition="$(IsOSX) == 'True'">
+    <Content Include="sourcepp_vpkppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup Condition="$(IsLinux) == 'True'">
     <Content Include="sourcepp_vpkppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
@@ -84,6 +109,12 @@
 
   <ItemGroup Condition="$(IsWindows) == 'True'">
     <Content Include="sourcepp_vtfppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup Condition="$(IsOSX) == 'True'">
+    <Content Include="sourcepp_vtfppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
