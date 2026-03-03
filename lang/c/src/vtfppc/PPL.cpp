@@ -89,10 +89,20 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_ppl_get_image_lods(vtfpp_ppl_handle_t handl
 	return convert::toBuffer(convert::handle<PPL>(handle)->getImageLODs());
 }
 
-SOURCEPP_API sourcepp_buffer_t vtfpp_ppl_get_image_raw(vtfpp_ppl_handle_t handle, uint32_t* width, uint32_t* height, uint32_t lod) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
+SOURCEPP_API const unsigned char* vtfpp_ppl_get_image_raw(vtfpp_ppl_handle_t handle, size_t* imageLen, uint32_t* width, uint32_t* height, uint32_t lod) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(imageLen, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(width, nullptr);
+	SOURCEPP_EARLY_RETURN_VAL(height, nullptr);
 
-	return convert::toBuffer(convert::handle<PPL>(handle)->getImageLODs());
+	const auto image = convert::handle<PPL>(handle)->getImageRaw(lod);
+	if (!image) {
+		return nullptr;
+	}
+	*imageLen = image->data.size();
+	*width = image->width;
+	*height = image->height;
+	return reinterpret_cast<const unsigned char*>(image->data.data());
 }
 
 SOURCEPP_API sourcepp_buffer_t vtfpp_ppl_get_image_as(vtfpp_ppl_handle_t handle, uint32_t* width, uint32_t* height, vtfpp_image_format_e format, uint32_t lod) {
@@ -101,7 +111,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_ppl_get_image_as(vtfpp_ppl_handle_t handle,
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
 
-	auto image = convert::handle<PPL>(handle)->getImageAs(convert::cast(format), lod);
+	const auto image = convert::handle<PPL>(handle)->getImageAs(convert::cast(format), lod);
 	if (!image) {
 		return SOURCEPP_BUFFER_INVALID;
 	}
@@ -115,7 +125,7 @@ SOURCEPP_API sourcepp_buffer_t vtfpp_ppl_get_image_as_rgb888(vtfpp_ppl_handle_t 
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	auto image = convert::handle<PPL>(handle)->getImageAs(ImageFormat::RGB888, lod);
+	const auto image = convert::handle<PPL>(handle)->getImageAs(ImageFormat::RGB888, lod);
 	if (!image) {
 		return SOURCEPP_BUFFER_INVALID;
 	}
@@ -162,6 +172,12 @@ SOURCEPP_API int vtfpp_ppl_set_image_from_mem_with_options(vtfpp_ppl_handle_t ha
 	SOURCEPP_EARLY_RETURN_VAL(resizedHeight, false);
 
 	return convert::handle<PPL>(handle)->setImage({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, resizedWidth, resizedHeight, lod, convert::cast(filter), quality);
+}
+
+SOURCEPP_API int vtfpp_ppl_remove_image(vtfpp_ppl_handle_t handle, uint32_t lod) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+
+	return convert::handle<PPL>(handle)->removeImage(lod);
 }
 
 SOURCEPP_API int vtfpp_ppl_save_image_to_file(vtfpp_ppl_handle_t handle, const char* imagePath, uint32_t lod, vtfpp_image_conversion_file_format_e fileFormat) {

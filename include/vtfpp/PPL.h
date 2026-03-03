@@ -57,6 +57,8 @@ public:
 
 	bool setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
+	bool removeImage(uint32_t lod);
+
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 
 	bool saveImageToFile(const std::filesystem::path& imagePath, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const; // NOLINT(*-use-nodiscard)

@@ -163,6 +163,14 @@ bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth
 	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, filter, quality);
 }
 
+bool PPL::removeImage(uint32_t lod) {
+	if (this->images.contains(lod)) {
+		this->images.erase(lod);
+		return true;
+	}
+	return false;
+}
+
 std::vector<std::byte> PPL::saveImageToFile(uint32_t lod, ImageConversion::FileFormat fileFormat) const {
 	if (const auto image = this->getImageRaw(lod)) {
 		return ImageConversion::convertImageDataToFile(image->data, this->format, image->width, image->height, fileFormat);

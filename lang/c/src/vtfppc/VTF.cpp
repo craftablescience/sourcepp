@@ -369,10 +369,10 @@ SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeM
 	return convert::handle<VTF>(handle)->setFaceCount(isCubeMap);
 }
 
-SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle) {
+SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle, uint8_t mip) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<VTF>(handle)->getDepth();
+	return convert::handle<VTF>(handle)->getDepth(mip);
 }
 
 SOURCEPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth) {

@@ -184,7 +184,6 @@ SOURCEPP_EXTERN typedef struct {
     .initialFrameCount = 1, \
     .startFrame = 0, \
     .isCubeMap = 0, \
-	.hasSphereMap = 0, \
 	.initialDepth = 1, \
 	.computeTransparencyFlags = 1, \
 	.computeMips = 1, \
@@ -244,7 +243,7 @@ SOURCEPP_API uint16_t vtfpp_vtf_get_frame_count(vtfpp_vtf_handle_t handle);
 SOURCEPP_API int vtfpp_vtf_set_frame_count(vtfpp_vtf_handle_t handle, uint16_t frameCount);
 SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
 SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap);
-SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle);
+SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle, uint8_t mip);
 SOURCEPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth);
 SOURCEPP_API int vtfpp_vtf_set_frame_face_and_depth(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t depth);
 SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
