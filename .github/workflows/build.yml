@@ -8,7 +8,8 @@ on:
     # nothing here
 
 jobs:
-  build:
+  c_cpp_build:
+    name: '[C/C++/C#/Python] Build (${{matrix.os}})'
     strategy:
       fail-fast: false
       matrix:
@@ -23,12 +24,39 @@ jobs:
         if: matrix.os == 'windows-latest'
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Configure CMake
+      - name: Configure CMake (C++)
         run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
 
-      - name: Build
+      - name: Build (C++)
         run: cmake --build build --config ${{matrix.build_type}}
 
-      - name: Test
+      - name: Test (C++)
         working-directory: '${{github.workspace}}/build'
         run: ctest
+
+      - name: Configure CMake (C)
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_C_WRAPPERS=ON
+
+      - name: Build (C)
+        run: cmake --build build --config ${{matrix.build_type}}
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10'
+
+      - name: Configure CMake (C#)
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_CSHARP_WRAPPERS=ON
+
+      - name: Build (C#)
+        run: |
+          cmake --build build --config ${{matrix.build_type}}
+          dotnet build lang/csharp --configuration Release
+
+      - name: Configure CMake (Python)
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON
+
+      - name: Build (Python)
+        working-directory: '${{github.workspace}}/lang/python'
+        run: |
+          pipx run build --sdist
