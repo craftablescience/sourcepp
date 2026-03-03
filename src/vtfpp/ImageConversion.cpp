@@ -2009,46 +2009,35 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 				break;
 			}
 			case ResizeFilter::KAISER: {
-				static constexpr auto KAISER_BETA = [](float s) {
-					if (s >= 1.f) {
-						return 5.f;
-					}
-					if (s >= 0.5f) {
-						return 6.5f;
-					}
-					return 8.f;
+				static constexpr auto KAISER_RADIUS = 3.f;
+				static constexpr auto KAISER_ALPHA = 2.f;
+				static constexpr auto KAISER_WINDOW = [](double u) -> double {
+					if (u < -1 || u > 1) return 0;
+					return math::besselI0(KAISER_ALPHA * std::sqrt(1 - u * u)) / math::besselI0(KAISER_ALPHA);
 				};
-				static constexpr auto KAISER_FILTER = [](float x, float s, void*) -> float {
-					if (x < -1.f || x > 1.f) {
-						return 0.f;
-					}
-					return static_cast<float>(math::kaiserWindow(x * s, KAISER_BETA(s)));
+				static constexpr auto KAISER_FILTER = [](float x, float, void*) -> float {
+					if (x <= -KAISER_RADIUS || x >= KAISER_RADIUS) return 0;
+					if (std::abs(x) < 1e-6f) return 1;
+					return static_cast<float>(math::sinc(x) * KAISER_WINDOW(std::abs(x) / KAISER_RADIUS));
 				};
-				static constexpr auto KAISER_SUPPORT = [](float s, void*) -> float {
-					const float baseSupport = KAISER_BETA(s) / 2.f;
-					if (s > 1.f) {
-						return std::max(2.f, baseSupport - 0.5f);
-					}
-					return std::max(3.f, baseSupport);
+				static constexpr auto KAISER_SUPPORT = [](float, void*) -> float {
+					return KAISER_RADIUS;
 				};
 				stbir_set_filter_callbacks(&resize, KAISER_FILTER, KAISER_SUPPORT, KAISER_FILTER, KAISER_SUPPORT);
 				break;
 			}
 			case ResizeFilter::NICE: {
 				static constexpr auto NICE_RADIUS = 3.f;
-				static constexpr auto SINC = [](float x) -> float {
-					if (x == 0.f) return 1.f;
-					const float a = x * math::pi_f32;
-					return sinf(a) / a;
-				};
+				static constexpr auto NICE_SHARPEN = 1.25f;
 				static constexpr auto NICE_FILTER = [](float x, float, void*) -> float {
-					if (x >= NICE_RADIUS || x <= -NICE_RADIUS) return 0.f;
-					return SINC(x) * SINC(x / NICE_RADIUS);
+					if (x <= -NICE_RADIUS || x >= NICE_RADIUS) return 0;
+					if (std::abs(x) < 1e-6f) return 1;
+					auto out = static_cast<float>(math::sinc(x) * math::sinc(x / NICE_RADIUS));
+					if (out < 0) out *= NICE_SHARPEN;
+					return out;
 				};
-				// Normally you would max(1, invScale), but stb is weird and immediately un-scales the result when downsampling.
-				// See stb_image_resize2.h L2977 (stbir__get_filter_pixel_width)
-				static constexpr auto NICE_SUPPORT = [](float invScale, void*) -> float {
-					return invScale * NICE_RADIUS;
+				static constexpr auto NICE_SUPPORT = [](float, void*) -> float {
+					return NICE_RADIUS;
 				};
 				stbir_set_filter_callbacks(&resize, NICE_FILTER, NICE_SUPPORT, NICE_FILTER, NICE_SUPPORT);
 				break;

@@ -72,18 +72,18 @@ constexpr std::array<double, 25> besselI0B{
 		x = -x;
 	}
 	if (x <= 8.0) {
-		double y = (x / 2.0) - 2.0;
+		const double y = (x / 2.0) - 2.0;
 		return (std::exp(x) * chebyshev(y, detail::besselI0A));
 	}
 	return std::exp(x) * chebyshev(32.0 / x - 2.0, detail::besselI0B) / std::sqrt(x);
 }
 
-[[nodiscard]] constexpr double kaiserWindow(double x, double b) {
-	const auto d = besselI0(b);
-	if (d == 0.0) {
-		return 0.0;
+[[nodiscard]] constexpr double sinc(double x) {
+	if (x == 0) {
+		return 1.f;
 	}
-	return besselI0(b * std::sqrt(1 - x * x)) / d;
+	const auto a = x * pi_f32;
+	return sin(a) / a;
 }
 
 } // namespace sourcepp::math
