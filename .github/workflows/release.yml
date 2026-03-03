@@ -11,7 +11,7 @@ on:
         type: boolean
         required: true
         default: false
-        description: 'Push the release to all channels (GitHub, PyPI)'
+        description: 'Push the release to all channels (GitHub, NuGet, PyPI)'
 
 jobs:
   c_cpp_build:
@@ -60,6 +60,54 @@ jobs:
             dist/sourcepp_*c.lib
             dist/sourcepp_*c.dylib
             lang/c/include/
+
+  csharp_build:
+    name: '[C#] Build'
+    needs:
+      - c_cpp_build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: '${{github.workspace}}/lang/csharp'
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v6
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10'
+
+      - name: Configure CMake
+        working-directory: '${{github.workspace}}'
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=Release -DSOURCEPP_BUILD_CSHARP_WRAPPERS=ON -DSOURCEPP_VERSION="${{inputs.version}}"
+
+      - name: Download C DLLs
+        uses: actions/download-artifact@v8
+        with:
+          pattern: 'c-dist-*'
+          path: '${{github.workspace}}/out'
+          merge-multiple: true
+
+      - name: Copy C DLLs
+        working-directory: '${{github.workspace}}'
+        run: cp -a "${{github.workspace}}/out/dist/." "${{github.workspace}}/lang/csharp/src/"
+
+      - name: Build Package
+        run: |
+          dotnet build --configuration Release --no-restore
+          dotnet pack --configuration Release
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: csharp-dist
+          path: |
+            lang/csharp/src/bin/Release/sourcepp.*.nupkg      
+
+      - name: Upload to NuGet
+        if: inputs.release
+        run: echo "Hello World"
 
   python_build_sdist:
     name: '[Python] Build SDist'
@@ -151,6 +199,7 @@ jobs:
     if: inputs.release
     needs:
       - c_cpp_build
+      - csharp_build
       - python_build_sdist
       - python_build_bdist
     runs-on: ubuntu-latest
