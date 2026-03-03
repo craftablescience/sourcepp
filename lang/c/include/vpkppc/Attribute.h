@@ -1,6 +1,8 @@
 #pragma once
 
-SOURCEPP_EXTERN typedef enum {
+#include "API.h"
+
+VPKPP_EXTERN typedef enum {
 	VPKPP_ATTRIBUTE_NONE               = 0,
 	VPKPP_ATTRIBUTE_ARCHIVE_INDEX      = 1 << 0,
 	VPKPP_ATTRIBUTE_LENGTH             = 1 << 1,

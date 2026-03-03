@@ -12,7 +12,7 @@ const char* VPKPP_VPP_EXTENSION        = VPP_EXTENSION.data();
 const char* VPKPP_VPP_EXTENSION_PC     = VPP_EXTENSION_PC.data();
 const char* VPKPP_VPP_EXTENSION_XBOX2  = VPP_EXTENSION_XBOX2.data();
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpp_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_vpp_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = VPP::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {

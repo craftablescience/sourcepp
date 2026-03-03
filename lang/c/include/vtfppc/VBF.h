@@ -1,10 +1,10 @@
 #pragma once
 
-#include <sourceppc/API.h>
+#include "API.h"
 
-SOURCEPP_EXTERNVAR const uint32_t VTFPP_VBF_SIGNATURE;
+VTFPP_EXTERNVAR const uint32_t VTFPP_VBF_SIGNATURE;
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_VBF_FLAG_NONE        = 0,
 	VTFPP_VBF_FLAG_BOLD        = 1 << 0,
 	VTFPP_VBF_FLAG_ITALIC      = 1 << 1,
@@ -16,7 +16,7 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_VBF_FLAG_CUSTOM      = 1 << 7,
 } vtfpp_vbf_flags_e;
 
-SOURCEPP_EXTERN typedef struct {
+VTFPP_EXTERN typedef struct {
 	uint16_t x;
 	uint16_t y;
 	uint16_t w;
@@ -30,17 +30,17 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_vbf_handle_t;
 
-SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_vbf_close
-SOURCEPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_file(const char* vbfPath); // REQUIRES MANUAL FREE: vtfpp_vbf_close
-SOURCEPP_API void vtfpp_vbf_close(vtfpp_vbf_handle_t* handle);
-SOURCEPP_API int vtfpp_vbf_is_valid(vtfpp_vbf_handle_t handle);
-SOURCEPP_API uint16_t vtfpp_vbf_get_page_width(vtfpp_vbf_handle_t handle);
-SOURCEPP_API uint16_t vtfpp_vbf_get_page_height(vtfpp_vbf_handle_t handle);
-SOURCEPP_API uint16_t vtfpp_vbf_get_max_glyph_width(vtfpp_vbf_handle_t handle);
-SOURCEPP_API uint16_t vtfpp_vbf_get_max_glyph_height(vtfpp_vbf_handle_t handle);
-SOURCEPP_API vtfpp_vbf_flags_e vtfpp_vbf_get_flags(vtfpp_vbf_handle_t handle);
-SOURCEPP_API uint16_t vtfpp_vbf_get_ascent(vtfpp_vbf_handle_t handle);
-SOURCEPP_API vtfpp_vbf_glyph_t vtfpp_vbf_get_glyph(vtfpp_vbf_handle_t handle, uint8_t index);
+VTFPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_mem(const unsigned char* buffer, size_t bufferLen); // REQUIRES MANUAL FREE: vtfpp_vbf_close
+VTFPP_API vtfpp_vbf_handle_t vtfpp_vbf_open_from_file(const char* vbfPath); // REQUIRES MANUAL FREE: vtfpp_vbf_close
+VTFPP_API void vtfpp_vbf_close(vtfpp_vbf_handle_t* handle);
+VTFPP_API int vtfpp_vbf_is_valid(vtfpp_vbf_handle_t handle);
+VTFPP_API uint16_t vtfpp_vbf_get_page_width(vtfpp_vbf_handle_t handle);
+VTFPP_API uint16_t vtfpp_vbf_get_page_height(vtfpp_vbf_handle_t handle);
+VTFPP_API uint16_t vtfpp_vbf_get_max_glyph_width(vtfpp_vbf_handle_t handle);
+VTFPP_API uint16_t vtfpp_vbf_get_max_glyph_height(vtfpp_vbf_handle_t handle);
+VTFPP_API vtfpp_vbf_flags_e vtfpp_vbf_get_flags(vtfpp_vbf_handle_t handle);
+VTFPP_API uint16_t vtfpp_vbf_get_ascent(vtfpp_vbf_handle_t handle);
+VTFPP_API vtfpp_vbf_glyph_t vtfpp_vbf_get_glyph(vtfpp_vbf_handle_t handle, uint8_t index);
 
 // C++ conversion routines
 #ifdef __cplusplus

@@ -17,7 +17,7 @@ const uint32_t VPKPP_PAK_HROT_SIGNATURE        = PAK_HROT_SIGNATURE;
 const char* VPKPP_PAK_EXTENSION = PAK_EXTENSION.data();
 const char* VPKPP_SIN_EXTENSION = SIN_EXTENSION.data();
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create(const char* path) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_pak_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = PAK::create(path);
@@ -27,7 +27,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create_with_options(const char* path, vpkpp_pak_type_e type) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_pak_create_with_options(const char* path, vpkpp_pak_type_e type) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = PAK::create(path, convert::cast(type));
@@ -37,7 +37,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_create_with_options(const char* 
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_pak_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = PAK::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {
@@ -49,7 +49,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pak_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pak_type_e vpkpp_pak_get_type(vpkpp_pack_file_handle_t handle) {
+VPKPP_API vpkpp_pak_type_e vpkpp_pak_get_type(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_PAK_TYPE_PAK);
 
 	const auto* pak = dynamic_cast<PAK*>(convert::handle<PackFile>(handle));
@@ -58,7 +58,7 @@ SOURCEPP_API vpkpp_pak_type_e vpkpp_pak_get_type(vpkpp_pack_file_handle_t handle
 	return convert::cast(pak->getType());
 }
 
-SOURCEPP_API void vpkpp_pak_set_type(vpkpp_pack_file_handle_t handle, vpkpp_pak_type_e type) {
+VPKPP_API void vpkpp_pak_set_type(vpkpp_pack_file_handle_t handle, vpkpp_pak_type_e type) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* pak = dynamic_cast<PAK*>(convert::handle<PackFile>(handle));

@@ -1,18 +1,18 @@
 #pragma once
 
-#include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
 #include <sourceppc/String.h>
 
+#include "API.h"
 #include "Attribute.h"
 #include "Entry.h"
 #include "Options.h"
 
-SOURCEPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION0;
-SOURCEPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION1;
-SOURCEPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION2;
+VPKPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION0;
+VPKPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION1;
+VPKPP_EXTERNVAR const char* VPKPP_EXECUTABLE_EXTENSION2;
 
-SOURCEPP_EXTERN typedef enum {
+VPKPP_EXTERN typedef enum {
 	VPKPP_PACK_FILE_OPEN_PROPERTY_DECRYPTION_KEY,
 } vpkpp_pack_file_open_property_e;
 
@@ -26,49 +26,49 @@ typedef int(*vpkpp_entry_predicate_t)(const char* path, vpkpp_entry_handle_t ent
 
 typedef vpkpp_entry_options_t(*vpkpp_entry_creation_t)(const char* path);
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_pack_file_open(const char* path, vpkpp_entry_callback_t callback /*= NULL*/, vpkpp_pack_file_open_property_request_t requestProperty /*= NULL*/); // REQUIRES MANUAL FREE: vpkpp_close
-SOURCEPP_API sourcepp_string_array_t vpkpp_pack_file_get_openable_extensions(); // REQUIRES MANUAL FREE: sourcepp_string_array_free
-SOURCEPP_API int vpkpp_pack_file_has_entry_checksums(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API sourcepp_string_array_t vpkpp_pack_file_verify_entry_checksums(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_array_free
-SOURCEPP_API int vpkpp_pack_file_has_pack_file_checksum(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_verify_pack_file_checksum(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_has_pack_file_signature(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_verify_pack_file_signature(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_is_case_sensitive(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_has_entry(vpkpp_pack_file_handle_t handle, const char* path, int includeUnbaked);
-SOURCEPP_API vpkpp_entry_handle_t vpkpp_pack_file_find_entry(vpkpp_pack_file_handle_t handle, const char* path, int includeUnbaked); // REQUIRES MANUAL FREE: vpkpp_entry_close
-SOURCEPP_API sourcepp_buffer_t vpkpp_pack_file_read_entry(vpkpp_pack_file_handle_t handle, const char* path); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_read_entry_text(vpkpp_pack_file_handle_t handle, const char* path); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API int vpkpp_pack_file_is_read_only(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API int vpkpp_pack_file_add_entry_from_file(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filepath);
-SOURCEPP_API int vpkpp_pack_file_add_entry_from_file_with_options(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filepath, vpkpp_entry_options_t options);
-SOURCEPP_API int vpkpp_pack_file_add_entry_from_mem(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen);
-SOURCEPP_API int vpkpp_pack_file_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen, vpkpp_entry_options_t options);
-SOURCEPP_API int64_t vpkpp_pack_file_add_directory(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_creation_t creation);
-SOURCEPP_API int64_t vpkpp_pack_file_add_directory_with_options(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_options_t options);
-SOURCEPP_API int vpkpp_pack_file_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath);
-SOURCEPP_API int vpkpp_pack_file_rename_directory(vpkpp_pack_file_handle_t handle, const char* oldDir, const char* newDir);
-SOURCEPP_API int vpkpp_pack_file_remove_entry(vpkpp_pack_file_handle_t handle, const char* path);
-SOURCEPP_API size_t vpkpp_pack_file_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirName);
-SOURCEPP_API int vpkpp_pack_file_bake(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_callback_t callback);
-SOURCEPP_API int vpkpp_pack_file_bake_with_options(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_bake_options_t options, vpkpp_entry_callback_t callback);
-SOURCEPP_API int vpkpp_pack_file_extract_entry(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filePath);
-SOURCEPP_API int vpkpp_pack_file_extract_directory(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir);
-SOURCEPP_API int vpkpp_pack_file_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, int createUnderPackFileDir);
-SOURCEPP_API int vpkpp_pack_file_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_predicate_t predicate, int stripSharedDirs);
-SOURCEPP_API size_t vpkpp_pack_file_get_entry_count(vpkpp_pack_file_handle_t handle, int includeUnbaked);
-SOURCEPP_API void vpkpp_pack_file_run_for_all_entries(vpkpp_pack_file_handle_t handle, vpkpp_entry_callback_t operation, int includeUnbaked);
-SOURCEPP_API void vpkpp_pack_file_run_for_all_entries_under(vpkpp_pack_file_handle_t handle, const char* parentDir, vpkpp_entry_callback_t operation, int recursive, int includeUnbaked);
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_filepath(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filepath(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_filename(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filename(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_filestem(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filestem(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API vpkpp_attribute_e vpkpp_pack_file_get_supported_entry_attributes(vpkpp_pack_file_handle_t handle);
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_to_string(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API void vpkpp_pack_file_close(vpkpp_pack_file_handle_t* handle);
-SOURCEPP_API sourcepp_string_t vpkpp_pack_file_escape_entry_path_for_write(const char* path); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_pack_file_open(const char* path, vpkpp_entry_callback_t callback /*= NULL*/, vpkpp_pack_file_open_property_request_t requestProperty /*= NULL*/); // REQUIRES MANUAL FREE: vpkpp_close
+VPKPP_API sourcepp_string_array_t vpkpp_pack_file_get_openable_extensions(); // REQUIRES MANUAL FREE: sourcepp_string_array_free
+VPKPP_API int vpkpp_pack_file_has_entry_checksums(vpkpp_pack_file_handle_t handle);
+VPKPP_API sourcepp_string_array_t vpkpp_pack_file_verify_entry_checksums(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_array_free
+VPKPP_API int vpkpp_pack_file_has_pack_file_checksum(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_verify_pack_file_checksum(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_has_pack_file_signature(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_verify_pack_file_signature(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_is_case_sensitive(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_has_entry(vpkpp_pack_file_handle_t handle, const char* path, int includeUnbaked);
+VPKPP_API vpkpp_entry_handle_t vpkpp_pack_file_find_entry(vpkpp_pack_file_handle_t handle, const char* path, int includeUnbaked); // REQUIRES MANUAL FREE: vpkpp_entry_close
+VPKPP_API sourcepp_buffer_t vpkpp_pack_file_read_entry(vpkpp_pack_file_handle_t handle, const char* path); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_read_entry_text(vpkpp_pack_file_handle_t handle, const char* path); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API int vpkpp_pack_file_is_read_only(vpkpp_pack_file_handle_t handle);
+VPKPP_API int vpkpp_pack_file_add_entry_from_file(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filepath);
+VPKPP_API int vpkpp_pack_file_add_entry_from_file_with_options(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filepath, vpkpp_entry_options_t options);
+VPKPP_API int vpkpp_pack_file_add_entry_from_mem(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen);
+VPKPP_API int vpkpp_pack_file_add_entry_from_mem_with_options(vpkpp_pack_file_handle_t handle, const char* path, const unsigned char* buffer, size_t bufferLen, vpkpp_entry_options_t options);
+VPKPP_API int64_t vpkpp_pack_file_add_directory(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_creation_t creation);
+VPKPP_API int64_t vpkpp_pack_file_add_directory_with_options(vpkpp_pack_file_handle_t handle, const char* entryBaseDir, const char* dir, vpkpp_entry_options_t options);
+VPKPP_API int vpkpp_pack_file_rename_entry(vpkpp_pack_file_handle_t handle, const char* oldPath, const char* newPath);
+VPKPP_API int vpkpp_pack_file_rename_directory(vpkpp_pack_file_handle_t handle, const char* oldDir, const char* newDir);
+VPKPP_API int vpkpp_pack_file_remove_entry(vpkpp_pack_file_handle_t handle, const char* path);
+VPKPP_API size_t vpkpp_pack_file_remove_directory(vpkpp_pack_file_handle_t handle, const char* dirName);
+VPKPP_API int vpkpp_pack_file_bake(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_callback_t callback);
+VPKPP_API int vpkpp_pack_file_bake_with_options(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_bake_options_t options, vpkpp_entry_callback_t callback);
+VPKPP_API int vpkpp_pack_file_extract_entry(vpkpp_pack_file_handle_t handle, const char* entryPath, const char* filePath);
+VPKPP_API int vpkpp_pack_file_extract_directory(vpkpp_pack_file_handle_t handle, const char* dir, const char* outputDir);
+VPKPP_API int vpkpp_pack_file_extract_all(vpkpp_pack_file_handle_t handle, const char* outputDir, int createUnderPackFileDir);
+VPKPP_API int vpkpp_pack_file_extract_all_if(vpkpp_pack_file_handle_t handle, const char* outputDir, vpkpp_entry_predicate_t predicate, int stripSharedDirs);
+VPKPP_API size_t vpkpp_pack_file_get_entry_count(vpkpp_pack_file_handle_t handle, int includeUnbaked);
+VPKPP_API void vpkpp_pack_file_run_for_all_entries(vpkpp_pack_file_handle_t handle, vpkpp_entry_callback_t operation, int includeUnbaked);
+VPKPP_API void vpkpp_pack_file_run_for_all_entries_under(vpkpp_pack_file_handle_t handle, const char* parentDir, vpkpp_entry_callback_t operation, int recursive, int includeUnbaked);
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_filepath(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filepath(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_filename(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filename(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_filestem(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API sourcepp_string_t vpkpp_pack_file_get_truncated_filestem(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API vpkpp_attribute_e vpkpp_pack_file_get_supported_entry_attributes(vpkpp_pack_file_handle_t handle);
+VPKPP_API sourcepp_string_t vpkpp_pack_file_to_string(vpkpp_pack_file_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VPKPP_API void vpkpp_pack_file_close(vpkpp_pack_file_handle_t* handle);
+VPKPP_API sourcepp_string_t vpkpp_pack_file_escape_entry_path_for_write(const char* path); // REQUIRES MANUAL FREE: sourcepp_string_free
 
 // C++ conversion routines
 #ifdef __cplusplus

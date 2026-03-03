@@ -27,7 +27,7 @@ constexpr auto INVALID_CLASS_MSG = "Invalid class found in FGD!";
 	return parser::text::tryToEatChar(stream, sep);
 }
 
-// FGD strings are weird - they can be split across several lines, only accept \n escapes,
+// FGD strings are weird - they can be split across several lines, only accept \n, \t, and \" escapes,
 // and don't need to be terminated by a double quote. Really gross...
 [[nodiscard]] std::string_view readFGDString(BufferStreamReadOnly& stream, BufferStream& backing) {
 	parser::text::eatWhitespaceAndSingleLineComments(stream);

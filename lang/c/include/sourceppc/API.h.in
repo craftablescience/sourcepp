@@ -1,0 +1,25 @@
+#pragma once
+
+#include <sourceppc/Helpers.h>
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+	#ifdef ${TARGET_UPPER}_EXPORTING
+		#define ${TARGET_UPPER}_EXPORT __declspec(dllexport)
+	#else
+		#define ${TARGET_UPPER}_EXPORT __declspec(dllimport)
+	#endif
+#elif defined(__GNUC__)
+	#define ${TARGET_UPPER}_EXPORT __attribute__((__visibility__("default")))
+#else
+	#define ${TARGET_UPPER}_EXPORT
+#endif
+
+#ifdef __cplusplus
+	#define ${TARGET_UPPER}_EXTERN extern "C"
+	#define ${TARGET_UPPER}_EXTERNVAR ${TARGET_UPPER}_EXTERN ${TARGET_UPPER}_EXPORT
+#else
+	#define ${TARGET_UPPER}_EXTERN
+	#define ${TARGET_UPPER}_EXTERNVAR extern ${TARGET_UPPER}_EXPORT
+#endif
+
+#define ${TARGET_UPPER}_API ${TARGET_UPPER}_EXTERN ${TARGET_UPPER}_EXPORT

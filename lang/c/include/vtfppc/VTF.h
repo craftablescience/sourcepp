@@ -1,25 +1,25 @@
 #pragma once
 
-#include <sourceppc/API.h>
 #include <sourceppc/Buffer.h>
 #include <sourceppc/String.h>
 
+#include "API.h"
 #include "HOT.h"
 #include "ImageConversion.h"
 #include "SHT.h"
 
-SOURCEPP_EXTERNVAR const uint32_t VTFPP_VTF_SIGNATURE;
-SOURCEPP_EXTERNVAR const uint32_t VTFPP_XTF_SIGNATURE;
-SOURCEPP_EXTERNVAR const uint32_t VTFPP_VTFX_SIGNATURE;
-SOURCEPP_EXTERNVAR const uint32_t VTFPP_VTF3_SIGNATURE;
+VTFPP_EXTERNVAR const uint32_t VTFPP_VTF_SIGNATURE;
+VTFPP_EXTERNVAR const uint32_t VTFPP_XTF_SIGNATURE;
+VTFPP_EXTERNVAR const uint32_t VTFPP_VTFX_SIGNATURE;
+VTFPP_EXTERNVAR const uint32_t VTFPP_VTF3_SIGNATURE;
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_COMPRESSION_METHOD_DEFLATE = 8,
 	VTFPP_COMPRESSION_METHOD_ZSTD = 93,
 	VTFPP_COMPRESSION_METHOD_CONSOLE_LZMA = 0x360,
 } vtfpp_compression_method_e;
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_RESOURCE_TYPE_UNKNOWN             = 0,
 	VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA      = 1,
 	VTFPP_RESOURCE_TYPE_PALETTE_DATA        = 2,
@@ -34,28 +34,28 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_RESOURCE_TYPE_KEYVALUES_DATA      = 4478539,
 } vtfpp_resource_type_e;
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_RESOURCE_FLAG_NONE       = 0,
 	VTFPP_RESOURCE_FLAG_LOCAL_DATA = 1 << 1,
 } vtfpp_resource_flags_e;
 
 typedef const void* vtfpp_resource_handle_t;
 
-SOURCEPP_API vtfpp_resource_type_e vtfpp_resource_get_type(vtfpp_resource_handle_t handle);
-SOURCEPP_API vtfpp_resource_flags_e vtfpp_resource_get_flags(vtfpp_resource_handle_t handle);
-SOURCEPP_API unsigned char* vtfpp_resource_get_data(vtfpp_resource_handle_t handle, size_t* dataLen);
-SOURCEPP_API sourcepp_buffer_t vtfpp_resource_get_data_as_palette(vtfpp_resource_handle_t handle, uint16_t frame); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API vtfpp_sht_handle_t vtfpp_resource_get_data_as_particle_sheet(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: vtfpp_sht_free
-SOURCEPP_API uint32_t vtfpp_resource_get_data_as_crc(vtfpp_resource_handle_t handle);
-SOURCEPP_API uint32_t vtfpp_resource_get_data_as_extended_flags(vtfpp_resource_handle_t handle);
-SOURCEPP_API void vtfpp_resource_get_data_as_lod_control_info(vtfpp_resource_handle_t handle, uint8_t* u, uint8_t* v, uint8_t* u360, uint8_t* v360);
-SOURCEPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
-SOURCEPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: vtfpp_hot_free
-SOURCEPP_API int16_t vtfpp_resource_get_data_as_aux_compression_level(vtfpp_resource_handle_t handle);
-SOURCEPP_API vtfpp_compression_method_e vtfpp_resource_get_data_as_aux_compression_method(vtfpp_resource_handle_t handle);
-SOURCEPP_API uint32_t vtfpp_resource_get_data_as_aux_compression_length(vtfpp_resource_handle_t handle, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount);
+VTFPP_API vtfpp_resource_type_e vtfpp_resource_get_type(vtfpp_resource_handle_t handle);
+VTFPP_API vtfpp_resource_flags_e vtfpp_resource_get_flags(vtfpp_resource_handle_t handle);
+VTFPP_API unsigned char* vtfpp_resource_get_data(vtfpp_resource_handle_t handle, size_t* dataLen);
+VTFPP_API sourcepp_buffer_t vtfpp_resource_get_data_as_palette(vtfpp_resource_handle_t handle, uint16_t frame); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API vtfpp_sht_handle_t vtfpp_resource_get_data_as_particle_sheet(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: vtfpp_sht_free
+VTFPP_API uint32_t vtfpp_resource_get_data_as_crc(vtfpp_resource_handle_t handle);
+VTFPP_API uint32_t vtfpp_resource_get_data_as_extended_flags(vtfpp_resource_handle_t handle);
+VTFPP_API void vtfpp_resource_get_data_as_lod_control_info(vtfpp_resource_handle_t handle, uint8_t* u, uint8_t* v, uint8_t* u360, uint8_t* v360);
+VTFPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_string_free
+VTFPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: vtfpp_hot_free
+VTFPP_API int16_t vtfpp_resource_get_data_as_aux_compression_level(vtfpp_resource_handle_t handle);
+VTFPP_API vtfpp_compression_method_e vtfpp_resource_get_data_as_aux_compression_method(vtfpp_resource_handle_t handle);
+VTFPP_API uint32_t vtfpp_resource_get_data_as_aux_compression_length(vtfpp_resource_handle_t handle, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount);
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_VTF_FLAG_V0_POINT_SAMPLE     = 1u <<  0,
 	VTFPP_VTF_FLAG_V0_TRILINEAR        = 1u <<  1,
 	VTFPP_VTF_FLAG_V0_CLAMP_S          = 1u <<  2,
@@ -132,7 +132,7 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_VTF_FLAG_MASK_INTERNAL = VTFPP_VTF_FLAG_V0_NO_MIP | VTFPP_VTF_FLAG_V0_ENVMAP,
 } vtfpp_vtf_flags_e;
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_VTF_PLATFORM_UNKNOWN       = 0x000,
 	VTFPP_VTF_PLATFORM_PC            = 0x007,
 	VTFPP_VTF_PLATFORM_XBOX          = 0x005,
@@ -141,12 +141,12 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_VTF_PLATFORM_PS3_PORTAL2   = 0x334,
 } vtfpp_vtf_platform_e;
 
-SOURCEPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_UNCHANGED;
-SOURCEPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_DEFAULT;
+VTFPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_UNCHANGED;
+VTFPP_EXTERNVAR const vtfpp_image_format_e VTFPP_VTF_FORMAT_DEFAULT;
 
 #pragma pack(push, 1)
 
-SOURCEPP_EXTERN typedef struct {
+VTFPP_EXTERN typedef struct {
 	uint32_t version;
 	vtfpp_image_format_e outputFormat;
 	float compressedFormatQuality;
@@ -200,116 +200,116 @@ SOURCEPP_EXTERN typedef struct {
 
 typedef void* vtfpp_vtf_handle_t;
 
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty(); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API void vtfpp_vtf_close(vtfpp_vtf_handle_t* handle);
-SOURCEPP_API int vtfpp_vtf_is_valid(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_create_from_mem_and_bake(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
-SOURCEPP_API int vtfpp_vtf_create_blank_and_bake(vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_mem(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_blank(vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API int vtfpp_vtf_create_from_file_and_bake(const char* imagePath, const char* vtfPath, vtfpp_vtf_creation_options_t options);
-SOURCEPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_file(const char* imagePath, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-SOURCEPP_API vtfpp_vtf_platform_e vtfpp_vtf_get_platform(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_platform(vtfpp_vtf_handle_t handle, vtfpp_vtf_platform_e platform);
-SOURCEPP_API uint32_t vtfpp_vtf_get_version(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t version);
-SOURCEPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_width_resize_method(vtfpp_vtf_handle_t handle);
-SOURCEPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_height_resize_method(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_image_resize_methods(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageWidthResizeMethod, vtfpp_image_conversion_resize_method_e imageHeightResizeMethod);
-SOURCEPP_API void vtfpp_vtf_set_image_width_resize_method(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageWidthResizeMethod);
-SOURCEPP_API void vtfpp_vtf_set_image_height_resize_method(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageHeightResizeMethod);
-SOURCEPP_API uint16_t vtfpp_vtf_get_width(vtfpp_vtf_handle_t handle, uint8_t mip);
-SOURCEPP_API uint16_t vtfpp_vtf_get_padded_width(vtfpp_vtf_handle_t handle, uint8_t mip);
-SOURCEPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mip);
-SOURCEPP_API uint16_t vtfpp_vtf_get_padded_height(vtfpp_vtf_handle_t handle, uint8_t mip);
-SOURCEPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter);
-SOURCEPP_API uint32_t vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
-SOURCEPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
-SOURCEPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
-SOURCEPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_srgb(vtfpp_vtf_handle_t handle, int srgb);
-SOURCEPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap);
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter, float quality);
-SOURCEPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_set_mip_count(vtfpp_vtf_handle_t handle, uint8_t mipCount);
-SOURCEPP_API int vtfpp_vtf_set_recommended_mip_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_compute_mips(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter);
-SOURCEPP_API uint16_t vtfpp_vtf_get_frame_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_set_frame_count(vtfpp_vtf_handle_t handle, uint16_t frameCount);
-SOURCEPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap);
-SOURCEPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle, uint8_t mip);
-SOURCEPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth);
-SOURCEPP_API int vtfpp_vtf_set_frame_face_and_depth(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t depth);
-SOURCEPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_start_frame(vtfpp_vtf_handle_t handle, uint16_t startFrame);
-SOURCEPP_API void vtfpp_vtf_get_reflectivity(vtfpp_vtf_handle_t handle, float* r, float* g, float* b);
-SOURCEPP_API void vtfpp_vtf_set_reflectivity(vtfpp_vtf_handle_t handle, float r, float g, float b);
-SOURCEPP_API void vtfpp_vtf_compute_reflectivity(vtfpp_vtf_handle_t handle);
-SOURCEPP_API float vtfpp_vtf_get_bumpmap_scale(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_bumpmap_scale(vtfpp_vtf_handle_t handle, float bumpMapScale);
-SOURCEPP_API vtfpp_image_format_e vtfpp_vtf_get_thumbnail_format(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint8_t vtfpp_vtf_get_thumbnail_width(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint8_t vtfpp_vtf_get_thumbnail_height(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint8_t vtfpp_vtf_get_fallback_width(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint8_t vtfpp_vtf_get_fallback_height(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint8_t vtfpp_vtf_get_fallback_mip_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API uint32_t vtfpp_vtf_get_resources_count(vtfpp_vtf_handle_t handle);
-SOURCEPP_API vtfpp_resource_handle_t vtfpp_vtf_get_resource_at_index(vtfpp_vtf_handle_t handle, uint32_t index);
-SOURCEPP_API vtfpp_resource_handle_t vtfpp_vtf_get_resource_with_type(vtfpp_vtf_handle_t handle, vtfpp_resource_type_e type);
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_palette_resource_frame(vtfpp_vtf_handle_t handle, uint16_t frame); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_raw(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API void vtfpp_vtf_set_particle_sheet_resource(vtfpp_vtf_handle_t handle, vtfpp_sht_handle_t sht);
-SOURCEPP_API void vtfpp_vtf_remove_particle_sheet_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_crc_resource(vtfpp_vtf_handle_t handle, uint32_t value);
-SOURCEPP_API void vtfpp_vtf_remove_crc_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_lod_resource(vtfpp_vtf_handle_t handle, uint8_t u, uint8_t v, uint8_t u360, uint8_t v360);
-SOURCEPP_API void vtfpp_vtf_remove_lod_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_extended_flags_resource(vtfpp_vtf_handle_t handle, uint32_t value);
-SOURCEPP_API void vtfpp_vtf_remove_extended_flags_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_keyvalues_data_resource(vtfpp_vtf_handle_t handle, const char* value);
-SOURCEPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_hotspot_data_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
-SOURCEPP_API void vtfpp_vtf_remove_hotspot_data_resource(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_compression_level(vtfpp_vtf_handle_t handle, int16_t compressionLevel);
-SOURCEPP_API vtfpp_compression_method_e vtfpp_vtf_get_compression_method(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_compression_method(vtfpp_vtf_handle_t handle, vtfpp_compression_method_e compressionMethod);
-SOURCEPP_API int vtfpp_vtf_has_image_data(vtfpp_vtf_handle_t handle);
-SOURCEPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice);
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality);
-SOURCEPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality);
-SOURCEPP_API int vtfpp_vtf_save_image_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, vtfpp_image_conversion_file_format_e fileFormat);
-SOURCEPP_API int vtfpp_vtf_has_thumbnail_data(vtfpp_vtf_handle_t handle);
-SOURCEPP_API const unsigned char* vtfpp_vtf_get_thumbnail_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen);
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as_rgba8888(vtfpp_vtf_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API void vtfpp_vtf_set_thumbnail_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float quality);
-SOURCEPP_API void vtfpp_vtf_set_thumbnail_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, float quality);
-SOURCEPP_API void vtfpp_vtf_compute_thumbnail(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter, float quality);
-SOURCEPP_API void vtfpp_vtf_remove_thumbnail(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_save_thumbnail_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_file_format_e fileFormat);
-SOURCEPP_API int vtfpp_vtf_has_fallback_data(vtfpp_vtf_handle_t handle);
-SOURCEPP_API const unsigned char* vtfpp_vtf_get_fallback_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face);
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_fallback_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_get_fallback_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API void vtfpp_vtf_compute_fallback(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter);
-SOURCEPP_API void vtfpp_vtf_remove_fallback(vtfpp_vtf_handle_t handle);
-SOURCEPP_API int vtfpp_vtf_save_fallback_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, vtfpp_image_conversion_file_format_e fileFormat);
-SOURCEPP_API uint8_t vtfpp_vtf_get_console_mip_scale(vtfpp_vtf_handle_t handle);
-SOURCEPP_API void vtfpp_vtf_set_console_mip_scale(vtfpp_vtf_handle_t handle, uint8_t consoleMipScale);
-SOURCEPP_API uint64_t vtfpp_vtf_estimate_bake_size(vtfpp_vtf_handle_t handle, int* isExact);
-SOURCEPP_API sourcepp_buffer_t vtfpp_vtf_bake(vtfpp_vtf_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_buffer_free
-SOURCEPP_API int vtfpp_vtf_bake_to_file(vtfpp_vtf_handle_t handle, const char* vtfPath);
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty(); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API void vtfpp_vtf_close(vtfpp_vtf_handle_t* handle);
+VTFPP_API int vtfpp_vtf_is_valid(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_create_from_mem_and_bake(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
+VTFPP_API int vtfpp_vtf_create_blank_and_bake(vtfpp_image_format_e format, uint16_t width, uint16_t height, const char* vtfPath, vtfpp_vtf_creation_options_t options);
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_mem(const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_blank(vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API int vtfpp_vtf_create_from_file_and_bake(const char* imagePath, const char* vtfPath, vtfpp_vtf_creation_options_t options);
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_from_file(const char* imagePath, vtfpp_vtf_creation_options_t options); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API vtfpp_vtf_platform_e vtfpp_vtf_get_platform(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_platform(vtfpp_vtf_handle_t handle, vtfpp_vtf_platform_e platform);
+VTFPP_API uint32_t vtfpp_vtf_get_version(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_version(vtfpp_vtf_handle_t handle, uint32_t version);
+VTFPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_width_resize_method(vtfpp_vtf_handle_t handle);
+VTFPP_API vtfpp_image_conversion_resize_method_e vtfpp_vtf_get_image_height_resize_method(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_image_resize_methods(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageWidthResizeMethod, vtfpp_image_conversion_resize_method_e imageHeightResizeMethod);
+VTFPP_API void vtfpp_vtf_set_image_width_resize_method(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageWidthResizeMethod);
+VTFPP_API void vtfpp_vtf_set_image_height_resize_method(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_method_e imageHeightResizeMethod);
+VTFPP_API uint16_t vtfpp_vtf_get_width(vtfpp_vtf_handle_t handle, uint8_t mip);
+VTFPP_API uint16_t vtfpp_vtf_get_padded_width(vtfpp_vtf_handle_t handle, uint8_t mip);
+VTFPP_API uint16_t vtfpp_vtf_get_height(vtfpp_vtf_handle_t handle, uint8_t mip);
+VTFPP_API uint16_t vtfpp_vtf_get_padded_height(vtfpp_vtf_handle_t handle, uint8_t mip);
+VTFPP_API void vtfpp_vtf_set_size(vtfpp_vtf_handle_t handle, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter);
+VTFPP_API uint32_t vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_srgb(vtfpp_vtf_handle_t handle, int srgb);
+VTFPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
+VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap);
+VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter, float quality);
+VTFPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_set_mip_count(vtfpp_vtf_handle_t handle, uint8_t mipCount);
+VTFPP_API int vtfpp_vtf_set_recommended_mip_count(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_compute_mips(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter);
+VTFPP_API uint16_t vtfpp_vtf_get_frame_count(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_set_frame_count(vtfpp_vtf_handle_t handle, uint16_t frameCount);
+VTFPP_API uint8_t vtfpp_vtf_get_face_count(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_set_face_count(vtfpp_vtf_handle_t handle, int isCubeMap);
+VTFPP_API uint16_t vtfpp_vtf_get_depth(vtfpp_vtf_handle_t handle, uint8_t mip);
+VTFPP_API int vtfpp_vtf_set_depth(vtfpp_vtf_handle_t handle, uint16_t depth);
+VTFPP_API int vtfpp_vtf_set_frame_face_and_depth(vtfpp_vtf_handle_t handle, uint16_t frameCount, int isCubeMap, uint16_t depth);
+VTFPP_API uint16_t vtfpp_vtf_get_start_frame(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_start_frame(vtfpp_vtf_handle_t handle, uint16_t startFrame);
+VTFPP_API void vtfpp_vtf_get_reflectivity(vtfpp_vtf_handle_t handle, float* r, float* g, float* b);
+VTFPP_API void vtfpp_vtf_set_reflectivity(vtfpp_vtf_handle_t handle, float r, float g, float b);
+VTFPP_API void vtfpp_vtf_compute_reflectivity(vtfpp_vtf_handle_t handle);
+VTFPP_API float vtfpp_vtf_get_bumpmap_scale(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_bumpmap_scale(vtfpp_vtf_handle_t handle, float bumpMapScale);
+VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_thumbnail_format(vtfpp_vtf_handle_t handle);
+VTFPP_API uint8_t vtfpp_vtf_get_thumbnail_width(vtfpp_vtf_handle_t handle);
+VTFPP_API uint8_t vtfpp_vtf_get_thumbnail_height(vtfpp_vtf_handle_t handle);
+VTFPP_API uint8_t vtfpp_vtf_get_fallback_width(vtfpp_vtf_handle_t handle);
+VTFPP_API uint8_t vtfpp_vtf_get_fallback_height(vtfpp_vtf_handle_t handle);
+VTFPP_API uint8_t vtfpp_vtf_get_fallback_mip_count(vtfpp_vtf_handle_t handle);
+VTFPP_API uint32_t vtfpp_vtf_get_resources_count(vtfpp_vtf_handle_t handle);
+VTFPP_API vtfpp_resource_handle_t vtfpp_vtf_get_resource_at_index(vtfpp_vtf_handle_t handle, uint32_t index);
+VTFPP_API vtfpp_resource_handle_t vtfpp_vtf_get_resource_with_type(vtfpp_vtf_handle_t handle, vtfpp_resource_type_e type);
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_palette_resource_frame(vtfpp_vtf_handle_t handle, uint16_t frame); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_raw(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API void vtfpp_vtf_set_particle_sheet_resource(vtfpp_vtf_handle_t handle, vtfpp_sht_handle_t sht);
+VTFPP_API void vtfpp_vtf_remove_particle_sheet_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_crc_resource(vtfpp_vtf_handle_t handle, uint32_t value);
+VTFPP_API void vtfpp_vtf_remove_crc_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_lod_resource(vtfpp_vtf_handle_t handle, uint8_t u, uint8_t v, uint8_t u360, uint8_t v360);
+VTFPP_API void vtfpp_vtf_remove_lod_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_extended_flags_resource(vtfpp_vtf_handle_t handle, uint32_t value);
+VTFPP_API void vtfpp_vtf_remove_extended_flags_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_keyvalues_data_resource(vtfpp_vtf_handle_t handle, const char* value);
+VTFPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_hotspot_data_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
+VTFPP_API void vtfpp_vtf_remove_hotspot_data_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_compression_level(vtfpp_vtf_handle_t handle, int16_t compressionLevel);
+VTFPP_API vtfpp_compression_method_e vtfpp_vtf_get_compression_method(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_compression_method(vtfpp_vtf_handle_t handle, vtfpp_compression_method_e compressionMethod);
+VTFPP_API int vtfpp_vtf_has_image_data(vtfpp_vtf_handle_t handle);
+VTFPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice);
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality);
+VTFPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality);
+VTFPP_API int vtfpp_vtf_save_image_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, vtfpp_image_conversion_file_format_e fileFormat);
+VTFPP_API int vtfpp_vtf_has_thumbnail_data(vtfpp_vtf_handle_t handle);
+VTFPP_API const unsigned char* vtfpp_vtf_get_thumbnail_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen);
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_thumbnail_data_as_rgba8888(vtfpp_vtf_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API void vtfpp_vtf_set_thumbnail_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float quality);
+VTFPP_API void vtfpp_vtf_set_thumbnail_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, float quality);
+VTFPP_API void vtfpp_vtf_compute_thumbnail(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter, float quality);
+VTFPP_API void vtfpp_vtf_remove_thumbnail(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_save_thumbnail_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_file_format_e fileFormat);
+VTFPP_API int vtfpp_vtf_has_fallback_data(vtfpp_vtf_handle_t handle);
+VTFPP_API const unsigned char* vtfpp_vtf_get_fallback_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen, uint8_t mip, uint16_t frame, uint8_t face);
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_fallback_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_fallback_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API void vtfpp_vtf_compute_fallback(vtfpp_vtf_handle_t handle, vtfpp_image_conversion_resize_filter_e filter);
+VTFPP_API void vtfpp_vtf_remove_fallback(vtfpp_vtf_handle_t handle);
+VTFPP_API int vtfpp_vtf_save_fallback_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, vtfpp_image_conversion_file_format_e fileFormat);
+VTFPP_API uint8_t vtfpp_vtf_get_console_mip_scale(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_console_mip_scale(vtfpp_vtf_handle_t handle, uint8_t consoleMipScale);
+VTFPP_API uint64_t vtfpp_vtf_estimate_bake_size(vtfpp_vtf_handle_t handle, int* isExact);
+VTFPP_API sourcepp_buffer_t vtfpp_vtf_bake(vtfpp_vtf_handle_t handle); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API int vtfpp_vtf_bake_to_file(vtfpp_vtf_handle_t handle, const char* vtfPath);
 
 // C++ conversion routines
 #ifdef __cplusplus

@@ -13,7 +13,7 @@ const char* VPKPP_PK4_EXTENSION = PK4_EXTENSION.data();
 const char* VPKPP_PKZ_EXTENSION = PKZ_EXTENSION.data();
 const char* VPKPP_ZIP_EXTENSION = ZIP_EXTENSION.data();
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_zip_create(const char* path) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_zip_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = ZIP::create(path);
@@ -23,7 +23,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_zip_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_zip_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_zip_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = ZIP::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {
@@ -35,7 +35,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_zip_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path) {
+VPKPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, VPKPP_ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
 	SOURCEPP_EARLY_RETURN_VAL(path, VPKPP_ENTRY_COMPRESSION_TYPE_NO_COMPRESS);
 
@@ -45,7 +45,7 @@ SOURCEPP_API vpkpp_entry_compression_type_e vpkpp_zip_get_entry_compression_type
 	return static_cast<vpkpp_entry_compression_type_e>(zip->getEntryCompressionType(path));
 }
 
-SOURCEPP_API void vpkpp_zip_set_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path, vpkpp_entry_compression_type_e type) {
+VPKPP_API void vpkpp_zip_set_entry_compression_type(vpkpp_pack_file_handle_t handle, const char* path, vpkpp_entry_compression_type_e type) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(path);
 
@@ -55,7 +55,7 @@ SOURCEPP_API void vpkpp_zip_set_entry_compression_type(vpkpp_pack_file_handle_t 
 	zip->setEntryCompressionType(path, static_cast<EntryCompressionType>(type));
 }
 
-SOURCEPP_API int16_t vpkpp_zip_get_entry_compression_strength(vpkpp_pack_file_handle_t handle, const char* path) {
+VPKPP_API int16_t vpkpp_zip_get_entry_compression_strength(vpkpp_pack_file_handle_t handle, const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 	SOURCEPP_EARLY_RETURN_VAL(path, 0);
 
@@ -65,7 +65,7 @@ SOURCEPP_API int16_t vpkpp_zip_get_entry_compression_strength(vpkpp_pack_file_ha
 	return zip->getEntryCompressionStrength(path);
 }
 
-SOURCEPP_API void vpkpp_zip_set_entry_compression_strength(vpkpp_pack_file_handle_t handle, const char* path, int16_t strength) {
+VPKPP_API void vpkpp_zip_set_entry_compression_strength(vpkpp_pack_file_handle_t handle, const char* path, int16_t strength) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(path);
 

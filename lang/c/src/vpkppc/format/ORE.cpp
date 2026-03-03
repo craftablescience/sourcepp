@@ -7,7 +7,7 @@ using namespace vpkpp;
 
 const char* VPKPP_ORE_EXTENSION = ORE_EXTENSION.data();
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_ore_create(const char* path) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_ore_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = ORE::create(path);
@@ -17,7 +17,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_ore_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_ore_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_ore_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = ORE::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {

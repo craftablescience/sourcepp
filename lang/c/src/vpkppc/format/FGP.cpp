@@ -11,7 +11,7 @@ const char* VPKPP_FGP_EXTENSION    = FGP_EXTENSION.data();
 const char* VPKPP_FGP_HASHED_FILEPATH_PREFIX          = FGP_HASHED_FILEPATH_PREFIX.data();
 const uint64_t VPKPP_FGP_SOURCEPP_FILENAMES_SIGNATURE = FGP_SOURCEPP_FILENAMES_SIGNATURE;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fgp_create(const char* path) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_fgp_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = FGP::create(path);
@@ -21,7 +21,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fgp_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fgp_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_fgp_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = FGP::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {
@@ -33,7 +33,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_fgp_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-SOURCEPP_API sourcepp_string_t vpkpp_fgp_get_loading_screen_file_path(vpkpp_pack_file_handle_t handle) {
+VPKPP_API sourcepp_string_t vpkpp_fgp_get_loading_screen_file_path(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
 
 	const auto* fgp = dynamic_cast<FGP*>(convert::handle<PackFile>(handle));
@@ -42,7 +42,7 @@ SOURCEPP_API sourcepp_string_t vpkpp_fgp_get_loading_screen_file_path(vpkpp_pack
 	return convert::toString(fgp->getLoadingScreenFilePath());
 }
 
-SOURCEPP_API void vpkpp_fgp_set_loading_screen_file_path(vpkpp_pack_file_handle_t handle, const char* path) {
+VPKPP_API void vpkpp_fgp_set_loading_screen_file_path(vpkpp_pack_file_handle_t handle, const char* path) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(path);
 
@@ -52,6 +52,6 @@ SOURCEPP_API void vpkpp_fgp_set_loading_screen_file_path(vpkpp_pack_file_handle_
 	fgp->setLoadingScreenFilePath(path);
 }
 
-SOURCEPP_API uint32_t vpkpp_fgp_hash_file_path(const char* filepath) {
+VPKPP_API uint32_t vpkpp_fgp_hash_file_path(const char* filepath) {
 	return FGP::hashFilePath(filepath);
 }

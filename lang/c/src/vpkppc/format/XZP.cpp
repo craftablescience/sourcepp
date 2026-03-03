@@ -9,7 +9,7 @@ const uint32_t VPKPP_XZP_HEADER_SIGNATURE = XZP_HEADER_SIGNATURE;
 const uint32_t VPKPP_XZP_FOOTER_SIGNATURE = XZP_FOOTER_SIGNATURE;
 const char* VPKPP_XZP_EXTENSION           = XZP_EXTENSION.data();
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_xzp_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_xzp_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = XZP::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {

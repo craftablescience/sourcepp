@@ -1,8 +1,8 @@
 #pragma once
 
-#include <sourceppc/API.h>
+#include "API.h"
 
-SOURCEPP_EXTERN typedef enum {
+VTFPP_EXTERN typedef enum {
 	VTFPP_IMAGE_FORMAT_RGBA8888 = 0,
 	VTFPP_IMAGE_FORMAT_ABGR8888,
 	VTFPP_IMAGE_FORMAT_RGB888,
@@ -64,32 +64,32 @@ SOURCEPP_EXTERN typedef enum {
 	VTFPP_IMAGE_FORMAT_STRATA_BC6H,
 } vtfpp_image_format_e;
 
-SOURCEPP_API int8_t vtfpp_image_format_details_red(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_decompressed_red(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_green(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_decompressed_green(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_blue(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_decompressed_blue(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_alpha(vtfpp_image_format_e format);
-SOURCEPP_API int8_t vtfpp_image_format_details_decompressed_alpha(vtfpp_image_format_e format);
-SOURCEPP_API uint8_t vtfpp_image_format_details_bpp(vtfpp_image_format_e format);
-SOURCEPP_API vtfpp_image_format_e vtfpp_image_format_details_container_format(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_large(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_decimal(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_compressed(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_transparent(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_opaque(vtfpp_image_format_e format);
-SOURCEPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format);
-SOURCEPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int addCompressedFormatPadding);
+VTFPP_API int8_t vtfpp_image_format_details_red(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_decompressed_red(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_green(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_decompressed_green(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_blue(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_decompressed_blue(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_alpha(vtfpp_image_format_e format);
+VTFPP_API int8_t vtfpp_image_format_details_decompressed_alpha(vtfpp_image_format_e format);
+VTFPP_API uint8_t vtfpp_image_format_details_bpp(vtfpp_image_format_e format);
+VTFPP_API vtfpp_image_format_e vtfpp_image_format_details_container_format(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_large(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_decimal(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_compressed(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_transparent(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_opaque(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format);
+VTFPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int addCompressedFormatPadding);
 
 // Skipping vtfpp::ImageDimensions::getMipDims
 
-SOURCEPP_API uint8_t vtfpp_image_dimensions_get_maximum_mip_count(uint16_t width, uint16_t height, uint16_t depth);
-SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t depth);
-SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length_ex(vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth);
-SOURCEPP_API uint32_t vtfpp_image_format_details_get_data_length_xbox(int padded, vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth);
-SOURCEPP_API int vtfpp_image_format_details_get_data_position(uint32_t* offset, uint32_t* length, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t depth);
-SOURCEPP_API int vtfpp_image_format_details_get_data_position_xbox(uint32_t* offset, uint32_t* length, int padded, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t depth);
+VTFPP_API uint8_t vtfpp_image_dimensions_get_maximum_mip_count(uint16_t width, uint16_t height, uint16_t depth);
+VTFPP_API uint32_t vtfpp_image_format_details_get_data_length(vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t depth);
+VTFPP_API uint32_t vtfpp_image_format_details_get_data_length_ex(vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth);
+VTFPP_API uint32_t vtfpp_image_format_details_get_data_length_xbox(int padded, vtfpp_image_format_e format, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth);
+VTFPP_API int vtfpp_image_format_details_get_data_position(uint32_t* offset, uint32_t* length, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t depth);
+VTFPP_API int vtfpp_image_format_details_get_data_position_xbox(uint32_t* offset, uint32_t* length, int padded, vtfpp_image_format_e format, uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint8_t face, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t slice, uint16_t depth);
 
 // C++ conversion routines
 #ifdef __cplusplus

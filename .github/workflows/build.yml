@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    name: 'Build (${{matrix.os}})'
+    name: 'Build (${{matrix.build_type}}, ${{matrix.os}})'
     strategy:
       fail-fast: false
       matrix:

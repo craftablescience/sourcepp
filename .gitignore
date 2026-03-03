@@ -26,6 +26,10 @@ test/res/
 test/Helpers.h
 
 
+# C
+lang/c/include/**/API.h
+
+
 # C#
 bin/
 obj/

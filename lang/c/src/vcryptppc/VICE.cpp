@@ -41,7 +41,7 @@ const char* VCRYPTPP_VICE_KNOWN_CODES_GPU_LEFT_4_DEAD_2               = VICE::Kn
 const char* VCRYPTPP_VICE_KNOWN_CODES_GPU_PORTAL_2                    = VICE::KnownCodes::GPU_PORTAL_2.data();
 const char* VCRYPTPP_VICE_KNOWN_CODES_GPU_TEAM_FORTRESS_2             = VICE::KnownCodes::GPU_TEAM_FORTRESS_2.data();
 
-SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_encrypt(const unsigned char* buffer, size_t bufferLen, const char* code) {
+VCRYPTPP_API sourcepp_buffer_t vcryptpp_vice_encrypt(const unsigned char* buffer, size_t bufferLen, const char* code) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(code, SOURCEPP_BUFFER_INVALID);
@@ -49,7 +49,7 @@ SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_encrypt(const unsigned char* buffer
 	return convert::toBuffer(VICE::encrypt(std::span{reinterpret_cast<const std::byte*>(buffer), bufferLen}, code));
 }
 
-SOURCEPP_API sourcepp_buffer_t vcryptpp_vice_decrypt(const unsigned char* buffer, size_t bufferLen, const char* code) {
+VCRYPTPP_API sourcepp_buffer_t vcryptpp_vice_decrypt(const unsigned char* buffer, size_t bufferLen, const char* code) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(code, SOURCEPP_BUFFER_INVALID);

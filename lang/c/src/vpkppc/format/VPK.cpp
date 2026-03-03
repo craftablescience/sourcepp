@@ -15,7 +15,7 @@ const char* VPKPP_VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE = VPK_KEYPAIR_PRIVATE_KEY_TEM
 const uint16_t VPKPP_VPK_MAX_PRELOAD_BYTES         = VPK_MAX_PRELOAD_BYTES;
 const uint32_t VPKPP_VPK_DEFAULT_CHUNK_SIZE        = VPK_DEFAULT_CHUNK_SIZE;
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create(const char* path) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = VPK::create(path);
@@ -25,7 +25,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create(const char* path) {
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_with_options(const char* path, uint32_t version) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_with_options(const char* path, uint32_t version) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = VPK::create(path, version);
@@ -35,7 +35,7 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_create_with_options(const char* 
 	return packFile.release();
 }
 
-SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path, vpkpp_entry_callback_t callback) {
+VPKPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path, vpkpp_entry_callback_t callback) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);
 
 	auto packFile = VPK::open(path, callback ? [callback](const std::string& entryPath, const Entry& entry) {
@@ -47,13 +47,13 @@ SOURCEPP_API vpkpp_pack_file_handle_t vpkpp_vpk_open(const char* path, vpkpp_ent
 	return packFile.release();
 }
 
-SOURCEPP_API int vpkpp_vpk_generate_keypair_files(const char* path) {
+VPKPP_API int vpkpp_vpk_generate_keypair_files(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, false);
 
 	return VPK::generateKeyPairFiles(path);
 }
 
-SOURCEPP_API int vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, const char* filename) {
+VPKPP_API int vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, const char* filename) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(filename, false);
 
@@ -63,7 +63,7 @@ SOURCEPP_API int vpkpp_vpk_sign_from_file(vpkpp_pack_file_handle_t handle, const
 	return vpk->sign(filename);
 }
 
-SOURCEPP_API int vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const unsigned char* privateKeyBuffer, size_t privateKeyLen, const unsigned char* publicKeyBuffer, size_t publicKeyLen) {
+VPKPP_API int vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const unsigned char* privateKeyBuffer, size_t privateKeyLen, const unsigned char* publicKeyBuffer, size_t publicKeyLen) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(privateKeyBuffer, false);
 	SOURCEPP_EARLY_RETURN_VAL(privateKeyLen, false);
@@ -78,7 +78,7 @@ SOURCEPP_API int vpkpp_vpk_sign_from_mem(vpkpp_pack_file_handle_t handle, const 
 		{reinterpret_cast<const std::byte*>(publicKeyBuffer), reinterpret_cast<const std::byte*>(publicKeyBuffer + publicKeyLen)});
 }
 
-SOURCEPP_API uint32_t vpkpp_vpk_get_version(vpkpp_pack_file_handle_t handle) {
+VPKPP_API uint32_t vpkpp_vpk_get_version(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
 	const auto* vpk = dynamic_cast<VPK*>(convert::handle<PackFile>(handle));
@@ -87,7 +87,7 @@ SOURCEPP_API uint32_t vpkpp_vpk_get_version(vpkpp_pack_file_handle_t handle) {
 	return vpk->getVersion();
 }
 
-SOURCEPP_API void vpkpp_vpk_set_version(vpkpp_pack_file_handle_t handle, uint32_t version) {
+VPKPP_API void vpkpp_vpk_set_version(vpkpp_pack_file_handle_t handle, uint32_t version) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* vpk = dynamic_cast<VPK*>(convert::handle<PackFile>(handle));
@@ -96,7 +96,7 @@ SOURCEPP_API void vpkpp_vpk_set_version(vpkpp_pack_file_handle_t handle, uint32_
 	vpk->setVersion(version);
 }
 
-SOURCEPP_API uint32_t vpkpp_vpk_get_chunk_size(vpkpp_pack_file_handle_t handle) {
+VPKPP_API uint32_t vpkpp_vpk_get_chunk_size(vpkpp_pack_file_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
 	const auto* vpk = dynamic_cast<VPK*>(convert::handle<PackFile>(handle));
@@ -105,7 +105,7 @@ SOURCEPP_API uint32_t vpkpp_vpk_get_chunk_size(vpkpp_pack_file_handle_t handle) 
 	return vpk->getChunkSize();
 }
 
-SOURCEPP_API void vpkpp_vpk_set_chunk_size(vpkpp_pack_file_handle_t handle, uint32_t chunkSize) {
+VPKPP_API void vpkpp_vpk_set_chunk_size(vpkpp_pack_file_handle_t handle, uint32_t chunkSize) {
 	SOURCEPP_EARLY_RETURN(handle);
 
 	auto* vpk = dynamic_cast<VPK*>(convert::handle<PackFile>(handle));
