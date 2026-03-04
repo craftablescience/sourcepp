@@ -5,24 +5,30 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-
-    <Title>SourcePP</Title>
-    <Version>${SOURCEPP_VERSION}</Version>
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
+	<PackageId>${PROJECT_NAME}</PackageId>
+    <Title>SourcePP</Title>
+    <Description>${PROJECT_DESCRIPTION}</Description>
+    <Version>${SOURCEPP_VERSION}</Version>
     <Authors>craftablescience</Authors>
+    <Copyright>Copyright (c) 2023 Laura Lewis</Copyright>
+    <PackageIcon>logo_128.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageProjectUrl>https://github.com/craftablescience/sourcepp</PackageProjectUrl>
     <RepositoryUrl>https://github.com/craftablescience/sourcepp</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>source;source-engine;file-formats</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="../../../branding/logo_128.png" Pack="True" PackagePath="./" />
     <None Include="../../../LICENSE" Pack="True" PackagePath="./" />
     <None Include="../../../README.md" Pack="True" PackagePath="./" />
+    <None Include="../../../THIRDPARTY_LEGAL_NOTICES.txt" Pack="True" PackagePath="./" />
   </ItemGroup>
 
   <PropertyGroup>
