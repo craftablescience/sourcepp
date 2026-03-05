@@ -71,7 +71,8 @@ inline void register_python(py::module_& m) {
 		.value("BZIP2",       EntryCompressionType::BZIP2)
 		.value("LZMA",        EntryCompressionType::LZMA)
 		.value("ZSTD",        EntryCompressionType::ZSTD)
-		.value("XZ",          EntryCompressionType::XZ);
+		.value("XZ",          EntryCompressionType::XZ)
+		.value("PPMD",        EntryCompressionType::PPMD);
 
 	py::class_<BakeOptions>(vpkpp, "BakeOptions")
 		.def(py::init())

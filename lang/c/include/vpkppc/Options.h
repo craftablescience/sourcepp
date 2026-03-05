@@ -10,6 +10,7 @@ VPKPP_EXTERN typedef enum {
 	VPKPP_ENTRY_COMPRESSION_TYPE_LZMA        = 14,
 	VPKPP_ENTRY_COMPRESSION_TYPE_ZSTD        = 93,
 	VPKPP_ENTRY_COMPRESSION_TYPE_XZ          = 95,
+	VPKPP_ENTRY_COMPRESSION_TYPE_PPMD        = 98,
 } vpkpp_entry_compression_type_e;
 
 VPKPP_EXTERN typedef struct {

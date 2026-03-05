@@ -14,6 +14,7 @@ enum class EntryCompressionType : int16_t {
 	LZMA        = 14,
 	ZSTD        = 93,
 	XZ          = 95,
+	PPMD        = 98,
 };
 
 struct BakeOptions {

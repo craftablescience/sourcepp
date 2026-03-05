@@ -50,12 +50,6 @@
 #include <stb_image_write.h>
 
 #ifdef VTFPP_SUPPORT_EXR
-#define TINYEXR_IMPLEMENTATION 1
-#ifdef SOURCEPP_BUILD_WITH_THREADS
-#define TINYEXR_USE_THREAD 1
-#else
-#define TINYEXR_USE_THREAD 0
-#endif
 #include <tinyexr.h>
 #endif
 

@@ -4,7 +4,7 @@ add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/Buf
 
 # compressonator
 if(SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator 4d7469c41629f19b7d889592cab8a4115931339c)
+    add_sourcepp_remote_library(CMP_Compressonator https://github.com/craftablescience/compressonator fac3a97ccb25bed3137e9130707d5bb05dfe0bcb)
 endif()
 
 
@@ -39,7 +39,7 @@ endif()
 
 # miniz
 if(SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 174573d60290f447c13a2b1b3405de2b96e27d6c)
+    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 4b9fcf1df525114484be49f3216169b061c07ac6)
 endif()
 
 
@@ -56,7 +56,7 @@ if(NOT TARGET MINIZIP::minizip)
     set(MZ_WZAES            OFF CACHE INTERNAL "")
     set(MZ_OPENSSL          OFF CACHE INTERNAL "")
     set(SKIP_INSTALL_ALL    ON  CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng c0e1385b3ce0e93260463bfcbf1dd6342842d6a1)
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 2f0041b6f7c2193a06d18ca47ccd81fc7070ee8f)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
@@ -71,7 +71,7 @@ endif()
 # qoi
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
     if(NOT TARGET qoi)
-        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 44b233a95eda82fbd2e39a269199b73af0f4c4c3)
+        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 6fff9b70dd79b12f808b0acc5cb44fde9998725e)
         add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
         target_include_directories(qoi INTERFACE "$<BUILD_INTERFACE:${qoi_SOURCE_DIR}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     endif()
@@ -86,7 +86,15 @@ endif()
 
 # tinyexr
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_EXR)
-    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/tinyexr")
+    if(NOT TARGET tinyexr)
+        add_sourcepp_remote_library(tinyexr https://github.com/syoyo/tinyexr 3ffe5f9d5e673e6e8c378d59b306b2824993e705 DO_NOT_USE_CMAKELISTS)
+        add_library(tinyexr STATIC "${tinyexr_SOURCE_DIR}/exr_reader.hh" "${tinyexr_SOURCE_DIR}/streamreader.hh" "${tinyexr_SOURCE_DIR}/streamwriter.hh" "${tinyexr_SOURCE_DIR}/tinyexr.cc" "${tinyexr_SOURCE_DIR}/tinyexr.h")
+        target_include_directories(tinyexr PUBLIC "${tinyexr_SOURCE_DIR}")
+        target_link_libraries(tinyexr PUBLIC miniz)
+        if(SOURCEPP_BUILD_WITH_THREADS)
+            target_compile_definitions(tinyexr PUBLIC TINYEXR_USE_THREAD=1)
+        endif()
+    endif()
 endif()
 
 
@@ -135,5 +143,5 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp 934b7d7448c2d2850be9fa3aa4a924d51fff9823 EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp f342dfc1756785df8803d25478bf664c0de629de EXCLUDE_FROM_ALL)
 endif()

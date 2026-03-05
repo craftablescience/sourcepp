@@ -27,7 +27,7 @@ sourcepp_add_tbb(sourcepp_vtfpp)
 sourcepp_add_threads(sourcepp_vtfpp)
 
 if(SOURCEPP_VTFPP_SUPPORT_EXR)
-    target_link_libraries(sourcepp_vtfpp PRIVATE sourcepp_tinyexr)
+    target_link_libraries(sourcepp_vtfpp PRIVATE tinyexr)
     target_compile_definitions(sourcepp_vtfpp PUBLIC VTFPP_SUPPORT_EXR)
 endif()
 if(SOURCEPP_VTFPP_SUPPORT_QOI)

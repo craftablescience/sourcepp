@@ -11,6 +11,7 @@ public enum EntryCompressionType : short
 	LZMA        = 14,
 	ZSTD        = 93,
 	XZ          = 95,
+	PPMD        = 98,
 }
 
 [StructLayout(LayoutKind.Sequential)]
