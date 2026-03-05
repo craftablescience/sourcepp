@@ -2,7 +2,7 @@
 
 #include <type_traits>
 
-// Helpers
+/// Token pasting outside a macro context
 #define SOURCEPP_CONCAT_DETAIL(a, b) a##b
 #define SOURCEPP_CONCAT(a, b) SOURCEPP_CONCAT_DETAIL(a, b)
 
