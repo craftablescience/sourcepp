@@ -76,7 +76,9 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10'
+          dotnet-version: |
+            9
+            10
 
       - name: Configure CMake
         working-directory: '${{github.workspace}}'

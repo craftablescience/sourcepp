@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -32,9 +32,12 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
-    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'True'">True</IsOSX>
-    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
+	<IsWindows Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('win'))">True</IsWindows>
+    <IsWindows Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
+	<IsOSX     Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('osx'))">True</IsOSX>
+    <IsOSX     Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'True'">True</IsOSX>
+    <IsLinux   Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('linux'))">True</IsLinux>
+    <IsLinux   Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsWindows) == 'True'">

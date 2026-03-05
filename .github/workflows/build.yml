@@ -44,7 +44,9 @@ jobs:
         if: matrix.os != 'windows-latest'
         uses: actions/setup-dotnet@v5
         with:
-          dotnet-version: '10'
+          dotnet-version: |
+            9
+            10
 
       - name: Configure CMake (C#)
         if: matrix.os != 'windows-latest'
