@@ -69,6 +69,8 @@ jobs:
     defaults:
       run:
         working-directory: '${{github.workspace}}/lang/csharp'
+    permissions:
+      id-token: write
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v6
@@ -105,13 +107,19 @@ jobs:
         with:
           name: csharp-dist
           path: |
-            lang/csharp/src/bin/Release/sourcepp.*.*.*.nupkg
-            lang/csharp/src/bin/Release/sourcepp.*.*.*.symbols.nupkg
+            lang/csharp/src/bin/Release/*.nupkg
+
+      - name: Login to NuGet
+        if: inputs.release
+        uses: NuGet/login@v1
+        id: nuget_login
+        with:
+          user: craftablescience
 
       - name: Upload to NuGet
         if: inputs.release
         working-directory: '${{github.workspace}}/lang/csharp/src/bin/Release'
-        run: dotnet nuget push "*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+        run: dotnet nuget push "*.nupkg" --api-key ${{steps.nuget_login.outputs.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
   python_build_sdist:
     name: '[Python] Build SDist'
