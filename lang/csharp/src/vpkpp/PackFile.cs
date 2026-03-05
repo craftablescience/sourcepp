@@ -111,7 +111,16 @@ public class PackFile : sourcepp.ManagedNativeHandle
 		var data = new sourcepp.Buffer(DLL.vpkpp_pack_file_read_entry(Handle, path));
 		return data.IsValid ? data.Read<byte>() : null;
 	}
-	
+
+	public byte? this[string path]
+    {
+        get
+        {
+        	ThrowIfDisposed();
+        	return ReadEntry(path);
+        }
+    }
+
 	public string? ReadEntryText(string path)
 	{
 		ThrowIfDisposed();
