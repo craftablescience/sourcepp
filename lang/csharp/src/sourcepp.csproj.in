@@ -3,13 +3,12 @@
   <PropertyGroup>
     <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <Nullable>enable</Nullable>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <IsTrimmable>True</IsTrimmable>
     <IsAotCompatible>True</IsAotCompatible>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 
-	<PackageId>${PROJECT_NAME}</PackageId>
+    <PackageId>${PROJECT_NAME}</PackageId>
     <Title>SourcePP</Title>
     <Description>${PROJECT_DESCRIPTION}</Description>
     <Version>${SOURCEPP_VERSION}</Version>
@@ -25,111 +24,159 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="../../../branding/logo_128.png" Pack="True" PackagePath="./" />
-    <None Include="../../../LICENSE" Pack="True" PackagePath="./" />
-    <None Include="../../../README.md" Pack="True" PackagePath="./" />
-    <None Include="../../../THIRDPARTY_LEGAL_NOTICES.txt" Pack="True" PackagePath="./" />
+    <None Include="../../../branding/logo_128.png" Pack="True" PackagePath="" />
+    <None Include="../../../LICENSE" Pack="True" PackagePath="" />
+    <None Include="../../../README.md" Pack="True" PackagePath="" />
+    <None Include="../../../THIRDPARTY_LEGAL_NOTICES.txt" Pack="True" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="sourcepp_gameppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_gameppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_gameppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="sourcepp_sourceppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_sourceppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_sourceppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="sourcepp_steamppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_steamppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_steamppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="sourcepp_vcryptppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vcryptppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vcryptppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="sourcepp_vpkppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vpkppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vpkppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="sourcepp_vtfppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vtfppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vtfppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <PropertyGroup>
-	<IsWindows Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('win'))">True</IsWindows>
+    <IsWindows Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('win'))">True</IsWindows>
     <IsWindows Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'True'">True</IsWindows>
-	<IsOSX     Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('osx'))">True</IsOSX>
+    <IsOSX     Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('osx'))">True</IsOSX>
     <IsOSX     Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'True'">True</IsOSX>
     <IsLinux   Condition="'$(RuntimeIdentifier)' != '' and $(RuntimeIdentifier.StartsWith('linux'))">True</IsLinux>
     <IsLinux   Condition="'$(RuntimeIdentifier)' == '' and '$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'True'">True</IsLinux>
   </PropertyGroup>
 
   <ItemGroup Condition="$(IsWindows) == 'True'">
-    <Content Include="sourcepp_gameppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+    <Content Include="sourcepp_gameppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsOSX) == 'True'">
-    <Content Include="sourcepp_gameppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+    <Content Include="sourcepp_sourceppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsLinux) == 'True'">
-    <Content Include="sourcepp_gameppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+    <Content Include="sourcepp_steamppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup Condition="$(IsWindows) == 'True'">
-    <Content Include="sourcepp_sourceppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+    <Content Include="sourcepp_vcryptppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsOSX) == 'True'">
-    <Content Include="sourcepp_sourceppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+    <Content Include="sourcepp_vpkppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsLinux) == 'True'">
-    <Content Include="sourcepp_sourceppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+    <Content Include="sourcepp_vtfppc.dll">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
-  <ItemGroup Condition="$(IsWindows) == 'True'">
-    <Content Include="sourcepp_vcryptppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
-      <TargetPath>%(Filename)%(Extension)</TargetPath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <ItemGroup Condition="$(IsOSX) == 'True'">
-    <Content Include="sourcepp_vcryptppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+    <Content Include="sourcepp_gameppc.dylib">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsLinux) == 'True'">
-    <Content Include="sourcepp_vcryptppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+    <Content Include="sourcepp_sourceppc.dylib">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_steamppc.dylib">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vcryptppc.dylib">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vpkppc.dylib">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vtfppc.dylib">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
-  <ItemGroup Condition="$(IsWindows) == 'True'">
-    <Content Include="sourcepp_vpkppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
-      <TargetPath>%(Filename)%(Extension)</TargetPath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsOSX) == 'True'">
-    <Content Include="sourcepp_vpkppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
-      <TargetPath>%(Filename)%(Extension)</TargetPath>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <ItemGroup Condition="$(IsLinux) == 'True'">
-    <Content Include="sourcepp_vpkppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+    <Content Include="sourcepp_gameppc.so" Pack="True">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-
-  <ItemGroup Condition="$(IsWindows) == 'True'">
-    <Content Include="sourcepp_vtfppc.dll" Pack="True" PackagePath="runtimes/win-x64/native/">
+    <Content Include="sourcepp_sourceppc.so" Pack="True">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsOSX) == 'True'">
-    <Content Include="sourcepp_vtfppc.dylib" Pack="True" PackagePath="runtimes/osx-arm64/native/">
+    <Content Include="sourcepp_steamppc.so" Pack="True">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup Condition="$(IsLinux) == 'True'">
-    <Content Include="sourcepp_vtfppc.so" Pack="True" PackagePath="runtimes/linux-x64/native/">
+    <Content Include="sourcepp_vcryptppc.so" Pack="True">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vpkppc.so" Pack="True">
+      <TargetPath>%(Filename)%(Extension)</TargetPath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sourcepp_vtfppc.so" Pack="True">
       <TargetPath>%(Filename)%(Extension)</TargetPath>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
