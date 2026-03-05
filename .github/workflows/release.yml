@@ -110,7 +110,8 @@ jobs:
 
       - name: Upload to NuGet
         if: inputs.release
-        run: echo "Hello World"
+        working-directory: '${{github.workspace}}/lang/csharp/src/bin/Release'
+        run: dotnet nuget push "*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
   python_build_sdist:
     name: '[Python] Build SDist'
