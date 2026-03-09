@@ -112,14 +112,7 @@ public class PackFile : sourcepp.ManagedNativeHandle
 		return data.IsValid ? data.Read<byte>() : null;
 	}
 
-	public byte? this[string path]
-    {
-        get
-        {
-        	ThrowIfDisposed();
-        	return ReadEntry(path);
-        }
-    }
+	public byte[]? this[string path] => ReadEntry(path);
 
 	public string? ReadEntryText(string path)
 	{
