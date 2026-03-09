@@ -16,7 +16,7 @@
     <Copyright>Copyright (c) 2023 Laura Lewis</Copyright>
     <PackageIcon>logo_128.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/craftablescience/sourcepp</PackageProjectUrl>
+    <PackageProjectUrl>https://sourcepp.org</PackageProjectUrl>
     <RepositoryUrl>https://github.com/craftablescience/sourcepp</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>source;source-engine;file-formats</PackageTags>

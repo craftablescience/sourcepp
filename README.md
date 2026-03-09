@@ -16,12 +16,12 @@ Several modern C++20 libraries for sanely parsing Valve formats.
 ## Other Languages
 
 <div>
-  <a href="https://pypi.org/project/sourcepp" target="_blank" rel="noreferrer"><img alt="Version" src="https://img.shields.io/pypi/v/sourcepp?logo=python&logoColor=%23FFFFFF&label=PyPI%20Version" /></a>
-  <a href="https://pypi.org/project/sourcepp" target="_blank" rel="noreferrer"><img src="https://img.shields.io/pypi/pyversions/sourcepp?logo=python&logoColor=%23FFFFFF&label=Python%20Versions" alt="Python Versions" /></a>
+  <a href="https://www.nuget.org/packages/sourcepp" target="_blank" rel="noreferrer"><img alt="NuGet Version" src="https://img.shields.io/nuget/v/sourcepp?logo=nuget&label=NuGet%20Version" /></a>
+  <a href="https://pypi.org/project/sourcepp" target="_blank" rel="noreferrer"><img alt="Python Version" src="https://img.shields.io/pypi/v/sourcepp?logo=python&logoColor=%23FFFFFF&label=PyPI%20Version" /></a>
 </div>
 
 Wrappers for libraries considered complete exist for C, C#, and/or Python, depending on the library.
-
+The C# wrappers can be found on NuGet in the [sourcepp](https://www.nuget.org/packages/sourcepp) package.
 The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/project/sourcepp) package.
 
 ## Included Libraries
