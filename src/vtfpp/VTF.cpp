@@ -874,7 +874,14 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imageData, format, width, height, options.filter)) {
+	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
+	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	if (requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
+		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
+			return false;
+		}
+	} else if (!writer.setImage(imageData, format, width, height, options.filter)) {
 		return false;
 	}
 	if (!createInternal(writer, options)) {
@@ -885,8 +892,10 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 
 bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
-	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
-	return create(imageData, format, width, height, vtfPath, options);
+	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
+	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
+	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, vtfPath, options);
 }
 
 VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
@@ -894,7 +903,15 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imageData, format, width, height, options.filter)) {
+	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
+	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	if (requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
+		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
+			writer.opened = false;
+			return writer;
+		}
+	} else if (!writer.setImage(imageData, format, width, height, options.filter)) {
 		writer.opened = false;
 		return writer;
 	}
@@ -906,8 +923,10 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 
 VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
-	imageData.resize(static_cast<uint32_t>(width) * height * ImageFormatDetails::bpp(format) / 8);
-	return create(imageData, format, width, height, options);
+	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
+	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
+	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, options);
 }
 
 bool VTF::create(const std::filesystem::path& imagePath, const std::filesystem::path& vtfPath, const CreationOptions& options) {
@@ -915,7 +934,7 @@ bool VTF::create(const std::filesystem::path& imagePath, const std::filesystem::
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imagePath, options.filter)) {
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.requestedResizeWidth, options.requestedResizeHeight)) {
 		return false;
 	}
 	if (!createInternal(writer, options)) {
@@ -929,7 +948,7 @@ VTF VTF::create(const std::filesystem::path& imagePath, const CreationOptions& o
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imagePath, options.filter)) {
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.requestedResizeWidth, options.requestedResizeHeight)) {
 		writer.opened = false;
 		return writer;
 	}
@@ -1872,7 +1891,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	return true;
 }
 
-bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
+bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, uint16_t requestedResizeWidth, uint16_t requestedResizeHeight) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -1882,8 +1901,16 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 		return false;
 	}
 
+	// Image dimension overrides
+	requestedResizeWidth = requestedResizeWidth ? requestedResizeWidth : inputWidth;
+	requestedResizeHeight = requestedResizeHeight ? requestedResizeHeight : inputHeight;
+
 	// One frame (normal)
 	if (inputFrameCount == 1) {
+		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
+			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), filter);
+			return this->setImage(imageDataResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame, face, slice, quality);
+		}
 		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice, quality);
 	}
 
@@ -1891,7 +1918,13 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	bool allSuccess = true;
 	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
 	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
-		if (!this->setImage({imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize}, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
+		std::span currentFrameData{imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize};
+		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
+			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), filter);
+			if (!this->setImage(currentFrameResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
+				allSuccess = false;
+			}
+		} else if (!this->setImage(currentFrameData, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
 			allSuccess = false;
 		}
 		if (currentFrame == 0 && this->frameCount < frame + inputFrameCount) {

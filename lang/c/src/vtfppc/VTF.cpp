@@ -653,11 +653,11 @@ VTFPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsi
 	return convert::handle<VTF>(handle)->setImage({reinterpret_cast<const std::byte*>(imageData), imageLen}, convert::cast(format), width, height, convert::cast(filter), mip, frame, face, slice, quality);
 }
 
-VTFPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
+VTFPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, uint16_t requestedResizeWidth, uint16_t requestedResizeHeight) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(imagePath, false);
 
-	return convert::handle<VTF>(handle)->setImage(imagePath, convert::cast(filter), mip, frame, face, slice, quality);
+	return convert::handle<VTF>(handle)->setImage(imagePath, convert::cast(filter), mip, frame, face, slice, quality, requestedResizeWidth, requestedResizeHeight);
 }
 
 VTFPP_API int vtfpp_vtf_save_image_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, vtfpp_image_conversion_file_format_e fileFormat) {
