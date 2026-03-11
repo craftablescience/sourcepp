@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 
 namespace sourcepp.vtfpp;
 
@@ -72,6 +73,43 @@ public static class ImageConversion
 		POWER_OF_TWO_BIGGER,
 		POWER_OF_TWO_SMALLER,
 		POWER_OF_TWO_NEAREST,
+	}
+
+	[StructLayout(LayoutKind.Sequential)]
+	public struct ResizeBounds
+	{
+		public ushort ResizeMinWidth = 0;
+		public ushort ResizeMaxWidth = 0;
+		public ushort ResizeMinHeight = 0;
+		public ushort ResizeMaxHeight = 0;
+
+		public ResizeBounds()
+		{
+		}
+
+		public ResizeBounds(ushort size)
+		{
+			ResizeMinWidth = size;
+			ResizeMaxWidth = size;
+			ResizeMinHeight = size;
+			ResizeMaxHeight = size;
+		}
+
+		public ResizeBounds(ushort width, ushort height)
+		{
+			ResizeMinWidth = width;
+			ResizeMaxWidth = width;
+			ResizeMinHeight = height;
+			ResizeMaxHeight = height;
+		}
+
+		public ResizeBounds(ushort minWidth, ushort maxWidth, ushort minHeight, ushort maxHeight)
+		{
+			ResizeMinWidth = minWidth;
+			ResizeMaxWidth = maxWidth;
+			ResizeMinHeight = minHeight;
+			ResizeMaxHeight = maxHeight;
+		}
 	}
 
 	public static ushort GetResizedDim(ushort n, ResizeMethod method)

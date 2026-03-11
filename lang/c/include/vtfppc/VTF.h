@@ -154,8 +154,7 @@ VTFPP_EXTERN typedef struct {
 	vtfpp_image_conversion_resize_method_e heightResizeMethod;
 	vtfpp_image_conversion_resize_filter_e filter;
 	uint32_t flags;
-	uint16_t requestedResizeWidth;
-	uint16_t requestedResizeHeight;
+	vtfpp_image_conversion_resize_bounds_t resizeBounds;
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
 	int isCubeMap;
@@ -183,8 +182,7 @@ VTFPP_EXTERN typedef struct {
 	.heightResizeMethod = VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_BIGGER, \
 	.filter = VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT, \
 	.flags = 0, \
-	.requestedResizeWidth = 0, \
-	.requestedResizeHeight = 0, \
+	.resizeBounds = VTFPP_IMAGE_CONVERSION_RESIZE_BOUNDS_DEFAULT, \
 	.initialFrameCount = 1, \
 	.startFrame = 0, \
 	.isCubeMap = 0, \
@@ -291,7 +289,7 @@ VTFPP_API const unsigned char* vtfpp_vtf_get_image_data_raw(vtfpp_vtf_handle_t h
 VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_image_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 VTFPP_API int vtfpp_vtf_set_image_from_mem(vtfpp_vtf_handle_t handle, const unsigned char* imageData, size_t imageLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality);
-VTFPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, uint16_t requestedResizeWidth, uint16_t requestedResizeHeight);
+VTFPP_API int vtfpp_vtf_set_image_from_file(vtfpp_vtf_handle_t handle, const char* imagePath, vtfpp_image_conversion_resize_filter_e filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, vtfpp_image_conversion_resize_bounds_t resizeBounds);
 VTFPP_API int vtfpp_vtf_save_image_to_file(vtfpp_vtf_handle_t handle, const char* imagePath, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, vtfpp_image_conversion_file_format_e fileFormat);
 VTFPP_API int vtfpp_vtf_has_thumbnail_data(vtfpp_vtf_handle_t handle);
 VTFPP_API const unsigned char* vtfpp_vtf_get_thumbnail_data_raw(vtfpp_vtf_handle_t handle, size_t* imageLen);
@@ -425,8 +423,7 @@ inline vtfpp::VTF::CreationOptions cast(const vtfpp_vtf_creation_options_t& valu
 		.heightResizeMethod       = cast(value.heightResizeMethod),
 		.filter                   = cast(value.filter),
 		.flags                    = value.flags,
-		.requestedResizeWidth     = value.requestedResizeWidth,
-		.requestedResizeHeight    = value.requestedResizeHeight,
+		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
 		.isCubeMap                = static_cast<bool>(value.isCubeMap),
@@ -454,8 +451,7 @@ inline vtfpp_vtf_creation_options_t cast(const vtfpp::VTF::CreationOptions& valu
 		.heightResizeMethod       = cast(value.heightResizeMethod),
 		.filter                   = cast(value.filter),
 		.flags                    = value.flags,
-		.requestedResizeWidth     = value.requestedResizeWidth,
-		.requestedResizeHeight    = value.requestedResizeHeight,
+		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
 		.isCubeMap                = value.isCubeMap,

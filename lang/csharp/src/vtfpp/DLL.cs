@@ -728,7 +728,7 @@ internal static partial class DLL
 	public static partial int vtfpp_vtf_set_image_from_mem(nint handle, ReadOnlySpan<byte> imageData, ulong imageLen, ImageFormat format, ushort width, ushort height, ImageConversion.ResizeFilter filter, byte mip, ushort frame, byte face, ushort slice, float quality);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
-	public static partial int vtfpp_vtf_set_image_from_file(nint handle, string imagePath, ImageConversion.ResizeFilter filter, byte mip, ushort frame, byte face, ushort slice, float quality, ushort requestedResizeWidth, ushort requestedResizeHeight);
+	public static partial int vtfpp_vtf_set_image_from_file(nint handle, string imagePath, ImageConversion.ResizeFilter filter, byte mip, ushort frame, byte face, ushort slice, float quality, ImageConversion.ResizeBounds resizeBounds);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial int vtfpp_vtf_save_image_to_file(nint handle, string imagePath, byte mip, ushort frame, byte face, ushort slice, ImageConversion.FileFormat fileFormat);

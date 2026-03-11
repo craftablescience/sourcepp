@@ -238,9 +238,8 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		public ImageConversion.ResizeMethod WidthResizeMethod = ImageConversion.ResizeMethod.POWER_OF_TWO_BIGGER;
 		public ImageConversion.ResizeMethod HeightResizeMethod = ImageConversion.ResizeMethod.POWER_OF_TWO_BIGGER;
 		public ImageConversion.ResizeFilter Filter = ImageConversion.ResizeFilter.DEFAULT;
-		public Flags VTFFlags = 0;
-		public ushort RequestedResizeWidth = 0;
-		public ushort RequestedResizeHeight = 0;
+		public Flags Flags = 0;
+		public ImageConversion.ResizeBounds ResizeBounds = default;
 		public ushort InitialFrameCount = 1;
 		public ushort StartFrame = 0;
 		public int IsCubeMap = 0;
@@ -807,10 +806,10 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.vtfpp_vtf_set_image_from_mem(Handle, imageData, (ulong) imageData.Length, format, width, height, filter, mip, frame, face, slice, quality));
 	}
 	
-	public bool SetImage(string imagePath, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY, ushort requestedResizeWidth = 0, ushort requestedResizeHeight = 0)
+	public bool SetImage(string imagePath, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY, ImageConversion.ResizeBounds resizeBounds = default)
 	{
 		ThrowIfDisposed();
-		return Convert.ToBoolean(DLL.vtfpp_vtf_set_image_from_file(Handle, imagePath, filter, mip, frame, face, slice, quality, requestedResizeWidth, requestedResizeHeight));
+		return Convert.ToBoolean(DLL.vtfpp_vtf_set_image_from_file(Handle, imagePath, filter, mip, frame, face, slice, quality, resizeBounds));
 	}
 
 	public bool SaveImageToFile(string imagePath, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0, ImageConversion.FileFormat fileFormat = ImageConversion.FileFormat.DEFAULT)

@@ -398,6 +398,20 @@ enum class ResizeMethod {
 	POWER_OF_TWO_NEAREST,
 };
 
+struct ResizeBounds {
+	uint16_t resizeMinWidth = 0;
+	uint16_t resizeMaxWidth = 0;
+	uint16_t resizeMinHeight = 0;
+	uint16_t resizeMaxHeight = 0;
+
+	ResizeBounds() = default;
+	explicit ResizeBounds(uint16_t size) : resizeMinWidth{size}, resizeMaxWidth{size}, resizeMinHeight{size}, resizeMaxHeight{size} {}
+	ResizeBounds(uint16_t width, uint16_t height) : resizeMinWidth{width}, resizeMaxWidth{width}, resizeMinHeight{height}, resizeMaxHeight{height} {}
+	ResizeBounds(uint16_t minWidth, uint16_t maxWidth, uint16_t minHeight, uint16_t maxHeight) : resizeMinWidth{minWidth}, resizeMaxWidth{maxWidth}, resizeMinHeight{minHeight}, resizeMaxHeight{maxHeight} {}
+
+	[[nodiscard]] std::pair<uint16_t, uint16_t> clamp(uint16_t width, uint16_t height) const;
+};
+
 /// Get the new image size given a resize method
 [[nodiscard]] uint16_t getResizedDim(uint16_t n, ResizeMethod method);
 

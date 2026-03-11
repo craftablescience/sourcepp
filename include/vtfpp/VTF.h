@@ -239,8 +239,7 @@ public:
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT;
 		uint32_t flags = 0;
-		uint16_t requestedResizeWidth = 0;
-		uint16_t requestedResizeHeight = 0;
+		ImageConversion::ResizeBounds resizeBounds;
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
 		bool isCubeMap = false;
@@ -447,7 +446,7 @@ public:
 
 	bool setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
 
-	bool setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY, uint16_t requestedResizeWidth = 0, uint16_t requestedResizeHeight = 0);
+	bool setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY, ImageConversion::ResizeBounds resizeBounds = {});
 
 	[[nodiscard]] std::vector<std::byte> saveImageToFile(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) const;
 

@@ -874,8 +874,7 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
-	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
 	if (requestedResizeWidth != width || requestedResizeHeight != height) {
 		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
@@ -892,8 +891,7 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 
 bool VTF::create(ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
-	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
-	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
 	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, vtfPath, options);
 }
@@ -903,8 +901,7 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
-	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
 	if (requestedResizeWidth != width || requestedResizeHeight != height) {
 		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
@@ -923,8 +920,7 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 
 VTF VTF::create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
 	std::vector<std::byte> imageData;
-	const auto requestedResizeWidth = options.requestedResizeWidth ? options.requestedResizeWidth : width;
-	const auto requestedResizeHeight = options.requestedResizeHeight ? options.requestedResizeHeight : height;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
 	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
 	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, options);
 }
@@ -934,7 +930,7 @@ bool VTF::create(const std::filesystem::path& imagePath, const std::filesystem::
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.requestedResizeWidth, options.requestedResizeHeight)) {
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
 		return false;
 	}
 	if (!createInternal(writer, options)) {
@@ -948,7 +944,7 @@ VTF VTF::create(const std::filesystem::path& imagePath, const CreationOptions& o
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.requestedResizeWidth, options.requestedResizeHeight)) {
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
 		writer.opened = false;
 		return writer;
 	}
@@ -1891,7 +1887,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 	return true;
 }
 
-bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, uint16_t requestedResizeWidth, uint16_t requestedResizeHeight) {
+bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, ImageConversion::ResizeBounds resizeBounds) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -1902,8 +1898,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	}
 
 	// Image dimension overrides
-	requestedResizeWidth = requestedResizeWidth ? requestedResizeWidth : inputWidth;
-	requestedResizeHeight = requestedResizeHeight ? requestedResizeHeight : inputHeight;
+	auto [requestedResizeWidth, requestedResizeHeight] = resizeBounds.clamp(inputWidth, inputHeight);
 
 	// One frame (normal)
 	if (inputFrameCount == 1) {

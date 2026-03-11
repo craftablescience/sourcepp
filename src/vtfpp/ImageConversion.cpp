@@ -1963,6 +1963,22 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	return {reinterpret_cast<std::byte*>(stbImage.get()), reinterpret_cast<std::byte*>(stbImage.get()) + ImageFormatDetails::getDataLength(format, width, height)};
 }
 
+std::pair<uint16_t, uint16_t> ImageConversion::ResizeBounds::clamp(uint16_t width, uint16_t height) const {
+	if (this->resizeMinWidth) {
+		width = std::max(width, this->resizeMinWidth);
+	}
+	if (this->resizeMaxWidth) {
+		width = std::min(width, this->resizeMaxWidth);
+	}
+	if (this->resizeMinHeight) {
+		height = std::max(height, this->resizeMinHeight);
+	}
+	if (this->resizeMaxHeight) {
+		height = std::min(height, this->resizeMaxHeight);
+	}
+	return {width, height};
+}
+
 uint16_t ImageConversion::getResizedDim(uint16_t n, ResizeMethod method) {
 	switch (method) {
 		case ResizeMethod::NONE:                 break;

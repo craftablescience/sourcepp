@@ -238,6 +238,17 @@ inline void register_python(py::module_& m) {
 			.value("POWER_OF_TWO_SMALLER", ResizeMethod::POWER_OF_TWO_SMALLER)
 			.value("POWER_OF_TWO_NEAREST", ResizeMethod::POWER_OF_TWO_NEAREST);
 
+		py::class_<ResizeBounds>(ImageConversion, "ResizeBounds")
+			.def(py::init())
+			.def(py::init<uint16_t>())
+			.def(py::init<uint16_t, uint16_t>())
+			.def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>())
+			.def_rw("resize_min_width",  &ResizeBounds::resizeMinWidth)
+			.def_rw("resize_max_width",  &ResizeBounds::resizeMaxWidth)
+			.def_rw("resize_min_height", &ResizeBounds::resizeMinHeight)
+			.def_rw("resize_max_height", &ResizeBounds::resizeMaxHeight)
+			.def("clamp", &ResizeBounds::clamp, "width"_a, "height"_a);
+
 		ImageConversion.def("get_resized_dim", &getResizedDim, "n"_a, "resize_method"_a);
 		ImageConversion.def("get_resized_dims", [](uint16_t width, ResizeMethod widthResize, uint16_t height, ResizeMethod heightResize) -> std::pair<uint16_t, uint16_t> {
 			setResizedDims(width, widthResize, height, heightResize);
@@ -579,8 +590,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("height_resize_method",       &VTF::CreationOptions::heightResizeMethod)
 		.def_rw("filter",                     &VTF::CreationOptions::filter)
 		.def_rw("flags",                      &VTF::CreationOptions::flags)
-		.def_rw("requested_resize_width",     &VTF::CreationOptions::requestedResizeWidth)
-		.def_rw("requested_resize_height",    &VTF::CreationOptions::requestedResizeHeight)
+		.def_rw("resize_bounds",              &VTF::CreationOptions::resizeBounds)
 		.def_rw("initial_frame_count",        &VTF::CreationOptions::initialFrameCount)
 		.def_rw("start_frame",                &VTF::CreationOptions::startFrame)
 		.def_rw("is_cubemap",                 &VTF::CreationOptions::isCubeMap)
@@ -707,7 +717,7 @@ inline void register_python(py::module_& m) {
 		.def("set_image", [](VTF& self, const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			return self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, filter, mip, frame, face, slice, quality);
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "filter"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_from_file", py::overload_cast<const std::filesystem::path&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t, float, uint16_t, uint16_t>(&VTF::setImage), "image_path"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY, "requested_resize_width"_a = 0, "requested_resize_height"_a = 0)
+		.def("set_image_from_file", py::overload_cast<const std::filesystem::path&, ImageConversion::ResizeFilter, uint8_t, uint16_t, uint8_t, uint16_t, float, ImageConversion::ResizeBounds>(&VTF::setImage), "image_path"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY, "resize_bounds"_a = ImageConversion::ResizeBounds{})
 		.def("save_image", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(mip, frame, face, slice, fileFormat);
 			return py::bytes{d.data(), d.size()};

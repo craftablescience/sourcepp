@@ -62,6 +62,20 @@ VTFPP_EXTERN typedef enum {
 	VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_NEAREST,
 } vtfpp_image_conversion_resize_method_e;
 
+VTFPP_EXTERN typedef struct {
+	uint16_t resizeMinWidth;
+	uint16_t resizeMaxWidth;
+	uint16_t resizeMinHeight;
+	uint16_t resizeMaxHeight;
+} vtfpp_image_conversion_resize_bounds_t;
+
+#define VTFPP_IMAGE_CONVERSION_RESIZE_BOUNDS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_image_conversion_resize_bounds_t) { \
+	.resizeMinWidth = 0, \
+	.resizeMaxWidth = 0, \
+	.resizeMinHeight = 0, \
+	.resizeMaxHeight = 0, \
+})
+
 VTFPP_API uint16_t vtfpp_image_conversion_get_resized_dim(uint16_t n, vtfpp_image_conversion_resize_method_e method);
 VTFPP_API void vtfpp_image_conversion_set_resized_dims(uint16_t* width, vtfpp_image_conversion_resize_method_e widthResize, uint16_t* height, vtfpp_image_conversion_resize_method_e heightResize);
 VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, int srgb, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge); // REQUIRES MANUAL FREE: sourcepp_buffer_free
@@ -189,6 +203,24 @@ inline vtfpp_image_conversion_resize_method_e cast(vtfpp::ImageConversion::Resiz
 		case vtfpp::ImageConversion::ResizeMethod::POWER_OF_TWO_NEAREST: return VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_NEAREST;
 	}
 	return VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_NONE;
+}
+
+inline vtfpp_image_conversion_resize_bounds_t cast(vtfpp::ImageConversion::ResizeBounds value) {
+	return {
+		.resizeMinWidth = value.resizeMinWidth,
+		.resizeMaxWidth = value.resizeMaxWidth,
+		.resizeMinHeight = value.resizeMinHeight,
+		.resizeMaxHeight = value.resizeMaxHeight,
+	};
+}
+
+inline vtfpp::ImageConversion::ResizeBounds cast(vtfpp_image_conversion_resize_bounds_t value) {
+	return {
+		.resizeMinWidth = value.resizeMinWidth,
+		.resizeMaxWidth = value.resizeMaxWidth,
+		.resizeMinHeight = value.resizeMinHeight,
+		.resizeMaxHeight = value.resizeMaxHeight,
+	};
 }
 
 } // namespace sourceppc::convert
