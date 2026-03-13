@@ -215,11 +215,11 @@ inline vtfpp_image_conversion_resize_bounds_t cast(vtfpp::ImageConversion::Resiz
 }
 
 inline vtfpp::ImageConversion::ResizeBounds cast(vtfpp_image_conversion_resize_bounds_t value) {
-	return {
-		.resizeMinWidth = value.resizeMinWidth,
-		.resizeMaxWidth = value.resizeMaxWidth,
-		.resizeMinHeight = value.resizeMinHeight,
-		.resizeMaxHeight = value.resizeMaxHeight,
+	return vtfpp::ImageConversion::ResizeBounds{
+		value.resizeMinWidth,
+		value.resizeMaxWidth,
+		value.resizeMinHeight,
+		value.resizeMaxHeight,
 	};
 }
 
