@@ -1,5 +1,5 @@
 add_pretty_parser(vpkpp
-        DEPS libzstd_static miniz MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::kvpp
+        DEPS gdeflate libzstd_static miniz MINIZIP::minizip sourcepp_crypto sourcepp_parser sourcepp::kvpp
         DEPS_PUBLIC tsl::hat_trie
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/APK.h"
@@ -13,6 +13,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/ORE.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PAK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PCK.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/PKG.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPK_VTMB.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/VPP.h"
@@ -36,6 +37,7 @@ add_pretty_parser(vpkpp
         "${CMAKE_CURRENT_LIST_DIR}/format/ORE.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PAK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/PCK.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/format/PKG.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPK_VTMB.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/VPP.cpp"
