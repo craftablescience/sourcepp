@@ -971,11 +971,7 @@ void VTF::setPlatform(Platform newPlatform) {
 		case PLATFORM_PC:
 			break;
 		case PLATFORM_XBOX:
-			// Have to do it this roundabout way to fix cubemaps, v7.5 has 6 faces
-			this->setVersion(5);
-			this->platform = newPlatform;
-			// It's safe to do this, and we can't use VTF::setVersion now that platform is set
-			this->version = 2;
+			this->setVersion(2);
 			break;
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -986,6 +982,11 @@ void VTF::setPlatform(Platform newPlatform) {
 			break;
 	}
 	this->platform = newPlatform;
+
+	// Remove spheremap if on console (VTF::setVersion has already added it back on PC)
+	if (newPlatform != PLATFORM_PC && this->hasImageData()) {
+		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, 6, this->depth);
+	}
 
 	// Update flags
 	if (this->platform == PLATFORM_XBOX || newPlatform == PLATFORM_XBOX) {
@@ -1053,9 +1054,9 @@ void VTF::setVersion(uint32_t newVersion) {
 	if ((this->version < 5 && newVersion >= 5) || (this->version >= 5 && newVersion < 5)) {
 		this->removeFlags(FLAG_MASK_V5 | FLAG_MASK_V5_CSGO);
 	}
-	this->setSRGB(srgb);
 
 	this->version = newVersion;
+	this->setSRGB(srgb);
 }
 
 ImageConversion::ResizeMethod VTF::getImageWidthResizeMethod() const {
@@ -1315,7 +1316,7 @@ uint8_t VTF::getFaceCount() const {
 	if (!(this->flags & FLAG_V0_ENVMAP)) {
 		return 1;
 	}
-	if (this->platform == PLATFORM_XBOX || this->version >= 6) {
+	if (this->platform != PLATFORM_PC || this->version >= 6) {
 		// All v7.6 VTFs are sane, and we need this special case to fix a bug in the parser where
 		// it won't recognize cubemaps as cubemaps because the image resource is compressed!
 		return 6;
@@ -1858,7 +1859,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		if (const auto newMipCount = ImageDimensions::getMaximumMipCount(resizedWidth, resizedHeight, this->depth); newMipCount <= mip) {
 			mip = newMipCount - 1;
 		}
-		if (face > 6 || (face == 6 && (this->platform == PLATFORM_XBOX || this->version < 1 || this->version > 4))) {
+		if (face > 6 || (face == 6 && (this->platform != PLATFORM_PC || this->version < 1 || this->version > 4))) {
 			return false;
 		}
 		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face ? (face < 6 ? 6 : face) : 0, slice + 1);
