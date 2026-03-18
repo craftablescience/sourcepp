@@ -21,20 +21,20 @@ public class PackFileTest
 
 		var entry = vpk.FindEntry("materials/console/background1.vmt");
 		Assert.IsNotNull(entry);
-		Assert.AreEqual(vpk.ReadEntryText("materials/console/background1.vmt"), "\"UnlitGeneric\"\r\n{\r\n\t\"$basetexture\" \"console/background1\"\r\n\t\"$vertexcolor\" 1\r\n\t\"$vertexalpha\" 1\r\n\t\"$ignorez\" 1\r\n\t\"$no_fullbright\" \"1\"\r\n\t\"$nolod\" \"1\"\r\n}");
+		Assert.AreEqual("\"UnlitGeneric\"\r\n{\r\n\t\"$basetexture\" \"console/background1\"\r\n\t\"$vertexcolor\" 1\r\n\t\"$vertexalpha\" 1\r\n\t\"$ignorez\" 1\r\n\t\"$no_fullbright\" \"1\"\r\n\t\"$nolod\" \"1\"\r\n}", vpk.ReadEntryText("materials/console/background1.vmt"));
 
 		Assert.IsFalse(vpk.IsReadOnly);
 
-		Assert.AreEqual(vpk.EntryCount(), 3509u);
+		Assert.AreEqual(3509u, vpk.EntryCount());
 
-		Assert.AreEqual(vpk.Filepath, BasePortalPath + "portal_pak_dir.vpk");
-		Assert.AreEqual(vpk.TruncatedFilepath, BasePortalPath + "portal_pak");
-		Assert.AreEqual(vpk.Filename, "portal_pak_dir.vpk");
-		Assert.AreEqual(vpk.TruncatedFilename, "portal_pak.vpk");
-		Assert.AreEqual(vpk.Filestem, "portal_pak_dir");
-		Assert.AreEqual(vpk.TruncatedFilestem, "portal_pak");
-		Assert.AreEqual(vpk.SupportedEntryAttributes, Attribute.LENGTH | Attribute.VPK_PRELOADED_DATA | Attribute.ARCHIVE_INDEX | Attribute.CRC32);
-		Assert.AreEqual(vpk.ToString(), "portal_pak.vpk | Version v2");
+		Assert.AreEqual(BasePortalPath + "portal_pak_dir.vpk", vpk.Filepath);
+		Assert.AreEqual(BasePortalPath + "portal_pak", vpk.TruncatedFilepath);
+		Assert.AreEqual("portal_pak_dir.vpk", vpk.Filename);
+		Assert.AreEqual("portal_pak.vpk", vpk.TruncatedFilename);
+		Assert.AreEqual("portal_pak_dir", vpk.Filestem);
+		Assert.AreEqual("portal_pak", vpk.TruncatedFilestem);
+		Assert.AreEqual(Attribute.LENGTH | Attribute.VPK_PRELOADED_DATA | Attribute.ARCHIVE_INDEX | Attribute.CRC32, vpk.SupportedEntryAttributes);
+		Assert.AreEqual("portal_pak.vpk | Version v2", vpk.ToString());
 	}
 
 	[TestMethod]
@@ -42,7 +42,7 @@ public class PackFileTest
 	{
 		var vpk = PackFile.Open(BasePortalPath + "portal_pak_dir.vpk");
 		Assert.IsNotNull(vpk);
-		Assert.AreEqual(vpk.VerifyEntryChecksums().Count(), 0);
+		Assert.IsEmpty(vpk.VerifyEntryChecksums());
 		Assert.IsTrue(vpk.VerifyPackFileChecksum());
 	}
 
@@ -51,7 +51,7 @@ public class PackFileTest
 	{
 		var vpk = VPK.Open(BasePortalPath + "portal_pak_dir.vpk");
 		Assert.IsNotNull(vpk);
-		Assert.AreEqual(vpk.Version, 2u);
+		Assert.AreEqual(2u, vpk.Version);
 	}
 
 	private static string BasePortalPath
