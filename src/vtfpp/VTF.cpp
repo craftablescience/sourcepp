@@ -968,7 +968,23 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->platform = PLATFORM_PC;
 	switch (newPlatform) {
 		case PLATFORM_UNKNOWN:
+			return;
 		case PLATFORM_PC:
+			switch (oldPlatform) {
+				case PLATFORM_UNKNOWN:
+				case PLATFORM_PC:
+					return;
+				case PLATFORM_XBOX:
+					this->setVersion(2);
+					break;
+				case PLATFORM_X360:
+				case PLATFORM_PS3_ORANGEBOX:
+					this->setVersion(4);
+					break;
+				case PLATFORM_PS3_PORTAL2:
+					this->setVersion(5);
+					break;
+			}
 			break;
 		case PLATFORM_XBOX:
 			this->setVersion(2);
@@ -1030,10 +1046,7 @@ void VTF::setVersion(uint32_t newVersion) {
 		return;
 	}
 	if (this->hasImageData()) {
-		auto faceCount = this->getFaceCount();
-		if (faceCount == 7 && (newVersion < 1 || newVersion > 4)) {
-			faceCount = 6;
-		}
+		const auto faceCount = newVersion < 1 || newVersion > 4 ? 6 : 7;
 		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->depth);
 	}
 
