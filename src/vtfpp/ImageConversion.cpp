@@ -715,7 +715,7 @@ namespace {
 	#define VTFPP_CONVERT(InputType, ...) \
 		std::span<ImagePixel::InputType> newDataSpan{reinterpret_cast<ImagePixel::InputType*>(newData.data()), newData.size() / sizeof(ImagePixel::InputType)}; \
 		std::transform(std::execution::par_unseq, imageDataSpan.begin(), imageDataSpan.end(), newDataSpan.begin(), [](ImagePixel::RGBA32323232F pixel) -> ImagePixel::InputType { \
-			return __VA_ARGS__; \
+			return {__VA_ARGS__}; \
 		})
 #else
 	#define VTFPP_CONVERT(InputType, ...) \
