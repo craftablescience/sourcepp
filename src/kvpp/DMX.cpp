@@ -192,7 +192,8 @@ std::string DMXAttribute::getValueString() const {
 			const auto bools = this->getValue<std::vector<bool>>();
 			std::string out = "[";
 			for (int i = 0; i < bools.size(); i++) {
-				out += std::format("{}{}{}", i == 0 ? "" : " ", bools[i], i == bools.size() - 1 ? "" : ",");
+				// ReSharper disable once CppRedundantCastExpression
+				out += std::format("{}{}{}", i == 0 ? "" : " ", static_cast<bool>(bools[i]), i == bools.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
