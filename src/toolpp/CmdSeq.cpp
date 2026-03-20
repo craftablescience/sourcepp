@@ -3,6 +3,7 @@
 #include <toolpp/CmdSeq.h>
 
 #include <cstring>
+#include <format>
 
 #include <FileStream.h>
 #include <kvpp/kvpp.h>
@@ -265,7 +266,7 @@ std::vector<std::byte> CmdSeq::bakeKeyValuesHPP() const {
 		auto& kvSequence = kvFile.addChild(seqName);
 		for (int i = 1; i <= seqCommands.size(); i++) {
 			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
-			auto& kvCommand = kvSequence.addChild(std::to_string(i));
+			auto& kvCommand = kvSequence.addChild(std::format("{}", i));
 			kvCommand["enable"] = enabled;
 			kvCommand["specialcmd"] = static_cast<int>(special);
 			kvCommand["run"] = executable;
@@ -287,7 +288,7 @@ std::vector<std::byte> CmdSeq::bakeKeyValuesStrata() const {
 		auto& kvSequence = kvFile.addChild(seqName);
 		for (int i = 1; i <= seqCommands.size(); i++) {
 			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
-			auto& kvCommand = kvSequence.addChild(std::to_string(i));
+			auto& kvCommand = kvSequence.addChild(std::format("{}", i));
 			kvCommand["enabled"] = enabled;
 			kvCommand["special_cmd"] = static_cast<int>(special);
 			kvCommand["run"] = executable;

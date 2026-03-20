@@ -1,6 +1,7 @@
 #pragma once
 
 #include <concepts>
+#include <format>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -55,8 +56,10 @@ public:
 		void setValue(V value_) {
 			if constexpr (std::convertible_to<V, std::string_view>) {
 				this->value = std::string_view{value_};
+			} else if constexpr (std::same_as<V, bool>) {
+				this->setValue(std::format("{:b}", value_));
 			} else {
-				this->setValue(std::to_string(value_));
+				this->setValue(std::format("{}", value_));
 			}
 		}
 

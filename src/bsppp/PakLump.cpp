@@ -1,6 +1,7 @@
 #include <bsppp/PakLump.h>
 
 #include <filesystem>
+#include <format>
 
 #include <bsppp/BSP.h>
 #include <FileStream.h>
@@ -121,7 +122,5 @@ bool PakLump::bake(const std::string& outputDir_, BakeOptions options, const Ent
 }
 
 PakLump::operator std::string() const {
-	return PackFile::operator std::string() +
-	       " | Version v" + std::to_string(this->version) +
-	       " | Map Revision " + std::to_string(this->mapRevision);
+	return PackFile::operator std::string() + std::format(" | Version v{} | Map Revision {}", this->version, this->mapRevision);
 }

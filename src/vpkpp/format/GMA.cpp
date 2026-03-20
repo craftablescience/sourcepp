@@ -1,6 +1,7 @@
 #include <vpkpp/format/GMA.h>
 
 #include <filesystem>
+#include <format>
 
 #include <FileStream.h>
 #include <sourcepp/crypto/CRC32.h>
@@ -198,7 +199,5 @@ Attribute GMA::getSupportedEntryAttributes() const {
 }
 
 GMA::operator std::string() const {
-	return PackFile::operator std::string() +
-		" | Version v" + std::to_string(this->header.version) +
-		" | Addon Name: \"" + this->header.addonName + "\"";
+	return PackFile::operator std::string() + std::format(" | Version v{} | Addon Name: \"{}\"", this->header.version, this->header.addonName);
 }

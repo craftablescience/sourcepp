@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <format>
 #include <initializer_list>
 
 #include <BufferStream.h>
@@ -631,20 +632,12 @@ FGDWriter& FGDWriter::include(const std::filesystem::path& fgdPath) {
 }
 
 FGDWriter& FGDWriter::version(int version) {
-	this->writer
-		.write("@version("sv, false)
-		.write(std::to_string(version), false)
-		.write(")\n\n"sv, false);
+	this->writer.write(std::format("@version({})\n\n", version), false);
 	return *this;
 }
 
 FGDWriter& FGDWriter::mapSize(math::Vec2i mapSize) {
-	this->writer
-	    .write("@mapsize("sv, false)
-	    .write(std::to_string(mapSize[0]), false)
-	    .write(", "sv, false)
-	    .write(std::to_string(mapSize[1]), false)
-	    .write(")\n\n"sv, false);
+	this->writer.write(std::format("@mapsize({}, {})\n\n", mapSize[0], mapSize[1]), false);
 	return *this;
 }
 
@@ -805,18 +798,9 @@ FGDWriter::EntityWriter::KeyValueFlagsWriter FGDWriter::EntityWriter::beginKeyVa
 }
 
 FGDWriter::EntityWriter::KeyValueFlagsWriter& FGDWriter::EntityWriter::KeyValueFlagsWriter::flag(uint64_t value, std::string_view displayName, bool enabledByDefault, std::string_view description) {
-	this->parent.parent.writer
-		.write("\t\t"sv, false)
-	    .write(std::to_string(value), false)
-	    .write(" : \""sv, false)
-	    .write(displayName, false)
-	    .write("\" : "sv, false)
-	    .write(std::to_string(enabledByDefault), false);
+	this->parent.parent.writer.write(std::format("\t\t{} : \"{}\" : {:b}", value, displayName, enabledByDefault), false);
 	if (!description.empty()) {
-		this->parent.parent.writer
-		    .write(" : \""sv, false)
-		    .write(description, false)
-		    .write('\"');
+		this->parent.parent.writer.write(std::format(" : \"{}\"", description), false);
 	}
 	this->parent.parent.writer.write('\n');
 	return *this;

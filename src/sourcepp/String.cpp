@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <format>
 #include <random>
 #include <sstream>
 
@@ -218,13 +219,12 @@ std::string string::generateUUIDv4() {
 	return out;
 }
 
-std::string string::padNumber(int64_t number, int width, char pad) {
-	const auto numStr = std::to_string(number);
-	return std::string(width - std::min<std::string::size_type>(width, numStr.length()), pad) + numStr;
+std::string string::padNumber(int64_t number, int width) {
+	return std::format("{:0>{}}", number, width);
 }
 
 void string::normalizeSlashes(std::string& path, bool stripSlashPrefix, bool stripSlashSuffix) {
-	std::replace(path.begin(), path.end(), '\\', '/');
+	std::ranges::replace(path, '\\', '/');
 	if (stripSlashPrefix && path.starts_with('/')) {
 		path = path.substr(1);
 	}

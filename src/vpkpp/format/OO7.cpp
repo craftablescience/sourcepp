@@ -1,6 +1,7 @@
 #include <vpkpp/format/OO7.h>
 
 #include <filesystem>
+#include <format>
 
 #include <FileStream.h>
 #include <miniz.h>
@@ -162,6 +163,5 @@ Attribute OO7::getSupportedEntryAttributes() const {
 }
 
 OO7::operator std::string() const {
-	return PackFileReadOnly::operator std::string() +
-		" | Version v" + std::to_string(this->majorVersion) + '.' + std::to_string(this->minorVersion);
+	return PackFileReadOnly::operator std::string() + std::format(" | Version v{}.{}", this->majorVersion, this->minorVersion);
 }

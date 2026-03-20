@@ -2,6 +2,7 @@
 
 #include <cstdio>
 #include <filesystem>
+#include <format>
 
 #define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <cryptopp/md5.h>
@@ -797,8 +798,7 @@ Attribute VPK::getSupportedEntryAttributes() const {
 }
 
 VPK::operator std::string() const {
-	return PackFile::operator std::string() +
-	       " | Version v" + std::to_string(this->header1.version);
+	return PackFile::operator std::string() + std::format(" | Version v{}", this->header1.version);
 }
 
 bool VPK::generateKeyPairFiles(const std::string& name) {

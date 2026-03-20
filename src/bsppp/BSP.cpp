@@ -56,10 +56,10 @@ BSP::BSP(std::string path_, bool loadPatchFiles)
 
 	if (loadPatchFiles) {
 		const auto fsPath = std::filesystem::path{this->path};
-		const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
+		const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string();
 
 		for (int i = 0; ; i++) {
-			auto patchFilePath = fsStem + std::to_string(i) + ".lmp";
+			auto patchFilePath = std::format("{}_l_{}.lmp", fsStem, i);
 			if (!std::filesystem::exists(patchFilePath)) {
 				break;
 			}
@@ -320,16 +320,16 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 	] = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
 
 	const auto fsPath = std::filesystem::path{this->path};
-	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string() + "_l_";
+	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string();
 	int nonexistentNumber = 0;
 	while (true) {
-		if (!std::filesystem::exists(fsStem + std::to_string(nonexistentNumber) + ".lmp")) {
+		if (!std::filesystem::exists(std::format("{}_l_{}.lmp", fsStem, nonexistentNumber))) {
 			break;
 		}
 		nonexistentNumber++;
 	}
 
-	FileStream writer{fsStem + std::to_string(nonexistentNumber) + ".lmp", FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+	FileStream writer{std::format("{}_l_{}.lmp", fsStem, nonexistentNumber), FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 	writer
 		.seek_out(0)
 		.write<int32_t>(sizeof(int32_t) * 5)

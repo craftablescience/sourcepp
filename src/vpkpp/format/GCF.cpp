@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <filesystem>
+#include <format>
 
 #include <cryptopp/aes.h>
 #include <cryptopp/modes.h>
@@ -357,10 +358,7 @@ Attribute GCF::getSupportedEntryAttributes() const {
 }
 
 GCF::operator std::string() const {
-	return PackFileReadOnly::operator std::string() +
-		" | Version v" + std::to_string(this->header.gcfversion) +
-		" | AppID " + std::to_string(this->header.appid) +
-		" | App Version v" + std::to_string(this->header.appversion);
+	return PackFileReadOnly::operator std::string() + std::format(" | Version v{} | AppID {} | App Version v{}", this->header.gcfversion, this->header.appid, this->header.appversion);
 }
 
 uint32_t GCF::getVersion() const {

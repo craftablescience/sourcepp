@@ -5,6 +5,7 @@
 
 #include <cctype>
 #include <filesystem>
+#include <format>
 #include <numeric>
 
 #include <BufferStream.h>
@@ -328,8 +329,7 @@ Attribute FGP::getSupportedEntryAttributes() const {
 }
 
 FGP::operator std::string() const {
-	return PackFile::operator std::string() +
-		" | Version v" + std::to_string(this->version);
+	return PackFile::operator std::string() + std::format(" | Version v{}", this->version);
 }
 
 std::string FGP::getLoadingScreenFilePath() const {

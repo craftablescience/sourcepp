@@ -1,6 +1,7 @@
 #include <vpkpp/format/OL.h>
 
 #include <filesystem>
+#include <format>
 
 #include <FileStream.h>
 
@@ -69,12 +70,7 @@ std::unique_ptr<PackFile> OL::open(const std::string& path, const EntryCallback&
 
 		// Entries can have the same name, but our map can't handle non-unique keys!
 		for (int j = 1; ol->entries.count(entryPath) > 0; j++) {
-			entryPath = baseEntryPath;
-			entryPath
-				.append(" (")
-				.append(std::to_string(j))
-				.append(")")
-				.append(extension);
+			entryPath = baseEntryPath + std::format(" ({}){}", j, extension);
 		}
 
 		if (!notes.empty()) {

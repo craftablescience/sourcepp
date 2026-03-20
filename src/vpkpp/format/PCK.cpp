@@ -1,6 +1,7 @@
 #include <vpkpp/format/PCK.h>
 
 #include <filesystem>
+#include <format>
 #include <ranges>
 
 #include <FileStream.h>
@@ -297,9 +298,7 @@ Attribute PCK::getSupportedEntryAttributes() const {
 }
 
 PCK::operator std::string() const {
-	auto out = PackFile::operator std::string() +
-		" | Version v" + std::to_string(this->header.packVersion) +
-		" | Godot Version v" + std::to_string(this->header.godotVersionMajor) + '.' + std::to_string(this->header.godotVersionMinor) + '.' + std::to_string(this->header.godotVersionPatch);
+	auto out = PackFile::operator std::string() + std::format(" | Version v{} | Godot Version v{}.{}.{}", this->header.packVersion, this->header.godotVersionMajor, this->header.godotVersionMinor, this->header.godotVersionPatch);
 	if (this->startOffset > 0) {
 		out += " | Embedded";
 	}
