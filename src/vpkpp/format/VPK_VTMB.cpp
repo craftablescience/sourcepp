@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <vpkpp/format/VPK_VTMB.h>
 
 #include <filesystem>
@@ -48,6 +50,12 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 		}
 	}
 
+	if (vpkVTMB->knownArchives.empty()) {
+		uint32_t archiveIndex;
+		string::toInt(stem.substr(4), archiveIndex);
+		vpkVTMB->openNumbered(archiveIndex, path, callback);
+	}
+
 	vpkVTMB->currentArchive++;
 	return packFile;
 }
@@ -56,11 +64,11 @@ void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, cons
 	FileStream reader{path};
 	reader.seek_in(sizeof(uint32_t) * 2 + sizeof(uint8_t), std::ios::end);
 
-	auto fileCount = reader.read<uint32_t>();
-	auto dirOffset = reader.read<uint32_t>();
+	const auto fileCount = reader.read<uint32_t>();
+	const auto dirOffset = reader.read<uint32_t>();
 
 	// Make 100% sure
-	auto version = reader.read<uint8_t>();
+	const auto version = reader.read<uint8_t>();
 	if (version != 0) {
 		return;
 	}
@@ -90,8 +98,8 @@ void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, cons
 }
 
 std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
-	auto entry = this->findEntry(path);
+	const auto path = this->cleanEntryPath(path_);
+	const auto entry = this->findEntry(path);
 	if (!entry) {
 		return std::nullopt;
 	}
@@ -122,24 +130,24 @@ bool VPK_VTMB::bake(const std::string& outputDir_, BakeOptions options, const En
 	}
 
 	// Get the proper file output folder
-	std::string outputDir = this->getBakeOutputDir(outputDir_);
-	std::string outputPathStem = outputDir + '/' + this->getTruncatedFilestem();
+	const std::string outputDir = this->getBakeOutputDir(outputDir_);
+	const std::string outputPathStem = outputDir + '/' + this->getTruncatedFilestem();
 
 	// Copy files to temp dir and change current path
-	auto tempDir = std::filesystem::temp_directory_path() / string::generateUUIDv4();
+	const auto tempDir = std::filesystem::temp_directory_path() / string::generateUUIDv4();
 	std::error_code ec;
 	if (!std::filesystem::create_directory(tempDir, ec)) {
 		return false;
 	}
 	ec.clear();
-	for (auto vpkIndex : this->knownArchives) {
+	for (const auto vpkIndex : this->knownArchives) {
 		std::filesystem::copy(outputPathStem + string::padNumber(vpkIndex, 3) + VPK_VTMB_EXTENSION.data(), tempDir, ec);
 		if (ec) {
 			return false;
 		}
 		ec.clear();
 	}
-	this->fullFilePath = (tempDir / (this->getTruncatedFilestem())).string() + string::padNumber(this->knownArchives[0], 3) + VPK_VTMB_EXTENSION.data();
+	this->fullFilePath = (tempDir / this->getTruncatedFilestem()).string() + string::padNumber(this->knownArchives[0], 3) + VPK_VTMB_EXTENSION.data();
 
 	// Reconstruct data for ease of access
 	std::unordered_map<uint16_t, std::vector<std::pair<std::string, Entry*>>> entriesToBake;
@@ -166,7 +174,7 @@ bool VPK_VTMB::bake(const std::string& outputDir_, BakeOptions options, const En
 		}
 
 		// Directory
-		auto dirOffset = stream.tell_out();
+		const auto dirOffset = stream.tell_out();
 		for (const auto& [path, entry] : entriesToBakeInArchive) {
 			stream.write<uint32_t>(path.length());
 			stream.write(path, false);
