@@ -26,6 +26,7 @@
 
 #include <sourcepp/compression/LZMA.h>
 #include <vtfpp/ImageConversion.h>
+#include <vtfpp/ImagePixel.h>
 #include <vtfpp/ImageQuantize.h>
 
 using namespace sourcepp;
@@ -328,6 +329,63 @@ Resource::ConvertedData Resource::convertData() const {
 			break;
 	}
 	return {};
+}
+
+std::vector<std::byte> Resource::getDataAsPalette(uint16_t frame) const {
+	static constexpr auto PALETTE_FRAME_SIZE = 256 * sizeof(ImagePixel::BGRA8888);
+	if (this->data.size() % PALETTE_FRAME_SIZE != 0 || PALETTE_FRAME_SIZE * frame > this->data.size()) {
+		return {};
+	}
+	return {this->data.data() + PALETTE_FRAME_SIZE * frame, this->data.data() + PALETTE_FRAME_SIZE * (frame + 1)};
+}
+
+SHT Resource::getDataAsParticleSheet() const {
+	return std::get<SHT>(this->convertData());
+}
+
+uint32_t Resource::getDataAsCRC() const {
+	return std::get<uint32_t>(this->convertData());
+}
+
+uint32_t Resource::getDataAsExtendedFlags() const {
+	return std::get<uint32_t>(this->convertData());
+}
+
+std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> Resource::getDataAsLODControlInfo() const {
+	return std::get<std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>>(this->convertData());
+}
+
+std::string Resource::getDataAsKeyValuesData() const {
+	return std::get<std::string>(this->convertData());
+}
+
+HOT Resource::getDataAsHotspotData() const {
+	return std::get<HOT>(this->convertData());
+}
+
+int16_t Resource::getDataAsAuxCompressionLevel() const {
+	if (this->data.size() < sizeof(uint32_t) * 2) {
+		return 0;
+	}
+	return static_cast<int16_t>(BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff);
+}
+
+CompressionMethod Resource::getDataAsAuxCompressionMethod() const {
+	if (this->data.size() < sizeof(uint32_t) * 2) {
+		return CompressionMethod::DEFLATE;
+	}
+	const auto method = static_cast<int16_t>((BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff0000) >> 16);
+	if (method <= 0) {
+		return CompressionMethod::DEFLATE;
+	}
+	return static_cast<CompressionMethod>(method);
+}
+
+uint32_t Resource::getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
+	if (this->data.size() < ((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2) * sizeof(uint32_t)) {
+		return 0;
+	}
+	return BufferStream{this->data}.skip<uint32_t>((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2).read<uint32_t>();
 }
 
 VTF::VTF() {
@@ -1392,7 +1450,7 @@ void VTF::computeReflectivity() {
 	static constexpr auto getReflectivityForImage = [](const VTF& vtf, uint16_t frame, uint8_t face, uint16_t slice) {
 		static constexpr auto getReflectivityForPixel = [](const ImagePixel::RGBA8888* pixel) -> math::Vec3f {
 			// http://markjstock.org/doc/gsd_talk_11_notes.pdf page 11
-			math::Vec3f ref{static_cast<float>(pixel->r), static_cast<float>(pixel->g), static_cast<float>(pixel->b)};
+			math::Vec3f ref{static_cast<float>(pixel->r()), static_cast<float>(pixel->g()), static_cast<float>(pixel->b())};
 			// I tweaked it a bit to produce 0.85 reflectivity at pure white
 			ref = ref / 255.f * 0.922f;
 			ref[0] *= ref[0];

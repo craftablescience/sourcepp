@@ -501,17 +501,23 @@ These are only the tools and games using `sourcepp` that I know of. If you would
 
 ## Special Thanks
 
-- `bsppp` partial library redesign, lump compression and game lump parsing/writing support contributed by [@Tholp](https://github.com/Tholp1).
-- `kvpp`'s support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
-- `steampp` is based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
-- `vpkpp`'s 007 parser is based on [reverse-engineering work](https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt) by Alhexx.
-- `vpkpp`'s GCF parser was contributed by [@eepycats](https://github.com/eepycats) and [@ymgve](https://github.com/ymgve).
-- `vpkpp`'s HOG parser was contributed by [@erysdren](https://github.com/erysdren).
-- `vpkpp`'s OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
-- `vpkpp`'s ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
-- `vpkpp`'s VPP parser was contributed by [@erysdren](https://github.com/erysdren).
-- `vpkpp`'s WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
-- `vtfpp`'s NICE/Lanczos-3 resize filter support was contributed by [@koerismo](https://github.com/koerismo).
-- `vtfpp`'s SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
-- `vtfpp`'s initial VTF write support was loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
-- `vtfpp`'s HDRI to cubemap conversion code is modified from the [HdriToCubemap](https://github.com/ivarout/HdriToCubemap) library by [@ivarout](https://github.com/ivarout).
+- `bsppp`
+  - Partial library redesign, lump compression and game lump parsing/writing support contributed by [@Tholp](https://github.com/Tholp1).
+- `kvpp`
+  - Support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
+- `steampp`
+  - Based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
+- `vpkpp`
+  - 007 parser is based on [reverse-engineering work](https://raw.githubusercontent.com/SmileyAG/dumpster/refs/heads/src_jb007nightfirepc_alurazoe/file_format_analysis.txt) by Alhexx.
+  - GCF parser was contributed by [@eepycats](https://github.com/eepycats) and [@ymgve](https://github.com/ymgve).
+  - HOG parser was contributed by [@erysdren](https://github.com/erysdren).
+  - OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
+  - ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
+  - VPP parser was contributed by [@erysdren](https://github.com/erysdren).
+  - WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
+- `vtfpp`
+  - NICE/Lanczos-3 resize filter's initial implementation was contributed by [@koerismo](https://github.com/koerismo).
+  - Big-endian support is based on work by [@partyvan](https://github.com/partyvan).
+  - SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
+  - Initial VTF write support was loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
+  - HDRI to cubemap conversion code is modified from the [HdriToCubemap](https://github.com/ivarout/HdriToCubemap) library by [@ivarout](https://github.com/ivarout).

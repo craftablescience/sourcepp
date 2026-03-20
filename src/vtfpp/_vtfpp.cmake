@@ -4,6 +4,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageFormats.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImagePixel.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageQuantize.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/PPL.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/PSFrames.h"

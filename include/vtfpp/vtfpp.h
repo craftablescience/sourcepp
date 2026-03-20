@@ -8,6 +8,7 @@
 #include "HOT.h"
 #include "ImageConversion.h"
 #include "ImageFormats.h"
+#include "ImagePixel.h"
 #include "ImageQuantize.h"
 #include "PPL.h"
 #include "PSFrames.h"

@@ -5,6 +5,7 @@
 #include <BufferStream.h>
 #include <sourcepp/FS.h>
 #include <vtfpp/ImageConversion.h>
+#include <vtfpp/ImagePixel.h>
 
 using namespace sourcepp;
 using namespace vtfpp;

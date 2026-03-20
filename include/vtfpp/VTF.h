@@ -69,62 +69,25 @@ struct Resource {
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
-	[[nodiscard]] std::vector<std::byte> getDataAsPalette(uint16_t frame) const {
-		static constexpr auto PALETTE_FRAME_SIZE = 256 * sizeof(ImagePixel::BGRA8888);
-		if (this->data.size() % PALETTE_FRAME_SIZE != 0 || PALETTE_FRAME_SIZE * frame > this->data.size()) {
-			return {};
-		}
-		return {this->data.data() + PALETTE_FRAME_SIZE * frame, this->data.data() + PALETTE_FRAME_SIZE * (frame + 1)};
-	}
+	[[nodiscard]] std::vector<std::byte> getDataAsPalette(uint16_t frame) const;
 
-	[[nodiscard]] SHT getDataAsParticleSheet() const {
-		return std::get<SHT>(this->convertData());
-	}
+	[[nodiscard]] SHT getDataAsParticleSheet() const;
 
-	[[nodiscard]] uint32_t getDataAsCRC() const {
-		return std::get<uint32_t>(this->convertData());
-	}
+	[[nodiscard]] uint32_t getDataAsCRC() const;
 
-	[[nodiscard]] uint32_t getDataAsExtendedFlags() const {
-		return std::get<uint32_t>(this->convertData());
-	}
+	[[nodiscard]] uint32_t getDataAsExtendedFlags() const;
 
-	[[nodiscard]] std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> getDataAsLODControlInfo() const {
-		return std::get<std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>>(this->convertData());
-	}
+	[[nodiscard]] std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> getDataAsLODControlInfo() const;
 
-	[[nodiscard]] std::string getDataAsKeyValuesData() const {
-		return std::get<std::string>(this->convertData());
-	}
+	[[nodiscard]] std::string getDataAsKeyValuesData() const;
 
-	[[nodiscard]] HOT getDataAsHotspotData() const {
-		return std::get<HOT>(this->convertData());
-	}
+	[[nodiscard]] HOT getDataAsHotspotData() const;
 
-	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const {
-		if (this->data.size() < sizeof(uint32_t) * 2) {
-			return 0;
-		}
-		return static_cast<int16_t>(BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff);
-	}
+	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const;
 
-	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const {
-		if (this->data.size() < sizeof(uint32_t) * 2) {
-			return CompressionMethod::DEFLATE;
-		}
-		const auto method = static_cast<int16_t>((BufferStream{this->data}.skip<uint32_t>().read<uint32_t>() & 0xffff0000) >> 16);
-		if (method <= 0) {
-			return CompressionMethod::DEFLATE;
-		}
-		return static_cast<CompressionMethod>(method);
-	}
+	[[nodiscard]] CompressionMethod getDataAsAuxCompressionMethod() const;
 
-	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const {
-		if (this->data.size() < ((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2) * sizeof(uint32_t)) {
-			return 0;
-		}
-		return BufferStream{this->data}.skip<uint32_t>((mipCount - 1 - mip) * frameCount * faceCount + frame * faceCount + face + 2).read<uint32_t>();
-	}
+	[[nodiscard]] uint32_t getDataAsAuxCompressionLength(uint8_t mip, uint8_t mipCount, uint16_t frame, uint16_t frameCount, uint16_t face, uint16_t faceCount) const;
 };
 SOURCEPP_BITFLAGS_ENUM(Resource::Flags)
 

@@ -1,5 +1,7 @@
 #include <vtfpp/ImageQuantize.h>
 
+#include <vtfpp/ImagePixel.h>
+
 using namespace vtfpp;
 
 std::vector<std::byte> ImageQuantize::convertP8ImageDataToBGRA8888(std::span<const std::byte> paletteData, std::span<const std::byte> imageData) {
