@@ -123,7 +123,7 @@ std::string DMXAttribute::getValueString() const {
 			return hex.str();
 		}
 		case TIME:
-			return std::to_string(this->getValue<float>());
+			return std::format("{}", this->getValue<DMXValue::Time>().seconds);
 		case COLOR: {
 			const auto [r, g, b, a] = this->getValue<DMXValue::Color>();
 			return "rgba(" + std::to_string(r) + ", " + std::to_string(g) + ", " + std::to_string(b) + ", " + std::to_string(a) + ')';
@@ -241,10 +241,10 @@ std::string DMXAttribute::getValueString() const {
 			return out + ']';
 		}
 		case ARRAY_TIME: {
-			const auto times = this->getValue<std::vector<float>>();
+			const auto times = this->getValue<std::vector<DMXValue::Time>>();
 			std::string out = "[";
 			for (int i = 0; i < times.size(); i++) {
-				out += (i == 0 ? "" : " ") + std::to_string(times[i]) + (i == times.size() - 1 ? "" : ",");
+				out += std::format("{}{}{}", i == 0 ? "" : " ", times[i].seconds, i == times.size() - 1 ? "" : ",");
 			}
 			return out + ']';
 		}
