@@ -463,10 +463,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		return DLL.vtfpp_vtf_get_default_compressed_format(format, version, Convert.ToInt32(isCubeMap));
 	}
 
-	public ImageFormat GetFormat()
+	public ImageFormat Format
 	{
-		ThrowIfDisposed();
-		return DLL.vtfpp_vtf_get_format(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_format(Handle);
+		}
 	}
 
 	public void SetFormat(ImageFormat format, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
@@ -475,10 +478,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		DLL.vtfpp_vtf_set_format(Handle, format, filter, quality);
 	}
 
-	public byte GetMipCount()
+	public byte MipCount
 	{
-		ThrowIfDisposed();
-		return DLL.vtfpp_vtf_get_mip_count(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_mip_count(Handle);
+		}
 	}
 
 	public bool SetMipCount(byte mipCount)
@@ -499,10 +505,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		DLL.vtfpp_vtf_compute_mips(Handle, filter);
 	}
 
-	public ushort GetFrameCount()
+	public ushort FrameCount
 	{
-		ThrowIfDisposed();
-		return DLL.vtfpp_vtf_get_frame_count(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_frame_count(Handle);
+		}
 	}
 
 	public bool SetFrameCount(ushort frameCount)
@@ -511,10 +520,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.vtfpp_vtf_set_frame_count(Handle, frameCount));
 	}
 
-	public byte GetFaceCount()
+	public byte FaceCount
 	{
-		ThrowIfDisposed();
-		return DLL.vtfpp_vtf_get_face_count(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_face_count(Handle);
+		}
 	}
 
 	public bool SetFaceCount(bool isCubeMap)
@@ -523,7 +535,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.vtfpp_vtf_set_face_count(Handle, Convert.ToInt32(isCubeMap)));
 	}
 
-	public ushort GetDepth(byte mip = 0)
+	public ushort Depth(byte mip = 0)
 	{
 		ThrowIfDisposed();
 		return DLL.vtfpp_vtf_get_depth(Handle, mip);
@@ -591,34 +603,67 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		}
 	}
 
-	public ImageFormat GetThumbnailFormat()
+	public ImageFormat ThumbnailFormat
 	{
-		return DLL.vtfpp_vtf_get_thumbnail_format(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_thumbnail_format(Handle);
+		}
 	}
 
-	public byte GetThumbnailWidth()
+	public byte ThumbnailWidth()
 	{
+		ThrowIfDisposed();
 		return DLL.vtfpp_vtf_get_thumbnail_width(Handle);
 	}
 
-	public byte GetThumbnailHeight()
+	public byte ThumbnailHeight()
 	{
+		ThrowIfDisposed();
 		return DLL.vtfpp_vtf_get_thumbnail_height(Handle);
 	}
-	
-	public byte GetFallbackWidth()
+
+	public byte FallbackWidth(byte mip = 0)
 	{
-		return DLL.vtfpp_vtf_get_fallback_width(Handle);
+		ThrowIfDisposed();
+		return DLL.vtfpp_vtf_get_fallback_width(Handle, mip);
 	}
 
-	public byte GetFallbackHeight()
+	public byte PaddedFallbackWidth(byte mip = 0)
+   	{
+   		ThrowIfDisposed();
+   		return DLL.vtfpp_vtf_get_padded_fallback_width(Handle, mip);
+   	}
+
+	public byte FallbackHeight(byte mip = 0)
 	{
-		return DLL.vtfpp_vtf_get_fallback_height(Handle);
+		ThrowIfDisposed();
+		return DLL.vtfpp_vtf_get_fallback_height(Handle, mip);
 	}
-	
-	public byte GetFallbackMipCount()
+
+	public byte PaddedFallbackHeight(byte mip = 0)
+   	{
+   		ThrowIfDisposed();
+   		return DLL.vtfpp_vtf_get_padded_fallback_height(Handle, mip);
+   	}
+
+	public byte FallbackMipCount
 	{
-		return DLL.vtfpp_vtf_get_fallback_mip_count(Handle);
+		get
+		{
+			ThrowIfDisposed();
+			return DLL.vtfpp_vtf_get_fallback_mip_count(Handle);
+		}
+	}
+
+	public bool HasNativeResourceSupport
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return Convert.ToBoolean(DLL.vtfpp_vtf_has_native_resource_support(Handle));
+		}
 	}
 
 	public Resource[] Resources
@@ -653,13 +698,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_particle_sheet_frame_data_raw(Handle, ref width, ref height, shtSequenceId, shtFrame, shtBounds, mip, frame, face, slice)).Read<byte>();
 	}
-	
+
 	public byte[] GetParticleSheetFrameDataAs(ImageFormat format, ref ushort width, ref ushort height, uint shtSequenceId, uint shtFrame, byte shtBounds = 0, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_particle_sheet_frame_data_as(Handle, format, ref width, ref height, shtSequenceId, shtFrame, shtBounds, mip, frame, face, slice)).Read<byte>();
 	}
-	
+
 	// ReSharper disable once InconsistentNaming
 	public byte[] GetParticleSheetFrameDataAsRGBA8888(ref ushort width, ref ushort height, uint shtSequenceId, uint shtFrame, byte shtBounds = 0, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0)
 	{
@@ -696,13 +741,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_set_lod_resource(Handle, u, v, u360, v360);
 	}
-	
+
 	public void RemoveLodResource()
 	{
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_remove_lod_resource(Handle);
 	}
-	
+
 	public void SetExtendedFlagsResource(uint value)
 	{
 		ThrowIfDisposed();
@@ -726,7 +771,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_remove_keyvalues_data_resource(Handle);
 	}
-	
+
 	public void SetHotspotDataResource(HOT hot)
 	{
 		ThrowIfDisposed();
@@ -792,7 +837,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_image_data_as(Handle, format, mip, frame, face, slice)).Read<byte>();
 	}
-	
+
 	// ReSharper disable once InconsistentNaming
 	public byte[] GetImageDataAsRGBA8888(byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0)
 	{
@@ -805,7 +850,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return Convert.ToBoolean(DLL.vtfpp_vtf_set_image_from_mem(Handle, imageData, (ulong) imageData.Length, format, width, height, filter, mip, frame, face, slice, quality));
 	}
-	
+
 	public bool SetImage(string imagePath, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, byte mip = 0, ushort frame = 0, byte face = 0, ushort slice = 0, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY, ImageConversion.ResizeBounds resizeBounds = default)
 	{
 		ThrowIfDisposed();
@@ -817,7 +862,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return Convert.ToBoolean(DLL.vtfpp_vtf_save_image_to_file(Handle, imagePath, mip, frame, face, slice, fileFormat));
 	}
-	
+
 	public bool HasThumbnailData
 	{
 		get
@@ -843,7 +888,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_thumbnail_data_as(Handle, format)).Read<byte>();
 	}
-	
+
 	// ReSharper disable once InconsistentNaming
 	public byte[] GetThumbnailDataAsRGBA8888()
 	{
@@ -856,7 +901,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_set_thumbnail_from_mem(Handle, imageData, (ulong) imageData.Length, format, width, height, quality);
 	}
-	
+
 	public void SetThumbnail(string imagePath, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
 	{
 		ThrowIfDisposed();
@@ -880,7 +925,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		return Convert.ToBoolean(DLL.vtfpp_vtf_save_thumbnail_to_file(Handle, imagePath, fileFormat));
 	}
-	
+
 	public bool HasFallbackData
 	{
 		get
@@ -889,7 +934,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 			return Convert.ToBoolean(DLL.vtfpp_vtf_has_fallback_data(Handle));
 		}
 	}
-	
+
 	public Span<byte> GetFallbackDataRaw(byte mip = 0, ushort frame = 0, byte face = 0)
 	{
 		ThrowIfDisposed();
@@ -900,20 +945,20 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 			return new Span<byte>(imagePtr, (int) imageLen);
 		}
 	}
-	
+
 	public byte[] GetFallbackDataAs(ImageFormat format, byte mip = 0, ushort frame = 0, byte face = 0)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_fallback_data_as(Handle, format, mip, frame, face)).Read<byte>();
 	}
-	
+
 	// ReSharper disable once InconsistentNaming
 	public byte[] GetFallbackDataAsRGBA8888(byte mip = 0, ushort frame = 0, byte face = 0)
 	{
 		ThrowIfDisposed();
 		return new sourcepp.Buffer(DLL.vtfpp_vtf_get_fallback_data_as_rgba8888(Handle, mip, frame, face)).Read<byte>();
 	}
-	
+
 	public void ComputeFallback(ImageConversion.ResizeFilter filter)
 	{
 		ThrowIfDisposed();
@@ -925,7 +970,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_remove_fallback(Handle);
 	}
-	
+
 	public bool SaveFallbackToFile(string imagePath, byte mip = 0, ushort frame = 0, byte face = 0, ImageConversion.FileFormat fileFormat = ImageConversion.FileFormat.DEFAULT)
 	{
 		ThrowIfDisposed();
@@ -953,7 +998,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		isExact = Convert.ToBoolean(isExactInt);
 		return estimate;
 	}
-	
+
 	public byte[] Bake()
 	{
 		ThrowIfDisposed();

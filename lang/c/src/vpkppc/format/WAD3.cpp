@@ -5,9 +5,9 @@
 using namespace sourceppc;
 using namespace vpkpp;
 
-const int8_t VPKPP_WAD3_FILENAME_MAX_SIZE   = WAD3_FILENAME_MAX_SIZE;
-const uint32_t VPKPP_WAD3_SIGNATURE         = WAD3_SIGNATURE;
-const char* VPKPP_WAD3_EXTENSION 			= WAD3_EXTENSION.data();
+const int8_t VPKPP_WAD3_FILENAME_MAX_SIZE = WAD3_FILENAME_MAX_SIZE;
+const uint32_t VPKPP_WAD3_SIGNATURE       = WAD3_SIGNATURE;
+const char* VPKPP_WAD3_EXTENSION          = WAD3_EXTENSION.data();
 
 VPKPP_API vpkpp_pack_file_handle_t vpkpp_wad3_create(const char* path) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);

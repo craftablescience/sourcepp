@@ -779,7 +779,7 @@ namespace ImageDimensions {
  */
 [[nodiscard]] constexpr uint16_t getMipDim(uint8_t mip,  uint16_t dim, bool addCompressedFormatPadding = false) {
 	if (!dim) {
-		dim = 1;
+		return 0;
 	}
 	for (int i = 0; i < mip && dim > 1; i++) {
 		dim >>= 1;
@@ -799,6 +799,7 @@ namespace ImageDimensions {
  * @return The width and height at the given mip level.
  */
 [[nodiscard]] constexpr std::pair<uint16_t, uint16_t> getMipDims(uint8_t mip, uint16_t width, uint16_t height, bool addCompressedFormatPadding = false) {
+	const auto originalWidth = width, originalHeight = height;
 	for (int i = 0; i < mip && (width > 1 || height > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
 		if ((height >>= 1) < 1) height = 1;
@@ -807,7 +808,7 @@ namespace ImageDimensions {
 		width  += sourcepp::math::paddingForAlignment(4, width);
 		height += sourcepp::math::paddingForAlignment(4, height);
 	}
-	return {width, height};
+	return {!originalWidth ? 0 : width, !originalHeight ? 0 : height};
 }
 
 /**
@@ -820,6 +821,7 @@ namespace ImageDimensions {
  * @return The width, height, and depth at the given mip level.
  */
 [[nodiscard]] constexpr std::tuple<uint16_t, uint16_t, uint16_t> getMipDims(uint8_t mip, uint16_t width, uint16_t height, uint16_t depth, bool addCompressedFormatPadding = false) {
+	const auto originalWidth = width, originalHeight = height, originalDepth = depth;
 	for (int i = 0; i < mip && (width > 1 || height > 1 || depth > 1); i++) {
 		if ((width  >>= 1) < 1) width  = 1;
 		if ((height >>= 1) < 1) height = 1;
@@ -829,7 +831,7 @@ namespace ImageDimensions {
 		width  += sourcepp::math::paddingForAlignment(4, width);
 		height += sourcepp::math::paddingForAlignment(4, height);
 	}
-	return {width, height, depth};
+	return {!originalWidth ? 0 : width, !originalHeight ? 0 : height, !originalDepth ? 0 : depth};
 }
 
 /**

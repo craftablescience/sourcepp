@@ -453,22 +453,40 @@ VTFPP_API uint8_t vtfpp_vtf_get_thumbnail_height(vtfpp_vtf_handle_t handle) {
 	return convert::handle<VTF>(handle)->getThumbnailHeight();
 }
 
-VTFPP_API uint8_t vtfpp_vtf_get_fallback_width(vtfpp_vtf_handle_t handle) {
+VTFPP_API uint8_t vtfpp_vtf_get_fallback_width(vtfpp_vtf_handle_t handle, uint8_t mip) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<VTF>(handle)->getFallbackWidth();
+	return convert::handle<VTF>(handle)->getFallbackWidth(mip);
 }
 
-VTFPP_API uint8_t vtfpp_vtf_get_fallback_height(vtfpp_vtf_handle_t handle) {
+VTFPP_API uint8_t vtfpp_vtf_get_padded_fallback_width(vtfpp_vtf_handle_t handle, uint8_t mip) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<VTF>(handle)->getFallbackHeight();
+	return convert::handle<VTF>(handle)->getPaddedFallbackWidth(mip);
+}
+
+VTFPP_API uint8_t vtfpp_vtf_get_fallback_height(vtfpp_vtf_handle_t handle, uint8_t mip) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	return convert::handle<VTF>(handle)->getFallbackHeight(mip);
+}
+
+VTFPP_API uint8_t vtfpp_vtf_get_padded_fallback_height(vtfpp_vtf_handle_t handle, uint8_t mip) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	return convert::handle<VTF>(handle)->getPaddedFallbackHeight(mip);
 }
 
 VTFPP_API uint8_t vtfpp_vtf_get_fallback_mip_count(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
 	return convert::handle<VTF>(handle)->getFallbackMipCount();
+}
+
+VTFPP_API int vtfpp_vtf_has_native_resource_support(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	return convert::handle<VTF>(handle)->hasNativeResourceSupport();
 }
 
 VTFPP_API uint32_t vtfpp_vtf_get_resources_count(vtfpp_vtf_handle_t handle) {

@@ -635,13 +635,22 @@ internal static partial class DLL
 	public static partial byte vtfpp_vtf_get_thumbnail_height(nint handle);
 
 	[LibraryImport(Name)]
-	public static partial byte vtfpp_vtf_get_fallback_width(nint handle);
+	public static partial byte vtfpp_vtf_get_fallback_width(nint handle, byte mip);
 
 	[LibraryImport(Name)]
-	public static partial byte vtfpp_vtf_get_fallback_height(nint handle);
+   	public static partial byte vtfpp_vtf_get_padded_fallback_width(nint handle, byte mip);
+
+	[LibraryImport(Name)]
+	public static partial byte vtfpp_vtf_get_fallback_height(nint handle, byte mip);
+
+	[LibraryImport(Name)]
+	public static partial byte vtfpp_vtf_get_padded_fallback_height(nint handle, byte mip);
 
 	[LibraryImport(Name)]
 	public static partial byte vtfpp_vtf_get_fallback_mip_count(nint handle);
+
+	[LibraryImport(Name)]
+    public static partial byte vtfpp_vtf_has_native_resource_support(nint handle);
 
 	[LibraryImport(Name)]
 	public static partial uint vtfpp_vtf_get_resources_count(nint handle);

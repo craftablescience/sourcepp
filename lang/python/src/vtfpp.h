@@ -641,8 +641,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("flags", &VTF::getFlags, &VTF::setFlags)
 		.def("add_flags", &VTF::addFlags, "flags"_a)
 		.def("remove_flags", &VTF::removeFlags, "flags"_a)
-		.def("is_srgb", &VTF::isSRGB)
-		.def("set_srgb", &VTF::setSRGB, "srgb"_a)
+		.def_prop_rw("is_srgb", &VTF::isSRGB, &VTF::setSRGB)
 		.def("compute_transparency_flags", &VTF::computeTransparencyFlags)
 		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, "input_format"_a, "version"_a, "is_cubemap"_a)
 		.def_prop_ro("format", &VTF::getFormat)
@@ -663,9 +662,16 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("thumbnail_format", &VTF::getThumbnailFormat)
 		.def_prop_ro("thumbnail_width", &VTF::getThumbnailWidth)
 		.def_prop_ro("thumbnail_height", &VTF::getThumbnailHeight)
-		.def_prop_ro("fallback_width", &VTF::getFallbackWidth)
-		.def_prop_ro("fallback_height", &VTF::getFallbackHeight)
+		.def_prop_ro("fallback_width", [](const VTF& self) { return self.getFallbackWidth(); })
+		.def("fallback_width_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getFallbackWidth(mip); }, "mip"_a = 0)
+		.def_prop_ro("padded_fallback_width", [](const VTF& self) { return self.getPaddedFallbackWidth(); })
+		.def("padded_fallback_width_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getPaddedFallbackWidth(mip); }, "mip"_a = 0)
+		.def_prop_ro("fallback_height", [](const VTF& self) { return self.getFallbackHeight(); })
+		.def("fallback_height_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getFallbackHeight(mip); }, "mip"_a = 0)
+		.def_prop_ro("padded_fallback_height", [](const VTF& self) { return self.getPaddedFallbackHeight(); })
+		.def("padded_fallback_height_for_mip", [](const VTF& self, uint8_t mip = 0) { return self.getPaddedFallbackHeight(mip); }, "mip"_a = 0)
 		.def_prop_ro("fallback_mip_count", &VTF::getFallbackMipCount)
+		.def_prop_ro("has_native_resource_support", &VTF::hasNativeResourceSupport)
 		// Skipping getResources, don't want to do the same hack as in SHT here, it's way more expensive
 		.def("get_resource", &VTF::getResource, "type"_a, py::rv_policy::reference_internal)
 		.def("get_palette_resource_frame", [](const VTF& self, uint16_t frame = 0) {
@@ -701,7 +707,7 @@ inline void register_python(py::module_& m) {
 		.def("remove_hotspot_data_resource", &VTF::removeHotspotDataResource)
 		.def_prop_rw("compression_level", &VTF::getCompressionLevel, &VTF::setCompressionLevel)
 		.def_prop_rw("compression_method", &VTF::getCompressionMethod, &VTF::setCompressionMethod)
-		.def("has_image_data", &VTF::hasImageData)
+		.def_prop_ro("has_image_data", &VTF::hasImageData)
 		.def("get_image_data_raw", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) {
 			const auto d = self.getImageDataRaw(mip, frame, face, slice);
 			return py::bytes{d.data(), d.size()};
@@ -723,7 +729,7 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("save_image_to_file", py::overload_cast<const std::filesystem::path&, uint8_t, uint16_t, uint8_t, uint16_t, ImageConversion::FileFormat>(&VTF::saveImageToFile, py::const_), "image_path"_a, "mip"_a = 0, "frame"_a = 0, "face"_a = 0, "slice"_a = 0, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("has_thumbnail_data", &VTF::hasThumbnailData)
+		.def_prop_ro("has_thumbnail_data", &VTF::hasThumbnailData)
 		.def("get_thumbnail_data_raw", [](const VTF& self) {
 			const auto d = self.getThumbnailDataRaw();
 			return py::bytes{d.data(), d.size()};
@@ -747,7 +753,7 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
 		.def("save_thumbnail_to_file", py::overload_cast<const std::filesystem::path&, ImageConversion::FileFormat>(&VTF::saveThumbnailToFile, py::const_), "image_path"_a, "file_format"_a = ImageConversion::FileFormat::DEFAULT)
-		.def("has_fallback_data", &VTF::hasFallbackData)
+		.def_prop_ro("has_fallback_data", &VTF::hasFallbackData)
 		.def("get_fallback_data_raw", [](const VTF& self, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) {
 			const auto d = self.getFallbackDataRaw(mip, frame, face);
 			return py::bytes{d.data(), d.size()};

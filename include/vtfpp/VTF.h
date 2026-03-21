@@ -346,11 +346,17 @@ public:
 
 	[[nodiscard]] uint8_t getThumbnailHeight() const;
 
-	[[nodiscard]] uint8_t getFallbackWidth() const;
+	[[nodiscard]] uint8_t getFallbackWidth(uint8_t mip = 0) const;
 
-	[[nodiscard]] uint8_t getFallbackHeight() const;
+	[[nodiscard]] uint8_t getPaddedFallbackWidth(uint8_t mip = 0) const;
+
+	[[nodiscard]] uint8_t getFallbackHeight(uint8_t mip = 0) const;
+
+	[[nodiscard]] uint8_t getPaddedFallbackHeight(uint8_t mip = 0) const;
 
 	[[nodiscard]] uint8_t getFallbackMipCount() const;
+
+	[[nodiscard]] bool hasNativeResourceSupport() const;
 
 	[[nodiscard]] const std::vector<Resource>& getResources() const;
 

@@ -1541,16 +1541,28 @@ uint8_t VTF::getThumbnailHeight() const {
 	return this->thumbnailHeight;
 }
 
-uint8_t VTF::getFallbackWidth() const {
-	return this->fallbackWidth;
+uint8_t VTF::getFallbackWidth(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->fallbackWidth);
 }
 
-uint8_t VTF::getFallbackHeight() const {
-	return this->fallbackHeight;
+uint8_t VTF::getPaddedFallbackWidth(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->fallbackWidth, ImageFormatDetails::compressed(this->format));
+}
+
+uint8_t VTF::getFallbackHeight(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->fallbackHeight);
+}
+
+uint8_t VTF::getPaddedFallbackHeight(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->fallbackHeight, ImageFormatDetails::compressed(this->format));
 }
 
 uint8_t VTF::getFallbackMipCount() const {
 	return this->fallbackMipCount;
+}
+
+bool VTF::hasNativeResourceSupport() const {
+	return this->version >= 3;
 }
 
 const std::vector<Resource>& VTF::getResources() const {
