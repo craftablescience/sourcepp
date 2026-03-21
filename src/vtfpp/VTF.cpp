@@ -212,7 +212,7 @@ void swapImageDataEndianForConsole(std::span<std::byte> imageData, ImageFormat f
 				break;
 			}
 			default:
-			break;
+				break;
 		}
 	}
 
@@ -679,19 +679,29 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 					this->thumbnailFormat = ImageFormat::EMPTY;
 				} else {
 					this->thumbnailFormat = ImageFormat::RGB888;
-					this->resources.push_back({
-						.type = Resource::TYPE_THUMBNAIL_DATA,
-						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight)),
-					});
+					const auto thumbnailSize = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+					if (!parseHeaderOnly) {
+						this->resources.push_back({
+							.type = Resource::TYPE_THUMBNAIL_DATA,
+							.flags = Resource::FLAG_NONE,
+							.data = stream.read_span<std::byte>(thumbnailSize),
+						});
+					} else {
+						stream.skip(thumbnailSize);
+					}
 				}
 
 				if (this->format == ImageFormat::P8) {
-					this->resources.push_back({
-						.type = Resource::TYPE_PALETTE_DATA,
-						.flags = Resource::FLAG_NONE,
-						.data = stream.read_span<std::byte>(256 * sizeof(ImagePixel::BGRA8888) * this->frameCount),
-					});
+					const auto paletteSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
+					if (!parseHeaderOnly) {
+						this->resources.push_back({
+							.type = Resource::TYPE_PALETTE_DATA,
+							.flags = Resource::FLAG_NONE,
+							.data = stream.read_span<std::byte>(paletteSize),
+						});
+					} else {
+						stream.skip_u(paletteSize);
+					}
 				}
 
 				bool ok;
