@@ -118,9 +118,9 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 [[nodiscard]] std::vector<std::byte> padImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t widthPad, uint16_t height, uint16_t heightPad);
 
 /// Perform gamma correction on the given image data. Will not perform gamma correction if the input image format is large, console, P8, A8, UV88, UVLX8888, or UVWQ8888
-[[nodiscard]] std::vector<std::byte> gammaCorrectImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma);
+void gammaCorrectImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma);
 
 /// Invert the green channel. Meant for converting normal maps between OpenGL and DirectX formats
-[[nodiscard]] std::vector<std::byte> invertGreenChannelForImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
+void invertGreenChannelForImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
 
 } // namespace vtfpp::ImageConversion
