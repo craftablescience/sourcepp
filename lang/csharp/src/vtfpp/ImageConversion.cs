@@ -19,9 +19,33 @@ public static class ImageConversion
 
 	public static byte[] ConvertHdriToCubemap(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, ushort resolution = 0, bool bilinear = true)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_hdri_to_cubemap_ex(buffer, (ulong) buffer.Length, format, width, height, resolution, Convert.ToInt32(bilinear))).Read<byte>();
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_hdri_to_cubemap(buffer, (ulong) buffer.Length, format, width, height, resolution, Convert.ToInt32(bilinear))).Read<byte>();
 	}
-	
+
+	// ReSharper disable once InconsistentNaming
+	public static byte[] CompressBGRA8888HDR(ReadOnlySpan<byte> buffer, float overbrightFactor = 16.0f)
+	{
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_compress_bgra8888_hdr(buffer, (ulong)buffer.Length, overbrightFactor)).Read<byte>();
+	}
+
+	// ReSharper disable once InconsistentNaming
+	public static byte[] DecompressBGRA8888HDR(ReadOnlySpan<byte> buffer, float overbrightFactor = 16.0f)
+	{
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_decompress_bgra8888_hdr(buffer, (ulong)buffer.Length, overbrightFactor)).Read<byte>();
+	}
+
+	// ReSharper disable once InconsistentNaming
+	public static byte[] CompressRGBA16161616HDR(ReadOnlySpan<byte> buffer, bool flipExponentAndSignificand = false)
+	{
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_compress_rgba16161616_hdr(buffer, (ulong)buffer.Length, Convert.ToInt32(flipExponentAndSignificand))).Read<byte>();
+	}
+
+	// ReSharper disable once InconsistentNaming
+	public static byte[] DecompressRGBA16161616HDR(ReadOnlySpan<byte> buffer, bool flipExponentAndSignificand = false)
+	{
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_decompress_rgba16161616_hdr(buffer, (ulong)buffer.Length, Convert.ToInt32(flipExponentAndSignificand))).Read<byte>();
+	}
+
 	public enum FileFormat {
 		DEFAULT = 0,
 		PNG     = 1,

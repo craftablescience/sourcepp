@@ -81,6 +81,12 @@ enum class ImageFormat : int32_t {
 	STRATA_BC7,
 	STRATA_BC6H,
 	// endregion
+
+	// region SourcePP Virtual Formats
+	SOURCEPP_BGRA8888_HDR = 10000,
+	SOURCEPP_RGBA16161616_HDR,
+	SOURCEPP_CONSOLE_RGBA16161616_HDR,
+	// endregion
 };
 
 namespace ImageFormatDetails {
@@ -157,6 +163,9 @@ namespace ImageFormatDetails {
 		case TFALL2_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return -1;
 	}
 	return 0;
@@ -182,6 +191,9 @@ namespace ImageFormatDetails {
 			return 8;
 		case TFALL2_BC6H:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return 16;
 		default:
 			break;
@@ -262,6 +274,9 @@ namespace ImageFormatDetails {
 		case TFALL2_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return -1;
 	}
 	return 0;
@@ -287,6 +302,9 @@ namespace ImageFormatDetails {
 			return 8;
 		case TFALL2_BC6H:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return 16;
 		default:
 			break;
@@ -366,6 +384,9 @@ namespace ImageFormatDetails {
 		case TFALL2_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return -1;
 	}
 	return 0;
@@ -391,6 +412,9 @@ namespace ImageFormatDetails {
 			return 8;
 		case TFALL2_BC6H:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return 16;
 		default:
 			break;
@@ -470,6 +494,9 @@ namespace ImageFormatDetails {
 		case TFALL2_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return -1;
 	}
 	return 0;
@@ -497,6 +524,9 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case TFALL2_BC6H:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return 0;
 		default:
 			break;
@@ -520,6 +550,8 @@ namespace ImageFormatDetails {
 		case RGBA16161616F:
 		case RGBA16161616:
 		case CONSOLE_RGBA16161616_LINEAR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 		case RG3232F:
 			return 64;
 		case RGBA8888:
@@ -531,6 +563,7 @@ namespace ImageFormatDetails {
 		case BGRA8888:
 		case CONSOLE_BGRA8888_LINEAR:
 		case CONSOLE_BGRA8888_LE:
+		case SOURCEPP_BGRA8888_HDR:
 		case BGRX8888:
 		case CONSOLE_BGRX8888_LINEAR:
 		case CONSOLE_BGRX8888_LE:
@@ -602,6 +635,9 @@ namespace ImageFormatDetails {
 		case RGBA32323232F:
 		case TFALL2_BC6H:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return RGBA32323232F;
 		case RGBA16161616:
 		case CONSOLE_RGBA16161616_LINEAR:
@@ -676,12 +712,30 @@ namespace ImageFormatDetails {
 }
 
 /**
- * Check if the given format is a compressed format (DXT1, DXT3, DXT5, ATI1N, ATI2N, BC7, BC6H).
+ * Check if the given format is a compressed format (DXT1, DXT3, DXT5, ATI1N, ATI2N, BC7, BC6H, BGRA8888 HDR, RGBA16161616 HDR).
  * @param format The format to check.
  * @return True if the given format is compressed.
  */
 [[nodiscard]] constexpr bool compressed(ImageFormat format) {
 	return red(format) == -1;
+}
+
+/**
+ * Check if the given format is a compressed HDR format (not counting BC6H).
+ * @param format The format to check.
+ * @return True if the format is a compressed HDR format..
+ */
+[[nodiscard]] constexpr bool compressedHDR(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
+			return true;
+		default:
+			break;
+	}
+	return false;
 }
 
 /**
@@ -757,6 +811,42 @@ namespace ImageFormatDetails {
 		case CONSOLE_RGBA16161616_LINEAR:
 		case CONSOLE_BGRX8888_LE:
 		case CONSOLE_BGRA8888_LE:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
+			return true;
+		default:
+			break;
+	}
+	return false;
+}
+
+/**
+ * Check if the given format is exclusively used by Titanfall 2.
+ * @param format The format to check.
+ * @return True if the format is exclusively used by Titanfall 2.
+ */
+[[nodiscard]] constexpr bool tfall2(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case TFALL2_BC6H:
+		case TFALL2_BC7:
+			return true;
+		default:
+			break;
+	}
+	return false;
+}
+
+/**
+ * Check if the given format is exclusively used by Strata Source.
+ * @param format The format to check.
+ * @return True if the format is exclusively used by Strata Source.
+ */
+[[nodiscard]] constexpr bool strata(ImageFormat format) {
+	switch (format) {
+		using enum ImageFormat;
+		case STRATA_R8:
+		case STRATA_BC7:
+		case STRATA_BC6H:
 			return true;
 		default:
 			break;
@@ -869,7 +959,7 @@ namespace ImageFormatDetails {
  * @return The length in bytes of a texture containing the given format, width, height, and depth.
  */
 [[nodiscard]] constexpr uint32_t getDataLength(ImageFormat format, uint16_t width, uint16_t height, uint16_t depth = 1) {
-	if (ImageFormatDetails::compressed(format)) {
+	if (ImageFormatDetails::compressed(format) && !ImageFormatDetails::compressedHDR(format)) {
 		return ((width + 3) / 4) * ((height + 3) / 4) * depth * bpp(format) * 2;
 	}
 	return width * height * depth * (bpp(format) / 8);

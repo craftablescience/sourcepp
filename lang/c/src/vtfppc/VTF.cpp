@@ -115,11 +115,11 @@ VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty() {
 	return new VTF{};
 }
 
-VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly) {
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly, int hdr) {
 	SOURCEPP_EARLY_RETURN_VAL(vtfData, nullptr);
 	SOURCEPP_EARLY_RETURN_VAL(vtfLen, nullptr);
 
-	return new VTF{{reinterpret_cast<const std::byte*>(vtfData), vtfLen}, static_cast<bool>(parseHeaderOnly)};
+	return new VTF{{reinterpret_cast<const std::byte*>(vtfData), vtfLen}, static_cast<bool>(parseHeaderOnly), static_cast<bool>(hdr)};
 }
 
 VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly) {

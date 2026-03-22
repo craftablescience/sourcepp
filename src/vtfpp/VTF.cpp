@@ -392,7 +392,7 @@ VTF::VTF() {
 	this->opened = true;
 }
 
-VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
+VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly, bool hdr)
 		: data(std::move(vtfData)) {
 	BufferStreamReadOnly stream{this->data};
 
@@ -501,8 +501,8 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		}
 	};
 
-	// HACK: a couple tweaks to fix engine bugs or branch differences
-	const auto postReadTransform = [this] {
+	// A couple tweaks to fix engine bugs or branch differences
+	const auto postHeaderReadTransform = [this, hdr] {
 		// Change the format to DXT1_ONE_BIT_ALPHA to get compressonator to recognize it.
 		// No source game recognizes this format, so we will do additional transform in bake back to DXT1.
 		// We also need to check MULTI_BIT_ALPHA flag because stupid third party tools will sometimes set it???
@@ -513,6 +513,18 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 		// It is safe to do this because these formats didn't exist before v7.5.
 		if (this->version < 5 && (this->format == ImageFormat::RGBA1010102 || this->format == ImageFormat::BGRA1010102 || this->format == ImageFormat::R16F)) {
 			this->format = static_cast<ImageFormat>(static_cast<int32_t>(this->format) - 3);
+		}
+		// If this is an HDR VTF, and it has one of the following formats, it's actually compressed.
+		if (hdr) {
+			if (this->format == ImageFormat::BGRA8888) {
+				this->format = ImageFormat::SOURCEPP_BGRA8888_HDR;
+			} else if (this->format == ImageFormat::RGBA16161616) {
+				if (this->platform == PLATFORM_PC) {
+					this->format = ImageFormat::SOURCEPP_RGBA16161616_HDR;
+				} else {
+					this->format = ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR;
+				}
+			}
 		}
 		// We need to apply this transform because of the broken Borealis skybox in HL2.
 		// Thanks Valve! If this transform isn't applied it breaks conversion to console formats.
@@ -540,7 +552,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.read(this->format)
 				.read(this->mipCount);
 
-			postReadTransform();
+			postHeaderReadTransform();
 
 			// This will always be DXT1
 			stream.skip<ImageFormat>();
@@ -670,7 +682,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
 				this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight);
 
-				postReadTransform();
+				postHeaderReadTransform();
 
 				// Can't use VTF::getFaceCount yet because there's no image data
 				const auto faceCount = (this->flags & FLAG_V0_ENVMAP) ? 6 : 1;
@@ -774,7 +786,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 				.skip<math::Vec4ui8>() // lowResImageSample (replacement for thumbnail resource, linear color pixel)
 				.skip<uint32_t>(); // compressedLength
 
-			postReadTransform();
+			postHeaderReadTransform();
 
 			// Align to 16 bytes
 			if (this->platform == PLATFORM_PS3_PORTAL2) {
@@ -829,11 +841,14 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly)
 	}
 }
 
-VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly)
-		: VTF(std::vector<std::byte>{vtfData.begin(), vtfData.end()}, parseHeaderOnly) {}
+VTF::VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly, bool hdr)
+		: VTF(std::vector<std::byte>{vtfData.begin(), vtfData.end()}, parseHeaderOnly, hdr) {}
 
 VTF::VTF(const std::filesystem::path& vtfPath, bool parseHeaderOnly)
-		: VTF(fs::readFileBuffer(vtfPath), parseHeaderOnly) {}
+		: VTF(fs::readFileBuffer(vtfPath), parseHeaderOnly, [](std::string path) {
+			sourcepp::string::toLower(path);
+			return path.ends_with(".hdr.vtf") || path.ends_with(".hdr.360.vtf") || path.ends_with(".hdr.ps3.vtf");
+		}(vtfPath.filename().string())) {}
 
 VTF::VTF(const VTF& other) {
 	*this = other;
@@ -2369,16 +2384,23 @@ std::vector<std::byte> VTF::bake() const {
 		return 0;
 	};
 
-	// HACK: no source game supports this format, but they do support the flag with reg. DXT1
+	// Miscellaneous fixups to write to the output file
 	auto bakeFormat = this->format;
 	auto bakeFlags = this->flags;
+	// No source game supports this format, but they do support the flag with reg. DXT1
 	if (bakeFormat == ImageFormat::DXT1_ONE_BIT_ALPHA) {
 		bakeFormat = ImageFormat::DXT1;
 		bakeFlags |= FLAG_V0_ONE_BIT_ALPHA;
 	}
-	// HACK: NV_NULL / ATI2N / ATI1N are at a different position based on engine branch
+	// NV_NULL / ATI2N / ATI1N are at a different position based on engine branch
 	if (this->version < 5 && (this->format == ImageFormat::EMPTY || this->format == ImageFormat::ATI2N || this->format == ImageFormat::ATI1N)) {
 		bakeFormat = static_cast<ImageFormat>(static_cast<int32_t>(this->format) + 3);
+	}
+	// Fix up the HDR format
+	if (bakeFormat == ImageFormat::SOURCEPP_BGRA8888_HDR) {
+		bakeFormat = ImageFormat::BGRA8888;
+	} else if (bakeFormat == ImageFormat::SOURCEPP_RGBA16161616_HDR || bakeFormat == ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR) {
+		bakeFormat = ImageFormat::RGBA16161616;
 	}
 
 	switch (this->platform) {
