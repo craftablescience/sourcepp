@@ -3,7 +3,6 @@
 #include <bit>
 #include <concepts>
 #include <cstring>
-#include <functional>
 
 #ifdef SOURCEPP_BUILD_WITH_TBB
 #include <execution>
@@ -517,6 +516,50 @@ template<PixelType P, typename C>
 	);
 
 	return out;
+}
+
+/// Run a parallelizable/vectorizable operation on the given image data.
+template<PixelType IN, typename Func>
+void transformInPlace(std::span<std::byte> imageData, Func callback) {
+	if (imageData.empty()) {
+		return;
+	}
+
+	std::span imageDataSpan{reinterpret_cast<IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+		std::execution::par_unseq,
+#endif
+		imageDataSpan.begin(),
+		imageDataSpan.end(),
+		imageDataSpan.begin(),
+		callback
+	);
+}
+
+/// Run a parallelizable/vectorizable operation on the given image data, and return new image data.
+template<PixelType IN, PixelType OUT, typename Func>
+[[nodiscard]] std::vector<std::byte> transform(std::span<const std::byte> imageData, Func callback) {
+	if (imageData.empty()) {
+		return {};
+	}
+
+	std::vector<std::byte> newData;
+	newData.resize(imageData.size() / sizeof(IN) * sizeof(OUT));
+	std::span newDataSpan{reinterpret_cast<OUT*>(newData.data()), newData.size() / sizeof(OUT)};
+
+	std::span imageDataSpan{reinterpret_cast<const IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::transform(
+#ifdef SOURCEPP_BUILD_WITH_TBB
+		std::execution::par_unseq,
+#endif
+		imageDataSpan.begin(),
+		imageDataSpan.end(),
+		newDataSpan.begin(),
+		callback
+	);
+
+	return newData;
 }
 
 } // namespace vtfpp::ImagePixel
