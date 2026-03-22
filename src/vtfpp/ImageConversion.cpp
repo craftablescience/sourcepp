@@ -1949,18 +1949,22 @@ std::vector<std::byte> ImageConversion::padImageData(std::span<const std::byte> 
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
+void ImageConversion::gammaCorrectImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
-		return {};
+		return;
 	}
 	if (gamma == 1.f || ImageFormatDetails::large(format) || ImageFormatDetails::console(format) || format == ImageFormat::P8 || format == ImageFormat::A8 || format == ImageFormat::UV88 || format == ImageFormat::UVLX8888 || format == ImageFormat::UVWQ8888) {
 		// No gamma correction for you! You are supposed to be linear! Or specialized...
-		return {imageData.begin(), imageData.end()};
+		return;
 	}
 	if (ImageFormatDetails::compressed(format)) {
 		// This is horrible but what can you do?
 		const auto container = ImageFormatDetails::containerFormat(format);
-		return convertImageDataToFormat(gammaCorrectImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, height, gamma), container, format, width, height);
+		auto newData = convertImageDataToFormat(imageData, format, container, width, height);
+		gammaCorrectImageData(newData, container, width, height, gamma);
+		newData = convertImageDataToFormat(newData, container, format, width, height);
+		std::memcpy(imageData.data(), newData.data(), imageData.size());
+		return;
 	}
 
 	static constexpr auto calculateGammaLUT = [](float gamma_, uint8_t channelSize) -> std::array<uint8_t, 256> {
@@ -2002,7 +2006,7 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 	#define VTFPP_GAMMA_CORRECT_CASE(InputType, ...) \
 		case InputType: { \
 			VTFPP_CREATE_GAMMA_LUTS(InputType) \
-			return ImagePixel::transform<ImagePixel::InputType, ImagePixel::InputType>(imageData, [&gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+			return ImagePixel::transformInPlace<ImagePixel::InputType>(imageData, [&gammaLUTs](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
 				using PIXEL_TYPE = ImagePixel::InputType; \
 				return {__VA_ARGS__}; \
 			}); \
@@ -2036,26 +2040,28 @@ std::vector<std::byte> ImageConversion::gammaCorrectImageData(std::span<const st
 	#undef VTFPP_APPLY_GAMMA_GREEN
 	#undef VTFPP_APPLY_GAMMA_RED
 	#undef VTFPP_CREATE_GAMMA_LUTS
-
-	return {};
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
-std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+void ImageConversion::invertGreenChannelForImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
-		return {};
+		return;
 	}
 	if (ImageFormatDetails::decompressedGreen(format) == 0) {
-		return {imageData.begin(), imageData.end()};
+		return;
 	}
 	if (ImageFormatDetails::compressed(format)) {
 		// This is horrible but what can you do?
 		const auto container = ImageFormatDetails::containerFormat(format);
-		return convertImageDataToFormat(invertGreenChannelForImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, height), container, format, width, height);
+		auto newData = convertImageDataToFormat(imageData, format, container, width, height);
+		invertGreenChannelForImageData(newData, container, width, height);
+		newData = convertImageDataToFormat(newData, container, format, width, height);
+		std::memcpy(imageData.data(), newData.data(), imageData.size());
+		return;
 	}
 
 	#define VTFPP_INVERT_GREEN_CASE_OVERRIDE(PixelType, ChannelName, ChannelNameCaps, ...) \
-		case ImageFormat::PixelType: return ImagePixel::transform<ImagePixel::PixelType, ImagePixel::PixelType>(imageData, [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
+		case ImageFormat::PixelType: return ImagePixel::transformInPlace<ImagePixel::PixelType>(imageData, [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
 			static constexpr auto channelSize = ImageFormatDetails::green(ImagePixel::PixelType::FORMAT); \
 			if constexpr (std::same_as<decltype(pixel.ChannelName()), float> || std::same_as<decltype(pixel.ChannelName()), half>) { \
 				pixel.set##ChannelNameCaps(static_cast<decltype(pixel.ChannelName())>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName()))); \
@@ -2115,6 +2121,4 @@ std::vector<std::byte> ImageConversion::invertGreenChannelForImageData(std::span
 
 	#undef VTFPP_INVERT_GREEN_CASE
 	#undef VTFPP_INVERT_GREEN_CASE_OVERRIDE
-
-	return {};
 }
