@@ -265,14 +265,14 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 	{
 	}
 
-	public VTF(ReadOnlySpan<byte> vtfData, bool parseHeaderOnly = false) : this(DLL.vtfpp_vtf_open_from_mem(vtfData, (ulong) vtfData.Length, Convert.ToInt32(parseHeaderOnly)))
+	public VTF(ReadOnlySpan<byte> vtfData, bool parseHeaderOnly = false, bool hdr = false) : this(DLL.vtfpp_vtf_open_from_mem(vtfData, (ulong) vtfData.Length, Convert.ToInt32(parseHeaderOnly), Convert.ToInt32(hdr)))
 	{
 	}
-	
+
 	public VTF(string vtfPath, bool parseHeaderOnly = false) : this(DLL.vtfpp_vtf_open_from_file(vtfPath, Convert.ToInt32(parseHeaderOnly)))
 	{
 	}
-	
+
 	public static implicit operator bool(VTF vtf)
 	{
 		vtf.ThrowIfDisposed();

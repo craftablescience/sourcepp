@@ -62,8 +62,20 @@ internal static partial class DLL
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_several_image_data_to_format(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat oldFormat, ImageFormat newFormat, byte mipCount, ushort frameCount, byte faceCount, ushort width, ushort height, ushort depth, float quality);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_hdri_to_cubemap_ex(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ushort resolution, int bilinear);
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_hdri_to_cubemap(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ushort resolution, int bilinear);
 
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_compress_bgra8888_hdr(ReadOnlySpan<byte> buffer, ulong bufferLen, float overbrightFactor);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_decompress_bgra8888_hdr(ReadOnlySpan<byte> buffer, ulong bufferLen, float overbrightFactor);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_compress_rgba16161616_hdr(ReadOnlySpan<byte> buffer, ulong bufferLen, int flipExponentAndSignificand);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_decompress_rgba16161616_hdr(ReadOnlySpan<byte> buffer, ulong bufferLen, int flipExponentAndSignificand);
+	
 	[LibraryImport(Name)]
 	public static partial ImageConversion.FileFormat vtfpp_image_conversion_get_default_file_format_for_image_format(ImageFormat format);
 
@@ -134,6 +146,9 @@ internal static partial class DLL
 	public static partial int vtfpp_image_format_details_compressed(ImageFormat format);
 
 	[LibraryImport(Name)]
+	public static partial int vtfpp_image_format_details_compressed_hdr(ImageFormat format);
+
+	[LibraryImport(Name)]
 	public static partial int vtfpp_image_format_details_transparent(ImageFormat format);
 
 	[LibraryImport(Name)]
@@ -141,6 +156,12 @@ internal static partial class DLL
 
 	[LibraryImport(Name)]
 	public static partial int vtfpp_image_format_details_console(ImageFormat format);
+
+	[LibraryImport(Name)]
+	public static partial int vtfpp_image_format_details_tfall2(ImageFormat format);
+
+	[LibraryImport(Name)]
+	public static partial int vtfpp_image_format_details_strata(ImageFormat format);
 
 	[LibraryImport(Name)]
 	public static partial ushort vtfpp_image_dimensions_get_mip_dim(byte mip, ushort dim, int addCompressedFormatPadding);
@@ -470,7 +491,7 @@ internal static partial class DLL
 	public static partial nint vtfpp_vtf_create_empty();
 
 	[LibraryImport(Name)]
-	public static partial nint vtfpp_vtf_open_from_mem(ReadOnlySpan<byte> vtfData, ulong vtfLen, int parseHeaderOnly);
+	public static partial nint vtfpp_vtf_open_from_mem(ReadOnlySpan<byte> vtfData, ulong vtfLen, int parseHeaderOnly, int hdr);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vtfpp_vtf_open_from_file(string vtfPath, int parseHeaderOnly);

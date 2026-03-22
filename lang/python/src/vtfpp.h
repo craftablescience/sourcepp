@@ -49,62 +49,65 @@ inline void register_python(py::module_& m) {
 		.def("bake_to_file", py::overload_cast<const std::filesystem::path&>(&HOT::bake, py::const_), "hot_path"_a);
 
 	py::enum_<ImageFormat>(vtfpp, "ImageFormat")
-		.value("RGBA8888",           ImageFormat::RGBA8888)
-		.value("ABGR8888",           ImageFormat::ABGR8888)
-		.value("RGB888",             ImageFormat::RGB888)
-		.value("BGR888",             ImageFormat::BGR888)
-		.value("RGB565",             ImageFormat::RGB565)
-		.value("I8",                 ImageFormat::I8)
-		.value("IA88",               ImageFormat::IA88)
-		.value("P8",                 ImageFormat::P8)
-		.value("A8",                 ImageFormat::A8)
-		.value("RGB888_BLUESCREEN",  ImageFormat::RGB888_BLUESCREEN)
-		.value("BGR888_BLUESCREEN",  ImageFormat::BGR888_BLUESCREEN)
-		.value("ARGB8888",           ImageFormat::ARGB8888)
-		.value("BGRA8888",           ImageFormat::BGRA8888)
-		.value("DXT1",               ImageFormat::DXT1)
-		.value("DXT3",               ImageFormat::DXT3)
-		.value("DXT5",               ImageFormat::DXT5)
-		.value("BGRX8888",           ImageFormat::BGRX8888)
-		.value("BGR565",             ImageFormat::BGR565)
-		.value("BGRX5551",           ImageFormat::BGRX5551)
-		.value("BGRA4444",           ImageFormat::BGRA4444)
-		.value("DXT1_ONE_BIT_ALPHA", ImageFormat::DXT1_ONE_BIT_ALPHA)
-		.value("BGRA5551",           ImageFormat::BGRA5551)
-		.value("UV88",               ImageFormat::UV88)
-		.value("UVWQ8888",           ImageFormat::UVWQ8888)
-		.value("RGBA16161616F",      ImageFormat::RGBA16161616F)
-		.value("RGBA16161616",       ImageFormat::RGBA16161616)
-		.value("UVLX8888",           ImageFormat::UVLX8888)
-		.value("R32F",               ImageFormat::R32F)
-		.value("RGB323232F",         ImageFormat::RGB323232F)
-		.value("RGBA32323232F",      ImageFormat::RGBA32323232F)
-		.value("RG1616F",            ImageFormat::RG1616F)
-		.value("RG3232F",            ImageFormat::RG3232F)
-		.value("RGBX8888",           ImageFormat::RGBX8888)
-		.value("EMPTY",              ImageFormat::EMPTY)
-		.value("ATI2N",              ImageFormat::ATI2N)
-		.value("ATI1N",              ImageFormat::ATI1N)
-		.value("RGBA1010102",        ImageFormat::RGBA1010102)
-		.value("BGRA1010102",        ImageFormat::BGRA1010102)
-		.value("R16F",               ImageFormat::R16F)
-		.value("CONSOLE_BGRX8888_LINEAR", ImageFormat::CONSOLE_BGRX8888_LINEAR)
-		.value("CONSOLE_RGBA8888_LINEAR",  ImageFormat::CONSOLE_RGBA8888_LINEAR)
-		.value("CONSOLE_ABGR8888_LINEAR", ImageFormat::CONSOLE_ABGR8888_LINEAR)
-		.value("CONSOLE_ARGB8888_LINEAR", ImageFormat::CONSOLE_ARGB8888_LINEAR)
-		.value("CONSOLE_BGRA8888_LINEAR", ImageFormat::CONSOLE_BGRA8888_LINEAR)
-		.value("CONSOLE_RGB888_LINEAR", ImageFormat::CONSOLE_RGB888_LINEAR)
-		.value("CONSOLE_BGR888_LINEAR", ImageFormat::CONSOLE_BGR888_LINEAR)
-		.value("CONSOLE_BGRX5551_LINEAR", ImageFormat::CONSOLE_BGRX5551_LINEAR)
-		.value("CONSOLE_I8_LINEAR", ImageFormat::CONSOLE_I8_LINEAR)
-		.value("CONSOLE_RGBA16161616_LINEAR", ImageFormat::CONSOLE_RGBA16161616_LINEAR)
-		.value("CONSOLE_BGRX8888_LE", ImageFormat::CONSOLE_BGRX8888_LE)
-		.value("CONSOLE_BGRA8888_LE", ImageFormat::CONSOLE_BGRA8888_LE)
-		.value("TFALL2_BC6H",        ImageFormat::TFALL2_BC6H)
-		.value("TFALL2_BC7",         ImageFormat::TFALL2_BC7)
-		.value("STRATA_R8",          ImageFormat::STRATA_R8)
-		.value("STRATA_BC7",         ImageFormat::STRATA_BC7)
-		.value("STRATA_BC6H",        ImageFormat::STRATA_BC6H);
+		.value("RGBA8888",                          ImageFormat::RGBA8888)
+		.value("ABGR8888",                          ImageFormat::ABGR8888)
+		.value("RGB888",                            ImageFormat::RGB888)
+		.value("BGR888",                            ImageFormat::BGR888)
+		.value("RGB565",                            ImageFormat::RGB565)
+		.value("I8",                                ImageFormat::I8)
+		.value("IA88",                              ImageFormat::IA88)
+		.value("P8",                                ImageFormat::P8)
+		.value("A8",                                ImageFormat::A8)
+		.value("RGB888_BLUESCREEN",                 ImageFormat::RGB888_BLUESCREEN)
+		.value("BGR888_BLUESCREEN",                 ImageFormat::BGR888_BLUESCREEN)
+		.value("ARGB8888",                          ImageFormat::ARGB8888)
+		.value("BGRA8888",                          ImageFormat::BGRA8888)
+		.value("DXT1",                              ImageFormat::DXT1)
+		.value("DXT3",                              ImageFormat::DXT3)
+		.value("DXT5",                              ImageFormat::DXT5)
+		.value("BGRX8888",                          ImageFormat::BGRX8888)
+		.value("BGR565",                            ImageFormat::BGR565)
+		.value("BGRX5551",                          ImageFormat::BGRX5551)
+		.value("BGRA4444",                          ImageFormat::BGRA4444)
+		.value("DXT1_ONE_BIT_ALPHA",                ImageFormat::DXT1_ONE_BIT_ALPHA)
+		.value("BGRA5551",                          ImageFormat::BGRA5551)
+		.value("UV88",                              ImageFormat::UV88)
+		.value("UVWQ8888",                          ImageFormat::UVWQ8888)
+		.value("RGBA16161616F",                     ImageFormat::RGBA16161616F)
+		.value("RGBA16161616",                      ImageFormat::RGBA16161616)
+		.value("UVLX8888",                          ImageFormat::UVLX8888)
+		.value("R32F",                              ImageFormat::R32F)
+		.value("RGB323232F",                        ImageFormat::RGB323232F)
+		.value("RGBA32323232F",                     ImageFormat::RGBA32323232F)
+		.value("RG1616F",                           ImageFormat::RG1616F)
+		.value("RG3232F",                           ImageFormat::RG3232F)
+		.value("RGBX8888",                          ImageFormat::RGBX8888)
+		.value("EMPTY",                             ImageFormat::EMPTY)
+		.value("ATI2N",                             ImageFormat::ATI2N)
+		.value("ATI1N",                             ImageFormat::ATI1N)
+		.value("RGBA1010102",                       ImageFormat::RGBA1010102)
+		.value("BGRA1010102",                       ImageFormat::BGRA1010102)
+		.value("R16F",                              ImageFormat::R16F)
+		.value("CONSOLE_BGRX8888_LINEAR",           ImageFormat::CONSOLE_BGRX8888_LINEAR)
+		.value("CONSOLE_RGBA8888_LINEAR",           ImageFormat::CONSOLE_RGBA8888_LINEAR)
+		.value("CONSOLE_ABGR8888_LINEAR",           ImageFormat::CONSOLE_ABGR8888_LINEAR)
+		.value("CONSOLE_ARGB8888_LINEAR",           ImageFormat::CONSOLE_ARGB8888_LINEAR)
+		.value("CONSOLE_BGRA8888_LINEAR",           ImageFormat::CONSOLE_BGRA8888_LINEAR)
+		.value("CONSOLE_RGB888_LINEAR",             ImageFormat::CONSOLE_RGB888_LINEAR)
+		.value("CONSOLE_BGR888_LINEAR",             ImageFormat::CONSOLE_BGR888_LINEAR)
+		.value("CONSOLE_BGRX5551_LINEAR",           ImageFormat::CONSOLE_BGRX5551_LINEAR)
+		.value("CONSOLE_I8_LINEAR",                 ImageFormat::CONSOLE_I8_LINEAR)
+		.value("CONSOLE_RGBA16161616_LINEAR",       ImageFormat::CONSOLE_RGBA16161616_LINEAR)
+		.value("CONSOLE_BGRX8888_LE",               ImageFormat::CONSOLE_BGRX8888_LE)
+		.value("CONSOLE_BGRA8888_LE",               ImageFormat::CONSOLE_BGRA8888_LE)
+		.value("TFALL2_BC6H",                       ImageFormat::TFALL2_BC6H)
+		.value("TFALL2_BC7",                        ImageFormat::TFALL2_BC7)
+		.value("STRATA_R8",                         ImageFormat::STRATA_R8)
+		.value("STRATA_BC7",                        ImageFormat::STRATA_BC7)
+		.value("STRATA_BC6H",                       ImageFormat::STRATA_BC6H)
+		.value("SOURCEPP_BGRA8888_HDR",             ImageFormat::SOURCEPP_BGRA8888_HDR)
+		.value("SOURCEPP_RGBA16161616_HDR",         ImageFormat::SOURCEPP_RGBA16161616_HDR)
+		.value("SOURCEPP_CONSOLE_RGBA16161616_HDR", ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR);
 
 	{
 		using namespace ImageFormatDetails;
@@ -124,9 +127,12 @@ inline void register_python(py::module_& m) {
 			.def("large",             &large,             "format"_a)
 			.def("decimal",           &decimal,           "format"_a)
 			.def("compressed",        &compressed,        "format"_a)
+			.def("compressedHDR",     &compressedHDR,     "format"_a)
 			.def("transparent",       &transparent,       "format"_a)
 			.def("opaque",            &opaque,            "format"_a)
-			.def("console",           &console,           "format"_a);
+			.def("console",           &console,           "format"_a)
+			.def("tfall2",            &tfall2,            "format"_a)
+			.def("strata",            &strata,            "format"_a);
 
 		ImageFormatDetails
 			.def("get_data_length", py::overload_cast<ImageFormat, uint16_t, uint16_t, uint16_t>(&getDataLength), "format"_a, "width"_a, "height"_a, "depth"_a = 1)
@@ -182,6 +188,26 @@ inline void register_python(py::module_& m) {
 			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
 			return {py::bytes{ds[0].data(), ds[0].size()}, py::bytes{ds[1].data(), ds[1].size()}, py::bytes{ds[2].data(), ds[2].size()}, py::bytes{ds[3].data(), ds[3].size()}, py::bytes{ds[4].data(), ds[4].size()}, py::bytes{ds[5].data(), ds[5].size()}};
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "resolution"_a = 0, "bilinear"_a = true);
+
+		ImageConversion.def("compress_bgra8888_hdr", [](const py::bytes& imageData, float overbrightFactor = 16.f) {
+			const auto d = compressBGRA8888HDR({static_cast<const std::byte*>(imageData.data()), imageData.size()}, overbrightFactor);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "overbright_factor"_a = 16.f);
+
+		ImageConversion.def("decompress_bgra8888_hdr", [](const py::bytes& imageData, float overbrightFactor = 16.f) {
+			const auto d = decompressBGRA8888HDR({static_cast<const std::byte*>(imageData.data()), imageData.size()}, overbrightFactor);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "overbright_factor"_a = 16.f);
+
+		ImageConversion.def("compress_rgba16161616_hdr", [](const py::bytes& imageData, bool flipExponentAndSignificand = false) {
+			const auto d = compressRGBA16161616HDR({static_cast<const std::byte*>(imageData.data()), imageData.size()}, flipExponentAndSignificand);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "flip_exponent_and_significand"_a = false);
+
+		ImageConversion.def("decompress_rgba16161616_hdr", [](const py::bytes& imageData, bool flipExponentAndSignificand = false) {
+			const auto d = decompressRGBA16161616HDR({static_cast<const std::byte*>(imageData.data()), imageData.size()}, flipExponentAndSignificand);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "flip_exponent_and_significand"_a = false);
 
 		py::enum_<FileFormat>(ImageConversion, "FileFormat")
 			.value("DEFAULT", FileFormat::DEFAULT)
@@ -612,9 +638,9 @@ inline void register_python(py::module_& m) {
 		.def_ro_static("FORMAT_UNCHANGED",     &VTF::FORMAT_UNCHANGED)
 		.def_ro_static("FORMAT_DEFAULT",       &VTF::FORMAT_DEFAULT)
 		.def(py::init())
-		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false) {
-			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly};
-		}, "vtf_data"_a, "parse_header_only"_a = false)
+		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false, bool hdr = false) {
+			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly, hdr};
+		}, "vtf_data"_a, "parse_header_only"_a = false, "hdr"_a = false)
 		.def(py::init<const std::filesystem::path&, bool>(), "vtf_path"_a, "parse_header_only"_a = false)
 		.def("__bool__", &VTF::operator bool, py::is_operator())
 		.def_static("create_and_bake", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& vtfPath, const VTF::CreationOptions& options) {

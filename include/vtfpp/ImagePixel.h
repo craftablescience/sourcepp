@@ -417,6 +417,27 @@ VTFPP_FORMAT(
 	VTFPP_R
 );
 
+VTFPP_FORMAT(
+	SOURCEPP_BGRA8888_HDR,
+	VTFPP_FORMAT_LE(uint8_t r, g, b, a)
+	VTFPP_FORMAT_BE(uint8_t a, b, g, r),
+	VTFPP_R VTFPP_G VTFPP_B VTFPP_A
+);
+
+VTFPP_FORMAT(
+	SOURCEPP_RGBA16161616_HDR,
+	VTFPP_FORMAT_LE(uint16_t r, g, b, a)
+	VTFPP_FORMAT_BE(uint16_t a, b, g, r),
+	VTFPP_R VTFPP_G VTFPP_B VTFPP_A
+);
+
+VTFPP_FORMAT(
+	SOURCEPP_CONSOLE_RGBA16161616_HDR,
+	VTFPP_FORMAT_LE(uint16_t r, g, b, a)
+	VTFPP_FORMAT_BE(uint16_t a, b, g, r),
+	VTFPP_R VTFPP_G VTFPP_B VTFPP_A
+);
+
 #undef VTFPP_FORMAT
 #undef VTFPP_FORMAT_BE
 #undef VTFPP_FORMAT_LE
@@ -487,7 +508,10 @@ concept PixelType =
 		std::same_as<T, CONSOLE_RGBA16161616_LINEAR> ||
 		std::same_as<T, CONSOLE_BGRX8888_LE> ||
 		std::same_as<T, CONSOLE_BGRA8888_LE> ||
-		std::same_as<T, STRATA_R8>;
+		std::same_as<T, STRATA_R8> ||
+		std::same_as<T, SOURCEPP_BGRA8888_HDR> ||
+		std::same_as<T, SOURCEPP_RGBA16161616_HDR> ||
+		std::same_as<T, SOURCEPP_CONSOLE_RGBA16161616_HDR>;
 
 /// Extracts a single channel from the given image data.
 /// May have unexpected behavior if called on formats that use bitfields like BGRA5551!

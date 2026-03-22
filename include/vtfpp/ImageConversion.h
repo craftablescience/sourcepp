@@ -28,6 +28,18 @@ constexpr float DEFAULT_COMPRESSED_QUALITY = -1.f;
 /// Fails (returns empty vectors) if the input data is empty, the given width is not 2x the height, or an error was encountered.
 [[nodiscard]] std::array<std::vector<std::byte>, 6> convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true);
 
+/// Takes in RGBA32323232F format image data, returns SOURCEPP_BGRA8888_HDR compressed HDR image data (alias for BGRA8888)
+[[nodiscard]] std::vector<std::byte> compressBGRA8888HDR(std::span<const std::byte> imageData, float overbrightFactor = 16.f);
+
+/// Takes in SOURCEPP_BGRA8888_HDR compressed HDR image data (alias for BGRA8888), returns RGBA32323232F format image data
+[[nodiscard]] std::vector<std::byte> decompressBGRA8888HDR(std::span<const std::byte> imageData, float overbrightFactor = 16.f);
+
+/// Takes in RGBA32323232F format image data, returns SOURCEPP_RGBA16161616_HDR compressed HDR image data (alias for RGBA16161616)
+[[nodiscard]] std::vector<std::byte> compressRGBA16161616HDR(std::span<const std::byte> imageData, bool flipExponentAndSignificand = false);
+
+/// Takes in SOURCEPP_RGBA16161616_HDR compressed HDR image data (alias for RGBA16161616), returns RGBA32323232F format image data
+[[nodiscard]] std::vector<std::byte> decompressRGBA16161616HDR(std::span<const std::byte> imageData, bool flipExponentAndSignificand = false);
+
 enum class FileFormat {
 	DEFAULT = 0,
 	PNG     = 1,

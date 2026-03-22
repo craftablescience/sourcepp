@@ -75,6 +75,12 @@ public enum ImageFormat {
 	STRATA_BC7,
 	STRATA_BC6H,
 	#endregion
+	
+	#region SourcePP Virtual Formats
+	SOURCEPP_BGRA8888_HDR = 10000,
+	SOURCEPP_RGBA16161616_HDR,
+	SOURCEPP_CONSOLE_RGBA16161616_HDR,
+	#endregion
 }
 
 public static partial class ImageFormatDetails
@@ -144,6 +150,11 @@ public static partial class ImageFormatDetails
 		return Convert.ToBoolean(DLL.vtfpp_image_format_details_compressed(format));
 	}
 
+	public static bool CompressedHDR(ImageFormat format)
+	{
+		return Convert.ToBoolean(DLL.vtfpp_image_format_details_compressed_hdr(format));
+	}
+
 	public static bool Transparent(ImageFormat format)
 	{
 		return Convert.ToBoolean(DLL.vtfpp_image_format_details_transparent(format));
@@ -157,6 +168,16 @@ public static partial class ImageFormatDetails
 	public static bool Console(ImageFormat format)
 	{
 		return Convert.ToBoolean(DLL.vtfpp_image_format_details_console(format));
+	}
+
+	public static bool TFall2(ImageFormat format)
+	{
+		return Convert.ToBoolean(DLL.vtfpp_image_format_details_tfall2(format));
+	}
+
+	public static bool Strata(ImageFormat format)
+	{
+		return Convert.ToBoolean(DLL.vtfpp_image_format_details_strata(format));
 	}
 }
 

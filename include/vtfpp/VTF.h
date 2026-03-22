@@ -228,9 +228,9 @@ public:
 
 	VTF();
 
-	explicit VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly = false);
+	explicit VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly = false, bool hdr = false);
 
-	explicit VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly = false);
+	explicit VTF(std::span<const std::byte> vtfData, bool parseHeaderOnly = false, bool hdr = false);
 
 	explicit VTF(const std::filesystem::path& vtfPath, bool parseHeaderOnly = false);
 

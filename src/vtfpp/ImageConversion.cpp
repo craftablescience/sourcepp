@@ -150,6 +150,9 @@ namespace {
 		case CONSOLE_RGBA16161616_LINEAR:
 		case CONSOLE_BGRX8888_LE:
 		case CONSOLE_BGRA8888_LE:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			return CMP_FORMAT_Unknown;
 	}
 	return CMP_FORMAT_Unknown;
@@ -224,6 +227,9 @@ namespace {
 		case CONSOLE_RGBA16161616_LINEAR:
 		case CONSOLE_BGRX8888_LE:
 		case CONSOLE_BGRA8888_LE:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			break;
 	}
 	return -1;
@@ -292,6 +298,9 @@ namespace {
 		case TFALL2_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case SOURCEPP_BGRA8888_HDR:
+		case SOURCEPP_RGBA16161616_HDR:
+		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
 			break;
 	}
 	return -1;
@@ -300,6 +309,39 @@ namespace {
 [[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 	if (imageData.empty()) {
 		return {};
+	}
+
+	if (ImageFormatDetails::compressedHDR(oldFormat)) {
+		if (newFormat != ImageFormat::RGBA32323232F) {
+			return {};
+		}
+		switch (oldFormat) {
+			using enum ImageFormat;
+			case SOURCEPP_BGRA8888_HDR:
+				return ImageConversion::decompressBGRA8888HDR(imageData);
+			case SOURCEPP_RGBA16161616_HDR:
+				return ImageConversion::decompressRGBA16161616HDR(imageData, false);
+			case SOURCEPP_CONSOLE_RGBA16161616_HDR:
+				return ImageConversion::decompressRGBA16161616HDR(imageData, true);
+			default:
+				return {};
+		}
+	}
+	if (ImageFormatDetails::compressedHDR(newFormat)) {
+		if (oldFormat != ImageFormat::RGBA32323232F) {
+			return {};
+		}
+		switch (newFormat) {
+			using enum ImageFormat;
+			case SOURCEPP_BGRA8888_HDR:
+				return ImageConversion::compressBGRA8888HDR(imageData);
+			case SOURCEPP_RGBA16161616_HDR:
+				return ImageConversion::compressRGBA16161616HDR(imageData, false);
+			case SOURCEPP_CONSOLE_RGBA16161616_HDR:
+				return ImageConversion::compressRGBA16161616HDR(imageData, true);
+			default:
+				return {};
+		}
 	}
 
 	uint16_t unpaddedWidth = width, unpaddedHeight = height;
@@ -940,6 +982,91 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 #endif
 
 	return faceData;
+}
+
+std::vector<std::byte> ImageConversion::compressBGRA8888HDR(std::span<const std::byte> imageData, float overbrightFactor) {
+	if (imageData.empty()) {
+		return {};
+	}
+
+	return ImagePixel::transform<ImagePixel::RGBA32323232F, ImagePixel::BGRA8888>(imageData, [overbrightFactor](ImagePixel::RGBA32323232F pixel) -> ImagePixel::BGRA8888 {
+		static constexpr auto compressChannel = [](float c, float a, float fac) {
+			return static_cast<uint8_t>(std::clamp(std::round(c / (a * fac) * 255.f), 0.f, 255.f));
+		};
+		const auto alpha = static_cast<uint8_t>(std::clamp(std::round((overbrightFactor != 0.f ? std::max({pixel.r(), pixel.g(), pixel.b()}) : 0.f) * 255.f), 0.f, 255.f));
+		return {{
+			.b = compressChannel(pixel.b(), alpha, overbrightFactor),
+			.g = compressChannel(pixel.g(), alpha, overbrightFactor),
+			.r = compressChannel(pixel.r(), alpha, overbrightFactor),
+			.a = alpha,
+		}};
+	});
+}
+
+std::vector<std::byte> ImageConversion::decompressBGRA8888HDR(std::span<const std::byte> imageData, float overbrightFactor) {
+	if (imageData.empty()) {
+		return {};
+	}
+
+	return ImagePixel::transform<ImagePixel::BGRA8888, ImagePixel::RGBA32323232F>(imageData, [overbrightFactor](ImagePixel::BGRA8888 pixel) -> ImagePixel::RGBA32323232F {
+		static constexpr auto decompressChannel = [](uint8_t c, float a, float fac) {
+			return (static_cast<float>(c) / 255) * a * fac;
+		};
+		const auto alpha = static_cast<float>(pixel.a());
+		return {{
+			.r = decompressChannel(pixel.r(), alpha, overbrightFactor),
+			.g = decompressChannel(pixel.g(), alpha, overbrightFactor),
+			.b = decompressChannel(pixel.b(), alpha, overbrightFactor),
+			.a = 1.f,
+		}};
+	});
+}
+
+std::vector<std::byte> ImageConversion::compressRGBA16161616HDR(std::span<const std::byte> imageData, bool flipExponentAndSignificand) {
+	if (imageData.empty()) {
+		return {};
+	}
+
+	return ImagePixel::transform<ImagePixel::RGBA32323232F, ImagePixel::RGBA16161616>(imageData, [flipExponentAndSignificand](ImagePixel::RGBA32323232F pixel) -> ImagePixel::RGBA16161616 {
+		static constexpr auto compressChannel = [](float c, bool flip) {
+			auto out = static_cast<uint16_t>(std::round(c * (1 << 12)));
+			if (flip) {
+				const uint16_t exponent = out & 0b1111;
+				out >>= 4;
+				out |= exponent << 12;
+			}
+			return out;
+		};
+		return {{
+			.r = compressChannel(pixel.r(), flipExponentAndSignificand),
+			.g = compressChannel(pixel.g(), flipExponentAndSignificand),
+			.b = compressChannel(pixel.b(), flipExponentAndSignificand),
+			.a = compressChannel(1.f,       flipExponentAndSignificand),
+		}};
+	});
+}
+
+std::vector<std::byte> ImageConversion::decompressRGBA16161616HDR(std::span<const std::byte> imageData, bool flipExponentAndSignificand) {
+	if (imageData.empty()) {
+		return {};
+	}
+
+	return ImagePixel::transform<ImagePixel::RGBA16161616, ImagePixel::RGBA32323232F>(imageData, [flipExponentAndSignificand](ImagePixel::RGBA16161616 pixel) -> ImagePixel::RGBA32323232F {
+		static constexpr auto decompressChannel = [](uint16_t c, bool flip) {
+			if (flip) {
+				const uint16_t exponent = c & 0b1111;
+				c >>= 4;
+				c |= exponent << 12;
+			}
+			return static_cast<float>(c) / (1 << 12);
+		};
+		return {{
+			.r = decompressChannel(pixel.r(), flipExponentAndSignificand),
+			.g = decompressChannel(pixel.g(), flipExponentAndSignificand),
+			.b = decompressChannel(pixel.b(), flipExponentAndSignificand),
+			.a = 1.f,
+		}};
+	});
 }
 
 ImageConversion::FileFormat ImageConversion::getDefaultFileFormatForImageFormat(ImageFormat format) {

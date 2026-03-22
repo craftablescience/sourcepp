@@ -203,7 +203,7 @@ VTFPP_EXTERN typedef struct {
 typedef void* vtfpp_vtf_handle_t;
 
 VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_create_empty(); // REQUIRES MANUAL FREE: vtfpp_vtf_close
-VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
+VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_mem(const unsigned char* vtfData, size_t vtfLen, int parseHeaderOnly, int hdr); // REQUIRES MANUAL FREE: vtfpp_vtf_close
 VTFPP_API vtfpp_vtf_handle_t vtfpp_vtf_open_from_file(const char* vtfPath, int parseHeaderOnly); // REQUIRES MANUAL FREE: vtfpp_vtf_close
 VTFPP_API void vtfpp_vtf_close(vtfpp_vtf_handle_t* handle);
 VTFPP_API int vtfpp_vtf_is_valid(vtfpp_vtf_handle_t handle);

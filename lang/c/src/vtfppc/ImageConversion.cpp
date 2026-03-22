@@ -34,22 +34,7 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_several_image_data_to
 	return convert::toBuffer(ImageConversion::convertSeveralImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(oldFormat), convert::cast(newFormat), mipCount, frameCount, faceCount, width, height, depth, quality));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
-	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
-
-	const auto faces = ImageConversion::convertHDRIToCubeMap({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height);
-	std::vector<std::byte> out;
-	for (const auto& face : faces) {
-		out.insert(out.end(), face.begin(), face.end());
-	}
-	return convert::toBuffer(out);
-}
-
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap_ex(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t resolution, int bilinear) {
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t resolution, int bilinear) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
@@ -62,6 +47,34 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap_ex(co
 		out.insert(out.end(), face.begin(), face.end());
 	}
 	return convert::toBuffer(out);
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_compress_bgra8888_hdr(const unsigned char* buffer, size_t bufferLen, float overbrightFactor) {
+	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
+	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(ImageConversion::compressBGRA8888HDR({reinterpret_cast<const std::byte*>(buffer), bufferLen}, overbrightFactor));
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_decompress_bgra8888_hdr(const unsigned char* buffer, size_t bufferLen, float overbrightFactor) {
+	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
+	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(ImageConversion::decompressBGRA8888HDR({reinterpret_cast<const std::byte*>(buffer), bufferLen}, overbrightFactor));
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_compress_rgba16161616_hdr(const unsigned char* buffer, size_t bufferLen, int flipExponentAndSignificand) {
+	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
+	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(ImageConversion::compressRGBA16161616HDR({reinterpret_cast<const std::byte*>(buffer), bufferLen}, flipExponentAndSignificand));
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_decompress_rgba16161616_hdr(const unsigned char* buffer, size_t bufferLen, int flipExponentAndSignificand) {
+	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
+	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(ImageConversion::decompressRGBA16161616HDR({reinterpret_cast<const std::byte*>(buffer), bufferLen}, flipExponentAndSignificand));
 }
 
 VTFPP_API vtfpp_image_conversion_file_format_e vtfpp_image_conversion_get_default_file_format_for_image_format(vtfpp_image_format_e format) {
