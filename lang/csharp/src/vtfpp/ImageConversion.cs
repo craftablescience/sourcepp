@@ -136,14 +136,14 @@ public static class ImageConversion
 	{
 		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_crop_image_data(buffer, (ulong) buffer.Length, format, width, newWidth, xOffset, height, newHeight, yOffset)).Read<byte>();
 	}
-	
-	public static byte[] GammaCorrectImageData(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, float gamma)
+
+	public static void GammaCorrectImageData(Span<byte> buffer, ImageFormat format, ushort width, ushort height, float gamma)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_gamma_correct_image_data(buffer, (ulong) buffer.Length, format, width, height, gamma)).Read<byte>();
+		DLL.vtfpp_image_conversion_gamma_correct_image_data(buffer, (ulong) buffer.Length, format, width, height, gamma);
 	}
-	
-	public static byte[] InvertGreenChannelForImageData(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height)
+
+	public static void InvertGreenChannelForImageData(Span<byte> buffer, ImageFormat format, ushort width, ushort height)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_invert_green_channel_for_image_data(buffer, (ulong) buffer.Length, format, width, height)).Read<byte>();
+		DLL.vtfpp_image_conversion_invert_green_channel_for_image_data(buffer, (ulong) buffer.Length, format, width, height);
 	}
 }

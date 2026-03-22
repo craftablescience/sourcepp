@@ -277,12 +277,14 @@ inline void register_python(py::module_& m) {
 		}, "image_data"_a, "format"_a, "width"_a, "width_pad"_a, "height"_a, "height_pad"_a);
 
 		ImageConversion.def("gamma_correct_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma) {
-			const auto d = gammaCorrectImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, gamma);
+			std::vector<std::byte> d{static_cast<const std::byte*>(imageData.data()), static_cast<const std::byte*>(imageData.data()) + imageData.size()};
+			gammaCorrectImageData(d, format, width, height, gamma);
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "gamma"_a);
 
 		ImageConversion.def("invert_green_channel_for_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
-			const auto d = invertGreenChannelForImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height);
+			std::vector<std::byte> d{static_cast<const std::byte*>(imageData.data()), static_cast<const std::byte*>(imageData.data()) + imageData.size()};
+			invertGreenChannelForImageData(d, format, width, height);
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a);
 

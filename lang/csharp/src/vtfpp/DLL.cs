@@ -89,10 +89,10 @@ internal static partial class DLL
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_crop_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ushort xOffset, ushort height, ushort newHeight, ushort yOffset);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_gamma_correct_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, float gamma);
+	public static partial void vtfpp_image_conversion_gamma_correct_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, float gamma);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_invert_green_channel_for_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
+	public static partial void vtfpp_image_conversion_invert_green_channel_for_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
 
 	[LibraryImport(Name)]
 	public static partial sbyte vtfpp_image_format_details_red(ImageFormat format);

@@ -138,22 +138,22 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_crop_image_data(const unsigne
 	return convert::toBuffer(ImageConversion::cropImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, newWidth, xOffset, height, newHeight, yOffset));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_gamma_correct_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float gamma) {
-	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
+VTFPP_API void vtfpp_image_conversion_gamma_correct_image_data(unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, float gamma) {
+	SOURCEPP_EARLY_RETURN(buffer);
+	SOURCEPP_EARLY_RETURN(bufferLen);
+	SOURCEPP_EARLY_RETURN(format != VTFPP_IMAGE_FORMAT_EMPTY);
+	SOURCEPP_EARLY_RETURN(width);
+	SOURCEPP_EARLY_RETURN(height);
 
-	return convert::toBuffer(ImageConversion::gammaCorrectImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, gamma));
+	return ImageConversion::gammaCorrectImageData({reinterpret_cast<std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, gamma);
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_invert_green_channel_for_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
-	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
-	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
+VTFPP_API void vtfpp_image_conversion_invert_green_channel_for_image_data(unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
+	SOURCEPP_EARLY_RETURN(buffer);
+	SOURCEPP_EARLY_RETURN(bufferLen);
+	SOURCEPP_EARLY_RETURN(format != VTFPP_IMAGE_FORMAT_EMPTY);
+	SOURCEPP_EARLY_RETURN(width);
+	SOURCEPP_EARLY_RETURN(height);
 
-	return convert::toBuffer(ImageConversion::invertGreenChannelForImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height));
+	return ImageConversion::invertGreenChannelForImageData({reinterpret_cast<std::byte*>(buffer), bufferLen}, convert::cast(format), width, height);
 }

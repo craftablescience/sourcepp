@@ -407,7 +407,7 @@ public:
 
 	[[nodiscard]] bool hasImageData() const;
 
-	[[nodiscard]] std::span<const std::byte> getImageDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
+	[[nodiscard]] std::span<std::byte> getImageDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> getImageDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0, uint16_t slice = 0) const;
 
@@ -423,7 +423,7 @@ public:
 
 	[[nodiscard]] bool hasThumbnailData() const;
 
-	[[nodiscard]] std::span<const std::byte> getThumbnailDataRaw() const;
+	[[nodiscard]] std::span<std::byte> getThumbnailDataRaw() const;
 
 	[[nodiscard]] std::vector<std::byte> getThumbnailDataAs(ImageFormat newFormat) const;
 
@@ -443,7 +443,7 @@ public:
 
 	[[nodiscard]] bool hasFallbackData() const;
 
-	[[nodiscard]] std::span<const std::byte> getFallbackDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
+	[[nodiscard]] std::span<std::byte> getFallbackDataRaw(uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
 
 	[[nodiscard]] std::vector<std::byte> getFallbackDataAs(ImageFormat newFormat, uint8_t mip = 0, uint16_t frame = 0, uint8_t face = 0) const;
 

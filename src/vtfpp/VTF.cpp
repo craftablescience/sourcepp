@@ -889,11 +889,11 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 			for (int j = 0; j < writer.frameCount; j++) {
 				for (int k = 0; k < writer.getFaceCount(); k++) {
 					for (int l = 0; l < writer.depth; l++) {
-						if (options.invertGreenChannel && !writer.setImage(ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i)), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), ImageConversion::ResizeFilter::DEFAULT, i, j, k, l)) {
-							out = false;
+						if (options.invertGreenChannel) {
+							ImageConversion::invertGreenChannelForImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i));
 						}
-						if (options.gammaCorrection != 1.f && !writer.setImage(ImageConversion::gammaCorrectImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), options.gammaCorrection), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), ImageConversion::ResizeFilter::DEFAULT, i, j, k, l)) {
-							out = false;
+						if (options.gammaCorrection != 1.f) {
+							ImageConversion::gammaCorrectImageData(writer.getImageDataRaw(i, j, k, l), writer.getFormat(), writer.getWidth(i), writer.getHeight(i), options.gammaCorrection);
 						}
 					}
 				}
@@ -1909,7 +1909,7 @@ bool VTF::hasImageData() const {
 	return this->format != ImageFormat::EMPTY && this->width > 0 && this->height > 0;
 }
 
-std::span<const std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
+std::span<std::byte> VTF::getImageDataRaw(uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice) const {
 	if (const auto imageResource = this->getResource(Resource::TYPE_IMAGE_DATA)) {
 		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, this->getFaceCount(), this->width, this->height, slice, this->depth)) {
 			return imageResource->data.subspan(offset, length);
@@ -2039,7 +2039,7 @@ bool VTF::hasThumbnailData() const {
 	return this->thumbnailFormat != ImageFormat::EMPTY && this->thumbnailWidth > 0 && this->thumbnailHeight > 0;
 }
 
-std::span<const std::byte> VTF::getThumbnailDataRaw() const {
+std::span<std::byte> VTF::getThumbnailDataRaw() const {
 	if (const auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
 		return thumbnailResource->data;
 	}
@@ -2135,7 +2135,7 @@ bool VTF::hasFallbackData() const {
 	return this->fallbackWidth > 0 && this->fallbackHeight > 0 && this->fallbackMipCount > 0;
 }
 
-std::span<const std::byte> VTF::getFallbackDataRaw(uint8_t mip, uint16_t frame, uint8_t face) const {
+std::span<std::byte> VTF::getFallbackDataRaw(uint8_t mip, uint16_t frame, uint8_t face) const {
 	if (const auto fallbackResource = this->getResource(Resource::TYPE_FALLBACK_DATA)) {
 		if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->fallbackMipCount, frame, this->frameCount, face, this->getFaceCount(), this->fallbackWidth, this->fallbackHeight)) {
 			return fallbackResource->data.subspan(offset, length);
