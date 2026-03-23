@@ -543,13 +543,13 @@ template<PixelType P, typename C>
 }
 
 /// Run a parallelizable/vectorizable operation on the given image data.
-template<PixelType IN, typename Func>
+template<PixelType InputPixel, typename Func>
 void transformInPlace(std::span<std::byte> imageData, Func callback) {
 	if (imageData.empty()) {
 		return;
 	}
 
-	std::span<IN> imageDataSpan{reinterpret_cast<IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::span<InputPixel> imageDataSpan{reinterpret_cast<InputPixel*>(imageData.data()), imageData.size() / sizeof(InputPixel)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 		std::execution::par_unseq,
@@ -562,17 +562,17 @@ void transformInPlace(std::span<std::byte> imageData, Func callback) {
 }
 
 /// Run a parallelizable/vectorizable operation on the given image data, and return new image data.
-template<PixelType IN, PixelType OUT, typename Func>
+template<PixelType InputPixel, PixelType OutputPixel, typename Func>
 [[nodiscard]] std::vector<std::byte> transform(std::span<const std::byte> imageData, Func callback) {
 	if (imageData.empty()) {
 		return {};
 	}
 
 	std::vector<std::byte> newData;
-	newData.resize(imageData.size() / sizeof(IN) * sizeof(OUT));
-	std::span newDataSpan{reinterpret_cast<OUT*>(newData.data()), newData.size() / sizeof(OUT)};
+	newData.resize(imageData.size() / sizeof(InputPixel) * sizeof(OutputPixel));
+	std::span newDataSpan{reinterpret_cast<OutputPixel*>(newData.data()), newData.size() / sizeof(OutputPixel)};
 
-	std::span<const IN> imageDataSpan{reinterpret_cast<const IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::span<const InputPixel> imageDataSpan{reinterpret_cast<const InputPixel*>(imageData.data()), imageData.size() / sizeof(InputPixel)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 		std::execution::par_unseq,
