@@ -132,7 +132,10 @@ void setResizedDims(uint16_t& width, ResizeMethod widthResize, uint16_t& height,
 /// Perform gamma correction on the given image data. Will not perform gamma correction if the input image format is large, console, P8, A8, UV88, UVLX8888, or UVWQ8888
 void gammaCorrectImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, float gamma);
 
-/// Invert the green channel. Meant for converting normal maps between OpenGL and DirectX formats
+/// Invert the green channel on the given image data. Meant for converting normal maps between OpenGL and DirectX formats
 void invertGreenChannelForImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
+
+/// Perform Hable tonemapping on the given image data
+void hableTonemapImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height);
 
 } // namespace vtfpp::ImageConversion

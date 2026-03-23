@@ -107,6 +107,9 @@ internal static partial class DLL
 	public static partial void vtfpp_image_conversion_invert_green_channel_for_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
 
 	[LibraryImport(Name)]
+   	public static partial void vtfpp_image_conversion_hable_tonemap_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
+
+	[LibraryImport(Name)]
 	public static partial sbyte vtfpp_image_format_details_red(ImageFormat format);
 
 	[LibraryImport(Name)]

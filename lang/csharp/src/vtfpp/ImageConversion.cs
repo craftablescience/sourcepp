@@ -170,4 +170,9 @@ public static class ImageConversion
 	{
 		DLL.vtfpp_image_conversion_invert_green_channel_for_image_data(buffer, (ulong) buffer.Length, format, width, height);
 	}
+
+	public static void HableTonemapImageData(Span<byte> buffer, ImageFormat format, ushort width, ushort height)
+   	{
+   		DLL.vtfpp_image_conversion_hable_tonemap_image_data(buffer, (ulong) buffer.Length, format, width, height);
+   	}
 }

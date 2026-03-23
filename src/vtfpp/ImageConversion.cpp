@@ -2188,7 +2188,7 @@ void ImageConversion::invertGreenChannelForImageData(std::span<std::byte> imageD
 	}
 
 	#define VTFPP_INVERT_GREEN_CASE_OVERRIDE(PixelType, ChannelName, ChannelNameCaps, ...) \
-		case ImageFormat::PixelType: return ImagePixel::transformInPlace<ImagePixel::PixelType>(imageData, [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
+		case PixelType: return ImagePixel::transformInPlace<ImagePixel::PixelType>(imageData, [](ImagePixel::PixelType pixel) -> ImagePixel::PixelType { \
 			static constexpr auto channelSize = ImageFormatDetails::green(ImagePixel::PixelType::FORMAT); \
 			if constexpr (std::same_as<decltype(pixel.ChannelName()), float> || std::same_as<decltype(pixel.ChannelName()), half>) { \
 				pixel.set##ChannelNameCaps(static_cast<decltype(pixel.ChannelName())>(static_cast<float>(static_cast<uint64_t>(1) << channelSize) - 1.f - static_cast<float>(pixel.ChannelName()))); \
@@ -2204,8 +2204,8 @@ void ImageConversion::invertGreenChannelForImageData(std::span<std::byte> imageD
 
 	#define VTFPP_INVERT_GREEN_CASE(PixelType) VTFPP_INVERT_GREEN_CASE_OVERRIDE(PixelType, g, G);
 
-	std::vector<std::byte> out(imageData.size());
 	switch (format) {
+		using enum ImageFormat;
 		VTFPP_INVERT_GREEN_CASE(RGBA8888);
 		VTFPP_INVERT_GREEN_CASE(ABGR8888);
 		VTFPP_INVERT_GREEN_CASE(RGB888);
@@ -2248,4 +2248,52 @@ void ImageConversion::invertGreenChannelForImageData(std::span<std::byte> imageD
 
 	#undef VTFPP_INVERT_GREEN_CASE
 	#undef VTFPP_INVERT_GREEN_CASE_OVERRIDE
+}
+
+void ImageConversion::hableTonemapImageData(std::span<std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height) {
+	if (imageData.empty() || format == ImageFormat::EMPTY) {
+		return;
+	}
+	if (ImageFormatDetails::containerFormat(format) != ImageFormat::RGBA32323232F) {
+		return;
+	}
+	if (ImageFormatDetails::compressed(format)) {
+		// This is horrible but what can you do?
+		const auto container = ImageFormatDetails::containerFormat(format);
+		auto newData = convertImageDataToFormat(imageData, format, container, width, height);
+		hableTonemapImageData(newData, container, width, height);
+		newData = convertImageDataToFormat(newData, container, format, width, height);
+		std::memcpy(imageData.data(), newData.data(), imageData.size());
+		return;
+	}
+
+	// From https://64.github.io/tonemapping
+	static constexpr auto hableTonemapChannel = [](float x) constexpr {
+		constexpr auto hableTonemapChannelPartial = [](float y) constexpr {
+			constexpr float A = 0.15f, B = 0.5f, C = 0.1f, D = 0.2f, E = 0.02f, F = 0.3f;
+			return ((y * (A * y + C * B) + D * E) / (y * (A * y + B) + D * F)) - E / F;
+		};
+		constexpr float EXPOSURE_BIAS = 2.0f, W = 11.2f;
+		return hableTonemapChannelPartial(x * EXPOSURE_BIAS) * (1.f / hableTonemapChannelPartial(W));
+	};
+
+	#define VTFPP_TONEMAP_CASE(InputType, ...) \
+		case InputType: \
+			return ImagePixel::transformInPlace<ImagePixel::InputType>(imageData, [](ImagePixel::InputType pixel) -> ImagePixel::InputType { \
+				return {__VA_ARGS__}; \
+			})
+
+	switch (format) {
+		using enum ImageFormat;
+		VTFPP_TONEMAP_CASE(R32F,          {hableTonemapChannel(pixel.r())});
+		VTFPP_TONEMAP_CASE(RG3232F,       {hableTonemapChannel(pixel.r()), hableTonemapChannel(pixel.g())});
+		VTFPP_TONEMAP_CASE(RGB323232F,    {hableTonemapChannel(pixel.r()), hableTonemapChannel(pixel.g()), hableTonemapChannel(pixel.b())});
+		VTFPP_TONEMAP_CASE(R16F,          {half{hableTonemapChannel(pixel.r())}});
+		VTFPP_TONEMAP_CASE(RG1616F,       {half{hableTonemapChannel(pixel.r())}, half{hableTonemapChannel(pixel.g())}});
+		VTFPP_TONEMAP_CASE(RGBA16161616F, {half{hableTonemapChannel(pixel.r())}, half{hableTonemapChannel(pixel.g())}, half{hableTonemapChannel(pixel.b())}, pixel.a()});
+		VTFPP_TONEMAP_CASE(RGBA32323232F, {hableTonemapChannel(pixel.r()), hableTonemapChannel(pixel.g()), hableTonemapChannel(pixel.b()), pixel.a()});
+		default: SOURCEPP_DEBUG_BREAK; break;
+	}
+
+	#undef VTFPP_TONEMAP_CASE
 }

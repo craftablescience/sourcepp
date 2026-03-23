@@ -314,7 +314,11 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "format"_a, "width"_a, "height"_a);
 
-		// Skip extractChannelFromImageData, difficult to bind
+		ImageConversion.def("hable_tonemap_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height) {
+			std::vector<std::byte> d{static_cast<const std::byte*>(imageData.data()), static_cast<const std::byte*>(imageData.data()) + imageData.size()};
+			hableTonemapImageData(d, format, width, height);
+			return py::bytes{d.data(), d.size()};
+		}, "image_data"_a, "format"_a, "width"_a, "height"_a);
 	}
 
 	{

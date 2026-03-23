@@ -170,3 +170,13 @@ VTFPP_API void vtfpp_image_conversion_invert_green_channel_for_image_data(unsign
 
 	return ImageConversion::invertGreenChannelForImageData({reinterpret_cast<std::byte*>(buffer), bufferLen}, convert::cast(format), width, height);
 }
+
+VTFPP_API void vtfpp_image_conversion_hable_tonemap_image_data(unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height) {
+	SOURCEPP_EARLY_RETURN(buffer);
+	SOURCEPP_EARLY_RETURN(bufferLen);
+	SOURCEPP_EARLY_RETURN(format != VTFPP_IMAGE_FORMAT_EMPTY);
+	SOURCEPP_EARLY_RETURN(width);
+	SOURCEPP_EARLY_RETURN(height);
+
+	return ImageConversion::hableTonemapImageData({reinterpret_cast<std::byte*>(buffer), bufferLen}, convert::cast(format), width, height);
+}
