@@ -110,7 +110,7 @@ namespace {
 		case RGBA32323232F:
 			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
-			return CMP_FORMAT_ATI2N;
+			return CMP_FORMAT_ATI2N_XY;
 		case ATI1N:
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
@@ -399,9 +399,9 @@ namespace {
 		return {};
 	}
 
-	if (ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat) ) {
+	if (ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat)) {
 		if (oldFormat == ImageFormat::ATI2N && newFormat == ImageFormat::RGBA8888) {
-			// Hack to compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
+			// Compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
 			ImagePixel::transformInPlace<ImagePixel::RGBA8888>(destData, [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
 				const auto nX = static_cast<float>(pixel.r()) / 255.f * 2.f - 1.f;
 				const auto nY = static_cast<float>(pixel.g()) / 255.f * 2.f - 1.f;
