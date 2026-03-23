@@ -1,3 +1,6 @@
+// ReSharper disable CppMemberFunctionMayBeStatic
+// ReSharper disable CppRedundantParentheses
+
 #pragma once
 
 #include <bit>
@@ -112,6 +115,14 @@ struct Vec {
 		return *this;
 	}
 
+	[[nodiscard]] constexpr Vec operator+(Arithmetic auto scalar) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] += static_cast<P>(scalar);
+		}
+		return out;
+	}
+
 	template<uint8_t SO, Arithmetic PO>
 	[[nodiscard]] constexpr Vec operator+(const Vec<SO, PO>& other) const {
 		auto out = *this;
@@ -119,6 +130,12 @@ struct Vec {
 			out[i] += static_cast<P>(other[i]);
 		}
 		return out;
+	}
+
+	constexpr void operator+=(Arithmetic auto scalar) const {
+		for (uint8_t i = 0; i < S; i++) {
+			(*this)[i] += static_cast<P>(scalar);
+		}
 	}
 
 	template<uint8_t SO, Arithmetic PO>
@@ -136,6 +153,14 @@ struct Vec {
 		return out;
 	}
 
+	[[nodiscard]] constexpr Vec operator-(Arithmetic auto scalar) const {
+		auto out = *this;
+		for (uint8_t i = 0; i < S; i++) {
+			out[i] -= static_cast<P>(scalar);
+		}
+		return out;
+	}
+
 	template<uint8_t SO, Arithmetic PO>
 	[[nodiscard]] constexpr Vec operator-(const Vec<SO, PO>& other) const {
 		auto out = *this;
@@ -143,6 +168,12 @@ struct Vec {
 			out[i] -= static_cast<P>(other[i]);
 		}
 		return out;
+	}
+
+	constexpr void operator-=(Arithmetic auto scalar) const {
+		for (uint8_t i = 0; i < S; i++) {
+			(*this)[i] -= static_cast<P>(scalar);
+		}
 	}
 
 	template<uint8_t SO, Arithmetic PO>
