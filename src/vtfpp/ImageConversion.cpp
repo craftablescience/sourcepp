@@ -344,12 +344,22 @@ namespace {
 		}
 	}
 
+	std::vector<std::byte> imageDataReplacement;
+	/*
+	const auto populateImageDataReplacement = [&imageData, &imageDataReplacement] {
+		if (imageDataReplacement.empty()) {
+			imageDataReplacement = {imageData.begin(), imageData.end()};
+		}
+		imageData = imageDataReplacement;
+	};
+	*/
+
 	uint16_t unpaddedWidth = width, unpaddedHeight = height;
 	if ((width % 4 != 0 || height % 4 != 0) && ImageFormatDetails::compressed(oldFormat) != ImageFormatDetails::compressed(newFormat)) {
 		uint16_t paddingWidth = (4 - (width % 4)) % 4, paddingHeight = (4 - (height % 4)) % 4;
 		if (!ImageFormatDetails::compressed(oldFormat)) {
-			auto paddedImageData = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
-			imageData = std::move(paddedImageData);
+			imageDataReplacement = ImageConversion::padImageData(imageData, oldFormat, width, paddingWidth, height, paddingHeight);
+			imageData = imageDataReplacement;
 		}
 		width += paddingWidth;
 		height += paddingHeight;
