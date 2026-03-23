@@ -549,7 +549,7 @@ void transformInPlace(std::span<std::byte> imageData, Func callback) {
 		return;
 	}
 
-	std::span imageDataSpan{reinterpret_cast<IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::span<IN> imageDataSpan{reinterpret_cast<IN*>(imageData.data()), imageData.size() / sizeof(IN)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 		std::execution::par_unseq,
@@ -572,7 +572,7 @@ template<PixelType IN, PixelType OUT, typename Func>
 	newData.resize(imageData.size() / sizeof(IN) * sizeof(OUT));
 	std::span newDataSpan{reinterpret_cast<OUT*>(newData.data()), newData.size() / sizeof(OUT)};
 
-	std::span imageDataSpan{reinterpret_cast<const IN*>(imageData.data()), imageData.size() / sizeof(IN)};
+	std::span<const IN> imageDataSpan{reinterpret_cast<const IN*>(imageData.data()), imageData.size() / sizeof(IN)};
 	std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 		std::execution::par_unseq,
