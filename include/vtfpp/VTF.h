@@ -488,7 +488,7 @@ protected:
 
 	uint16_t width = 0;
 	uint16_t height = 0;
-	uint32_t flags = FLAG_V0_NO_MIP | FLAG_V0_NO_LOD;
+	uint32_t flags = FLAG_V0_NO_MIP;
 
 	uint16_t frameCount = 1;
 	uint16_t startFrame = 0;
