@@ -941,6 +941,9 @@ bool VTF::createInternal(VTF& writer, CreationOptions options) {
 			}
 			writer.computeMips(options.filter);
 		}
+	} else {
+		// Already has NO_MIP
+		writer.addFlags(FLAG_V0_NO_LOD);
 	}
 	writer.setFormat(options.outputFormat, ImageConversion::ResizeFilter::DEFAULT, options.compressedFormatQuality);
 	if (options.computeTransparencyFlags) {
@@ -1676,9 +1679,9 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 			newMipCount = 1;
 		}
 
-		this->flags &= ~(FLAG_V0_NO_MIP | FLAG_V0_NO_LOD);
+		this->flags &= ~FLAG_V0_NO_MIP;
 	} else {
-		this->flags |= FLAG_V0_NO_MIP | FLAG_V0_NO_LOD;
+		this->flags |= FLAG_V0_NO_MIP;
 	}
 
 	const auto faceCount = this->getFaceCount();
