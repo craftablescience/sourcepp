@@ -1086,7 +1086,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->platform = newPlatform;
 
 	// Remove spheremap if on console (VTF::setVersion has already added it back on PC)
-	if (newPlatform != PLATFORM_PC && this->hasImageData()) {
+	if (newPlatform != PLATFORM_PC && this->hasImageData() && (this->flags & FLAG_V0_ENVMAP)) {
 		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, 6, this->depth);
 	}
 
@@ -1132,7 +1132,7 @@ void VTF::setVersion(uint32_t newVersion) {
 		return;
 	}
 	if (this->hasImageData()) {
-		const auto faceCount = newVersion < 1 || newVersion > 4 ? 6 : 7;
+		const auto faceCount = (this->flags & FLAG_V0_ENVMAP) ? (newVersion < 1 || newVersion > 4 ? 6 : 7) : 1;
 		this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, faceCount, this->depth);
 	}
 
@@ -1434,7 +1434,7 @@ bool VTF::setFaceCount(bool isCubeMap) {
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubeMap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, this->depth);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, this->frameCount, isCubeMap ? (this->version < 1 || this->version > 4 ? 6 : 7) : 1, this->depth);
 	return true;
 }
 
@@ -1454,7 +1454,7 @@ bool VTF::setFrameFaceAndDepth(uint16_t newFrameCount, bool isCubeMap, uint16_t 
 	if (!this->hasImageData()) {
 		return false;
 	}
-	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubeMap ? ((this->version >= 1 && this->version <= 4) ? 7 : 6) : 1, newDepth);
+	this->regenerateImageData(this->format, this->width, this->height, this->mipCount, newFrameCount, isCubeMap ? (this->version < 1 || this->version > 4 ? 6 : 7) : 1, newDepth);
 	return true;
 }
 
