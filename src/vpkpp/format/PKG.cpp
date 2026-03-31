@@ -14,6 +14,8 @@ using namespace vpkpp;
 
 namespace {
 
+//NOLINTBEGIN(*-branch-clone)
+
 // Convert some Vulkan 1.0 formats to corresponding DXGI formats
 [[nodiscard]] constexpr uint32_t mapVkFormatToDXGIFormat(uint32_t format) {
 	switch (format) {
@@ -214,6 +216,8 @@ namespace {
 	return false;
 }
 
+//NOLINTEND(*-branch-clone)
+
 } // namespace
 
 uint32_t PKG::Asset::getBlobIndex(int frame, int face, int mip) const {
@@ -241,8 +245,10 @@ std::unique_ptr<PackFile> PKG::open(const std::string& path, const EntryCallback
 
 	if (path.length() >= 7 && string::matches(path.substr(path.length() - 7, path.length()), "_%d%d.pkg")) {
 		for (int i = 0; true; i++) {
-			const auto numberedPath = pkg->getTruncatedFilepath() + "_" + string::padNumber(i, 2) + PKG_EXTENSION.data();
-			if (!pkg->openNumbered(i, numberedPath, callback)) {
+			if (
+				const auto numberedPath = pkg->getTruncatedFilepath() + "_" + string::padNumber(i, 2) + PKG_EXTENSION.data();
+				!pkg->openNumbered(i, numberedPath, callback)
+			) {
 				if (i == 0) {
 					return nullptr;
 				}
@@ -371,8 +377,7 @@ std::optional<std::vector<std::byte>> PKG::readEntry(const std::string& path_) c
 
 	// Add blobs
 	const auto readBlob = [&stream, &blobs, &writer](uint32_t i, uint64_t blobUncompressedSize) {
-		const auto& blob = blobs[i];
-		switch (blob.compression) {
+		switch (const auto& blob = blobs[i]; blob.compression) {
 			case Blob::Compression::NONE: {
 				writer << stream.seek_in_u(blob.offset).read_bytes(blob.size);
 				break;

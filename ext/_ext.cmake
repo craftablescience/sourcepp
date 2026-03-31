@@ -33,7 +33,7 @@ endif()
 
 # gdeflate
 if(SOURCEPP_USE_VPKPP)
-    add_sourcepp_remote_library(gdeflate https://github.com/craftablescience/gdeflate 315d565f65b41791eaf9504fae41f0208929f950)
+    add_sourcepp_remote_library(gdeflate https://github.com/craftablescience/gdeflate dcb637f984ece258909a451d31457896f9ecc7f5)
 endif()
 
 
