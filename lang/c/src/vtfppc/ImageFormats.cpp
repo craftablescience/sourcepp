@@ -75,8 +75,8 @@ VTFPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format) {
 	return ImageFormatDetails::console(convert::cast(format));
 }
 
-VTFPP_API int vtfpp_image_format_details_tfall2(vtfpp_image_format_e format) {
-	return ImageFormatDetails::tfall2(convert::cast(format));
+VTFPP_API int vtfpp_image_format_details_titanfall(vtfpp_image_format_e format) {
+	return ImageFormatDetails::titanfall(convert::cast(format));
 }
 
 VTFPP_API int vtfpp_image_format_details_strata(vtfpp_image_format_e format) {

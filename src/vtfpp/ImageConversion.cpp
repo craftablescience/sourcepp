@@ -117,9 +117,9 @@ namespace {
 			return CMP_FORMAT_RGBA_1010102;
 		case STRATA_R8:
 			return CMP_FORMAT_R_8;
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 			return CMP_FORMAT_BC6H;
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return CMP_FORMAT_BC7;
 		case STRATA_BC6H:
@@ -197,8 +197,8 @@ namespace {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case RGB565:
@@ -294,8 +294,8 @@ namespace {
 		case CONSOLE_RGBA16161616_LINEAR:
 		case CONSOLE_BGRX8888_LE:
 		case CONSOLE_BGRA8888_LE:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
@@ -392,10 +392,10 @@ namespace {
 	if (quality >= 0.f) {
 		options.fquality  = std::min(quality, 1.f);
 	} else if (
-		oldFormat == ImageFormat::TFALL2_BC6H || newFormat == ImageFormat::TFALL2_BC6H ||
-		oldFormat == ImageFormat::TFALL2_BC7  || newFormat == ImageFormat::TFALL2_BC7  ||
-		oldFormat == ImageFormat::STRATA_BC7  || newFormat == ImageFormat::STRATA_BC7  ||
-		oldFormat == ImageFormat::STRATA_BC6H || newFormat == ImageFormat::STRATA_BC6H) {
+		oldFormat == ImageFormat::TITANFALL_BC6H || newFormat == ImageFormat::TITANFALL_BC6H ||
+		oldFormat == ImageFormat::TITANFALL_BC7  || newFormat == ImageFormat::TITANFALL_BC7  ||
+		oldFormat == ImageFormat::STRATA_BC7     || newFormat == ImageFormat::STRATA_BC7     ||
+		oldFormat == ImageFormat::STRATA_BC6H    || newFormat == ImageFormat::STRATA_BC6H) {
 		options.fquality = 0.1f;
 	} else {
 		options.fquality = 1.f;
@@ -770,8 +770,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 
 	if (
 		oldFormat == newFormat ||
-		((oldFormat == ImageFormat::TFALL2_BC6H && newFormat == ImageFormat::STRATA_BC6H) || (oldFormat == ImageFormat::STRATA_BC6H && newFormat == ImageFormat::TFALL2_BC6H)) ||
-		((oldFormat == ImageFormat::TFALL2_BC7  && newFormat == ImageFormat::STRATA_BC7)  || (oldFormat == ImageFormat::STRATA_BC7  && newFormat == ImageFormat::TFALL2_BC7))
+		(oldFormat == ImageFormat::TITANFALL_BC7 && newFormat == ImageFormat::STRATA_BC7) || (oldFormat == ImageFormat::STRATA_BC7 && newFormat == ImageFormat::TITANFALL_BC7)
 	) {
 		return {imageData.begin(), imageData.end()};
 	}

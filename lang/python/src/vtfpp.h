@@ -100,8 +100,8 @@ inline void register_python(py::module_& m) {
 		.value("CONSOLE_RGBA16161616_LINEAR",       ImageFormat::CONSOLE_RGBA16161616_LINEAR)
 		.value("CONSOLE_BGRX8888_LE",               ImageFormat::CONSOLE_BGRX8888_LE)
 		.value("CONSOLE_BGRA8888_LE",               ImageFormat::CONSOLE_BGRA8888_LE)
-		.value("TFALL2_BC6H",                       ImageFormat::TFALL2_BC6H)
-		.value("TFALL2_BC7",                        ImageFormat::TFALL2_BC7)
+		.value("TITANFALL_BC6H",                    ImageFormat::TITANFALL_BC6H)
+		.value("TITANFALL_BC7",                     ImageFormat::TITANFALL_BC7)
 		.value("STRATA_R8",                         ImageFormat::STRATA_R8)
 		.value("STRATA_BC7",                        ImageFormat::STRATA_BC7)
 		.value("STRATA_BC6H",                       ImageFormat::STRATA_BC6H)
@@ -131,7 +131,7 @@ inline void register_python(py::module_& m) {
 			.def("transparent",       &transparent,       "format"_a)
 			.def("opaque",            &opaque,            "format"_a)
 			.def("console",           &console,           "format"_a)
-			.def("tfall2",            &tfall2,            "format"_a)
+			.def("titanfall",         &titanfall,         "format"_a)
 			.def("strata",            &strata,            "format"_a);
 
 		ImageFormatDetails

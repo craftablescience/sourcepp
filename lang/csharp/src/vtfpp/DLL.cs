@@ -161,7 +161,7 @@ internal static partial class DLL
 	public static partial int vtfpp_image_format_details_console(ImageFormat format);
 
 	[LibraryImport(Name)]
-	public static partial int vtfpp_image_format_details_tfall2(ImageFormat format);
+	public static partial int vtfpp_image_format_details_titanfall(ImageFormat format);
 
 	[LibraryImport(Name)]
 	public static partial int vtfpp_image_format_details_strata(ImageFormat format);

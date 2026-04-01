@@ -56,8 +56,8 @@ VTFPP_EXTERN typedef enum {
 	VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE,
 	VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE,
 
-	VTFPP_IMAGE_FORMAT_TFALL2_BC6H = 66,
-	VTFPP_IMAGE_FORMAT_TFALL2_BC7,
+	VTFPP_IMAGE_FORMAT_TITANFALL_BC6H = 66,
+	VTFPP_IMAGE_FORMAT_TITANFALL_BC7,
 
 	VTFPP_IMAGE_FORMAT_STRATA_R8 = 69,
 	VTFPP_IMAGE_FORMAT_STRATA_BC7,
@@ -85,7 +85,7 @@ VTFPP_API int vtfpp_image_format_details_compressed_hdr(vtfpp_image_format_e for
 VTFPP_API int vtfpp_image_format_details_transparent(vtfpp_image_format_e format);
 VTFPP_API int vtfpp_image_format_details_opaque(vtfpp_image_format_e format);
 VTFPP_API int vtfpp_image_format_details_console(vtfpp_image_format_e format);
-VTFPP_API int vtfpp_image_format_details_tfall2(vtfpp_image_format_e format);
+VTFPP_API int vtfpp_image_format_details_titanfall(vtfpp_image_format_e format);
 VTFPP_API int vtfpp_image_format_details_strata(vtfpp_image_format_e format);
 VTFPP_API uint16_t vtfpp_image_dimensions_get_mip_dim(uint8_t mip, uint16_t dim, int addCompressedFormatPadding);
 
@@ -158,8 +158,8 @@ inline vtfpp::ImageFormat cast(vtfpp_image_format_e value) {
 		case VTFPP_IMAGE_FORMAT_CONSOLE_RGBA16161616_LINEAR:       return vtfpp::ImageFormat::CONSOLE_RGBA16161616_LINEAR;
 		case VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE:               return vtfpp::ImageFormat::CONSOLE_BGRX8888_LE;
 		case VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE:               return vtfpp::ImageFormat::CONSOLE_BGRA8888_LE;
-		case VTFPP_IMAGE_FORMAT_TFALL2_BC6H:                       return vtfpp::ImageFormat::TFALL2_BC6H;
-		case VTFPP_IMAGE_FORMAT_TFALL2_BC7:                        return vtfpp::ImageFormat::TFALL2_BC7;
+		case VTFPP_IMAGE_FORMAT_TITANFALL_BC6H:                    return vtfpp::ImageFormat::TITANFALL_BC6H;
+		case VTFPP_IMAGE_FORMAT_TITANFALL_BC7:                     return vtfpp::ImageFormat::TITANFALL_BC7;
 		case VTFPP_IMAGE_FORMAT_STRATA_R8:                         return vtfpp::ImageFormat::STRATA_R8;
 		case VTFPP_IMAGE_FORMAT_STRATA_BC7:                        return vtfpp::ImageFormat::STRATA_BC7;
 		case VTFPP_IMAGE_FORMAT_STRATA_BC6H:                       return vtfpp::ImageFormat::STRATA_BC6H;
@@ -223,8 +223,8 @@ inline vtfpp_image_format_e cast(vtfpp::ImageFormat value) {
 		case vtfpp::ImageFormat::CONSOLE_RGBA16161616_LINEAR:       return VTFPP_IMAGE_FORMAT_CONSOLE_RGBA16161616_LINEAR;
 		case vtfpp::ImageFormat::CONSOLE_BGRX8888_LE:               return VTFPP_IMAGE_FORMAT_CONSOLE_BGRX8888_LE;
 		case vtfpp::ImageFormat::CONSOLE_BGRA8888_LE:               return VTFPP_IMAGE_FORMAT_CONSOLE_BGRA8888_LE;
-		case vtfpp::ImageFormat::TFALL2_BC6H:                       return VTFPP_IMAGE_FORMAT_TFALL2_BC6H;
-		case vtfpp::ImageFormat::TFALL2_BC7:                        return VTFPP_IMAGE_FORMAT_TFALL2_BC7;
+		case vtfpp::ImageFormat::TITANFALL_BC6H:                    return VTFPP_IMAGE_FORMAT_TITANFALL_BC6H;
+		case vtfpp::ImageFormat::TITANFALL_BC7:                     return VTFPP_IMAGE_FORMAT_TITANFALL_BC7;
 		case vtfpp::ImageFormat::STRATA_R8:                         return VTFPP_IMAGE_FORMAT_STRATA_R8;
 		case vtfpp::ImageFormat::STRATA_BC7:                        return VTFPP_IMAGE_FORMAT_STRATA_BC7;
 		case vtfpp::ImageFormat::STRATA_BC6H:                       return VTFPP_IMAGE_FORMAT_STRATA_BC6H;

@@ -71,9 +71,9 @@ enum class ImageFormat : int32_t {
 	CONSOLE_BGRA8888_LE,
 	// endregion
 
-	// region Titanfall 2 Formats
-	TFALL2_BC6H = 66,
-	TFALL2_BC7 = 67,
+	// region Titanfall 1/2 Formats
+	TITANFALL_BC6H = 66,
+	TITANFALL_BC7,
 	// endregion
 
 	// region Strata Source Formats
@@ -159,8 +159,8 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
@@ -186,10 +186,10 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return 8;
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
@@ -270,8 +270,8 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
@@ -297,10 +297,10 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return 8;
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
@@ -380,8 +380,8 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
@@ -407,10 +407,10 @@ namespace ImageFormatDetails {
 		case DXT5:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return 8;
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
@@ -490,8 +490,8 @@ namespace ImageFormatDetails {
 		case DXT1_ONE_BIT_ALPHA:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
@@ -512,7 +512,7 @@ namespace ImageFormatDetails {
 	switch (format) {
 		using enum ImageFormat;
 		case DXT5:
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return 8;
 		case DXT3:
@@ -522,7 +522,7 @@ namespace ImageFormatDetails {
 		case DXT1:
 		case ATI2N:
 		case ATI1N:
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
@@ -599,8 +599,8 @@ namespace ImageFormatDetails {
 		case DXT3:
 		case DXT5:
 		case ATI2N:
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
 		case STRATA_R8:
@@ -633,7 +633,7 @@ namespace ImageFormatDetails {
 		case RG1616F:
 		case RGBA16161616F:
 		case RGBA32323232F:
-		case TFALL2_BC6H:
+		case TITANFALL_BC6H:
 		case STRATA_BC6H:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
@@ -683,7 +683,7 @@ namespace ImageFormatDetails {
 		case ATI2N:
 		case ATI1N:
 		case RGBX8888:
-		case TFALL2_BC7:
+		case TITANFALL_BC7:
 		case STRATA_R8:
 		case STRATA_BC7:
 			return RGBA8888;
@@ -753,8 +753,8 @@ namespace ImageFormatDetails {
 			case DXT1_ONE_BIT_ALPHA:
 			case ATI2N:
 			case ATI1N:
-			case TFALL2_BC6H:
-			case TFALL2_BC7:
+			case TITANFALL_BC6H:
+			case TITANFALL_BC7:
 			case STRATA_BC7:
 			case STRATA_BC6H:
 				return true;
@@ -820,15 +820,15 @@ namespace ImageFormatDetails {
 }
 
 /**
- * Check if the given format is exclusively used by Titanfall 2.
+ * Check if the given format is exclusively used by Titanfall 1/2.
  * @param format The format to check.
- * @return True if the format is exclusively used by Titanfall 2.
+ * @return True if the format is exclusively used by Titanfall 1/2.
  */
-[[nodiscard]] constexpr bool tfall2(ImageFormat format) {
+[[nodiscard]] constexpr bool titanfall(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
-		case TFALL2_BC6H:
-		case TFALL2_BC7:
+		case TITANFALL_BC6H:
+		case TITANFALL_BC7:
 			return true;
 		default:
 			break;

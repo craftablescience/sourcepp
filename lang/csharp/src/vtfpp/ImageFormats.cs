@@ -65,9 +65,9 @@ public enum ImageFormat {
 	CONSOLE_BGRA8888_LE,
 	#endregion
 
-	#region Titanfall 2 Formats
-	TFALL2_BC6H = 66,
-	TFALL2_BC7 = 67,
+	#region Titanfall 1/2 Formats
+	TITANFALL_BC6H = 66,
+	TITANFALL_BC7 = 67,
 	#endregion
 
 	#region Strata Source Formats
@@ -170,9 +170,9 @@ public static partial class ImageFormatDetails
 		return Convert.ToBoolean(DLL.vtfpp_image_format_details_console(format));
 	}
 
-	public static bool TFall2(ImageFormat format)
+	public static bool Titanfall(ImageFormat format)
 	{
-		return Convert.ToBoolean(DLL.vtfpp_image_format_details_tfall2(format));
+		return Convert.ToBoolean(DLL.vtfpp_image_format_details_titanfall(format));
 	}
 
 	public static bool Strata(ImageFormat format)
