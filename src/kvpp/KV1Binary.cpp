@@ -167,7 +167,7 @@ KV1BinaryElement::operator bool() const {
 	return !this->isInvalid();
 }
 
-KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
+KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool use64BitPointers)
 		: KV1BinaryElement() {
 	if (kv1Data.empty()) {
 		return;
@@ -175,7 +175,7 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
 	BufferStreamReadOnly stream{kv1Data};
 
 	std::function<void(std::vector<KV1BinaryElement>&)> recursiveReader;
-	recursiveReader = [&stream, &recursiveReader](std::vector<KV1BinaryElement>& elements) {
+	recursiveReader = [use64BitPointers, &stream, &recursiveReader](std::vector<KV1BinaryElement>& elements) {
 		for (;;) {
 			const auto type = stream.read<KV1BinaryValueType>();
 			if (type == KV1BinaryValueType::COUNT) {
@@ -197,9 +197,22 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
 				case FLOAT:
 					element.setValue(stream.read<float>());
 					break;
-				case POINTER:
-					element.setValue(stream.read<KV1BinaryPointer>());
+				case POINTER: {
+					const auto data32 = stream.read<uint32_t>();
+					if (use64BitPointers && data32 == KV1BinaryPointer::MAGIC_64_BIT) {
+						const auto data64 = stream.read<uint64_t>();
+						element.setValue(KV1BinaryPointer{
+							.v64 = data64,
+							.is64Bit = true,
+						});
+					} else {
+						element.setValue(KV1BinaryPointer{
+							.v32 = data32,
+							.is64Bit = false,
+						});
+					}
 					break;
+				}
 				case WSTRING: {
 					const auto len = stream.read<uint16_t>();
 					std::wstring value;
@@ -229,8 +242,8 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data)
 	recursiveReader(this->children);
 }
 
-KV1Binary::KV1Binary(const std::filesystem::path& kv1Path)
-		: KV1Binary(fs::readFileBuffer(kv1Path)) {}
+KV1Binary::KV1Binary(const std::filesystem::path& kv1Path, bool use64BitPointers)
+		: KV1Binary(fs::readFileBuffer(kv1Path), use64BitPointers) {}
 
 std::vector<std::byte> KV1Binary::bake() const {
 	std::vector<std::byte> buffer;
@@ -257,9 +270,17 @@ std::vector<std::byte> KV1Binary::bake() const {
 				case FLOAT:
 					stream.write(*element.getValue<float>());
 					break;
-				case POINTER:
-					stream.write(*element.getValue<KV1BinaryPointer>());
+				case POINTER: {
+					const auto pointer = *element.getValue<KV1BinaryPointer>();
+					if (pointer.is64Bit) {
+						stream
+							.write<uint32_t>(KV1BinaryPointer::MAGIC_64_BIT)
+							.write(pointer.v64);
+					} else {
+						stream.write(pointer.v32);
+					}
 					break;
+				}
 				case WSTRING: {
 					const auto val = *element.getValue<std::wstring>();
 					stream
@@ -313,11 +334,15 @@ std::string KV1Binary::bakeText() const {
 			case FLOAT:
 				child = *element.getValue<float>();
 				break;
-			case POINTER:
-				child = static_cast<int64_t>(*element.getValue<KV1BinaryPointer>());
+			case POINTER: {
+				child = static_cast<int64_t>(static_cast<uint64_t>(*element.getValue<KV1BinaryPointer>()));
 				break;
-			case WSTRING:
+			}
+			case WSTRING: {
+				// todo: convert to ascii or utf-8
+				const auto val = "";
 				break;
+			}
 			case COLOR_RGBA: {
 				const auto val = *element.getValue<math::Vec4ui8>();
 				child = std::format("{} {} {} {}", val[0], val[1], val[2], val[3]);

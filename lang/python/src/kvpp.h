@@ -375,6 +375,14 @@ inline void register_python(py::module_& m) {
 		.value("UINT64",     KV1BinaryValueType::UINT64)
 		.value("COUNT",      KV1BinaryValueType::COUNT);
 
+	py::class_<KV1BinaryPointer>(kvpp, "KV1BinaryPointer")
+		.def(py::init())
+		.def_ro_static("MAGIC_64_BIT", &KV1BinaryPointer::MAGIC_64_BIT)
+		.def_rw("v32", &KV1BinaryPointer::v32)
+		.def_rw("v64", &KV1BinaryPointer::v64)
+		.def_rw("is64Bit", &KV1BinaryPointer::is64Bit)
+		.def("__int__", &KV1BinaryPointer::operator uint64_t);
+
 	py::class_<KV1BinaryElement>(kvpp, "KV1BinaryElement")
 		.def(py::init())
 		.def_prop_rw("key", &KV1BinaryElement::getKey, &KV1BinaryElement::setKey)
@@ -406,9 +414,9 @@ inline void register_python(py::module_& m) {
 		.def("__bool__", &KV1BinaryElement::operator bool);
 
 	py::class_<KV1Binary, KV1BinaryElement>(kvpp, "KV1Binary")
-		.def("__init__", [](KV1Binary* self, const py::bytes& kv1Data) {
-			return new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}};
-		}, "kv1_data"_a)
+		.def("__init__", [](KV1Binary* self, const py::bytes& kv1Data, bool use64BitPointers = true) {
+			return new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}, use64BitPointers};
+		}, "kv1_data"_a, "use_64_bit_pointers"_a = true)
 		.def("bake", [](const KV1Binary& self) {
 			const auto d = self.bake();
 			return py::bytes{d.data(), d.size()};

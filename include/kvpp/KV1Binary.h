@@ -23,7 +23,22 @@ enum class KV1BinaryValueType : uint8_t {
 	COUNT,
 };
 
-using KV1BinaryPointer = uint32_t;
+struct KV1BinaryPointer {
+	static constexpr auto MAGIC_64_BIT = 31337; // Valve this is stupid as hell
+
+	union {
+		uint32_t v32;
+		uint64_t v64;
+	};
+	bool is64Bit;
+
+	explicit operator uint64_t() const noexcept {
+		if (this->is64Bit) {
+			return this->v64;
+		}
+		return this->v32;
+	}
+};
 
 using KV1BinaryValue = std::variant<
 	std::monostate,
@@ -187,9 +202,9 @@ protected:
 
 class KV1Binary : public KV1BinaryElement {
 public:
-	explicit KV1Binary(std::span<const std::byte> kv1Data = {});
+	explicit KV1Binary(std::span<const std::byte> kv1Data = {}, bool use64BitPointers = true);
 
-	explicit KV1Binary(const std::filesystem::path& kv1Path);
+	explicit KV1Binary(const std::filesystem::path& kv1Path, bool use64BitPointers = true);
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
