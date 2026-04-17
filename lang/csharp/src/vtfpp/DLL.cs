@@ -479,6 +479,9 @@ internal static partial class DLL
 	public static partial sourcepp.DLL.String vtfpp_resource_get_data_as_keyvalues_data(nint handle);
 
 	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.String vtfpp_resource_get_data_as_author_info(nint handle);
+
+	[LibraryImport(Name)]
 	public static partial nint vtfpp_resource_get_data_as_hotspot_data(nint handle);
 
 	[LibraryImport(Name)]

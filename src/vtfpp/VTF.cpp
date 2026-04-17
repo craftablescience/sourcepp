@@ -316,6 +316,7 @@ Resource::ConvertedData Resource::convertData() const {
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 2),
 					*(reinterpret_cast<const uint8_t*>(this->data.data()) + 3));
 		case TYPE_KEYVALUES_DATA:
+		case TYPE_AUTHOR_INFO:
 			if (this->data.size() <= sizeof(uint32_t)) {
 				return "";
 			}
@@ -356,6 +357,10 @@ std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> Resource::getDataAsLODControlInfo
 }
 
 std::string Resource::getDataAsKeyValuesData() const {
+	return std::get<std::string>(this->convertData());
+}
+
+std::string Resource::getDataAsAuthorInfo() const {
 	return std::get<std::string>(this->convertData());
 }
 

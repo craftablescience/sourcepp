@@ -536,6 +536,7 @@ inline void register_python(py::module_& m) {
 		.def("get_data_as_extended_flags",         &Resource::getDataAsExtendedFlags)
 		.def("get_data_as_lod_control_info",       &Resource::getDataAsLODControlInfo)
 		.def("get_data_as_keyvalues_data",         &Resource::getDataAsKeyValuesData)
+		.def("get_data_as_author_info",            &Resource::getDataAsAuthorInfo)
 		.def("get_data_as_hotspot_data",           &Resource::getDataAsHotspotData)
 		.def("get_data_as_aux_compression_level",  &Resource::getDataAsAuxCompressionLevel)
 		.def("get_data_as_aux_compression_method", &Resource::getDataAsAuxCompressionMethod)

@@ -82,6 +82,8 @@ struct Resource {
 
 	[[nodiscard]] std::string getDataAsKeyValuesData() const;
 
+	[[nodiscard]] std::string getDataAsAuthorInfo() const;
+
 	[[nodiscard]] HOT getDataAsHotspotData() const;
 
 	[[nodiscard]] int16_t getDataAsAuxCompressionLevel() const;

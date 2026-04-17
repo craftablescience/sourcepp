@@ -109,6 +109,12 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 		return new sourcepp.String(DLL.vtfpp_resource_get_data_as_keyvalues_data(Handle)).Read();
 	}
 
+	public string GetDataAsAuthorInfo()
+	{
+		ThrowIfDisposed();
+		return new sourcepp.String(DLL.vtfpp_resource_get_data_as_author_info(Handle)).Read();
+	}
+
 	public HOT GetDataAsHotspotData()
 	{
 		ThrowIfDisposed();

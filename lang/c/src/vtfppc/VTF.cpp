@@ -84,6 +84,12 @@ VTFPP_API sourcepp_string_t vtfpp_resource_get_data_as_keyvalues_data(vtfpp_reso
 	return convert::toString(convert::handle<const Resource>(handle)->getDataAsKeyValuesData());
 }
 
+VTFPP_API sourcepp_string_t vtfpp_resource_get_data_as_author_info(vtfpp_resource_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_STRING_INVALID);
+
+	return convert::toString(convert::handle<const Resource>(handle)->getDataAsAuthorInfo());
+}
+
 VTFPP_API vtfpp_hot_handle_t vtfpp_resource_get_data_as_hotspot_data(vtfpp_resource_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, nullptr);
 
