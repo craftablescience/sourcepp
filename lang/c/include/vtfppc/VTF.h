@@ -32,6 +32,7 @@ VTFPP_EXTERN typedef enum {
 	VTFPP_RESOURCE_TYPE_AUX_COMPRESSION     = 4413505,
 	VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO    = 4476748,
 	VTFPP_RESOURCE_TYPE_KEYVALUES_DATA      = 4478539,
+	VTFPP_RESOURCE_TYPE_AUTHOR_INFO         = 4740161,
 } vtfpp_resource_type_e;
 
 VTFPP_EXTERN typedef enum {
@@ -281,6 +282,8 @@ VTFPP_API void vtfpp_vtf_set_extended_flags_resource(vtfpp_vtf_handle_t handle, 
 VTFPP_API void vtfpp_vtf_remove_extended_flags_resource(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_keyvalues_data_resource(vtfpp_vtf_handle_t handle, const char* value);
 VTFPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_author_info_resource(vtfpp_vtf_handle_t handle, const char* value);
+VTFPP_API void vtfpp_vtf_remove_author_info_resource(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_hotspot_data_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot);
 VTFPP_API void vtfpp_vtf_remove_hotspot_data_resource(vtfpp_vtf_handle_t handle);
 VTFPP_API int16_t vtfpp_vtf_get_compression_level(vtfpp_vtf_handle_t handle);
@@ -355,6 +358,7 @@ inline vtfpp::Resource::Type cast(vtfpp_resource_type_e value) {
 		case VTFPP_RESOURCE_TYPE_AUX_COMPRESSION:     return vtfpp::Resource::TYPE_AUX_COMPRESSION;
 		case VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO:    return vtfpp::Resource::TYPE_LOD_CONTROL_INFO;
 		case VTFPP_RESOURCE_TYPE_KEYVALUES_DATA:      return vtfpp::Resource::TYPE_KEYVALUES_DATA;
+		case VTFPP_RESOURCE_TYPE_AUTHOR_INFO:         return vtfpp::Resource::TYPE_AUTHOR_INFO;
 	}
 	return vtfpp::Resource::TYPE_UNKNOWN;
 }
@@ -373,6 +377,7 @@ inline vtfpp_resource_type_e cast(vtfpp::Resource::Type value) {
 		case vtfpp::Resource::TYPE_AUX_COMPRESSION:     return VTFPP_RESOURCE_TYPE_AUX_COMPRESSION;
 		case vtfpp::Resource::TYPE_LOD_CONTROL_INFO:    return VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO;
 		case vtfpp::Resource::TYPE_KEYVALUES_DATA:      return VTFPP_RESOURCE_TYPE_KEYVALUES_DATA;
+		case vtfpp::Resource::TYPE_AUTHOR_INFO:         return VTFPP_RESOURCE_TYPE_AUTHOR_INFO;
 	}
 	return VTFPP_RESOURCE_TYPE_UNKNOWN;
 }

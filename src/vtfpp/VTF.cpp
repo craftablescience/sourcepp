@@ -1886,6 +1886,20 @@ void VTF::removeKeyValuesDataResource() {
 	this->removeResourceInternal(Resource::TYPE_KEYVALUES_DATA);
 }
 
+void VTF::setAuthorInfoResource(std::string_view value) {
+	std::vector<std::byte> authorInfo;
+	BufferStream writer{authorInfo};
+
+	writer.write<uint32_t>(value.size()).write(value, false);
+	authorInfo.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_AUTHOR_INFO, authorInfo);
+}
+
+void VTF::removeAuthorInfoResource() {
+	this->removeResourceInternal(Resource::TYPE_AUTHOR_INFO);
+}
+
 void VTF::setHotspotDataResource(const HOT& value) {
 	std::vector<std::byte> hotspotData;
 	BufferStream writer{hotspotData};

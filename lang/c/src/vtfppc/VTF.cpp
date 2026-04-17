@@ -599,6 +599,18 @@ VTFPP_API void vtfpp_vtf_remove_keyvalues_data_resource(vtfpp_vtf_handle_t handl
 	convert::handle<VTF>(handle)->removeKeyValuesDataResource();
 }
 
+VTFPP_API void vtfpp_vtf_set_author_info_resource(vtfpp_vtf_handle_t handle, const char* value) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->setAuthorInfoResource(value);
+}
+
+VTFPP_API void vtfpp_vtf_remove_author_info_resource(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->removeAuthorInfoResource();
+}
+
 VTFPP_API void vtfpp_vtf_set_hotspot_data_resource(vtfpp_vtf_handle_t handle, vtfpp_hot_handle_t hot) {
 	SOURCEPP_EARLY_RETURN(handle);
 	SOURCEPP_EARLY_RETURN(hot);

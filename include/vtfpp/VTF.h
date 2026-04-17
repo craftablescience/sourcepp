@@ -48,6 +48,7 @@ struct Resource {
 		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
+		TYPE_AUTHOR_INFO         = sourcepp::parser::binary::makeFourCC("ATH\0"),
 	};
 
 	enum Flags : uint8_t {
@@ -392,6 +393,10 @@ public:
 	void setKeyValuesDataResource(std::string_view value);
 
 	void removeKeyValuesDataResource();
+
+	void setAuthorInfoResource(std::string_view value);
+
+	void removeAuthorInfoResource();
 
 	void setHotspotDataResource(const HOT& value);
 

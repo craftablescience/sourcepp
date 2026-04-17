@@ -520,7 +520,8 @@ inline void register_python(py::module_& m) {
 		.value("CRC",                 Resource::TYPE_CRC)
 		.value("AUX_COMPRESSION",     Resource::TYPE_AUX_COMPRESSION)
 		.value("LOD_CONTROL_INFO",    Resource::TYPE_LOD_CONTROL_INFO)
-		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA);
+		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA)
+		.value("AUTHOR_INFO",         Resource::TYPE_AUTHOR_INFO);
 
 	py::enum_<Resource::Flags>(cResource, "Flags", py::is_flag())
 		.value("NONE",       Resource::FLAG_NONE)
@@ -735,6 +736,8 @@ inline void register_python(py::module_& m) {
 		.def("remove_extended_flags_resource", &VTF::removeExtendedFlagsResource)
 		.def("set_keyvalues_data_resource", &VTF::setKeyValuesDataResource, "value"_a)
 		.def("remove_keyvalues_data_resource", &VTF::removeKeyValuesDataResource)
+		.def("set_author_info_resource", &VTF::setAuthorInfoResource, "value"_a)
+		.def("remove_author_info_resource", &VTF::removeAuthorInfoResource)
 		.def("set_hotspot_data_resource", &VTF::setHotspotDataResource, "value"_a)
 		.def("remove_hotspot_data_resource", &VTF::removeHotspotDataResource)
 		.def_prop_rw("compression_level", &VTF::getCompressionLevel, &VTF::setCompressionLevel)

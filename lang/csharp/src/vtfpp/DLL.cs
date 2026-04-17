@@ -727,6 +727,12 @@ internal static partial class DLL
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_remove_keyvalues_data_resource(nint handle);
 
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial void vtfpp_vtf_set_author_info_resource(nint handle, string value);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_remove_author_info_resource(nint handle);
+
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_set_hotspot_data_resource(nint handle, nint hot);
 

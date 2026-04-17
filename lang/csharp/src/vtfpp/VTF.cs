@@ -772,6 +772,18 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		DLL.vtfpp_vtf_remove_keyvalues_data_resource(Handle);
 	}
 
+	public void SetAuthorInfoResource(string value)
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_set_author_info_resource(Handle, value);
+	}
+
+	public void RemoveAuthorInfoResource()
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_remove_author_info_resource(Handle);
+	}
+
 	public void SetHotspotDataResource(HOT hot)
 	{
 		ThrowIfDisposed();
