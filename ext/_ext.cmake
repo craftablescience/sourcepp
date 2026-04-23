@@ -31,6 +31,12 @@ if(SOURCEPP_USE_VPKPP)
 endif()
 
 
+# gdeflate
+if(SOURCEPP_USE_VPKPP)
+    add_sourcepp_remote_library(gdeflate https://github.com/craftablescience/gdeflate dcb637f984ece258909a451d31457896f9ecc7f5)
+endif()
+
+
 # ice
 if(SOURCEPP_USE_VCRYPTPP)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")

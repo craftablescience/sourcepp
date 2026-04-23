@@ -2,6 +2,10 @@
 
 #include <vpkpp/vpkpp.h>
 
+#include <sourcepp/parser/Text.h>
+
+#include "BufferStream.h"
+
 using namespace sourcepp;
 using namespace vpkpp;
 
@@ -25,6 +29,24 @@ TEST(vpkpp, ore_read) {
 	VPKPP_PRINT_ALL_PATHS(ore);
 	EXPECT_EQ(ore->getEntryCount(), 147);
 	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
+}
+
+TEST(vpkpp, pkg_read) {
+	const auto pkg = PackFile::open("/home/lxlewis/.local/share/Steam/steamapps/common/PortalRTX/rtx-remix/mods/gameReadyAssets/mod_00.pkg");
+	ASSERT_TRUE(pkg);
+	VPKPP_PRINT_ALL_PATHS(pkg);
+
+	//ASSERT_TRUE(pkg->hasEntry("SubUSDs/textures/0901F01E92F1E81C.dds"));
+	//const auto data = pkg->readEntry("SubUSDs/textures/0901F01E92F1E81C.dds");
+	//ASSERT_TRUE(data);
+	//fs::writeFileBuffer("/home/lxlewis/.local/share/Steam/steamapps/common/PortalRTX/rtx-remix/mods/gameReadyAssets/mod_spp/SubUSDs/textures/0901F01E92F1E81C.dds", *data);
+
+	ASSERT_TRUE(pkg->hasEntry("SubUSDs/textures/T_Fixture_Platform_Folding_A1_Albedo.dds"));
+	const auto data2 = pkg->readEntry("SubUSDs/textures/T_Fixture_Platform_Folding_A1_Albedo.dds");
+	ASSERT_TRUE(data2);
+	fs::writeFileBuffer("/home/lxlewis/.local/share/Steam/steamapps/common/PortalRTX/rtx-remix/mods/gameReadyAssets/mod_spp/SubUSDs/textures/T_Fixture_Platform_Folding_A1_Albedo.dds", *data2);
+
+	//ASSERT_TRUE(pkg->extractAll("/home/lxlewis/.local/share/Steam/steamapps/common/PortalRTX/rtx-remix/mods/gameReadyAssets/"));
 }
 
 TEST(vpkpp, vpp_v1_read) {
