@@ -91,6 +91,7 @@ namespace vtfpp::ImagePixel {
 			Pixel() { std::memset(this, 0, sizeof(Pixel)); }             \
 		} pixel;                                                         \
 	public:                                                              \
+		format() = default;                                              \
 		format(LE le) {                                                  \
 			if constexpr (std::endian::native == std::endian::little) {  \
 				this->pixel.le = le;                                     \
