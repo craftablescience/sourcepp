@@ -311,39 +311,6 @@ namespace {
 		return {};
 	}
 
-	if (ImageFormatDetails::compressedHDR(oldFormat)) {
-		if (newFormat != ImageFormat::RGBA32323232F) {
-			return {};
-		}
-		switch (oldFormat) {
-			using enum ImageFormat;
-			case SOURCEPP_BGRA8888_HDR:
-				return ImageConversion::decompressBGRA8888HDR(imageData);
-			case SOURCEPP_RGBA16161616_HDR:
-				return ImageConversion::decompressRGBA16161616HDR(imageData, false);
-			case SOURCEPP_CONSOLE_RGBA16161616_HDR:
-				return ImageConversion::decompressRGBA16161616HDR(imageData, true);
-			default:
-				return {};
-		}
-	}
-	if (ImageFormatDetails::compressedHDR(newFormat)) {
-		if (oldFormat != ImageFormat::RGBA32323232F) {
-			return {};
-		}
-		switch (newFormat) {
-			using enum ImageFormat;
-			case SOURCEPP_BGRA8888_HDR:
-				return ImageConversion::compressBGRA8888HDR(imageData);
-			case SOURCEPP_RGBA16161616_HDR:
-				return ImageConversion::compressRGBA16161616HDR(imageData, false);
-			case SOURCEPP_CONSOLE_RGBA16161616_HDR:
-				return ImageConversion::compressRGBA16161616HDR(imageData, true);
-			default:
-				return {};
-		}
-	}
-
 	std::vector<std::byte> imageDataReplacement;
 	/*
 	const auto populateImageDataReplacement = [&imageData, &imageDataReplacement] {
@@ -778,14 +745,22 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	std::vector<std::byte> newData;
 
 	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
-	if (ImageFormatDetails::compressed(oldFormat)) {
+	if (ImageFormatDetails::compressedHDR(oldFormat)) {
+		SOURCEPP_DEBUG_ASSERT(intermediaryOldFormat == ImageFormat::RGBA32323232F);
+		switch (oldFormat) {
+			case ImageFormat::SOURCEPP_BGRA8888_HDR:             newData = decompressBGRA8888HDR(imageData);                                 break;
+			case ImageFormat::SOURCEPP_RGBA16161616_HDR:         newData = decompressRGBA16161616HDR(imageData, false); break;
+			case ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR: newData = decompressRGBA16161616HDR(imageData, true);  break;
+			default:                                             SOURCEPP_DEBUG_BREAK; return {};
+		}
+	} else if (ImageFormatDetails::compressed(oldFormat)) {
 		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height, quality);
 	} else {
 		switch (intermediaryOldFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(imageData, oldFormat);      break;
 			case ImageFormat::RGBA16161616:  newData = ::convertImageDataToRGBA16161616(imageData, oldFormat);  break;
 			case ImageFormat::RGBA32323232F: newData = ::convertImageDataToRGBA32323232F(imageData, oldFormat); break;
-			default:                         return {};
+			default:                         SOURCEPP_DEBUG_BREAK; return {};
 		}
 	}
 
@@ -793,7 +768,9 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		return newData;
 	}
 
-	const ImageFormat intermediaryNewFormat = ImageFormatDetails::containerFormat(newFormat);
+	const ImageFormat intermediaryNewFormat = ImageFormatDetails::compressedHDR(newFormat)
+		? ImageFormat::RGBA32323232F
+		: ImageFormatDetails::containerFormat(newFormat);
 	if (intermediaryOldFormat != intermediaryNewFormat) {
 		if (intermediaryOldFormat == ImageFormat::RGBA8888) {
 			if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
@@ -801,7 +778,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			} else if (intermediaryNewFormat == ImageFormat::RGBA32323232F) {
 				newData = ::convertImageDataFromRGBA8888ToRGBA32323232F(newData);
 			} else {
-				return {};
+				SOURCEPP_DEBUG_BREAK; return {};
 			}
 		} else if (intermediaryOldFormat == ImageFormat::RGBA16161616) {
 			if (intermediaryNewFormat == ImageFormat::RGBA8888) {
@@ -809,7 +786,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			} else if (intermediaryNewFormat == ImageFormat::RGBA32323232F) {
 				newData = ::convertImageDataFromRGBA16161616ToRGBA32323232F(newData);
 			} else {
-				return {};
+				SOURCEPP_DEBUG_BREAK; return {};
 			}
 		} else if (intermediaryOldFormat == ImageFormat::RGBA32323232F) {
 			if (intermediaryNewFormat == ImageFormat::RGBA8888) {
@@ -817,10 +794,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			} else if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
 				newData = ::convertImageDataFromRGBA32323232FToRGBA16161616(newData);
 			} else {
-				return {};
+				SOURCEPP_DEBUG_BREAK; return {};
 			}
 		} else {
-			return {};
+			SOURCEPP_DEBUG_BREAK; return {};
 		}
 	}
 
@@ -828,14 +805,22 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 		return newData;
 	}
 
-	if (ImageFormatDetails::compressed(newFormat)) {
+	if (ImageFormatDetails::compressedHDR(newFormat)) {
+		SOURCEPP_DEBUG_ASSERT(intermediaryNewFormat == ImageFormat::RGBA32323232F);
+		switch (newFormat) {
+			case ImageFormat::SOURCEPP_BGRA8888_HDR:             newData = compressBGRA8888HDR(imageData);                                 break;
+			case ImageFormat::SOURCEPP_RGBA16161616_HDR:         newData = compressRGBA16161616HDR(imageData, false); break;
+			case ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR: newData = compressRGBA16161616HDR(imageData, true);  break;
+			default:                                             SOURCEPP_DEBUG_BREAK; return {};
+		}
+	} else if (ImageFormatDetails::compressed(newFormat)) {
 		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height, quality);
 	} else {
 		switch (intermediaryNewFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataFromRGBA8888(newData, newFormat);      break;
 			case ImageFormat::RGBA16161616:  newData = ::convertImageDataFromRGBA16161616(newData, newFormat);  break;
 			case ImageFormat::RGBA32323232F: newData = ::convertImageDataFromRGBA32323232F(newData, newFormat); break;
-			default:                         return {};
+			default:                         SOURCEPP_DEBUG_BREAK; return {};
 		}
 	}
 
