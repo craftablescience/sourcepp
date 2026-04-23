@@ -1,3 +1,9 @@
+# bcdec
+if(SOURCEPP_USE_VTFPP)
+    add_sourcepp_remote_library(bcdec https://github.com/craftablescience/bcdec 59441e17ba36b7d7eef336aeedc62e01d0cdcd5a)
+endif()
+
+
 # bufferstream
 add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 2a7c9e8b786fa50a3ae1961f1ee5bca6c4a5a6c5)
 

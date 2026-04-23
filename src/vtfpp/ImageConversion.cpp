@@ -23,6 +23,9 @@
 #include <future>
 #endif
 
+#define BCDEC_IMPLEMENTATION
+#include <bcdec.h>
+
 #include <compressonator.h>
 
 #ifdef VTFPP_SUPPORT_QOI
@@ -306,22 +309,90 @@ namespace {
 	return -1;
 }
 
-[[nodiscard]] std::vector<std::byte> convertImageDataUsingCompressonator(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+[[nodiscard]] std::vector<std::byte> decompressImageData(std::span<const std::byte> imageData, ImageFormat inFormat, ImageFormat& outFormat, uint16_t width, uint16_t height) {
+	if (imageData.empty() || !ImageFormatDetails::compressed(inFormat) || ImageFormatDetails::compressedHDR(inFormat)) {
+		return {imageData.begin(), imageData.end()};
+	}
+
+	uint16_t unpaddedWidth = width, unpaddedHeight = height;
+	if (width % 4 != 0 || height % 4 != 0) {
+		width += (4 - (width % 4)) % 4;
+		height += (4 - (height % 4)) % 4;
+	}
+
+	const auto transformCompressed = [imageData, &outFormat, width, height, unpaddedWidth, unpaddedHeight]<uint8_t InputBlockSize, ImagePixel::PixelType OutputPixel>(void(*callback)(const void*, void*, int)) -> std::vector<std::byte> {
+		outFormat = OutputPixel::FORMAT;
+
+		std::vector<std::byte> out;
+		out.resize(imageData.size() / InputBlockSize * sizeof(OutputPixel) * (4 * 4));
+		for (uint64_t src = 0, i = 0; i < height; i += 4) {
+			for (uint64_t j = 0; j < width; j += 4) {
+				if constexpr (ImageFormatDetails::decimal(OutputPixel::FORMAT)) {
+					callback(imageData.data() + src, out.data() + (i * width + j) * sizeof(OutputPixel), width * (ImageFormatDetails::bpp(OutputPixel::FORMAT) / ImageFormatDetails::red(OutputPixel::FORMAT)));
+				} else {
+					callback(imageData.data() + src, out.data() + (i * width + j) * sizeof(OutputPixel), width * sizeof(OutputPixel));
+				}
+				src += InputBlockSize;
+			}
+		}
+
+		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
+			return ImageConversion::cropImageData(out, outFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
+		}
+
+		return out;
+	};
+
+	switch (inFormat) {
+		case ImageFormat::DXT1:
+			return transformCompressed.operator()<BCDEC_BC1_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc1);
+		case ImageFormat::DXT1_ONE_BIT_ALPHA:
+			return transformCompressed.operator()<BCDEC_BC1_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc1a);
+		case ImageFormat::DXT3:
+			return transformCompressed.operator()<BCDEC_BC2_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc2);
+		case ImageFormat::DXT5:
+			return transformCompressed.operator()<BCDEC_BC3_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc3);
+		case ImageFormat::ATI1N:
+			return transformCompressed.operator()<BCDEC_BC4_BLOCK_SIZE, ImagePixel::I8>(&bcdec_bc4);
+		case ImageFormat::ATI2N: {
+			auto out = transformCompressed.operator()<BCDEC_BC5_BLOCK_SIZE, ImagePixel::UV88>(&bcdec_bc5);
+
+			// Compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
+			outFormat = ImageFormat::RGB888;
+			out = ImagePixel::transform<ImagePixel::UV88, ImagePixel::RGB888>(out, [](ImagePixel::UV88 pixel) -> ImagePixel::RGB888 {
+				const auto nX = static_cast<float>(pixel.u()) / 255.f * 2.f - 1.f;
+				const auto nY = static_cast<float>(pixel.v()) / 255.f * 2.f - 1.f;
+				return {{pixel.u(), pixel.v(), static_cast<uint8_t>(std::clamp(std::sqrt(1.f - (nX * nX) - (nY * nY)), 0.f, 1.f) * 255.f)}};
+			});
+
+			return out;
+		}
+		case ImageFormat::TITANFALL_BC6H:
+			return transformCompressed.operator()<BCDEC_BC6H_BLOCK_SIZE, ImagePixel::RGB323232F>([](const void* compressedBlock, void* decompressedBlock, int destinationPitch) {
+				return bcdec_bc6h_float(compressedBlock, decompressedBlock, destinationPitch, false);
+			});
+		case ImageFormat::STRATA_BC6H:
+			return transformCompressed.operator()<BCDEC_BC6H_BLOCK_SIZE, ImagePixel::RGB323232F>([](const void* compressedBlock, void* decompressedBlock, int destinationPitch) {
+				return bcdec_bc6h_float(compressedBlock, decompressedBlock, destinationPitch, true);
+			});
+		case ImageFormat::TITANFALL_BC7:
+		case ImageFormat::STRATA_BC7:
+			return transformCompressed.operator()<BCDEC_BC7_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc7);
+		default:
+			break;
+	}
+
+	SOURCEPP_DEBUG_BREAK;
+	outFormat = ImageFormat::EMPTY;
+	return {};
+}
+
+[[nodiscard]] std::vector<std::byte> compressImageData(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 	if (imageData.empty()) {
 		return {};
 	}
 
 	std::vector<std::byte> imageDataReplacement;
-	/*
-	const auto populateImageDataReplacement = [&imageData, &imageDataReplacement] {
-		if (imageDataReplacement.empty()) {
-			imageDataReplacement = {imageData.begin(), imageData.end()};
-		}
-		imageData = imageDataReplacement;
-	};
-	*/
-
-	uint16_t unpaddedWidth = width, unpaddedHeight = height;
 	if ((width % 4 != 0 || height % 4 != 0) && ImageFormatDetails::compressed(oldFormat) != ImageFormatDetails::compressed(newFormat)) {
 		uint16_t paddingWidth = (4 - (width % 4)) % 4, paddingHeight = (4 - (height % 4)) % 4;
 		if (!ImageFormatDetails::compressed(oldFormat)) {
@@ -374,20 +445,6 @@ namespace {
 
 	if (CMP_ConvertTexture(&srcTexture, &destTexture, &options, nullptr) != CMP_OK) {
 		return {};
-	}
-
-	if (ImageFormatDetails::compressed(oldFormat) && !ImageFormatDetails::compressed(newFormat)) {
-		if (oldFormat == ImageFormat::ATI2N && newFormat == ImageFormat::RGBA8888) {
-			// Compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
-			ImagePixel::transformInPlace<ImagePixel::RGBA8888>(destData, [](ImagePixel::RGBA8888 pixel) -> ImagePixel::RGBA8888 {
-				const auto nX = static_cast<float>(pixel.r()) / 255.f * 2.f - 1.f;
-				const auto nY = static_cast<float>(pixel.g()) / 255.f * 2.f - 1.f;
-				return {{pixel.r(), pixel.g(), static_cast<uint8_t>(std::clamp(std::sqrt(1.f - (nX * nX) - (nY * nY)), 0.f, 1.f) * 255.f), pixel.a()}};
-			});
-		}
-		if (unpaddedWidth % 4 != 0 || unpaddedHeight % 4 != 0) {
-			return ImageConversion::cropImageData(destData, newFormat, width, unpaddedWidth, 0, height, unpaddedHeight, 0);
-		}
 	}
 	return destData;
 }
@@ -745,6 +802,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	std::vector<std::byte> newData;
 
 	const ImageFormat intermediaryOldFormat = ImageFormatDetails::containerFormat(oldFormat);
+	const ImageFormat intermediaryNewFormat = ImageFormatDetails::compressedHDR(newFormat)
+		? ImageFormat::RGBA32323232F
+		: ImageFormatDetails::containerFormat(newFormat);
+
 	if (ImageFormatDetails::compressedHDR(oldFormat)) {
 		SOURCEPP_DEBUG_ASSERT(intermediaryOldFormat == ImageFormat::RGBA32323232F);
 		switch (oldFormat) {
@@ -754,7 +815,19 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			default:                                             SOURCEPP_DEBUG_BREAK; return {};
 		}
 	} else if (ImageFormatDetails::compressed(oldFormat)) {
-		newData = ::convertImageDataUsingCompressonator(imageData, oldFormat, intermediaryOldFormat, width, height, quality);
+		ImageFormat decompressedFormat;
+		newData = ::decompressImageData(imageData, oldFormat, decompressedFormat, width, height);
+		if (decompressedFormat == newFormat) {
+			return newData;
+		}
+		if (decompressedFormat != intermediaryOldFormat) {
+			switch (ImageFormatDetails::containerFormat(decompressedFormat)) {
+				case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(newData, decompressedFormat);      break;
+				case ImageFormat::RGBA16161616:  newData = ::convertImageDataToRGBA16161616(newData, decompressedFormat);  break;
+				case ImageFormat::RGBA32323232F: newData = ::convertImageDataToRGBA32323232F(newData, decompressedFormat); break;
+				default:                         SOURCEPP_DEBUG_BREAK; return {};
+			}
+		}
 	} else {
 		switch (intermediaryOldFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataToRGBA8888(imageData, oldFormat);      break;
@@ -767,10 +840,6 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	if (intermediaryOldFormat == newFormat) {
 		return newData;
 	}
-
-	const ImageFormat intermediaryNewFormat = ImageFormatDetails::compressedHDR(newFormat)
-		? ImageFormat::RGBA32323232F
-		: ImageFormatDetails::containerFormat(newFormat);
 	if (intermediaryOldFormat != intermediaryNewFormat) {
 		if (intermediaryOldFormat == ImageFormat::RGBA8888) {
 			if (intermediaryNewFormat == ImageFormat::RGBA16161616) {
@@ -804,7 +873,6 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 	if (intermediaryNewFormat == newFormat) {
 		return newData;
 	}
-
 	if (ImageFormatDetails::compressedHDR(newFormat)) {
 		SOURCEPP_DEBUG_ASSERT(intermediaryNewFormat == ImageFormat::RGBA32323232F);
 		switch (newFormat) {
@@ -814,7 +882,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFormat(std::span<const
 			default:                                             SOURCEPP_DEBUG_BREAK; return {};
 		}
 	} else if (ImageFormatDetails::compressed(newFormat)) {
-		newData = ::convertImageDataUsingCompressonator(newData, intermediaryNewFormat, newFormat, width, height, quality);
+		newData = ::compressImageData(newData, intermediaryNewFormat, newFormat, width, height, quality);
 	} else {
 		switch (intermediaryNewFormat) {
 			case ImageFormat::RGBA8888:      newData = ::convertImageDataFromRGBA8888(newData, newFormat);      break;
