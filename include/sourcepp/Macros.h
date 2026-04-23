@@ -19,6 +19,9 @@
 	#define SOURCEPP_DEBUG_BREAK
 #endif
 
+/// Break in debugger if condition is not true
+#define SOURCEPP_DEBUG_ASSERT(cond) do { if (!(cond)) { SOURCEPP_DEBUG_BREAK; } } while (false)
+
 /// Adds the current line number to the given base
 #define SOURCEPP_UNIQUE_NAME(base) SOURCEPP_CONCAT(base, __LINE__)
 
