@@ -26,7 +26,9 @@
 #define BCDEC_IMPLEMENTATION
 #include <bcdec.h>
 
+#ifdef VTFPP_BUILD_WITH_COMPRESSONATOR
 #include <compressonator.h>
+#endif
 
 #ifdef VTFPP_SUPPORT_QOI
 #define QOI_IMPLEMENTATION
@@ -68,6 +70,7 @@ using namespace vtfpp;
 
 namespace {
 
+#ifdef VTFPP_BUILD_WITH_COMPRESSONATOR
 [[nodiscard]] constexpr CMP_FORMAT imageFormatToCompressonatorFormat(ImageFormat format) {
 	switch (format) {
 		using enum ImageFormat;
@@ -160,6 +163,7 @@ namespace {
 	}
 	return CMP_FORMAT_Unknown;
 }
+#endif
 
 [[nodiscard]] constexpr int imageFormatToSTBIRPixelLayout(ImageFormat format) {
 	switch (format) {
@@ -388,6 +392,7 @@ namespace {
 }
 
 [[nodiscard]] std::vector<std::byte> compressImageData(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint16_t width, uint16_t height, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+#ifdef VTFPP_BUILD_WITH_COMPRESSONATOR
 	if (imageData.empty()) {
 		return {};
 	}
@@ -447,6 +452,9 @@ namespace {
 		return {};
 	}
 	return destData;
+#else
+	return {};
+#endif
 }
 
 [[nodiscard]] std::vector<std::byte> convertImageDataToRGBA8888(std::span<const std::byte> imageData, ImageFormat format) {

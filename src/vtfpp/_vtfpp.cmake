@@ -1,5 +1,5 @@
 add_pretty_parser(vtfpp
-        DEPS bcdec CMP_Compressonator libzstd_static miniz sourcepp_compression sourcepp_parser sourcepp_stb
+        DEPS bcdec libzstd_static miniz sourcepp_compression sourcepp_parser sourcepp_stb
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
@@ -27,6 +27,10 @@ add_pretty_parser(vtfpp
 sourcepp_add_tbb(sourcepp_vtfpp)
 sourcepp_add_threads(sourcepp_vtfpp)
 
+if(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR)
+    target_link_libraries(sourcepp_vtfpp PRIVATE CMP_Compressonator)
+    target_compile_definitions(sourcepp_vtfpp PUBLIC VTFPP_BUILD_WITH_COMPRESSONATOR)
+endif()
 if(SOURCEPP_VTFPP_SUPPORT_EXR)
     target_link_libraries(sourcepp_vtfpp PRIVATE tinyexr)
     target_compile_definitions(sourcepp_vtfpp PUBLIC VTFPP_SUPPORT_EXR)

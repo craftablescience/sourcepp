@@ -51,9 +51,10 @@ option(SOURCEPP_LINK_STATIC_MSVC_RUNTIME "Link to static MSVC runtime library"  
 # Options (library-specific)
 option(SOURCEPP_VPKPP_SUPPORT_VPK_V54 "Support compressed v54 VPKs" ON)
 
-option(SOURCEPP_VTFPP_SUPPORT_EXR  "Support EXR image format" ON)
-option(SOURCEPP_VTFPP_SUPPORT_QOI  "Support QOI image format" ON)
-option(SOURCEPP_VTFPP_SUPPORT_WEBP "Support WebP image format" ON)
+option(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR "Temporary option to disable compressonator until fully phasing it out" ON)
+option(SOURCEPP_VTFPP_SUPPORT_EXR               "Support EXR image format" ON)
+option(SOURCEPP_VTFPP_SUPPORT_QOI               "Support QOI image format" ON)
+option(SOURCEPP_VTFPP_SUPPORT_WEBP              "Support WebP image format" ON)
 
 
 # Option overrides
