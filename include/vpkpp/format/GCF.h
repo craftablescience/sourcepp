@@ -57,13 +57,13 @@ protected:
 
 		[[nodiscard]] CompressionType getCompressionType() const {
 			static constexpr std::array compressionTypeLUT = {
+				CompressionType::UNCOMPRESSED,
 				CompressionType::COMPRESSED,
 				CompressionType::COMPRESSED_AND_ENCRYPTED,
 				CompressionType::UNCOMPRESSED,
 				CompressionType::ENCRYPTED,
 			};
-			const auto idx = (static_cast<std::uint8_t>(flags) & 7) - 1;
-			if (idx <= 3) {
+			if (const uint16_t idx = this->flags & 0x111; idx < compressionTypeLUT.size()) {
 				return compressionTypeLUT[idx];
 			}
 			return CompressionType::UNCOMPRESSED;
