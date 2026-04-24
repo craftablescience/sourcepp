@@ -4,6 +4,7 @@
 #include <cctype>
 #include <format>
 #include <random>
+#include <ranges>
 #include <sstream>
 
 namespace {
@@ -248,4 +249,40 @@ std::from_chars_result string::toBool(std::string_view number, bool& out, int ba
 	const auto result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
 	out = tmp;
 	return result;
+}
+
+std::vector<std::byte> string::decodeHex(std::string_view hex) {
+	static constexpr auto hexChar2Int = [](char c) -> uint8_t {
+		if (c >= '0' && c <= '9') {
+			return c - '0';
+		}
+		if (c >= 'a' && c <= 'f') {
+			return c - 'a' + 10;
+		}
+		if (c >= 'A' && c <= 'F') {
+			return c - 'A' + 10;
+		}
+		return 0;
+	};
+
+	const bool remainder = hex.size() % 2;
+
+	std::vector<std::byte> hexData;
+	hexData.reserve(hex.size() / 2 + remainder);
+	if (remainder) {
+		hexData.push_back(static_cast<std::byte>(hexChar2Int(hex.front())));
+	}
+	for (int i = remainder; i < hex.length(); i += 2) {
+		hexData.push_back(static_cast<std::byte>(hexChar2Int(hex[i]) << 4 | hexChar2Int(hex[i + 1])));
+	}
+	return hexData;
+}
+
+std::string string::encodeHex(std::span<const std::byte> hex) {
+	std::string hexStr;
+	hexStr.reserve(hex.size() * 2);
+	for (const auto byte : hex) {
+		hexStr.append(std::format("{:02x}", static_cast<int>(byte)));
+	}
+	return hexStr;
 }

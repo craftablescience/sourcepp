@@ -94,7 +94,7 @@ std::unique_ptr<PackFile> FGP::open(const std::string& path, const EntryCallback
 			if (crackedHashes.contains(entry.crc32)) {
 				entryPath = crackedHashes[entry.crc32];
 			} else {
-				entryPath = fgp->cleanEntryPath(FGP_HASHED_FILEPATH_PREFIX.data() + crypto::encodeHexString({reinterpret_cast<const std::byte*>(&entry.crc32), sizeof(entry.crc32)}));
+				entryPath = fgp->cleanEntryPath(FGP_HASHED_FILEPATH_PREFIX.data() + string::encodeHex({reinterpret_cast<const std::byte*>(&entry.crc32), sizeof(entry.crc32)}));
 			}
 			if (loadingScreen > 0 && i == loadingScreen) {
 				fgp->loadingScreenPath = entryPath;

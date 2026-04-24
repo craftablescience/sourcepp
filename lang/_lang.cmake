@@ -67,7 +67,7 @@ macro(sourcepp_lang_setup_post)
                 LIBRARY_OUTPUT_DIRECTORY_RELEASE "${CMAKE_CURRENT_SOURCE_DIR}/lang/python/src/${PROJECT_NAME}")
         target_compile_definitions(${${PROJECT_NAME}_PYTHON} PRIVATE ${${${PROJECT_NAME}_PYTHON}_DEFINES})
         target_link_libraries(${${PROJECT_NAME}_PYTHON} PRIVATE ${${${PROJECT_NAME}_PYTHON}_DEPS})
-        install(TARGETS ${${PROJECT_NAME}_PYTHON} LIBRARY DESTINATION "./${PROJECT_NAME}")
+        install(TARGETS ${${PROJECT_NAME}_PYTHON} LIBRARY DESTINATION "${PROJECT_NAME}")
 
         add_custom_target(${${PROJECT_NAME}_PYTHON}_all)
         add_dependencies(${${PROJECT_NAME}_PYTHON}_all ${${PROJECT_NAME}_PYTHON})
