@@ -1,3 +1,21 @@
+# Threads
+if(SOURCEPP_BUILD_WITH_THREADS)
+    set(CMAKE_THREAD_PREFER_PTHREAD ON)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads)
+    if(NOT Threads_FOUND)
+        set(SOURCEPP_BUILD_WITH_THREADS OFF CACHE INTERNAL "" FORCE)
+    endif()
+endif()
+
+function(sourcepp_add_threads TARGET)
+    if(SOURCEPP_BUILD_WITH_THREADS)
+        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_THREADS)
+        target_link_libraries(${TARGET} PRIVATE Threads::Threads)
+    endif()
+endfunction()
+
+
 # bcdec
 if(SOURCEPP_USE_VTFPP)
     add_sourcepp_remote_library(bcdec https://github.com/craftablescience/bcdec 59441e17ba36b7d7eef336aeedc62e01d0cdcd5a)
@@ -14,19 +32,6 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR)
 endif()
 
 
-# cryptopp
-if(NOT TARGET cryptopp::cryptopp)
-    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
-    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(cryptopp-cmake https://github.com/abdes/cryptopp-cmake 866aceb8b13b6427a3c4541288ff412ad54f11ea)
-
-    # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
-    if(WIN32 AND NOT MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-        target_compile_options(cryptopp PRIVATE -mcrc32 -mssse3)
-    endif()
-endif()
-
-
 # half
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
 
@@ -40,6 +45,45 @@ endif()
 # ice
 if(SOURCEPP_USE_VCRYPTPP)
     add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ice")
+endif()
+
+
+# libtommath
+if(NOT TARGET libtommath)
+    add_sourcepp_remote_library(libtommath https://github.com/craftablescience/libtommath 03101d4556acd45175d5cfe0575601cf6acadef2 OVERRIDE_FIND_PACKAGE)
+endif()
+
+
+# libtomcrypt
+if(NOT TARGET libtomcrypt)
+    if(SOURCEPP_BUILD_WITH_THREADS AND CMAKE_USE_PTHREADS_INIT)
+        set(WITH_PTHREAD ON CACHE INTERNAL "" FORCE)
+    endif()
+    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt c80285ba04f87ee5359baf689ccc7ce8a31116dc)
+    if(MSVC)
+        # Spews "inconsistent dll linkage", no idea how to fix, doesn't seem to cause problems
+        target_compile_options(libtomcrypt PRIVATE "/wd4273")
+    endif()
+endif()
+
+
+# libwebp
+if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
+    set(WEBP_BUILD_ANIM_UTILS                      OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_CWEBP                           OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_DWEBP                           OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_GIF2WEBP                        OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_IMG2WEBP                        OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_VWEBP                           OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_WEBPINFO                        OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_LIBWEBPMUX                      OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_WEBPMUX                         OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_EXTRAS                          OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_WEBP_JS                         OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
+    set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
+    set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
+    add_sourcepp_remote_library(libwebp https://github.com/webmproject/libwebp 5003e5609eedc5680b8d838a962cbb9a6e9709ce EXCLUDE_FROM_ALL)
 endif()
 
 
@@ -116,41 +160,3 @@ function(sourcepp_add_tbb TARGET)
         endif()
     endif()
 endfunction()
-
-
-# Threads
-if(SOURCEPP_BUILD_WITH_THREADS)
-    set(CMAKE_THREAD_PREFER_PTHREAD ON)
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-    find_package(Threads)
-    if(NOT Threads_FOUND)
-        set(SOURCEPP_BUILD_WITH_THREADS OFF CACHE INTERNAL "" FORCE)
-    endif()
-endif()
-
-function(sourcepp_add_threads TARGET)
-    if(SOURCEPP_BUILD_WITH_THREADS)
-        target_compile_definitions(${TARGET} PUBLIC SOURCEPP_BUILD_WITH_THREADS)
-        target_link_libraries(${TARGET} PRIVATE Threads::Threads)
-    endif()
-endfunction()
-
-
-# webp
-if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
-    set(WEBP_BUILD_ANIM_UTILS                      OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_CWEBP                           OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_DWEBP                           OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_GIF2WEBP                        OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_IMG2WEBP                        OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_VWEBP                           OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_WEBPINFO                        OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_LIBWEBPMUX                      OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_WEBPMUX                         OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_EXTRAS                          OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_WEBP_JS                         OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
-    set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
-    set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(webp https://github.com/webmproject/libwebp 5003e5609eedc5680b8d838a962cbb9a6e9709ce EXCLUDE_FROM_ALL)
-endif()

@@ -4,12 +4,10 @@
 #include <filesystem>
 #include <format>
 
-#include <cryptopp/aes.h>
-#include <cryptopp/modes.h>
-#include <cryptopp/filters.h>
 #include <FileStream.h>
 #include <miniz.h>
 #include <sourcepp/crypto/Adler32.h>
+#include <sourcepp/crypto/AES.h>
 #include <sourcepp/crypto/CRC32.h>
 
 using namespace sourcepp;
@@ -286,7 +284,6 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 		filemode = block.getCompressionType();
 	}
 	if (needs_decrypt) {
-		CryptoPP::byte iv[16] = {};
 		switch (filemode) {
 			using enum Block::CompressionType;
 			case UNCOMPRESSED:
@@ -300,10 +297,8 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 				auto remaining_encrypted = filedata.size();
 				auto offset = 0;
 				while (remaining_encrypted) {
-					CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption d;
-					d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
 					auto current_batch = std::min(remaining_encrypted, static_cast<size_t>(0x8000));
-					d.ProcessData(reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), reinterpret_cast<CryptoPP::byte*>(filedata.data() + offset), current_batch);
+					crypto::decryptAES_CFB({filedata.data() + offset, current_batch}, this->decryption_key);
 					remaining_encrypted -= current_batch;
 					offset += static_cast<int>(current_batch);
 				}
@@ -328,9 +323,7 @@ std::optional<std::vector<std::byte>> GCF::readEntry(const std::string& path_) c
 					if (buffer.size() % 10 != 0) {
 						buffer.resize(buffer.size() + (0x10 - (buffer.size() % 10)), {});
 					}
-					CryptoPP::CFB_Mode<CryptoPP::AES>::Decryption d;
-					d.SetKeyWithIV(reinterpret_cast<const CryptoPP::byte*>(this->decryption_key.data()), 16, iv);
-					d.ProcessData(reinterpret_cast<CryptoPP::byte*>(buffer.data()), reinterpret_cast<CryptoPP::byte*>(buffer.data()), buffer.size());
+					crypto::decryptAES_CFB(buffer, this->decryption_key);
 					buffer.resize(real_size);
 
 					auto start = allocate_block(processed_data, decompressed_size);

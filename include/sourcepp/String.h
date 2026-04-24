@@ -2,6 +2,8 @@
 
 #include <charconv>
 #include <concepts>
+#include <cstddef>
+#include <span>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -91,5 +93,9 @@ std::from_chars_result toFloat(std::string_view number, std::floating_point auto
 	return std::from_chars(number.data(), number.data() + number.size(), out);
 #endif
 }
+
+[[nodiscard]] std::vector<std::byte> decodeHex(std::string_view hex);
+
+[[nodiscard]] std::string encodeHex(std::span<const std::byte> hex);
 
 } // namespace sourcepp::string

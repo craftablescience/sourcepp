@@ -4,16 +4,14 @@
 #include <filesystem>
 #include <format>
 
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-#include <cryptopp/md5.h>
 #include <FileStream.h>
 #include <kvpp/kvpp.h>
 #include <sourcepp/crypto/CRC32.h>
 #include <sourcepp/crypto/MD5.h>
 #include <sourcepp/crypto/RSA.h>
-#include <sourcepp/crypto/String.h>
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
+#include <tomcrypt.h>
 #include <vpkpp/format/FPX.h>
 
 #ifdef VPKPP_SUPPORT_VPK_V54
@@ -315,9 +313,7 @@ bool VPK::verifyPackFileSignature() const {
 	if (dirFileBuffer.size() <= signatureSectionSize) {
 		return false;
 	}
-	for (int i = 0; i < signatureSectionSize; i++) {
-		dirFileBuffer.pop_back();
-	}
+	dirFileBuffer.resize(dirFileBuffer.size() - signatureSectionSize);
 	return crypto::verifySHA256PublicKey(dirFileBuffer, this->footer2.publicKey, this->footer2.signature);
 }
 
@@ -723,30 +719,41 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		this->header2.signatureSectionSize = 0;
 
 		// Calculate Footer2
-		CryptoPP::Weak::MD5 wholeFileChecksumMD5;
+		hash_state wholeFileChecksumMD5;
+		md5_init(&wholeFileChecksumMD5);
 		{
 			// Only the tree is updated in the file right now
-			wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(&this->header1), sizeof(Header1));
-			wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(&this->header2), sizeof(Header2));
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header1), sizeof(this->header1));
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header2), sizeof(this->header2));
 		}
 		{
 			outDir.seek_in(sizeof(Header1) + sizeof(Header2));
-			std::vector<std::byte> treeData = outDir.read_bytes(this->header1.treeSize);
-			wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(treeData.data()), treeData.size());
-			this->footer2.treeChecksum = crypto::computeMD5(treeData);
+			if (this->header1.treeSize > 0) {
+				std::vector<std::byte> treeData = outDir.read_bytes(this->header1.treeSize);
+				md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(treeData.data()), treeData.size());
+				this->footer2.treeChecksum = crypto::computeMD5(treeData);
+			} else {
+				this->footer2.treeChecksum = {};
+			}
 		}
 		if (!dirVPKEntryData.empty()) {
-			wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(dirVPKEntryData.data()), dirVPKEntryData.size());
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(dirVPKEntryData.data()), dirVPKEntryData.size());
 		}
 		{
-			wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry));
-			CryptoPP::Weak::MD5 md5EntriesChecksumMD5;
-			md5EntriesChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry));
-			md5EntriesChecksumMD5.Final(reinterpret_cast<CryptoPP::byte*>(this->footer2.md5EntriesChecksum.data()));
+			if (!this->md5Entries.empty()) {
+				md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry));
+				this->footer2.md5EntriesChecksum = crypto::computeMD5({reinterpret_cast<const std::byte*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry)});
+			} else {
+				this->footer2.md5EntriesChecksum = {};
+			}
 		}
-		wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(this->footer2.treeChecksum.data()), this->footer2.treeChecksum.size());
-		wholeFileChecksumMD5.Update(reinterpret_cast<const CryptoPP::byte*>(this->footer2.md5EntriesChecksum.data()), this->footer2.md5EntriesChecksum.size());
-		wholeFileChecksumMD5.Final(reinterpret_cast<CryptoPP::byte*>(this->footer2.wholeFileChecksum.data()));
+		if (!this->footer2.treeChecksum.empty()) {
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->footer2.treeChecksum.data()), this->footer2.treeChecksum.size());
+		}
+		if (!this->footer2.md5EntriesChecksum.empty()) {
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->footer2.md5EntriesChecksum.data()), this->footer2.md5EntriesChecksum.size());
+		}
+		md5_done(&wholeFileChecksumMD5, reinterpret_cast<unsigned char*>(this->footer2.wholeFileChecksum.data()));
 
 		// We can't recalculate the signature without the private key
 		this->footer2.publicKey.clear();
@@ -848,7 +855,7 @@ bool VPK::sign(const std::string& filename_) {
 		return false;
 	}
 
-	return this->sign(crypto::decodeHexString(privateKeyHex), crypto::decodeHexString(publicKeyHex));
+	return this->sign(string::decodeHex(privateKeyHex), string::decodeHex(publicKeyHex));
 }
 
 bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::byte>& publicKey) {
