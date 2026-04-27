@@ -1532,7 +1532,7 @@ TEST(vtfpp, write_v76_c6) {
 	EXPECT_EQ(vtf.getThumbnailFormat(), ImageFormat::DXT1);
 	EXPECT_EQ(vtf.getThumbnailWidth(), 16);
 	EXPECT_EQ(vtf.getThumbnailHeight(), 16);
-	EXPECT_EQ(vtf.getCompressionLevel(), -1);
+	EXPECT_EQ(vtf.getCompressionLevel(), 6);
 	EXPECT_EQ(vtf.getCompressionMethod(), CompressionMethod::ZSTD);
 }
 
