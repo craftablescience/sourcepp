@@ -1920,12 +1920,16 @@ void VTF::removeHotspotDataResource() {
 	this->removeResourceInternal(Resource::TYPE_HOTSPOT_DATA);
 }
 
-int16_t VTF::getCompressionLevel() const {
+uint16_t VTF::getCompressionLevel() const {
 	return this->compressionLevel;
 }
 
 void VTF::setCompressionLevel(int16_t newCompressionLevel) {
-	this->compressionLevel = newCompressionLevel;
+	if (newCompressionLevel < 0) {
+		this->compressionLevel = 6;
+	} else {
+		this->compressionLevel = newCompressionLevel;
+	}
 }
 
 CompressionMethod VTF::getCompressionMethod() const {

@@ -404,7 +404,7 @@ public:
 
 	void removeHotspotDataResource();
 
-	[[nodiscard]] int16_t getCompressionLevel() const;
+	[[nodiscard]] uint16_t getCompressionLevel() const;
 
 	void setCompressionLevel(int16_t newCompressionLevel);
 
@@ -531,7 +531,7 @@ protected:
 
 	// These aren't in the header
 	Platform platform = PLATFORM_PC;
-	int16_t compressionLevel = 0;
+	uint16_t compressionLevel = 0;
 	CompressionMethod compressionMethod = CompressionMethod::ZSTD;
 	ImageConversion::ResizeMethod imageWidthResizeMethod  = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 	ImageConversion::ResizeMethod imageHeightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
