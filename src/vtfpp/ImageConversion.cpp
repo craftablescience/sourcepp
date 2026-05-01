@@ -931,7 +931,7 @@ std::vector<std::byte> ImageConversion::convertSeveralImageDataToFormat(std::spa
 	return out;
 }
 
-std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution, bool bilinear) {
+std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution, bool bilinear, bool skybox) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -950,7 +950,7 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 
 	// For each face, contains the 3d starting point (corresponding to left bottom pixel), right direction,
 	// and up direction in 3d space, corresponding to pixel x,y coordinates of each face
-	static constexpr std::array<std::array<math::Vec3f, 3>, 6> startRightUp = {{
+	static constexpr std::array<std::array<math::Vec3f, 3>, 6> startRightUpCubemap = {{
 		{{{ 1.0f, -1.0f, -1.0f}, { 0.0f, 1.0f,  0.0f}, {-1.0f, 0.0f,  0.0f}}}, // front
 		{{{ 1.0f,  1.0f,  1.0f}, { 0.0f,-1.0f,  0.0f}, {-1.0f, 0.0f,  0.0f}}}, // back
 		{{{ 1.0f,  1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, { 0.0f,-1.0f,  0.0f}}}, // right
@@ -958,6 +958,15 @@ std::array<std::vector<std::byte>, 6> ImageConversion::convertHDRIToCubeMap(std:
 		{{{ 1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, {-1.0f, 0.0f,  0.0f}}}, // up
 		{{{ 1.0f,  1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}}}, // down
 	}};
+	static constexpr std::array<std::array<math::Vec3f, 3>, 6> startRightUpSkybox = {{
+		{{{ 1.0f, -1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, { 0.0f, 1.0f,  0.0f}}}, // right
+		{{{-1.0f, -1.0f,  1.0f}, { 0.0f, 0.0f, -1.0f}, { 0.0f, 1.0f,  0.0f}}}, // left
+		{{{-1.0f, -1.0f, -1.0f}, { 1.0f, 0.0f,  0.0f}, { 0.0f, 1.0f,  0.0f}}}, // back
+		{{{ 1.0f, -1.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}, { 0.0f, 1.0f,  0.0f}}}, // front
+		{{{-1.0f, -1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, { 1.0f, 0.0f,  0.0f}}}, // up
+		{{{ 1.0f,  1.0f, -1.0f}, { 0.0f, 0.0f,  1.0f}, {-1.0f, 0.0f,  0.0f}}}, // down
+	}};
+	const auto& startRightUp = skybox ? startRightUpSkybox : startRightUpCubemap;
 
 	std::array<std::vector<std::byte>, 6> faceData;
 

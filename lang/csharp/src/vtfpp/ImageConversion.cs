@@ -17,9 +17,9 @@ public static class ImageConversion
 		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_several_image_data_to_format(buffer, (ulong) buffer.Length, oldFormat, newFormat, mipCount, frameCount, faceCount, width, height, depth, quality)).Read<byte>();
 	}
 
-	public static byte[] ConvertHdriToCubemap(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, ushort resolution = 0, bool bilinear = true)
+	public static byte[] ConvertHdriToCubemap(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, ushort resolution = 0, bool bilinear = true, bool skybox = false)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_hdri_to_cubemap(buffer, (ulong) buffer.Length, format, width, height, resolution, Convert.ToInt32(bilinear))).Read<byte>();
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_hdri_to_cubemap(buffer, (ulong) buffer.Length, format, width, height, resolution, Convert.ToInt32(bilinear), Convert.ToInt32(skybox))).Read<byte>();
 	}
 
 	// ReSharper disable once InconsistentNaming

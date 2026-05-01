@@ -62,7 +62,7 @@ internal static partial class DLL
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_several_image_data_to_format(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat oldFormat, ImageFormat newFormat, byte mipCount, ushort frameCount, byte faceCount, ushort width, ushort height, ushort depth, float quality);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_hdri_to_cubemap(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ushort resolution, int bilinear);
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_hdri_to_cubemap(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ushort resolution, int bilinear, int skybox);
 
 	[LibraryImport(Name)]
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_compress_bgra8888_hdr(ReadOnlySpan<byte> buffer, ulong bufferLen, float overbrightFactor);

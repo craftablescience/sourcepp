@@ -184,10 +184,10 @@ inline void register_python(py::module_& m) {
 			return py::bytes{d.data(), d.size()};
 		}, "image_data"_a, "old_format"_a, "new_format"_a, "mip_count"_a, "frame_count"_a, "face_count"_a, "width"_a, "height"_a, "depth"_a, "quality"_a = DEFAULT_COMPRESSED_QUALITY);
 
-		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
-			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear);
+		ImageConversion.def("convert_hdri_to_cubemap", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true, bool skybox = false) -> std::tuple<py::bytes, py::bytes, py::bytes, py::bytes, py::bytes, py::bytes> {
+			const auto ds = convertHDRIToCubeMap({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resolution, bilinear, skybox);
 			return {py::bytes{ds[0].data(), ds[0].size()}, py::bytes{ds[1].data(), ds[1].size()}, py::bytes{ds[2].data(), ds[2].size()}, py::bytes{ds[3].data(), ds[3].size()}, py::bytes{ds[4].data(), ds[4].size()}, py::bytes{ds[5].data(), ds[5].size()}};
-		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "resolution"_a = 0, "bilinear"_a = true);
+		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "resolution"_a = 0, "bilinear"_a = true, "skybox"_a = false);
 
 		ImageConversion.def("compress_bgra8888_hdr", [](const py::bytes& imageData, float overbrightFactor = 16.f) {
 			const auto d = compressBGRA8888HDR({static_cast<const std::byte*>(imageData.data()), imageData.size()}, overbrightFactor);

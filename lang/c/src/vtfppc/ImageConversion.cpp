@@ -34,14 +34,14 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_several_image_data_to
 	return convert::toBuffer(ImageConversion::convertSeveralImageDataToFormat({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(oldFormat), convert::cast(newFormat), mipCount, frameCount, faceCount, width, height, depth, quality));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t resolution, int bilinear) {
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_hdri_to_cubemap(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, uint16_t resolution, int bilinear, int skybox) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	const auto faces = ImageConversion::convertHDRIToCubeMap({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, resolution, bilinear);
+	const auto faces = ImageConversion::convertHDRIToCubeMap({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, resolution, bilinear, skybox);
 	std::vector<std::byte> out;
 	for (const auto& face : faces) {
 		out.insert(out.end(), face.begin(), face.end());

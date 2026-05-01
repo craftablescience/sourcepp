@@ -22,11 +22,12 @@ constexpr float DEFAULT_COMPRESSED_QUALITY = -1.f;
 /// Converts several images from one format to another.
 [[nodiscard]] std::vector<std::byte> convertSeveralImageDataToFormat(std::span<const std::byte> imageData, ImageFormat oldFormat, ImageFormat newFormat, uint8_t mipCount, uint16_t frameCount, uint8_t faceCount, uint16_t width, uint16_t height, uint16_t depth, float quality = DEFAULT_COMPRESSED_QUALITY);
 
-/// Converts an HDRI into a cubemap. The output image data is in the same image format as the input.
-/// The output images have the following order: front, back, left, right, down, up.
+/// Converts an HDRI into six cubemap (or skybox) faces. The output image data is in the same image format as the input.
+/// If in cubemap mode, the output images have the following order: front, back, left, right, down, up.
+/// If in skybox mode, the output images have the following order: right, left, back, front, up, down.
 /// Resolution is the output size (width, height) of each image slice. 0 leaves it at the input size, the height of the HDRI.
 /// Fails (returns empty vectors) if the input data is empty, the given width is not 2x the height, or an error was encountered.
-[[nodiscard]] std::array<std::vector<std::byte>, 6> convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true);
+[[nodiscard]] std::array<std::vector<std::byte>, 6> convertHDRIToCubeMap(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, uint16_t resolution = 0, bool bilinear = true, bool skybox = false);
 
 /// Takes in RGBA32323232F format image data, returns SOURCEPP_BGRA8888_HDR compressed HDR image data (alias for BGRA8888)
 [[nodiscard]] std::vector<std::byte> compressBGRA8888HDR(std::span<const std::byte> imageData, float overbrightFactor = 16.f);
