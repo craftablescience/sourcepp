@@ -81,15 +81,17 @@ using EscapeSequenceMap = std::unordered_map<char, char>;
 /**
  * Eat all whitespace after the current stream position.
  * @param stream The BufferStream to modify.
+ * @return The number of characters eaten.
  */
-void eatWhitespace(BufferStream& stream);
+uint32_t eatWhitespace(BufferStream& stream);
 
 /**
  * If a single line comment is detected, eat its contents.
  * This function does not handle the detection of single line comments!
  * @param stream The BufferStream to modify.
+ * @return The number of characters eaten.
  */
-void eatSingleLineComment(BufferStream& stream);
+uint32_t eatSingleLineComment(BufferStream& stream);
 
 /**
  * If a multi line comment is detected, eat its contents.
