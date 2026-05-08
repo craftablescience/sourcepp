@@ -57,6 +57,7 @@ inline vpkpp::EntryCompressionType cast(vpkpp_entry_compression_type_e value) {
 		case VPKPP_ENTRY_COMPRESSION_TYPE_LZMA:        return vpkpp::EntryCompressionType::LZMA;
 		case VPKPP_ENTRY_COMPRESSION_TYPE_ZSTD:        return vpkpp::EntryCompressionType::ZSTD;
 		case VPKPP_ENTRY_COMPRESSION_TYPE_XZ:          return vpkpp::EntryCompressionType::XZ;
+		case VPKPP_ENTRY_COMPRESSION_TYPE_PPMD:        return vpkpp::EntryCompressionType::PPMD;
 	}
 	return vpkpp::EntryCompressionType::NO_OVERRIDE;
 }
@@ -70,6 +71,7 @@ inline vpkpp_entry_compression_type_e cast(vpkpp::EntryCompressionType value) {
 		case vpkpp::EntryCompressionType::LZMA:        return VPKPP_ENTRY_COMPRESSION_TYPE_LZMA;
 		case vpkpp::EntryCompressionType::ZSTD:        return VPKPP_ENTRY_COMPRESSION_TYPE_ZSTD;
 		case vpkpp::EntryCompressionType::XZ:          return VPKPP_ENTRY_COMPRESSION_TYPE_XZ;
+		case vpkpp::EntryCompressionType::PPMD:        return VPKPP_ENTRY_COMPRESSION_TYPE_PPMD;
 	}
 	return VPKPP_ENTRY_COMPRESSION_TYPE_NO_OVERRIDE;
 }
