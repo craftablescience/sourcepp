@@ -111,10 +111,10 @@ public sealed class PPL : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_file(Handle, imagePath, lod, quality));
 	}
 	
-	public bool SetImage(string imagePath, uint resizedWidth, uint resizedHeight, uint lod = 0, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
+	public bool SetImage(string imagePath, uint resizedWidth, uint resizedHeight, uint lod = 0, bool premultipliedAlpha = false, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
 	{
 		ThrowIfDisposed();
-		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_file_with_options(Handle, imagePath, resizedWidth, resizedHeight, lod, filter, quality));
+		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_file_with_options(Handle, imagePath, resizedWidth, resizedHeight, lod, Convert.ToInt32(premultipliedAlpha), filter, quality));
 	}
 
 	public bool SetImage(ReadOnlySpan<byte> buffer, ImageFormat format, uint width, uint height, uint lod = 0, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
@@ -123,10 +123,10 @@ public sealed class PPL : sourcepp.ManagedNativeHandle
 		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_mem(Handle, buffer, (ulong) buffer.Length, format, width, height, lod, quality));
 	}
 	
-	public bool SetImage(ReadOnlySpan<byte> buffer, ImageFormat format, uint width, uint height, uint resizedWidth, uint resizedHeight, uint lod = 0, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
+	public bool SetImage(ReadOnlySpan<byte> buffer, ImageFormat format, uint width, uint height, uint resizedWidth, uint resizedHeight, uint lod = 0, bool premultipliedAlpha = false, ImageConversion.ResizeFilter filter = ImageConversion.ResizeFilter.DEFAULT, float quality = ImageConversion.DEFAULT_COMPRESSED_QUALITY)
 	{
 		ThrowIfDisposed();
-		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_mem_with_options(Handle, buffer, (ulong) buffer.Length, format, width, height, resizedWidth, resizedHeight, lod, filter, quality));
+		return Convert.ToBoolean(DLL.vtfpp_ppl_set_image_from_mem_with_options(Handle, buffer, (ulong) buffer.Length, format, width, height, resizedWidth, resizedHeight, lod, Convert.ToInt32(premultipliedAlpha), filter, quality));
 	}
 
 	public bool RemoveImage(uint lod)

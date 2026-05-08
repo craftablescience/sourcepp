@@ -113,7 +113,7 @@ VTFPP_API void vtfpp_image_conversion_set_resized_dims(uint16_t* width, vtfpp_im
 	ImageConversion::setResizedDims(*width, convert::cast(widthResize), *height, convert::cast(heightResize));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, int srgb, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge) {
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, int srgb, int premultipliedAlpha, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
@@ -122,10 +122,10 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data(const unsig
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(newHeight, SOURCEPP_BUFFER_INVALID);
 
-	return convert::toBuffer(ImageConversion::resizeImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, newWidth, height, newHeight, srgb, convert::cast(filter), convert::cast(edge)));
+	return convert::toBuffer(ImageConversion::resizeImageData({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, newWidth, height, newHeight, srgb, premultipliedAlpha, convert::cast(filter), convert::cast(edge)));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t* widthOut, vtfpp_image_conversion_resize_method_e widthResize, uint16_t height, uint16_t newHeight, uint16_t* heightOut, vtfpp_image_conversion_resize_method_e heightResize, int srgb, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge) {
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t* widthOut, vtfpp_image_conversion_resize_method_e widthResize, uint16_t height, uint16_t newHeight, uint16_t* heightOut, vtfpp_image_conversion_resize_method_e heightResize, int srgb, int premultipliedAlpha, vtfpp_image_conversion_resize_filter_e filter, vtfpp_image_conversion_resize_edge_e edge) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
@@ -136,7 +136,7 @@ VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_resize_image_data_strict(cons
 	SOURCEPP_EARLY_RETURN_VAL(newHeight, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(heightOut, SOURCEPP_BUFFER_INVALID);
 
-	return convert::toBuffer(ImageConversion::resizeImageDataStrict({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, newWidth, *widthOut, convert::cast(widthResize), height, newHeight, *heightOut, convert::cast(heightResize), srgb, convert::cast(filter), convert::cast(edge)));
+	return convert::toBuffer(ImageConversion::resizeImageDataStrict({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, newWidth, *widthOut, convert::cast(widthResize), height, newHeight, *heightOut, convert::cast(heightResize), srgb, premultipliedAlpha, convert::cast(filter), convert::cast(edge)));
 }
 
 VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_crop_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {

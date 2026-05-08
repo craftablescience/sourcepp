@@ -964,10 +964,10 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
+	writer.setResizesUsingPremultipliedAlpha(options.premultipliedAlpha);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
-	if (requestedResizeWidth != width || requestedResizeHeight != height) {
-		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
+	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.areResizesUsingPremultipliedAlpha(), options.filter);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
 			return false;
 		}
@@ -991,10 +991,10 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
+	writer.setResizesUsingPremultipliedAlpha(options.premultipliedAlpha);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
-	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
-	if (requestedResizeWidth != width || requestedResizeHeight != height) {
-		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), options.filter);
+	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.areResizesUsingPremultipliedAlpha(), options.filter);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
 			writer.opened = false;
 			return writer;
@@ -1322,6 +1322,18 @@ void VTF::setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter,
 	}
 }
 
+bool VTF::areResizesUsingPremultipliedAlpha() const {
+	return this->flagsExtra & FLAG_SPP_USING_PREMULTIPLIED_ALPHA;
+}
+
+void VTF::setResizesUsingPremultipliedAlpha(bool usePremultipliedAlpha) {
+	if (usePremultipliedAlpha) {
+		this->flagsExtra |= FLAG_SPP_USING_PREMULTIPLIED_ALPHA;
+	} else {
+		this->flagsExtra &= ~FLAG_SPP_USING_PREMULTIPLIED_ALPHA;
+	}
+}
+
 uint8_t VTF::getMipCount() const {
 	return this->mipCount;
 }
@@ -1373,7 +1385,7 @@ void VTF::computeMips(ImageConversion::ResizeFilter filter) {
 					const auto [mipWidth, mipHeight, mipDepth] = ImageDimensions::getMipDims(i, this->width, this->height, this->depth);
 					const auto [mipWidthM1, mipHeightM1] = ImageDimensions::getMipDims(i - 1, this->width, this->height);
 					for (int l = 0; l < mipDepth; l++) {
-						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, mipWidthM1, mipWidth, mipHeightM1, mipHeight, this->isSRGB(), filter);
+						auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(i - 1, j, k, l), this->format, mipWidthM1, mipWidth, mipHeightM1, mipHeight, this->isSRGB(), this->areResizesUsingPremultipliedAlpha(), filter);
 						if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, l, this->depth) && mip.size() == length) {
 							std::memcpy(outputDataPtr + offset, mip.data(), length);
 						}
@@ -1728,7 +1740,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 								auto imageSpan = this->getImageDataRaw(sourceMipIndex, j, k, l);
 								std::vector<std::byte> imageBacking;
 								if (sourceMipWidth != newMipWidth || sourceMipHeight != newMipHeight) {
-									imageBacking = ImageConversion::resizeImageData(imageSpan, this->format, sourceMipWidth, newMipWidth, sourceMipHeight, newMipHeight, this->isSRGB(), filter);
+									imageBacking = ImageConversion::resizeImageData(imageSpan, this->format, sourceMipWidth, newMipWidth, sourceMipHeight, newMipHeight, this->isSRGB(), this->areResizesUsingPremultipliedAlpha(), filter);
 									imageSpan = imageBacking;
 								}
 								if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, newMipCount, j, newFrameCount, k, newFaceCount, newWidth, newHeight, l, newDepth) && imageSpan.size() == length) {
@@ -2021,7 +2033,7 @@ bool VTF::setImage(std::span<const std::byte> imageData_, ImageFormat format_, u
 		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
 		const auto [newWidth, newHeight] = ImageDimensions::getMipDims(mip, this->width, this->height);
 		if (width_ != newWidth || height_ != newHeight) {
-			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), filter);
+			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), this->areResizesUsingPremultipliedAlpha(), filter);
 		}
 		if (format_ != this->format) {
 			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight, quality);
@@ -2047,7 +2059,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	// One frame (normal)
 	if (inputFrameCount == 1) {
 		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
-			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), filter);
+			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->areResizesUsingPremultipliedAlpha(), filter);
 			return this->setImage(imageDataResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame, face, slice, quality);
 		}
 		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice, quality);
@@ -2059,7 +2071,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
 		std::span currentFrameData{imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize};
 		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
-			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), filter);
+			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->areResizesUsingPremultipliedAlpha(), filter);
 			if (!this->setImage(currentFrameResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
 				allSuccess = false;
 			}
@@ -2166,7 +2178,7 @@ void VTF::computeThumbnail(ImageConversion::ResizeFilter filter, float quality) 
 		this->thumbnailFormat = ImageFormat::DXT1;
 		this->thumbnailWidth = 16;
 		this->thumbnailHeight = 16;
-		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, quality));
+		this->setResourceInternal(Resource::TYPE_THUMBNAIL_DATA, ImageConversion::convertImageDataToFormat(ImageConversion::resizeImageData(this->getImageDataRaw(), this->format, this->width, this->thumbnailWidth, this->height, this->thumbnailHeight, this->isSRGB(), this->areResizesUsingPremultipliedAlpha(), filter), this->format, this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight, quality));
 	}
 }
 
@@ -2244,7 +2256,7 @@ void VTF::computeFallback(ImageConversion::ResizeFilter filter) {
 		const auto [mipWidth, mipHeight] = ImageDimensions::getMipDims(i, this->fallbackWidth, this->fallbackHeight);
 		for (int j = 0; j < this->frameCount; j++) {
 			for (int k = 0; k < faceCount; k++) {
-				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, mipWidth, this->height, mipHeight, this->isSRGB(), filter);
+				auto mip = ImageConversion::resizeImageData(this->getImageDataRaw(0, j, k, 0), this->format, this->width, mipWidth, this->height, mipHeight, this->isSRGB(), this->areResizesUsingPremultipliedAlpha(), filter);
 				if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->fallbackMipCount, j, this->frameCount, k, faceCount, this->fallbackWidth, this->fallbackHeight) && mip.size() == length) {
 					std::memcpy(fallbackData.data() + offset, mip.data(), length);
 				}

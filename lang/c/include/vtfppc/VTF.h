@@ -135,6 +135,11 @@ VTFPP_EXTERN typedef enum {
 } vtfpp_vtf_flags_e;
 
 VTFPP_EXTERN typedef enum {
+	VTFPP_VTF_FLAG_SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
+	VTFPP_VTF_FLAG_MASK_SPP = VTFPP_VTF_FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+} vtfpp_vtf_flags_extra_e;
+
+VTFPP_EXTERN typedef enum {
 	VTFPP_VTF_PLATFORM_UNKNOWN       = 0x000,
 	VTFPP_VTF_PLATFORM_PC            = 0x007,
 	VTFPP_VTF_PLATFORM_XBOX          = 0x005,
@@ -159,6 +164,7 @@ VTFPP_EXTERN typedef struct {
 	vtfpp_image_conversion_resize_bounds_t resizeBounds;
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
+	int premultipliedAlpha;
 	int isCubeMap;
 	uint16_t initialDepth;
 	int computeTransparencyFlags;
@@ -187,6 +193,7 @@ VTFPP_EXTERN typedef struct {
 	.resizeBounds = VTFPP_IMAGE_CONVERSION_RESIZE_BOUNDS_DEFAULT, \
 	.initialFrameCount = 1, \
 	.startFrame = 0, \
+	.premultipliedAlpha = 0, \
 	.isCubeMap = 0, \
 	.initialDepth = 1, \
 	.computeTransparencyFlags = 1, \
@@ -239,6 +246,8 @@ VTFPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
 VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap);
 VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter, float quality);
+VTFPP_API bool vtfpp_vtf_are_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle, int usePremultipliedAlpha);
 VTFPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle);
 VTFPP_API int vtfpp_vtf_set_mip_count(vtfpp_vtf_handle_t handle, uint8_t mipCount);
 VTFPP_API int vtfpp_vtf_set_recommended_mip_count(vtfpp_vtf_handle_t handle);
@@ -399,6 +408,14 @@ inline vtfpp_vtf_flags_e cast(vtfpp::VTF::Flags flags) {
 	return static_cast<vtfpp_vtf_flags_e>(flags);
 }
 
+inline vtfpp::VTF::FlagsExtra cast(vtfpp_vtf_flags_extra_e flags) {
+	return static_cast<vtfpp::VTF::FlagsExtra>(flags);
+}
+
+inline vtfpp_vtf_flags_extra_e cast(vtfpp::VTF::FlagsExtra flags) {
+	return static_cast<vtfpp_vtf_flags_extra_e>(flags);
+}
+
 inline vtfpp::VTF::Platform cast(vtfpp_vtf_platform_e value) {
 	switch (value) {
 		case VTFPP_VTF_PLATFORM_UNKNOWN:       return vtfpp::VTF::PLATFORM_UNKNOWN;
@@ -435,6 +452,7 @@ inline vtfpp::VTF::CreationOptions cast(const vtfpp_vtf_creation_options_t& valu
 		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
+		.premultipliedAlpha       = static_cast<bool>(value.premultipliedAlpha),
 		.isCubeMap                = static_cast<bool>(value.isCubeMap),
 		.initialDepth             = value.initialDepth,
 		.computeTransparencyFlags = static_cast<bool>(value.computeTransparencyFlags),
@@ -463,6 +481,7 @@ inline vtfpp_vtf_creation_options_t cast(const vtfpp::VTF::CreationOptions& valu
 		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
+		.premultipliedAlpha       = value.premultipliedAlpha,
 		.isCubeMap                = value.isCubeMap,
 		.initialDepth             = value.initialDepth,
 		.computeTransparencyFlags = value.computeTransparencyFlags,

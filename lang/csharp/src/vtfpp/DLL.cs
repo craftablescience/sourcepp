@@ -92,10 +92,10 @@ internal static partial class DLL
 	public static partial void vtfpp_image_conversion_set_resized_dims(ref ushort width, ImageConversion.ResizeMethod widthResize, ref ushort height, ImageConversion.ResizeMethod heightResize);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_resize_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ushort height, ushort newHeight, int srgb, ImageConversion.ResizeFilter filter, ImageConversion.ResizeEdge edge);
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_resize_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ushort height, ushort newHeight, int srgb, int premultipliedAlpha, ImageConversion.ResizeFilter filter, ImageConversion.ResizeEdge edge);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_resize_image_data_strict(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ref ushort widthOut, ImageConversion.ResizeMethod widthResize, ushort height, ushort newHeight, ref ushort heightOut, ImageConversion.ResizeMethod heightResize, int srgb, ImageConversion.ResizeFilter filter, ImageConversion.ResizeEdge edge);
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_resize_image_data_strict(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ref ushort widthOut, ImageConversion.ResizeMethod widthResize, ushort height, ushort newHeight, ref ushort heightOut, ImageConversion.ResizeMethod heightResize, int srgb, int premultipliedAlpha, ImageConversion.ResizeFilter filter, ImageConversion.ResizeEdge edge);
 
 	[LibraryImport(Name)]
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_crop_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort newWidth, ushort xOffset, ushort height, ushort newHeight, ushort yOffset);
@@ -107,7 +107,7 @@ internal static partial class DLL
 	public static partial void vtfpp_image_conversion_invert_green_channel_for_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
 
 	[LibraryImport(Name)]
-   	public static partial void vtfpp_image_conversion_hable_tonemap_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
+	public static partial void vtfpp_image_conversion_hable_tonemap_image_data(Span<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height);
 
 	[LibraryImport(Name)]
 	public static partial sbyte vtfpp_image_format_details_red(ImageFormat format);
@@ -245,13 +245,13 @@ internal static partial class DLL
 	public static partial int vtfpp_ppl_set_image_from_file(nint handle, string imagePath, uint lod, float quality);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
-	public static partial int vtfpp_ppl_set_image_from_file_with_options(nint handle, string imagePath, uint resizedWidth, uint resizedHeight, uint lod, ImageConversion.ResizeFilter filter, float quality);
+	public static partial int vtfpp_ppl_set_image_from_file_with_options(nint handle, string imagePath, uint resizedWidth, uint resizedHeight, uint lod, int premultipliedAlpha, ImageConversion.ResizeFilter filter, float quality);
 
 	[LibraryImport(Name)]
 	public static partial int vtfpp_ppl_set_image_from_mem(nint handle, ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, uint width, uint height, uint lod, float quality);
 
 	[LibraryImport(Name)]
-	public static partial int vtfpp_ppl_set_image_from_mem_with_options(nint handle, ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, uint width, uint height, uint resizedWidth, uint resizedHeight, uint lod, ImageConversion.ResizeFilter filter, float quality);
+	public static partial int vtfpp_ppl_set_image_from_mem_with_options(nint handle, ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, uint width, uint height, uint resizedWidth, uint resizedHeight, uint lod, int premultipliedAlpha, ImageConversion.ResizeFilter filter, float quality);
 
 	[LibraryImport(Name)]
 	public static partial int vtfpp_ppl_remove_image(nint handle, uint lod);
@@ -597,6 +597,12 @@ internal static partial class DLL
 
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_set_format(nint handle, ImageFormat format, ImageConversion.ResizeFilter filter, float quality);
+
+	[LibraryImport(Name)]
+	public static partial int vtfpp_vtf_are_resizes_using_premultiplied_alpha(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_set_resizes_using_premultiplied_alpha(nint handle, int usePremultipliedAlpha);
 
 	[LibraryImport(Name)]
 	public static partial byte vtfpp_vtf_get_mip_count(nint handle);

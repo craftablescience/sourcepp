@@ -327,6 +327,18 @@ VTFPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_forma
 	convert::handle<VTF>(handle)->setFormat(convert::cast(format), convert::cast(filter), quality);
 }
 
+VTFPP_API bool vtfpp_vtf_are_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+
+	return convert::handle<VTF>(handle)->areResizesUsingPremultipliedAlpha();
+}
+
+VTFPP_API void vtfpp_vtf_set_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle, int usePremultipliedAlpha) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->setResizesUsingPremultipliedAlpha(usePremultipliedAlpha);
+}
+
 VTFPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 

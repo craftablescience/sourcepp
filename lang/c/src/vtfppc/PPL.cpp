@@ -141,13 +141,13 @@ VTFPP_API int vtfpp_ppl_set_image_from_file(vtfpp_ppl_handle_t handle, const cha
 	return convert::handle<PPL>(handle)->setImage(imagePath, lod, quality);
 }
 
-VTFPP_API int vtfpp_ppl_set_image_from_file_with_options(vtfpp_ppl_handle_t handle, const char* imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, vtfpp_image_conversion_resize_filter_e filter, float quality) {
+VTFPP_API int vtfpp_ppl_set_image_from_file_with_options(vtfpp_ppl_handle_t handle, const char* imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, int premultipliedAlpha, vtfpp_image_conversion_resize_filter_e filter, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(imagePath, false);
 	SOURCEPP_EARLY_RETURN_VAL(resizedWidth, false);
 	SOURCEPP_EARLY_RETURN_VAL(resizedHeight, false);
 
-	return convert::handle<PPL>(handle)->setImage(imagePath, resizedWidth, resizedHeight, lod, convert::cast(filter), quality);
+	return convert::handle<PPL>(handle)->setImage(imagePath, resizedWidth, resizedHeight, lod, premultipliedAlpha, convert::cast(filter), quality);
 }
 
 VTFPP_API int vtfpp_ppl_set_image_from_mem(vtfpp_ppl_handle_t handle, const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint32_t width, uint32_t height, uint32_t lod, float quality) {
@@ -161,7 +161,7 @@ VTFPP_API int vtfpp_ppl_set_image_from_mem(vtfpp_ppl_handle_t handle, const unsi
 	return convert::handle<PPL>(handle)->setImage({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, lod, quality);
 }
 
-VTFPP_API int vtfpp_ppl_set_image_from_mem_with_options(vtfpp_ppl_handle_t handle, const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, vtfpp_image_conversion_resize_filter_e filter, float quality) {
+VTFPP_API int vtfpp_ppl_set_image_from_mem_with_options(vtfpp_ppl_handle_t handle, const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, int premultipliedAlpha, vtfpp_image_conversion_resize_filter_e filter, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 	SOURCEPP_EARLY_RETURN_VAL(buffer, false);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, false);
@@ -171,7 +171,7 @@ VTFPP_API int vtfpp_ppl_set_image_from_mem_with_options(vtfpp_ppl_handle_t handl
 	SOURCEPP_EARLY_RETURN_VAL(resizedWidth, false);
 	SOURCEPP_EARLY_RETURN_VAL(resizedHeight, false);
 
-	return convert::handle<PPL>(handle)->setImage({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, resizedWidth, resizedHeight, lod, convert::cast(filter), quality);
+	return convert::handle<PPL>(handle)->setImage({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, resizedWidth, resizedHeight, lod, premultipliedAlpha, convert::cast(filter), quality);
 }
 
 VTFPP_API int vtfpp_ppl_remove_image(vtfpp_ppl_handle_t handle, uint32_t lod) {

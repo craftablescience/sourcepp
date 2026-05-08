@@ -165,7 +165,7 @@ namespace {
 }
 #endif
 
-[[nodiscard]] constexpr int imageFormatToSTBIRPixelLayout(ImageFormat format) {
+[[nodiscard]] constexpr int imageFormatToSTBIRPixelLayout(ImageFormat format, bool premultipliedAlpha) {
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
@@ -173,9 +173,9 @@ namespace {
 		case RGBA16161616:
 		case RGBA16161616F:
 		case RGBA32323232F:
-			return STBIR_RGBA;
+			return premultipliedAlpha ? STBIR_RGBA_PM : STBIR_RGBA;
 		case ABGR8888:
-			return STBIR_ABGR;
+			return premultipliedAlpha ? STBIR_ABGR_PM : STBIR_ABGR;
 		case RGB888:
 		case RGB323232F:
 			return STBIR_RGB;
@@ -188,15 +188,15 @@ namespace {
 		case STRATA_R8:
 			return STBIR_1CHANNEL;
 		case ARGB8888:
-			return STBIR_ARGB;
+			return premultipliedAlpha ? STBIR_ARGB_PM : STBIR_ARGB;
 		case BGRA8888:
-			return STBIR_BGRA;
+			return premultipliedAlpha ? STBIR_BGRA_PM : STBIR_BGRA;
 		case UV88:
 		case RG1616F:
 		case RG3232F:
 			return STBIR_2CHANNEL;
 		case IA88:
-			return STBIR_RA;
+			return premultipliedAlpha ? STBIR_RA_PM : STBIR_RA;
 		// We want these to get converted to their respective container format before resize
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
@@ -242,7 +242,7 @@ namespace {
 	return -1;
 }
 
-[[nodiscard]] constexpr int imageFormatToSTBIRDataType(ImageFormat format, bool srgb = false) {
+[[nodiscard]] constexpr int imageFormatToSTBIRDataType(ImageFormat format, bool srgb) {
 	switch (format) {
 		using enum ImageFormat;
 		case RGBA8888:
@@ -2012,14 +2012,14 @@ void ImageConversion::setResizedDims(uint16_t& width, ResizeMethod widthResize, 
 	height = getResizedDim(height, heightResize);
 }
 
-std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge) {
+std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
 	if (ImageFormatDetails::compressed(format)) {
 		// This is horrible but what can you do?
 		const auto container = ImageFormatDetails::containerFormat(format);
-		return convertImageDataToFormat(resizeImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, newWidth, height, newHeight, srgb, filter, edge), container, format, newWidth, newHeight);
+		return convertImageDataToFormat(resizeImageData(convertImageDataToFormat(imageData, format, container, width, height), container, width, newWidth, height, newHeight, srgb, premultipliedAlpha, filter, edge), container, format, newWidth, newHeight);
 	}
 
 	STBIR_RESIZE resize;
@@ -2074,12 +2074,12 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 		stbir_resize_extended(&resize);
 	};
 
-	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format);
+	const auto pixelLayout = ::imageFormatToSTBIRPixelLayout(format, premultipliedAlpha);
 	if (pixelLayout == -1) {
 		const auto containerFormat = ImageFormatDetails::containerFormat(format);
 		const auto in = convertImageDataToFormat(imageData, format, containerFormat, width, height);
 		std::vector<std::byte> intermediary(ImageFormatDetails::getDataLength(containerFormat, newWidth, newHeight));
-		stbir_resize_init(&resize, in.data(), width, height, ImageFormatDetails::bpp(containerFormat) / 8 * width, intermediary.data(), newWidth, newHeight, ImageFormatDetails::bpp(containerFormat) / 8 * newWidth, static_cast<stbir_pixel_layout>(::imageFormatToSTBIRPixelLayout(containerFormat)), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(containerFormat, srgb)));
+		stbir_resize_init(&resize, in.data(), width, height, ImageFormatDetails::bpp(containerFormat) / 8 * width, intermediary.data(), newWidth, newHeight, ImageFormatDetails::bpp(containerFormat) / 8 * newWidth, static_cast<stbir_pixel_layout>(::imageFormatToSTBIRPixelLayout(containerFormat, premultipliedAlpha)), static_cast<stbir_datatype>(::imageFormatToSTBIRDataType(containerFormat, srgb)));
 		setEdgeModesAndFiltersAndDoResize();
 		return convertImageDataToFormat(intermediary, containerFormat, format, newWidth, newHeight);
 	}
@@ -2089,13 +2089,13 @@ std::vector<std::byte> ImageConversion::resizeImageData(std::span<const std::byt
 	return out;
 }
 
-std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge) {
+std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t& widthOut, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, uint16_t& heightOut, ResizeMethod heightResize, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
 	widthOut = getResizedDim(newWidth, widthResize);
 	heightOut = getResizedDim(newHeight, heightResize);
-	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, filter, edge);
+	return resizeImageData(imageData, format, width, widthOut, height, heightOut, srgb, premultipliedAlpha, filter, edge);
 }
 
 // NOLINTNEXTLINE(*-no-recursion)

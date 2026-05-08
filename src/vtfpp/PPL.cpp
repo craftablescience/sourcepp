@@ -112,7 +112,7 @@ bool PPL::setImage(std::span<const std::byte> imageData, ImageFormat format_, ui
 	return true;
 }
 
-bool PPL::setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, ImageConversion::ResizeFilter filter, float quality) {
+bool PPL::setImage(std::span<const std::byte> imageData, ImageFormat format_, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod,  bool premultipliedAlpha, ImageConversion::ResizeFilter filter, float quality) {
 	if (!width || !height || !resizedWidth || !resizedHeight) {
 		return false;
 	}
@@ -120,7 +120,7 @@ bool PPL::setImage(std::span<const std::byte> imageData, ImageFormat format_, ui
 	this->images[lod] = {
 		.width = width,
 		.height = height,
-		.data = ImageConversion::resizeImageData(unresizedData, this->format, width, resizedWidth, height, resizedHeight, false, filter),
+		.data = ImageConversion::resizeImageData(unresizedData, this->format, width, resizedWidth, height, resizedHeight, !ImageFormatDetails::large(format), premultipliedAlpha, filter),
 	};
 	return true;
 }
@@ -144,7 +144,7 @@ bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t lod, float q
 	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, lod, quality);
 }
 
-bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, ImageConversion::ResizeFilter filter, float quality) {
+bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod, bool premultipliedAlpha, ImageConversion::ResizeFilter filter, float quality) {
 	ImageFormat inputFormat;
 	int inputWidth, inputHeight, inputFrameCount;
 	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
@@ -156,11 +156,11 @@ bool PPL::setImage(const std::filesystem::path& imagePath, uint32_t resizedWidth
 
 	// One frame (normal)
 	if (inputFrameCount == 1) {
-		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, filter, quality);
+		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, premultipliedAlpha, filter, quality);
 	}
 
 	// Multiple frames (GIF) - discard extra frames
-	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, filter, quality);
+	return this->setImage({imageData_.data(), ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight)}, inputFormat, inputWidth, inputHeight, resizedWidth, resizedHeight, lod, premultipliedAlpha, filter, quality);
 }
 
 bool PPL::removeImage(uint32_t lod) {

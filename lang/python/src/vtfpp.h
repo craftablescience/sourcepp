@@ -281,16 +281,16 @@ inline void register_python(py::module_& m) {
 			return {width, height};
 		}, "width"_a, "resize_width"_a, "height"_a, "resize_height"_a);
 
-		ImageConversion.def("resize_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) {
-			const auto d = resizeImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, height, newHeight, srgb, filter, edge);
+		ImageConversion.def("resize_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t height, uint16_t newHeight, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) {
+			const auto d = resizeImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, height, newHeight, srgb, premultipliedAlpha, filter, edge);
 			return py::bytes{d.data(), d.size()};
-		}, "image_data"_a, "format"_a, "width"_a, "new_width"_a, "height"_a, "new_height"_a, "srgb"_a, "filter"_a, "edge"_a = ResizeEdge::CLAMP);
+		}, "image_data"_a, "format"_a, "width"_a, "new_width"_a, "height"_a, "new_height"_a, "srgb"_a, "premultiplied_alpha"_a, "filter"_a, "edge"_a = ResizeEdge::CLAMP);
 
-		ImageConversion.def("resize_image_data_strict", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) -> std::tuple<py::bytes, int, int> {
+		ImageConversion.def("resize_image_data_strict", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, ResizeMethod widthResize, uint16_t height, uint16_t newHeight, ResizeMethod heightResize, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge = ResizeEdge::CLAMP) -> std::tuple<py::bytes, int, int> {
 			uint16_t widthOut, heightOut;
-			const auto d = resizeImageDataStrict({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, widthOut, widthResize, height, newHeight, heightOut, heightResize, srgb, filter, edge);
+			const auto d = resizeImageDataStrict({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, widthOut, widthResize, height, newHeight, heightOut, heightResize, srgb, premultipliedAlpha, filter, edge);
 			return {py::bytes{d.data(), d.size()}, widthOut, heightOut};
-		}, "image_data"_a, "format"_a, "width"_a, "new_width"_a, "width_resize"_a, "height"_a, "new_height"_a, "height_resize"_a, "srgb"_a, "filter"_a, "edge"_a = ResizeEdge::CLAMP);
+		}, "image_data"_a, "format"_a, "width"_a, "new_width"_a, "width_resize"_a, "height"_a, "new_height"_a, "height_resize"_a, "srgb"_a, "premultiplied_alpha"_a, "filter"_a, "edge"_a = ResizeEdge::CLAMP);
 
 		ImageConversion.def("crop_image_data", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {
 			const auto d = cropImageData({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, newWidth, xOffset, height, newHeight, yOffset);
@@ -365,11 +365,11 @@ inline void register_python(py::module_& m) {
 		.def("set_image", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t lod = 0, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
 			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, lod, quality);
 		}, "imageData"_a, "format"_a, "width"_a, "height"_a, "lod"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
-			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, filter, quality);
-		}, "imageData"_a, "format"_a, "width"_a, "height"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_resized", [](PPL& self, const py::bytes& imageData, ImageFormat format, uint32_t width, uint32_t height, uint32_t resizedWidth, uint32_t resizedHeight, uint32_t lod = 0, bool premultipliedAlpha = false, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY) {
+			self.setImage({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, resizedWidth, resizedHeight, lod, premultipliedAlpha, filter, quality);
+		}, "imageData"_a, "format"_a, "width"_a, "height"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "premultiplied_alpha"_a = false, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("set_image_from_file", py::overload_cast<const std::filesystem::path&, uint32_t, float>(&PPL::setImage), "image_path"_a, "lod"_a = 0, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def("set_image_resized_from_file", py::overload_cast<const std::filesystem::path&, uint32_t, uint32_t, uint32_t, ImageConversion::ResizeFilter, float>(&PPL::setImage), "image_path"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def("set_image_resized_from_file", py::overload_cast<const std::filesystem::path&, uint32_t, uint32_t, uint32_t, bool, ImageConversion::ResizeFilter, float>(&PPL::setImage), "image_path"_a, "resized_width"_a, "resized_height"_a, "lod"_a = 0, "premultiplied_alpha"_a = false, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
 		.def("save_image", [](const PPL& self, uint32_t lod = 0, ImageConversion::FileFormat fileFormat = ImageConversion::FileFormat::DEFAULT) {
 			const auto d = self.saveImageToFile(lod, fileFormat);
 			return py::bytes{d.data(), d.size()};
@@ -608,6 +608,10 @@ inline void register_python(py::module_& m) {
 		.value("MASK_V6",                                         VTF::FLAG_MASK_V6)
 		.value("MASK_INTERNAL",                                   VTF::FLAG_MASK_INTERNAL);
 
+	py::enum_<VTF::FlagsExtra>(cVTF, "FlagsExtra", py::is_flag())
+	.value("SPP_USING_PREMULTIPLIED_ALPHA", VTF::FLAG_SPP_USING_PREMULTIPLIED_ALPHA)
+	.value("MASK_SPP",                      VTF::FLAG_MASK_SPP);
+
 	py::enum_<VTF::Platform>(cVTF, "Platform")
 		.value("UNKNOWN",       VTF::PLATFORM_UNKNOWN)
 		.value("PC",            VTF::PLATFORM_PC)
@@ -627,6 +631,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("resize_bounds",              &VTF::CreationOptions::resizeBounds)
 		.def_rw("initial_frame_count",        &VTF::CreationOptions::initialFrameCount)
 		.def_rw("start_frame",                &VTF::CreationOptions::startFrame)
+		.def_rw("premultiplied_alpha",        &VTF::CreationOptions::premultipliedAlpha)
 		.def_rw("is_cubemap",                 &VTF::CreationOptions::isCubeMap)
 		.def_rw("initial_depth",              &VTF::CreationOptions::initialDepth)
 		.def_rw("compute_transparency_flags", &VTF::CreationOptions::computeTransparencyFlags)
@@ -680,6 +685,7 @@ inline void register_python(py::module_& m) {
 		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, "input_format"_a, "version"_a, "is_cubemap"_a)
 		.def_prop_ro("format", &VTF::getFormat)
 		.def("set_format", &VTF::setFormat, "new_format"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
+		.def_prop_rw("resizes_using_premultiplied_alpha", &VTF::areResizesUsingPremultipliedAlpha, &VTF::setResizesUsingPremultipliedAlpha)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)
 		.def("set_recommended_mip_count", &VTF::setRecommendedMipCount)
 		.def("compute_mips", &VTF::computeMips, "filter"_a = ImageConversion::ResizeFilter::DEFAULT)

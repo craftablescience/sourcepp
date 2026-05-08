@@ -222,7 +222,13 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		MASK_INTERNAL = V0_NO_MIP | V0_ENVMAP,
 	}
 
-	public enum Platform
+	public enum FlagsExtra : uint
+	{
+		SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
+		MASK_SPP = FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+	}
+
+	public enum Platform : uint
 	{
 		UNKNOWN       = 0x000,
 		PC            = 0x007,
@@ -248,6 +254,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		public ImageConversion.ResizeBounds ResizeBounds = default;
 		public ushort InitialFrameCount = 1;
 		public ushort StartFrame = 0;
+		public int PremultipliedAlpha = 0;
 		public int IsCubeMap = 0;
 		public ushort InitialDepth = 1;
 		public int ComputeTransparencyFlags = 1;
@@ -482,6 +489,20 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 	{
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_set_format(Handle, format, filter, quality);
+	}
+
+	public bool ResizesUsePremultipliedAlpha
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return Convert.ToBoolean(DLL.vtfpp_vtf_are_resizes_using_premultiplied_alpha(Handle));
+		}
+		set
+		{
+			ThrowIfDisposed();
+			DLL.vtfpp_vtf_set_resizes_using_premultiplied_alpha(Handle, Convert.ToInt32(value));
+		}
 	}
 
 	public byte MipCount

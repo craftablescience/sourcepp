@@ -188,6 +188,11 @@ public:
 		FLAG_MASK_INTERNAL = FLAG_V0_NO_MIP | FLAG_V0_ENVMAP,
 	};
 
+	enum FlagsExtra : uint32_t {
+		FLAG_SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
+		FLAG_MASK_SPP = FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+	};
+
 	enum Platform : uint32_t {
 		PLATFORM_UNKNOWN       = 0x000,
 		PLATFORM_PC            = 0x007,
@@ -208,6 +213,7 @@ public:
 		ImageConversion::ResizeBounds resizeBounds;
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
+		bool premultipliedAlpha = false;
 		bool isCubeMap = false;
 		uint16_t initialDepth = 1;
 		bool computeTransparencyFlags = true;
@@ -306,6 +312,10 @@ public:
 	[[nodiscard]] ImageFormat getFormat() const;
 
 	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
+
+	[[nodiscard]] bool areResizesUsingPremultipliedAlpha() const;
+
+	void setResizesUsingPremultipliedAlpha(bool usePremultipliedAlpha);
 
 	[[nodiscard]] uint8_t getMipCount() const;
 
@@ -502,6 +512,7 @@ protected:
 	uint16_t width = 0;
 	uint16_t height = 0;
 	uint32_t flags = FLAG_V0_NO_MIP;
+	uint32_t flagsExtra = 0;
 
 	uint16_t frameCount = 1;
 	uint16_t startFrame = 0;

@@ -146,14 +146,14 @@ public static class ImageConversion
 		DLL.vtfpp_image_conversion_set_resized_dims(ref width, widthResize, ref height, heightResize);
 	}
 
-	public static byte[] ResizeImageData(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort newWidth, ushort height, ushort newHeight, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge.CLAMP)
+	public static byte[] ResizeImageData(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort newWidth, ushort height, ushort newHeight, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge = ResizeEdge.CLAMP)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_resize_image_data(buffer, (ulong) buffer.Length, format, width, newWidth, height, newHeight, Convert.ToInt32(srgb), filter, edge)).Read<byte>();
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_resize_image_data(buffer, (ulong) buffer.Length, format, width, newWidth, height, newHeight, Convert.ToInt32(srgb), Convert.ToInt32(premultipliedAlpha), filter, edge)).Read<byte>();
 	}
 	
-	public static byte[] ResizeImageDataStrict(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort newWidth, ref ushort widthOut, ResizeMethod widthResize, ushort height, ushort newHeight, ref ushort heightOut, ResizeMethod heightResize, bool srgb, ResizeFilter filter, ResizeEdge edge = ResizeEdge.CLAMP)
+	public static byte[] ResizeImageDataStrict(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort newWidth, ref ushort widthOut, ResizeMethod widthResize, ushort height, ushort newHeight, ref ushort heightOut, ResizeMethod heightResize, bool srgb, bool premultipliedAlpha, ResizeFilter filter, ResizeEdge edge = ResizeEdge.CLAMP)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_resize_image_data_strict(buffer, (ulong) buffer.Length, format, width, newWidth, ref widthOut, widthResize, height, newHeight, ref heightOut, heightResize, Convert.ToInt32(srgb), filter, edge)).Read<byte>();
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_resize_image_data_strict(buffer, (ulong) buffer.Length, format, width, newWidth, ref widthOut, widthResize, height, newHeight, ref heightOut, heightResize, Convert.ToInt32(srgb), Convert.ToInt32(premultipliedAlpha), filter, edge)).Read<byte>();
 	}
 
 	public static byte[] CropImageData(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort newWidth, ushort xOffset, ushort height, ushort newHeight, ushort yOffset)
