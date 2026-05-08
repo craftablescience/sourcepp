@@ -521,7 +521,8 @@ inline void register_python(py::module_& m) {
 		.value("AUX_COMPRESSION",     Resource::TYPE_AUX_COMPRESSION)
 		.value("LOD_CONTROL_INFO",    Resource::TYPE_LOD_CONTROL_INFO)
 		.value("KEYVALUES_DATA",      Resource::TYPE_KEYVALUES_DATA)
-		.value("AUTHOR_INFO",         Resource::TYPE_AUTHOR_INFO);
+		.value("AUTHOR_INFO",         Resource::TYPE_AUTHOR_INFO)
+		.value("SOURCEPP_FLAGS",      Resource::TYPE_SOURCEPP_FLAGS);
 
 	py::enum_<Resource::Flags>(cResource, "Flags", py::is_flag())
 		.value("NONE",       Resource::FLAG_NONE)
@@ -533,7 +534,7 @@ inline void register_python(py::module_& m) {
 		.def("get_data_as_palette",                &Resource::getDataAsPalette, "frame"_a = 0)
 		.def("get_data_as_particle_sheet",         &Resource::getDataAsParticleSheet)
 		.def("get_data_as_crc",                    &Resource::getDataAsCRC)
-		.def("get_data_as_extended_flags",         &Resource::getDataAsExtendedFlags)
+		.def("get_data_as_flags",                  &Resource::getDataAsFlags)
 		.def("get_data_as_lod_control_info",       &Resource::getDataAsLODControlInfo)
 		.def("get_data_as_keyvalues_data",         &Resource::getDataAsKeyValuesData)
 		.def("get_data_as_author_info",            &Resource::getDataAsAuthorInfo)

@@ -49,6 +49,7 @@ struct Resource {
 		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
 		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
 		TYPE_AUTHOR_INFO         = sourcepp::parser::binary::makeFourCC("ATH\0"),
+		TYPE_SOURCEPP_FLAGS      = sourcepp::parser::binary::makeFourCC("SPP\0"),
 	};
 
 	enum Flags : uint8_t {
@@ -63,7 +64,7 @@ struct Resource {
 	using ConvertedData = std::variant<
 		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 		SHT, // Particle Sheet
-		uint32_t, // CRC, TS0
+		uint32_t, // CRC, TS0, SPP
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
 		HOT // Hotspot data
@@ -76,7 +77,7 @@ struct Resource {
 
 	[[nodiscard]] uint32_t getDataAsCRC() const;
 
-	[[nodiscard]] uint32_t getDataAsExtendedFlags() const;
+	[[nodiscard]] uint32_t getDataAsFlags() const;
 
 	[[nodiscard]] std::tuple<uint8_t, uint8_t, uint8_t, uint8_t> getDataAsLODControlInfo() const;
 

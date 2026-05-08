@@ -302,6 +302,7 @@ Resource::ConvertedData Resource::convertData() const {
 			return SHT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
 		case TYPE_CRC:
 		case TYPE_EXTENDED_FLAGS:
+		case TYPE_SOURCEPP_FLAGS:
 			if (this->data.size() != sizeof(uint32_t)) {
 				return {};
 			}
@@ -348,7 +349,7 @@ uint32_t Resource::getDataAsCRC() const {
 	return std::get<uint32_t>(this->convertData());
 }
 
-uint32_t Resource::getDataAsExtendedFlags() const {
+uint32_t Resource::getDataAsFlags() const {
 	return std::get<uint32_t>(this->convertData());
 }
 
@@ -652,6 +653,10 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly, bool hdr)
 				}
 			}
 
+			if (const auto* resource = this->getResource(Resource::TYPE_SOURCEPP_FLAGS)) {
+				this->flagsExtra = resource->getDataAsFlags();
+				this->removeResourceInternal(Resource::TYPE_SOURCEPP_FLAGS);
+			}
 			if (const auto* resource = this->getResource(Resource::TYPE_AUX_COMPRESSION)) {
 				this->compressionLevel = resource->getDataAsAuxCompressionLevel();
 				this->compressionMethod = resource->getDataAsAuxCompressionMethod();
@@ -2548,6 +2553,14 @@ std::vector<std::byte> VTF::bake() const {
 				writer.pad(3).write<uint32_t>(this->getResources().size() + hasAuxCompression).pad(8);
 
 				std::vector<Resource> sortedResources = this->getResources();
+				auto flagsExtraBacking = std::bit_cast<std::array<std::byte, 4>>(this->flagsExtra);
+				if (this->flagsExtra != 0) {
+					sortedResources.push_back({
+						.type = Resource::TYPE_SOURCEPP_FLAGS,
+						.flags = Resource::FLAG_LOCAL_DATA,
+						.data = flagsExtraBacking,
+					});
+				}
 				if (hasAuxCompression) {
 					for (auto& resource : sortedResources) {
 						if (resource.type == Resource::TYPE_IMAGE_DATA) {

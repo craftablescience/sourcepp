@@ -54,10 +54,10 @@ VTFPP_API uint32_t vtfpp_resource_get_data_as_crc(vtfpp_resource_handle_t handle
 	return convert::handle<const Resource>(handle)->getDataAsCRC();
 }
 
-VTFPP_API uint32_t vtfpp_resource_get_data_as_extended_flags(vtfpp_resource_handle_t handle) {
+VTFPP_API uint32_t vtfpp_resource_get_data_as_flags(vtfpp_resource_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<const Resource>(handle)->getDataAsExtendedFlags();
+	return convert::handle<const Resource>(handle)->getDataAsFlags();
 }
 
 VTFPP_API void vtfpp_resource_get_data_as_lod_control_info(vtfpp_resource_handle_t handle, uint8_t* u, uint8_t* v, uint8_t* u360, uint8_t* v360) {

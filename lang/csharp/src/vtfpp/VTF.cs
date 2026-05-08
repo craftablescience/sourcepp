@@ -26,6 +26,8 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 		AUX_COMPRESSION     = 4413505,
 		LOD_CONTROL_INFO    = 4476748,
 		KEYVALUES_DATA      = 4478539,
+		AUTHOR_INFO         = 4740161,
+		SOURCEPP_FLAGS      = 5263443,
 	}
 
 	[Flags]
@@ -89,10 +91,10 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 		return DLL.vtfpp_resource_get_data_as_crc(Handle);
 	}
 
-	public uint GetDataAsExtendedFlags()
+	public uint GetDataAsFlags()
 	{
 		ThrowIfDisposed();
-		return DLL.vtfpp_resource_get_data_as_extended_flags(Handle);
+		return DLL.vtfpp_resource_get_data_as_flags(Handle);
 	}
 
 	public (byte, byte, byte, byte) GetDataAsLodControlInfo()
@@ -225,7 +227,7 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 	public enum FlagsExtra : uint
 	{
 		SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
-		MASK_SPP = FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+		MASK_SPP = SPP_USING_PREMULTIPLIED_ALPHA,
 	}
 
 	public enum Platform : uint

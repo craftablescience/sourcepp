@@ -470,7 +470,7 @@ internal static partial class DLL
 	public static partial uint vtfpp_resource_get_data_as_crc(nint handle);
 
 	[LibraryImport(Name)]
-	public static partial uint vtfpp_resource_get_data_as_extended_flags(nint handle);
+	public static partial uint vtfpp_resource_get_data_as_flags(nint handle);
 
 	[LibraryImport(Name)]
 	public static partial void vtfpp_resource_get_data_as_lod_control_info(nint handle, ref byte u, ref byte v, ref byte u360, ref byte v360);
