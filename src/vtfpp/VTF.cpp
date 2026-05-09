@@ -2554,7 +2554,7 @@ std::vector<std::byte> VTF::bake() const {
 					}
 				}
 
-				writer.pad(3).write<uint32_t>(this->getResources().size() + hasAuxCompression).pad(8);
+				writer.pad(3).write<uint32_t>(this->getResources().size() + hasAuxCompression + (this->flagsExtra != 0)).pad(8);
 
 				std::vector<Resource> sortedResources = this->getResources();
 				auto flagsExtraBacking = std::bit_cast<std::array<std::byte, 4>>(this->flagsExtra);
