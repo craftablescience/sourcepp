@@ -610,8 +610,8 @@ inline void register_python(py::module_& m) {
 		.value("MASK_INTERNAL",                                   VTF::FLAG_MASK_INTERNAL);
 
 	py::enum_<VTF::FlagsExtra>(cVTF, "FlagsExtra", py::is_flag())
-	.value("SPP_USING_PREMULTIPLIED_ALPHA", VTF::FLAG_SPP_USING_PREMULTIPLIED_ALPHA)
-	.value("MASK_SPP",                      VTF::FLAG_MASK_SPP);
+		.value("USING_PREMULTIPLIED_ALPHA_RESIZE", VTF::FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE)
+		.value("MASK",                             VTF::FLAG_EXTRA_MASK);
 
 	py::enum_<VTF::Platform>(cVTF, "Platform")
 		.value("UNKNOWN",       VTF::PLATFORM_UNKNOWN)
@@ -629,10 +629,10 @@ inline void register_python(py::module_& m) {
 		.def_rw("height_resize_method",       &VTF::CreationOptions::heightResizeMethod)
 		.def_rw("filter",                     &VTF::CreationOptions::filter)
 		.def_rw("flags",                      &VTF::CreationOptions::flags)
+		.def_rw("flags_extra",                &VTF::CreationOptions::flagsExtra)
 		.def_rw("resize_bounds",              &VTF::CreationOptions::resizeBounds)
 		.def_rw("initial_frame_count",        &VTF::CreationOptions::initialFrameCount)
 		.def_rw("start_frame",                &VTF::CreationOptions::startFrame)
-		.def_rw("premultiplied_alpha",        &VTF::CreationOptions::premultipliedAlpha)
 		.def_rw("is_cubemap",                 &VTF::CreationOptions::isCubeMap)
 		.def_rw("initial_depth",              &VTF::CreationOptions::initialDepth)
 		.def_rw("compute_transparency_flags", &VTF::CreationOptions::computeTransparencyFlags)
@@ -681,12 +681,14 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("flags", &VTF::getFlags, &VTF::setFlags)
 		.def("add_flags", &VTF::addFlags, "flags"_a)
 		.def("remove_flags", &VTF::removeFlags, "flags"_a)
+		.def_prop_rw("flags_extra", &VTF::getFlagsExtra, &VTF::setFlagsExtra)
+		.def("add_flags_extra", &VTF::addFlagsExtra, "flags"_a)
+		.def("remove_flags_extra", &VTF::removeFlagsExtra, "flags"_a)
 		.def_prop_rw("is_srgb", &VTF::isSRGB, &VTF::setSRGB)
 		.def("compute_transparency_flags", &VTF::computeTransparencyFlags)
 		.def_static("get_default_compressed_format", &VTF::getDefaultCompressedFormat, "input_format"_a, "version"_a, "is_cubemap"_a)
 		.def_prop_ro("format", &VTF::getFormat)
 		.def("set_format", &VTF::setFormat, "new_format"_a, "filter"_a = ImageConversion::ResizeFilter::DEFAULT, "quality"_a = ImageConversion::DEFAULT_COMPRESSED_QUALITY)
-		.def_prop_rw("resizes_using_premultiplied_alpha", &VTF::areResizesUsingPremultipliedAlpha, &VTF::setResizesUsingPremultipliedAlpha)
 		.def_prop_rw("mip_count", &VTF::getMipCount, &VTF::setMipCount)
 		.def("set_recommended_mip_count", &VTF::setRecommendedMipCount)
 		.def("compute_mips", &VTF::computeMips, "filter"_a = ImageConversion::ResizeFilter::DEFAULT)

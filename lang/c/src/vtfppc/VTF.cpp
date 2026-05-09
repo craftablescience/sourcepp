@@ -293,6 +293,30 @@ VTFPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags)
 	convert::handle<VTF>(handle)->removeFlags(flags);
 }
 
+VTFPP_API uint32_t vtfpp_vtf_get_flags_extra(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
+
+	return convert::handle<VTF>(handle)->getFlagsExtra();
+}
+
+VTFPP_API void vtfpp_vtf_set_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->setFlagsExtra(flags);
+}
+
+VTFPP_API void vtfpp_vtf_add_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->addFlagsExtra(flags);
+}
+
+VTFPP_API void vtfpp_vtf_remove_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->removeFlagsExtra(flags);
+}
+
 VTFPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, false);
 
@@ -325,18 +349,6 @@ VTFPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_forma
 	SOURCEPP_EARLY_RETURN(handle);
 
 	convert::handle<VTF>(handle)->setFormat(convert::cast(format), convert::cast(filter), quality);
-}
-
-VTFPP_API bool vtfpp_vtf_are_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle) {
-	SOURCEPP_EARLY_RETURN_VAL(handle, false);
-
-	return convert::handle<VTF>(handle)->areResizesUsingPremultipliedAlpha();
-}
-
-VTFPP_API void vtfpp_vtf_set_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle, int usePremultipliedAlpha) {
-	SOURCEPP_EARLY_RETURN(handle);
-
-	convert::handle<VTF>(handle)->setResizesUsingPremultipliedAlpha(usePremultipliedAlpha);
 }
 
 VTFPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle) {

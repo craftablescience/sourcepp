@@ -226,8 +226,8 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 
 	public enum FlagsExtra : uint
 	{
-		SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
-		MASK_SPP = SPP_USING_PREMULTIPLIED_ALPHA,
+		USING_PREMULTIPLIED_ALPHA_RESIZE = 1u << 0,
+		MASK = USING_PREMULTIPLIED_ALPHA_RESIZE,
 	}
 
 	public enum Platform : uint
@@ -446,11 +446,37 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_add_flags(Handle, (uint) flags);
 	}
-	
+
 	public void RemoveFlags(Flags flags)
 	{
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_remove_flags(Handle, (uint) flags);
+	}
+
+	public Flags VtfFlagsExtra
+	{
+		get
+		{
+			ThrowIfDisposed();
+			return (Flags) DLL.vtfpp_vtf_get_flags_extra(Handle);
+		}
+		set
+		{
+			ThrowIfDisposed();
+			DLL.vtfpp_vtf_set_flags_extra(Handle, (uint) value);
+		}
+	}
+
+	public void AddFlagsExtra(FlagsExtra flags)
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_add_flags_extra(Handle, (uint) flags);
+	}
+
+	public void RemoveFlagsExtra(FlagsExtra flags)
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_remove_flags_extra(Handle, (uint) flags);
 	}
 
 	public bool IsSrgb

@@ -136,8 +136,8 @@ VTFPP_EXTERN typedef enum {
 } vtfpp_vtf_flags_e;
 
 VTFPP_EXTERN typedef enum {
-	VTFPP_VTF_FLAG_SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
-	VTFPP_VTF_FLAG_MASK_SPP = VTFPP_VTF_FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+	VTFPP_VTF_FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE = 1u << 0,
+	VTFPP_VTF_FLAG_EXTRA_MASK = VTFPP_VTF_FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE,
 } vtfpp_vtf_flags_extra_e;
 
 VTFPP_EXTERN typedef enum {
@@ -162,10 +162,10 @@ VTFPP_EXTERN typedef struct {
 	vtfpp_image_conversion_resize_method_e heightResizeMethod;
 	vtfpp_image_conversion_resize_filter_e filter;
 	uint32_t flags;
+	uint32_t flagsExtra;
 	vtfpp_image_conversion_resize_bounds_t resizeBounds;
 	uint16_t initialFrameCount;
 	uint16_t startFrame;
-	int premultipliedAlpha;
 	int isCubeMap;
 	uint16_t initialDepth;
 	int computeTransparencyFlags;
@@ -191,10 +191,10 @@ VTFPP_EXTERN typedef struct {
 	.heightResizeMethod = VTFPP_IMAGE_CONVERSION_RESIZE_METHOD_POWER_OF_TWO_BIGGER, \
 	.filter = VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT, \
 	.flags = 0, \
+	.flagsExtra = 0, \
 	.resizeBounds = VTFPP_IMAGE_CONVERSION_RESIZE_BOUNDS_DEFAULT, \
 	.initialFrameCount = 1, \
 	.startFrame = 0, \
-	.premultipliedAlpha = 0, \
 	.isCubeMap = 0, \
 	.initialDepth = 1, \
 	.computeTransparencyFlags = 1, \
@@ -241,14 +241,16 @@ VTFPP_API uint32_t vtfpp_vtf_get_flags(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
 VTFPP_API void vtfpp_vtf_add_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
 VTFPP_API void vtfpp_vtf_remove_flags(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API uint32_t vtfpp_vtf_get_flags_extra(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API void vtfpp_vtf_add_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags);
+VTFPP_API void vtfpp_vtf_remove_flags_extra(vtfpp_vtf_handle_t handle, uint32_t flags);
 VTFPP_API int vtfpp_vtf_is_srgb(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_srgb(vtfpp_vtf_handle_t handle, int srgb);
 VTFPP_API void vtfpp_vtf_compute_transparency_flags(vtfpp_vtf_handle_t handle);
 VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_default_compressed_format(vtfpp_image_format_e inputFormat, uint32_t version, int isCubeMap);
 VTFPP_API vtfpp_image_format_e vtfpp_vtf_get_format(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_format(vtfpp_vtf_handle_t handle, vtfpp_image_format_e format, vtfpp_image_conversion_resize_filter_e filter, float quality);
-VTFPP_API bool vtfpp_vtf_are_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle);
-VTFPP_API void vtfpp_vtf_set_resizes_using_premultiplied_alpha(vtfpp_vtf_handle_t handle, int usePremultipliedAlpha);
 VTFPP_API uint8_t vtfpp_vtf_get_mip_count(vtfpp_vtf_handle_t handle);
 VTFPP_API int vtfpp_vtf_set_mip_count(vtfpp_vtf_handle_t handle, uint8_t mipCount);
 VTFPP_API int vtfpp_vtf_set_recommended_mip_count(vtfpp_vtf_handle_t handle);
@@ -452,10 +454,10 @@ inline vtfpp::VTF::CreationOptions cast(const vtfpp_vtf_creation_options_t& valu
 		.heightResizeMethod       = cast(value.heightResizeMethod),
 		.filter                   = cast(value.filter),
 		.flags                    = value.flags,
+		.flagsExtra               = value.flagsExtra,
 		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
-		.premultipliedAlpha       = static_cast<bool>(value.premultipliedAlpha),
 		.isCubeMap                = static_cast<bool>(value.isCubeMap),
 		.initialDepth             = value.initialDepth,
 		.computeTransparencyFlags = static_cast<bool>(value.computeTransparencyFlags),
@@ -481,10 +483,10 @@ inline vtfpp_vtf_creation_options_t cast(const vtfpp::VTF::CreationOptions& valu
 		.heightResizeMethod       = cast(value.heightResizeMethod),
 		.filter                   = cast(value.filter),
 		.flags                    = value.flags,
+		.flagsExtra               = value.flagsExtra,
 		.resizeBounds             = cast(value.resizeBounds),
 		.initialFrameCount        = value.initialFrameCount,
 		.startFrame               = value.startFrame,
-		.premultipliedAlpha       = value.premultipliedAlpha,
 		.isCubeMap                = value.isCubeMap,
 		.initialDepth             = value.initialDepth,
 		.computeTransparencyFlags = value.computeTransparencyFlags,

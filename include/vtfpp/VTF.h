@@ -190,8 +190,8 @@ public:
 	};
 
 	enum FlagsExtra : uint32_t {
-		FLAG_SPP_USING_PREMULTIPLIED_ALPHA = 1u << 0,
-		FLAG_MASK_SPP = FLAG_SPP_USING_PREMULTIPLIED_ALPHA,
+		FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE = 1u << 0,
+		FLAG_EXTRA_MASK = FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE,
 	};
 
 	enum Platform : uint32_t {
@@ -211,10 +211,10 @@ public:
 		ImageConversion::ResizeMethod heightResizeMethod = ImageConversion::ResizeMethod::POWER_OF_TWO_BIGGER;
 		ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT;
 		uint32_t flags = 0;
+		uint32_t flagsExtra = 0;
 		ImageConversion::ResizeBounds resizeBounds;
 		uint16_t initialFrameCount = 1;
 		uint16_t startFrame = 0;
-		bool premultipliedAlpha = false;
 		bool isCubeMap = false;
 		uint16_t initialDepth = 1;
 		bool computeTransparencyFlags = true;
@@ -302,6 +302,14 @@ public:
 
 	void removeFlags(uint32_t flags_);
 
+	[[nodiscard]] uint32_t getFlagsExtra() const;
+
+	void setFlagsExtra(uint32_t flags_);
+
+	void addFlagsExtra(uint32_t flags_);
+
+	void removeFlagsExtra(uint32_t flags_);
+
 	[[nodiscard]] bool isSRGB() const;
 
 	void setSRGB(bool srgb);
@@ -313,10 +321,6 @@ public:
 	[[nodiscard]] ImageFormat getFormat() const;
 
 	void setFormat(ImageFormat newFormat, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::DEFAULT, float quality = ImageConversion::DEFAULT_COMPRESSED_QUALITY);
-
-	[[nodiscard]] bool areResizesUsingPremultipliedAlpha() const;
-
-	void setResizesUsingPremultipliedAlpha(bool usePremultipliedAlpha);
 
 	[[nodiscard]] uint8_t getMipCount() const;
 

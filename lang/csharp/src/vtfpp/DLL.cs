@@ -581,6 +581,18 @@ internal static partial class DLL
 	public static partial void vtfpp_vtf_remove_flags(nint handle, uint flags);
 
 	[LibraryImport(Name)]
+	public static partial uint vtfpp_vtf_get_flags_extra(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_set_flags_extra(nint handle, uint flags);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_add_flags_extra(nint handle, uint flags);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_remove_flags_extra(nint handle, uint flags);
+
+	[LibraryImport(Name)]
 	public static partial int vtfpp_vtf_is_srgb(nint handle);
 
 	[LibraryImport(Name)]
@@ -597,12 +609,6 @@ internal static partial class DLL
 
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_set_format(nint handle, ImageFormat format, ImageConversion.ResizeFilter filter, float quality);
-
-	[LibraryImport(Name)]
-	public static partial int vtfpp_vtf_are_resizes_using_premultiplied_alpha(nint handle);
-
-	[LibraryImport(Name)]
-	public static partial void vtfpp_vtf_set_resizes_using_premultiplied_alpha(nint handle, int usePremultipliedAlpha);
 
 	[LibraryImport(Name)]
 	public static partial byte vtfpp_vtf_get_mip_count(nint handle);
