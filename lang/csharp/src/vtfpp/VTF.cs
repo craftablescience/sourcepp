@@ -519,20 +519,6 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 		DLL.vtfpp_vtf_set_format(Handle, format, filter, quality);
 	}
 
-	public bool ResizesUsePremultipliedAlpha
-	{
-		get
-		{
-			ThrowIfDisposed();
-			return Convert.ToBoolean(DLL.vtfpp_vtf_are_resizes_using_premultiplied_alpha(Handle));
-		}
-		set
-		{
-			ThrowIfDisposed();
-			DLL.vtfpp_vtf_set_resizes_using_premultiplied_alpha(Handle, Convert.ToInt32(value));
-		}
-	}
-
 	public byte MipCount
 	{
 		get
