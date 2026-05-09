@@ -1025,6 +1025,7 @@ bool VTF::create(const std::filesystem::path& imagePath, const std::filesystem::
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
+	writer.addFlagsExtra(options.flagsExtra);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
 		return false;
@@ -1039,6 +1040,7 @@ VTF VTF::create(const std::filesystem::path& imagePath, const CreationOptions& o
 	VTF writer;
 	writer.setVersion(options.version);
 	writer.addFlags(options.flags);
+	writer.addFlagsExtra(options.flagsExtra);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
 		writer.opened = false;
