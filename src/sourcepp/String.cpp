@@ -20,7 +20,7 @@ std::mt19937& getRandomGenerator() {
 using namespace sourcepp;
 
 bool string::contains(std::string_view s, char c) {
-	return std::find(s.begin(), s.end(), c) != s.end();
+	return std::ranges::find(s, c) != s.end();
 }
 
 bool string::matches(std::string_view in, std::string_view search) {
@@ -67,7 +67,7 @@ bool string::iequals(std::string_view s1, std::string_view s2) {
 // https://stackoverflow.com/a/217605
 
 void string::ltrim(std::string& s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](char c) { return !std::isspace(c); }));
+    s.erase(s.begin(), std::ranges::find_if(s, [](char c) { return !std::isspace(c); }));
 }
 
 std::string_view string::ltrim(std::string_view s) {
@@ -108,7 +108,7 @@ std::string string::trimInternal(std::string_view s) {
 }
 
 void string::ltrim(std::string& s, std::string_view chars) {
-	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [chars](char c) {
+	s.erase(s.begin(), std::ranges::find_if(s, [chars](char c) {
 		return !contains(chars, c);
 	}));
 }
@@ -165,7 +165,7 @@ std::vector<std::string> string::split(std::string_view s, char delim) {
 }
 
 void string::toLower(std::string& input) {
-	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::tolower(c); });
+	std::ranges::transform(input, input.begin(), [](unsigned char c){ return std::tolower(c); });
 }
 
 std::string string::toLower(std::string_view input) {
@@ -175,7 +175,7 @@ std::string string::toLower(std::string_view input) {
 }
 
 void string::toUpper(std::string& input) {
-	std::transform(input.begin(), input.end(), input.begin(), [](unsigned char c){ return std::toupper(c); });
+	std::ranges::transform(input, input.begin(), [](unsigned char c){ return std::toupper(c); });
 }
 
 std::string string::toUpper(std::string_view input) {
@@ -235,7 +235,7 @@ void string::normalizeSlashes(std::string& path, bool stripSlashPrefix, bool str
 }
 
 void string::denormalizeSlashes(std::string& path, bool stripSlashPrefix, bool stripSlashSuffix) {
-	std::replace(path.begin(), path.end(), '/', '\\');
+	std::ranges::replace(path, '/', '\\');
 	if (stripSlashPrefix && path.starts_with('\\')) {
 		path = path.substr(1);
 	}

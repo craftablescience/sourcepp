@@ -5,6 +5,7 @@ list(APPEND ${PROJECT_NAME}_crypto_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/Globals.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/MD5.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/RSA.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/SHA1.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sourcepp/crypto/SHA256.h")
 
 add_library(${PROJECT_NAME}_crypto STATIC
@@ -15,6 +16,7 @@ add_library(${PROJECT_NAME}_crypto STATIC
         "${CMAKE_CURRENT_LIST_DIR}/Globals.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/MD5.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/RSA.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/SHA1.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SHA256.cpp")
 
 target_precompile_headers(${PROJECT_NAME}_crypto PUBLIC ${${PROJECT_NAME}_crypto_HEADERS})
