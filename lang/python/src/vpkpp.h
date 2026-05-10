@@ -255,6 +255,16 @@ inline void register_python(py::module_& m) {
 		.def("get_godot_version", &PCK::getGodotVersion)
 		.def("set_godot_version", &PCK::setGodotVersion, "major"_a = 0, "minor"_a = 0, "patch"_a = 0);
 
+	vpkpp.attr("TAB_EXTENSION") = TAB_EXTENSION;
+	vpkpp.attr("TAB_FILENAME_MAX_SIZE") = TAB_FILENAME_MAX_SIZE;
+	vpkpp.attr("TAB_HASHED_FILEPATH_PREFIX") = TAB_HASHED_FILEPATH_PREFIX;
+	vpkpp.attr("ARC_EXTENSION") = ARC_EXTENSION;
+	vpkpp.attr("ARC_CHUNK_SIZE") = ARC_CHUNK_SIZE;
+
+	py::class_<TAB, PackFileReadOnly>(vpkpp, "TAB")
+		.def_static("open", &TAB::open, "path"_a, "callback"_a = nullptr)
+		.def_static("hash_filepath", &FGP::hashFilePath);
+
 	vpkpp.attr("VPK_SIGNATURE") = VPK_SIGNATURE;
 	vpkpp.attr("VPK_DIR_INDEX") = VPK_DIR_INDEX;
 	vpkpp.attr("VPK_ENTRY_TERM") = VPK_ENTRY_TERM;

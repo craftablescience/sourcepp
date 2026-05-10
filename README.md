@@ -188,11 +188,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="33"><code>vpkpp</code></td>
+    <td rowspan="35"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="33" align="center">C<br>C#<br>Python</td>
+    <td rowspan="35" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -257,6 +257,12 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html" target="_blank" rel="noreferrer">PCK</a> v1-2 (Godot Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>TAB v3 (Avalanche Engine)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

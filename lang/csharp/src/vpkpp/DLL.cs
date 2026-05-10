@@ -94,10 +94,16 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pck_open(string path, EntryCallbackNative? callback);
-	
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_tab_open(string path, EntryCallbackNative? callback);
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial uint vpkpp_tab_hash_file_path(string path);
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpk_create(string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpk_create_with_options(string path, uint version);
 
