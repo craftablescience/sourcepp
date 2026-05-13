@@ -23,7 +23,7 @@ endif()
 
 
 # bufferstream
-add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 2a7c9e8b786fa50a3ae1961f1ee5bca6c4a5a6c5)
+add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 5c040a17417a3cef650f49c41192b2c00ac1e865)
 
 
 # compressonator
