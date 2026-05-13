@@ -262,7 +262,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   <tr>
     <td>TAB v3 (Avalanche Engine)</td>
     <td align="center">✅</td>
-    <td align="center">❌</td>
+    <td align="center">✅</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>

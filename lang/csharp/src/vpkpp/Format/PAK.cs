@@ -25,7 +25,7 @@ public class PAK : PackFile
 		var handle = DLL.vpkpp_pak_create(path);
 		return handle == nint.Zero ? null : new PAK(handle);
 	}
-	
+
 	public static PAK? Create(string path, PAKType type)
 	{
 		var handle = DLL.vpkpp_pak_create_with_options(path, type);

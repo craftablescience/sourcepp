@@ -261,8 +261,17 @@ inline void register_python(py::module_& m) {
 	vpkpp.attr("ARC_EXTENSION") = ARC_EXTENSION;
 	vpkpp.attr("ARC_CHUNK_SIZE") = ARC_CHUNK_SIZE;
 
-	py::class_<TAB, PackFileReadOnly>(vpkpp, "TAB")
+	auto cTAB = py::class_<TAB, PackFile>(vpkpp, "TAB");
+
+	py::enum_<TAB::Version>(cTAB, "Version")
+		.value("JC1_LE", TAB::Version::JC1_LE)
+		.value("JC1_BE", TAB::Version::JC1_BE);
+
+	py::class_<TAB, PackFile>(vpkpp, "TAB")
+		.def_static("create", &TAB::create, "path"_a, "version"_a = TAB::Version::JC1_LE, "sector_size"_a = 2048)
 		.def_static("open", &TAB::open, "path"_a, "callback"_a = nullptr)
+		.def_prop_rw("version", &TAB::getVersion, &TAB::setVersion)
+		.def_prop_rw("sector_size", &TAB::getSectorSize, &TAB::setSectorSize)
 		.def_static("hash_filepath", &FGP::hashFilePath);
 
 	vpkpp.attr("VPK_SIGNATURE") = VPK_SIGNATURE;

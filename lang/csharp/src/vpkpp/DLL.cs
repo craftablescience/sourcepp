@@ -70,10 +70,10 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_ore_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pak_create(string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pak_create_with_options(string path, PAKType type);
 
@@ -96,7 +96,25 @@ internal static partial class DLL
 	public static partial nint vpkpp_pck_open(string path, EntryCallbackNative? callback);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_tab_create(string path);
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_tab_create_with_options(string path, TABVersion version, uint sectorSize);
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_tab_open(string path, EntryCallbackNative? callback);
+
+	[LibraryImport(Name)]
+	public static partial TABVersion vpkpp_tab_get_version(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial void vpkpp_tab_set_version(nint handle, TABVersion version);
+
+	[LibraryImport(Name)]
+	public static partial uint32_t vpkpp_tab_get_sector_size(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial void vpkpp_tab_set_sector_size(nint handle, uint sectorSize);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial uint vpkpp_tab_hash_file_path(string path);

@@ -24,6 +24,18 @@ constexpr std::string_view TAB_FILEPATH_LIST_STRIP_PATH_INDEX = "projects/justca
 
 } // namespace
 
+std::unique_ptr<PackFile> TAB::create(const std::string& path, Version version, uint32_t sectorSize) {
+	{
+		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream
+			.set_big_endian(version == Version::JC1_BE)
+			.write<uint32_t>(3)
+			.write<uint32_t>(sectorSize)
+			.write<uint32_t>(0);
+	}
+	return TAB::open(path);
+}
+
 std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback& callback) {
 	if (!std::filesystem::exists(path)) {
 		// File does not exist
@@ -36,11 +48,12 @@ std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback
 	FileStream reader{tab->fullFilePath};
 	reader.seek_in(0);
 
-	reader >> tab->version;
-	if (tab->version != 3) {
-		BufferStream::swap_endian(&tab->version);
-		if (tab->version == 3) {
-			reader.set_big_endian(true);
+	if (auto version = reader.read<uint32_t>(); version == 3) {
+		tab->version = Version::JC1_LE;
+	} else {
+		BufferStream::swap_endian(&version);
+		if (version == 3) {
+			tab->version = Version::JC1_BE;
 		} else {
 			return nullptr;
 		}
@@ -48,14 +61,11 @@ std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback
 
 	reader >> tab->sectorSize >> tab->numArchives;
 
-	std::vector<std::tuple<std::filesystem::path, uint64_t, uint32_t>> archives;
+	std::vector<uint32_t> archiveAlignments(tab->numArchives);
 	uint32_t alignment = 0;
 	for (uint32_t i = 0; i < tab->numArchives; i++) {
-		auto& [archivePath, archiveSize, archiveAlignment] = archives.emplace_back();
-		archivePath = ::getArchivePath(*tab, i),
-		archiveSize = static_cast<uint32_t>(std::filesystem::file_size(archivePath));
-		alignment += (archiveSize + tab->sectorSize - 1) / tab->sectorSize;
-		archiveAlignment = alignment;
+		alignment += (static_cast<uint32_t>(std::filesystem::file_size(::getArchivePath(*tab, i))) + tab->sectorSize - 1) / tab->sectorSize;
+		archiveAlignments[i] = alignment;
 	}
 
 	// Here we load in the filepath list if it exists
@@ -95,8 +105,8 @@ std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback
 		entry.length = reader.read<uint32_t>();
 		entry.archiveIndex = 0;
 
-		for (int j = 0; j < archives.size(); j++) {
-			if (entry.offset < std::get<2>(archives[j])) {
+		for (int j = 0; j < tab->numArchives; j++) {
+			if (entry.offset < archiveAlignments[j]) {
 				entry.archiveIndex = j;
 				break;
 			}
@@ -104,7 +114,7 @@ std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback
 		if (entry.archiveIndex == 0) {
 			entry.offset = (entry.offset * tab->sectorSize) % ARC_CHUNK_SIZE;
 		} else {
-			entry.offset = (entry.offset - std::get<2>(archives[entry.archiveIndex - 1])) * tab->sectorSize % ARC_CHUNK_SIZE;
+			entry.offset = (entry.offset - archiveAlignments[entry.archiveIndex - 1]) * tab->sectorSize % ARC_CHUNK_SIZE;
 		}
 
 		tab->entries.emplace(entryPath, entry);
@@ -136,13 +146,150 @@ std::optional<std::vector<std::byte>> TAB::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
+void TAB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+	entry.crc32 = TAB::hashFilePath(path);
+	entry.length = buffer.size();
+
+	// These will be reset when it's baked
+	entry.archiveIndex = this->numArchives + 1;
+	entry.offset = 0;
+}
+
+bool TAB::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+	// Get the proper file output folder
+	const std::string outputDir = this->getBakeOutputDir(outputDir_);
+	const std::string outputPath = outputDir + '/' + this->getFilename();
+
+	// Reconstruct data for ease of access
+	std::vector<std::pair<std::string, Entry*>> entriesToBake;
+	this->runForAllEntriesInternal([&entriesToBake](const std::string& path, Entry& entry) {
+		entriesToBake.emplace_back(path, &entry);
+	});
+	std::ranges::sort(entriesToBake, [](const std::pair<std::string, Entry*>& lhs, const std::pair<std::string, Entry*>& rhs) {
+		return lhs.second->crc32 < rhs.second->crc32;
+	});
+
+	// Cracked hash list
+	const std::filesystem::path mapPath{std::filesystem::path{outputDir} / std::format("{}list.txt", this->getFilestem())};
+	if (!std::filesystem::exists(mapPath)) {
+		fs::writeFileText(mapPath, "");
+	}
+	std::ofstream mapStream{mapPath};
+
+	// Open directory file
+	FileStream outDir{outputPath, FileStream::OPT_READ | FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+	outDir.seek_in(0);
+	outDir.seek_out(0);
+	outDir.set_big_endian(this->version == Version::JC1_BE);
+
+	// Dummy header
+	outDir.pad<uint32_t>(3);
+
+	// Archive alignment setup, because this format is weird
+	int32_t currentArchiveIndex = -1;
+	uint64_t currentArchiveLength = 0;
+	std::vector<uint32_t> archiveAlignments;
+	uint32_t totalArchiveSectors = 0;
+	const auto getNewArchivePath = [this, &outputDir](uint32_t archiveIndex, bool srcPath = true) {
+		return std::filesystem::path{outputDir} / std::format("{}{}{}{}", this->getFilestem(), archiveIndex, ARC_EXTENSION, srcPath ? ".new" : "");
+	};
+	const auto getNewArchiveStream = [this, &currentArchiveIndex, &currentArchiveLength, &archiveAlignments, &totalArchiveSectors, &getNewArchivePath] {
+		if (currentArchiveIndex >= 0) {
+			totalArchiveSectors += (currentArchiveLength + this->sectorSize - 1) / this->sectorSize;
+			archiveAlignments.push_back(totalArchiveSectors);
+		}
+		currentArchiveLength = 0;
+
+		auto out = FileStream{getNewArchivePath(++currentArchiveIndex), FileStream::OPT_READ | FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		out.seek_in(0);
+		out.seek_out(0);
+		return out;
+	};
+	FileStream currentArchive = getNewArchiveStream();
+
+	// File tree and data
+	for (auto& [path, entry] : entriesToBake) {
+		if (!path.starts_with(TAB_HASHED_FILEPATH_PREFIX)) {
+			mapStream << path << '\n';
+		}
+
+		if (const auto data = this->readEntry(path)) {
+			const uint16_t padLength = math::paddingForAlignment(this->sectorSize, data->size());
+			uint64_t entryTotalSize = data->size() + padLength;
+			if (currentArchiveLength + entryTotalSize > ARC_CHUNK_SIZE) {
+				currentArchive = getNewArchiveStream();
+			}
+
+			entry->archiveIndex = currentArchiveIndex;
+			entry->offset = currentArchive.tell_out();
+
+			currentArchive
+				.write(*data)
+				.pad<char>(padLength, 'P');
+
+			outDir
+				.write<uint32_t>(entry->crc32)
+				.write<uint32_t>(currentArchiveIndex == 0
+					? currentArchiveLength / this->sectorSize
+					: archiveAlignments[currentArchiveIndex - 1] + currentArchiveLength / this->sectorSize)
+				.write<uint32_t>(entry->length);
+
+			currentArchiveLength += entryTotalSize;
+		} else {
+			entry->archiveIndex = 0;
+			entry->offset = 0;
+			entry->length = 0;
+		}
+	}
+
+	// Write header
+	this->numArchives = currentArchiveIndex + 1;
+	outDir
+		.seek_out(0)
+		.write<uint32_t>(3)
+		.write<uint32_t>(this->sectorSize)
+		.write<uint32_t>(this->numArchives);
+
+	// Rename new archives
+	for (uint32_t i = 0; i < this->numArchives; i++) {
+		const auto srcPath = getNewArchivePath(i);
+		const auto destPath = getNewArchivePath(i, false);
+		if (std::filesystem::exists(destPath)) {
+			std::filesystem::remove(destPath);
+		}
+		std::filesystem::rename(srcPath, destPath);
+	}
+
+	// Merge unbaked into baked entries
+	this->mergeUnbakedEntries();
+
+	PackFile::setFullFilePath(outputDir);
+	return true;
+}
+
 Attribute TAB::getSupportedEntryAttributes() const {
 	using enum Attribute;
 	return ARCHIVE_INDEX | LENGTH;
 }
 
 TAB::operator std::string() const {
-	return PackFileReadOnly::operator std::string() + std::format(" | Version v{}", this->version);
+	return PackFile::operator std::string() + std::format(" | {}", this->version == Version::JC1_LE ? "JC1 LE" : "JC1 BE");
+}
+
+TAB::Version TAB::getVersion() const {
+	return this->version;
+}
+
+void TAB::setVersion(Version version_) {
+	this->version = version_;
+}
+
+uint32_t TAB::getSectorSize() const {
+	return this->sectorSize;
+}
+
+void TAB::setSectorSize(uint32_t sectorSize_) {
+	this->sectorSize = sectorSize_;
 }
 
 uint32_t TAB::hashFilePath(const std::string& filepath) {
