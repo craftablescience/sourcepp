@@ -147,6 +147,7 @@ std::optional<std::vector<std::byte>> TAB::readEntry(const std::string& path_) c
 }
 
 void TAB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+	// note: NOT a CRC32! check TAB::hashFilePath
 	entry.crc32 = TAB::hashFilePath(path);
 	entry.length = buffer.size();
 
