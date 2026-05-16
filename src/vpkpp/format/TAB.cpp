@@ -241,6 +241,10 @@ bool TAB::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			entry->offset = 0;
 			entry->length = 0;
 		}
+
+		if (callback) {
+			callback(path, entry);
+		}
 	}
 
 	// Write header
