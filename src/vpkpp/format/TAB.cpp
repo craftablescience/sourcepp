@@ -243,7 +243,7 @@ bool TAB::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		}
 
 		if (callback) {
-			callback(path, entry);
+			callback(path, *entry);
 		}
 	}
 
