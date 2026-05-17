@@ -1662,6 +1662,9 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 		}
 		auto& [specificResourceData, offset] = resourceData[resourceType];
 		if (resourceType == type) {
+			if (!this->data.data()) {
+				this->data.reserve(offset + specificResourceData.size());
+			}
 			Resource newResource{
 				type,
 				specificResourceData.size() <= sizeof(uint32_t) ? Resource::FLAG_LOCAL_DATA : Resource::FLAG_NONE,
