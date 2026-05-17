@@ -111,7 +111,7 @@ internal static partial class DLL
 	public static partial void vpkpp_tab_set_version(nint handle, TABVersion version);
 
 	[LibraryImport(Name)]
-	public static partial uint32_t vpkpp_tab_get_sector_size(nint handle);
+	public static partial uint vpkpp_tab_get_sector_size(nint handle);
 
 	[LibraryImport(Name)]
 	public static partial void vpkpp_tab_set_sector_size(nint handle, uint sectorSize);
