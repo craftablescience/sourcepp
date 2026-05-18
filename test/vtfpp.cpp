@@ -1602,7 +1602,7 @@ TEST(vtfpp, distancealpha_edge_mask_true) {
 	std::vector<float> bw(w * h);
 	for (uint16_t y = h / 2; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
-			reference<float>(bw, x, y, h) = 1.f;
+			reference<float>(bw, x, y, w) = 1.f;
 		}
 	}
 
@@ -1628,8 +1628,51 @@ TEST(vtfpp, distancealpha_edge_mask_true) {
 	EXPECT_EQ(std::byte{0x00}, sample(mapped, 0, 0, dstW, 4, 3));
 	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW - 1, dstH - 1, dstW, 4, 3));
 	EXPECT_EQ(std::byte{0xFF}, sample(mapped, dstW / 2, dstH / 4 * 3, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW / 2, dstH / 4, dstW, 4, 3));
 	EXPECT_NE(std::byte{0x00}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
 	EXPECT_NE(std::byte{0xFF}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
+	ASSERT_TRUE(valveQuirks);
+}
+
+TEST(vtfpp, distancealpha_edge_mask_true_rectangular) {
+	using namespace TestDistanceMapping;
+	using namespace DistanceMapping;
+
+	uint16_t h_ = TestDistanceMapping::h / 2;
+	uint16_t dstH_ = TestDistanceMapping::dstH / 2;
+
+	std::vector<float> bwr(w * h_);
+	for (uint16_t y = h_ / 2; y < h_; y++) {
+		for (uint16_t x = 0; x < w; x++) {
+			reference<float>(bwr, x, y, w) = 1.f;
+		}
+	}
+
+	bool valveQuirks = false;
+
+	std::vector<std::byte> mapped = alphaToDistance(
+		{reinterpret_cast<std::byte*>(bwr.data()), w * h_ * sizeof(float)},
+		ImageFormat::R32F,
+		ImageFormat::RGBA8888,
+		w,
+		h_,
+		reduceX,
+		reduceY,
+		false,
+		1.0f,
+		0.04f,
+		Flags::NONE,
+		Dither::NONE,
+		ImageConversion::ResizeFilter::NICE,
+		ImageConversion::ResizeEdge::CLAMP,
+		&valveQuirks
+	);
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, 0, 0, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW - 1, dstH_ - 1, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0xFF}, sample(mapped, dstW / 2, dstH_ / 4 * 3, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW / 2, dstH_ / 4, dstW, 4, 3));
+	EXPECT_NE(std::byte{0x00}, sample(mapped, dstW / 2, dstH_ / 2, dstW, 4, 3));
+	EXPECT_NE(std::byte{0xFF}, sample(mapped, dstW / 2, dstH_ / 2, dstW, 4, 3));
 	ASSERT_TRUE(valveQuirks);
 }
 
@@ -1641,7 +1684,7 @@ TEST(vtfpp, distancealpha_edge_mask_false) {
 	for (uint16_t y = 0; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
 			if (std::hypot<float>(fabs(512 - y), fabs(512 - x)) < 320.f) {
-				reference<float>(circle, x, y, h) = 1.f;
+				reference<float>(circle, x, y, w) = 1.f;
 			}
 		}
 	}
@@ -1678,7 +1721,7 @@ TEST(vtfpp, distancealpha_wrap_sample) {
 	std::vector<float> bw(w * h);
 	for (uint16_t y = h / 2; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
-			reference<float>(bw, x, y, h) = 1.f;
+			reference<float>(bw, x, y, w) = 1.f;
 		}
 	}
 
