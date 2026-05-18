@@ -45,8 +45,8 @@ int32_t indexReflected(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t a
 }
 
 int32_t indexWrapped(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	int32_t rX = v[0] % w;
-	int32_t rY = v[1] % h;
+	int32_t rX = (v[0] + w) % w;
+	int32_t rY = (v[1] + h) % h;
 	return (rY * w + rX) * pxLen + alphaOffs;
 }
 
