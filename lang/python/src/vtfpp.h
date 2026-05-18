@@ -322,6 +322,26 @@ inline void register_python(py::module_& m) {
 	}
 
 	{
+		using namespace DistanceMapping;
+		auto DistanceMapping = vtfpp.def_submodule("DistanceMapping");
+
+		py::enum_<Dither>(DistanceMapping, "Dither")
+			.value("NONE",             Dither::NONE)
+			.value("GRADIENT_TANGENT", Dither::GRADIENT_TANGENT);
+
+		py::enum_<Flags>(DistanceMapping, "Flags", py::is_flag())
+			.value("NONE",           Flags::NONE)
+			.value("DISTANCEAA",     Flags::DISTANCEAA)
+			.value("EUCLIDEAN",      Flags::EUCLIDEAN)
+			.value("SAMPLECENTERED", Flags::SAMPLECENTERED);
+
+		DistanceMapping.def("alpha_to_distance", [](const py::bytes& imageData, ImageFormat inFormat, ImageFormat outFormat, uint16_t width, uint16_t height, uint16_t reduceX, uint16_t reduceY, bool srgb, float distanceSpread = 1.f, float alphaThreshold = 0.04f, Flags flags = Flags::NONE, Dither dither = Dither::NONE, ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::NICE, ImageConversion::ResizeEdge edge = ImageConversion::ResizeEdge::CLAMP, bool enableValveQuirks = false) {
+			const auto d = alphaToDistance({static_cast<const std::byte*>(imageData.data()), static_cast<const std::byte*>(imageData.data()) + imageData.size()}, inFormat, outFormat, width, height, reduceX, reduceY, srgb, distanceSpread, alphaThreshold, flags, dither, filter, edge, enableValveQuirks ? &enableValveQuirks : nullptr);
+			return std::pair{py::bytes{d.data(), d.size()}, enableValveQuirks};
+		}, "image_data"_a, "in_format"_a, "out_format"_a, "width"_a, "height"_a, "reduce_x"_a, "reduce_y"_a, "srgb"_a, "distance_spread"_a = 1.f, "alpha_threshold"_a = 0.04f, "flags"_a = Flags::NONE, "dither"_a = Dither::NONE, "filter"_a = ImageConversion::ResizeFilter::NICE, "edge"_a = ImageConversion::ResizeEdge::CLAMP, "enable_valve_quirks"_a = false);
+	}
+
+	{
 		using namespace ImageQuantize;
 		auto ImageQuantize = vtfpp.def_submodule("ImageQuantize");
 
