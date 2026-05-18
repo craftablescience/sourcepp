@@ -449,7 +449,7 @@ void paintMap(
 		}
 		for (auto y = 0; y < dstHeight; y++) {
 			blackOutAndWarn(y * dstWidth);
-			blackOutAndWarn(y * dstWidth + dstHeight - 1);
+			blackOutAndWarn(y * dstWidth + dstWidth - 1);
 		}
 	}
 }
