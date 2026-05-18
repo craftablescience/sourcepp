@@ -524,6 +524,7 @@ These are only the tools and games using `sourcepp` that I know of. If you would
 - `vtfpp`
   - NICE/Lanczos-3 resize filter's initial implementation was contributed by [@koerismo](https://github.com/koerismo).
   - Big-endian support is based on work by [@partyvan](https://github.com/partyvan).
+  - Distance to alpha support was contributed by [@partyvan](https://github.com/partyvan).
   - SHT parser/writer was contributed by [@Trico Everfire](https://github.com/Trico-Everfire).
   - Initial VTF write support was loosely based on work by [@Trico Everfire](https://github.com/Trico-Everfire).
   - HDRI to cubemap conversion code is modified from the [HdriToCubemap](https://github.com/ivarout/HdriToCubemap) library by [@ivarout](https://github.com/ivarout).
