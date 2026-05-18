@@ -25,7 +25,7 @@ public class PackFileTest
 
 		Assert.IsFalse(vpk.IsReadOnly);
 
-		Assert.AreEqual(3509u, vpk.EntryCount());
+		Assert.AreEqual(3524u, vpk.EntryCount());
 
 		Assert.AreEqual(BasePortalPath + "portal_pak_dir.vpk", vpk.Filepath);
 		Assert.AreEqual(BasePortalPath + "portal_pak", vpk.TruncatedFilepath);

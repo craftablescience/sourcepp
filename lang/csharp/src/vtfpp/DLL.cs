@@ -8,6 +8,12 @@ internal static partial class DLL
 	private const string Name = "sourcepp_vtfppc";
 
 	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_distance_mapping_alpha_to_distance(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat inFormat, ImageFormat outFormat, ushort width, ushort height, ushort reduceX, ushort reduceY, int srgb);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_distance_mapping_alpha_to_distance_ex(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat inFormat, ImageFormat outFormat, ushort width, ushort height, ushort reduceX, ushort reduceY, int srgb, float distanceSpread, float alphaThreshold, DistanceMapping.Flags flags, DistanceMapping.Dither dither, ImageConversion.ResizeFilter filter, ImageConversion.ResizeEdge edge, nint valveQuirks);
+
+	[LibraryImport(Name)]
 	public static partial nint vtfpp_hot_create();
 
 	[LibraryImport(Name)]
