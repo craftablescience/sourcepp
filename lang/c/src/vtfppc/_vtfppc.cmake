@@ -1,5 +1,7 @@
 add_pretty_parser(vtfpp C
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/API.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/DistanceMapping.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/ImageConversion.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/ImageFormats.h"
@@ -12,6 +14,7 @@ add_pretty_parser(vtfpp C
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/VTF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vtfppc/vtfpp.h"
         SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/DistanceMapping.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/HOT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageConversion.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageFormats.cpp"

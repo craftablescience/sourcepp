@@ -1,5 +1,6 @@
 add_pretty_parser(vcryptpp C
         SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vcryptppc/API.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vcryptppc/vcryptpp.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vcryptppc/VFONT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vcryptppc/VICE.h"
