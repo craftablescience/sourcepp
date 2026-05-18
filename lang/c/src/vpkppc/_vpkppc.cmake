@@ -18,6 +18,7 @@ add_pretty_parser(vpkpp C
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/WAD3.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/XZP.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/format/ZIP.h"
+        "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/API.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/Attribute.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/Entry.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/lang/c/include/vpkppc/Options.h"
