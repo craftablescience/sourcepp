@@ -1575,38 +1575,41 @@ TEST(vtfpp, read_v76_nomip_c9) {
 	EXPECT_EQ(image->data.size(), ImageFormatDetails::getDataLength(vtf.getFormat(), vtf.getMipCount(), vtf.getFrameCount(), vtf.getFaceCount(), vtf.getWidth(), vtf.getHeight(), vtf.getDepth()));
 }
 
-namespace distancealpha_testing {
-	static const uint16_t w = 1024;
-	static const uint16_t h = 1024;
-	static const uint16_t reduceX = 4;
-	static const uint16_t reduceY = 4;
-	static const uint16_t dstW = w / reduceX;
-	static const uint16_t dstH = h / reduceY;
+namespace TestDistanceMapping {
 
-	template<typename T>
-	T &reference(std::span<T> s, uint16_t x_, uint16_t y_, uint16_t width, uint8_t pxLen = 1, uint8_t alphaOffs = 0) {
-		return s[pxLen * (y_ * width + x_) + alphaOffs];
-	}
-	std::byte sample(std::span<const std::byte> s, uint16_t x_, uint16_t y_, uint16_t width, uint8_t pxLen = 1, uint8_t alphaOffs = 0) {
-		return s[pxLen * (y_ * width + x_) + alphaOffs];
-	}
-};
+constexpr uint16_t w = 1024;
+constexpr uint16_t h = 1024;
+constexpr uint16_t reduceX = 4;
+constexpr uint16_t reduceY = 4;
+constexpr uint16_t dstW = w / reduceX;
+constexpr uint16_t dstH = h / reduceY;
+
+template<typename T>
+[[nodiscard]] T& reference(std::span<T> s, uint16_t x_, uint16_t y_, uint16_t width, uint8_t pxLen = 1, uint8_t alphaOffs = 0) {
+	return s[pxLen * (y_ * width + x_) + alphaOffs];
+}
+
+[[nodiscard]] std::byte sample(std::span<const std::byte> s, uint16_t x_, uint16_t y_, uint16_t width, uint8_t pxLen = 1, uint8_t alphaOffs = 0) {
+	return s[pxLen * (y_ * width + x_) + alphaOffs];
+}
+
+} // namespace TestDistanceMapping
 
 TEST(vtfpp, distancealpha_edge_mask_true) {
-	using namespace distancealpha_testing;
+	using namespace TestDistanceMapping;
 	using namespace DistanceMapping;
 
-	std::vector<float> bw(w * h, 0.0f);
+	std::vector<float> bw(w * h);
 	for (uint16_t y = h / 2; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
-			reference<float>(bw, x, y, h) = 1.0f;
+			reference<float>(bw, x, y, h) = 1.f;
 		}
 	}
 
 	bool valveQuirks = false;
 
 	std::vector<std::byte> mapped = alphaToDistance(
-		std::span<std::byte>(reinterpret_cast<std::byte *>(bw.data()), w * h * sizeof(float)),
+		{reinterpret_cast<std::byte*>(bw.data()), w * h * sizeof(float)},
 		ImageFormat::R32F,
 		ImageFormat::RGBA8888,
 		w,
@@ -1630,16 +1633,15 @@ TEST(vtfpp, distancealpha_edge_mask_true) {
 	ASSERT_TRUE(valveQuirks);
 }
 
-
 TEST(vtfpp, distancealpha_edge_mask_false) {
-	using namespace distancealpha_testing;
+	using namespace TestDistanceMapping;
 	using namespace DistanceMapping;
 
-	std::vector<float> circle(w * h, 0.0f);
+	std::vector<float> circle(w * h);
 	for (uint16_t y = 0; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
-			if (std::hypot<float>(fabs(512 - y), fabs(512 - x)) < 320.0f) {
-				reference<float>(circle, x, y, h) = 1.0f;
+			if (std::hypot<float>(fabs(512 - y), fabs(512 - x)) < 320.f) {
+				reference<float>(circle, x, y, h) = 1.f;
 			}
 		}
 	}
@@ -1647,7 +1649,7 @@ TEST(vtfpp, distancealpha_edge_mask_false) {
 	bool valveQuirks = true;
 
 	std::vector<std::byte> mapped = alphaToDistance(
-		std::span<std::byte>(reinterpret_cast<std::byte *>(circle.data()), w * h * sizeof(float)),
+		{reinterpret_cast<std::byte*>(circle.data()), w * h * sizeof(float)},
 		ImageFormat::R32F,
 		ImageFormat::RGBA8888,
 		w,
@@ -1670,18 +1672,18 @@ TEST(vtfpp, distancealpha_edge_mask_false) {
 }
 
 TEST(vtfpp, distancealpha_wrap_sample) {
-	using namespace distancealpha_testing;
+	using namespace TestDistanceMapping;
 	using namespace DistanceMapping;
 
-	std::vector<float> bw(w * h, 0.0f);
+	std::vector<float> bw(w * h);
 	for (uint16_t y = h / 2; y < h; y++) {
 		for (uint16_t x = 0; x < w; x++) {
-			reference<float>(bw, x, y, h) = 1.0f;
+			reference<float>(bw, x, y, h) = 1.f;
 		}
 	}
 
 	std::vector<std::byte> mapped = alphaToDistance(
-		std::span<std::byte>(reinterpret_cast<std::byte *>(bw.data()), w * h * sizeof(float)),
+		{reinterpret_cast<std::byte *>(bw.data()), w * h * sizeof(float)},
 		ImageFormat::R32F,
 		ImageFormat::RGBA8888,
 		w,

@@ -1,10 +1,10 @@
 #include <vtfpp/DistanceMapping.h>
-#include <vtfpp/ImageConversion.h>
 
 #include <variant>
 
 #include <sourcepp/Macros.h>
 #include <sourcepp/MathExtended.h>
+#include <vtfpp/ImageConversion.h>
 
 using namespace sourcepp;
 using namespace vtfpp;

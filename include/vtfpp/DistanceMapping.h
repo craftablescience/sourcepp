@@ -1,10 +1,9 @@
 #pragma once
 
-#include <vtfpp/ImageConversion.h>
-
 #include <vector>
 
 #include <sourcepp/Macros.h>
+#include <vtfpp/ImageConversion.h>
 
 namespace vtfpp::DistanceMapping {
 
@@ -20,7 +19,6 @@ enum class Flags : uint32_t {
 	EUCLIDEAN      = 1 << 1, ///< The distance-mapping algorithm is a brute-force scan of a *square* area. If this is enabled, only accept distance hits in a circular area.
 	SAMPLECENTERED = 1 << 2, ///< Search from the center of pixels (in destination coordinate space) rather than in their north-west corners. Can mitigate a perceived southeast shift at extreme reductions.
 };
-
 SOURCEPP_BITFLAGS_ENUM(Flags)
 
 /// In one operation, convert an image's alpha channel, or, for single-channel formats, its only channel, to a VTEX-style distance map, and downscale other channels, if present in the output, according to the given resize parameters.
@@ -38,8 +36,8 @@ SOURCEPP_BITFLAGS_ENUM(Flags)
 ///   * 0 in all other channels.
 [[nodiscard]] std::vector<std::byte> alphaToDistance(
 	std::span<const std::byte> imageData,
-	vtfpp::ImageFormat inFormat, ///< Any format that is either single-channel, or has an alpha channel.
-	vtfpp::ImageFormat outFormat, ///< The same requirements as inFormat; channel count does not need to correspond to inFormat.
+	ImageFormat inFormat, ///< Any format that is either single-channel, or has an alpha channel.
+	ImageFormat outFormat, ///< The same requirements as inFormat; channel count does not need to correspond to inFormat.
 	uint16_t width,
 	uint16_t height,
 	uint16_t reduceX, ///< Power-of-two horizontal reduction factor.
@@ -51,7 +49,7 @@ SOURCEPP_BITFLAGS_ENUM(Flags)
 	Dither dither = Dither::NONE, ///< Internally, distance maps are always computed in floating point. When set to a value other than NONE, and the output format is of integral type, dithering is applied prior to quantization. Depending on the application and contents, this can improve or worsen the quality of the distance map.
 	ImageConversion::ResizeFilter filter = ImageConversion::ResizeFilter::NICE, ///< Default value mimics VTEX. Does not affect the alpha channel; distance mapping is a distinct sampling operation from source to destination space. Entirely unused if input is single-channel.
 	ImageConversion::ResizeEdge edge = ImageConversion::ResizeEdge::CLAMP, ///< Dictates the sampling policy of the distance function regardless of whether there are non-alpha channels to be resized.
-	bool *valveQuirks = nullptr ///< When non-null, mimic VTEX's policy of blanking out any edge pixels in the distance map to 0 (i.e. infinite distance), and report back whether this resulted in any change (such that a command-line tool emulating VTEX would want to report a warning).
+	bool* valveQuirks = nullptr ///< When non-null, mimic VTEX's policy of blanking out any edge pixels in the distance map to 0 (i.e. infinite distance), and report back whether this resulted in any change (such that a command-line tool emulating VTEX would want to report a warning).
 );
 
-} // namespace DistanceMapping
+} // namespace vtfpp::DistanceMapping
