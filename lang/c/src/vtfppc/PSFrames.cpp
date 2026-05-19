@@ -37,16 +37,34 @@ VTFPP_API uint32_t vtfpp_psframes_get_fps(vtfpp_psframes_handle_t handle) {
 	return convert::handle<PSFrames>(handle)->getFPS();
 }
 
-VTFPP_API uint16_t vtfpp_psframes_get_width(vtfpp_psframes_handle_t handle) {
+VTFPP_API uint16_t vtfpp_psframes_get_width(vtfpp_psframes_handle_t handle, uint32_t frame) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<PSFrames>(handle)->getWidth();
+	return convert::handle<PSFrames>(handle)->getWidth(frame);
 }
 
-VTFPP_API uint16_t vtfpp_psframes_get_height(vtfpp_psframes_handle_t handle) {
+VTFPP_API uint16_t vtfpp_psframes_get_height(vtfpp_psframes_handle_t handle, uint32_t frame) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
-	return convert::handle<PSFrames>(handle)->getHeight();
+	return convert::handle<PSFrames>(handle)->getHeight(frame);
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_psframes_get_palette_data_raw(vtfpp_psframes_handle_t handle, uint32_t frame) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(convert::handle<PSFrames>(handle)->getPaletteDataRaw(frame));
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_psframes_get_palette_data_as(vtfpp_psframes_handle_t handle, vtfpp_image_format_e newFormat, uint32_t frame) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(convert::handle<PSFrames>(handle)->getPaletteDataAs(convert::cast(newFormat), frame));
+}
+
+VTFPP_API sourcepp_buffer_t vtfpp_psframes_get_image_data_raw(vtfpp_psframes_handle_t handle, uint32_t frame) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, SOURCEPP_BUFFER_INVALID);
+
+	return convert::toBuffer(convert::handle<PSFrames>(handle)->getImageDataRaw(frame));
 }
 
 VTFPP_API sourcepp_buffer_t vtfpp_psframes_get_image_data_as(vtfpp_psframes_handle_t handle, vtfpp_image_format_e newFormat, uint32_t frame) {

@@ -287,10 +287,19 @@ internal static partial class DLL
 	public static partial uint vtfpp_psframes_get_fps(nint handle);
 
 	[LibraryImport(Name)]
-	public static partial ushort vtfpp_psframes_get_width(nint handle);
+	public static partial ushort vtfpp_psframes_get_width(nint handle, uint frame);
 
 	[LibraryImport(Name)]
-	public static partial ushort vtfpp_psframes_get_height(nint handle);
+	public static partial ushort vtfpp_psframes_get_height(nint handle, uint frame);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_psframes_get_palette_data_raw(nint handle, uint frame);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_psframes_get_palette_data_as(nint handle, ImageFormat newFormat, uint frame);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.Buffer vtfpp_psframes_get_image_data_raw(nint handle, uint frame);
 
 	[LibraryImport(Name)]
 	public static partial sourcepp.DLL.Buffer vtfpp_psframes_get_image_data_as(nint handle, ImageFormat newFormat, uint frame);

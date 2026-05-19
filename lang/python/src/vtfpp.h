@@ -408,13 +408,25 @@ inline void register_python(py::module_& m) {
 		.def(py::init<const std::filesystem::path&>(), "ps_frames_path"_a)
 		.def_prop_ro("frame_count", &PSFrames::getFrameCount)
 		.def_prop_ro("fps", &PSFrames::getFPS)
-		.def_prop_ro("width", &PSFrames::getWidth)
-		.def_prop_ro("height", &PSFrames::getHeight)
-		.def("get_image_data_as", [](const PSFrames& self, ImageFormat newFormat, uint16_t frame) {
+		.def("get_width",  &PSFrames::getWidth)
+		.def("get_height", &PSFrames::getHeight)
+		.def("get_palette_data_raw", [](const PSFrames& self, uint32_t frame) {
+			const auto d = self.getPaletteDataRaw(frame);
+			return py::bytes{d.data(), d.size()};
+		}, "frame"_a)
+		.def("get_palette_data_as", [](const PSFrames& self, ImageFormat newFormat, uint32_t frame) {
+			const auto d = self.getPaletteDataAs(newFormat, frame);
+			return py::bytes{d.data(), d.size()};
+		}, "new_format"_a, "frame"_a)
+		.def("get_image_data_raw", [](const PSFrames& self, uint32_t frame) {
+			const auto d = self.getImageDataRaw(frame);
+			return py::bytes{d.data(), d.size()};
+		}, "frame"_a)
+		.def("get_image_data_as", [](const PSFrames& self, ImageFormat newFormat, uint32_t frame) {
 			const auto d = self.getImageDataAs(newFormat, frame);
 			return py::bytes{d.data(), d.size()};
 		}, "new_format"_a, "frame"_a)
-		.def("get_image_data_as_bgr888", [](const PSFrames& self, uint16_t frame) {
+		.def("get_image_data_as_bgr888", [](const PSFrames& self, uint32_t frame) {
 			const auto d = self.getImageDataAsBGR888(frame);
 			return py::bytes{d.data(), d.size()};
 		}, "frame"_a);

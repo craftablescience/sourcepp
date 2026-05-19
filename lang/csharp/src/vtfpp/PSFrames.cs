@@ -36,22 +36,34 @@ public sealed class PSFrames : sourcepp.ManagedNativeHandle
 		}
 	}
 
-	public ushort Width
+	public ushort GetWidth(uint frame)
 	{
-		get
-		{
-			ThrowIfDisposed();
-			return DLL.vtfpp_psframes_get_width(Handle);
-		}
+		ThrowIfDisposed();
+		return DLL.vtfpp_psframes_get_width(Handle, frame);
 	}
 
-	public ushort Height
+	public ushort GetHeight(uint frame)
 	{
-		get
-		{
-			ThrowIfDisposed();
-			return DLL.vtfpp_psframes_get_height(Handle);
-		}
+		ThrowIfDisposed();
+		return DLL.vtfpp_psframes_get_height(Handle, frame);
+	}
+
+	public byte[] GetPaletteDataRaw(uint frame)
+	{
+		ThrowIfDisposed();
+		return new sourcepp.Buffer(DLL.vtfpp_psframes_get_palette_data_raw(Handle, frame)).Read<byte>();
+	}
+
+	public byte[] GetPaletteDataAs(ImageFormat newFormat, uint frame)
+	{
+		ThrowIfDisposed();
+		return new sourcepp.Buffer(DLL.vtfpp_psframes_get_palette_data_as(Handle, newFormat, frame)).Read<byte>();
+	}
+
+	public byte[] GetImageDataRaw(uint frame)
+	{
+		ThrowIfDisposed();
+		return new sourcepp.Buffer(DLL.vtfpp_psframes_get_image_data_raw(Handle, frame)).Read<byte>();
 	}
 
 	public byte[] GetImageDataAs(ImageFormat newFormat, uint frame)

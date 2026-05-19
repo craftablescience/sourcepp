@@ -21,6 +21,7 @@ typedef sourcepp_buffer_t sourcepp_buffer_uint64_t;
 // C++ conversion routines
 #ifdef __cplusplus
 #include <cstring>
+#include <span>
 #include <type_traits>
 #include <vector>
 
@@ -31,6 +32,14 @@ requires (std::is_trivially_copyable_v<T> && !std::is_pointer_v<T>)
 sourcepp_buffer_t toBuffer(const std::vector<T>& vec) {
 	auto buf = sourcepp_buffer_new(vec.size() * sizeof(T));
 	std::memcpy(buf.data, vec.data(), vec.size() * sizeof(T));
+	return buf;
+}
+
+template<typename T>
+requires (std::is_trivially_copyable_v<T> && !std::is_pointer_v<T>)
+sourcepp_buffer_t toBuffer(std::span<T> span) {
+	auto buf = sourcepp_buffer_new(span.size() * sizeof(T));
+	std::memcpy(buf.data, span.data(), span.size() * sizeof(T));
 	return buf;
 }
 
