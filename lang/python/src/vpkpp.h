@@ -267,7 +267,7 @@ inline void register_python(py::module_& m) {
 		.value("JC1_LE", TAB::Version::JC1_LE)
 		.value("JC1_BE", TAB::Version::JC1_BE);
 
-	py::class_<TAB, PackFile>(vpkpp, "TAB")
+	cTAB
 		.def_static("create", &TAB::create, "path"_a, "version"_a = TAB::Version::JC1_LE, "sector_size"_a = 2048)
 		.def_static("open", &TAB::open, "path"_a, "callback"_a = nullptr)
 		.def_prop_rw("version", &TAB::getVersion, &TAB::setVersion)
