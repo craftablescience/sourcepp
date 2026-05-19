@@ -379,10 +379,12 @@ void paintMap(
 		// also already set an angle. we can index angles independently, which,
 		// depending on the contents of the source image, might require a small
 		// fraction of the space compared to the distance map (or just as much)
-		static constexpr std::array<const int8_t, 8> hardSigns{1, 1, 0, -1, -1, -1, 0, 1};
+		static constexpr std::array<const int8_t, 8> hardSigns{0, 1, 1, 1, 0, -1, -1, -1};
 		// of course, in our case, y grows downward, so we really want is E..NW
 		// which, conveniently enough, is just 0..3, so no aux lookup table. if
-		// we wanted SW..E, we'd index into {0, 5, 6, 7}.
+		// we wanted SW..E, we'd index into {0, 5, 6, 7}. the pixel offsets are
+		// the only result where we need to be picky about the final signs; the
+		// preceding calculations can run in our flipped coordinates just fine.
 		static constexpr float eighth = pi_f32 / 4.0f;
 
 		RasterCursor diffCursor(&tree, dstWidth, dstHeight);
@@ -406,9 +408,12 @@ void paintMap(
 					continue;
 				}
 				float thetaNormal = fmod(theta + 2.5f * pi_f32, 2.0f * pi_f32);
-				int8_t nEighths = (thetaNormal - fmod(thetaNormal, eighth)) / eighth;
-				float quantErr = fmod(dstImg[diffOut], *tangentDiffusion);
-				dstImg[diffOut] -= quantErr;
+				uint8_t nEighths = static_cast<uint32_t>(std::floor(thetaNormal / eighth)) % 8;
+				double quantum = *tangentDiffusion;
+				double curPx = dstImg[diffOut];
+				double quantized = std::round(curPx / quantum) * quantum;
+				float quantErr = curPx - quantized;
+				dstImg[diffOut] = quantized;
 				bool atRight = rightEdge && i >= diffW - 1;
 				bool bottomEdge = diffY >= dstHeight - 1;
 				if (atRight && bottomEdge) {
@@ -416,11 +421,11 @@ void paintMap(
 				}
 				Vec2f32 normal{cos(thetaNormal), sin(thetaNormal)};
 				// distance calculation uses the whole circle
-				float dist0 = vecDist(normal, {hardSigns[(nEighths + 0) % 8], hardSigns[(nEighths + 2) % 8]});
-				float dist1 = vecDist(normal, {hardSigns[(nEighths + 1) % 8], hardSigns[(nEighths + 3) % 8]});
+				float dist0 = vecDist(normal, {hardSigns[(nEighths + 2) % 8], hardSigns[(nEighths + 0) % 8]});
+				float dist1 = vecDist(normal, {hardSigns[(nEighths + 3) % 8], hardSigns[(nEighths + 1) % 8]});
 				// offset selection uses the part of the circle that is yet to be scanned
-				Vec2i offs0{hardSigns[(nEighths + 0) % 4], hardSigns[(nEighths + 2) % 4]};
-				Vec2i offs1{hardSigns[(nEighths + 1) % 4], hardSigns[(nEighths + 3) % 4]};
+				Vec2i offs0{hardSigns[nEighths % 4 + 2], hardSigns[nEighths % 4 + 0]};
+				Vec2i offs1{hardSigns[nEighths % 4 + 3], hardSigns[nEighths % 4 + 1]};
 				Vec2i pos{diffX + i, diffY};
 				if (bottomEdge) {
 					offs0 = vec2ipmul(offs0, {1, 0});
