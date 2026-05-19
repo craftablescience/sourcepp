@@ -50,7 +50,7 @@ endif()
 
 # libtommath
 if(NOT TARGET libtommath)
-    add_sourcepp_remote_library(libtommath https://github.com/craftablescience/libtommath 03101d4556acd45175d5cfe0575601cf6acadef2 OVERRIDE_FIND_PACKAGE)
+    add_sourcepp_remote_library(libtommath https://github.com/craftablescience/libtommath 03101d4556acd45175d5cfe0575601cf6acadef2 OVERRIDE_FIND_PACKAGE EXCLUDE_FROM_ALL)
 endif()
 
 
@@ -59,7 +59,7 @@ if(NOT TARGET libtomcrypt)
     if(SOURCEPP_BUILD_WITH_THREADS AND CMAKE_USE_PTHREADS_INIT)
         set(WITH_PTHREAD ON CACHE INTERNAL "" FORCE)
     endif()
-    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt c80285ba04f87ee5359baf689ccc7ce8a31116dc)
+    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt c80285ba04f87ee5359baf689ccc7ce8a31116dc EXCLUDE_FROM_ALL)
     if(MSVC)
         # Spews "inconsistent dll linkage", no idea how to fix, doesn't seem to cause problems
         target_compile_options(libtomcrypt PRIVATE "/wd4273")
