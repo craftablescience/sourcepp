@@ -18,6 +18,12 @@ public sealed class PSFrames : sourcepp.ManagedNativeHandle
 	{
 	}
 
+	public static implicit operator bool(PSFrames frames)
+	{
+		frames.ThrowIfDisposed();
+		return Convert.ToBoolean(DLL.vtfpp_psframes_is_valid(frames.Handle));
+	}
+
 	public uint FrameCount
 	{
 		get

@@ -281,6 +281,9 @@ internal static partial class DLL
 	public static partial void vtfpp_psframes_close(ref nint handle);
 
 	[LibraryImport(Name)]
+	public static partial int vtfpp_psframes_is_valid(nint handle);
+
+	[LibraryImport(Name)]
 	public static partial uint vtfpp_psframes_get_frame_count(nint handle);
 
 	[LibraryImport(Name)]

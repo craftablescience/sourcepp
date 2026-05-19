@@ -25,6 +25,12 @@ VTFPP_API void vtfpp_psframes_close(vtfpp_psframes_handle_t* handle) {
 	*handle = nullptr;
 }
 
+VTFPP_API int vtfpp_psframes_is_valid(vtfpp_psframes_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, false);
+
+	return static_cast<bool>(*convert::handle<PSFrames>(handle));
+}
+
 VTFPP_API uint32_t vtfpp_psframes_get_frame_count(vtfpp_psframes_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 

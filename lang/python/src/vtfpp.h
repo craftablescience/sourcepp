@@ -406,6 +406,7 @@ inline void register_python(py::module_& m) {
 			return new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
 		}, "ps_frames_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "ps_frames_path"_a)
+		.def("__bool__", &PSFrames::operator bool, py::is_operator())
 		.def_prop_ro("frame_count", &PSFrames::getFrameCount)
 		.def_prop_ro("fps", &PSFrames::getFPS)
 		.def("get_width",  &PSFrames::getWidth)
