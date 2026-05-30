@@ -99,11 +99,17 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 								addIndex(strip.indices[i+2]);
 								addIndex(strip.indices[i+1]);
 							}
-						} else {
-							for (auto i = strip.indices.size() - 1; i >= 2; i -= 3) {
-								addIndex(strip.indices[ i ]);
-								addIndex(strip.indices[i-2]);
-								addIndex(strip.indices[i-1]);
+						} else /* if (strip.flags & VTX::Strip::FLAG_IS_TRISTRIP) */ {
+							for (int i = 0; i < strip.indices.size() - 2; i++) {
+								if (i & 1) {
+									addIndex(strip.indices[i+0]);
+									addIndex(strip.indices[i+2]);
+									addIndex(strip.indices[i+1]);
+								} else {
+									addIndex(strip.indices[i+1]);
+									addIndex(strip.indices[i+2]);
+									addIndex(strip.indices[i+0]);
+								}
 							}
 						}
 					}
