@@ -127,7 +127,13 @@ struct BodyPart {
 };
 
 struct VTX {
-	[[nodiscard]] bool open(const std::byte* data, std::size_t size, const MDL::MDL& mdl);
+	enum class HasTopologyIndices {
+		AUTOMATIC,
+		NO,
+		YES,
+	};
+
+	[[nodiscard]] bool open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, HasTopologyIndices hasTopologyIndices = HasTopologyIndices::AUTOMATIC);
 
 	int32_t version;
 	int32_t vertexCacheSize;
