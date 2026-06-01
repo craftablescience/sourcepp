@@ -511,6 +511,8 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - Partial library redesign, lump compression and game lump parsing/writing support contributed by [@Tholp](https://github.com/Tholp1).
 - `kvpp`
   - Support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
+- `mdlpp`
+  - Most of the components of the parsers were contributed by [@cueki](https://github.com/cueki).
 - `steampp`
   - Based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`
