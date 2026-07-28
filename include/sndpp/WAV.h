@@ -1,6 +1,7 @@
 #pragma once
 
 #include <array>
+#include <cctype>
 #include <optional>
 
 #include <BufferStream.h>
@@ -26,6 +27,7 @@ public:
 		CHUNK_PAD  = sourcepp::parser::binary::makeFourCC("PAD "), // Useless
 		CHUNK_JUNK = sourcepp::parser::binary::makeFourCC("JUNK"), // Useless
 		CHUNK_FLLR = sourcepp::parser::binary::makeFourCC("FLLR"), // Useless
+		CHUNK_VDAT = sourcepp::parser::binary::makeFourCC("VDAT"), // Valve lipsync data
 
 		//CHUNK_LIST = sourcepp::parser::binary::makeFourCC("LIST"), // Metadata
 		//CHUNK_LIST_WAVL = sourcepp::parser::binary::makeFourCC("WAVL"), // Wave list
@@ -142,6 +144,34 @@ public:
 
 	struct ChunkMD5 {
 		std::array<uint8_t, 16> md5;
+	};
+
+	struct ChunkVDAT {
+		struct Emphasis {
+			float time;
+			float value;
+		};
+
+		struct Phoneme {
+			float startTime{};
+			float endTime{};
+			float volume{};
+			uint32_t code{};
+			std::string name;
+		};
+
+		struct Word {
+			float startTime{};
+			float endTime{};
+			std::string word;
+			std::vector<Phoneme> phonemes;
+		};
+
+		float version;
+		std::string plaintext;
+		std::vector<Word> words;
+		std::vector<Emphasis> emphasis;
+		std::unordered_map<std::string, std::string> options;
 	};
 
 	//struct ChunkLISTINFO {
@@ -262,6 +292,92 @@ public:
 			if (stream.size() == sizeof(uint8_t) * 16) {
 				chunk = ChunkMD5{};
 				stream >> chunk->md5;
+			}
+			return chunk;
+		} else if constexpr (Type == CHUNK_VDAT) {
+			std::optional<ChunkVDAT> chunk = std::nullopt;
+			if (stream.size() > 0) {
+				chunk = ChunkVDAT{};
+				const auto getToken = [&stream] {
+					std::string token;
+					if (stream.tell() >= stream.size()) {
+						return token;
+					}
+					bool gotToken = false;
+					char c = stream.read<char>();
+					while (true) {
+						if (!gotToken && std::isspace(c)) {
+							// skip leading whitespace
+						} else if (!gotToken && !std::isspace(c)) {
+							gotToken = true;
+							token += c;
+						} else if (gotToken && !std::isspace(c)) {
+							token += c;
+						} else if (gotToken && std::isspace(c)) {
+							break;
+						}
+						c = stream.read<char>();
+					}
+					return token;
+				};
+				std::string token = getToken();
+				while (!token.empty()) {
+					if (token == "VERSION") {
+						token = getToken();
+						chunk->version = std::stof(token);
+					} else if (token == "PLAINTEXT") {
+						token = getToken(); // opening brace
+						token = getToken(); // first token
+						while (true) {
+							chunk->plaintext += token;
+							token = getToken();
+							if (token.empty() || token == "}")
+								break;
+							chunk->plaintext += ' ';
+						}
+					} else if (token == "WORDS") {
+						token = getToken(); // opening brace
+						token = getToken(); // first token
+						while (token == "WORD") {
+							ChunkVDAT::Word word;
+							word.word = getToken();
+							word.startTime = std::stof(getToken());
+							word.endTime = std::stof(getToken());
+							token = getToken(); // opening brace
+							token = getToken(); // first token
+							while (token != "}") {
+								ChunkVDAT::Phoneme phoneme;
+								phoneme.code = std::stoi(token);
+								phoneme.name = getToken();
+								phoneme.startTime = std::stof(getToken());
+								phoneme.endTime = std::stof(getToken());
+								phoneme.volume = std::stof(getToken());
+								word.phonemes.push_back(phoneme);
+								token = getToken();
+							}
+							chunk->words.push_back(word);
+							token = getToken();
+						}
+					} else if (token == "EMPHASIS") {
+						token = getToken(); // opening brace
+						token = getToken(); // first token
+						while (token != "}") {
+							ChunkVDAT::Emphasis emphasis{};
+							emphasis.time = std::stof(token);
+							emphasis.value = std::stof(getToken());
+							chunk->emphasis.push_back(emphasis);
+							token = getToken();
+						}
+					} else if (token == "OPTIONS") {
+						token = getToken(); // opening brace
+						token = getToken(); // first token
+						while (token != "}") {
+							chunk->options[token] = getToken();
+							token = getToken();
+						}
+					}
+					token = getToken();
+				}
 			}
 			return chunk;
 		} else {
