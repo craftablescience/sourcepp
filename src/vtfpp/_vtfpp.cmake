@@ -21,6 +21,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_LIST_DIR}/ImageQuantize.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PPL.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PSFrames.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/PVR.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SHT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/TTX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/VBF.cpp"
