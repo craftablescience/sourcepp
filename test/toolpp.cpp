@@ -68,10 +68,24 @@ TEST(toolpp, fgdParsePortal2) {
 	EXPECT_TRUE(fgd.getAutoVisGroups().empty());
 }
 
+TEST(toolpp, fgdParseQuake) {
+	FGD fgd{ASSET_ROOT "toolpp/fgd/game/quake.fgd"};
+	EXPECT_EQ(fgd.getVersion(), 0);
+	EXPECT_STREQ(fgd.getMainKeyValues().at("Name").data(), "Quake");
+	EXPECT_STREQ(fgd.getMainKeyValues().at("Palette").data(), "wc.pal");
+	EXPECT_STREQ(fgd.getMainKeyValues().at("DefaultClass").data(), "func_door");
+	EXPECT_EQ(fgd.getEntities().size(), 106);
+}
+
 TEST(toolpp, fgdWrite) {
 	std::string writeContents = FGDWriter::begin()
 		.version(8)
 		.mapSize({-16384, 16384})
+		.beginMainKeyValues()
+			.mainKeyValue("Name", "Quake")
+			.mainKeyValue("Palette", "wc.pal")
+			.mainKeyValue("DefaultClass", "func_door")
+		.endMainKeyValues()
 		.beginEntity(
 			"PointClass",
 			{
@@ -142,6 +156,13 @@ TEST(toolpp, fgdWrite) {
 	std::string expectedContents = R"~(@version(8)
 
 @mapsize(-16384, 16384)
+
+@Main =
+[
+	Name: "Quake"
+	Palette: "wc.pal"
+	DefaultClass: "func_door"
+]
 
 @PointClass
 	base(Targetname, Angles, Origin)

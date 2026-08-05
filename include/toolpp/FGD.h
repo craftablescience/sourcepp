@@ -106,6 +106,8 @@ public:
 
 	[[nodiscard]] const std::vector<std::string_view>& getMaterialExclusionDirs() const;
 
+	[[nodiscard]] const std::unordered_map<std::string_view, std::string_view>& getMainKeyValues() const;
+
 	[[nodiscard]] const std::vector<AutoVisGroup>& getAutoVisGroups() const;
 
 protected:
@@ -117,6 +119,7 @@ protected:
 	sourcepp::math::Vec2i mapSize{};
 	std::unordered_map<std::string_view, Entity> entities;
 	std::vector<std::string_view> materialExclusionDirs;
+	std::unordered_map<std::string_view, std::string_view> mainKeyValues;
 	std::vector<AutoVisGroup> autoVisGroups;
 };
 
@@ -191,6 +194,12 @@ public:
 	FGDWriter& materialExclusionDirs(std::initializer_list<std::string_view> dirs);
 
 	FGDWriter& materialExclusionDirs(std::span<const std::string_view> dirs);
+
+	FGDWriter& beginMainKeyValues();
+
+	FGDWriter& mainKeyValue(std::string_view key, std::string_view value);
+
+	FGDWriter& endMainKeyValues();
 
 	AutoVisGroupWriter beginAutoVisGroup(std::string_view parentName);
 
