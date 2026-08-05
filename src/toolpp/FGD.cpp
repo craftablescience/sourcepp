@@ -129,6 +129,24 @@ void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backi
 	stream.skip();
 }
 
+void readMainKeyValues(BufferStreamReadOnly& stream, BufferStream& backing, std::unordered_map<std::string_view, std::string_view>& mainKeyValues) {
+	if (!::tryToEatSeparator(stream, '=')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	if (!::tryToEatSeparator(stream, '[')) {
+		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+	}
+	while (!::tryToEatSeparator(stream, ']')) {
+		auto key = ::readFGDString(stream, backing);
+		if (!::tryToEatSeparator(stream, ':')) {
+			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		}
+		auto value = ::readFGDString(stream, backing);
+		mainKeyValues[key] = value;
+	}
+	stream.skip();
+}
+
 void readAutoVisGroups(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<FGD::AutoVisGroup>& autoVisGroups) {
 	if (!::tryToEatSeparator(stream, '=')) {
 		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
@@ -541,6 +559,10 @@ const std::vector<std::string_view>& FGD::getMaterialExclusionDirs() const {
 	return this->materialExclusionDirs;
 }
 
+const std::unordered_map<std::string_view, std::string_view>& FGD::getMainKeyValues() const {
+	return this->mainKeyValues;
+}
+
 const std::vector<FGD::AutoVisGroup>& FGD::getAutoVisGroups() const {
 	return this->autoVisGroups;
 }
@@ -586,6 +608,8 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::filesystem::path
 			::readMapSize(stream, backing, this->mapSize);
 		} else if (string::iequals(classType, "MaterialExclusion")) {
 			::readMaterialExclusionDirs(stream, backing, this->materialExclusionDirs);
+		} else if (string::iequals(classType, "Main")) {
+			::readMainKeyValues(stream, backing, this->mainKeyValues);
 		} else if (string::iequals(classType, "AutoVisGroup")) {
 			::readAutoVisGroups(stream, backing, this->autoVisGroups);
 		} else if (string::iequals(classType, "BaseClass") ||
@@ -652,6 +676,25 @@ FGDWriter& FGDWriter::materialExclusionDirs(std::span<const std::string_view> di
 		this->writer.write(dir, false);
 		this->writer << '\"' << '\n';
 	}
+	this->writer.write("]\n\n"sv, false);
+	return *this;
+}
+
+FGDWriter& FGDWriter::beginMainKeyValues() {
+	this->writer.write("@Main =\n[\n"sv, false);
+	return *this;
+}
+
+FGDWriter& FGDWriter::mainKeyValue(std::string_view key, std::string_view value) {
+	this->writer << '\t';
+	this->writer.write(key, false);
+	this->writer << ':' << ' ' << '\"';
+	this->writer.write(value, false);
+	this->writer << '\"' << '\n';
+	return *this;
+}
+
+FGDWriter& FGDWriter::endMainKeyValues() {
 	this->writer.write("]\n\n"sv, false);
 	return *this;
 }
