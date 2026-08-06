@@ -138,6 +138,7 @@ inline void register_python(py::module_& m) {
 		.def_prop_ro("map_size", &FGD::getMapSize)
 		.def_prop_ro("entities", &FGD::getEntities)
 		.def_prop_ro("material_exclusion_dirs", &FGD::getMaterialExclusionDirs)
+		.def_prop_ro("main_keyvalues", &FGD::getMainKeyValues)
 		.def_prop_ro("auto_visgroups", &FGD::getAutoVisGroups);
 
 	auto cFGDWriter = py::class_<FGDWriter>(toolpp, "FGDWriter");
@@ -170,6 +171,9 @@ inline void register_python(py::module_& m) {
 		.def("version", &FGDWriter::version, "version"_a, py::rv_policy::reference)
 		.def("map_size", &FGDWriter::mapSize, "map_size"_a, py::rv_policy::reference)
 		.def("material_exclusion_dirs", py::overload_cast<std::span<const std::string_view>>(&FGDWriter::materialExclusionDirs), "material_exclusion_dirs"_a, py::rv_policy::reference)
+		.def("begin_main_keyvalues", &FGDWriter::beginMainKeyValues)
+		.def("main_keyvalue", &FGDWriter::mainKeyValue, "key"_a, "value"_a)
+		.def("end_main_keyvalues", &FGDWriter::endMainKeyValues)
 		.def("begin_auto_visgroup", &FGDWriter::beginAutoVisGroup, "parent_name"_a)
 		.def("begin_entity", py::overload_cast<std::string_view, std::span<const std::string_view>, std::string_view, std::string_view, std::string_view>(&FGDWriter::beginEntity), "class_type"_a, "class_properties"_a, "name"_a, "description"_a = "", "docs_url"_a = "")
 		.def("bake", [](const FGDWriter& self) {
