@@ -72,8 +72,8 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	}
 
 	reader.read(pck->header.packVersion);
-	if (pck->header.packVersion < 1 || pck->header.packVersion > 2) {
-		// We don't support v3 yet
+	if (pck->header.packVersion < 1 || pck->header.packVersion > 4) {
+		// Unknown version
 		return nullptr;
 	}
 
@@ -92,13 +92,18 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 		// File directory is encrypted
 		return nullptr;
 	}
-	if (pck->header.flags & FLAG_DIR_RELATIVE_FILE_DATA) {
+	if (pck->header.flags & FLAG_DIR_RELATIVE_FILE_DATA || pck->header.packVersion >= 3) {
 		extraEntryContentsOffset += pck->startOffset;
 		pck->header.flags = static_cast<FlagsDirV2>(pck->header.flags & ~FLAG_DIR_RELATIVE_FILE_DATA);
 	}
 
-	// Reserved
-	reader.skip_in<int32_t>(16);
+	if (pck->header.packVersion >= 3) {
+		auto dirOffset = reader.read<int64_t>();
+		reader.seek_in(dirOffset);
+	} else {
+		// Reserved
+		reader.skip_in<int32_t>(16);
+	}
 
 	// Directory
 	auto fileCount = reader.read<uint32_t>();
