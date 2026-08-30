@@ -1,3 +1,5 @@
+// ReSharper disable CppRedundantQualifier
+
 #include <vpkpp/format/PCK.h>
 
 #include <filesystem>
@@ -14,7 +16,7 @@ constexpr int PCK_DIRECTORY_STRING_PADDING = 4;
 constexpr int PCK_FILE_DATA_PADDING = 16;
 
 std::unique_ptr<PackFile> PCK::create(const std::string& path, uint32_t version, uint32_t godotMajorVersion, uint32_t godotMinorVersion, uint32_t godotPatchVersion) {
-	if (version != 1 && version != 2) {
+	if (version < 1 || version > 4) {
 		return nullptr;
 	}
 
@@ -53,18 +55,18 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	FileStream reader{pck->fullFilePath};
 	reader.seek_in(0);
 
-	if (auto signature = reader.read<uint32_t>(); signature != PCK_SIGNATURE) {
+	if (reader.read<uint32_t>() != PCK_SIGNATURE) {
 		// PCK might be embedded
 		reader.seek_in(sizeof(uint32_t), std::ios::end);
-		if (auto endSignature = reader.read<uint32_t>(); endSignature != PCK_SIGNATURE) {
+		if (reader.read<uint32_t>() != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
 		reader.seek_in(-static_cast<int64_t>(sizeof(uint32_t) + sizeof(uint64_t)), std::ios::cur);
-		auto distanceIntoFile = reader.read<uint64_t>();
+		const auto distanceIntoFile = reader.read<uint64_t>();
 
 		reader.seek_in(-static_cast<int64_t>(distanceIntoFile + sizeof(uint64_t)), std::ios::cur);
-		if (auto startSignature = reader.read<uint32_t>(); startSignature != PCK_SIGNATURE) {
+		if (reader.read<uint32_t>() != PCK_SIGNATURE) {
 			return nullptr;
 		}
 
@@ -98,7 +100,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	}
 
 	if (pck->header.packVersion >= 3) {
-		auto dirOffset = reader.read<int64_t>();
+		const auto dirOffset = reader.read<int64_t>();
 		reader.seek_in(dirOffset);
 	} else {
 		// Reserved
@@ -106,7 +108,7 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 	}
 
 	// Directory
-	auto fileCount = reader.read<uint32_t>();
+	const auto fileCount = reader.read<uint32_t>();
 	for (uint32_t i = 0; i < fileCount; i++) {
 		Entry entry = createNewEntry();
 
@@ -140,8 +142,8 @@ std::unique_ptr<PackFile> PCK::open(const std::string& path, const EntryCallback
 }
 
 std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
-	auto entry = this->findEntry(path);
+	const auto path = this->cleanEntryPath(path_);
+	const auto entry = this->findEntry(path);
 	if (!entry) {
 		return std::nullopt;
 	}
@@ -163,7 +165,7 @@ std::optional<std::vector<std::byte>> PCK::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void PCK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions) {
 	entry.length = buffer.size();
 
 	const auto md5 = crypto::computeMD5(buffer);
@@ -173,10 +175,15 @@ void PCK::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 	entry.offset = 0;
 }
 
-bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool PCK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
+	if (this->header.packVersion > 2) {
+		// Currently unsupported
+		return false;
+	}
+
 	// Get the proper file output folder
-	std::string outputDir = this->getBakeOutputDir(outputDir_);
-	std::string outputPath = outputDir + '/' + this->getFilename();
+	const std::string outputDir = this->getBakeOutputDir(outputDir_);
+	const std::string outputPath = outputDir + '/' + this->getFilename();
 
 	// Reconstruct data for ease of access
 	std::vector<std::pair<std::string, Entry*>> entriesToBake;
@@ -249,8 +256,8 @@ bool PCK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 			this->dataOffset +=
 					sizeof(uint32_t) +             // Path length
 					entryPath.length() + padding + // Path
-					(sizeof(std::size_t) * 2) +    // Offset, Length
-					(sizeof(std::byte) * 16);      // MD5
+					sizeof(std::size_t) * 2 +      // Offset, Length
+					sizeof(std::byte) * 16;        // MD5
 
 			if (this->header.packVersion > 1) {
 				this->dataOffset += sizeof(uint32_t); // Flags
@@ -318,7 +325,7 @@ uint32_t PCK::getVersion() const {
 }
 
 void PCK::setVersion(uint32_t version) {
-	if (version == 1 || version == 2) {
+	if (version >= 1 || version <= 4) {
 		this->header.packVersion = version;
 	}
 }
