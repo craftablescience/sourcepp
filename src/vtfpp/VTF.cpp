@@ -328,7 +328,7 @@ Resource::ConvertedData Resource::convertData() const {
 			}
 			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
 		case TYPE_PARALLAX_CORRECTED_CUBEMAP: {
-			if (this->data.size() <= sizeof(uint32_t) + sizeof(PCC)) {
+			if (this->data.size() != sizeof(uint32_t) + sizeof(PCC)) {
 				return {};
 			}
 			BufferStreamReadOnly stream{this->data};
