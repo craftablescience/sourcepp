@@ -1907,7 +1907,7 @@ void VTF::setParallaxCorrectedCubemapResource(const Resource::PCC& value) {
 		<< value.inverseTransform[3][0] << value.inverseTransform[3][1] << value.inverseTransform[3][2] << value.inverseTransform[3][3];
 	pccData.resize(writer.size());
 
-	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, pccData);
+	this->setResourceInternal(Resource::TYPE_PARALLAX_CORRECTED_CUBEMAP, pccData);
 }
 
 void VTF::removeParallaxCorrectedCubemapResource() {
