@@ -48,6 +48,12 @@ VTFPP_API vtfpp_sht_handle_t vtfpp_resource_get_data_as_particle_sheet(vtfpp_res
 	return new SHT{convert::handle<const Resource>(handle)->getDataAsParticleSheet()};
 }
 
+VTFPP_API vtfpp_resource_pcc_t vtfpp_resource_get_data_as_parallax_corrected_cubemap(vtfpp_resource_handle_t handle) {
+	SOURCEPP_EARLY_RETURN_VAL(handle, vtfpp_resource_pcc_t{});
+
+	return convert::cast(convert::handle<const Resource>(handle)->getDataAsParallaxCorrectedCubemap());
+}
+
 VTFPP_API uint32_t vtfpp_resource_get_data_as_crc(vtfpp_resource_handle_t handle) {
 	SOURCEPP_EARLY_RETURN_VAL(handle, 0);
 
@@ -578,6 +584,18 @@ VTFPP_API void vtfpp_vtf_remove_particle_sheet_resource(vtfpp_vtf_handle_t handl
 	SOURCEPP_EARLY_RETURN(handle);
 
 	convert::handle<VTF>(handle)->removeParticleSheetResource();
+}
+
+VTFPP_API void vtfpp_vtf_set_parallax_corrected_cubemap_resource(vtfpp_vtf_handle_t handle, vtfpp_resource_pcc_t value) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->setParallaxCorrectedCubemapResource(convert::cast(value));
+}
+
+VTFPP_API void vtfpp_vtf_remove_parallax_corrected_cubemap_resource(vtfpp_vtf_handle_t handle) {
+	SOURCEPP_EARLY_RETURN(handle);
+
+	convert::handle<VTF>(handle)->removeParallaxCorrectedCubemapResource();
 }
 
 VTFPP_API void vtfpp_vtf_set_crc_resource(vtfpp_vtf_handle_t handle, uint32_t value) {

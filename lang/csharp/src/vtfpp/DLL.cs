@@ -485,6 +485,9 @@ internal static partial class DLL
 	public static partial nint vtfpp_resource_get_data_as_particle_sheet(nint handle);
 
 	[LibraryImport(Name)]
+	public static partial Resource.PCC vtfpp_resource_get_data_as_parallax_corrected_cubemap(nint handle);
+
+	[LibraryImport(Name)]
 	public static partial uint vtfpp_resource_get_data_as_crc(nint handle);
 
 	[LibraryImport(Name)]
@@ -735,6 +738,12 @@ internal static partial class DLL
 
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_remove_particle_sheet_resource(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_set_parallax_corrected_cubemap_resource(nint handle, Resource.PCC value);
+
+	[LibraryImport(Name)]
+	public static partial void vtfpp_vtf_remove_parallax_corrected_cubemap_resource(nint handle);
 
 	[LibraryImport(Name)]
 	public static partial void vtfpp_vtf_set_crc_resource(nint handle, uint value);

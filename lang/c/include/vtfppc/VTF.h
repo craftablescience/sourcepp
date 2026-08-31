@@ -20,26 +20,32 @@ VTFPP_EXTERN typedef enum {
 } vtfpp_compression_method_e;
 
 VTFPP_EXTERN typedef enum {
-	VTFPP_RESOURCE_TYPE_UNKNOWN             = 0,
-	VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA      = 1,
-	VTFPP_RESOURCE_TYPE_PALETTE_DATA        = 2,
-	VTFPP_RESOURCE_TYPE_FALLBACK_DATA       = 3,
-	VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA = 16,
-	VTFPP_RESOURCE_TYPE_HOTSPOT_DATA        = 43,
-	VTFPP_RESOURCE_TYPE_IMAGE_DATA          = 48,
-	VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS      = 3167060,
-	VTFPP_RESOURCE_TYPE_CRC                 = 4411971,
-	VTFPP_RESOURCE_TYPE_AUX_COMPRESSION     = 4413505,
-	VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO    = 4476748,
-	VTFPP_RESOURCE_TYPE_KEYVALUES_DATA      = 4478539,
-	VTFPP_RESOURCE_TYPE_AUTHOR_INFO         = 4740161,
-	VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS      = 5263443,
+	VTFPP_RESOURCE_TYPE_UNKNOWN                    = 0,
+	VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA             = 1,
+	VTFPP_RESOURCE_TYPE_PALETTE_DATA               = 2,
+	VTFPP_RESOURCE_TYPE_FALLBACK_DATA              = 3,
+	VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA        = 16,
+	VTFPP_RESOURCE_TYPE_HOTSPOT_DATA               = 43,
+	VTFPP_RESOURCE_TYPE_IMAGE_DATA                 = 48,
+	VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS             = 3167060,
+	VTFPP_RESOURCE_TYPE_PARALLAX_CORRECTED_CUBEMAP = 4408144,
+	VTFPP_RESOURCE_TYPE_CRC                        = 4411971,
+	VTFPP_RESOURCE_TYPE_AUX_COMPRESSION            = 4413505,
+	VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO           = 4476748,
+	VTFPP_RESOURCE_TYPE_KEYVALUES_DATA             = 4478539,
+	VTFPP_RESOURCE_TYPE_AUTHOR_INFO                = 4740161,
+	VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS             = 5263443,
 } vtfpp_resource_type_e;
 
 VTFPP_EXTERN typedef enum {
 	VTFPP_RESOURCE_FLAG_NONE       = 0,
 	VTFPP_RESOURCE_FLAG_LOCAL_DATA = 1 << 1,
 } vtfpp_resource_flags_e;
+
+VTFPP_EXTERN typedef struct {
+	double origin[4];
+	float inverseTransform[4][4];
+} vtfpp_resource_pcc_t;
 
 typedef const void* vtfpp_resource_handle_t;
 
@@ -48,6 +54,7 @@ VTFPP_API vtfpp_resource_flags_e vtfpp_resource_get_flags(vtfpp_resource_handle_
 VTFPP_API unsigned char* vtfpp_resource_get_data(vtfpp_resource_handle_t handle, size_t* dataLen);
 VTFPP_API sourcepp_buffer_t vtfpp_resource_get_data_as_palette(vtfpp_resource_handle_t handle, uint16_t frame); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 VTFPP_API vtfpp_sht_handle_t vtfpp_resource_get_data_as_particle_sheet(vtfpp_resource_handle_t handle); // REQUIRES MANUAL FREE: vtfpp_sht_free
+VTFPP_API vtfpp_resource_pcc_t vtfpp_resource_get_data_as_parallax_corrected_cubemap(vtfpp_resource_handle_t handle);
 VTFPP_API uint32_t vtfpp_resource_get_data_as_crc(vtfpp_resource_handle_t handle);
 VTFPP_API uint32_t vtfpp_resource_get_data_as_flags(vtfpp_resource_handle_t handle);
 VTFPP_API void vtfpp_resource_get_data_as_lod_control_info(vtfpp_resource_handle_t handle, uint8_t* u, uint8_t* v, uint8_t* u360, uint8_t* v360);
@@ -287,6 +294,8 @@ VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as(vtfpp_vtf
 VTFPP_API sourcepp_buffer_t vtfpp_vtf_get_particle_sheet_frame_data_as_rgba8888(vtfpp_vtf_handle_t handle, uint16_t* width, uint16_t* height, uint32_t shtSequenceID, uint32_t shtFrame, uint8_t shtBounds, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 VTFPP_API void vtfpp_vtf_set_particle_sheet_resource(vtfpp_vtf_handle_t handle, vtfpp_sht_handle_t sht);
 VTFPP_API void vtfpp_vtf_remove_particle_sheet_resource(vtfpp_vtf_handle_t handle);
+VTFPP_API void vtfpp_vtf_set_parallax_corrected_cubemap_resource(vtfpp_vtf_handle_t handle, vtfpp_resource_pcc_t value);
+VTFPP_API void vtfpp_vtf_remove_parallax_corrected_cubemap_resource(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_crc_resource(vtfpp_vtf_handle_t handle, uint32_t value);
 VTFPP_API void vtfpp_vtf_remove_crc_resource(vtfpp_vtf_handle_t handle);
 VTFPP_API void vtfpp_vtf_set_lod_resource(vtfpp_vtf_handle_t handle, uint8_t u, uint8_t v, uint8_t u360, uint8_t v360);
@@ -359,40 +368,42 @@ inline vtfpp_compression_method_e cast(vtfpp::CompressionMethod value) {
 
 inline vtfpp::Resource::Type cast(vtfpp_resource_type_e value) {
 	switch (value) {
-		case VTFPP_RESOURCE_TYPE_UNKNOWN:             return vtfpp::Resource::TYPE_UNKNOWN;
-		case VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA:      return vtfpp::Resource::TYPE_THUMBNAIL_DATA;
-		case VTFPP_RESOURCE_TYPE_PALETTE_DATA:        return vtfpp::Resource::TYPE_PALETTE_DATA;
-		case VTFPP_RESOURCE_TYPE_FALLBACK_DATA:       return vtfpp::Resource::TYPE_FALLBACK_DATA;
-		case VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA: return vtfpp::Resource::TYPE_PARTICLE_SHEET_DATA;
-		case VTFPP_RESOURCE_TYPE_HOTSPOT_DATA:        return vtfpp::Resource::TYPE_HOTSPOT_DATA;
-		case VTFPP_RESOURCE_TYPE_IMAGE_DATA:          return vtfpp::Resource::TYPE_IMAGE_DATA;
-		case VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS:      return vtfpp::Resource::TYPE_EXTENDED_FLAGS;
-		case VTFPP_RESOURCE_TYPE_CRC:                 return vtfpp::Resource::TYPE_CRC;
-		case VTFPP_RESOURCE_TYPE_AUX_COMPRESSION:     return vtfpp::Resource::TYPE_AUX_COMPRESSION;
-		case VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO:    return vtfpp::Resource::TYPE_LOD_CONTROL_INFO;
-		case VTFPP_RESOURCE_TYPE_KEYVALUES_DATA:      return vtfpp::Resource::TYPE_KEYVALUES_DATA;
-		case VTFPP_RESOURCE_TYPE_AUTHOR_INFO:         return vtfpp::Resource::TYPE_AUTHOR_INFO;
-		case VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS:      return vtfpp::Resource::TYPE_SOURCEPP_FLAGS;
+		case VTFPP_RESOURCE_TYPE_UNKNOWN:                    return vtfpp::Resource::TYPE_UNKNOWN;
+		case VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA:             return vtfpp::Resource::TYPE_THUMBNAIL_DATA;
+		case VTFPP_RESOURCE_TYPE_PALETTE_DATA:               return vtfpp::Resource::TYPE_PALETTE_DATA;
+		case VTFPP_RESOURCE_TYPE_FALLBACK_DATA:              return vtfpp::Resource::TYPE_FALLBACK_DATA;
+		case VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA:        return vtfpp::Resource::TYPE_PARTICLE_SHEET_DATA;
+		case VTFPP_RESOURCE_TYPE_HOTSPOT_DATA:               return vtfpp::Resource::TYPE_HOTSPOT_DATA;
+		case VTFPP_RESOURCE_TYPE_IMAGE_DATA:                 return vtfpp::Resource::TYPE_IMAGE_DATA;
+		case VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS:             return vtfpp::Resource::TYPE_EXTENDED_FLAGS;
+		case VTFPP_RESOURCE_TYPE_PARALLAX_CORRECTED_CUBEMAP: return vtfpp::Resource::TYPE_PARALLAX_CORRECTED_CUBEMAP;
+		case VTFPP_RESOURCE_TYPE_CRC:                        return vtfpp::Resource::TYPE_CRC;
+		case VTFPP_RESOURCE_TYPE_AUX_COMPRESSION:            return vtfpp::Resource::TYPE_AUX_COMPRESSION;
+		case VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO:           return vtfpp::Resource::TYPE_LOD_CONTROL_INFO;
+		case VTFPP_RESOURCE_TYPE_KEYVALUES_DATA:             return vtfpp::Resource::TYPE_KEYVALUES_DATA;
+		case VTFPP_RESOURCE_TYPE_AUTHOR_INFO:                return vtfpp::Resource::TYPE_AUTHOR_INFO;
+		case VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS:             return vtfpp::Resource::TYPE_SOURCEPP_FLAGS;
 	}
 	return vtfpp::Resource::TYPE_UNKNOWN;
 }
 
 inline vtfpp_resource_type_e cast(vtfpp::Resource::Type value) {
 	switch (value) {
-		case vtfpp::Resource::TYPE_UNKNOWN:             return VTFPP_RESOURCE_TYPE_UNKNOWN;
-		case vtfpp::Resource::TYPE_THUMBNAIL_DATA:      return VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA;
-		case vtfpp::Resource::TYPE_PALETTE_DATA:        return VTFPP_RESOURCE_TYPE_PALETTE_DATA;
-		case vtfpp::Resource::TYPE_FALLBACK_DATA:       return VTFPP_RESOURCE_TYPE_FALLBACK_DATA;
-		case vtfpp::Resource::TYPE_PARTICLE_SHEET_DATA: return VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA;
-		case vtfpp::Resource::TYPE_HOTSPOT_DATA:        return VTFPP_RESOURCE_TYPE_HOTSPOT_DATA;
-		case vtfpp::Resource::TYPE_IMAGE_DATA:          return VTFPP_RESOURCE_TYPE_IMAGE_DATA;
-		case vtfpp::Resource::TYPE_EXTENDED_FLAGS:      return VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS;
-		case vtfpp::Resource::TYPE_CRC:                 return VTFPP_RESOURCE_TYPE_CRC;
-		case vtfpp::Resource::TYPE_AUX_COMPRESSION:     return VTFPP_RESOURCE_TYPE_AUX_COMPRESSION;
-		case vtfpp::Resource::TYPE_LOD_CONTROL_INFO:    return VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO;
-		case vtfpp::Resource::TYPE_KEYVALUES_DATA:      return VTFPP_RESOURCE_TYPE_KEYVALUES_DATA;
-		case vtfpp::Resource::TYPE_AUTHOR_INFO:         return VTFPP_RESOURCE_TYPE_AUTHOR_INFO;
-		case vtfpp::Resource::TYPE_SOURCEPP_FLAGS:      return VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS;
+		case vtfpp::Resource::TYPE_UNKNOWN:                    return VTFPP_RESOURCE_TYPE_UNKNOWN;
+		case vtfpp::Resource::TYPE_THUMBNAIL_DATA:             return VTFPP_RESOURCE_TYPE_THUMBNAIL_DATA;
+		case vtfpp::Resource::TYPE_PALETTE_DATA:               return VTFPP_RESOURCE_TYPE_PALETTE_DATA;
+		case vtfpp::Resource::TYPE_FALLBACK_DATA:              return VTFPP_RESOURCE_TYPE_FALLBACK_DATA;
+		case vtfpp::Resource::TYPE_PARTICLE_SHEET_DATA:        return VTFPP_RESOURCE_TYPE_PARTICLE_SHEET_DATA;
+		case vtfpp::Resource::TYPE_HOTSPOT_DATA:               return VTFPP_RESOURCE_TYPE_HOTSPOT_DATA;
+		case vtfpp::Resource::TYPE_IMAGE_DATA:                 return VTFPP_RESOURCE_TYPE_IMAGE_DATA;
+		case vtfpp::Resource::TYPE_EXTENDED_FLAGS:             return VTFPP_RESOURCE_TYPE_EXTENDED_FLAGS;
+		case vtfpp::Resource::TYPE_PARALLAX_CORRECTED_CUBEMAP: return VTFPP_RESOURCE_TYPE_PARALLAX_CORRECTED_CUBEMAP;
+		case vtfpp::Resource::TYPE_CRC:                        return VTFPP_RESOURCE_TYPE_CRC;
+		case vtfpp::Resource::TYPE_AUX_COMPRESSION:            return VTFPP_RESOURCE_TYPE_AUX_COMPRESSION;
+		case vtfpp::Resource::TYPE_LOD_CONTROL_INFO:           return VTFPP_RESOURCE_TYPE_LOD_CONTROL_INFO;
+		case vtfpp::Resource::TYPE_KEYVALUES_DATA:             return VTFPP_RESOURCE_TYPE_KEYVALUES_DATA;
+		case vtfpp::Resource::TYPE_AUTHOR_INFO:                return VTFPP_RESOURCE_TYPE_AUTHOR_INFO;
+		case vtfpp::Resource::TYPE_SOURCEPP_FLAGS:             return VTFPP_RESOURCE_TYPE_SOURCEPP_FLAGS;
 	}
 	return VTFPP_RESOURCE_TYPE_UNKNOWN;
 }
@@ -403,6 +414,30 @@ inline vtfpp::Resource::Flags cast(vtfpp_resource_flags_e flags) {
 
 inline vtfpp_resource_flags_e cast(vtfpp::Resource::Flags flags) {
 	return static_cast<vtfpp_resource_flags_e>(flags);
+}
+
+inline vtfpp::Resource::PCC cast(const vtfpp_resource_pcc_t& value) {
+	return {
+		.origin = {value.origin[0], value.origin[1], value.origin[2], value.origin[3]},
+		.inverseTransform = {{
+			value.inverseTransform[0][0], value.inverseTransform[0][1], value.inverseTransform[0][2], value.inverseTransform[0][3],
+			value.inverseTransform[1][0], value.inverseTransform[1][1], value.inverseTransform[1][2], value.inverseTransform[1][3],
+			value.inverseTransform[2][0], value.inverseTransform[2][1], value.inverseTransform[2][2], value.inverseTransform[2][3],
+			value.inverseTransform[3][0], value.inverseTransform[3][1], value.inverseTransform[3][2], value.inverseTransform[3][3],
+		}},
+	};
+}
+
+inline vtfpp_resource_pcc_t cast(const vtfpp::Resource::PCC& value) {
+	return {
+		.origin = {value.origin[0], value.origin[1], value.origin[2], value.origin[3]},
+		.inverseTransform = {
+			{value.inverseTransform[0][0], value.inverseTransform[0][1], value.inverseTransform[0][2], value.inverseTransform[0][3]},
+			{value.inverseTransform[1][0], value.inverseTransform[1][1], value.inverseTransform[1][2], value.inverseTransform[1][3]},
+			{value.inverseTransform[2][0], value.inverseTransform[2][1], value.inverseTransform[2][2], value.inverseTransform[2][3]},
+			{value.inverseTransform[3][0], value.inverseTransform[3][1], value.inverseTransform[3][2], value.inverseTransform[3][3]},
+		},
+	};
 }
 
 inline vtfpp::VTF::Flags cast(vtfpp_vtf_flags_e flags) {

@@ -14,20 +14,21 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 {
 	public enum Type
 	{
-		UNKNOWN             = 0,
-		THUMBNAIL_DATA      = 1,
-		PALETTE_DATA        = 2,
-		FALLBACK_DATA       = 3,
-		PARTICLE_SHEET_DATA = 16,
-		HOTSPOT_DATA        = 43,
-		IMAGE_DATA          = 48,
-		EXTENDED_FLAGS      = 3167060,
-		CRC                 = 4411971,
-		AUX_COMPRESSION     = 4413505,
-		LOD_CONTROL_INFO    = 4476748,
-		KEYVALUES_DATA      = 4478539,
-		AUTHOR_INFO         = 4740161,
-		SOURCEPP_FLAGS      = 5263443,
+		UNKNOWN                    = 0,
+		THUMBNAIL_DATA             = 1,
+		PALETTE_DATA               = 2,
+		FALLBACK_DATA              = 3,
+		PARTICLE_SHEET_DATA        = 16,
+		HOTSPOT_DATA               = 43,
+		IMAGE_DATA                 = 48,
+		EXTENDED_FLAGS             = 3167060,
+		PARALLAX_CORRECTED_CUBEMAP = 4408144,
+		CRC                        = 4411971,
+		AUX_COMPRESSION            = 4413505,
+		LOD_CONTROL_INFO           = 4476748,
+		KEYVALUES_DATA             = 4478539,
+		AUTHOR_INFO                = 4740161,
+		SOURCEPP_FLAGS             = 5263443,
 	}
 
 	[Flags]
@@ -35,6 +36,14 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 	{
 		NONE       = 0,
 		LOCAL_DATA = 1 << 1,
+	}
+
+	// ReSharper disable once InconsistentNaming
+	[StructLayout(LayoutKind.Sequential, Pack = 1)]
+	public unsafe struct PCC
+	{
+		public fixed double Origin[4];
+		public fixed float InverseTransform[16];
 	}
 
 	internal Resource(nint handle) : base(handle, null, false)
@@ -83,6 +92,12 @@ public sealed class Resource : sourcepp.ManagedNativeHandle
 	{
 		ThrowIfDisposed();
 		return new SHT(DLL.vtfpp_resource_get_data_as_particle_sheet(Handle));
+	}
+
+	public PCC GetDataAsParallaxCorrectedCubemap()
+	{
+		ThrowIfDisposed();
+		return DLL.vtfpp_resource_get_data_as_parallax_corrected_cubemap(Handle);
 	}
 
 	public uint GetDataAsCrc()
@@ -763,6 +778,18 @@ public sealed class VTF : sourcepp.ManagedNativeHandle
 	{
 		ThrowIfDisposed();
 		DLL.vtfpp_vtf_remove_particle_sheet_resource(Handle);
+	}
+
+	public void SetParallaxCorrectedCubemapResource(Resource.PCC pcc)
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_set_parallax_corrected_cubemap_resource(Handle, pcc);
+	}
+
+	public void RemoveParallaxCorrectedCubemapResource()
+	{
+		ThrowIfDisposed();
+		DLL.vtfpp_vtf_remove_parallax_corrected_cubemap_resource(Handle);
 	}
 
 	public void SetCrcResource(uint value)

@@ -327,6 +327,23 @@ Resource::ConvertedData Resource::convertData() const {
 				return {};
 			}
 			return HOT{{reinterpret_cast<const std::byte*>(this->data.data()) + sizeof(uint32_t), *reinterpret_cast<const uint32_t*>(this->data.data())}};
+		case TYPE_PARALLAX_CORRECTED_CUBEMAP: {
+			if (this->data.size() <= sizeof(uint32_t) + sizeof(PCC)) {
+				return {};
+			}
+			BufferStreamReadOnly stream{this->data};
+			if (stream.read<uint32_t>() != sizeof(PCC)) {
+				return {};
+			}
+			PCC pcc{};
+			stream
+				>> pcc.origin[0] >> pcc.origin[1] >> pcc.origin[2] >> pcc.origin[3]
+				>> pcc.inverseTransform[0][0] >> pcc.inverseTransform[0][1] >> pcc.inverseTransform[0][2] >> pcc.inverseTransform[0][3]
+				>> pcc.inverseTransform[1][0] >> pcc.inverseTransform[1][1] >> pcc.inverseTransform[1][2] >> pcc.inverseTransform[1][3]
+				>> pcc.inverseTransform[2][0] >> pcc.inverseTransform[2][1] >> pcc.inverseTransform[2][2] >> pcc.inverseTransform[2][3]
+				>> pcc.inverseTransform[3][0] >> pcc.inverseTransform[3][1] >> pcc.inverseTransform[3][2] >> pcc.inverseTransform[3][3];
+			return pcc;
+		}
 		default:
 			break;
 	}
@@ -343,6 +360,10 @@ std::vector<std::byte> Resource::getDataAsPalette(uint16_t frame) const {
 
 SHT Resource::getDataAsParticleSheet() const {
 	return std::get<SHT>(this->convertData());
+}
+
+Resource::PCC Resource::getDataAsParallaxCorrectedCubemap() const {
+	return std::get<PCC>(this->convertData());
 }
 
 uint32_t Resource::getDataAsCRC() const {
@@ -590,8 +611,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly, bool hdr)
 
 				if (this->opened && this->version >= 6) {
 					const auto* auxResource = this->getResource(Resource::TYPE_AUX_COMPRESSION);
-					const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
-					if (auxResource && imageResource) {
+					if (const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA); auxResource && imageResource) {
 						if (auxResource->getDataAsAuxCompressionLevel() != 0) {
 							const auto faceCount = this->getFaceCount();
 							std::vector<std::byte> decompressedImageData(ImageFormatDetails::getDataLength(this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth));
@@ -1128,8 +1148,7 @@ void VTF::setPlatform(Platform newPlatform) {
 	this->setCompressionMethod(this->compressionMethod);
 
 	if (this->platform != PLATFORM_PC) {
-		const auto maxMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
-		if (this->mipCount != maxMipCount) {
+		if (const auto maxMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth); this->mipCount != maxMipCount) {
 			this->setMipCount(maxMipCount);
 		}
 	}
@@ -1668,9 +1687,9 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 				this->data.reserve(offset + specificResourceData.size());
 			}
 			Resource newResource{
-				type,
-				specificResourceData.size() <= sizeof(uint32_t) ? Resource::FLAG_LOCAL_DATA : Resource::FLAG_NONE,
-				{this->data.data() + offset, specificResourceData.size()},
+				.type = type,
+				.flags = specificResourceData.size() <= sizeof(uint32_t) ? Resource::FLAG_LOCAL_DATA : Resource::FLAG_NONE,
+				.data = {this->data.data() + offset, specificResourceData.size()},
 			};
 			if (auto* resourcePtr = this->getResourceInternal(type)) {
 				*resourcePtr = newResource;
@@ -1791,8 +1810,7 @@ void VTF::regenerateImageData(ImageFormat newFormat, uint16_t newWidth, uint16_t
 
 	// Fix up XBOX resources that depend on image resource
 	if (const auto* palette = this->getResource(Resource::TYPE_PALETTE_DATA)) {
-		const auto targetSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
-		if (palette->data.size() != targetSize) {
+		if (const auto targetSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount; palette->data.size() != targetSize) {
 			std::vector<std::byte> paletteData{palette->data.begin(), palette->data.end()};
 			paletteData.resize(targetSize);
 			this->setResourceInternal(Resource::TYPE_PALETTE_DATA, paletteData);
@@ -1874,6 +1892,26 @@ void VTF::setParticleSheetResource(const SHT& value) {
 
 void VTF::removeParticleSheetResource() {
 	this->removeResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA);
+}
+
+void VTF::setParallaxCorrectedCubemapResource(const Resource::PCC& value) {
+	std::vector<std::byte> pccData;
+	BufferStream writer{pccData};
+
+	writer.write<uint32_t>(sizeof(Resource::PCC));
+	writer
+		<< value.origin[0] << value.origin[1] << value.origin[2] << value.origin[3]
+		<< value.inverseTransform[0][0] << value.inverseTransform[0][1] << value.inverseTransform[0][2] << value.inverseTransform[0][3]
+		<< value.inverseTransform[1][0] << value.inverseTransform[1][1] << value.inverseTransform[1][2] << value.inverseTransform[1][3]
+		<< value.inverseTransform[2][0] << value.inverseTransform[2][1] << value.inverseTransform[2][2] << value.inverseTransform[2][3]
+		<< value.inverseTransform[3][0] << value.inverseTransform[3][1] << value.inverseTransform[3][2] << value.inverseTransform[3][3];
+	pccData.resize(writer.size());
+
+	this->setResourceInternal(Resource::TYPE_PARTICLE_SHEET_DATA, pccData);
+}
+
+void VTF::removeParallaxCorrectedCubemapResource() {
+	this->removeResourceInternal(Resource::TYPE_PARALLAX_CORRECTED_CUBEMAP);
 }
 
 void VTF::setCRCResource(uint32_t value) {
@@ -2124,7 +2162,7 @@ std::span<const std::byte> VTF::getThumbnailDataRaw() const {
 	return {};
 }
 
-std::span<std::byte> VTF::getThumbnailDataRaw() {
+std::span<std::byte> VTF::getThumbnailDataRaw() { // NOLINT(*-make-member-function-const)
 	if (const auto thumbnailResource = this->getResource(Resource::TYPE_THUMBNAIL_DATA)) {
 		return thumbnailResource->data;
 	}
@@ -2551,7 +2589,7 @@ std::vector<std::byte> VTF::bake() const {
 							for (int j = 0; j < this->frameCount; j++) {
 								for (int k = 0; k < faceCount; k++) {
 									if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, i, this->mipCount, j, this->frameCount, k, faceCount, this->width, this->height, 0, this->depth)) {
-										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->depth}, this->compressionLevel, this->compressionMethod);
+										auto compressedData = ::compressData({imageResource->data.data() + offset, length * this->depth}, static_cast<int16_t>(this->compressionLevel), this->compressionMethod);
 										compressedImageResourceData.insert(compressedImageResourceData.end(), compressedData.begin(), compressedData.end());
 										auxWriter.write<uint32_t>(compressedData.size());
 									}

@@ -351,7 +351,8 @@ static_assert(std::is_trivially_copyable_v<Vec<2, float>>);
 	using Vec##S##f16  = Vec##S<half>; \
 	using Vec##S##f32  = Vec##S<float>; \
 	using Vec##S##f64  = Vec##S<double>; \
-	using Vec##S##f    = Vec##S##f32
+	using Vec##S##f    = Vec##S##f32; \
+	using Vec##S##d    = Vec##S##f64
 
 SOURCEPP_VEC_DEFINE(2);
 SOURCEPP_VEC_DEFINE(3);

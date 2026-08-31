@@ -36,20 +36,21 @@ enum class CompressionMethod : int16_t {
 
 struct Resource {
 	enum Type : uint32_t {
-		TYPE_UNKNOWN             = 0, // Unknown
-		TYPE_THUMBNAIL_DATA      = 1,
-		TYPE_PALETTE_DATA        = 2, // Hack for XBOX platform
-		TYPE_FALLBACK_DATA       = 3, // Hack for XBOX platform
-		TYPE_PARTICLE_SHEET_DATA = 16,
-		TYPE_HOTSPOT_DATA        = 43,
-		TYPE_IMAGE_DATA          = 48,
-		TYPE_EXTENDED_FLAGS      = sourcepp::parser::binary::makeFourCC("TS0\0"),
-		TYPE_CRC                 = sourcepp::parser::binary::makeFourCC("CRC\0"),
-		TYPE_AUX_COMPRESSION     = sourcepp::parser::binary::makeFourCC("AXC\0"),
-		TYPE_LOD_CONTROL_INFO    = sourcepp::parser::binary::makeFourCC("LOD\0"),
-		TYPE_KEYVALUES_DATA      = sourcepp::parser::binary::makeFourCC("KVD\0"),
-		TYPE_AUTHOR_INFO         = sourcepp::parser::binary::makeFourCC("ATH\0"),
-		TYPE_SOURCEPP_FLAGS      = sourcepp::parser::binary::makeFourCC("SPP\0"),
+		TYPE_UNKNOWN                    = 0, // Unknown
+		TYPE_THUMBNAIL_DATA             = 1,
+		TYPE_PALETTE_DATA               = 2, // Hack for XBOX platform
+		TYPE_FALLBACK_DATA              = 3, // Hack for XBOX platform
+		TYPE_PARTICLE_SHEET_DATA        = 16,
+		TYPE_HOTSPOT_DATA               = 43,
+		TYPE_IMAGE_DATA                 = 48,
+		TYPE_EXTENDED_FLAGS             = sourcepp::parser::binary::makeFourCC("TS0\0"),
+		TYPE_PARALLAX_CORRECTED_CUBEMAP = sourcepp::parser::binary::makeFourCC("PCC\0"),
+		TYPE_CRC                        = sourcepp::parser::binary::makeFourCC("CRC\0"),
+		TYPE_AUX_COMPRESSION            = sourcepp::parser::binary::makeFourCC("AXC\0"),
+		TYPE_LOD_CONTROL_INFO           = sourcepp::parser::binary::makeFourCC("LOD\0"),
+		TYPE_KEYVALUES_DATA             = sourcepp::parser::binary::makeFourCC("KVD\0"),
+		TYPE_AUTHOR_INFO                = sourcepp::parser::binary::makeFourCC("ATH\0"),
+		TYPE_SOURCEPP_FLAGS             = sourcepp::parser::binary::makeFourCC("SPP\0"),
 	};
 
 	enum Flags : uint8_t {
@@ -61,19 +62,27 @@ struct Resource {
 	Flags flags = FLAG_NONE;
 	std::span<std::byte> data;
 
+	struct PCC {
+		sourcepp::math::Vec4d origin;
+		sourcepp::math::Mat4x4f inverseTransform;
+	};
+
 	using ConvertedData = std::variant<
 		std::monostate, // Anything that would be equivalent to just returning data directly, or used as an error
 		SHT, // Particle Sheet
 		uint32_t, // CRC, TS0, SPP
 		std::tuple<uint8_t, uint8_t, uint8_t, uint8_t>, // LOD
 		std::string, // KVD
-		HOT // Hotspot data
+		HOT, // Hotspot data
+		PCC // Parallax-corrected cubemap data
 	>;
 	[[nodiscard]] ConvertedData convertData() const;
 
 	[[nodiscard]] std::vector<std::byte> getDataAsPalette(uint16_t frame) const;
 
 	[[nodiscard]] SHT getDataAsParticleSheet() const;
+
+	[[nodiscard]] PCC getDataAsParallaxCorrectedCubemap() const;
 
 	[[nodiscard]] uint32_t getDataAsCRC() const;
 
@@ -394,6 +403,10 @@ public:
 	void setParticleSheetResource(const SHT& value);
 
 	void removeParticleSheetResource();
+
+	void setParallaxCorrectedCubemapResource(const Resource::PCC& value);
+
+	void removeParallaxCorrectedCubemapResource();
 
 	void setCRCResource(uint32_t value);
 
