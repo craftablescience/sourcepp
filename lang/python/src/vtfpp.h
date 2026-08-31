@@ -105,6 +105,8 @@ inline void register_python(py::module_& m) {
 		.value("STRATA_R8",                         ImageFormat::STRATA_R8)
 		.value("STRATA_BC7",                        ImageFormat::STRATA_BC7)
 		.value("STRATA_BC6H",                       ImageFormat::STRATA_BC6H)
+		.value("STRATA_BC5",                        ImageFormat::STRATA_BC5)
+		.value("STRATA_BC4",                        ImageFormat::STRATA_BC4)
 		.value("SOURCEPP_BGRA8888_HDR",             ImageFormat::SOURCEPP_BGRA8888_HDR)
 		.value("SOURCEPP_RGBA16161616_HDR",         ImageFormat::SOURCEPP_RGBA16161616_HDR)
 		.value("SOURCEPP_CONSOLE_RGBA16161616_HDR", ImageFormat::SOURCEPP_CONSOLE_RGBA16161616_HDR);

@@ -74,8 +74,10 @@ public enum ImageFormat {
 	STRATA_R8 = 69,
 	STRATA_BC7,
 	STRATA_BC6H,
+	STRATA_BC5,
+	STRATA_BC4,
 	#endregion
-	
+
 	#region SourcePP Virtual Formats
 	SOURCEPP_BGRA8888_HDR = 10000,
 	SOURCEPP_RGBA16161616_HDR,

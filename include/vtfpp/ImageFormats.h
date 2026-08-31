@@ -80,6 +80,8 @@ enum class ImageFormat : int32_t {
 	STRATA_R8 = 69,
 	STRATA_BC7,
 	STRATA_BC6H,
+	STRATA_BC5,
+	STRATA_BC4,
 	// endregion
 
 	// region SourcePP Virtual Formats
@@ -163,6 +165,8 @@ namespace ImageFormatDetails {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -188,6 +192,8 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case TITANFALL_BC7:
 		case STRATA_BC7:
+		case STRATA_BC5:
+		case STRATA_BC4:
 			return 8;
 		case TITANFALL_BC6H:
 		case STRATA_BC6H:
@@ -274,6 +280,8 @@ namespace ImageFormatDetails {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -299,6 +307,8 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case TITANFALL_BC7:
 		case STRATA_BC7:
+		case STRATA_BC5:
+		case STRATA_BC4:
 			return 8;
 		case TITANFALL_BC6H:
 		case STRATA_BC6H:
@@ -384,6 +394,8 @@ namespace ImageFormatDetails {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -409,6 +421,8 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case TITANFALL_BC7:
 		case STRATA_BC7:
+		case STRATA_BC5:
+		case STRATA_BC4:
 			return 8;
 		case TITANFALL_BC6H:
 		case STRATA_BC6H:
@@ -494,6 +508,8 @@ namespace ImageFormatDetails {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -524,6 +540,8 @@ namespace ImageFormatDetails {
 		case ATI1N:
 		case TITANFALL_BC6H:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -601,13 +619,15 @@ namespace ImageFormatDetails {
 		case ATI2N:
 		case TITANFALL_BC6H:
 		case TITANFALL_BC7:
+		case STRATA_R8:
 		case STRATA_BC7:
 		case STRATA_BC6H:
-		case STRATA_R8:
+		case STRATA_BC5:
 			return 8;
 		case ATI1N:
 		case DXT1:
 		case DXT1_ONE_BIT_ALPHA:
+		case STRATA_BC4:
 			return 4;
 		case EMPTY:
 			return 0;
@@ -686,6 +706,8 @@ namespace ImageFormatDetails {
 		case TITANFALL_BC7:
 		case STRATA_R8:
 		case STRATA_BC7:
+		case STRATA_BC5:
+		case STRATA_BC4:
 			return RGBA8888;
 		case EMPTY:
 			break;
@@ -751,8 +773,6 @@ namespace ImageFormatDetails {
 			case DXT3:
 			case DXT5:
 			case DXT1_ONE_BIT_ALPHA:
-			case ATI2N:
-			case ATI1N:
 			case TITANFALL_BC6H:
 			case TITANFALL_BC7:
 			case STRATA_BC7:
@@ -847,6 +867,8 @@ namespace ImageFormatDetails {
 		case STRATA_R8:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 			return true;
 		default:
 			break;

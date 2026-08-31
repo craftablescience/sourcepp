@@ -1,6 +1,7 @@
 // ReSharper disable CppDFATimeOver
 // ReSharper disable CppRedundantParentheses
 // ReSharper disable CppRedundantQualifier
+// ReSharper disable CppUseDesignatedInitializers
 // ReSharper disable CppUseRangeAlgorithm
 
 #include <vtfpp/ImageConversion.h>
@@ -116,8 +117,9 @@ namespace {
 		case RGBA32323232F:
 			return CMP_FORMAT_RGBA_32F;
 		case ATI2N:
-			return CMP_FORMAT_ATI2N_XY;
+			return CMP_FORMAT_ATI2N;
 		case ATI1N:
+		case STRATA_BC4:
 			return CMP_FORMAT_ATI1N;
 		case RGBA1010102:
 			return CMP_FORMAT_RGBA_1010102;
@@ -130,6 +132,8 @@ namespace {
 			return CMP_FORMAT_BC7;
 		case STRATA_BC6H:
 			return CMP_FORMAT_BC6H_SF;
+		case STRATA_BC5:
+			return CMP_FORMAT_ATI2N_XY;
 		case RGB565:
 		case IA88:
 		case A8:
@@ -208,6 +212,8 @@ namespace {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case RGB565:
 		case A8:
 		case RGB888_BLUESCREEN:
@@ -305,6 +311,8 @@ namespace {
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 		case STRATA_BC6H:
+		case STRATA_BC5:
+		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
 		case SOURCEPP_RGBA16161616_HDR:
 		case SOURCEPP_CONSOLE_RGBA16161616_HDR:
@@ -347,6 +355,16 @@ namespace {
 		return out;
 	};
 
+	const auto postProcessBC5 = [&outFormat](std::vector<std::byte>& out) {
+		// Compute Z channel, I don't care enough to make this a function in ImageConversion for every format
+		outFormat = ImageFormat::RGB888;
+		out = ImagePixel::transform<ImagePixel::UV88, ImagePixel::RGB888>(out, [](ImagePixel::UV88 pixel) -> ImagePixel::RGB888 {
+			const auto nX = static_cast<float>(pixel.u()) / 255.f * 2.f - 1.f;
+			const auto nY = static_cast<float>(pixel.v()) / 255.f * 2.f - 1.f;
+			return {{pixel.u(), pixel.v(), static_cast<uint8_t>(std::clamp(std::sqrt(1.f - (nX * nX) - (nY * nY)), 0.f, 1.f) * 255.f)}};
+		});
+	};
+
 	switch (inFormat) {
 		case ImageFormat::DXT1:
 		case ImageFormat::DXT1_ONE_BIT_ALPHA:
@@ -356,18 +374,20 @@ namespace {
 		case ImageFormat::DXT5:
 			return transformCompressed.operator()<BCDEC_BC3_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc3);
 		case ImageFormat::ATI1N:
+		case ImageFormat::STRATA_BC4:
 			return transformCompressed.operator()<BCDEC_BC4_BLOCK_SIZE, ImagePixel::I8>(&bcdec_bc4);
 		case ImageFormat::ATI2N: {
-			auto out = transformCompressed.operator()<BCDEC_BC5_BLOCK_SIZE, ImagePixel::UV88>(&bcdec_bc5);
-
-			// Compute ATI2N Z channel, I don't care enough to make this a function in ImageConversion for every format
-			outFormat = ImageFormat::RGB888;
-			out = ImagePixel::transform<ImagePixel::UV88, ImagePixel::RGB888>(out, [](ImagePixel::UV88 pixel) -> ImagePixel::RGB888 {
-				const auto nX = static_cast<float>(pixel.u()) / 255.f * 2.f - 1.f;
-				const auto nY = static_cast<float>(pixel.v()) / 255.f * 2.f - 1.f;
-				return {{pixel.u(), pixel.v(), static_cast<uint8_t>(std::clamp(std::sqrt(1.f - (nX * nX) - (nY * nY)), 0.f, 1.f) * 255.f)}};
+			auto out = transformCompressed.operator()<BCDEC_BC5_BLOCK_SIZE, ImagePixel::UV88>([](const void* compressedBlock, void* decompressedBlock, int destinationPitch) {
+				// Inverse order from BC5 (GR)
+				bcdec__smooth_alpha_block(compressedBlock, static_cast<char*>(decompressedBlock) + 1, destinationPitch, 2);
+				bcdec__smooth_alpha_block(static_cast<const char*>(compressedBlock) + 8, decompressedBlock, destinationPitch, 2);
 			});
-
+			postProcessBC5(out);
+			return out;
+		}
+		case ImageFormat::STRATA_BC5: {
+			auto out = transformCompressed.operator()<BCDEC_BC5_BLOCK_SIZE, ImagePixel::UV88>(&bcdec_bc5);
+			postProcessBC5(out);
 			return out;
 		}
 		case ImageFormat::TITANFALL_BC6H:
