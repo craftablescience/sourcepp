@@ -273,7 +273,8 @@ inline void register_python(py::module_& m) {
 		.def("get_lump_version", &BSP::getLumpVersion, "lump_index"_a)
 		.def("get_lump_data", [](const BSP& self, BSPLump lumpIndex, bool noDecompression = false) -> py::object {
 			const auto d = self.getLumpData(lumpIndex, noDecompression);
-			return d ? py::bytes{d->data(), d->size()} : py::none();
+			if (d) return py::bytes{d->data(), d->size()};
+			return py::none{};
 		}, "lump_index"_a, "no_decompression"_a = false)
 		.def("get_lump_data_for_entities", &BSP::getLumpData<BSPLump::ENTITIES>)
 		.def("get_lump_data_for_planes", &BSP::getLumpData<BSPLump::PLANES>)
@@ -296,7 +297,8 @@ inline void register_python(py::module_& m) {
 		.def("is_game_lump_compressed", &BSP::isGameLumpCompressed, "signature"_a)
 		.def("get_game_lump_data", [](const BSP& self, BSPGameLump::Signature signature) -> py::object {
 			const auto d = self.getGameLumpData(signature);
-			return d ? py::bytes{d->data(), d->size()} : py::none();
+			if (d) return py::bytes{d->data(), d->size()};
+			return py::none{};
 		}, "signature"_a)
 		.def("set_game_lump", &BSP::setGameLump, "signature"_a, "version"_a, "data"_a, "compress_level"_a = 0)
 		.def("reset_lump", &BSP::resetLump, "lump_index"_a)
