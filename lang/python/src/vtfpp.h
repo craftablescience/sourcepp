@@ -228,14 +228,17 @@ inline void register_python(py::module_& m) {
 #ifdef VTFPP_SUPPORT_EXR
 			.value("EXR",     FileFormat::EXR)
 #endif
+#ifdef VTFPP_SUPPORT_JXL
+			.value("JXL",     FileFormat::JXL)
+#endif
 			;
 
 		ImageConversion.def("get_default_file_format_for_image_format", &getDefaultFileFormatForImageFormat, "format"_a);
 
-		ImageConversion.def("convert_image_data_to_file", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT) {
-			const auto d = convertImageDataToFile({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, fileFormat);
+		ImageConversion.def("convert_image_data_to_file", [](const py::bytes& imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT, float quality = -1.f) {
+			const auto d = convertImageDataToFile({static_cast<const std::byte*>(imageData.data()), imageData.size()}, format, width, height, fileFormat, quality);
 			return py::bytes{d.data(), d.size()};
-		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "file_format"_a = FileFormat::DEFAULT);
+		}, "image_data"_a, "format"_a, "width"_a, "height"_a, "file_format"_a = FileFormat::DEFAULT, "quality"_a = -1.f);
 
 		ImageConversion.def("convert_file_to_image_data", [](const py::bytes& fileData) -> std::tuple<py::bytes, ImageFormat, int, int, int> {
 			ImageFormat format;

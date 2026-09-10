@@ -48,6 +48,20 @@ if(SOURCEPP_USE_VCRYPTPP)
 endif()
 
 
+# libjxl
+if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_JXL)
+    set(JPEGXL_ENABLE_TOOLS                                   OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_DOXYGEN                                 OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_MANPAGES                                OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_BENCHMARK                               OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_EXAMPLES                                OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_JNI                                     OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_OPENEXR                                 OFF CACHE INTERNAL "" FORCE)
+    set(JPEGXL_ENABLE_WASM_THREADS ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
+    add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl b5def9fb509d0f2421c8a5bcd7aa6f5a627363c4 EXCLUDE_FROM_ALL)
+endif()
+
+
 # libtommath
 if(NOT TARGET libtommath)
     add_sourcepp_remote_library(libtommath https://github.com/craftablescience/libtommath 03101d4556acd45175d5cfe0575601cf6acadef2 OVERRIDE_FIND_PACKAGE EXCLUDE_FROM_ALL)

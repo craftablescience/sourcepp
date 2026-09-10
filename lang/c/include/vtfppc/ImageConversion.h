@@ -33,10 +33,13 @@ VTFPP_EXTERN typedef enum {
 #ifdef VTFPP_SUPPORT_EXR
 	VTFPP_IMAGE_CONVERSION_FILE_FORMAT_EXR     = 8,
 #endif
+#ifdef VTFPP_SUPPORT_JXL
+	VTFPP_IMAGE_CONVERSION_FILE_FORMAT_JXL     = 9,
+#endif
 } vtfpp_image_conversion_file_format_e;
 
 VTFPP_API vtfpp_image_conversion_file_format_e vtfpp_image_conversion_get_default_file_format_for_image_format(vtfpp_image_format_e format);
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_file(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_file_format_e fileFormat); // REQUIRES MANUAL FREE: sourcepp_buffer_free
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_file(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_file_format_e fileFormat, float quality); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_file_to_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e* format, int* width, int* height, int* frameCount); // REQUIRES MANUAL FREE: sourcepp_buffer_free
 
 VTFPP_EXTERN typedef enum {
@@ -112,6 +115,9 @@ inline vtfpp::ImageConversion::FileFormat cast(vtfpp_image_conversion_file_forma
 #ifdef VTFPP_SUPPORT_EXR
 		case VTFPP_IMAGE_CONVERSION_FILE_FORMAT_EXR:     return vtfpp::ImageConversion::FileFormat::EXR;
 #endif
+#ifdef VTFPP_SUPPORT_JXL
+		case VTFPP_IMAGE_CONVERSION_FILE_FORMAT_JXL:     return vtfpp::ImageConversion::FileFormat::JXL;
+#endif
 	}
 	return vtfpp::ImageConversion::FileFormat::DEFAULT;
 }
@@ -132,6 +138,9 @@ inline vtfpp_image_conversion_file_format_e cast(vtfpp::ImageConversion::FileFor
 		case vtfpp::ImageConversion::FileFormat::HDR:     return VTFPP_IMAGE_CONVERSION_FILE_FORMAT_HDR;
 #ifdef VTFPP_SUPPORT_EXR
 		case vtfpp::ImageConversion::FileFormat::EXR:     return VTFPP_IMAGE_CONVERSION_FILE_FORMAT_EXR;
+#endif
+#ifdef VTFPP_SUPPORT_JXL
+		case vtfpp::ImageConversion::FileFormat::JXL:     return VTFPP_IMAGE_CONVERSION_FILE_FORMAT_JXL;
 #endif
 	}
 	return VTFPP_IMAGE_CONVERSION_FILE_FORMAT_DEFAULT;

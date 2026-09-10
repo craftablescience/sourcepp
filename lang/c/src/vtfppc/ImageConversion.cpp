@@ -81,14 +81,14 @@ VTFPP_API vtfpp_image_conversion_file_format_e vtfpp_image_conversion_get_defaul
 	return convert::cast(ImageConversion::getDefaultFileFormatForImageFormat(convert::cast(format)));
 }
 
-VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_file(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_file_format_e fileFormat) {
+VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_image_data_to_file(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e format, uint16_t width, uint16_t height, vtfpp_image_conversion_file_format_e fileFormat, float quality) {
 	SOURCEPP_EARLY_RETURN_VAL(buffer, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(bufferLen, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(format != VTFPP_IMAGE_FORMAT_EMPTY, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(width, SOURCEPP_BUFFER_INVALID);
 	SOURCEPP_EARLY_RETURN_VAL(height, SOURCEPP_BUFFER_INVALID);
 
-	return convert::toBuffer(ImageConversion::convertImageDataToFile({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, convert::cast(fileFormat)));
+	return convert::toBuffer(ImageConversion::convertImageDataToFile({reinterpret_cast<const std::byte*>(buffer), bufferLen}, convert::cast(format), width, height, convert::cast(fileFormat), quality));
 }
 
 VTFPP_API sourcepp_buffer_t vtfpp_image_conversion_convert_file_to_image_data(const unsigned char* buffer, size_t bufferLen, vtfpp_image_format_e* format, int* width, int* height, int* frameCount) {
