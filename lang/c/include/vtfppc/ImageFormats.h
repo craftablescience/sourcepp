@@ -61,7 +61,8 @@ VTFPP_EXTERN typedef enum {
 
 	VTFPP_IMAGE_FORMAT_STRATA_R8 = 69,
 	VTFPP_IMAGE_FORMAT_STRATA_BC7,
-	VTFPP_IMAGE_FORMAT_STRATA_BC6H,
+	VTFPP_IMAGE_FORMAT_STRATA_BC6H_SF,
+	VTFPP_IMAGE_FORMAT_STRATA_BC6H_UF,
 	VTFPP_IMAGE_FORMAT_STRATA_BC5,
 	VTFPP_IMAGE_FORMAT_STRATA_BC4,
 
@@ -164,7 +165,8 @@ inline vtfpp::ImageFormat cast(vtfpp_image_format_e value) {
 		case VTFPP_IMAGE_FORMAT_TITANFALL_BC7:                     return vtfpp::ImageFormat::TITANFALL_BC7;
 		case VTFPP_IMAGE_FORMAT_STRATA_R8:                         return vtfpp::ImageFormat::STRATA_R8;
 		case VTFPP_IMAGE_FORMAT_STRATA_BC7:                        return vtfpp::ImageFormat::STRATA_BC7;
-		case VTFPP_IMAGE_FORMAT_STRATA_BC6H:                       return vtfpp::ImageFormat::STRATA_BC6H;
+		case VTFPP_IMAGE_FORMAT_STRATA_BC6H_SF:                    return vtfpp::ImageFormat::STRATA_BC6H_SF;
+		case VTFPP_IMAGE_FORMAT_STRATA_BC6H_UF:                    return vtfpp::ImageFormat::STRATA_BC6H_UF;
 		case VTFPP_IMAGE_FORMAT_STRATA_BC5:                        return vtfpp::ImageFormat::STRATA_BC5;
 		case VTFPP_IMAGE_FORMAT_STRATA_BC4:                        return vtfpp::ImageFormat::STRATA_BC4;
 		case VTFPP_IMAGE_FORMAT_SOURCEPP_BGRA8888_HDR:             return vtfpp::ImageFormat::SOURCEPP_BGRA8888_HDR;
@@ -231,7 +233,8 @@ inline vtfpp_image_format_e cast(vtfpp::ImageFormat value) {
 		case vtfpp::ImageFormat::TITANFALL_BC7:                     return VTFPP_IMAGE_FORMAT_TITANFALL_BC7;
 		case vtfpp::ImageFormat::STRATA_R8:                         return VTFPP_IMAGE_FORMAT_STRATA_R8;
 		case vtfpp::ImageFormat::STRATA_BC7:                        return VTFPP_IMAGE_FORMAT_STRATA_BC7;
-		case vtfpp::ImageFormat::STRATA_BC6H:                       return VTFPP_IMAGE_FORMAT_STRATA_BC6H;
+		case vtfpp::ImageFormat::STRATA_BC6H_SF:                    return VTFPP_IMAGE_FORMAT_STRATA_BC6H_SF;
+		case vtfpp::ImageFormat::STRATA_BC6H_UF:                    return VTFPP_IMAGE_FORMAT_STRATA_BC6H_UF;
 		case vtfpp::ImageFormat::STRATA_BC5:                        return VTFPP_IMAGE_FORMAT_STRATA_BC5;
 		case vtfpp::ImageFormat::STRATA_BC4:                        return VTFPP_IMAGE_FORMAT_STRATA_BC4;
 		case vtfpp::ImageFormat::SOURCEPP_BGRA8888_HDR:             return VTFPP_IMAGE_FORMAT_SOURCEPP_BGRA8888_HDR;

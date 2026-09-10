@@ -73,7 +73,8 @@ public enum ImageFormat {
 	#region Strata Source Formats
 	STRATA_R8 = 69,
 	STRATA_BC7,
-	STRATA_BC6H,
+	STRATA_BC6H_SF,
+	STRATA_BC6H_UF,
 	STRATA_BC5,
 	STRATA_BC4,
 	#endregion

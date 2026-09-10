@@ -126,11 +126,12 @@ namespace {
 		case STRATA_R8:
 			return CMP_FORMAT_R_8;
 		case TITANFALL_BC6H:
+		case STRATA_BC6H_UF:
 			return CMP_FORMAT_BC6H;
 		case TITANFALL_BC7:
 		case STRATA_BC7:
 			return CMP_FORMAT_BC7;
-		case STRATA_BC6H:
+		case STRATA_BC6H_SF:
 			return CMP_FORMAT_BC6H_SF;
 		case STRATA_BC5:
 			return CMP_FORMAT_ATI2N_XY;
@@ -211,7 +212,8 @@ namespace {
 		case TITANFALL_BC6H:
 		case TITANFALL_BC7:
 		case STRATA_BC7:
-		case STRATA_BC6H:
+		case STRATA_BC6H_SF:
+		case STRATA_BC6H_UF:
 		case STRATA_BC5:
 		case STRATA_BC4:
 		case RGB565:
@@ -310,7 +312,8 @@ namespace {
 		case TITANFALL_BC6H:
 		case TITANFALL_BC7:
 		case STRATA_BC7:
-		case STRATA_BC6H:
+		case STRATA_BC6H_SF:
+		case STRATA_BC6H_UF:
 		case STRATA_BC5:
 		case STRATA_BC4:
 		case SOURCEPP_BGRA8888_HDR:
@@ -391,10 +394,11 @@ namespace {
 			return out;
 		}
 		case ImageFormat::TITANFALL_BC6H:
+		case ImageFormat::STRATA_BC6H_UF:
 			return transformCompressed.operator()<BCDEC_BC6H_BLOCK_SIZE, ImagePixel::RGB323232F>([](const void* compressedBlock, void* decompressedBlock, int destinationPitch) {
 				return bcdec_bc6h_float(compressedBlock, decompressedBlock, destinationPitch, false);
 			});
-		case ImageFormat::STRATA_BC6H:
+		case ImageFormat::STRATA_BC6H_SF:
 			return transformCompressed.operator()<BCDEC_BC6H_BLOCK_SIZE, ImagePixel::RGB323232F>([](const void* compressedBlock, void* decompressedBlock, int destinationPitch) {
 				return bcdec_bc6h_float(compressedBlock, decompressedBlock, destinationPitch, true);
 			});
@@ -457,7 +461,8 @@ namespace {
 		oldFormat == ImageFormat::TITANFALL_BC6H || newFormat == ImageFormat::TITANFALL_BC6H ||
 		oldFormat == ImageFormat::TITANFALL_BC7  || newFormat == ImageFormat::TITANFALL_BC7  ||
 		oldFormat == ImageFormat::STRATA_BC7     || newFormat == ImageFormat::STRATA_BC7     ||
-		oldFormat == ImageFormat::STRATA_BC6H    || newFormat == ImageFormat::STRATA_BC6H) {
+		oldFormat == ImageFormat::STRATA_BC6H_SF || newFormat == ImageFormat::STRATA_BC6H_SF ||
+		oldFormat == ImageFormat::STRATA_BC6H_UF || newFormat == ImageFormat::STRATA_BC6H_UF) {
 		options.fquality = 0.1f;
 	} else {
 		options.fquality = 1.f;
