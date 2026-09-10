@@ -73,7 +73,7 @@ if(NOT TARGET libtomcrypt)
     if(SOURCEPP_BUILD_WITH_THREADS AND CMAKE_USE_PTHREADS_INIT)
         set(WITH_PTHREAD ON CACHE INTERNAL "" FORCE)
     endif()
-    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt c80285ba04f87ee5359baf689ccc7ce8a31116dc EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt 6c6d5104de66f3ca0dfd7b68540ef86869982b07 EXCLUDE_FROM_ALL)
     if(MSVC)
         # Spews "inconsistent dll linkage", no idea how to fix, doesn't seem to cause problems
         target_compile_options(libtomcrypt PRIVATE "/wd4273")
@@ -97,13 +97,13 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(libwebp https://github.com/webmproject/libwebp 5003e5609eedc5680b8d838a962cbb9a6e9709ce EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(libwebp https://github.com/webmproject/libwebp 2549f353596b9990b5eeccbe03c898932ac8ab5c EXCLUDE_FROM_ALL)
 endif()
 
 
 # miniz
 if(SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 5cf1e56a9c968c11fdd1a6414f3a95f84314c437)
+    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 77d0dce8627735138c51770d1799a1ef48f2117d)
 endif()
 
 
@@ -123,7 +123,7 @@ if(NOT TARGET MINIZIP::minizip)
 
     set(ZSTD_MULTITHREAD_SUPPORT ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
 
-    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng de1f8bba0b7dbd0920289768edad8d878c95421f)
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 2235fcc1d77e0f660b3101e2a30f81f82dfdc7f3)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
@@ -138,7 +138,7 @@ endif()
 # qoi
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
     if(NOT TARGET qoi)
-        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi e084ec009b38c755acc40fe31d3f83ee17935b9d)
+        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 97bacc86a9c4abf5a2d452102dc26546c4c670b9)
         add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
         target_include_directories(qoi INTERFACE "$<BUILD_INTERFACE:${qoi_SOURCE_DIR}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     endif()
@@ -154,8 +154,8 @@ endif()
 # tinyexr
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_EXR)
     if(NOT TARGET tinyexr)
-        add_sourcepp_remote_library(tinyexr https://github.com/syoyo/tinyexr 4946b5d92e13bcc8102ac2c8efd129596a90bf75 DO_NOT_USE_CMAKELISTS)
-        add_library(tinyexr STATIC "${tinyexr_SOURCE_DIR}/exr_reader.hh" "${tinyexr_SOURCE_DIR}/streamreader.hh" "${tinyexr_SOURCE_DIR}/streamwriter.hh" "${tinyexr_SOURCE_DIR}/tinyexr.cc" "${tinyexr_SOURCE_DIR}/tinyexr.h")
+        add_sourcepp_remote_library(tinyexr https://github.com/syoyo/tinyexr 644148d0fd6b1b204a68a902dc963a70c749b417 DO_NOT_USE_CMAKELISTS)
+        add_library(tinyexr STATIC "${tinyexr_SOURCE_DIR}/exr_reader.hh" "${tinyexr_SOURCE_DIR}/streamreader.hh" "${tinyexr_SOURCE_DIR}/tinyexr.cc" "${tinyexr_SOURCE_DIR}/tinyexr.h")
         target_include_directories(tinyexr PUBLIC "${tinyexr_SOURCE_DIR}")
         target_link_libraries(tinyexr PUBLIC miniz)
         if(SOURCEPP_BUILD_WITH_THREADS)
