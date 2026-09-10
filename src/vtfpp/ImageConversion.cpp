@@ -1494,6 +1494,7 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			info.xsize = width;
 			info.ysize = height;
 			info.num_extra_channels = ImageFormatDetails::transparent(format) || ImageFormatDetails::containerFormat(format) == ImageFormat::RGBA16161616;
+			info.uses_original_profile = true;
 
 			auto* frameSettings = JxlEncoderFrameSettingsCreate(encoder.get(), nullptr);
 			if (!frameSettings) {
@@ -1502,10 +1503,8 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			JxlEncoderFrameSettingsSetOption(frameSettings, JXL_ENC_FRAME_SETTING_DECODING_SPEED, 0);
 			if (quality < 0.f) {
 				JxlEncoderSetFrameLossless(frameSettings, true);
-				info.uses_original_profile = true;
 			} else {
-				JxlEncoderSetFrameDistance(frameSettings, quality * 25.f);
-				info.uses_original_profile = false;
+				JxlEncoderSetFrameDistance(frameSettings, JxlEncoderDistanceFromQuality(quality * 100.f));
 			}
 
 			JxlPixelFormat pixelFormat{ .endianness = JXL_LITTLE_ENDIAN };
