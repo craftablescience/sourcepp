@@ -57,13 +57,16 @@ enum class FileFormat {
 #ifdef VTFPP_SUPPORT_EXR
 	EXR     = 8,
 #endif
+#ifdef VTFPP_SUPPORT_JXL
+	JXL     = 9,
+#endif
 };
 
 /// PNG for integer formats, EXR for floating point formats (or HDR if EXR support is disabled)
 [[nodiscard]] FileFormat getDefaultFileFormatForImageFormat(ImageFormat format);
 
-/// Converts image data to the given file format (PNG or EXR by default).
-[[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT);
+/// Converts image data to the given file format (PNG or EXR by default). Quality parameter (0-1) is ignored for lossless formats.
+[[nodiscard]] std::vector<std::byte> convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat = FileFormat::DEFAULT, float quality = -1.f);
 
 [[nodiscard]] std::vector<std::byte> convertFileToImageData(std::span<const std::byte> fileData, ImageFormat& format, int& width, int& height, int& frameCount);
 

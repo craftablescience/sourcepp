@@ -31,6 +31,14 @@
 #include <compressonator.h>
 #endif
 
+#ifdef VTFPP_SUPPORT_JXL
+#include <jxl/decode_cxx.h>
+#include <jxl/encode_cxx.h>
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+#include <jxl/thread_parallel_runner_cxx.h>
+#endif
+#endif
+
 #ifdef VTFPP_SUPPORT_QOI
 #define QOI_IMPLEMENTATION
 #define QOI_NO_STDIO
@@ -1181,7 +1189,7 @@ ImageConversion::FileFormat ImageConversion::getDefaultFileFormatForImageFormat(
 #endif
 }
 
-std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat) {
+std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, FileFormat fileFormat, float quality) {
 	if (imageData.empty() || format == ImageFormat::EMPTY) {
 		return {};
 	}
@@ -1193,6 +1201,8 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 	if (fileFormat == FileFormat::DEFAULT) {
 		fileFormat = getDefaultFileFormatForImageFormat(format);
 	}
+	quality = std::min(quality, 1.f);
+
 	switch (fileFormat) {
 		case FileFormat::PNG: {
 			if (format == ImageFormat::RGB888) {
@@ -1210,10 +1220,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		}
 		case FileFormat::JPG: {
 			if (format == ImageFormat::RGB888) {
-				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data(), 95);
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), imageData.data(), quality < 0.f ? 100 : static_cast<int>(quality * 100.f));
 			} else {
 				const auto rgb = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
-				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data(), 95);
+				stbi_write_jpg_to_func(stbWriteFunc, &out, width, height, sizeof(ImagePixel::RGB888), rgb.data(), quality < 0.f ? 100 : static_cast<int>(quality * 100.f));
 			}
 			break;
 		}
@@ -1249,8 +1259,10 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 		case FileFormat::WEBP: {
 			WebPConfig config;
 			WebPConfigInit(&config);
-			WebPConfigPreset(&config, WEBP_PRESET_DRAWING, 75.f);
-			WebPConfigLosslessPreset(&config, 6);
+			WebPConfigPreset(&config, WEBP_PRESET_DRAWING, quality > 0.f ? quality : 75.f);
+			if (quality < 0.f) {
+				WebPConfigLosslessPreset(&config, 6);
+			}
 
 			WebPPicture pic;
 			if (!WebPPictureInit(&pic)) {
@@ -1463,6 +1475,141 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 			break;
 		}
 #endif
+#ifdef VTFPP_SUPPORT_JXL
+		case FileFormat::JXL: {
+			auto encoder = JxlEncoderMake(nullptr);
+			if (!encoder) {
+				return {};
+			}
+
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+			auto runner = JxlThreadParallelRunnerMake(nullptr, JxlThreadParallelRunnerDefaultNumWorkerThreads());
+			if (JxlEncoderSetParallelRunner(encoder.get(), &JxlThreadParallelRunner, runner.get()) != JXL_ENC_SUCCESS) {
+				return {};
+			}
+#endif
+
+			JxlBasicInfo info;
+			JxlEncoderInitBasicInfo(&info);
+			info.xsize = width;
+			info.ysize = height;
+			info.num_extra_channels = ImageFormatDetails::transparent(format) || ImageFormatDetails::containerFormat(format) == ImageFormat::RGBA16161616;
+
+			auto* frameSettings = JxlEncoderFrameSettingsCreate(encoder.get(), nullptr);
+			if (!frameSettings) {
+				return {};
+			}
+			JxlEncoderFrameSettingsSetOption(frameSettings, JXL_ENC_FRAME_SETTING_DECODING_SPEED, 0);
+			if (quality < 0.f) {
+				JxlEncoderSetFrameLossless(frameSettings, true);
+				info.uses_original_profile = true;
+			} else {
+				JxlEncoderSetFrameDistance(frameSettings, quality * 25.f);
+				info.uses_original_profile = false;
+			}
+
+			JxlPixelFormat pixelFormat{ .endianness = JXL_LITTLE_ENDIAN };
+			std::vector<std::byte> imageDataConverted;
+
+			switch (ImageFormatDetails::containerFormat(format)) {
+				case ImageFormat::RGBA32323232F:
+					info.bits_per_sample = 32;
+					info.exponent_bits_per_sample = 8;
+					if (format == ImageFormat::RGB323232F) {
+						pixelFormat.num_channels = 3;
+						info.alpha_bits = 0;
+						info.alpha_exponent_bits = 0;
+					} else if (format == ImageFormat::RGBA32323232F) {
+						pixelFormat.num_channels = 4;
+						info.alpha_bits = 32;
+						info.alpha_exponent_bits = 8;
+					} else if (ImageFormatDetails::opaque(format)) {
+						imageDataConverted = convertImageDataToFormat(imageData, format, ImageFormat::RGB323232F, width, height);
+						pixelFormat.num_channels = 3;
+						info.alpha_bits = 0;
+						info.alpha_exponent_bits = 0;
+					} else {
+						imageDataConverted = convertImageDataToFormat(imageData, format, ImageFormat::RGBA32323232F, width, height);
+						pixelFormat.num_channels = 4;
+						info.alpha_bits = 32;
+						info.alpha_exponent_bits = 8;
+					}
+					pixelFormat.data_type = JXL_TYPE_FLOAT;
+					break;
+				case ImageFormat::RGBA16161616:
+					info.bits_per_sample = 16;
+					info.exponent_bits_per_sample = 5;
+					pixelFormat.num_channels = 4;
+					info.alpha_bits = 16;
+					info.alpha_exponent_bits = 5;
+					pixelFormat.data_type = JXL_TYPE_UINT16;
+					imageDataConverted = convertImageDataToFormat(imageData, format, ImageFormat::RGBA16161616, width, height);
+					break;
+				case ImageFormat::RGBA8888:
+					info.bits_per_sample = 8;
+					if (format == ImageFormat::RGB888) {
+						pixelFormat.num_channels = 3;
+						info.alpha_bits = 0;
+					} else if (format == ImageFormat::RGBA8888) {
+						pixelFormat.num_channels = 4;
+						info.alpha_bits = 8;
+					} else if (ImageFormatDetails::opaque(format)) {
+						imageDataConverted = convertImageDataToFormat(imageData, format, ImageFormat::RGB888, width, height);
+						pixelFormat.num_channels = 3;
+						info.alpha_bits = 0;
+					} else {
+						imageDataConverted = convertImageDataToFormat(imageData, format, ImageFormat::RGBA8888, width, height);
+						pixelFormat.num_channels = 4;
+						info.alpha_bits = 8;
+					}
+					pixelFormat.data_type = JXL_TYPE_UINT8;
+					break;
+				default:
+					return {};
+			}
+			if (!imageDataConverted.empty()) {
+				imageData = imageDataConverted;
+			}
+
+			if (JxlEncoderSetBasicInfo(encoder.get(), &info) != JXL_ENC_SUCCESS) {
+				return {};
+			}
+
+			JxlColorEncoding colorEncoding;
+			if (!ImageFormatDetails::large(format)) {
+				JxlColorEncodingSetToSRGB(&colorEncoding, false);
+			} else {
+				JxlColorEncodingSetToLinearSRGB(&colorEncoding, false);
+			}
+			if (JxlEncoderSetColorEncoding(encoder.get(), &colorEncoding) != JXL_ENC_SUCCESS) {
+				return {};
+			}
+
+			if (JxlEncoderAddImageFrame(frameSettings, &pixelFormat, imageData.data(), imageData.size()) != JXL_ENC_SUCCESS) {
+				return {};
+			}
+			JxlEncoderCloseInput(encoder.get());
+
+			out.resize(2 * 1024 * 1024);
+			auto* nextOut = out.data();
+			size_t availOut = out.size();
+			JxlEncoderStatus result;
+			while (true) {
+				if ((result = JxlEncoderProcessOutput(encoder.get(), reinterpret_cast<uint8_t**>(&nextOut), &availOut)) != JXL_ENC_NEED_MORE_OUTPUT) {
+					break;
+				}
+				const auto offset = nextOut - out.data();
+				out.resize(out.size() * 2);
+				nextOut = out.data() + offset;
+				availOut = out.size() - offset;
+			}
+			if (result != JXL_ENC_SUCCESS) {
+				return {};
+			}
+			out.resize(nextOut - out.data());
+			break;
+		}
+#endif
 		case FileFormat::DEFAULT:
 			break;
 	}
@@ -1484,6 +1631,93 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	height = 0;
 	int channels = 0;
 	frameCount = 1;
+
+#ifdef VTFPP_SUPPORT_JXL
+	// JXL
+	if (const auto signature = JxlSignatureCheck(reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size()); signature == JXL_SIG_CODESTREAM || signature == JXL_SIG_CONTAINER) {
+		auto decoder = JxlDecoderMake(nullptr);
+		if (!decoder) {
+			return {};
+		}
+
+#ifdef SOURCEPP_BUILD_WITH_THREADS
+		auto runner = JxlThreadParallelRunnerMake(nullptr, JxlThreadParallelRunnerDefaultNumWorkerThreads());
+		if (JxlDecoderSetParallelRunner(decoder.get(), &JxlThreadParallelRunner, runner.get()) != JXL_DEC_SUCCESS) {
+			return {};
+		}
+#endif
+
+		if (JxlDecoderSubscribeEvents(decoder.get(), JXL_DEC_BASIC_INFO | JXL_DEC_FULL_IMAGE) != JXL_DEC_SUCCESS) {
+			return {};
+		}
+		JxlDecoderSetInput(decoder.get(), reinterpret_cast<const uint8_t*>(fileData.data()), fileData.size());
+		JxlDecoderCloseInput(decoder.get());
+
+		std::vector<std::byte> out;
+		JxlPixelFormat pixelFormat{ .endianness = JXL_LITTLE_ENDIAN };
+		bool infoHasBeenSet = false;
+		while (true) {
+			switch (JxlDecoderProcessInput(decoder.get())) {
+				default:
+				case JXL_DEC_ERROR:
+				case JXL_DEC_NEED_MORE_INPUT:
+					return {};
+				case JXL_DEC_BASIC_INFO: {
+					JxlBasicInfo info;
+					if (JxlDecoderGetBasicInfo(decoder.get(), &info) != JXL_DEC_SUCCESS) {
+						return {};
+					}
+					width = static_cast<int>(info.xsize);
+					height = static_cast<int>(info.ysize);
+
+					if (info.bits_per_sample > 16) {
+						pixelFormat.data_type = JXL_TYPE_FLOAT;
+						if (!info.alpha_bits) {
+							pixelFormat.num_channels = 3;
+							format = ImageFormat::RGB323232F;
+						} else {
+							pixelFormat.num_channels = 4;
+							format = ImageFormat::RGBA32323232F;
+						}
+					} else if (info.bits_per_sample > 8) {
+						pixelFormat.data_type = JXL_TYPE_UINT16;
+						pixelFormat.num_channels = 4;
+						format = ImageFormat::RGBA16161616;
+					} else {
+						pixelFormat.data_type = JXL_TYPE_UINT8;
+						if (!info.alpha_bits) {
+							pixelFormat.num_channels = 3;
+							format = ImageFormat::RGB888;
+						} else {
+							pixelFormat.num_channels = 4;
+							format = ImageFormat::RGBA8888;
+						}
+					}
+
+					infoHasBeenSet = true;
+					break;
+				}
+				case JXL_DEC_NEED_IMAGE_OUT_BUFFER: {
+					if (!infoHasBeenSet) {
+						return {};
+					}
+					size_t bufferSize;
+					if (JxlDecoderImageOutBufferSize(decoder.get(), &pixelFormat, &bufferSize) != JXL_DEC_SUCCESS) {
+						return {};
+					}
+					out.resize(bufferSize);
+					if (JxlDecoderSetImageOutBuffer(decoder.get(), &pixelFormat, out.data(), out.size()) != JXL_DEC_SUCCESS) {
+						return {};
+					}
+					break;
+				}
+				case JXL_DEC_FULL_IMAGE:
+				case JXL_DEC_SUCCESS:
+					return out;
+			}
+		}
+	}
+#endif
 
 #ifdef VTFPP_SUPPORT_EXR
 	// EXR

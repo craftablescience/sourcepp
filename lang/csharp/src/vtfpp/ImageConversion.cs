@@ -56,6 +56,7 @@ public static class ImageConversion
 		QOI     = 6,
 		HDR     = 7,
 		EXR     = 8,
+		JXL     = 9,
 	}
 
 	public static FileFormat GetDefaultFileFormatForImageFormat(ImageFormat format)
@@ -63,12 +64,12 @@ public static class ImageConversion
 		return DLL.vtfpp_image_conversion_get_default_file_format_for_image_format(format);
 	}
 
-	public static byte[] ConvertImageDataToFile(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, FileFormat fileFormat = FileFormat.DEFAULT)
+	public static byte[] ConvertImageDataToFile(ReadOnlySpan<byte> buffer, ImageFormat format, ushort width, ushort height, FileFormat fileFormat = FileFormat.DEFAULT, float quality = -1.0f)
 	{
-		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_image_data_to_file(buffer, (ulong) buffer.Length, format, width, height, fileFormat)).Read<byte>();
+		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_image_data_to_file(buffer, (ulong) buffer.Length, format, width, height, fileFormat, quality)).Read<byte>();
 	}
 
-	public static byte[] ConvertImageDataToFile(ReadOnlySpan<byte> buffer, ref ImageFormat format, ref int width, ref int height, ref int frameCount)
+	public static byte[] ConvertFileToImageData(ReadOnlySpan<byte> buffer, ref ImageFormat format, ref int width, ref int height, ref int frameCount)
 	{
 		return new sourcepp.Buffer(DLL.vtfpp_image_conversion_convert_file_to_image_data(buffer, (ulong) buffer.Length, ref format, ref width, ref height, ref frameCount)).Read<byte>();
 	}

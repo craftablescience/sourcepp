@@ -86,7 +86,7 @@ internal static partial class DLL
 	public static partial ImageConversion.FileFormat vtfpp_image_conversion_get_default_file_format_for_image_format(ImageFormat format);
 
 	[LibraryImport(Name)]
-	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_image_data_to_file(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ImageConversion.FileFormat fileFormat);
+	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_image_data_to_file(ReadOnlySpan<byte> buffer, ulong bufferLen, ImageFormat format, ushort width, ushort height, ImageConversion.FileFormat fileFormat, float quality);
 
 	[LibraryImport(Name)]
 	public static partial sourcepp.DLL.Buffer vtfpp_image_conversion_convert_file_to_image_data(ReadOnlySpan<byte> buffer, ulong bufferLen, ref ImageFormat format, ref int width, ref int height, ref int frameCount);
