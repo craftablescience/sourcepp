@@ -371,7 +371,7 @@ namespace {
 	switch (inFormat) {
 		case ImageFormat::DXT1:
 		case ImageFormat::DXT1_ONE_BIT_ALPHA:
-			return transformCompressed.operator()<BCDEC_BC1_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc1a);
+			return transformCompressed.operator()<BCDEC_BC1_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc1);
 		case ImageFormat::DXT3:
 			return transformCompressed.operator()<BCDEC_BC2_BLOCK_SIZE, ImagePixel::RGBA8888>(&bcdec_bc2);
 		case ImageFormat::DXT5:

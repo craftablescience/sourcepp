@@ -18,7 +18,7 @@ endfunction()
 
 # bcdec
 if(SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(bcdec https://github.com/craftablescience/bcdec 59441e17ba36b7d7eef336aeedc62e01d0cdcd5a)
+    add_sourcepp_remote_library(bcdec https://github.com/craftablescience/bcdec c3542bb56443d2b1f596127200b062b6ee2888c2)
 endif()
 
 
