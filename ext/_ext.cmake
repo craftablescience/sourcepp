@@ -123,7 +123,7 @@ if(NOT TARGET MINIZIP::minizip)
 
     set(ZSTD_MULTITHREAD_SUPPORT ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
 
-    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 2235fcc1d77e0f660b3101e2a30f81f82dfdc7f3)
+    add_sourcepp_remote_library(minizip-ng https://github.com/craftablescience/minizip-ng 2f0041b6f7c2193a06d18ca47ccd81fc7070ee8f)
 
     if(WIN32 AND SOURCEPP_BUILD_WIN7_COMPAT)
         set_source_files_properties(
