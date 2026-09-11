@@ -125,6 +125,10 @@ if(SOURCEPP_USE_STATIC_MSVC_RUNTIME)
 endif()
 
 
+# Need this to override possible declarations in dependencies
+option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+
+
 # Include thirdparty libraries
 include_subdirectory(ext)
 
