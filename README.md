@@ -188,11 +188,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="39"><code>vpkpp</code></td>
+    <td rowspan="41"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="39" align="center">C<br>C#<br>Python</td>
+    <td rowspan="41" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -263,6 +263,12 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html" target="_blank" rel="noreferrer">PCK</a> v1-2 (Godot Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>REZ v1-2 (LithTech Engine)</td>
+    <td align="center">✅</td>
+    <td align="center">❌</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -533,6 +539,7 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - HOG parser was contributed by [@erysdren](https://github.com/erysdren).
   - OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
   - ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
+  - REZ parser is based on [RezExtract](https://github.com/no-lith/RezExtract) by [@no-lith](https://github.com/no-lith).
   - VPP parser was contributed by [@erysdren](https://github.com/erysdren).
   - WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`

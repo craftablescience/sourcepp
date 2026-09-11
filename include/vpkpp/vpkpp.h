@@ -17,6 +17,7 @@
 #include "format/ORE.h"
 #include "format/PAK.h"
 #include "format/PCK.h"
+#include "format/REZ.h"
 #include "format/SDAT.h"
 #include "format/TAB.h"
 #include "format/VPK.h"
