@@ -750,7 +750,10 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 		if (!lumps[i].isCompressed) {
 			lumps[i].data = stream.read_bytes(lumps[i].uncompressedLength);
 		} else {
-			auto nextOffset = lumps[i + 1].offset;
+			uint32_t nextOffset = 0;
+			if (i + 1 < lumps.size()) {
+				nextOffset = lumps[i + 1].offset;
+			}
 			if (nextOffset == 0) {
 				static constexpr auto gameLumpID = static_cast<std::underlying_type_t<BSPLump>>(BSPLump::GAME_LUMP);
 				nextOffset = this->header.lumps[gameLumpID].offset + this->header.lumps[gameLumpID].length;
@@ -765,7 +768,7 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 		}
 	}
 
-	if (lumps.back().signature == 0) {
+	if (!lumps.empty() && lumps.back().signature == 0) {
 		lumps.pop_back();
 	}
 	return lumps;
