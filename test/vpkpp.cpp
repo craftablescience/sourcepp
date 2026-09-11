@@ -27,6 +27,14 @@ TEST(vpkpp, ore_read) {
 	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
 }
 
+TEST(vpkpp, rez_v1_read) {
+	const auto rez = PackFile::open(ASSET_ROOT "vpkpp/rez/v1.rez");
+	ASSERT_TRUE(rez);
+	VPKPP_PRINT_ALL_PATHS(rez);
+	EXPECT_EQ(rez->getEntryCount(), 1);
+	EXPECT_TRUE(rez->hasEntry("patch.txt"));
+}
+
 TEST(vpkpp, sdat) {
 	const auto sdat = PackFile::open(ASSET_ROOT "vpkpp/sdat/steam_resources.sdat");
 	ASSERT_TRUE(sdat);

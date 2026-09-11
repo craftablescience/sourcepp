@@ -102,6 +102,18 @@ internal static partial class DLL
 	public static partial nint vpkpp_pck_open(string path, EntryCallbackNative? callback);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_rez_open(string path, EntryCallbackNative? callback);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.String vpkpp_rez_get_file_type(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial sourcepp.DLL.String vpkpp_rez_get_user_title(nint handle);
+
+	[LibraryImport(Name)]
+	public static partial uint vpkpp_rez_get_version(nint handle);
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_sdat_create(string path);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]

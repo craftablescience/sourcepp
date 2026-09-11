@@ -263,11 +263,13 @@ inline void register_python(py::module_& m) {
 		.def("get_godot_version", &PCK::getGodotVersion)
 		.def("set_godot_version", &PCK::setGodotVersion, "major"_a = 0, "minor"_a = 0, "patch"_a = 0);
 
-	vpkpp.attr("TAB_EXTENSION") = TAB_EXTENSION;
-	vpkpp.attr("TAB_FILENAME_MAX_SIZE") = TAB_FILENAME_MAX_SIZE;
-	vpkpp.attr("TAB_HASHED_FILEPATH_PREFIX") = TAB_HASHED_FILEPATH_PREFIX;
-	vpkpp.attr("ARC_EXTENSION") = ARC_EXTENSION;
-	vpkpp.attr("ARC_CHUNK_SIZE") = ARC_CHUNK_SIZE;
+	vpkpp.attr("REZ_EXTENSION") = REZ_EXTENSION;
+
+	py::class_<REZ, PackFileReadOnly>(vpkpp, "REZ")
+		.def_static("open", &REZ::open, "path"_a, "callback"_a = nullptr)
+		.def_prop_ro("file_type", &REZ::getFileType)
+		.def_prop_ro("user_title", &REZ::getUserTitle)
+		.def_prop_ro("version", &REZ::getVersion);
 
 	vpkpp.attr("SDAT_SIGNATURE") = SDAT_SIGNATURE;
 	vpkpp.attr("SDAT_EXTENSION") = SDAT_EXTENSION;
@@ -275,6 +277,12 @@ inline void register_python(py::module_& m) {
 	py::class_<SDAT, PackFile>(vpkpp, "SDAT")
 		.def_static("create", &SDAT::create, "path"_a)
 		.def_static("open", &SDAT::open, "path"_a, "callback"_a = nullptr);
+
+	vpkpp.attr("TAB_EXTENSION") = TAB_EXTENSION;
+	vpkpp.attr("TAB_FILENAME_MAX_SIZE") = TAB_FILENAME_MAX_SIZE;
+	vpkpp.attr("TAB_HASHED_FILEPATH_PREFIX") = TAB_HASHED_FILEPATH_PREFIX;
+	vpkpp.attr("ARC_EXTENSION") = ARC_EXTENSION;
+	vpkpp.attr("ARC_CHUNK_SIZE") = ARC_CHUNK_SIZE;
 
 	auto cTAB = py::class_<TAB, PackFile>(vpkpp, "TAB");
 
