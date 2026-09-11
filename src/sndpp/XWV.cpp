@@ -12,6 +12,9 @@ namespace {
 
 /// Lifted from <a href="https://github.com/vgmstream/vgmstream/blob/86ef4c768977271616c309964c6f600389030e5f/src/coding/ima_decoder.c#L1396">vgmstream</a> with minor alterations
 [[nodiscard]] constexpr uint64_t xmaBytesToSamples(uint64_t bytes, uint8_t channels) {
+	if (!bytes || !channels) {
+		return 0;
+	}
 	const auto blockAlign = channels * 0x24;
 	const auto mod = bytes % blockAlign;
 	return bytes / blockAlign * (blockAlign - 4 * channels) * 2 / channels + (mod > 0 && mod > 0x04 * channels ? (mod - 0x04*channels) * 2 / channels : 0);
