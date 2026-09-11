@@ -28,6 +28,7 @@ bool VTX::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl, Has
 		}
 
 		stream.read(this->numLODs);
+		this->numLODs = std::clamp(this->numLODs, 1, MAX_LOD_COUNT);
 
 		const auto materialReplacementListOffset = stream.read<int32_t>();
 
