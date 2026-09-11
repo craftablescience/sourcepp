@@ -2357,7 +2357,7 @@ std::vector<std::byte> ImageConversion::resizeImageDataStrict(std::span<const st
 
 // NOLINTNEXTLINE(*-no-recursion)
 std::vector<std::byte> ImageConversion::cropImageData(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t newWidth, uint16_t xOffset, uint16_t height, uint16_t newHeight, uint16_t yOffset) {
-	if (imageData.empty() || format == ImageFormat::EMPTY || xOffset + newWidth >= width || yOffset + newHeight >= height) {
+	if (imageData.empty() || format == ImageFormat::EMPTY || xOffset + newWidth > width || yOffset + newHeight > height) {
 		return {};
 	}
 	if (ImageFormatDetails::compressed(format)) {
