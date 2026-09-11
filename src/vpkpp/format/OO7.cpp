@@ -37,12 +37,12 @@ std::unique_ptr<PackFile> OO7::open(const std::string& path, const EntryCallback
 		if (root) {
 			currentPath = ""; // The root folder gets ignored
 		}
-		auto subDirCount = reader.read<uint32_t>();
+		const auto subDirCount = reader.read<uint32_t>();
 		if (oo7->minorVersion == 3) {
 			reader.skip_in<uint32_t>(); // File count
 		}
-		while (1) {
-			auto filenameSize = reader.read<uint32_t>();
+		while (true) {
+			const auto filenameSize = reader.read<uint32_t>();
 			if (!filenameSize) {
 				break;
 			}
@@ -51,7 +51,7 @@ std::unique_ptr<PackFile> OO7::open(const std::string& path, const EntryCallback
 
 			auto entryPath = oo7->cleanEntryPath(currentPath + '/' + reader.read_string(filenameSize, false));
 
-			bool compressed = reader.read<uint8_t>();
+			const bool compressed = reader.read<uint8_t>();
 			entry.length = reader.read<uint32_t>();
 			if (compressed) {
 				entry.compressedLength = reader.read<uint32_t>();
@@ -63,9 +63,9 @@ std::unique_ptr<PackFile> OO7::open(const std::string& path, const EntryCallback
 				entry.offset = reader.tell_in();
 
 				if (compressed) {
-					reader.skip_in(entry.compressedLength);
+					reader.skip_in_u(entry.compressedLength);
 				} else {
-					reader.skip_in(entry.length);
+					reader.skip_in_u(entry.length);
 				}
 			} else {
 				v3EntriesFixup.push_back(entryPath);
@@ -87,9 +87,9 @@ std::unique_ptr<PackFile> OO7::open(const std::string& path, const EntryCallback
 		auto& entry = oo7->entries.at(entryPath);
 		entry.offset = reader.tell_in();
 		if (!entry.compressedLength) {
-			reader.skip_in(entry.length);
+			reader.skip_in_u(entry.length);
 		} else {
-			reader.skip_in(entry.compressedLength);
+			reader.skip_in_u(entry.compressedLength);
 		}
 	}
 
@@ -120,16 +120,16 @@ bool OO7::verifyPackFileChecksum() const {
 	}
 	uint32_t minOffset = UINT32_MAX;
 	this->runForAllEntries([&minOffset](const std::string&, const Entry& entry) {
-		minOffset = (entry.offset < minOffset) ? entry.offset : minOffset;
+		minOffset = entry.offset < minOffset ? entry.offset : minOffset;
 	});
 	auto data = fs::readFileBuffer(this->fullFilePath, sizeof(uint32_t) * 2);
-	data.resize(minOffset - (sizeof(uint32_t) * 2));
+	data.resize(minOffset - sizeof(uint32_t) * 2);
 	return crypto::computeMD5(data) == this->checksum;
 }
 
 std::optional<std::vector<std::byte>> OO7::readEntry(const std::string& path_) const {
-	auto path = this->cleanEntryPath(path_);
-	auto entry = this->findEntry(path);
+	const auto path = this->cleanEntryPath(path_);
+	const auto entry = this->findEntry(path);
 	if (!entry) {
 		return std::nullopt;
 	}
@@ -148,7 +148,7 @@ std::optional<std::vector<std::byte>> OO7::readEntry(const std::string& path_) c
 	}
 
 	// Decompress
-	auto compressedData = stream.read_bytes(entry->compressedLength);
+	const auto compressedData = stream.read_bytes(entry->compressedLength);
 	mz_ulong uncompressedLength = entry->length;
 	std::vector<std::byte> uncompressedData(uncompressedLength);
 	if (mz_uncompress(reinterpret_cast<unsigned char*>(uncompressedData.data()), &uncompressedLength, reinterpret_cast<const unsigned char*>(compressedData.data()), entry->compressedLength) != MZ_OK) {
