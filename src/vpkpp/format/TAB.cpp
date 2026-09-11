@@ -9,7 +9,8 @@
 
 #include <BufferStream.h>
 #include <FileStream.h>
-#include <tomcrypt.h>
+
+#include <sourcepp/crypto/SHA1.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
@@ -321,9 +322,7 @@ uint32_t TAB::hashFilePath(const std::string& filepath) {
 	for (std::span bufferU32{reinterpret_cast<uint32_t*>(buffer.data()), buffer.size() / sizeof(uint32_t)}; auto& uint : bufferU32) {
 		BufferStream::swap_endian(&uint);
 	}
-	hash_state sha1;
-	sha1_init(&sha1);
-	sha1_process(&sha1, reinterpret_cast<const unsigned char*>(buffer.data()), buffer.size());
-	BufferStream::swap_endian(&sha1.sha1.state[0]);
-	return sha1.sha1.state[0];
+	auto hash = sourcepp::crypto::computeSHA1Partial(buffer);
+	BufferStream::swap_endian(&hash);
+	return hash;
 }

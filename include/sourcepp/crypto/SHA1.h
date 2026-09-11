@@ -10,4 +10,6 @@ namespace sourcepp::crypto {
 
 std::array<std::byte, 20> computeSHA1(std::span<const std::byte> buffer);
 
+uint32_t computeSHA1Partial(std::span<const std::byte> buffer);
+
 } // namespace sourcepp::crypto

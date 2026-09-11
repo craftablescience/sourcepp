@@ -32,6 +32,19 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR)
 endif()
 
 
+# cryptopp
+if(NOT TARGET cryptopp::cryptopp)
+    set(CRYPTOPP_BUILD_TESTING OFF CACHE INTERNAL "" FORCE)
+    set(CRYPTOPP_INSTALL       OFF CACHE INTERNAL "" FORCE)
+    add_sourcepp_remote_library(cryptopp-cmake https://github.com/abdes/cryptopp-cmake bc994d990b8c00b4b70c56bc5c438f6cf32c463c)
+
+    # hack: clang on windows (NOT clang-cl) needs these to compile cryptopp
+    if(WIN32 AND NOT MSVC AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+        target_compile_options(cryptopp PRIVATE -mcrc32 -mssse3)
+    endif()
+endif()
+
+
 # half
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/half")
 
@@ -59,25 +72,6 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_JXL)
     set(JPEGXL_ENABLE_OPENEXR                                 OFF CACHE INTERNAL "" FORCE)
     set(JPEGXL_ENABLE_WASM_THREADS ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl b5def9fb509d0f2421c8a5bcd7aa6f5a627363c4 EXCLUDE_FROM_ALL)
-endif()
-
-
-# libtommath
-if(NOT TARGET libtommath)
-    add_sourcepp_remote_library(libtommath https://github.com/craftablescience/libtommath 03101d4556acd45175d5cfe0575601cf6acadef2 OVERRIDE_FIND_PACKAGE EXCLUDE_FROM_ALL)
-endif()
-
-
-# libtomcrypt
-if(NOT TARGET libtomcrypt)
-    if(SOURCEPP_BUILD_WITH_THREADS AND CMAKE_USE_PTHREADS_INIT)
-        set(WITH_PTHREAD ON CACHE INTERNAL "" FORCE)
-    endif()
-    add_sourcepp_remote_library(libtomcrypt https://github.com/libtom/libtomcrypt 6c6d5104de66f3ca0dfd7b68540ef86869982b07 EXCLUDE_FROM_ALL)
-    if(MSVC)
-        # Spews "inconsistent dll linkage", no idea how to fix, doesn't seem to cause problems
-        target_compile_options(libtomcrypt PRIVATE "/wd4273")
-    endif()
 endif()
 
 

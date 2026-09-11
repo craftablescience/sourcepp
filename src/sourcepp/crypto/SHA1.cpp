@@ -1,21 +1,31 @@
 #include <sourcepp/crypto/SHA1.h>
 
-#include <tomcrypt.h>
-
-#include <sourcepp/crypto/Globals.h>
+#include <BufferStream.h>
+#include <cryptopp/sha.h>
 
 using namespace sourcepp;
 
 std::array<std::byte, 20> crypto::computeSHA1(std::span<const std::byte> buffer) {
-	if (!LTM_MATH || buffer.empty()) {
+	if (buffer.empty()) {
 		return {};
 	}
 
-	hash_state sha1;
-	sha1_init(&sha1);
-	sha1_process(&sha1, reinterpret_cast<const unsigned char*>(buffer.data()), buffer.size());
+	CryptoPP::SHA1 sha1;
+	sha1.Update(reinterpret_cast<const CryptoPP::byte*>(buffer.data()), buffer.size());
 
 	std::array<std::byte, 20> final{};
-	sha1_done(&sha1, reinterpret_cast<unsigned char*>(final.data()));
+	sha1.Final(reinterpret_cast<CryptoPP::byte*>(final.data()));
 	return final;
+}
+
+uint32_t crypto::computeSHA1Partial(std::span<const std::byte> buffer) {
+	if (buffer.empty()) {
+		return {};
+	}
+
+	class SHA1P : public CryptoPP::SHA1 { public: using SHA1::StateBuf; };
+	SHA1P sha1p;
+	sha1p.Update(reinterpret_cast<const CryptoPP::byte*>(buffer.data()), buffer.size());
+
+	return sha1p.StateBuf()[0];
 }
