@@ -17,7 +17,6 @@ classifiers = [
 	"Topic :: File Formats",
 	"Programming Language :: C++",
 	"Programming Language :: Python :: 3 :: Only",
-	"Programming Language :: Python :: 3.9",
 	"Programming Language :: Python :: 3.10",
 	"Programming Language :: Python :: 3.11",
 	"Programming Language :: Python :: 3.12",
@@ -49,7 +48,7 @@ logging.level = "INFO"
 [tool.cibuildwheel]
 archs = ["auto64"]
 enable = ["pypy"]
-skip = "*-musllinux*"
+skip = ["cp39-*", "*-musllinux*"]
 
 [tool.cibuildwheel.linux]
 manylinux-x86_64-image       = 'manylinux_2_34'
