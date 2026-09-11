@@ -37,7 +37,9 @@ VBF::VBF(std::span<const std::byte> vbfData) {
 		stream >> abcSpacing[0] >> abcSpacing[1] >> abcSpacing[2];
 	}
 	for (int i = 0; i < this->glyphs.size(); i++) {
-		this->glyphs[i] = glyphList[glyphLUT[i]];
+		if (const auto glyphIndex = glyphLUT[i]; glyphIndex < glyphCount) {
+			this->glyphs[i] = glyphList[glyphIndex];
+		}
 	}
 }
 
