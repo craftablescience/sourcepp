@@ -260,7 +260,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html" target="_blank" rel="noreferrer">PCK</a> v1-2 (Godot Engine)</td>
+    <td><a href="https://docs.godotengine.org/en/stable/tutorials/export/exporting_pcks.html" target="_blank" rel="noreferrer">PCK</a> v1-4 (Godot Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
