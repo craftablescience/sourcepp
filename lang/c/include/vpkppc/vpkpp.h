@@ -10,6 +10,7 @@
 #include "format/FPX.h"
 #include "format/GCF.h"
 #include "format/GMA.h"
+#include "format/GRP.h"
 #include "format/HOG.h"
 #include "format/OL.h"
 #include "format/OO7.h"

@@ -28,7 +28,7 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial uint vpkpp_fgp_hash_file_path(string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_fpx_create(string path);
 
@@ -37,34 +37,40 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_gcf_open(string path, EntryCallbackNative? callback, OpenPropertyRequestNative? requestProperty);
-	
+
 	[LibraryImport(Name)]
 	public static partial uint vpkpp_gcf_get_version(nint handle);
-	
+
 	[LibraryImport(Name)]
 	public static partial uint vpkpp_gcf_get_appid(nint handle);
-	
+
 	[LibraryImport(Name)]
 	public static partial uint vpkpp_gcf_get_app_version(nint handle);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_gma_open(string path, EntryCallbackNative? callback);
-	
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_grp_create(string path);
+
+	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
+	public static partial nint vpkpp_grp_open(string path, EntryCallbackNative? callback);
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_hog_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_ol_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name)]
 	public static partial sourcepp.DLL.String vpkpp_ol_get_notes(nint handle);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial sourcepp.DLL.String vpkpp_ol_get_entry_notes(nint handle, string path);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_007_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_ore_create(string path);
 
@@ -79,16 +85,16 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pak_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name)]
 	public static partial PAKType vpkpp_pak_get_type(nint handle);
-	
+
 	[LibraryImport(Name)]
 	public static partial void vpkpp_pak_set_type(nint handle, PAKType type);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pck_create(string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_pck_create_with_options(string path, uint version, uint godotMajorVersion, uint godotMinorVersion, uint godotPatchVersion);
 
@@ -133,10 +139,10 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpk_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial int vpkpp_vpk_generate_keypair_files(string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial int vpkpp_vpk_sign_from_file(nint handle, string filename);
 
@@ -145,22 +151,22 @@ internal static partial class DLL
 
 	[LibraryImport(Name)]
 	public static partial uint vpkpp_vpk_get_version(nint handle);
-	
+
 	[LibraryImport(Name)]
 	public static partial void vpkpp_vpk_set_version(nint handle, uint version);
 
 	[LibraryImport(Name)]
 	public static partial uint vpkpp_vpk_get_chunk_size(nint handle);
-	
+
 	[LibraryImport(Name)]
 	public static partial void vpkpp_vpk_set_chunk_size(nint handle, uint version);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpk_vtmb_create(string path);
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpk_vtmb_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_vpp_open(string path, EntryCallbackNative? callback);
 
@@ -169,7 +175,7 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_wad3_open(string path, EntryCallbackNative? callback);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial nint vpkpp_xzp_open(string path, EntryCallbackNative? callback);
 
@@ -181,7 +187,7 @@ internal static partial class DLL
 
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial EntryCompressionType vpkpp_zip_get_entry_compression_type(nint handle, string path);
-	
+
 	[LibraryImport(Name, StringMarshalling = StringMarshalling.Utf8)]
 	public static partial void vpkpp_zip_set_entry_compression_type(nint handle, string path, EntryCompressionType type);
 

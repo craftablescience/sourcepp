@@ -198,6 +198,14 @@ inline void register_python(py::module_& m) {
 	py::class_<GMA, PackFile>(vpkpp, "GMA")
 		.def_static("open", &GMA::open, "path"_a, "callback"_a = nullptr);
 
+	vpkpp.attr("GRP_FILENAME_MAX_SIZE") = GRP_FILENAME_MAX_SIZE;
+	vpkpp.attr("GRP_SIGNATURE") = GRP_SIGNATURE;
+	vpkpp.attr("GRP_EXTENSION") = GRP_EXTENSION;
+
+	py::class_<GRP, PackFile>(vpkpp, "GRP")
+		.def_static("create", &GRP::create, "path"_a)
+		.def_static("open", &GRP::open, "path"_a, "callback"_a = nullptr);
+
 	vpkpp.attr("HOG_SIGNATURE") = HOG_SIGNATURE;
 	vpkpp.attr("HOG_EXTENSION") = HOG_EXTENSION;
 

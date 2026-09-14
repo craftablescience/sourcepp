@@ -188,11 +188,11 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
-    <td rowspan="37"><code>vpkpp</code></td>
+    <td rowspan="39"><code>vpkpp</code></td>
     <td>007 v1.1, v1.3 (007 - Nightfire)</td>
     <td align="center">✅</td>
     <td align="center">❌</td>
-    <td rowspan="37" align="center">C<br>C#<br>Python</td>
+    <td rowspan="39" align="center">C<br>C#<br>Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
@@ -221,6 +221,12 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
     <td>GMA v1-3 (Garry's Mod)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>GRP (Build Engine)</td>
     <td align="center">✅</td>
     <td align="center">✅</td>
   </tr>
