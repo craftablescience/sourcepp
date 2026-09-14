@@ -27,6 +27,14 @@ TEST(vpkpp, ore_read) {
 	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
 }
 
+TEST(vpkpp, sdat) {
+	const auto sdat = PackFile::open(ASSET_ROOT "vpkpp/sdat/steam_resources.sdat");
+	ASSERT_TRUE(sdat);
+	VPKPP_PRINT_ALL_PATHS(sdat);
+	EXPECT_EQ(sdat->getEntryCount(), 90);
+	EXPECT_TRUE(sdat->hasEntry("resource/steam_logo.tga"));
+}
+
 TEST(vpkpp, vpp_v1_read) {
 	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v1.vpp");
 	ASSERT_TRUE(vpp);

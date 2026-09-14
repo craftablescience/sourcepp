@@ -261,6 +261,13 @@ inline void register_python(py::module_& m) {
 	vpkpp.attr("ARC_EXTENSION") = ARC_EXTENSION;
 	vpkpp.attr("ARC_CHUNK_SIZE") = ARC_CHUNK_SIZE;
 
+	vpkpp.attr("SDAT_SIGNATURE") = SDAT_SIGNATURE;
+	vpkpp.attr("SDAT_EXTENSION") = SDAT_EXTENSION;
+
+	py::class_<SDAT, PackFile>(vpkpp, "SDAT")
+		.def_static("create", &SDAT::create, "path"_a)
+		.def_static("open", &SDAT::open, "path"_a, "callback"_a = nullptr);
+
 	auto cTAB = py::class_<TAB, PackFile>(vpkpp, "TAB");
 
 	py::enum_<TAB::Version>(cTAB, "Version")
