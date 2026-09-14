@@ -35,6 +35,7 @@
 #include <jxl/decode_cxx.h>
 #include <jxl/encode_cxx.h>
 #ifdef SOURCEPP_BUILD_WITH_THREADS
+#include <jxl/resizable_parallel_runner_cxx.h>
 #include <jxl/thread_parallel_runner_cxx.h>
 #endif
 #endif
@@ -1641,8 +1642,8 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		}
 
 #ifdef SOURCEPP_BUILD_WITH_THREADS
-		auto runner = JxlThreadParallelRunnerMake(nullptr, JxlThreadParallelRunnerDefaultNumWorkerThreads());
-		if (JxlDecoderSetParallelRunner(decoder.get(), &JxlThreadParallelRunner, runner.get()) != JXL_DEC_SUCCESS) {
+		auto runner = JxlResizableParallelRunnerMake(nullptr);
+		if (JxlDecoderSetParallelRunner(decoder.get(), &JxlResizableParallelRunner, runner.get()) != JXL_DEC_SUCCESS) {
 			return {};
 		}
 #endif
@@ -1669,6 +1670,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					}
 					width = static_cast<int>(info.xsize);
 					height = static_cast<int>(info.ysize);
+					JxlResizableParallelRunnerSetThreads(runner.get(), JxlResizableParallelRunnerSuggestThreads(width, height));
 
 					if (info.bits_per_sample > 16) {
 						pixelFormat.data_type = JXL_TYPE_FLOAT;
