@@ -1688,7 +1688,7 @@ void VTF::setResourceInternal(Resource::Type type, std::span<const std::byte> da
 			}
 			Resource newResource{
 				.type = type,
-				.flags = specificResourceData.size() <= sizeof(uint32_t) ? Resource::FLAG_LOCAL_DATA : Resource::FLAG_NONE,
+				.flags = type != Resource::TYPE_IMAGE_DATA && specificResourceData.size() <= sizeof(uint32_t) ? Resource::FLAG_LOCAL_DATA : Resource::FLAG_NONE,
 				.data = {this->data.data() + offset, specificResourceData.size()},
 			};
 			if (auto* resourcePtr = this->getResourceInternal(type)) {
