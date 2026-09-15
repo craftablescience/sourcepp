@@ -23,7 +23,7 @@ bool string::contains(std::string_view s, char c) {
 	return std::ranges::find(s, c) != s.end();
 }
 
-bool string::matches(std::string_view in, std::string_view search) {
+bool string::matches(std::string_view in, std::string_view search, bool ignoreCase) {
 	int inPos = 0, searchPos = 0;
 	for ( ; inPos < in.length() && searchPos < search.length(); inPos++, searchPos++) {
 		if (search[searchPos] == '%') {
@@ -53,7 +53,7 @@ bool string::matches(std::string_view in, std::string_view search) {
 					if (in[inPos] != '%') return false;
 					break;
 			}
-		} else if (in[inPos] != search[searchPos]) {
+		} else if ((!ignoreCase && in[inPos] != search[searchPos]) || (ignoreCase && std::tolower(in[inPos]) != std::tolower(search[searchPos]))) {
 			return false;
 		}
 	}

@@ -22,7 +22,7 @@ namespace sourcepp::string {
 ///   %l - matches a lowercase letter (a-z)
 ///   %d - matches a single digit (0-9)
 ///   %% - escaped percent character
-[[nodiscard]] bool matches(std::string_view in, std::string_view search);
+[[nodiscard]] bool matches(std::string_view in, std::string_view search, bool ignoreCase = false);
 
 [[nodiscard]] bool iequals(std::string_view s1, std::string_view s2);
 
