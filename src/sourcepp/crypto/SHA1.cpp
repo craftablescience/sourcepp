@@ -7,7 +7,7 @@
 using namespace sourcepp;
 
 std::array<std::byte, 20> crypto::computeSHA1(std::span<const std::byte> buffer) {
-	if (!LTM_MATH || buffer.empty()) {
+	if (!LTM_MATH || SHA1_INDEX < 0 || buffer.empty()) {
 		return {};
 	}
 

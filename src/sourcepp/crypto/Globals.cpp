@@ -10,6 +10,7 @@ const bool LTM_MATH = [] {
 }();
 
 const int AES_INDEX    = register_cipher(&aes_desc);
+const int SHA1_INDEX   = register_hash(&sha1_desc);
 const int SHA256_INDEX = register_hash(&sha256_desc);
 const int YARROW_INDEX = register_prng(&yarrow_desc);
 
