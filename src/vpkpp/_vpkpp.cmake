@@ -4,7 +4,6 @@ add_pretty_parser(vpkpp
         PRECOMPILED_HEADERS
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/APK.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FGP.h"
-        "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/FPX.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GCF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GMA.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vpkpp/format/GRP.h"
@@ -31,7 +30,6 @@ add_pretty_parser(vpkpp
         SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/format/APK.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/FGP.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/format/FPX.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GCF.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GMA.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/format/GRP.cpp"

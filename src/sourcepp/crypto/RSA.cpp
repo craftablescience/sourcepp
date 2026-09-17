@@ -1,13 +1,14 @@
 #include <sourcepp/crypto/RSA.h>
 
 #include <array>
+#include <cstdlib>
+#include <cstring>
 #include <memory>
 #include <random>
 
 #include <tomcrypt.h>
 
 #include <sourcepp/crypto/Globals.h>
-#include <sourcepp/String.h>
 
 using namespace sourcepp;
 
@@ -17,8 +18,8 @@ constexpr auto SHA256_ENTROPY_SIZE = 64;
 
 } // namespace
 
-std::pair<std::string, std::string> crypto::computeSHA256KeyPair(uint16_t size) {
-	if (!LTM_MATH || SHA256_INDEX < 0 || YARROW_INDEX < 0 || size < 8) {
+std::pair<std::vector<std::byte>, std::vector<std::byte>> crypto::computeRSAKeyPair(uint16_t size) {
+	if (!LTM_MATH || YARROW_INDEX < 0 || size < 8) {
 		return {};
 	}
 	size /= 8;
@@ -41,27 +42,27 @@ std::pair<std::string, std::string> crypto::computeSHA256KeyPair(uint16_t size) 
 		return {};
 	}
 
-	std::vector<unsigned char> privateKeyData(size * 16);
+	std::vector<std::byte> privateKeyData(size * 16);
 	unsigned long privateKeyLen = privateKeyData.size();
-	if (rsa_export(privateKeyData.data(), &privateKeyLen, PK_PRIVATE, key.get()) != CRYPT_OK) {
+	if (rsa_export(reinterpret_cast<unsigned char*>(privateKeyData.data()), &privateKeyLen, PK_PRIVATE, key.get()) != CRYPT_OK) {
 		return {};
 	}
 	privateKeyData.resize(privateKeyLen);
 
-	std::vector<unsigned char> publicKeyData(size * 16);
+	std::vector<std::byte> publicKeyData(size * 16);
 	unsigned long publicKeyLen = publicKeyData.size();
-	if (rsa_export(publicKeyData.data(), &publicKeyLen, PK_PUBLIC, key.get()) != CRYPT_OK) {
+	if (rsa_export(reinterpret_cast<unsigned char*>(publicKeyData.data()), &publicKeyLen, PK_PUBLIC, key.get()) != CRYPT_OK) {
 		return {};
 	}
 	publicKeyData.resize(publicKeyLen);
 
 	return {
-		string::encodeHex({reinterpret_cast<const std::byte*>(privateKeyData.data()), privateKeyData.size()}),
-		string::encodeHex({reinterpret_cast<const std::byte*>(publicKeyData.data()), publicKeyData.size()}),
+		std::move(privateKeyData),
+		std::move(publicKeyData),
 	};
 }
 
-bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, std::span<const std::byte> publicKey, std::span<const std::byte> signature) {
+bool crypto::verifyPublicKeySHA256(std::span<const std::byte> buffer, std::span<const std::byte> publicKey, std::span<const std::byte> signature) {
 	if (!LTM_MATH || SHA256_INDEX < 0 || buffer.empty()) {
 		return false;
 	}
@@ -77,13 +78,23 @@ bool crypto::verifySHA256PublicKey(std::span<const std::byte> buffer, std::span<
 	return rsa_verify_hash_v2(reinterpret_cast<const unsigned char*>(signature.data()), signature.size(), reinterpret_cast<const unsigned char*>(sha256.data()), sha256.size(), &params, &stat, key.get()) == CRYPT_OK && stat;
 }
 
-std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(std::span<const std::byte> buffer, std::span<const std::byte> privateKey) {
+std::vector<std::byte> crypto::signDataWithPrivateKeySHA256(std::span<const std::byte> buffer, std::span<const std::byte> privateKey, std::string_view passphrase) {
 	if (!LTM_MATH || SHA256_INDEX < 0 || buffer.empty()) {
 		return {};
 	}
 
 	const std::unique_ptr<rsa_key, void(*)(rsa_key*)> key{new rsa_key, [](rsa_key* k) { rsa_free(k); delete k; }};
-	if (rsa_import(reinterpret_cast<const unsigned char*>(privateKey.data()), privateKey.size(), key.get()) != CRYPT_OK) {
+	const password_ctx pCtx{
+		.callback = [](void** str, unsigned long* len, void* userdata) -> int {
+			const auto passphrase_ = *static_cast<std::string_view*>(userdata);
+			*len = passphrase_.size();
+			*str = std::malloc(*len);
+			std::memcpy(*str, passphrase_.data(), *len);
+			return CRYPT_OK;
+		},
+		.userdata = &passphrase,
+	};
+	if (rsa_import_pkcs8(reinterpret_cast<const unsigned char*>(privateKey.data()), privateKey.size(), &pCtx, key.get()) != CRYPT_OK) {
 		return {};
 	}
 
@@ -91,5 +102,9 @@ std::vector<std::byte> crypto::signDataWithSHA256PrivateKey(std::span<const std:
 	unsigned long signatureLen = rsa_get_size(key.get());
 	std::vector<std::byte> signature(signatureLen);
 	ltc_rsa_op_parameters params{ .params = { .hash_idx = SHA256_INDEX }, .padding = LTC_PKCS_1_V1_5 };
-	return rsa_sign_hash_v2(reinterpret_cast<const unsigned char*>(sha256.data()), sha256.size(), reinterpret_cast<unsigned char*>(signature.data()), &signatureLen, &params, key.get()) == CRYPT_OK ? signature : std::vector<std::byte>{};
+	if (rsa_sign_hash_v2(reinterpret_cast<const unsigned char*>(sha256.data()), sha256.size(), reinterpret_cast<unsigned char*>(signature.data()), &signatureLen, &params, key.get()) == CRYPT_OK) {
+		signature.resize(signatureLen);
+		return signature;
+	}
+	return {};
 }

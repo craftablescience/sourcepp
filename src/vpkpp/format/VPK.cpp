@@ -1,8 +1,18 @@
 // ReSharper disable CppRedundantQualifier
 
+/* TODO
+ *
+ * - Do a pass over VPK::bake
+ * - Add method to verify hashed chunks and call it in VPK::verifyPackFileChecksum
+ * - Test VPK::verifyPackFileSignature on a CS2 VPK
+ * - Implement new signing method in VPK::sign
+ * - Properly generate keypair files that use PKCS#8 in VPK::generateKeyPairFiles
+ * - Do a pass over C/Python bindings, update C# bindings
+ *
+ */
+
 #include <vpkpp/format/VPK.h>
 
-#include <cstdio>
 #include <filesystem>
 #include <format>
 
@@ -14,7 +24,6 @@
 #include <sourcepp/FS.h>
 #include <sourcepp/String.h>
 #include <tomcrypt.h>
-#include <vpkpp/format/FPX.h>
 
 #ifdef VPKPP_SUPPORT_VPK_V54
 #include <zstd.h>
@@ -24,73 +33,86 @@ using namespace kvpp;
 using namespace sourcepp;
 using namespace vpkpp;
 
+namespace {
+
 /// Runtime-only flag that indicates a file is going to be written to an existing archive file
 constexpr uint32_t VPK_FLAG_REUSING_CHUNK = 0x1;
 
-namespace {
-
-std::string removeVPKAndOrDirSuffix(const std::string& path, bool isFPX) {
+[[nodiscard]] std::string removeVPKAndOrDirSuffix(const std::string& path, VPK::Version version) {
 	std::string filename = path;
-	if (filename.length() >= 4 && filename.substr(filename.length() - 4) == (isFPX ? FPX_EXTENSION : VPK_EXTENSION)) {
-		filename = filename.substr(0, filename.length() - 4);
+	if (filename.size() >= 4 && filename.substr(filename.size() - 4) == (version == VPK::Version::TI_FPX_V10 ? FPX_EXTENSION : VPK_EXTENSION)) {
+		filename = filename.substr(0, filename.size() - 4);
 	}
 
 	// This indicates it's a dir VPK, but some people ignore this convention...
 	// It should fail later if it's not a proper dir VPK
-	if (filename.length() >= 4 && filename.substr(filename.length() - 4) == (isFPX ? FPX_DIR_SUFFIX : VPK_DIR_SUFFIX)) {
-		filename = filename.substr(0, filename.length() - 4);
+	if (filename.size() >= 4 && filename.substr(filename.size() - 4) == (version == VPK::Version::TI_FPX_V10 ? FPX_DIR_SUFFIX : VPK_DIR_SUFFIX)) {
+		filename = filename.substr(0, filename.size() - 4);
 	}
 
 	return filename;
 }
 
-bool isFPX(const VPK* vpk) {
-	return dynamic_cast<const FPX*>(vpk);
-}
-
 } // namespace
 
-std::unique_ptr<PackFile> VPK::create(const std::string& path, uint32_t version) {
-	if (version != 0 && version != 1 && version != 2 && version != 54) {
-		return nullptr;
-	}
-
+std::unique_ptr<PackFile> VPK::create(const std::string& path, Version version) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 
-		if (version > 0) {
-			Header1 header1{};
-			header1.signature = VPK_SIGNATURE;
-			header1.version = version;
-			header1.treeSize = 1;
-			stream.write(header1);
+		switch (version) {
+			case Version::VALVE_V0:
+				stream
+					.write('\0');
+				break;
+			case Version::VALVE_V1:
+				stream
+					.write(VPK_SIGNATURE)
+					.write(Version::VALVE_V1)
+					.write<uint32_t>(1) // tree size
+					.write('\0');
+				break;
+			case Version::VALVE_V2:
+			case Version::PROMOD_V54:
+				stream
+					.write(VPK_SIGNATURE)
+					.write(Version::VALVE_V1)
+					.write<uint32_t>(1) // tree size
+					.write<uint32_t>(0) // file data block size
+					.write<uint32_t>(0) // archive MD5 block size
+					.write<uint32_t>(0) // "other" MD5 block size
+					.write<uint32_t>(0) // signature block size
+					.write('\0');
+				break;
+			case Version::TI_FPX_V10:
+				stream
+					.write(FPX_SIGNATURE)
+					.write(Version::TI_FPX_V10)
+					.write<uint32_t>(1) // tree size
+					.write('\0');
+				break;
 		}
-		if (version > 1) {
-			Header2 header2{};
-			header2.fileDataSectionSize = 0;
-			header2.archiveMD5SectionSize = 0;
-			header2.otherMD5SectionSize = 0;
-			header2.signatureSectionSize = 0;
-			stream.write(header2);
-		}
-
-		stream.write('\0');
 	}
 	return VPK::open(path);
 }
 
 std::unique_ptr<PackFile> VPK::open(const std::string& path, const EntryCallback& callback) {
 	// Try loading the directory VPK first if this is a numbered archive and the dir exists
-	if (path.length() >= 8) {
-		const auto dirPath = path.substr(0, path.length() - 8) + "_dir.vpk";
-		const auto pathEnd = path.substr(path.length() - 8, path.length());
-		if (string::matches(pathEnd, "_%d%d%d.vpk") && std::filesystem::exists(dirPath)) {
-			if (std::unique_ptr<PackFile> vpk = VPK::openInternal(dirPath, callback)) {
-				return vpk;
+	if (path.size() >= 8) {
+		if (string::matches(path.substr(path.size() - 8, path.size()), "_%d%d%d" + std::string{FPX_EXTENSION}, true)) {
+			if (const auto dirPath = path.substr(0, path.size() - 8) + FPX_DIR_SUFFIX.data() + FPX_EXTENSION.data(); std::filesystem::exists(dirPath)) {
+				if (auto vpk = VPK::openInternal(dirPath, callback)) {
+					return vpk;
+				}
+			}
+		}
+		if (string::matches(path.substr(path.size() - 8, path.size()), "_%d%d%d" + std::string{VPK_EXTENSION}, true)) {
+			if (const auto dirPath = path.substr(0, path.size() - 8) + VPK_DIR_SUFFIX.data() + VPK_EXTENSION.data(); std::filesystem::exists(dirPath)) {
+				if (auto vpk = VPK::openInternal(dirPath, callback)) {
+					return vpk;
+				}
 			}
 		}
 	}
-
 	return VPK::openInternal(path, callback);
 }
 
@@ -105,8 +127,24 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 
 	FileStream reader{vpk->fullFilePath};
 	reader.seek_in(0);
-	reader.read(vpk->header1);
-	if (vpk->header1.signature != VPK_SIGNATURE) {
+
+	if (const auto signature = reader.read<uint32_t>(); signature == FPX_SIGNATURE) {
+		reader.read(vpk->version);
+		if (vpk->version != Version::TI_FPX_V10) {
+			// File is not an FPX
+			return nullptr;
+		}
+	} else if (signature == VPK_SIGNATURE) {
+		reader.read(vpk->version);
+		if (
+			vpk->version != Version::VALVE_V1 &&
+			vpk->version != Version::VALVE_V2 &&
+			vpk->version != Version::PROMOD_V54
+		) {
+			// Titanfall 1/2 are not supported currently
+			return nullptr;
+		}
+	} else {
 		reader.seek_in(3, std::ios::end);
 		if (reader.read<char>() == '\0' && reader.read<char>() == '\0' && reader.read<char>() == '\0') {
 			// hack: if file is 9 bytes long it's probably an empty VTMB VPK and we should bail so that code can pick it up
@@ -115,37 +153,40 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 				return nullptr;
 			}
 
-			// File is one of those shitty ancient VPKs
-			vpk->header1.signature = VPK_SIGNATURE;
-			vpk->header1.version = 0;
-			vpk->header1.treeSize = 0;
-
+			vpk->version = Version::VALVE_V0;
 			reader.seek_in(0);
 		} else {
 			// File is not a VPK
 			return nullptr;
 		}
 	}
-	if (vpk->hasExtendedHeader()) {
-		reader.read(vpk->header2);
-	} else if (vpk->header1.version != 0 && vpk->header1.version != 1) {
-		// Apex Legends, Titanfall, etc. are not supported
-		return nullptr;
+	vpk->versionModified = vpk->version;
+
+	vpk->headerSize = 0;
+	if (vpk->version != Version::VALVE_V0) {
+		reader >> vpk->treeSize;
+		vpk->headerSize += sizeof(uint32_t) * 3;
+		if (vpk->hasExtendedHeader()) {
+			reader
+				>> vpk->fileDataSize
+				>> vpk->hashedChunksSize
+				>> vpk->otherMD5Size
+				>> vpk->signatureSize;
+			vpk->headerSize += sizeof(uint32_t) * 4;
+		}
 	}
 
-	// Extensions
 	while (true) {
-		std::string extension;
-		reader.read(extension);
-		if (extension.empty())
+		const auto extension = reader.read_string();
+		if (extension.empty()) {
 			break;
+		}
 
-		// Directories
 		while (true) {
-			std::string directory;
-			reader.read(directory);
-			if (directory.empty())
+			const auto directory = reader.read_string();
+			if (directory.empty()) {
 				break;
+			}
 
 			std::string fullDir;
 			if (directory == " ") {
@@ -154,12 +195,11 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 				fullDir = directory;
 			}
 
-			// Files
 			while (true) {
-				std::string entryName;
-				reader.read(entryName);
-				if (entryName.empty())
+				const auto entryName = reader.read_string();
+				if (entryName.empty()) {
 					break;
+				}
 
 				Entry entry = createNewEntry();
 
@@ -180,12 +220,12 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 				entry.offset = reader.read<uint32_t>();
 				entry.length = reader.read<uint32_t>();
 
-				if (vpk->hasCompression()) {
+				if (vpk->version == Version::PROMOD_V54) {
 					entry.compressedLength = reader.read<uint32_t>();
 				}
 
-				if (reader.read<uint16_t>() != VPK_ENTRY_TERM) {
-					// Invalid terminator!
+				if (reader.read<uint16_t>() != 0xffff) {
+					// Invalid terminator
 					return nullptr;
 				}
 
@@ -194,10 +234,9 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 					entry.length += preloadedDataSize;
 				}
 
-				if (entry.archiveIndex != VPK_DIR_INDEX && std::cmp_greater(entry.archiveIndex, vpk->numArchives)) {
+				if (entry.archiveIndex != VPK_DIR_ARCHIVE_INDEX && std::cmp_greater(entry.archiveIndex, vpk->numArchives)) {
 					vpk->numArchives = static_cast<int32_t>(entry.archiveIndex);
 				}
-
 
 				vpk->entries.emplace(entryPath, entry);
 
@@ -207,49 +246,64 @@ std::unique_ptr<PackFile> VPK::openInternal(const std::string& path, const Entry
 			}
 		}
 	}
+	if (vpk->version == Version::VALVE_V0) {
+		vpk->treeSize = reader.tell_in();
+	}
 
 	// If there are no archives, -1 will be incremented to 0
 	vpk->numArchives++;
 
 	// VPK v1 has nothing else for us
 	if (!vpk->hasExtendedHeader()) {
+		vpk->fileDataSize = std::filesystem::file_size(vpk->fullFilePath) - vpk->treeSize - vpk->headerSize;
 		return packFile;
 	}
 
 	// Skip over file data, if any
-	reader.seek_in(vpk->header2.fileDataSectionSize, std::ios::cur);
+	reader.seek_in(vpk->fileDataSize, std::ios::cur);
 
-	if (vpk->header2.archiveMD5SectionSize % sizeof(MD5Entry) != 0) {
+	if (vpk->hashedChunksSize % sizeof(HashedChunk) != 0) {
 		return nullptr;
 	}
-
-	vpk->md5Entries.clear();
-	const unsigned int entryNum = vpk->header2.archiveMD5SectionSize / sizeof(MD5Entry);
-	for (unsigned int i = 0; i < entryNum; i++) {
-		vpk->md5Entries.push_back(reader.read<MD5Entry>());
+	const auto entryNum = vpk->hashedChunksSize / sizeof(HashedChunk);
+	for (uint32_t i = 0; i < entryNum; i++) {
+		auto& [archiveIndex, hashType, offset, length, hash] = vpk->hashedChunks.emplace_back();
+		reader >> archiveIndex >> hashType >> offset >> length >> hash;
 	}
 
-	if (vpk->header2.otherMD5SectionSize != 48) {
-		// This should always be 48
+	if (vpk->otherMD5Size != sizeof(vpk->treeChecksum) + sizeof(vpk->hashedChunksChecksum) + sizeof(vpk->wholeFileChecksum)) {
+		// We don't know how to handle the VPK otherwise
+		return nullptr;
+	}
+	vpk->treeChecksum = reader.read_bytes<16>();
+	vpk->hashedChunksChecksum = reader.read_bytes<16>();
+	vpk->wholeFileChecksum = reader.read_bytes<16>();
+
+	if (!vpk->signatureSize) {
 		return packFile;
 	}
-
-	vpk->footer2.treeChecksum = reader.read_bytes<16>();
-	vpk->footer2.md5EntriesChecksum = reader.read_bytes<16>();
-	vpk->footer2.wholeFileChecksum = reader.read_bytes<16>();
-
-	if (!vpk->header2.signatureSectionSize) {
-		return packFile;
+	if (auto publicKeySize = reader.read<uint32_t>(); publicKeySize == VPK_SIGNATURE) {
+		// New signature format in some recent Source 2 games
+		if (vpk->signatureSize <= 20) {
+			// Empty
+			return packFile;
+		}
+		reader.read(vpk->signatureType);
+		if (vpk->signatureType != SignatureType::WHOLE_FILE && vpk->signatureType != SignatureType::WHOLE_FILE_CHECKSUM) {
+			// Unknown signature type
+			vpk->signatureType = SignatureType::UNKNOWN;
+			return packFile;
+		}
+		reader.read<uint32_t>(publicKeySize);
+		const auto realSignatureSize = reader.read<uint32_t>();
+		reader.skip_in<uint32_t>();
+		vpk->publicKey = reader.read_bytes(publicKeySize);
+		vpk->signature = reader.read_bytes(realSignatureSize);
+	} else {
+		vpk->signatureType = SignatureType::LEGACY;
+		vpk->publicKey = reader.read_bytes(publicKeySize);
+		vpk->signature = reader.read_bytes(reader.read<int32_t>());
 	}
-
-	const auto publicKeySize = reader.read<int32_t>();
-	if (vpk->header2.signatureSectionSize == 20 && publicKeySize == VPK_SIGNATURE) {
-		// CS2 beta VPK, ignore it
-		return packFile;
-	}
-
-	vpk->footer2.publicKey = reader.read_bytes(publicKeySize);
-	vpk->footer2.signature = reader.read_bytes(reader.read<int32_t>());
 
 	return packFile;
 }
@@ -263,57 +317,54 @@ bool VPK::hasPackFileChecksum() const {
 }
 
 bool VPK::verifyPackFileChecksum() const {
-	// File checksums aren't in v1
+	// File checksums are only in VALVE_V2 and PROMOD_V54
 	if (!this->hasExtendedHeader()) {
 		return true;
 	}
 
 	FileStream stream{this->getFilepath().data()};
-
-	stream.seek_in(this->getHeaderLength());
-	if (this->footer2.treeChecksum != crypto::computeMD5(stream.read_bytes(this->header1.treeSize))) {
-		return false;
-	}
-
-	stream.seek_in(this->getHeaderLength() + this->header1.treeSize + this->header2.fileDataSectionSize);
-	if (this->footer2.md5EntriesChecksum != crypto::computeMD5(stream.read_bytes(this->header2.archiveMD5SectionSize))) {
-		return false;
-	}
-
-	stream.seek_in(0);
-	if (this->footer2.wholeFileChecksum != crypto::computeMD5(stream.read_bytes(this->getHeaderLength() + this->header1.treeSize + this->header2.fileDataSectionSize + this->header2.archiveMD5SectionSize + this->header2.otherMD5SectionSize - sizeof(this->footer2.wholeFileChecksum)))) {
-		return false;
-	}
-
-	return true;
+	return
+		this->treeChecksum == crypto::computeMD5(stream.seek_in(this->headerSize).read_bytes(this->treeSize)) &&
+		this->hashedChunksChecksum == crypto::computeMD5(stream.seek_in(this->headerSize + this->treeSize + this->fileDataSize).read_bytes(this->hashedChunksSize)) &&
+		this->wholeFileChecksum == crypto::computeMD5(stream.seek_in(0).read_bytes(this->headerSize + this->treeSize + this->fileDataSize + this->hashedChunksSize + this->otherMD5Size - sizeof(this->wholeFileChecksum)));
 }
 
 bool VPK::hasPackFileSignature() const {
 	if (!this->hasExtendedHeader()) {
 		return false;
 	}
-	if (this->footer2.publicKey.empty() || this->footer2.signature.empty()) {
+	if (this->publicKey.empty() || this->signature.empty()) {
 		return false;
 	}
 	return true;
 }
 
 bool VPK::verifyPackFileSignature() const {
-	// Signatures aren't in v1
-	if (!this->hasExtendedHeader()) {
+	// Signatures are only supported in VPKs that can hold them
+	if (!this->hasExtendedHeader() || this->publicKey.empty() || this->signature.empty()) {
 		return true;
 	}
-
-	if (this->footer2.publicKey.empty() || this->footer2.signature.empty()) {
-		return true;
+	switch (this->signatureType) {
+		case SignatureType::UNKNOWN:
+			break;
+		case SignatureType::LEGACY:
+		case SignatureType::WHOLE_FILE: {
+			auto dirFileBuffer = fs::readFileBuffer(this->getFilepath().data());
+			const auto signatureSectionSize = this->publicKey.size() + this->signature.size() + sizeof(uint32_t) * 2;
+			if (dirFileBuffer.size() <= signatureSectionSize) {
+				return false;
+			}
+			dirFileBuffer.resize(dirFileBuffer.size() - signatureSectionSize);
+			return crypto::verifyPublicKeySHA256(dirFileBuffer, this->publicKey, this->signature);
+		}
+		case SignatureType::WHOLE_FILE_CHECKSUM: {
+			if (!this->verifyPackFileChecksum()) {
+				return false;
+			}
+			return crypto::verifyPublicKeySHA256(this->wholeFileChecksum, this->publicKey, this->signature);
+		}
 	}
-	auto dirFileBuffer = fs::readFileBuffer(this->getFilepath().data());
-	const auto signatureSectionSize = this->footer2.publicKey.size() + this->footer2.signature.size() + sizeof(uint32_t) * 2;
-	if (dirFileBuffer.size() <= signatureSectionSize) {
-		return false;
-	}
-	dirFileBuffer.resize(dirFileBuffer.size() - signatureSectionSize);
-	return crypto::verifySHA256PublicKey(dirFileBuffer, this->footer2.publicKey, this->footer2.signature);
+	return false;
 }
 
 // NOLINTNEXTLINE(*-no-recursion)
@@ -337,24 +388,24 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 		std::ranges::copy(entry->extraData, out.begin());
 	}
 	if (entryLength != entry->extraData.size()) {
-		if (entry->archiveIndex != VPK_DIR_INDEX) {
+		if (entry->archiveIndex != VPK_DIR_ARCHIVE_INDEX) {
 			// Stored in a numbered archive
-			FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry->archiveIndex, 3) + std::string{::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION}};
+			FileStream stream{this->getTruncatedFilepath() + '_' + string::padNumber(entry->archiveIndex, 3) + std::string{this->version == Version::TI_FPX_V10 ? FPX_EXTENSION : VPK_EXTENSION}};
 			if (!stream) {
 				return std::nullopt;
 			}
 			stream.seek_in_u(entry->offset);
 			auto bytes = stream.read_bytes(entryLength - entry->extraData.size());
-			std::ranges::copy(bytes, out.begin() + static_cast<long long>(entry->extraData.size()));
+			std::ranges::copy(bytes, out.begin() + static_cast<ptrdiff_t>(entry->extraData.size()));
 		} else {
 			// Stored in this directory VPK
 			FileStream stream{this->fullFilePath};
 			if (!stream) {
 				return std::nullopt;
 			}
-			stream.seek_in_u(this->getHeaderLength() + this->header1.treeSize + entry->offset);
+			stream.seek_in_u(this->headerSize + this->treeSize + entry->offset);
 			auto bytes = stream.read_bytes(entry->length - entry->extraData.size());
-			std::ranges::copy(bytes, out.begin() + static_cast<long long>(entry->extraData.size()));
+			std::ranges::copy(bytes, out.begin() + static_cast<ptrdiff_t>(entry->extraData.size()));
 		}
 	}
 
@@ -390,7 +441,7 @@ std::optional<std::vector<std::byte>> VPK::readEntry(const std::string& path_) c
 	decompressedData.resize(entry->length);
 
 	if (ZSTD_isError(ZSTD_decompress_usingDDict(dCtx.get(), decompressedData.data(), decompressedData.size(), out.data(), out.size(), dDict.get()))) {
-		return {};
+		return std::nullopt;
 	}
 	return decompressedData;
 #endif
@@ -409,7 +460,7 @@ void VPK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::by
 	// Compressed entries will not replace existing chunks, since their size is unknown
 	entry.flags = 0;
 	entry.offset = 0;
-	entry.archiveIndex = options.vpk_saveToDirectory ? VPK_DIR_INDEX : this->numArchives;
+	entry.archiveIndex = options.vpk_saveToDirectory ? VPK_DIR_ARCHIVE_INDEX : this->numArchives;
 	if (!options.vpk_saveToDirectory && !this->freedChunks.empty() && !this->hasCompression()) {
 		int64_t bestChunkIndex = -1;
 		std::size_t currentChunkGap = SIZE_MAX;
@@ -495,7 +546,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::optional<std::vector<std::byte>> compressionDict;
 	std::unique_ptr<ZSTD_CDict, void(*)(void*)> cDict{nullptr, nullptr};
 	std::unique_ptr<ZSTD_CCtx, void(*)(void*)> cCtx{nullptr, nullptr};
-	if (this->hasCompression()) {
+	if (this->version == Version::PROMOD_V54) {
 		compressionDict = this->readEntry(this->getTruncatedFilestem() + ".dict");
 		if (!compressionDict) {
 			return false;
@@ -545,7 +596,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	std::vector<std::byte> dirVPKEntryData;
 	std::size_t newDirEntryOffset = 0;
 	this->runForAllEntriesInternal([this, &dirVPKEntryData, &newDirEntryOffset](const std::string& path, Entry& entry) {
-		if (entry.archiveIndex != VPK_DIR_INDEX || entry.length == entry.extraData.size()) {
+		if (entry.archiveIndex != VPK_DIR_ARCHIVE_INDEX || entry.length == entry.extraData.size()) {
 			return;
 		}
 
@@ -562,7 +613,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Helper
 	const auto getArchiveFilename = [this](const std::string& filename_, uint32_t archiveIndex) {
-		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + std::string{::isFPX(this) ? FPX_EXTENSION : VPK_EXTENSION}};
+		std::string out{filename_ + '_' + string::padNumber(archiveIndex, 3) + std::string{this->version == Version::TI_FPX_V10 ? FPX_EXTENSION : VPK_EXTENSION}};
 		string::normalizeSlashes(out);
 		return out;
 	};
@@ -587,10 +638,17 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	outDir.seek_out(0);
 
 	// Dummy header
-	if (this->header1.version > 0) {
-		outDir.write(this->header1);
+	if (this->version != Version::VALVE_V0) {
+		outDir
+			.write(this->version == Version::TI_FPX_V10 ? FPX_SIGNATURE : VPK_SIGNATURE)
+			.write(this->version)
+			.write(this->treeSize);
 		if (this->hasExtendedHeader()) {
-			outDir.write(this->header2);
+			outDir
+				.write(this->fileDataSize)
+				.write(this->hashedChunksSize)
+				.write(this->otherMD5Size)
+				.write(this->signatureSize);
 		}
 	}
 
@@ -611,23 +669,23 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 					if (entry->length == entry->extraData.size() && !this->hasCompression()) {
 						// Override the archive index, no need for an archive VPK
-						entry->archiveIndex = VPK_DIR_INDEX;
+						entry->archiveIndex = VPK_DIR_ARCHIVE_INDEX;
 						entry->offset = dirVPKEntryData.size();
-					} else if (entry->archiveIndex != VPK_DIR_INDEX && entry->flags & VPK_FLAG_REUSING_CHUNK) {
+					} else if (entry->archiveIndex != VPK_DIR_ARCHIVE_INDEX && entry->flags & VPK_FLAG_REUSING_CHUNK) {
 						// The entry is replacing pre-existing data in a VPK archive - it's not compressed
-						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
+						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, this->version), entry->archiveIndex);
 						FileStream stream{archiveFilename, FileStream::OPT_READ | FileStream::OPT_WRITE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 						stream.seek_out_u(entry->offset);
 						stream.write(*entryData);
-					} else if (entry->archiveIndex != VPK_DIR_INDEX) {
+					} else if (entry->archiveIndex != VPK_DIR_ARCHIVE_INDEX) {
 						// The entry is being appended to a newly created VPK archive
-						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, ::isFPX(this)), entry->archiveIndex);
+						auto archiveFilename = getArchiveFilename(::removeVPKAndOrDirSuffix(outputPath, this->version), entry->archiveIndex);
 						entry->offset = std::filesystem::exists(archiveFilename) ? std::filesystem::file_size(archiveFilename) : 0;
 						FileStream stream{archiveFilename, FileStream::OPT_APPEND | FileStream::OPT_CREATE_IF_NONEXISTENT};
 #ifndef VPKPP_SUPPORT_VPK_V54
 						stream.write(*entryData);
 #else
-						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
+						if (this->version != Version::PROMOD_V54 || path == this->getTruncatedFilestem() + ".dict") {
 							stream.write(*entryData);
 						} else {
 							std::vector<std::byte> compressedData;
@@ -646,7 +704,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 #ifndef VPKPP_SUPPORT_VPK_V54
 						dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
 #else
-						if (!this->hasCompression() || path == this->getTruncatedFilestem() + ".dict") {
+						if (this->version != Version::PROMOD_V54 || path == this->getTruncatedFilestem() + ".dict") {
 							dirVPKEntryData.insert(dirVPKEntryData.end(), entryData->data(), entryData->data() + entryData->size());
 						} else {
 							std::vector<std::byte> compressedData;
@@ -672,11 +730,11 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 				outDir.write<uint32_t>(entry->offset);
 				outDir.write<uint32_t>(entry->length - entry->extraData.size());
 
-				if (this->hasCompression()) {
+				if (this->version == Version::PROMOD_V54) {
 					outDir.write<uint32_t>(entry->compressedLength - entry->extraData.size());
 				}
 
-				outDir.write(VPK_ENTRY_TERM);
+				outDir.write<uint32_t>(0xffff);
 
 				if (!entry->extraData.empty()) {
 					outDir.write(entry->extraData);
@@ -701,100 +759,100 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 	this->mergeUnbakedEntries();
 
 	// Calculate Header1
-	this->header1.treeSize = outDir.tell_out() - dirVPKEntryData.size() - this->getHeaderLength();
+	this->treeSize = outDir.tell_out() - dirVPKEntryData.size() - this->headerSize;
 
 	// Non-v1 stuff
 	if (this->hasExtendedHeader()) {
 		// Calculate hashes for all entries
-		this->md5Entries.clear();
-		if (options.vpk_generateMD5Entries) {
+		this->hashedChunks.clear();
+		if (options.vpk_generateHashedChunks != BakeOptions::VPKHashBlockType::NONE) {
 			this->runForAllEntries([this](const std::string& path, const Entry& entry) {
 				const auto binData = this->readEntry(path);
 				if (!binData) {
 					return;
 				}
-				const MD5Entry md5Entry{
-					.archiveIndex = entry.archiveIndex,
+				const HashedChunk hashedChunk{
+					.archiveIndex = static_cast<uint16_t>(entry.archiveIndex),
+					.hashType = HashedChunk::HashType::MD5, // todo
 					.offset = static_cast<uint32_t>(entry.offset),
 					.length = static_cast<uint32_t>(entry.length - entry.extraData.size()),
-					.checksum = crypto::computeMD5(*binData),
+					.hash = crypto::computeMD5(*binData),
 				};
-				this->md5Entries.push_back(md5Entry);
+				this->hashedChunks.push_back(hashedChunk);
 			}, false);
 		}
 
 		// Calculate Header2
-		this->header2.fileDataSectionSize = dirVPKEntryData.size();
-		this->header2.archiveMD5SectionSize = this->md5Entries.size() * sizeof(MD5Entry);
-		this->header2.otherMD5SectionSize = 48;
-		this->header2.signatureSectionSize = 0;
+		this->fileDataSize = dirVPKEntryData.size();
+		this->hashedChunksSize = this->hashedChunks.size() * sizeof(HashedChunk);
+		this->otherMD5Size = 48;
+		this->signatureSize = 0;
 
 		// Calculate Footer2
 		hash_state wholeFileChecksumMD5;
 		md5_init(&wholeFileChecksumMD5);
 		{
-			// Only the tree is updated in the file right now
-			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header1), sizeof(this->header1));
-			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header2), sizeof(this->header2));
+			//md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header1), sizeof(this->header1));
+			//md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(&this->header2), sizeof(this->header2));
 		}
 		{
-			outDir.seek_in(sizeof(Header1) + sizeof(Header2));
-			if (this->header1.treeSize > 0) {
-				std::vector<std::byte> treeData = outDir.read_bytes(this->header1.treeSize);
+			//outDir.seek_in(sizeof(Header1) + sizeof(Header2));
+			if (this->treeSize > 0) {
+				std::vector<std::byte> treeData = outDir.read_bytes(this->treeSize);
 				md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(treeData.data()), treeData.size());
-				this->footer2.treeChecksum = crypto::computeMD5(treeData);
+				this->treeChecksum = crypto::computeMD5(treeData);
 			} else {
-				this->footer2.treeChecksum = {};
+				this->treeChecksum = {};
 			}
 		}
 		if (!dirVPKEntryData.empty()) {
 			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(dirVPKEntryData.data()), dirVPKEntryData.size());
 		}
 		{
-			if (!this->md5Entries.empty()) {
-				md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry));
-				this->footer2.md5EntriesChecksum = crypto::computeMD5({reinterpret_cast<const std::byte*>(this->md5Entries.data()), this->md5Entries.size() * sizeof(MD5Entry)});
+			if (!this->hashedChunks.empty()) {
+				md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->hashedChunks.data()), this->hashedChunks.size() * sizeof(HashedChunk));
+				this->hashedChunksChecksum = crypto::computeMD5({reinterpret_cast<const std::byte*>(this->hashedChunks.data()), this->hashedChunks.size() * sizeof(HashedChunk)});
 			} else {
-				this->footer2.md5EntriesChecksum = {};
+				this->hashedChunksChecksum = {};
 			}
 		}
-		if (!this->footer2.treeChecksum.empty()) {
-			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->footer2.treeChecksum.data()), this->footer2.treeChecksum.size());
+		if (!this->treeChecksum.empty()) {
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->treeChecksum.data()), this->treeChecksum.size());
 		}
-		if (!this->footer2.md5EntriesChecksum.empty()) {
-			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->footer2.md5EntriesChecksum.data()), this->footer2.md5EntriesChecksum.size());
+		if (!this->hashedChunksChecksum.empty()) {
+			md5_process(&wholeFileChecksumMD5, reinterpret_cast<const unsigned char*>(this->hashedChunksChecksum.data()), this->hashedChunksChecksum.size());
 		}
-		md5_done(&wholeFileChecksumMD5, reinterpret_cast<unsigned char*>(this->footer2.wholeFileChecksum.data()));
+		md5_done(&wholeFileChecksumMD5, reinterpret_cast<unsigned char*>(this->wholeFileChecksum.data()));
 
 		// We can't recalculate the signature without the private key
-		this->footer2.publicKey.clear();
-		this->footer2.signature.clear();
+		this->publicKey.clear();
+		this->signature.clear();
 	}
 
 	// Ancient crap VPK with no header
-	if (this->header1.version == 0) {
+	if (this->version == Version::VALVE_V0) {
 		PackFile::setFullFilePath(outputDir);
 		return true;
 	}
 
 	// Write new headers
 	outDir.seek_out(0);
-	outDir.write(this->header1);
+	//outDir.write(this->header1);
 
-	// MD5 hashes, file signature
+	// MD5/BLAKE3 hashes, file signature
 	if (!this->hasExtendedHeader()) {
 		PackFile::setFullFilePath(outputDir);
 		return true;
 	}
 
-	outDir.write(this->header2);
+	//outDir.write(this->header2);
 
 	// Add MD5 hashes
-	outDir.seek_out_u(sizeof(Header1) + sizeof(Header2) + this->header1.treeSize + dirVPKEntryData.size());
-	outDir.write(this->md5Entries);
-	outDir.write(this->footer2.treeChecksum);
-	outDir.write(this->footer2.md5EntriesChecksum);
-	outDir.write(this->footer2.wholeFileChecksum);
+	//outDir.seek_out_u(sizeof(Header1) + sizeof(Header2) + this->treeSize + dirVPKEntryData.size());
+	outDir.write(this->hashedChunks);
+	outDir.write(this->treeChecksum);
+	outDir.write(this->hashedChunksChecksum);
+	outDir.write(this->wholeFileChecksum);
 
 	// The signature section is not present
 	PackFile::setFullFilePath(outputDir);
@@ -804,8 +862,8 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 std::string VPK::getTruncatedFilestem() const {
 	std::string filestem = this->getFilestem();
 	// This indicates it's a dir VPK, but some people ignore this convention...
-	if (filestem.length() >= 4 && filestem.substr(filestem.length() - 4) == (::isFPX(this) ? FPX_DIR_SUFFIX : VPK_DIR_SUFFIX)) {
-		filestem = filestem.substr(0, filestem.length() - 4);
+	if (filestem.size() >= 4 && filestem.substr(filestem.size() - 4) == (this->version == Version::TI_FPX_V10 ? FPX_DIR_SUFFIX : VPK_DIR_SUFFIX)) {
+		filestem = filestem.substr(0, filestem.size() - 4);
 	}
 	return filestem;
 }
@@ -816,41 +874,60 @@ Attribute VPK::getSupportedEntryAttributes() const {
 }
 
 VPK::operator std::string() const {
-	return PackFile::operator std::string() + std::format(" | Version v{}", this->header1.version);
+	return PackFile::operator std::string() + std::format(" | Version v{}", static_cast<uint32_t>(this->version));
 }
 
-bool VPK::generateKeyPairFiles(const std::string& name) {
-	const auto [privateKey, publicKey] = crypto::computeSHA256KeyPair(1024);
+void VPK::generateKeyPairFiles(const std::filesystem::path& base, SignatureType signatureType, std::string_view passphrase) {
+	// todo: passphrase
+	const auto [privateKey, publicKey] = crypto::computeRSAKeyPair(getSignatureSize(signatureType));
+	const auto publicKeyHex = string::encodeHex(publicKey);
 	{
-		const auto privateKeyPath = name + ".privatekey.vdf";
+		auto privateKeyPath = base;
+		privateKeyPath.replace_extension(".privatekey.vdf");
 		FileStream stream{privateKeyPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
+		stream.write(std::format(R"(// Private key file.
+// This key can be used to sign files.  Third parties can verify your signature by using your public key.
+//
+// THIS KEY SHOULD BE KEPT SECRET
+//
+// You should share your public key freely, but anyone who has your private key will be able to impersonate you.
+private_key
+{{
+	type "rsa"
+	rsa_private_key "{}"
 
-		std::string output;
-		// Template size, remove %s and %s, add key sizes, add null terminator size
-		output.resize(VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE.size() - 4 + privateKey.size() + publicKey.size() + 1);
-		if (std::sprintf(output.data(), VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE.data(), privateKey.data(), publicKey.data()) < 0) {
-			return false;
-		}
-		output.pop_back();
-		stream.write(output, false);
+
+	// Note: the private key is stored in plaintext.  It is not encrypted or protected by a password.
+	//       Anyone who obtains this key can use it to sign files.
+	private_key_encrypted {}
+
+	// The public key that corresponds to this private key.  The public keyfile you can share with others is
+	// saved in another file, but the key data is duplicated here to help you confirm which public key matches
+	// with this private key.
+	public_key
+	{{
+		type "rsa"
+		rsa_public_key "{}"
+	}}
+}}
+)", string::encodeHex(privateKey), static_cast<int>(!passphrase.empty()), publicKeyHex), false);
 	}
 	{
-		const auto publicKeyPath = name + ".publickey.vdf";
+		auto publicKeyPath = base;
+		publicKeyPath.replace_extension(".publickey.vdf");
 		FileStream stream{publicKeyPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
-
-		std::string output;
-		// Template size, remove %s, add key size, add null terminator size
-		output.resize(VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE.size() - 2 + publicKey.size() + 1);
-		if (std::sprintf(output.data(), VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE.data(), publicKey.data()) < 0) {
-			return false;
-		}
-		output.pop_back();
-		stream.write(output, false);
+		stream.write(std::format(R"(// Public key file.  You can publish this key file and share it with the world.
+// It can be used by third parties to verify any signatures made with the corresponding private key.
+public_key
+{{
+	type "rsa"
+	rsa_public_key "{}"
+}}
+)", publicKeyHex), false);
 	}
-	return true;
 }
 
-bool VPK::sign(const std::string& filename_) {
+bool VPK::sign(const std::filesystem::path& filename_, SignatureType signatureType_, std::string_view passphrase) {
 	if (!this->hasExtendedHeader() || !std::filesystem::exists(filename_) || std::filesystem::is_directory(filename_)) {
 		return false;
 	}
@@ -866,57 +943,94 @@ bool VPK::sign(const std::string& filename_) {
 		return false;
 	}
 
-	return this->sign(string::decodeHex(privateKeyHex), string::decodeHex(publicKeyHex));
+	return this->sign(string::decodeHex(privateKeyHex), string::decodeHex(publicKeyHex), signatureType_, passphrase);
 }
 
-bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::byte>& publicKey) {
+bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::byte>& publicKey_, SignatureType signatureType_, std::string_view passphrase) {
+	const auto failureHandler = [this, oldSignatureType = this->signatureType, oldSignatureSize = this->signatureSize] {
+		this->signatureType = oldSignatureType;
+		this->signatureSize = oldSignatureSize;
+		this->publicKey.clear();
+		this->signature.clear();
+		return false;
+	};
+
 	if (!this->hasExtendedHeader()) {
-		return false;
+		return failureHandler();
 	}
+	this->signatureType = signatureType_;
+	this->publicKey = publicKey_;
 
-	this->header2.signatureSectionSize = this->footer2.publicKey.size() + this->footer2.signature.size() + sizeof(uint32_t) * 2;
-	{
-		FileStream stream{std::string{this->getFilepath()}, FileStream::OPT_READ | FileStream::OPT_WRITE};
-		stream.seek_out(sizeof(Header1));
-		stream.write(this->header2);
-	}
+	switch (this->signatureType) {
+		case SignatureType::UNKNOWN:
+			break;
+		case SignatureType::LEGACY: {
+			auto dirFileBuffer = fs::readFileBuffer(std::string{this->getFilepath()});
+			if (dirFileBuffer.size() <= this->signatureSize) {
+				return failureHandler();
+			}
+			dirFileBuffer.resize(dirFileBuffer.size() - this->signatureSize);
 
-	auto dirFileBuffer = fs::readFileBuffer(std::string{this->getFilepath()});
-	if (dirFileBuffer.size() <= this->header2.signatureSectionSize) {
-		return false;
-	}
-	for (int i = 0; i < this->header2.signatureSectionSize; i++) {
-		dirFileBuffer.pop_back();
-	}
-	this->footer2.publicKey = publicKey;
-	this->footer2.signature = crypto::signDataWithSHA256PrivateKey(dirFileBuffer, privateKey);
+			uint16_t expectedSignatureSize = getSignatureSize(signatureType_) / 8;
+			this->signatureSize = sizeof(uint32_t) + publicKey_.size() + sizeof(uint32_t) + expectedSignatureSize;
+			{
+				BufferStream stream{dirFileBuffer};
+				stream.seek_u(this->headerSize - sizeof(uint32_t)).write<uint32_t>(this->signatureSize);
+			}
 
-	{
-		FileStream stream{std::string{this->getFilepath()}, FileStream::OPT_READ | FileStream::OPT_WRITE};
-		stream.seek_out(this->getHeaderLength() + this->header1.treeSize + this->header2.fileDataSectionSize + this->header2.archiveMD5SectionSize + this->header2.otherMD5SectionSize);
-		stream.write(static_cast<uint32_t>(this->footer2.publicKey.size()));
-		stream.write(this->footer2.publicKey);
-		stream.write(static_cast<uint32_t>(this->footer2.signature.size()));
-		stream.write(this->footer2.signature);
+			this->signature = crypto::signDataWithPrivateKeySHA256(dirFileBuffer, privateKey);
+			if (this->signature.empty()) {
+				return failureHandler();
+			}
+			if (this->signature.size() != expectedSignatureSize) {
+				expectedSignatureSize = this->signature.size();
+				this->signatureSize = sizeof(uint32_t) + publicKey_.size() + sizeof(uint32_t) + expectedSignatureSize;
+
+				{
+					BufferStream stream{dirFileBuffer};
+					stream.seek_u(this->headerSize - sizeof(uint32_t)).write<uint32_t>(this->signatureSize);
+				}
+
+				this->signature = crypto::signDataWithPrivateKeySHA256(dirFileBuffer, privateKey);
+				if (this->signature.empty() || this->signature.size() != expectedSignatureSize) {
+					return failureHandler();
+				}
+			}
+
+			{
+				FileStream stream{std::string{this->getFilepath()}, FileStream::OPT_READ | FileStream::OPT_WRITE};
+				stream
+					.seek_out_u(this->headerSize - sizeof(uint32_t))
+					.write<uint32_t>(this->signatureSize)
+					.seek_out(this->headerSize + this->treeSize + this->fileDataSize + this->hashedChunksSize + this->otherMD5Size)
+					.write<uint32_t>(this->publicKey.size())
+					.write(this->publicKey)
+					.write<uint32_t>(this->signature.size())
+					.write(this->signature);
+			}
+			if (
+				const auto expectedFileSize = this->headerSize + this->treeSize + this->fileDataSize + this->hashedChunksSize + this->otherMD5Size + this->signatureSize;
+				expectedFileSize < std::filesystem::file_size(this->getFilepath())
+			) {
+				std::filesystem::resize_file(this->getFilepath(), expectedFileSize);
+			}
+			return true;
+		}
+		case SignatureType::WHOLE_FILE:
+		case SignatureType::WHOLE_FILE_CHECKSUM: {
+			// todo
+			break;
+		}
 	}
-	return true;
+	return false;
 }
 
-uint32_t VPK::getVersion() const {
-	return this->header1.version;
+VPK::Version VPK::getVersion() const {
+	return this->versionModified;
 }
 
-void VPK::setVersion(uint32_t version) {
-	// Version must be supported, we cannot be an FPX, and version must be different
-	if ((version != 0 && version != 1 && version != 2 && version != 54) || ::isFPX(this) || version == this->header1.version) {
-		return;
-	}
-	this->header1.version = version;
-
-	// Clearing these isn't necessary, but might as well
-	this->header2 = {};
-	this->footer2 = {};
-	this->md5Entries.clear();
+void VPK::setVersion(Version version_) {
+	this->versionModified = version_;
 }
 
 uint32_t VPK::getChunkSize() const {
@@ -928,16 +1042,9 @@ void VPK::setChunkSize(uint32_t newChunkSize) {
 }
 
 bool VPK::hasExtendedHeader() const {
-	return this->header1.version == 2 || this->header1.version == 54;
+	return this->version == Version::VALVE_V2 || this->version == Version::PROMOD_V54;
 }
 
 bool VPK::hasCompression() const {
-	return this->header1.version == 54;
-}
-
-uint32_t VPK::getHeaderLength() const {
-	if (!this->hasExtendedHeader()) {
-		return sizeof(Header1);
-	}
-	return sizeof(Header1) + sizeof(Header2);
+	return this->version == Version::PROMOD_V54;
 }

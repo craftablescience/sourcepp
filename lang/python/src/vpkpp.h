@@ -74,12 +74,19 @@ inline void register_python(py::module_& m) {
 		.value("XZ",          EntryCompressionType::XZ)
 		.value("PPMD",        EntryCompressionType::PPMD);
 
-	py::class_<BakeOptions>(vpkpp, "BakeOptions")
+	auto cBakeOptions = py::class_<BakeOptions>(vpkpp, "BakeOptions");
+
+	py::enum_<BakeOptions::VPKHashBlockType>(cBakeOptions, "VPKHashBlockType")
+		.value("NONE",   BakeOptions::VPKHashBlockType::NONE)
+		.value("MD5",    BakeOptions::VPKHashBlockType::MD5)
+		.value("BLAKE3", BakeOptions::VPKHashBlockType::BLAKE3);
+
+	cBakeOptions
 		.def(py::init())
 		.def_rw("zip_compression_type_override", &BakeOptions::zip_compressionTypeOverride)
 		.def_rw("zip_compression_strength", &BakeOptions::zip_compressionStrength)
 		.def_rw("gma_write_crcs", &BakeOptions::gma_writeCRCs)
-		.def_rw("vpk_generate_md5_entries", &BakeOptions::vpk_generateMD5Entries);
+		.def_rw("vpk_generate_hashed_chunks", &BakeOptions::vpk_generateHashedChunks);
 
 	py::class_<EntryOptions>(vpkpp, "EntryOptions")
 		.def(py::init())
@@ -173,16 +180,6 @@ inline void register_python(py::module_& m) {
 		.def_static("open", &FGP::open, "path"_a, "callback"_a = nullptr)
 		.def_prop_rw("loading_screen_filepath", &FGP::getLoadingScreenFilePath, &FGP::setLoadingScreenFilePath)
 		.def_static("hash_filepath", &FGP::hashFilePath);
-
-	vpkpp.attr("FPX_SIGNATURE") = FPX_SIGNATURE;
-	vpkpp.attr("FPX_DIR_SUFFIX") = FPX_DIR_SUFFIX;
-	vpkpp.attr("FPX_EXTENSION") = FPX_EXTENSION;
-
-	auto cVPK = py::class_<VPK, PackFile>(vpkpp, "VPK");
-
-	py::class_<FPX, VPK>(vpkpp, "FPX")
-		.def_static("create", &FPX::create, "path"_a)
-		.def_static("open", &FPX::open, "path"_a, "callback"_a = nullptr);
 
 	vpkpp.attr("GCF_EXTENSION") = GCF_EXTENSION;
 
@@ -297,28 +294,43 @@ inline void register_python(py::module_& m) {
 		.def_prop_rw("sector_size", &TAB::getSectorSize, &TAB::setSectorSize)
 		.def_static("hash_filepath", &FGP::hashFilePath);
 
+	vpkpp.attr("FPX_SIGNATURE") = FPX_SIGNATURE;
+	vpkpp.attr("FPX_DIR_SUFFIX") = FPX_DIR_SUFFIX;
+	vpkpp.attr("FPX_EXTENSION") = FPX_EXTENSION;
 	vpkpp.attr("VPK_SIGNATURE") = VPK_SIGNATURE;
-	vpkpp.attr("VPK_DIR_INDEX") = VPK_DIR_INDEX;
-	vpkpp.attr("VPK_ENTRY_TERM") = VPK_ENTRY_TERM;
 	vpkpp.attr("VPK_DIR_SUFFIX") = VPK_DIR_SUFFIX;
 	vpkpp.attr("VPK_EXTENSION") = VPK_EXTENSION;
-	vpkpp.attr("VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE") = VPK_KEYPAIR_PUBLIC_KEY_TEMPLATE;
-	vpkpp.attr("VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE") = VPK_KEYPAIR_PRIVATE_KEY_TEMPLATE;
+	vpkpp.attr("VPK_DIR_ARCHIVE_INDEX") = VPK_DIR_ARCHIVE_INDEX;
 	vpkpp.attr("VPK_MAX_PRELOAD_BYTES") = VPK_MAX_PRELOAD_BYTES;
 	vpkpp.attr("VPK_DEFAULT_CHUNK_SIZE") = VPK_DEFAULT_CHUNK_SIZE;
 
+	auto cVPK = py::class_<VPK, PackFile>(vpkpp, "VPK");
+
+	py::enum_<VPK::Version>(cVPK, "Version")
+		.value("VALVE_V0",   VPK::Version::VALVE_V0)
+		.value("VALVE_V1",   VPK::Version::VALVE_V1)
+		.value("VALVE_V2",   VPK::Version::VALVE_V2)
+		.value("TI_FPX_V10", VPK::Version::TI_FPX_V10)
+		.value("PROMOD_V54", VPK::Version::PROMOD_V54);
+
+	py::enum_<VPK::SignatureType>(cVPK, "SignatureType")
+		.value("UNKNOWN",             VPK::SignatureType::UNKNOWN)
+		.value("LEGACY",              VPK::SignatureType::LEGACY)
+		.value("WHOLE_FILE",          VPK::SignatureType::WHOLE_FILE)
+		.value("WHOLE_FILE_CHECKSUM", VPK::SignatureType::WHOLE_FILE_CHECKSUM);
+
 	cVPK
-		.def_static("create", &VPK::create, "path"_a, "version"_a = 2)
+		.def_static("create", &VPK::create, "path"_a, "version"_a = VPK::Version::VALVE_V2)
 		.def_static("open", &VPK::open, "path"_a, "callback"_a = nullptr)
-		.def_static("generate_keypair_files", &VPK::generateKeyPairFiles, "name"_a)
-		.def("sign_from_file", py::overload_cast<const std::string&>(&VPK::sign), "filename"_a)
-		.def("sign_from_mem", [](VPK& self, const py::bytes& privateKey, const py::bytes& publicKey) {
+		.def_static("generate_keypair_files", &VPK::generateKeyPairFiles, "base"_a, "signature_type"_a)
+		.def("sign_from_file", py::overload_cast<const std::filesystem::path&, VPK::SignatureType>(&VPK::sign), "filename"_a, "signature_type"_a)
+		.def("sign_from_mem", [](VPK& self, const py::bytes& privateKey, const py::bytes& publicKey, VPK::SignatureType signatureType) {
 			return self.sign({
 				static_cast<const std::byte*>(privateKey.data()), static_cast<const std::byte*>(privateKey.data()) + privateKey.size()
 			}, {
 				static_cast<const std::byte*>(publicKey.data()), static_cast<const std::byte*>(publicKey.data()) + publicKey.size()
-			});
-		}, "private_key"_a, "public_key"_a)
+			}, signatureType);
+		}, "private_key"_a, "public_key"_a, "signature_type"_a)
 		.def_prop_rw("version", &VPK::getVersion, &VPK::setVersion)
 		.def_prop_rw("chunk_size", &VPK::getChunkSize, &VPK::setChunkSize);
 

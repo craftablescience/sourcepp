@@ -27,8 +27,12 @@ struct BakeOptions {
 	/// GMA - Write CRCs for files and the overall GMA file when baking
 	bool gma_writeCRCs = true;
 
-	/// VPK - Generate MD5 hashes for each file (VPK v2 only)
-	bool vpk_generateMD5Entries = false;
+	/// VPK - Generate MD5/BLAKE3 hashed chunks (VPK v2 only)
+	enum class VPKHashBlockType : uint16_t {
+		NONE,
+		MD5,
+		BLAKE3,
+	} vpk_generateHashedChunks = VPKHashBlockType::NONE;
 };
 
 struct EntryOptions {

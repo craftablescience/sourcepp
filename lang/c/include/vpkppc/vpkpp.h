@@ -7,7 +7,6 @@
 
 #include "format/APK.h"
 #include "format/FGP.h"
-#include "format/FPX.h"
 #include "format/GCF.h"
 #include "format/GMA.h"
 #include "format/GRP.h"

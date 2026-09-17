@@ -43,6 +43,19 @@ TEST(vpkpp, sdat) {
 	EXPECT_TRUE(sdat->hasEntry("resource/steam_logo.tga"));
 }
 
+TEST(vpkpp, vpk) {
+	auto vpk = PackFile::open("/home/lxlewis/Downloads/test/modified/hl2_misc_dir.vpk");
+	ASSERT_TRUE(vpk);
+	VPKPP_PRINT_ALL_PATHS(vpk);
+	EXPECT_EQ(vpk->getEntryCount(), 18796);
+	EXPECT_TRUE(vpk->hasEntry("cfg/valve.rc"));
+	EXPECT_TRUE(vpk->hasPackFileSignature());
+	EXPECT_TRUE(vpk->verifyPackFileSignature());
+
+	//VPK::generateKeyPairFiles("/home/lxlewis/Downloads/test/modified/hl2_misc", VPK::SignatureType::LEGACY);
+	//dynamic_cast<VPK*>(vpk.get())->sign("/home/lxlewis/Downloads/test/modified/testkey.privatekey.vdf", VPK::SignatureType::LEGACY);
+}
+
 TEST(vpkpp, vpp_v1_read) {
 	const auto vpp = PackFile::open(ASSET_ROOT "vpkpp/vpp/v1.vpp");
 	ASSERT_TRUE(vpp);

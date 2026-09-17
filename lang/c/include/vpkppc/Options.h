@@ -13,18 +13,24 @@ VPKPP_EXTERN typedef enum {
 	VPKPP_ENTRY_COMPRESSION_TYPE_PPMD        = 98,
 } vpkpp_entry_compression_type_e;
 
+VPKPP_EXTERN typedef enum {
+	VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_NONE   = 0,
+	VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_MD5    = 1,
+	VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_BLAKE3 = 2,
+} vpkpp_bake_options_vpk_hash_block_type_e;
+
 VPKPP_EXTERN typedef struct {
 	int16_t zip_compressionTypeOverride;
 	int16_t zip_compressionStrength;
 	uint8_t gma_writeCRCs;
-	uint8_t vpk_generateMD5Entries;
+	uint16_t vpk_generateHashedChunks;
 }  vpkpp_bake_options_t;
 
 #define VPKPP_BAKE_OPTIONS_DEFAULT (SOURCEPP_CAST_CTOR(vpkpp_bake_options_t) { \
 	.zip_compressionTypeOverride = VPKPP_ENTRY_COMPRESSION_TYPE_NO_OVERRIDE, \
 	.zip_compressionStrength = 5, \
 	.gma_writeCRCs = 1, \
-	.vpk_generateMD5Entries = 0, \
+	.vpk_generateMD5Entries = VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_NONE, \
 })
 
 VPKPP_EXTERN typedef struct {
@@ -76,12 +82,30 @@ inline vpkpp_entry_compression_type_e cast(vpkpp::EntryCompressionType value) {
 	return VPKPP_ENTRY_COMPRESSION_TYPE_NO_OVERRIDE;
 }
 
+inline vpkpp::BakeOptions::VPKHashBlockType cast(vpkpp_bake_options_vpk_hash_block_type_e value) {
+	switch (value) {
+		case VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_NONE:   return vpkpp::BakeOptions::VPKHashBlockType::NONE;
+		case VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_MD5:    return vpkpp::BakeOptions::VPKHashBlockType::MD5;
+		case VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_BLAKE3: return vpkpp::BakeOptions::VPKHashBlockType::BLAKE3;
+	}
+	return vpkpp::BakeOptions::VPKHashBlockType::NONE;
+}
+
+inline vpkpp_bake_options_vpk_hash_block_type_e cast(vpkpp::BakeOptions::VPKHashBlockType value) {
+	switch (value) {
+		case vpkpp::BakeOptions::VPKHashBlockType::NONE:   return VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_NONE;
+		case vpkpp::BakeOptions::VPKHashBlockType::MD5:    return VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_MD5;
+		case vpkpp::BakeOptions::VPKHashBlockType::BLAKE3: return VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_BLAKE3;
+	}
+	return VPKPP_BAKE_OPTIONS_VPK_HASH_BLOCK_TYPE_NONE;
+}
+
 inline vpkpp::BakeOptions cast(const vpkpp_bake_options_t& value) {
 	return {
 		.zip_compressionTypeOverride = cast(static_cast<vpkpp_entry_compression_type_e>(value.zip_compressionTypeOverride)),
 		.zip_compressionStrength = value.zip_compressionStrength,
 		.gma_writeCRCs = static_cast<bool>(value.gma_writeCRCs),
-		.vpk_generateMD5Entries = static_cast<bool>(value.vpk_generateMD5Entries),
+		.vpk_generateHashedChunks = cast(static_cast<vpkpp_bake_options_vpk_hash_block_type_e>(value.vpk_generateHashedChunks)),
 	};
 }
 
@@ -90,7 +114,7 @@ inline vpkpp_bake_options_t cast(const vpkpp::BakeOptions& value) {
 		.zip_compressionTypeOverride = static_cast<int16_t>(cast(value.zip_compressionTypeOverride)),
 		.zip_compressionStrength = value.zip_compressionStrength,
 		.gma_writeCRCs = value.gma_writeCRCs,
-		.vpk_generateMD5Entries = value.vpk_generateMD5Entries,
+		.vpk_generateHashedChunks = static_cast<uint16_t>(cast(value.vpk_generateHashedChunks)),
 	};
 }
 
