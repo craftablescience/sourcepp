@@ -2184,17 +2184,17 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					return out;
 				}
 				case 2: {
-					struct RG1616 {
-						uint16_t r;
-						uint16_t g;
+					struct IA1616 {
+						uint16_t i;
+						uint16_t a;
 					};
-					std::span inPixels{reinterpret_cast<RG1616*>(stbImage.get()), outPixels.size()};
+					std::span inPixels{reinterpret_cast<IA1616*>(stbImage.get()), outPixels.size()};
 					std::transform(
 #ifdef SOURCEPP_BUILD_WITH_TBB
 						std::execution::par_unseq,
 #endif
-						inPixels.begin(), inPixels.end(), outPixels.begin(), [](RG1616 pixel) -> ImagePixel::RGBA16161616 {
-						return {{pixel.r, pixel.g, 0, 0xffff}};
+						inPixels.begin(), inPixels.end(), outPixels.begin(), [](IA1616 pixel) -> ImagePixel::RGBA16161616 {
+						return {{pixel.i, pixel.i, pixel.i, pixel.a}};
 					});
 					return out;
 				}
@@ -2233,7 +2233,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 	}
 	switch (channels) {
 		case 1:  format = ImageFormat::I8;       break;
-		case 2:  format = ImageFormat::UV88;     break;
+		case 2:  format = ImageFormat::IA88;     break;
 		case 3:  format = ImageFormat::RGB888;   break;
 		case 4:  format = ImageFormat::RGBA8888; break;
 		default: return {};
