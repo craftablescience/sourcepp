@@ -107,6 +107,8 @@ public static class ImageConversion
 		public ushort ResizeMaxWidth = 0;
 		public ushort ResizeMinHeight = 0;
 		public ushort ResizeMaxHeight = 0;
+		public ResizeFilter ResizeFilter = ResizeFilter.DEFAULT;
+		public ResizeEdge ResizeEdge = ResizeEdge.CLAMP;
 
 		public ResizeBounds()
 		{
@@ -134,6 +136,16 @@ public static class ImageConversion
 			ResizeMaxWidth = maxWidth;
 			ResizeMinHeight = minHeight;
 			ResizeMaxHeight = maxHeight;
+		}
+
+		public ResizeBounds(ushort minWidth, ushort maxWidth, ushort minHeight, ushort maxHeight, ResizeFilter filter, ResizeEdge edge)
+		{
+			ResizeMinWidth = minWidth;
+			ResizeMaxWidth = maxWidth;
+			ResizeMinHeight = minHeight;
+			ResizeMaxHeight = maxHeight;
+			ResizeFilter = filter;
+			ResizeEdge = edge;
 		}
 	}
 

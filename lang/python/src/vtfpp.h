@@ -275,10 +275,13 @@ inline void register_python(py::module_& m) {
 			.def(py::init<uint16_t>())
 			.def(py::init<uint16_t, uint16_t>())
 			.def(py::init<uint16_t, uint16_t, uint16_t, uint16_t>())
+			.def(py::init<uint16_t, uint16_t, uint16_t, uint16_t, ResizeFilter, ResizeEdge>())
 			.def_rw("resize_min_width",  &ResizeBounds::resizeMinWidth)
 			.def_rw("resize_max_width",  &ResizeBounds::resizeMaxWidth)
 			.def_rw("resize_min_height", &ResizeBounds::resizeMinHeight)
 			.def_rw("resize_max_height", &ResizeBounds::resizeMaxHeight)
+			.def_rw("resize_filter", &ResizeBounds::resizeFilter)
+			.def_rw("resize_edge", &ResizeBounds::resizeEdge)
 			.def("clamp", &ResizeBounds::clamp, "width"_a, "height"_a);
 
 		ImageConversion.def("get_resized_dim", &getResizedDim, "n"_a, "resize_method"_a);

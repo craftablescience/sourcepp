@@ -992,7 +992,7 @@ bool VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint1
 	writer.addFlagsExtra(options.flagsExtra);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
-		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.filter);
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.resizeBounds.resizeFilter, options.resizeBounds.resizeEdge);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
 			return false;
 		}
@@ -1019,7 +1019,7 @@ VTF VTF::create(std::span<const std::byte> imageData, ImageFormat format, uint16
 	writer.addFlagsExtra(options.flagsExtra);
 	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
 	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
-		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.filter);
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.resizeBounds.resizeFilter, options.resizeBounds.resizeEdge);
 		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
 			writer.opened = false;
 			return writer;
@@ -2113,7 +2113,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	// One frame (normal)
 	if (inputFrameCount == 1) {
 		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
-			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, filter);
+			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter, resizeBounds.resizeEdge);
 			return this->setImage(imageDataResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame, face, slice, quality);
 		}
 		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice, quality);
@@ -2125,7 +2125,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
 		std::span currentFrameData{imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize};
 		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
-			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, filter);
+			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter);
 			if (!this->setImage(currentFrameResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
 				allSuccess = false;
 			}

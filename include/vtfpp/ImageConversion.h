@@ -106,11 +106,14 @@ struct ResizeBounds {
 	uint16_t resizeMaxWidth = 0;
 	uint16_t resizeMinHeight = 0;
 	uint16_t resizeMaxHeight = 0;
+	ResizeFilter resizeFilter = ResizeFilter::DEFAULT;
+	ResizeEdge resizeEdge = ResizeEdge::CLAMP;
 
 	ResizeBounds() = default;
 	explicit ResizeBounds(uint16_t size) : resizeMinWidth{size}, resizeMaxWidth{size}, resizeMinHeight{size}, resizeMaxHeight{size} {}
 	ResizeBounds(uint16_t width, uint16_t height) : resizeMinWidth{width}, resizeMaxWidth{width}, resizeMinHeight{height}, resizeMaxHeight{height} {}
 	ResizeBounds(uint16_t minWidth, uint16_t maxWidth, uint16_t minHeight, uint16_t maxHeight) : resizeMinWidth{minWidth}, resizeMaxWidth{maxWidth}, resizeMinHeight{minHeight}, resizeMaxHeight{maxHeight} {}
+	ResizeBounds(uint16_t minWidth, uint16_t maxWidth, uint16_t minHeight, uint16_t maxHeight, ResizeFilter filter, ResizeEdge edge) : resizeMinWidth{minWidth}, resizeMaxWidth{maxWidth}, resizeMinHeight{minHeight}, resizeMaxHeight{maxHeight}, resizeFilter{filter}, resizeEdge{edge} {}
 
 	[[nodiscard]] std::pair<uint16_t, uint16_t> clamp(uint16_t width, uint16_t height) const;
 };

@@ -73,6 +73,8 @@ VTFPP_EXTERN typedef struct {
 	uint16_t resizeMaxWidth;
 	uint16_t resizeMinHeight;
 	uint16_t resizeMaxHeight;
+	vtfpp_image_conversion_resize_filter_e resizeFilter;
+	vtfpp_image_conversion_resize_edge_e resizeEdge;
 } vtfpp_image_conversion_resize_bounds_t;
 
 #define VTFPP_IMAGE_CONVERSION_RESIZE_BOUNDS_DEFAULT (SOURCEPP_CAST_CTOR(vtfpp_image_conversion_resize_bounds_t) { \
@@ -80,6 +82,8 @@ VTFPP_EXTERN typedef struct {
 	.resizeMaxWidth = 0, \
 	.resizeMinHeight = 0, \
 	.resizeMaxHeight = 0, \
+	.resizeFilter = VTFPP_IMAGE_CONVERSION_RESIZE_FILTER_DEFAULT, \
+	.resizeEdge = VTFPP_IMAGE_CONVERSION_RESIZE_EDGE_CLAMP, \
 })
 
 VTFPP_API uint16_t vtfpp_image_conversion_get_resized_dim(uint16_t n, vtfpp_image_conversion_resize_method_e method);
@@ -222,6 +226,8 @@ inline vtfpp_image_conversion_resize_bounds_t cast(vtfpp::ImageConversion::Resiz
 		.resizeMaxWidth = value.resizeMaxWidth,
 		.resizeMinHeight = value.resizeMinHeight,
 		.resizeMaxHeight = value.resizeMaxHeight,
+		.resizeFilter = cast(value.resizeFilter),
+		.resizeEdge = cast(value.resizeEdge),
 	};
 }
 
@@ -231,6 +237,8 @@ inline vtfpp::ImageConversion::ResizeBounds cast(vtfpp_image_conversion_resize_b
 		value.resizeMaxWidth,
 		value.resizeMinHeight,
 		value.resizeMaxHeight,
+		cast(value.resizeFilter),
+		cast(value.resizeEdge),
 	};
 }
 
