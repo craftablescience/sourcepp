@@ -2125,7 +2125,7 @@ bool VTF::setImage(const std::filesystem::path& imagePath, ImageConversion::Resi
 	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
 		std::span currentFrameData{imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize};
 		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
-			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter);
+			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter, resizeBounds.resizeEdge);
 			if (!this->setImage(currentFrameResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
 				allSuccess = false;
 			}
