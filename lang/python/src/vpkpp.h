@@ -88,9 +88,7 @@ inline void register_python(py::module_& m) {
 		.def_rw("vpk_preload_bytes", &EntryOptions::vpk_preloadBytes)
 		.def_rw("vpk_save_to_directory", &EntryOptions::vpk_saveToDirectory);
 
-	vpkpp.attr("EXECUTABLE_EXTENSION0") = EXECUTABLE_EXTENSION0;
-	vpkpp.attr("EXECUTABLE_EXTENSION1") = EXECUTABLE_EXTENSION1;
-	vpkpp.attr("EXECUTABLE_EXTENSION2") = EXECUTABLE_EXTENSION2;
+	vpkpp.attr("EXECUTABLE_EXTENSIONS") = EXECUTABLE_EXTENSIONS;
 
 	auto cPackFile = py::class_<PackFile, PackFileTrampoline>(vpkpp, "PackFile");
 

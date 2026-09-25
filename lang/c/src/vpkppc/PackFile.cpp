@@ -9,9 +9,11 @@
 using namespace sourceppc;
 using namespace vpkpp;
 
-const char* VPKPP_EXECUTABLE_EXTENSION0 = EXECUTABLE_EXTENSION0.data();
-const char* VPKPP_EXECUTABLE_EXTENSION1 = EXECUTABLE_EXTENSION1.data();
-const char* VPKPP_EXECUTABLE_EXTENSION2 = EXECUTABLE_EXTENSION2.data();
+const char* VPKPP_EXECUTABLE_EXTENSIONS[] {
+	EXECUTABLE_EXTENSIONS[0].data(),
+	EXECUTABLE_EXTENSIONS[1].data(),
+	EXECUTABLE_EXTENSIONS[2].data(),
+};
 
 VPKPP_API vpkpp_pack_file_handle_t vpkpp_pack_file_open(const char* path, vpkpp_entry_callback_t callback, vpkpp_pack_file_open_property_request_t requestProperty) {
 	SOURCEPP_EARLY_RETURN_VAL(path, nullptr);

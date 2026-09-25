@@ -19,9 +19,11 @@
 namespace vpkpp {
 
 // Executable extensions - mostly just for Godot exports
-constexpr std::string_view EXECUTABLE_EXTENSION0 = ".exe";    // - Windows
-constexpr std::string_view EXECUTABLE_EXTENSION1 = ".bin";    // - Linux + Godot 3 and below (and Generic)
-constexpr std::string_view EXECUTABLE_EXTENSION2 = ".x86_64"; //         | Godot 4 (64-bit)
+constexpr std::array<std::string_view, 3> EXECUTABLE_EXTENSIONS{
+	".exe",    // - Windows
+	".bin",    // - Linux + Godot 3 and below (and Generic)
+	".x86_64", //         | Godot 4 (64-bit)
+};
 
 class PackFile {
 public:
@@ -255,6 +257,6 @@ protected:
 	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenTypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(extension, function)
 
 #define VPKPP_REGISTER_PACKFILE_OPEN_EXECUTABLE(function) \
-	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION0, function); \
-	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION1, function); \
-	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSION2, function)
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable0TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSIONS[0], function); \
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable1TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSIONS[1], function); \
+	static inline const OpenFactoryFunction& SOURCEPP_UNIQUE_NAME(packFileOpenExecutable2TypeFactoryFunction) = PackFile::registerOpenExtensionForTypeFactory(vpkpp::EXECUTABLE_EXTENSIONS[2], function)
