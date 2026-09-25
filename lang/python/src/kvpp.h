@@ -271,7 +271,7 @@ inline void register_python(py::module_& m) {
 	cDMX
 		.def(py::init<DMX::Encoding, int, std::string, int>(), "encoding_type"_a, "encoding_version"_a, "format_type"_a, "format_version"_a)
 		.def("__init__", [](DMX* self, const py::bytes& dmxData) {
-			return new(self) DMX{std::span{static_cast<const std::byte*>(dmxData.data()), dmxData.size()}};
+			new(self) DMX{std::span{static_cast<const std::byte*>(dmxData.data()), dmxData.size()}};
 		}, "dmx_data"_a)
 		.def(py::init<std::string_view>(), "dmx_data"_a)
 		.def("__bool__", &DMX::operator bool)
@@ -415,7 +415,7 @@ inline void register_python(py::module_& m) {
 
 	py::class_<KV1Binary, KV1BinaryElement>(kvpp, "KV1Binary")
 		.def("__init__", [](KV1Binary* self, const py::bytes& kv1Data, bool use64BitPointers = true) {
-			return new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}, use64BitPointers};
+			new(self) KV1Binary{std::span{static_cast<const std::byte*>(kv1Data.data()), kv1Data.size()}, use64BitPointers};
 		}, "kv1_data"_a, "use_64_bit_pointers"_a = true)
 		.def("bake", [](const KV1Binary& self) {
 			const auto d = self.bake();

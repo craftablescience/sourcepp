@@ -35,7 +35,7 @@ inline void register_python(py::module_& m) {
 	cHOT
 		.def(py::init())
 		.def("__init__", [](HOT* self, const py::bytes& hotData) {
-			return new(self) HOT{{static_cast<const std::byte*>(hotData.data()), hotData.size()}};
+			new(self) HOT{{static_cast<const std::byte*>(hotData.data()), hotData.size()}};
 		}, "hot_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "hot_path"_a)
 		.def("__bool__", &HOT::operator bool, py::is_operator())
@@ -369,7 +369,7 @@ inline void register_python(py::module_& m) {
 	cPPL
 		.def(py::init<uint32_t, ImageFormat, uint32_t>(), "model_checksum"_a, "format"_a = ImageFormat::RGB888, "version"_a = 0)
 		.def("__init__", [](PPL* self, const py::bytes& pplData) {
-			return new(self) PPL{{static_cast<const std::byte*>(pplData.data()), pplData.size()}};
+			new(self) PPL{{static_cast<const std::byte*>(pplData.data()), pplData.size()}};
 		}, "ppl_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "path"_a)
 		.def("__bool__", &PPL::operator bool, py::is_operator())
@@ -409,7 +409,7 @@ inline void register_python(py::module_& m) {
 
 	py::class_<PSFrames>(vtfpp, "PSFrames")
 		.def("__init__", [](PSFrames* self, const py::bytes& psFramesData) {
-			return new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
+			new(self) PSFrames{std::span{static_cast<const std::byte*>(psFramesData.data()), psFramesData.size()}};
 		}, "ps_frames_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "ps_frames_path"_a)
 		.def("__bool__", &PSFrames::operator bool, py::is_operator())
@@ -462,7 +462,7 @@ inline void register_python(py::module_& m) {
 	cSHT
 		.def(py::init())
 		.def("__init__", [](SHT* self, const py::bytes& shtData) {
-			return new(self) SHT{{static_cast<const std::byte*>(shtData.data()), shtData.size()}};
+			new(self) SHT{{static_cast<const std::byte*>(shtData.data()), shtData.size()}};
 		}, "sht_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "sht_path"_a)
 		.def("__bool__", &SHT::operator bool, py::is_operator())
@@ -483,7 +483,7 @@ inline void register_python(py::module_& m) {
 	py::class_<TTX>(vtfpp, "TTX")
 		.def(py::init<VTF&&>(), "vtf"_a)
 		.def("__init__", [](TTX* self, const py::bytes& tthData, const py::bytes& ttzData) {
-			return new(self) TTX{{static_cast<const std::byte*>(tthData.data()), tthData.size()}, {static_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
+			new(self) TTX{{static_cast<const std::byte*>(tthData.data()), tthData.size()}, {static_cast<const std::byte*>(ttzData.data()), ttzData.size()}};
 		}, "tth_data"_a, "ttz_data"_a)
 		.def(py::init<const std::filesystem::path&, const std::filesystem::path&>(), "tth_path"_a, "ttz_path"_a)
 		.def("__bool__", &TTX::operator bool, py::is_operator())
@@ -525,7 +525,7 @@ inline void register_python(py::module_& m) {
 
 	cVBF
 		.def("__init__", [](VBF* self, const py::bytes& vbfData) {
-			return new(self) VBF{std::span{static_cast<const std::byte*>(vbfData.data()), vbfData.size()}};
+			new(self) VBF{std::span{static_cast<const std::byte*>(vbfData.data()), vbfData.size()}};
 		}, "vbf_data"_a)
 		.def(py::init<const std::filesystem::path&>(), "vbf_path"_a)
 		.def("__bool__", &VBF::operator bool)
@@ -697,7 +697,7 @@ inline void register_python(py::module_& m) {
 		.def_ro_static("FORMAT_DEFAULT",       &VTF::FORMAT_DEFAULT)
 		.def(py::init())
 		.def("__init__", [](VTF* self, const py::bytes& vtfData, bool parseHeaderOnly = false, bool hdr = false) {
-			return new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly, hdr};
+			new(self) VTF{std::span{static_cast<const std::byte*>(vtfData.data()), vtfData.size()}, parseHeaderOnly, hdr};
 		}, "vtf_data"_a, "parse_header_only"_a = false, "hdr"_a = false)
 		.def(py::init<const std::filesystem::path&, bool>(), "vtf_path"_a, "parse_header_only"_a = false)
 		.def("__bool__", &VTF::operator bool, py::is_operator())
