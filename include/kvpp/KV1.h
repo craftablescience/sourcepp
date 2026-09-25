@@ -218,6 +218,10 @@ public:
 	explicit KV1(std::string_view kv1Data, bool useEscapeSequences_ = false)
 			: KV1ElementReadable<S>()
 			, useEscapeSequences(useEscapeSequences_) {
+		// Skip the UTF-8 BOM
+		if (kv1Data.starts_with("\xEF\xBB\xBF")) {
+			kv1Data.remove_prefix(3);
+		}
 		if (kv1Data.empty()) {
 			return;
 		}
