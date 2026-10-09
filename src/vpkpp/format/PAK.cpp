@@ -19,6 +19,9 @@ std::unique_ptr<PackFile> PAK::create(const std::string& path, Type type) {
 			case Type::SIN:
 				stream << PAK_SIN_SIGNATURE;
 				break;
+			case Type::SIN_RELOADED:
+				stream << PAK_SIN_RELOADED_SIGNATURE;
+				break;
 			case Type::HROT:
 				stream << PAK_HROT_SIGNATURE;
 				break;
@@ -46,6 +49,8 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 		pak->type = Type::PAK;
 	} else if (signature == PAK_SIN_SIGNATURE) {
 		pak->type = Type::SIN;
+	} else if (signature == PAK_SIN_RELOADED_SIGNATURE) {
+		pak->type = Type::SIN_RELOADED;
 	} else if (signature == PAK_HROT_SIGNATURE) {
 		pak->type = Type::HROT;
 	} else {
@@ -53,23 +58,57 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 		return nullptr;
 	}
 
-	const auto directoryOffset = reader.read<uint32_t>();
-	// Directory size / file entry size
-	const auto fileCount = reader.read<uint32_t>() / (sizeof(uint32_t) * 2 + pak->getFilenameLength());
+	if (pak->type == Type::SIN_RELOADED) {
+		reader.skip_in<int32_t>(); // reserved
+		const auto directoryOffset = reader.read<uint64_t>();
+		const auto namesOffset = reader.read<uint64_t>();
+		const auto fileCount = reader.read<uint32_t>();
+		const auto namesLength = reader.read<uint32_t>();
 
-	reader.seek_in(directoryOffset);
-	for (uint32_t i = 0; i < fileCount; i++) {
-		Entry entry = createNewEntry();
+		// read names buffer
+		std::string namesBuffer;
+		reader.seek_in_u(namesOffset);
+		reader.read(namesBuffer, namesLength, false);
 
-		auto entryPath = pak->cleanEntryPath(reader.read_string(pak->getFilenameLength()));
+		// read directory
+		reader.seek_in_u(directoryOffset);
+		for (uint32_t i = 0; i < fileCount; i++) {
+			Entry entry = createNewEntry();
 
-		entry.offset = reader.read<uint32_t>();
-		entry.length = reader.read<uint32_t>();
+			const auto filePos = reader.read<uint64_t>();
+			const auto fileLen = reader.read<uint32_t>();
+			const auto nameOfs = reader.read<uint32_t>();
 
-		pak->entries.emplace(entryPath, entry);
+			auto entryPath = pak->cleanEntryPath(namesBuffer.c_str() + nameOfs);
 
-		if (callback) {
-			callback(entryPath, entry);
+			entry.offset = filePos;
+			entry.length = fileLen;
+
+			pak->entries.emplace(entryPath, entry);
+
+			if (callback) {
+				callback(entryPath, entry);
+			}
+		}
+	} else {
+		const auto directoryOffset = reader.read<uint32_t>();
+		// Directory size / file entry size
+		const auto fileCount = reader.read<uint32_t>() / (sizeof(uint32_t) * 2 + pak->getFilenameLength());
+
+		reader.seek_in(directoryOffset);
+		for (uint32_t i = 0; i < fileCount; i++) {
+			Entry entry = createNewEntry();
+
+			auto entryPath = pak->cleanEntryPath(reader.read_string(pak->getFilenameLength()));
+
+			entry.offset = reader.read<uint32_t>();
+			entry.length = reader.read<uint32_t>();
+
+			pak->entries.emplace(entryPath, entry);
+
+			if (callback) {
+				callback(entryPath, entry);
+			}
 		}
 	}
 
@@ -95,14 +134,14 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void PAK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void PAK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions) {
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
 }
 
-bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool PAK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
 	// Get the proper file output folder
 	const std::string outputDir = this->getBakeOutputDir(outputDir_);
 	const std::string outputPath = outputDir + '/' + this->getFilename();
@@ -115,11 +154,20 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Read data before overwriting, we don't know if we're writing to ourself
 	std::vector<std::byte> fileData;
+	std::vector<std::byte> nameData;
+	std::vector<uint32_t> nameOffsets;
 	for (auto& [path, entry] : entriesToBake) {
 		if (auto binData = this->readEntry(path)) {
 			entry->offset = fileData.size();
 
 			fileData.insert(fileData.end(), binData->begin(), binData->end());
+
+			if (this->type == Type::SIN_RELOADED) {
+				const auto oldSize = nameData.size();
+				nameData.resize(oldSize + path.size() + 1);
+				memcpy(&nameData[oldSize], path.data(), path.size());
+				nameOffsets.push_back(oldSize);
+			}
 		} else {
 			entry->offset = 0;
 			entry->length = 0;
@@ -133,24 +181,65 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 		// Signature
 		stream.write<uint32_t>(this->getSignature());
 
-		// Offset and size of directory
-		static constexpr auto HEADER_OFFSET = sizeof(uint32_t) * 3;
-		stream
-			.write<uint32_t>(HEADER_OFFSET + fileData.size())
-			.write<uint32_t>(entriesToBake.size() * (sizeof(uint32_t) * 2 + this->getFilenameLength()));
+		// Header
+		if (this->type == Type::SIN_RELOADED) {
+			// Reserved value
+			// Basically a version identifier, but not used...?
+			stream.write<int32_t>(0);
 
-		// File data
-		stream.write(fileData);
+			// Offset of directory
+			static constexpr auto HEADER_OFFSET = sizeof(uint32_t) * 3 + sizeof(uint64_t) * 2;
+			stream.write<uint64_t>(HEADER_OFFSET + fileData.size());
 
-		// Directory
-		for (const auto& [path, entry] : entriesToBake) {
+			// Offset of names
+			const auto numFiles = entriesToBake.size();
+			const auto directorySize = (sizeof(uint64_t) + sizeof(uint32_t) * 2) * numFiles;
+			stream.write<uint64_t>(HEADER_OFFSET + fileData.size() + directorySize);
+
+			// Number of files
+			stream.write<uint32_t>(numFiles);
+
+			// Size of names
+			stream.write<uint32_t>(nameData.size());
+
+			// File data
+			stream.write(fileData);
+
+			// Directory
+			size_t i = 0;
+			for (const auto& [path, entry] : entriesToBake) {
+				stream
+					.write<uint64_t>(entry->offset + HEADER_OFFSET)
+					.write<uint32_t>(entry->length)
+					.write<uint32_t>(nameOffsets[i++]);
+
+				if (callback) {
+					callback(path, *entry);
+				}
+			}
+
+			// Names
+			stream.write(nameData);
+		} else {
+			// Offset and size of directory
+			static constexpr auto HEADER_OFFSET = sizeof(uint32_t) * 3;
 			stream
-				.write(path, true, this->getFilenameLength())
-				.write<uint32_t>(entry->offset + HEADER_OFFSET)
-				.write<uint32_t>(entry->length);
+				.write<uint32_t>(HEADER_OFFSET + fileData.size())
+				.write<uint32_t>(entriesToBake.size() * (sizeof(uint32_t) * 2 + this->getFilenameLength()));
 
-			if (callback) {
-				callback(path, *entry);
+			// File data
+			stream.write(fileData);
+
+			// Directory
+			for (const auto& [path, entry] : entriesToBake) {
+				stream
+					.write(path, true, this->getFilenameLength())
+					.write<uint32_t>(entry->offset + HEADER_OFFSET)
+					.write<uint32_t>(entry->length);
+
+				if (callback) {
+					callback(path, *entry);
+				}
 			}
 		}
 	}
@@ -180,6 +269,8 @@ uint32_t PAK::getSignature() const {
 			return PAK_SIGNATURE;
 		case Type::SIN:
 			return PAK_SIN_SIGNATURE;
+		case Type::SIN_RELOADED:
+			return PAK_SIN_RELOADED_SIGNATURE;
 		case Type::HROT:
 			return PAK_HROT_SIGNATURE;
 	}
@@ -192,6 +283,8 @@ uint8_t PAK::getFilenameLength() const {
 			return PAK_FILENAME_MAX_SIZE;
 		case Type::SIN:
 			return PAK_SIN_FILENAME_MAX_SIZE;
+		case Type::SIN_RELOADED:
+			return 0; // variable
 		case Type::HROT:
 			return PAK_HROT_FILENAME_MAX_SIZE;
 	}

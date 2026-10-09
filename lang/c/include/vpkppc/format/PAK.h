@@ -8,6 +8,8 @@ VPKPP_EXTERNVAR const uint32_t VPKPP_PAK_SIGNATURE;
 VPKPP_EXTERNVAR const uint8_t VPKPP_PAK_SIN_FILENAME_MAX_SIZE;
 VPKPP_EXTERNVAR const uint32_t VPKPP_PAK_SIN_SIGNATURE;
 
+VPKPP_EXTERNVAR const uint32_t VPKPP_PAK_SIN_RELOADED_SIGNATURE;
+
 VPKPP_EXTERNVAR const uint8_t VPKPP_PAK_HROT_FILENAME_MAX_SIZE;
 VPKPP_EXTERNVAR const uint32_t VPKPP_PAK_HROT_SIGNATURE;
 
@@ -17,6 +19,7 @@ VPKPP_EXTERNVAR const char* VPKPP_SIN_EXTENSION;
 VPKPP_EXTERN typedef enum {
 	VPKPP_PAK_TYPE_PAK,
 	VPKPP_PAK_TYPE_SIN,
+	VPKPP_PAK_TYPE_SIN_RELOADED,
 	VPKPP_PAK_TYPE_HROT,
 } vpkpp_pak_type_e;
 
@@ -35,18 +38,20 @@ namespace sourceppc::convert {
 
 inline vpkpp::PAK::Type cast(vpkpp_pak_type_e value) {
 	switch (value) {
-		case VPKPP_PAK_TYPE_PAK:  return vpkpp::PAK::Type::PAK;
-		case VPKPP_PAK_TYPE_SIN:  return vpkpp::PAK::Type::SIN;
-		case VPKPP_PAK_TYPE_HROT: return vpkpp::PAK::Type::HROT;
+		case VPKPP_PAK_TYPE_PAK:          return vpkpp::PAK::Type::PAK;
+		case VPKPP_PAK_TYPE_SIN:          return vpkpp::PAK::Type::SIN;
+		case VPKPP_PAK_TYPE_SIN_RELOADED: return vpkpp::PAK::Type::SIN_RELOADED;
+		case VPKPP_PAK_TYPE_HROT:         return vpkpp::PAK::Type::HROT;
 	}
 	return vpkpp::PAK::Type::PAK;
 }
 
 inline vpkpp_pak_type_e cast(vpkpp::PAK::Type value) {
 	switch (value) {
-		case vpkpp::PAK::Type::PAK:  return VPKPP_PAK_TYPE_PAK;
-		case vpkpp::PAK::Type::SIN:  return VPKPP_PAK_TYPE_SIN;
-		case vpkpp::PAK::Type::HROT: return VPKPP_PAK_TYPE_HROT;
+		case vpkpp::PAK::Type::PAK:          return VPKPP_PAK_TYPE_PAK;
+		case vpkpp::PAK::Type::SIN:          return VPKPP_PAK_TYPE_SIN;
+		case vpkpp::PAK::Type::SIN_RELOADED: return VPKPP_PAK_TYPE_SIN_RELOADED;
+		case vpkpp::PAK::Type::HROT:         return VPKPP_PAK_TYPE_HROT;
 	}
 	return VPKPP_PAK_TYPE_PAK;
 }

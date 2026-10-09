@@ -27,6 +27,14 @@ TEST(vpkpp, ore_read) {
 	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
 }
 
+TEST(vpkpp, pak_sin_read) {
+	const auto sin = PackFile::open(ASSET_ROOT "vpkpp/sin/test.sin");
+	ASSERT_TRUE(sin);
+	VPKPP_PRINT_ALL_PATHS(sin);
+	EXPECT_EQ(sin->getEntryCount(), 3);
+	EXPECT_TRUE(sin->hasEntry("vault/vault.json"));
+}
+
 TEST(vpkpp, rez_v1_read) {
 	const auto rez = PackFile::open(ASSET_ROOT "vpkpp/rez/v1.rez");
 	ASSERT_TRUE(rez);

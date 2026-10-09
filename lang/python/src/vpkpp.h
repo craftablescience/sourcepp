@@ -233,6 +233,7 @@ inline void register_python(py::module_& m) {
 	vpkpp.attr("PAK_SIGNATURE") = PAK_SIGNATURE;
 	vpkpp.attr("PAK_SIN_FILENAME_MAX_SIZE") = PAK_SIN_FILENAME_MAX_SIZE;
 	vpkpp.attr("PAK_SIN_SIGNATURE") = PAK_SIN_SIGNATURE;
+	vpkpp.attr("PAK_SIN_RELOADED_SIGNATURE") = PAK_SIN_RELOADED_SIGNATURE;
 	vpkpp.attr("PAK_HROT_FILENAME_MAX_SIZE") = PAK_HROT_FILENAME_MAX_SIZE;
 	vpkpp.attr("PAK_HROT_SIGNATURE") = PAK_HROT_SIGNATURE;
 	vpkpp.attr("PAK_EXTENSION") = PAK_EXTENSION;
@@ -243,6 +244,7 @@ inline void register_python(py::module_& m) {
 	py::enum_<PAK::Type>(cPAK, "Type")
 		.value("PAK", PAK::Type::PAK)
 		.value("SIN", PAK::Type::SIN)
+		.value("SIN_RELOADED", PAK::Type::SIN_RELOADED)
 		.value("HROT", PAK::Type::HROT);
 
 	cPAK
