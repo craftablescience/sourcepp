@@ -11,6 +11,7 @@ public enum PAKType
 {
 	PAK,
 	SIN,
+	SIN_RELOADED,
 	HROT,
 }
 

@@ -14,6 +14,8 @@ constexpr auto PAK_SIGNATURE = sourcepp::parser::binary::makeFourCC("PACK");
 constexpr uint8_t PAK_SIN_FILENAME_MAX_SIZE = 120;
 constexpr auto PAK_SIN_SIGNATURE = sourcepp::parser::binary::makeFourCC("SPAK");
 
+constexpr auto PAK_SIN_RELOADED_SIGNATURE = sourcepp::parser::binary::makeFourCC("SRPK");
+
 constexpr uint8_t PAK_HROT_FILENAME_MAX_SIZE = 120;
 constexpr auto PAK_HROT_SIGNATURE = sourcepp::parser::binary::makeFourCC("HROT");
 
@@ -25,6 +27,7 @@ public:
 	enum class Type {
 		PAK,
 		SIN,
+		SIN_RELOADED,
 		HROT,
 	};
 
