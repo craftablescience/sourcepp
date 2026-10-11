@@ -36,16 +36,10 @@ bool VVD::open(const std::byte* data, std::size_t size, const MDL::MDL& mdl) {
 	for (int i = 0; i < this->numVerticesInLOD[0]; i++) {
 		auto& [boneWeight, position, normal, uv, tangent] = this->vertices.emplace_back();
 
-		stream.read(boneWeight.weight);
-
-		std::array<int8_t, MAX_BONES_PER_VERTEX> bones{};
-		stream.read(bones);
-		const auto boneCount = stream.read<int8_t>();
-		for (int8_t j = 0; j < boneCount && j < MAX_BONES_PER_VERTEX; j++) {
-			boneWeight.bones.push_back(bones[j]);
-		}
-
 		stream
+			.read(boneWeight.weight)
+			.read(boneWeight.bones)
+			.read(boneWeight.boneCount)
 			.read(position)
 			.read(normal)
 			.read(uv);

@@ -13,13 +13,8 @@ bool StudioModel::open(const std::byte* mdlData, std::size_t mdlSize,
 	if (this->opened || !mdlData || !vtxData || !vvdData || !mdlSize || !vtxSize || !vvdSize) {
 		return false;
 	}
-	if ((!this->mdl.open(mdlData, mdlSize) ||
-		!this->vtx.open(vtxData, vtxSize, this->mdl)) ||
-		!this->vvd.open(vvdData, vvdSize, this->mdl)) {
-		return false;
-	}
-	this->opened = true;
-	return true;
+	this->opened = this->mdl.open(mdlData, mdlSize) && this->vtx.open(vtxData, vtxSize, this->mdl) && this->vvd.open(vvdData, vvdSize, this->mdl);
+	return this->opened;
 }
 
 bool StudioModel::open(const unsigned char* mdlData, std::size_t mdlSize,
@@ -54,28 +49,25 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 	BakedModel model;
 
 	// According to my limited research, vertices stay constant (ignoring LOD fixups) but indices vary with LOD level
-	static constexpr auto convertVertex = [](const VVD::Vertex& vertex) {
-		return BakedModel::Vertex{vertex.position, vertex.normal, vertex.uv};
-	};
 	if (this->vvd.fixups.empty()) {
-		std::transform(this->vvd.vertices.begin(), this->vvd.vertices.end(), std::back_inserter(model.vertices), convertVertex);
+		std::ranges::copy(this->vvd.vertices, std::back_inserter(model.vertices));
 	} else {
 		for (const auto& [LOD, sourceVertexID, vertexCount] : this->vvd.fixups) {
 			if (LOD < currentLOD) {
 				continue;
 			}
 			std::span fixupVertices{this->vvd.vertices.begin() + sourceVertexID, static_cast<std::span<const VVD::Vertex>::size_type>(vertexCount)};
-			std::transform(fixupVertices.begin(), fixupVertices.end(), std::back_inserter(model.vertices), convertVertex);
+			std::ranges::copy(fixupVertices, std::back_inserter(model.vertices));
 		}
 	}
 
 	for (int bodyPartIndex = 0; bodyPartIndex < this->mdl.bodyParts.size(); bodyPartIndex++) {
 		auto& mdlBodyPart = this->mdl.bodyParts.at(bodyPartIndex);
-		auto& vtxBodyPart = this->vtx.bodyParts.at(bodyPartIndex);
+		const auto& [vtxModels] = this->vtx.bodyParts.at(bodyPartIndex);
 
 		for (int modelIndex = 0; modelIndex < mdlBodyPart.models.size(); modelIndex++) {
 			auto& mdlModel = mdlBodyPart.models.at(modelIndex);
-			auto& vtxModel = vtxBodyPart.models.at(modelIndex);
+			const auto& [vtxModelLODs] = vtxModels.at(modelIndex);
 
 			if (mdlModel.verticesCount == 0) {
 				continue;
@@ -83,10 +75,10 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 
 			for (int meshIndex = 0; meshIndex < mdlModel.meshes.size(); meshIndex++) {
 				auto& mdlMesh = mdlModel.meshes.at(meshIndex);
-				auto& vtxMesh = vtxModel.modelLODs.at(currentLOD).meshes.at(meshIndex);
+				const auto& [vtxStripGroups, vtxMeshFlags] = vtxModelLODs.at(currentLOD).meshes.at(meshIndex);
 
 				std::vector<uint16_t> indices;
-				for (const auto& stripGroup : vtxMesh.stripGroups) {
+				for (const auto& stripGroup : vtxStripGroups) {
 					for (const auto& strip : stripGroup.strips) {
 						const auto addIndex = [&indices, mdlMesh, mdlModel, stripGroup](int index) {
 							indices.push_back(stripGroup.vertices.at(index).meshVertexID + mdlMesh.verticesOffset + mdlModel.verticesOffset);
@@ -95,7 +87,7 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 						// Remember to flip the winding order
 						if (strip.flags & VTX::Strip::FLAG_IS_TRILIST) {
 							for (int i = 0; i < strip.indices.size(); i += 3) {
-								addIndex(strip.indices[ i ]);
+								addIndex(strip.indices[i+0]);
 								addIndex(strip.indices[i+2]);
 								addIndex(strip.indices[i+1]);
 							}
@@ -115,7 +107,10 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 					}
 				}
 
-				model.meshes.push_back({std::move(indices), mdlMesh.material});
+				model.meshes.push_back({
+					.indices = std::move(indices),
+					.materialIndex = mdlMesh.material,
+				});
 			}
 		}
 	}
