@@ -17,15 +17,15 @@ struct Fixup {
 
 struct BoneWeight {
 	//float weight[MAX_BONES_PER_VERTEX];
-    std::array<float, MAX_BONES_PER_VERTEX> weight;
+	std::array<float, MAX_BONES_PER_VERTEX> weight;
 
 	//int8_t bone[MAX_BONES_PER_VERTEX];
-	//int8_t boneCount;
-    std::vector<int8_t> bones;
+	std::array<int8_t, MAX_BONES_PER_VERTEX> bones;
+	int8_t boneCount;
 };
 
 struct Vertex {
-	BoneWeight boneWeight;
+	BoneWeight boneWeight{};
 
 	sourcepp::math::Vec3f position{};
 	sourcepp::math::Vec3f normal{};
