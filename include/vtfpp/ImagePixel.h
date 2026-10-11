@@ -88,8 +88,7 @@ namespace vtfpp::ImagePixel {
 		union Pixel {                                                    \
 			LE le;                                                       \
 			BE be;                                                       \
-			Pixel() { std::memset(this, 0, sizeof(Pixel)); }             \
-		} pixel;                                                         \
+		} pixel{};                                                       \
 	public:                                                              \
 		format() = default;                                              \
 		format(LE le) {                                                  \
