@@ -27,6 +27,20 @@ TEST(vpkpp, ore_read) {
 	EXPECT_TRUE(ore->hasEntry("startup.cfg"));
 }
 
+TEST(vpkpp, pak_daikatana_read) {
+	const auto pak = PackFile::open(ASSET_ROOT "vpkpp/pak/daikatana.pak");
+	ASSERT_TRUE(pak);
+	VPKPP_PRINT_ALL_PATHS(pak);
+	EXPECT_EQ(pak->getEntryCount(), 1);
+	EXPECT_TRUE(pak->hasEntry("palette.bmp"));
+
+	const auto entry = pak->readEntry("palette.bmp");
+	ASSERT_TRUE(entry);
+	ASSERT_EQ(entry->size(), 65078);
+	EXPECT_EQ((*entry)[0], static_cast<std::byte>('B'));
+	EXPECT_EQ((*entry)[1], static_cast<std::byte>('M'));
+}
+
 TEST(vpkpp, pak_sin_read) {
 	const auto sin = PackFile::open(ASSET_ROOT "vpkpp/sin/test.sin");
 	ASSERT_TRUE(sin);

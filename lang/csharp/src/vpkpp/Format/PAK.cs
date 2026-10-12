@@ -10,6 +10,7 @@ using EntryCallback = Action<string, Entry>;
 public enum PAKType
 {
 	PAK,
+	DAIKATANA,
 	SIN,
 	SIN_RELOADED,
 	HROT,

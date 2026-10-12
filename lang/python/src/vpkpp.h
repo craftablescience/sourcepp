@@ -243,6 +243,7 @@ inline void register_python(py::module_& m) {
 
 	py::enum_<PAK::Type>(cPAK, "Type")
 		.value("PAK", PAK::Type::PAK)
+		.value("DAIKATANA", PAK::Type::DAIKATANA)
 		.value("SIN", PAK::Type::SIN)
 		.value("SIN_RELOADED", PAK::Type::SIN_RELOADED)
 		.value("HROT", PAK::Type::HROT);
