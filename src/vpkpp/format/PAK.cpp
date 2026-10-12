@@ -5,15 +5,57 @@
 #include <filesystem>
 
 #include <FileStream.h>
+#include <sourcepp/String.h>
 
 using namespace sourcepp;
 using namespace vpkpp;
+
+namespace {
+
+std::vector<std::byte> decompressDaikatanaEntryData(std::span<const std::byte> inputData_) {
+	BufferStreamReadOnly inStream{inputData_};
+
+	std::vector<std::byte> out;
+	BufferStream outStream{out};
+
+	while (inStream.tell() < inStream.size()) {
+		if (
+			const auto code = inStream.read<uint8_t>();
+			code < 64
+		) {
+			// Uncompressed block
+			outStream << inStream.read_span<std::byte>(code + 1);
+		} else if (code < 128) {
+			// Run length zero block
+			outStream.pad(code - 62);
+		} else if (code < 192) {
+			// Run length encoded block
+			const auto value = inStream.read<uint8_t>();
+			outStream.pad(code - 126, value);
+		} else if (code < 254) {
+			// Reference previous data
+			const auto offset = inStream.read<uint8_t>();
+			outStream << outStream.at_bytes_u(code - 190, outStream.size() - offset - 2);
+		} else if (code == 254) {
+			// ReSharper disable once CppRedundantControlFlowJump
+			continue;
+		} else {
+			break;
+		}
+	}
+
+	out.resize(outStream.size());
+	return out;
+}
+
+} // namespace
 
 std::unique_ptr<PackFile> PAK::create(const std::string& path, Type type) {
 	{
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		switch (type) {
 			case Type::PAK:
+			case Type::DAIKATANA:
 				stream << PAK_SIGNATURE;
 				break;
 			case Type::SIN:
@@ -44,6 +86,9 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 
 	FileStream reader{pak->fullFilePath};
 	reader.seek_in(0);
+
+	// Get total file size
+	const auto pakFileLength = std::filesystem::file_size(path);
 
 	if (const auto signature = reader.read<uint32_t>(); signature == PAK_SIGNATURE) {
 		pak->type = Type::PAK;
@@ -91,9 +136,63 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 			}
 		}
 	} else {
+		// Directory offset and size
 		const auto directoryOffset = reader.read<uint32_t>();
-		// Directory size / file entry size
-		const auto fileCount = reader.read<uint32_t>() / (sizeof(uint32_t) * 2 + pak->getFilenameLength());
+		const auto directorySize = reader.read<uint32_t>();
+
+		// Check if it's a Daikatana PAK
+		bool isDaikatana = directorySize % 64 != 0;
+		const auto entrySize = sizeof(uint32_t) * 2 + pak->getFilenameLength();
+		const auto dkEntrySize = sizeof(uint32_t) * 4 + pak->getFilenameLength();
+
+		// Check again if it's a Daikatana PAK for this edge case
+		if (directorySize % 576 == 0) {
+			const auto numEntries = directorySize / dkEntrySize;
+
+			for (size_t i = 0; i < numEntries; i++) {
+				// Check filename
+				auto entryPath = pak->cleanEntryPath(reader.read_string(pak->getFilenameLength()));
+
+				size_t j;
+				for (j = 0; j < pak->getFilenameLength(); j++) {
+					if (entryPath[j] == '\0' || !string::isAlphaNumeric(entryPath[j])) {
+						break;
+					}
+				}
+				if (j == 0 || !string::isAlphaNumeric(entryPath)) {
+					isDaikatana = false;
+					break;
+				}
+
+				const auto offset = reader.read<uint32_t>();
+				auto length = reader.read<uint32_t>();
+
+				// check compression
+				const auto compressedLength = reader.read<uint32_t>();
+				const auto compressedType = reader.read<uint32_t>();
+				if (compressedType != 0 && compressedType != 1) {
+					isDaikatana = false;
+					break;
+				}
+
+				// check offset
+				if (compressedType == 1) {
+					length = compressedLength;
+				}
+				if (offset + length > pakFileLength) {
+					isDaikatana = false;
+					break;
+				}
+			}
+		}
+
+		// Set the type if we truly think it's a Daikatana PAK
+		if (isDaikatana) {
+			pak->type = Type::DAIKATANA;
+		}
+
+		// File count
+		const auto fileCount = directorySize / (isDaikatana ? dkEntrySize : entrySize);
 
 		reader.seek_in(directoryOffset);
 		for (uint32_t i = 0; i < fileCount; i++) {
@@ -103,6 +202,17 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 
 			entry.offset = reader.read<uint32_t>();
 			entry.length = reader.read<uint32_t>();
+
+			// Read extra data
+			if (isDaikatana) {
+				const auto compressedLength = reader.read<uint32_t>();
+				if (
+					const auto compressedType = reader.read<uint32_t>();
+					compressedType == 1
+				) {
+					entry.compressedLength = compressedLength;
+				}
+			}
 
 			pak->entries.emplace(entryPath, entry);
 
@@ -131,6 +241,12 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) c
 		return std::nullopt;
 	}
 	stream.seek_in_u(entry->offset);
+
+	// Check if we need to decompress the Daikatana PAK file
+	if (this->type == Type::DAIKATANA && entry->compressedLength > 0) {
+		return ::decompressDaikatanaEntryData(stream.read_bytes(entry->compressedLength));
+	}
+
 	return stream.read_bytes(entry->length);
 }
 
@@ -142,6 +258,11 @@ void PAK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::by
 }
 
 bool PAK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
+	// todo: Daikatana PAKs are not currently handled
+	if (this->type == Type::DAIKATANA) {
+		return false;
+	}
+
 	// Get the proper file output folder
 	const std::string outputDir = this->getBakeOutputDir(outputDir_);
 	const std::string outputPath = outputDir + '/' + this->getFilename();
@@ -165,7 +286,7 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& 
 			if (this->type == Type::SIN_RELOADED) {
 				const auto oldSize = nameData.size();
 				nameData.resize(oldSize + path.size() + 1);
-				memcpy(&nameData[oldSize], path.data(), path.size());
+				std::memcpy(&nameData[oldSize], path.data(), path.size());
 				nameOffsets.push_back(oldSize);
 			}
 		} else {
@@ -181,9 +302,7 @@ bool PAK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& 
 		// Signature
 		stream.write<uint32_t>(this->getSignature());
 
-		// Header
 		if (this->type == Type::SIN_RELOADED) {
-			// Reserved value
 			// Basically a version identifier, but not used...?
 			stream.write<int32_t>(0);
 
@@ -266,6 +385,7 @@ void PAK::setType(Type type_) {
 uint32_t PAK::getSignature() const {
 	switch (this->type) {
 		case Type::PAK:
+		case Type::DAIKATANA:
 			return PAK_SIGNATURE;
 		case Type::SIN:
 			return PAK_SIN_SIGNATURE;
@@ -280,6 +400,7 @@ uint32_t PAK::getSignature() const {
 uint8_t PAK::getFilenameLength() const {
 	switch (this->type) {
 		case Type::PAK:
+		case Type::DAIKATANA:
 			return PAK_FILENAME_MAX_SIZE;
 		case Type::SIN:
 			return PAK_SIN_FILENAME_MAX_SIZE;

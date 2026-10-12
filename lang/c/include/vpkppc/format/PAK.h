@@ -18,6 +18,7 @@ VPKPP_EXTERNVAR const char* VPKPP_SIN_EXTENSION;
 
 VPKPP_EXTERN typedef enum {
 	VPKPP_PAK_TYPE_PAK,
+	VPKPP_PAK_TYPE_DAIKATANA,
 	VPKPP_PAK_TYPE_SIN,
 	VPKPP_PAK_TYPE_SIN_RELOADED,
 	VPKPP_PAK_TYPE_HROT,
@@ -39,6 +40,7 @@ namespace sourceppc::convert {
 inline vpkpp::PAK::Type cast(vpkpp_pak_type_e value) {
 	switch (value) {
 		case VPKPP_PAK_TYPE_PAK:          return vpkpp::PAK::Type::PAK;
+		case VPKPP_PAK_TYPE_DAIKATANA:    return vpkpp::PAK::Type::DAIKATANA;
 		case VPKPP_PAK_TYPE_SIN:          return vpkpp::PAK::Type::SIN;
 		case VPKPP_PAK_TYPE_SIN_RELOADED: return vpkpp::PAK::Type::SIN_RELOADED;
 		case VPKPP_PAK_TYPE_HROT:         return vpkpp::PAK::Type::HROT;
@@ -49,6 +51,7 @@ inline vpkpp::PAK::Type cast(vpkpp_pak_type_e value) {
 inline vpkpp_pak_type_e cast(vpkpp::PAK::Type value) {
 	switch (value) {
 		case vpkpp::PAK::Type::PAK:          return VPKPP_PAK_TYPE_PAK;
+		case vpkpp::PAK::Type::DAIKATANA:    return VPKPP_PAK_TYPE_DAIKATANA;
 		case vpkpp::PAK::Type::SIN:          return VPKPP_PAK_TYPE_SIN;
 		case vpkpp::PAK::Type::SIN_RELOADED: return VPKPP_PAK_TYPE_SIN_RELOADED;
 		case vpkpp::PAK::Type::HROT:         return VPKPP_PAK_TYPE_HROT;
