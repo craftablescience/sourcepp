@@ -14,7 +14,7 @@
 
 #ifdef _WIN32
 #include <memory>
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <cstdlib>
 #endif
