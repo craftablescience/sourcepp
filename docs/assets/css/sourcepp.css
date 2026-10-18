@@ -8,7 +8,7 @@
 	font-size: 1.25em;
 
 	--color-accent-green-light: rgb(20, 130, 20);
-	--color-accent-green-dark: rgb(20, 100, 20);
+	--color-accent-green-dark: rgb(15, 80, 15);
 	--color-accent-green-left-gradient: linear-gradient(to left, var(--color-accent-green-light), var(--color-accent-green-dark));
 	--color-accent-green-right-gradient: linear-gradient(to right, var(--color-accent-green-light), var(--color-accent-green-dark));
 	--color-accent-pink-light: rgb(180, 60, 160);
@@ -207,23 +207,9 @@ main {
 				margin: 0;
 				padding: 0.5rem;
 				border: calc(var(--border-size) / 2) solid;
-				border-image-slice: 1;
 				border-spacing: 0;
-				background-color: color-mix(in srgb, var(--color-background-light) 50%, var(--color-background-dark) 50%);
-			}
-
-			th:nth-child(odd),
-			&:not(.support-table-no-offset) th:nth-child(even),
-			td:nth-child(odd),
-			&:not(.support-table-no-offset) td:nth-child(even) {
-				border-image-source: var(--color-accent-green-left-gradient);
-			}
-
-			th:nth-child(even),
-			&:not(.support-table-no-offset) th:nth-child(odd),
-			td:nth-child(even),
-			&:not(.support-table-no-offset) td:nth-child(odd) {
-				border-image-source: var(--color-accent-green-right-gradient);
+				border-color: var(--color-accent-green-light);
+				background-color: var(--color-accent-green-dark);
 			}
 
 			&.support-table-no-offset th:first-child,
