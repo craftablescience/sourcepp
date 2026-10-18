@@ -2,6 +2,7 @@
 
 #include <initializer_list>
 #include <string_view>
+#include <tuple>
 #include <unordered_map>
 
 class BufferStream;
@@ -11,14 +12,37 @@ namespace sourcepp::parser::text {
 constexpr std::string_view DEFAULT_SINGLE_LINE_COMMENT_START = "//";
 constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_START  = "/*";
 constexpr std::string_view DEFAULT_MULTI_LINE_COMMENT_END    = "*/";
-constexpr std::string_view DEFAULT_STRING_START              = "\"";
-constexpr std::string_view DEFAULT_STRING_END                = "\"";
+constexpr std::pair        DEFAULT_QUOTES                    = {'\"', '\"'};
 
 using EscapeSequenceMap = std::unordered_map<char, char>;
 
 [[nodiscard]] const EscapeSequenceMap& getDefaultEscapeSequences();
 
 [[nodiscard]] const EscapeSequenceMap& getDefaultEscapeSequencesOrNone(bool useEscapes);
+
+class Tokenizer {
+public:
+	Tokenizer() = default;
+
+	Tokenizer& setSingleLineCommentStart(std::string_view singleLineCommentStart_);
+
+	Tokenizer& setMultiLineCommentStart(std::string_view multiLineCommentStart_);
+
+	Tokenizer& setMultiLineCommentEnd(std::string_view multiLineCommentEnd_);
+
+	Tokenizer& setQuotes(std::initializer_list<std::pair<char, char>> quotes_);
+
+	Tokenizer& setEscapeSequences(const EscapeSequenceMap& escapeSequences_);
+
+	[[nodiscard]] std::vector<std::string_view> parse(std::string_view text, std::string& out) const;
+
+protected:
+	std::string_view singleLineCommentStart = DEFAULT_SINGLE_LINE_COMMENT_START;
+	std::string_view multiLineCommentStart = DEFAULT_MULTI_LINE_COMMENT_START;
+	std::string_view multiLineCommentEnd = DEFAULT_MULTI_LINE_COMMENT_END;
+	std::initializer_list<std::pair<char, char>> quotes = {DEFAULT_QUOTES};
+	EscapeSequenceMap escapeSequences = getDefaultEscapeSequences();
+};
 
 /**
  * If a char is a newline character.
@@ -132,23 +156,21 @@ void eatWhitespaceAndComments(BufferStream& stream, std::string_view singleLineC
 /**
  * Read a string starting at the current stream position.
  * @param stream The BufferStream to modify.
- * @param start The starting string chars. If any processed char is in this string, the string will be treated as "quoted" and will include spaces.
- * @param end The ending string chars. If any processed char is in this string, and a starting char is detected, the string will terminate.
+ * @param quotes The start and end string chars. If any processed char is in this string, the string will be treated as "quoted" and will include spaces.
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return The read string.
  */
-[[nodiscard]] std::string readString(BufferStream& stream, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
+[[nodiscard]] std::string readString(BufferStream& stream, std::initializer_list<std::pair<char, char>> quotes = {DEFAULT_QUOTES}, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
 
 /**
  * Read a string starting at the current stream position.
  * @param stream The BufferStream to modify.
  * @param backing The BufferStream to store the string data in.
- * @param start The starting string chars. If any processed char is in this string, the string will be treated as "quoted" and will include spaces.
- * @param end The ending string chars. If any processed char is in this string, and a starting char is detected, the string will terminate.
+ * @param quotes The start and end string chars. If any processed char is in this string, the string will be treated as "quoted" and will include spaces.
  * @param escapeSequences Characters that will be escaped if a backslash is present before them. To disable escapes, pass an empty map.
  * @return A view over the string written to the backing stream.
  */
-std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view start = DEFAULT_STRING_START, std::string_view end = DEFAULT_STRING_END, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
+std::string_view readStringToBuffer(BufferStream& stream, BufferStream& backing, std::initializer_list<std::pair<char, char>> quotes = {DEFAULT_QUOTES}, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
 
 /**
  * Read a string starting at the current stream position.

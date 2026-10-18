@@ -273,17 +273,17 @@ protected:
 			// Read key
 			{
 				elements.push_back(KV1ElementWritable{});
-				elements.back().key = parser::text::readString(stream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, escapeSequences);
+				elements.back().key = parser::text::readString(stream, {parser::text::DEFAULT_QUOTES}, escapeSequences);
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
 			}
 			// Read value
 			if (stream.peek<char>() != '{') {
-				elements.back().value = parser::text::readString(stream, parser::text::DEFAULT_STRING_START, parser::text::DEFAULT_STRING_END, escapeSequences);
+				elements.back().value = parser::text::readString(stream, {parser::text::DEFAULT_QUOTES}, escapeSequences);
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
 			}
 			// Read conditional
 			if (stream.peek<char>() == '[') {
-				elements.back().conditional = parser::text::readString(stream, "[", "]", escapeSequences);
+				elements.back().conditional = parser::text::readString(stream, {{'[', ']'}}, escapeSequences);
 				parser::text::eatWhitespaceAndSingleLineComments(stream);
 			}
 			// Read block

@@ -95,7 +95,7 @@ void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& versi
 			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 	}
-	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{})};
+	std::string versionString{parser::text::readStringToBuffer(stream, backing, {{'(', ')'}}, parser::text::EscapeSequenceMap{})};
 	string::trim(versionString);
 	string::toInt(versionString, version);
 }
@@ -185,7 +185,7 @@ void readClassProperties(BufferStreamReadOnly& stream, BufferStream& backing, FG
 				continue;
 			}
 		}
-		classProperty.arguments = parser::text::readStringToBuffer(stream, backing, "(", ")", {{'n', '\n'}});
+		classProperty.arguments = parser::text::readStringToBuffer(stream, backing, {{'(', ')'}}, {{'n', '\n'}});
 		entity.classProperties.push_back(classProperty);
 
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
@@ -204,7 +204,7 @@ void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Enti
 			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 	}
-	io.valueType = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{});
+	io.valueType = parser::text::readStringToBuffer(stream, backing, {{'(', ')'}}, parser::text::EscapeSequenceMap{});
 
 	if (!::tryToEatSeparator(stream, ':')) {
 		io.description = "";
