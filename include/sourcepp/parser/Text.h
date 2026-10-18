@@ -30,7 +30,7 @@ public:
 
 	Tokenizer& setMultiLineCommentEnd(std::string_view multiLineCommentEnd_);
 
-	Tokenizer& setQuotes(std::initializer_list<std::pair<char, char>> quotes_);
+	//Tokenizer& setQuotes(std::initializer_list<std::pair<char, char>> quotes_);
 
 	Tokenizer& setEscapeSequences(const EscapeSequenceMap& escapeSequences_);
 
@@ -40,7 +40,8 @@ protected:
 	std::string_view singleLineCommentStart = DEFAULT_SINGLE_LINE_COMMENT_START;
 	std::string_view multiLineCommentStart = DEFAULT_MULTI_LINE_COMMENT_START;
 	std::string_view multiLineCommentEnd = DEFAULT_MULTI_LINE_COMMENT_END;
-	std::initializer_list<std::pair<char, char>> quotes = {DEFAULT_QUOTES};
+	// Disabled because MSVC is a garbage fire: "list initialization inside member initializer list or non-static data member initializer is not implemented"
+	//std::initializer_list<std::pair<char, char>> quotes{DEFAULT_QUOTES};
 	EscapeSequenceMap escapeSequences = getDefaultEscapeSequences();
 };
 

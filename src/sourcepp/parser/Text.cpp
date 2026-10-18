@@ -44,10 +44,10 @@ parser::text::Tokenizer& parser::text::Tokenizer::setMultiLineCommentEnd(std::st
 	return *this;
 }
 
-parser::text::Tokenizer& parser::text::Tokenizer::setQuotes(std::initializer_list<std::pair<char, char>> quotes_) {
-	this->quotes = quotes_;
-	return *this;
-}
+//parser::text::Tokenizer& parser::text::Tokenizer::setQuotes(std::initializer_list<std::pair<char, char>> quotes_) {
+//	this->quotes = quotes_;
+//	return *this;
+//}
 
 parser::text::Tokenizer& parser::text::Tokenizer::setEscapeSequences(const EscapeSequenceMap& escapeSequences_) {
 	this->escapeSequences = escapeSequences_;
@@ -75,7 +75,7 @@ std::vector<std::string_view> parser::text::Tokenizer::parse(std::string_view te
 					eatWhitespaceAndComments(stream);
 				}
 			}
-			tokens.push_back(readStringToBuffer(stream, backing, this->quotes, this->escapeSequences));
+			tokens.push_back(readStringToBuffer(stream, backing, /*this->quotes*/ {DEFAULT_QUOTES}, this->escapeSequences));
 		}
 	} catch (const std::overflow_error&) {}
 	return tokens;
