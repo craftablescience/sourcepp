@@ -3,6 +3,7 @@
 #include <initializer_list>
 #include <list>
 #include <span>
+#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <unordered_map>
@@ -15,6 +16,11 @@ namespace toolpp {
 
 class FGD {
 public:
+	class SyntaxError : public std::runtime_error {
+	public:
+		using std::runtime_error::runtime_error;
+	};
+
 	struct Entity {
 		struct ClassProperty {
 			std::string_view name;

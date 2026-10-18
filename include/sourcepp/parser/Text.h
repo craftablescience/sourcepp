@@ -1,6 +1,6 @@
 #pragma once
 
-#include <stdexcept>
+#include <initializer_list>
 #include <string_view>
 #include <unordered_map>
 
@@ -185,10 +185,5 @@ std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& 
  * @return A view over the string written to the backing stream.
  */
 std::string_view readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences = getDefaultEscapeSequences());
-
-class syntax_error : public std::runtime_error {
-public:
-	using std::runtime_error::runtime_error;
-};
 
 } // namespace sourcepp::parser::text

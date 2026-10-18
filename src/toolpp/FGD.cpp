@@ -92,7 +92,7 @@ void readVersion(BufferStreamReadOnly& stream, BufferStream& backing, int& versi
 	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 	}
 	std::string versionString{parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{})};
@@ -104,13 +104,13 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 	}
-	const auto mapSizeString = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{});
+	const auto mapSizeString = parser::text::readStringToBuffer(stream, backing, {{'(', ')'}}, parser::text::EscapeSequenceMap{});
 	auto mapSizes = string::split(mapSizeString, ',');
 	if (mapSizes.size() != 2) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 
 	string::trim(mapSizes[0]);
@@ -121,7 +121,7 @@ void readMapSize(BufferStreamReadOnly& stream, BufferStream& backing, math::Vec2
 
 void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<std::string_view>& materialExclusionDirs) {
 	if (!::tryToEatSeparator(stream, '[')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	while (!::tryToEatSeparator(stream, ']')) {
 		materialExclusionDirs.push_back(::readFGDString(stream, backing));
@@ -131,15 +131,15 @@ void readMaterialExclusionDirs(BufferStreamReadOnly& stream, BufferStream& backi
 
 void readMainKeyValues(BufferStreamReadOnly& stream, BufferStream& backing, std::unordered_map<std::string_view, std::string_view>& mainKeyValues) {
 	if (!::tryToEatSeparator(stream, '=')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	if (!::tryToEatSeparator(stream, '[')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	while (!::tryToEatSeparator(stream, ']')) {
 		auto key = ::readFGDString(stream, backing);
 		if (!::tryToEatSeparator(stream, ':')) {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 		auto value = ::readFGDString(stream, backing);
 		mainKeyValues[key] = value;
@@ -149,18 +149,18 @@ void readMainKeyValues(BufferStreamReadOnly& stream, BufferStream& backing, std:
 
 void readAutoVisGroups(BufferStreamReadOnly& stream, BufferStream& backing, std::vector<FGD::AutoVisGroup>& autoVisGroups) {
 	if (!::tryToEatSeparator(stream, '=')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	const auto parentName = ::readFGDString(stream, backing);
 	if (!::tryToEatSeparator(stream, '[')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	while (!::tryToEatSeparator(stream, ']')) {
 		auto& autoVisGroup = autoVisGroups.emplace_back();
 		autoVisGroup.parentName = parentName;
 		autoVisGroup.name = ::readFGDString(stream, backing);
 		if (!::tryToEatSeparator(stream, '[')) {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 		while (!::tryToEatSeparator(stream, ']')) {
 			autoVisGroup.entities.push_back(::readFGDString(stream, backing));
@@ -201,7 +201,7 @@ void readEntityIO(BufferStreamReadOnly& stream, BufferStream& backing, FGD::Enti
 	if (stream.seek(-1, std::ios::cur).peek<char>() != '(') {
 		parser::text::eatWhitespace(stream);
 		if (stream.peek<char>() != '(') {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 	}
 	io.valueType = parser::text::readStringToBuffer(stream, backing, "(", ")", parser::text::EscapeSequenceMap{});
@@ -282,7 +282,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		}
 
 		if (!::tryToEatSeparator(stream, '=') || !::tryToEatSeparator(stream, '[')) {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 		while (stream.peek<char>() != ']') {
 			auto& choice = field.choices.emplace_back();
@@ -311,7 +311,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		}
 
 		if (!::tryToEatSeparator(stream, '=') || !::tryToEatSeparator(stream, '[')) {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 		}
 		parser::text::eatWhitespaceAndSingleLineComments(stream);
 
@@ -486,7 +486,7 @@ void readEntity(BufferStreamReadOnly& stream, BufferStream& backing, std::string
 
 	// Parse entity keyvalues
 	if (!::tryToEatSeparator(stream, '[')) {
-		throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+		throw FGD::SyntaxError{INVALID_SYNTAX_MSG};
 	}
 	while (!::tryToEatSeparator(stream, ']')) {
 		::readEntityKeyValue(stream, backing, entity);
@@ -579,7 +579,7 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::filesystem::path
 
 		// All entity definitions start with an '@' followed by the class type
 		if (stream.read<char>() != '@') {
-			throw parser::text::syntax_error{INVALID_SYNTAX_MSG};
+			throw SyntaxError{INVALID_SYNTAX_MSG};
 		}
 
 		const auto classType = parser::text::readUnquotedStringToBuffer(stream, backing, "(", parser::text::EscapeSequenceMap{});
@@ -623,7 +623,7 @@ void FGD::readEntities(BufferStreamReadOnly& stream, const std::filesystem::path
 		} else if (string::iequals(classType, "ExtendClass")) {
 			::readEntity(stream, backing, classType, this->entities, true);
 		} else {
-			throw parser::text::syntax_error{INVALID_CLASS_MSG};
+			throw SyntaxError{INVALID_CLASS_MSG};
 		}
 	}
 }
