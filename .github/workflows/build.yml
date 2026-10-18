@@ -25,7 +25,7 @@ jobs:
         uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure CMake (C++)
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_TESTS=ON -DMZ_BZIP2=OFF
 
       - name: Build (C++)
         run: cmake --build build --config ${{matrix.build_type}}
@@ -35,7 +35,7 @@ jobs:
         run: ctest
 
       - name: Configure CMake (C)
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_C_WRAPPERS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_C_WRAPPERS=ON -DMZ_BZIP2=OFF
 
       - name: Build (C)
         run: cmake --build build --config ${{matrix.build_type}}
@@ -50,7 +50,7 @@ jobs:
 
       - name: Configure CMake (C#)
         if: matrix.os != 'windows-latest'
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_CSHARP_WRAPPERS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_CSHARP_WRAPPERS=ON -DMZ_BZIP2=OFF
 
       - name: Build (C#)
         if: matrix.os != 'windows-latest'
@@ -59,7 +59,7 @@ jobs:
           dotnet build lang/csharp --configuration Release
 
       - name: Configure CMake (Python)
-        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON
+        run: cmake -G "Ninja" -B build -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -DSOURCEPP_BUILD_PYTHON_WRAPPERS=ON -DMZ_BZIP2=OFF
 
       - name: Build (Python)
         working-directory: '${{github.workspace}}/lang/python'
