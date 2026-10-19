@@ -142,12 +142,41 @@ DDS::operator bool() const {
 	return this->opened;
 }
 
-uint16_t DDS::getWidth() const {
-	return this->width;
+ImageConversion::ResizeMethod DDS::getImageWidthResizeMethod() const {
+	return this->imageWidthResizeMethod;
 }
 
-uint16_t DDS::getHeight() const {
-	return this->height;
+ImageConversion::ResizeMethod DDS::getImageHeightResizeMethod() const {
+	return this->imageHeightResizeMethod;
+}
+
+void DDS::setImageResizeMethods(ImageConversion::ResizeMethod imageWidthResizeMethod_, ImageConversion::ResizeMethod imageHeightResizeMethod_) {
+	this->imageWidthResizeMethod = imageWidthResizeMethod_;
+	this->imageHeightResizeMethod = imageHeightResizeMethod_;
+}
+
+void DDS::setImageWidthResizeMethod(ImageConversion::ResizeMethod imageWidthResizeMethod_) {
+	this->imageWidthResizeMethod = imageWidthResizeMethod_;
+}
+
+void DDS::setImageHeightResizeMethod(ImageConversion::ResizeMethod imageHeightResizeMethod_) {
+	this->imageHeightResizeMethod = imageHeightResizeMethod_;
+}
+
+uint16_t DDS::getWidth(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->width);
+}
+
+uint16_t DDS::getPaddedWidth(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->width, ImageFormatDetails::compressed(this->format));
+}
+
+uint16_t DDS::getHeight(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->height);
+}
+
+uint16_t DDS::getPaddedHeight(uint8_t mip) const {
+	return ImageDimensions::getMipDim(mip, this->height, ImageFormatDetails::compressed(this->format));
 }
 
 bool DDS::hasImageData() const {
@@ -187,4 +216,166 @@ std::vector<std::byte> DDS::getImageDataAs(ImageFormat newFormat, uint8_t mip) c
 
 std::vector<std::byte> DDS::getImageDataAsRGBA8888(uint8_t mip) const {
 	return this->getImageDataAs(ImageFormat::RGBA8888, mip);
+}
+
+bool DDS::setImage(std::span<const std::byte> imageData_, ImageFormat format_, uint16_t width_, uint16_t height_, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality) {
+	if (imageData_.empty()) {
+		return false;
+	}
+
+	if (!this->hasImageData()) {
+		uint16_t resizedWidth = width_, resizedHeight = height_;
+		ImageConversion::setResizedDims(resizedWidth, this->imageWidthResizeMethod, resizedHeight, this->imageHeightResizeMethod);
+		if (ImageFormatDetails::compressed(format_)) {
+			resizedWidth += math::paddingForAlignment(4, resizedWidth);
+			resizedHeight += math::paddingForAlignment(4, resizedHeight);
+		}
+		if (const auto newMipCount = ImageDimensions::getMaximumMipCount(resizedWidth, resizedHeight, this->depth); newMipCount <= mip) {
+			mip = newMipCount - 1;
+		}
+		if (face > 6) {
+			return false;
+		}
+		this->regenerateImageData(format_, resizedWidth, resizedHeight, mip + 1, frame + 1, face ? (face < 6 ? 6 : face) : 0, slice + 1);
+	}
+
+	const auto faceCount = this->getFaceCount();
+	if (this->mipCount <= mip || this->frameCount <= frame || faceCount <= face || this->depth <= slice) {
+		return false;
+	}
+
+	const auto* imageResource = this->getResource(Resource::TYPE_IMAGE_DATA);
+	if (!imageResource) {
+		return false;
+	}
+	if (uint32_t offset, length; ImageFormatDetails::getDataPosition(offset, length, this->format, mip, this->mipCount, frame, this->frameCount, face, faceCount, this->width, this->height, slice, this->depth)) {
+		std::vector<std::byte> image{imageData_.begin(), imageData_.end()};
+		const auto [newWidth, newHeight] = ImageDimensions::getMipDims(mip, this->width, this->height);
+		if (width_ != newWidth || height_ != newHeight) {
+			image = ImageConversion::resizeImageData(image, format_, width_, newWidth, height_, newHeight, this->isSRGB(), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, filter);
+		}
+		if (format_ != this->format) {
+			image = ImageConversion::convertImageDataToFormat(image, format_, this->format, newWidth, newHeight, quality);
+		}
+		std::memcpy(imageResource->data.data() + offset, image.data(), image.size());
+	}
+	return true;
+}
+
+bool DDS::setImage(const std::filesystem::path& imagePath, ImageConversion::ResizeFilter filter, uint8_t mip, uint16_t frame, uint8_t face, uint16_t slice, float quality, ImageConversion::ResizeBounds resizeBounds) {
+	ImageFormat inputFormat;
+	int inputWidth, inputHeight, inputFrameCount;
+	auto imageData_ = ImageConversion::convertFileToImageData(fs::readFileBuffer(imagePath), inputFormat, inputWidth, inputHeight, inputFrameCount);
+
+	// Unable to decode file
+	if (imageData_.empty() || inputFormat == ImageFormat::EMPTY || !inputWidth || !inputHeight || !inputFrameCount) {
+		return false;
+	}
+
+	// Image dimension overrides
+	auto [requestedResizeWidth, requestedResizeHeight] = resizeBounds.clamp(inputWidth, inputHeight);
+
+	// One frame (normal)
+	if (inputFrameCount == 1) {
+		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
+			const auto imageDataResized = ImageConversion::resizeImageData(imageData_, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter, resizeBounds.resizeEdge);
+			return this->setImage(imageDataResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame, face, slice, quality);
+		}
+		return this->setImage(imageData_, inputFormat, inputWidth, inputHeight, filter, mip, frame, face, slice, quality);
+	}
+
+	// Multiple frames (GIF)
+	bool allSuccess = true;
+	const auto frameSize = ImageFormatDetails::getDataLength(inputFormat, inputWidth, inputHeight);
+	for (int currentFrame = 0; currentFrame < inputFrameCount; currentFrame++) {
+		std::span currentFrameData{imageData_.data() + currentFrame * frameSize, imageData_.data() + currentFrame * frameSize + frameSize};
+		if (requestedResizeWidth != inputWidth || requestedResizeHeight != inputHeight) {
+			const auto currentFrameResized = ImageConversion::resizeImageData(currentFrameData, inputFormat, inputWidth, requestedResizeWidth, inputHeight, requestedResizeHeight, !ImageFormatDetails::large(inputFormat), this->getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, resizeBounds.resizeFilter, resizeBounds.resizeEdge);
+			if (!this->setImage(currentFrameResized, inputFormat, requestedResizeWidth, requestedResizeHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
+				allSuccess = false;
+			}
+		} else if (!this->setImage(currentFrameData, inputFormat, inputWidth, inputHeight, filter, mip, frame + currentFrame, face, slice, quality)) {
+			allSuccess = false;
+		}
+		if (currentFrame == 0 && this->frameCount < frame + inputFrameCount) {
+			// Call this after setting the first image, this function is a no-op if no image data is present yet
+			this->setFrameCount(frame + inputFrameCount);
+		}
+	}
+	return allSuccess;
+}
+
+bool DDS::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& ddsPath, const CreationOptions& options) {
+	DDS writer;
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.resizeBounds.resizeFilter, options.resizeBounds.resizeEdge);
+		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
+			return false;
+		}
+	} else if (!writer.setImage(imageData, format, width, height, options.filter)) {
+		return false;
+	}
+	if (!createInternal(writer, options)) {
+		return false;
+	}
+	return writer.bake(ddsPath);
+}
+
+bool DDS::create(ImageFormat format, uint16_t width, uint16_t height, const std::filesystem::path& ddsPath, const CreationOptions& options) {
+	std::vector<std::byte> imageData;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
+	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
+	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, ddsPath, options);
+}
+
+DDS DDS::create(std::span<const std::byte> imageData, ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
+	DDS writer;
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	if (const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height); requestedResizeWidth != width || requestedResizeHeight != height) {
+		const auto imageDataResized = ImageConversion::resizeImageData(imageData, format, width, requestedResizeWidth, height, requestedResizeHeight, !ImageFormatDetails::large(format), writer.getFlagsExtra() & FLAG_EXTRA_USING_PREMULTIPLIED_ALPHA_RESIZE, options.resizeBounds.resizeFilter, options.resizeBounds.resizeEdge);
+		if (!writer.setImage(imageDataResized, format, requestedResizeWidth, requestedResizeHeight, options.filter)) {
+			writer.opened = false;
+			return writer;
+		}
+	} else if (!writer.setImage(imageData, format, width, height, options.filter)) {
+		writer.opened = false;
+		return writer;
+	}
+	if (!createInternal(writer, options)) {
+		writer.opened = false;
+	}
+	return writer;
+}
+
+DDS DDS::create(ImageFormat format, uint16_t width, uint16_t height, const CreationOptions& options) {
+	std::vector<std::byte> imageData;
+	const auto [requestedResizeWidth, requestedResizeHeight] = options.resizeBounds.clamp(width, height);
+	imageData.resize(static_cast<uint32_t>(requestedResizeWidth) * requestedResizeHeight * ImageFormatDetails::bpp(format) / 8);
+	return create(imageData, format, requestedResizeWidth, requestedResizeHeight, options);
+}
+
+bool DDS::create(const std::filesystem::path& imagePath, const std::filesystem::path& ddsPath, const CreationOptions& options) {
+	DDS writer;
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
+		return false;
+	}
+	if (!createInternal(writer, options)) {
+		return false;
+	}
+	return writer.bake(ddsPath);
+}
+
+DDS DDS::create(const std::filesystem::path& imagePath, const CreationOptions& options) {
+	DDS writer;
+	writer.setImageResizeMethods(options.widthResizeMethod, options.heightResizeMethod);
+	if (!writer.setImage(imagePath, options.filter, 0, 0, 0, 0, options.compressedFormatQuality, options.resizeBounds)) {
+		writer.opened = false;
+		return writer;
+	}
+	if (!createInternal(writer, options)) {
+		writer.opened = false;
+	}
+	return writer;
 }
