@@ -318,7 +318,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 		while (stream.peek<char>() != ']') {
 			auto& flag = field.flags.emplace_back();
 			const auto valueString = ::readFGDString(stream, backing);
-			if (string::toInt(valueString, flag.value).ec != std::errc{}) {
+			if (!string::toInt(valueString, flag.value)) {
 				flag.value = 0;
 			}
 
@@ -332,7 +332,7 @@ void readEntityKeyValue(BufferStreamReadOnly& stream, BufferStream& backing, FGD
 			}
 			const auto enabledByDefaultString = ::readFGDString(stream, backing);
 			int enabledByDefault = 0;
-			if (string::toInt(enabledByDefaultString, enabledByDefault).ec != std::errc{}) {
+			if (!string::toInt(enabledByDefaultString, enabledByDefault)) {
 				flag.enabledByDefault = false;
 			} else {
 				flag.enabledByDefault = static_cast<bool>(enabledByDefault);

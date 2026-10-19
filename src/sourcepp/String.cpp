@@ -244,11 +244,16 @@ void string::denormalizeSlashes(std::string& path, bool stripSlashPrefix, bool s
 	}
 }
 
-std::from_chars_result string::toBool(std::string_view number, bool& out, int base) {
+bool string::toBool(std::string_view number, bool& out, int base) {
 	uint8_t tmp;
-	const auto result = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
+	const auto [ptr, err] = std::from_chars(number.data(), number.data() + number.size(), tmp, base);
 	out = tmp;
-	return result;
+	return ptr == number.data() + number.size() && err == std::errc{};
+}
+
+bool string::isBool(std::string_view number, int base) {
+	bool tmp;
+	return toBool(number, tmp, base);
 }
 
 std::vector<std::byte> string::decodeHex(std::string_view hex) {

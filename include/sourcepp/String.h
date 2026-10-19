@@ -78,20 +78,41 @@ void normalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool str
 
 void denormalizeSlashes(std::string& path, bool stripSlashPrefix = false, bool stripSlashSuffix = true);
 
-std::from_chars_result toBool(std::string_view number, bool& out, int base = 10);
+bool toBool(std::string_view number, bool& out, int base = 10);
 
-std::from_chars_result toInt(std::string_view number, std::integral auto& out, int base = 10) {
-	return std::from_chars(number.data(), number.data() + number.size(), out, base);
+[[nodiscard]] bool isBool(std::string_view number, int base = 10);
+
+bool toInt(std::string_view number, std::integral auto& out, int base = 10) {
+	const auto [ptr, err] = std::from_chars(number.data(), number.data() + number.size(), out, base);
+	return ptr == number.data() + number.size() && err == std::errc{};
 }
 
-std::from_chars_result toFloat(std::string_view number, std::floating_point auto& out) {
+template<std::integral T>
+[[nodiscard]] bool isInt(std::string_view number, int base = 10) {
+	T tmp;
+	return toInt(number, tmp, base);
+}
+
+bool toFloat(std::string_view number, std::floating_point auto& out) {
 #ifdef __APPLE__
 	// Piece of shit compiler
-	out = std::stof(std::string{number});
-	return {number.data(), {}};
+	try {
+		size_t pos = 0;
+		out = std::stof(std::string{number}, &pos);
+		return pos == number.size();
+	} catch (const std::invalid_argument&) {
+	} catch (const std::out_of_range&) {}
+	return false;
 #else
-	return std::from_chars(number.data(), number.data() + number.size(), out);
+	const auto [ptr, err] = std::from_chars(number.data(), number.data() + number.size(), out);
+	return ptr == number.data() + number.size() && err == std::errc{};
 #endif
+}
+
+template<std::floating_point T>
+[[nodiscard]] bool isFloat(std::string_view number) {
+	T tmp;
+	return toFloat(number, tmp);
 }
 
 [[nodiscard]] std::vector<std::byte> decodeHex(std::string_view hex);
