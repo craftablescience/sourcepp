@@ -248,10 +248,7 @@ private:
 };
 
 float vecDist(Vec2f32 v0, Vec2f32 v1) {
-	return std::hypot(v0[0] - v1[0], v1[0] - v1[1]);
-}
-Vec2i vec2ipmul(Vec2i v0, Vec2i v1) {
-	return {v0[0] * v1[0], v0[1] * v1[1]};
+	return std::hypot(v0[0] - v1[0], v0[1] - v1[1]);
 }
 
 using math::pi_f32;
@@ -265,6 +262,8 @@ float aaOffset(const SampleParam *param, Vec2i pixel, float alpha, float reach) 
 	const float gap = fabs(alpha - 0.5f);
 	return (slope < 1e-6f || gap > reach * slope) ? -1.0f : fmin(gap / slope, reach);
 }
+
+static constexpr float BIG_EPSILON = 0.05f;
 
 void paintMap(
 	const SampleParam *param,
@@ -289,8 +288,7 @@ void paintMap(
 	uint16_t dstHeight = param->imgHeight / param->reduceY;
 
 	uint32_t iGradW = 0;
-	std::vector<float> gradients = tangentDiffusion ? std::vector<float>(totalComputation, -pi_f32 - 0.05f) : std::vector<float>(0);
-	float lastAng = 0;
+	std::vector<float> gradients = tangentDiffusion ? std::vector<float>(totalComputation, -pi_f32 - BIG_EPSILON) : std::vector<float>(0);
 
 	bool keepPainting = true;
 	do {
@@ -312,6 +310,7 @@ void paintMap(
 				float alphaRef = param->sample({curX, srcY});
 				Leaf stateRef = param->thresh(alphaRef);
 				float nearest = std::numeric_limits<float>::max();
+				float nearestAng = -pi_f32 - BIG_EPSILON;
 				const float offsRef = distanceAA ? aaOffset(param, {curX, srcY}, alphaRef, 0.5f) : -1.0f;
 
 				for (int32_t sX = curX - param->searchRadius, tX = curX + param->searchRadius; sX < tX; sX++) {
@@ -321,11 +320,12 @@ void paintMap(
 						if (stateSmp != stateRef) {
 							float dist = std::hypot<float>(sX - curX, sY - srcY);
 
-							if (tangentDiffusion) {
-								lastAng = atan2(sX - curX, sY - srcY);
-							}
 							if (distanceAA) {
 								dist -= fmax(0.0f, aaOffset(param, {sX, sY}, alphaSmp, 1.0f));
+							}
+
+							if (tangentDiffusion && dist < nearest) {
+								nearestAng = atan2(sY - srcY, sX - curX);
 							}
 							nearest = fmin(nearest, dist);
 						}
@@ -340,7 +340,7 @@ void paintMap(
 
 				dstImg[iOut] = 0.5 + nearest;
 				if (tangentDiffusion) {
-					gradients[iGradW] = lastAng;
+					gradients[iGradW] = nearestAng;
 				}
 			}
 		}
@@ -393,9 +393,7 @@ void paintMap(
 		static constexpr float eighth = pi_f32 / 4.0f;
 
 		RasterCursor diffCursor(&tree, dstWidth, dstHeight);
-		uint32_t diffOut = dstAlphaOffs;
 		Leaf diffShade = FIGUREITOUT;
-		const uint32_t dstBufLen = dstWidth * dstHeight * dstPxLen;
 		uint16_t diffY = 0, diffX = 0, diffW = 0;
 		uint32_t iGradR = 0;
 
@@ -407,20 +405,24 @@ void paintMap(
 			}
 			bool rightEdge = diffX + diffW >= dstWidth;
 
-			for (uint16_t i = 0; i < diffW; i++, iGradR++, diffOut += dstPxLen) {
+			for (uint16_t i = 0; i < diffW; i++, iGradR++) {
 				float theta = gradients[iGradR];
-				if (theta < -pi_f32 - 0.025f) {
+				if (theta < -pi_f32 - BIG_EPSILON / 2.0f) {
 					continue;
 				}
 				float thetaNormal = fmod(theta + 2.5f * pi_f32, 2.0f * pi_f32);
 				uint8_t nEighths = static_cast<uint32_t>(std::floor(thetaNormal / eighth)) % 8;
 				double quantum = *tangentDiffusion;
-				double curPx = dstImg[diffOut];
+				Vec2i pos{diffX + i, diffY};
+				uint32_t iDiff = param->indexFn(pos, dstWidth, dstHeight, dstPxLen, dstAlphaOffs);
+				double curPx = dstImg[iDiff];
+
 				double quantized = std::round(curPx / quantum) * quantum;
 				float quantErr = curPx - quantized;
-				dstImg[diffOut] = quantized;
+				dstImg[iDiff] = quantized;
 				bool atRight = rightEdge && i >= diffW - 1;
-				bool bottomEdge = diffY >= dstHeight - 1;
+				bool bottomEdge = pos[1] >= dstHeight - 1;
+
 				if (atRight && bottomEdge) {
 					break;
 				}
@@ -429,13 +431,9 @@ void paintMap(
 				float dist0 = vecDist(normal, {hardSigns[(nEighths + 2) % 8], hardSigns[(nEighths + 0) % 8]});
 				float dist1 = vecDist(normal, {hardSigns[(nEighths + 3) % 8], hardSigns[(nEighths + 1) % 8]});
 				// offset selection uses the part of the circle that is yet to be scanned
-				Vec2i offs0{hardSigns[nEighths % 4 + 2], hardSigns[nEighths % 4 + 0]};
-				Vec2i offs1{hardSigns[nEighths % 4 + 3], hardSigns[nEighths % 4 + 1]};
-				Vec2i pos{diffX + i, diffY};
-				if (bottomEdge) {
-					offs0 = vec2ipmul(offs0, {1, 0});
-					offs1 = vec2ipmul(offs1, {1, 0});
-				}
+				Vec2i offs0{hardSigns[(nEighths + 0) % 4 + 2], bottomEdge ? 0 : hardSigns[(nEighths + 0) % 4]};
+				Vec2i offs1{hardSigns[(nEighths + 1) % 4 + 2], bottomEdge ? 0 : hardSigns[(nEighths + 1) % 4]};
+
 				dstImg[param->indexFn(pos + offs0, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist1 / (dist0 + dist1);
 				dstImg[param->indexFn(pos + offs1, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist0 / (dist0 + dist1);
 			}
@@ -521,7 +519,8 @@ bool isSingleChannel(ImageFormat format) {
 		:
 			std::vector<std::byte>(sizeof(float) * dstPxLen * dstWidth * dstHeight, std::byte{0x00});
 
-	float quantum = 1.0f / static_cast<float>(1 << decompressedAlpha(outFormat));
+	int8_t alphaBits = decompressedAlpha(outFormat);
+	float quantum = (alphaBits > 0) ? 1.0f / static_cast<float>((1 << alphaBits) - 1) : 1.0f;
 	bool doGradientDither = dither == Dither::GRADIENT_TANGENT && !decimal(outFormat);
 	paintMap(
 		&param,
