@@ -16,7 +16,7 @@ enum class Dither {
 enum class Flags : uint32_t {
 	NONE           = 0,
 	DISTANCEAA     = 1 << 0, ///< Experimental; interpret the alpha channel as antialiased. Can result in a more precise distance map, but can produce nonsense at sharp corners.
-	EUCLIDEAN      = 1 << 1, ///< The distance-mapping algorithm is a brute-force scan of a *square* area. If this is enabled, only accept distance hits in a circular area.
+	EUCLIDEAN      = 1 << 1, ///< Meaningless. Preserved for backward compatibility. Never actually did anything.
 	SAMPLECENTERED = 1 << 2, ///< Search from the center of pixels (in destination coordinate space) rather than in their north-west corners. Can mitigate a perceived southeast shift at extreme reductions.
 
 };
