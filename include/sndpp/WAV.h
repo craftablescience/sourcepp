@@ -1,10 +1,13 @@
+// ReSharper disable CppUseStructuredBinding
+
 #pragma once
 
 #include <array>
-#include <cctype>
 #include <optional>
 
 #include <BufferStream.h>
+
+#include <sourcepp/parser/Text.h>
 
 #include "RIFF.h"
 
@@ -206,12 +209,7 @@ public:
 	explicit WAV(const std::filesystem::path& wavPath);
 
 	template<ChunkType Type>
-	[[nodiscard]] auto getFirstWAVChunk() const {
-		return this->getNthWAVChunk<Type>(0);
-	}
-
-	template<ChunkType Type>
-	[[nodiscard]] auto getNthWAVChunk(uint32_t n) const {
+	[[nodiscard]] auto get(uint32_t n = 0) const {
 		auto chunkData = this->getNthChunk(Type, n);
 		BufferStreamReadOnly stream{chunkData};
 		if constexpr (Type == CHUNK_FMT) {
@@ -297,87 +295,74 @@ public:
 		} else if constexpr (Type == CHUNK_VDAT) {
 			std::optional<ChunkVDAT> chunk = std::nullopt;
 			if (stream.size() > 0) {
-				chunk = ChunkVDAT{};
-				const auto getToken = [&stream] {
-					std::string token;
-					if (stream.tell() >= stream.size()) {
-						return token;
-					}
-					bool gotToken = false;
-					char c = stream.read<char>();
-					while (true) {
-						if (!gotToken && std::isspace(c)) {
-							// skip leading whitespace
-						} else if (!gotToken && !std::isspace(c)) {
-							gotToken = true;
-							token += c;
-						} else if (gotToken && !std::isspace(c)) {
-							token += c;
-						} else if (gotToken && std::isspace(c)) {
-							break;
-						}
-						c = stream.read<char>();
-					}
-					return token;
-				};
-				std::string token = getToken();
-				while (!token.empty()) {
-					if (token == "VERSION") {
-						token = getToken();
-						chunk->version = std::stof(token);
+				ChunkVDAT vdat;
+
+				std::string backingString;
+				auto tokens = sourcepp::parser::text::Tokenizer{}
+					.setSingleLineCommentStart("")
+					.setMultiLineCommentStart("")
+					.setMultiLineCommentEnd("")
+					.parse({reinterpret_cast<const char*>(chunkData.data()), chunkData.size()}, backingString);
+
+				while (tokens.tell() < tokens.size()) {
+					if (
+						auto token = tokens.next();
+						token == "VERSION"
+					) {
+						sourcepp::string::toFloat(tokens.next(), vdat.version);
 					} else if (token == "PLAINTEXT") {
-						token = getToken(); // opening brace
-						token = getToken(); // first token
-						while (true) {
-							chunk->plaintext += token;
-							token = getToken();
-							if (token.empty() || token == "}")
-								break;
-							chunk->plaintext += ' ';
+						if (tokens.next() != "{") {
+							return chunk;
+						}
+						token = tokens.next();
+						while (token != "}") {
+							vdat.plaintext += token;
+							vdat.plaintext += ' ';
+							token = tokens.next();
+						}
+						if (!vdat.plaintext.empty()) {
+							vdat.plaintext.pop_back();
 						}
 					} else if (token == "WORDS") {
-						token = getToken(); // opening brace
-						token = getToken(); // first token
-						while (token == "WORD") {
-							ChunkVDAT::Word word;
-							word.word = getToken();
-							word.startTime = std::stof(getToken());
-							word.endTime = std::stof(getToken());
-							token = getToken(); // opening brace
-							token = getToken(); // first token
-							while (token != "}") {
-								ChunkVDAT::Phoneme phoneme;
-								phoneme.code = std::stoi(token);
-								phoneme.name = getToken();
-								phoneme.startTime = std::stof(getToken());
-								phoneme.endTime = std::stof(getToken());
-								phoneme.volume = std::stof(getToken());
-								word.phonemes.push_back(phoneme);
-								token = getToken();
+						if (tokens.next() != "{") {
+							return chunk;
+						}
+						for (token = tokens.next(); token == "WORD"; token = tokens.next()) {
+							auto& word = vdat.words.emplace_back();
+							word.word = tokens.next();
+							tokens.nextFloat(word.startTime);
+							tokens.nextFloat(word.endTime);
+							if (tokens.next() != "{") {
+								return chunk;
 							}
-							chunk->words.push_back(word);
-							token = getToken();
+							for (token = tokens.next(); token != "}"; token = tokens.next()) {
+								auto& phoneme = word.phonemes.emplace_back();
+								tokens.nextInt(phoneme.code);
+								phoneme.name = tokens.next();
+								tokens.nextFloat(phoneme.startTime);
+								tokens.nextFloat(phoneme.endTime);
+								tokens.nextFloat(phoneme.volume);
+							}
 						}
 					} else if (token == "EMPHASIS") {
-						token = getToken(); // opening brace
-						token = getToken(); // first token
-						while (token != "}") {
-							ChunkVDAT::Emphasis emphasis{};
-							emphasis.time = std::stof(token);
-							emphasis.value = std::stof(getToken());
-							chunk->emphasis.push_back(emphasis);
-							token = getToken();
+						if (tokens.next() != "{") {
+							return chunk;
+						}
+						for (token = tokens.next(); token != "}"; token = tokens.next()) {
+							auto& emphasis = vdat.emphasis.emplace_back();
+							tokens.nextFloat(emphasis.time);
+							tokens.nextFloat(emphasis.value);
 						}
 					} else if (token == "OPTIONS") {
-						token = getToken(); // opening brace
-						token = getToken(); // first token
-						while (token != "}") {
-							chunk->options[token] = getToken();
-							token = getToken();
+						if (tokens.next() != "{") {
+							return chunk;
+						}
+						for (token = tokens.next(); token != "}"; token = tokens.next()) {
+							vdat.options[std::string{token}] = tokens.next();
 						}
 					}
-					token = getToken();
 				}
+				chunk = vdat;
 			}
 			return chunk;
 		} else {

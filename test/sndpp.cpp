@@ -10,7 +10,7 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(wav.getSignature(), RIFF_SIGNATURE);
 	EXPECT_EQ(wav.getChunks().size(), 3);
 
-	const auto fmt = wav.getFirstWAVChunk<WAV::CHUNK_FMT>();
+	const auto fmt = wav.get<WAV::CHUNK_FMT>();
 	ASSERT_TRUE(fmt);
 	EXPECT_EQ(fmt->format, 1);
 	EXPECT_EQ(fmt->channels, 1);
@@ -20,7 +20,7 @@ TEST(sndpp, read_wav) {
 	EXPECT_EQ(fmt->bitsPerSample, 8);
 	EXPECT_EQ(fmt->extraCompressionInfo.size(), 2);
 
-	const auto data = wav.getFirstWAVChunk<WAV::CHUNK_DATA>();
+	const auto data = wav.get<WAV::CHUNK_DATA>();
 	ASSERT_TRUE(data);
 	EXPECT_EQ(data->size(), 34061);
 }
@@ -31,7 +31,7 @@ TEST(sndpp, read_wav_vdat) {
 	EXPECT_EQ(wav.getSignature(), RIFF_SIGNATURE);
 	EXPECT_EQ(wav.getChunks().size(), 5);
 
-	const auto fmt = wav.getFirstWAVChunk<WAV::CHUNK_FMT>();
+	const auto fmt = wav.get<WAV::CHUNK_FMT>();
 	ASSERT_TRUE(fmt);
 	EXPECT_EQ(fmt->format, 2);
 	EXPECT_EQ(fmt->channels, 1);
@@ -41,11 +41,11 @@ TEST(sndpp, read_wav_vdat) {
 	EXPECT_EQ(fmt->bitsPerSample, 4);
 	EXPECT_EQ(fmt->extraCompressionInfo.size(), 34);
 
-	const auto data = wav.getFirstWAVChunk<WAV::CHUNK_DATA>();
+	const auto data = wav.get<WAV::CHUNK_DATA>();
 	ASSERT_TRUE(data);
 	EXPECT_EQ(data->size(), 74240);
 
-	const auto vdat = wav.getFirstWAVChunk<WAV::CHUNK_VDAT>();
+	const auto vdat = wav.get<WAV::CHUNK_VDAT>();
 	ASSERT_TRUE(vdat);
 	EXPECT_EQ(vdat->version, 1.0);
 	EXPECT_STREQ(vdat->plaintext.c_str(), "Rise and shine, Mr. Freeman. Rise and shine.");

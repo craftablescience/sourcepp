@@ -1,4 +1,5 @@
 add_pretty_parser(sndpp
+        DEPS_PUBLIC sourcepp_parser
         SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/RIFF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/sndpp/sndpp.h"
