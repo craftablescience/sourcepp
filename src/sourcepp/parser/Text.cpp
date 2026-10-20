@@ -185,12 +185,13 @@ std::string parser::text::convertEscapesToSpecialChars(std::string_view str, con
 }
 
 void parser::text::eatWhitespace(BufferStream& stream) {
-	while (isWhitespace(stream.read<char>())) {}
+	while (stream.tell() < stream.size() && isWhitespace(stream.read<char>())) {}
+	if (stream.tell() == stream.size() && isWhitespace(stream.seek(-1, std::ios::cur).read<char>())) return;
 	stream.seek(-1, std::ios::cur);
 }
 
 void parser::text::eatSingleLineComment(BufferStream& stream) {
-	while (!isNewLine(stream.read<char>())) {}
+	while (stream.tell() < stream.size() && !isNewLine(stream.read<char>())) {}
 }
 
 void parser::text::eatMultiLineComment(BufferStream& stream, std::string_view multiLineCommentEnd) {
@@ -231,7 +232,7 @@ void parser::text::eatWhitespaceAndComments(BufferStream& stream, std::string_vi
 }
 
 bool parser::text::tryToEatChar(BufferStream& stream, char c) {
-	if (stream.peek<char>() != c) {
+	if (stream.tell() == stream.size() || stream.peek<char>() != c) {
 		return false;
 	}
 	stream.skip();
