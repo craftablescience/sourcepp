@@ -51,29 +51,17 @@ int32_t edgeWrap(int32_t n, int32_t max) {
 	return m ? max - m : 0;
 }
 
-using IndexFunction = std::function<int32_t(Vec2i, uint16_t, uint16_t, uint8_t, uint8_t)>;
-
-int32_t indexClamped(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	return (edgeClamp(v[1], h) * w + edgeClamp(v[0], w)) * pxLen + alphaOffs;
-}
-int32_t indexReflected(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	return (edgeReflect(v[1], h) * w + edgeReflect(v[0], w)) * pxLen + alphaOffs;
-}
-int32_t indexWrapped(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	return (edgeWrap(v[1], h) * w + edgeWrap(v[0], w)) * pxLen + alphaOffs;
-}
-
-IndexFunction indexBy(ImageConversion::ResizeEdge edge)
+int32_t indexWith(ImageConversion::ResizeEdge edge, Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs )
 {
 	switch (edge) {
 	default:
 		break;
 	case ImageConversion::ResizeEdge::REFLECT:
-		return indexReflected;
+		return (edgeReflect(v[1], h) * w + edgeReflect(v[0], w)) * pxLen + alphaOffs;
 	case ImageConversion::ResizeEdge::WRAP:
-		return indexWrapped;
+		return (edgeWrap(v[1], h) * w + edgeWrap(v[0], w)) * pxLen + alphaOffs;
 	}
-	return indexClamped;
+	return (edgeClamp(v[1], h) * w + edgeClamp(v[0], w)) * pxLen + alphaOffs;
 }
 
 // big ugly immutable record of everything pertaining to how we read alpha from an image
@@ -105,11 +93,11 @@ public:
 		, offsX(sampleCentered ? reduceX / 2 : 0)
 		, offsY(sampleCentered ? reduceY / 2 : 0)
 		, alphaThreshold(alphaThreshold)
-		, indexFn(indexBy(edge))
+		, edge(edge)
 	{}
 
 	float sample(Vec2i v) const {
-		return this->srcImg[this->indexFn(v, this->imgWidth, this->imgHeight, this->pxLen, this->alphaOffs)];
+		return this->srcImg[indexWith(this->edge, v, this->imgWidth, this->imgHeight, this->pxLen, this->alphaOffs)];
 	}
 
 	Leaf thresh(float alpha) const {
@@ -126,7 +114,7 @@ public:
 	const uint16_t reduceX, reduceY;
 	const uint8_t pxLen;
 	const uint8_t alphaOffs;
-	const IndexFunction indexFn;
+	const ImageConversion::ResizeEdge edge;
 };
 
 // immutable map detailing where we can skip computation
@@ -267,10 +255,10 @@ float vecDist(Vec2f32 v0, Vec2f32 v1) {
 using math::pi_f32;
 
 // scuffed at sharp angled points but uh. horseshoes, government work, etc
-float aaOffset(const SampleParam *param, Vec2i pixel, float alpha, float reach) {
+float aaOffset(const SampleParam *param, Vec2i v, float alpha, float reach) {
 	float slope = 0.0f;
 	for (Vec2i offset : {Vec2i{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}}) {
-		slope = fmax(slope, fabs(param->sample(pixel + offset) - alpha) / std::hypot<float>(offset[0], offset[1]));
+		slope = fmax(slope, fabs(param->sample(v + offset) - alpha) / std::hypot<float>(offset[0], offset[1]));
 	}
 	const float gap = fabs(alpha - 0.5f);
 	return (slope < 1e-6f || gap > reach * slope) ? -1.0f : fmin(gap / slope, reach);
@@ -427,7 +415,7 @@ void paintMap(
 				uint8_t nEighths = static_cast<uint32_t>(std::floor(thetaNormal / eighth)) % 8;
 				double quantum = *tangentDiffusion;
 				Vec2i pos{diffX + i, diffY};
-				uint32_t iDiff = param->indexFn(pos, dstWidth, dstHeight, dstPxLen, dstAlphaOffs);
+				uint32_t iDiff = indexWith(param->edge, pos, dstWidth, dstHeight, dstPxLen, dstAlphaOffs);
 				double curPx = dstImg[iDiff];
 
 				double quantized = std::round(curPx / quantum) * quantum;
@@ -447,8 +435,8 @@ void paintMap(
 				Vec2i offs0{hardSigns[(nEighths + 0) % 4 + 2], bottomEdge ? 0 : hardSigns[(nEighths + 0) % 4]};
 				Vec2i offs1{hardSigns[(nEighths + 1) % 4 + 2], bottomEdge ? 0 : hardSigns[(nEighths + 1) % 4]};
 
-				dstImg[param->indexFn(pos + offs0, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist1 / (dist0 + dist1);
-				dstImg[param->indexFn(pos + offs1, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist0 / (dist0 + dist1);
+				dstImg[indexWith(param->edge, pos + offs0, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist1 / (dist0 + dist1);
+				dstImg[indexWith(param->edge, pos + offs1, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist0 / (dist0 + dist1);
 			}
 		} while (keepDiffusing);
 	}
