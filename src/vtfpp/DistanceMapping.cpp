@@ -272,7 +272,6 @@ void paintMap(
 	uint8_t dstPxLen,
 	uint8_t dstAlphaOffs,
 	bool distanceAA,
-	bool euclidean,
 	const float *tangentDiffusion,
 	bool *valveQuirks
 ) {
@@ -292,7 +291,6 @@ void paintMap(
 	uint32_t iGradW = 0;
 	std::vector<float> gradients = tangentDiffusion ? std::vector<float>(totalComputation, -pi_f32 - 0.05f) : std::vector<float>(0);
 	float lastAng = 0;
-	float hypot1 = 1;
 
 	bool keepPainting = true;
 	do {
@@ -323,17 +321,11 @@ void paintMap(
 						if (stateSmp != stateRef) {
 							float dist = std::hypot<float>(sX - curX, sY - srcY);
 
-							if (tangentDiffusion || distanceAA || euclidean) {
+							if (tangentDiffusion) {
 								lastAng = atan2(sX - curX, sY - srcY);
-							}
-							if (distanceAA || euclidean) {
-								hypot1 = 1 / cos(fabs(fmod(lastAng + pi_f32 * 2.25f, pi_f32 / 2.0f) - pi_f32 / 4.0f));
 							}
 							if (distanceAA) {
 								dist -= fmax(0.0f, aaOffset(param, {sX, sY}, alphaSmp, 1.0f));
-							}
-							if (euclidean && dist > fRadius + hypot1) {
-								continue;
 							}
 							nearest = fmin(nearest, dist);
 						}
@@ -537,7 +529,6 @@ bool isSingleChannel(ImageFormat format) {
 		dstPxLen,
 		dstAlphaOffs,
 		!!(flags & Flags::DISTANCEAA),
-		!!(flags & Flags::EUCLIDEAN),
 		doGradientDither ? &quantum : nullptr,
 		valveQuirks
 	);
