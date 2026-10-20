@@ -22,32 +22,45 @@ enum Leaf : uint8_t {
 	FIGUREITOUT, // leaf is mixed but small so you should brute force scan.
 };
 
-uint16_t i32tou16sat(int32_t i, int32_t cap = UINT16_MAX) {
-	return static_cast<uint16_t>(std::clamp(i, 0, cap));
+uint16_t ftoabsu16(float f) {
+	return static_cast<uint16_t>(std::clamp<uint16_t>(static_cast<int32_t>(fabs(f)), 0, UINT16_MAX));
 }
 
-uint16_t ftoabsu16(float f) {
-	return i32tou16sat(static_cast<int32_t>(fabs(f)));
+// literally just stb. grep '_full( int n' in stb_image_resize2.h
+int32_t edgeClamp(int32_t n, int32_t max) {
+	if (n < 0) {
+		return 0;
+	}
+	return (n >= max) ? max - 1 : n;
+}
+int32_t edgeReflect(int32_t n, int32_t max) {
+	if (n < 0) {
+		return n > -max ? -n : max - 1;
+	}
+	if (n >= max) {
+		const int32_t max2 = 2 * max;
+		return n >= max2 ? 0 : max2 - n - 1;
+	}
+	return n;
+}
+int32_t edgeWrap(int32_t n, int32_t max) {
+	if (n >= 0) {
+		return n % max;
+	}
+	const int32_t m = (-n) % max;
+	return m ? max - m : 0;
 }
 
 using IndexFunction = std::function<int32_t(Vec2i, uint16_t, uint16_t, uint8_t, uint8_t)>;
 
 int32_t indexClamped(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	int32_t rX = i32tou16sat(v[0], w - 1);
-	int32_t rY = i32tou16sat(v[1], h - 1);
-	return (rY * w + rX) * pxLen + alphaOffs;
+	return (edgeClamp(v[1], h) * w + edgeClamp(v[0], w)) * pxLen + alphaOffs;
 }
-
 int32_t indexReflected(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	int32_t rX = v[0] >= w ? w - v[0] % w : v[0];
-	int32_t rY = v[1] >= h ? h - v[1] % h : v[1];
-	return (rY * w + rX) * pxLen + alphaOffs;
+	return (edgeReflect(v[1], h) * w + edgeReflect(v[0], w)) * pxLen + alphaOffs;
 }
-
 int32_t indexWrapped(Vec2i v, uint16_t w, uint16_t h, uint8_t pxLen, uint8_t alphaOffs) {
-	int32_t rX = (v[0] + w) % w;
-	int32_t rY = (v[1] + h) % h;
-	return (rY * w + rX) * pxLen + alphaOffs;
+	return (edgeWrap(v[1], h) * w + edgeWrap(v[0], w)) * pxLen + alphaOffs;
 }
 
 IndexFunction indexBy(ImageConversion::ResizeEdge edge)

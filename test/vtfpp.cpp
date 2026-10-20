@@ -1749,3 +1749,39 @@ TEST(vtfpp, distancealpha_wrap_sample) {
 	EXPECT_NE(std::byte{0x00}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
 	EXPECT_NE(std::byte{0xFF}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
 }
+
+TEST(vtfpp, distancealpha_reflect_sample) {
+	using namespace TestDistanceMapping;
+	using namespace DistanceMapping;
+
+	std::vector<float> bw(w * h);
+	for (uint16_t y = h / 2; y < h; y++) {
+		for (uint16_t x = 0; x < w; x++) {
+			reference<float>(bw, x, y, w) = 1.f;
+		}
+	}
+
+	std::vector<std::byte> mapped = alphaToDistance(
+		{reinterpret_cast<std::byte *>(bw.data()), w * h * sizeof(float)},
+		ImageFormat::R32F,
+		ImageFormat::RGBA8888,
+		w,
+		h,
+		reduceX,
+		reduceY,
+		false,
+		1.0f,
+		0.04f,
+		Flags::NONE,
+		Dither::NONE,
+		ImageConversion::ResizeFilter::NICE,
+		ImageConversion::ResizeEdge::REFLECT,
+		nullptr
+	);
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, 0, 0, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW - 1, 0, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0x00}, sample(mapped, dstW  / 2, dstH / 4, dstW, 4, 3));
+	EXPECT_EQ(std::byte{0xFF}, sample(mapped, dstW / 2, dstH / 4 * 3, dstW, 4, 3));
+	EXPECT_NE(std::byte{0x00}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
+	EXPECT_NE(std::byte{0xFF}, sample(mapped, dstW / 2, dstH / 2, dstW, 4, 3));
+}
