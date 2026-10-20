@@ -108,10 +108,10 @@ public:
 	const float alphaThreshold;
 	const uint16_t imgHeight;
 	const uint16_t imgWidth;
+	const uint16_t reduceX, reduceY;
 	const uint16_t searchRadius;
 	const uint16_t granularity;
 	const uint16_t offsX, offsY;
-	const uint16_t reduceX, reduceY;
 	const uint8_t pxLen;
 	const uint8_t alphaOffs;
 	const ImageConversion::ResizeEdge edge;
