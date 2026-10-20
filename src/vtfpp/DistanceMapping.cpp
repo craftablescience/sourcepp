@@ -256,6 +256,16 @@ Vec2i vec2ipmul(Vec2i v0, Vec2i v1) {
 
 using math::pi_f32;
 
+// scuffed at sharp angled points but uh. horseshoes, government work, etc
+float aaOffset(const SampleParam *param, Vec2i pixel, float alpha, float reach) {
+	float slope = 0.0f;
+	for (Vec2i offset : {Vec2i{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}}) {
+		slope = fmax(slope, fabs(param->sample(pixel + offset) - alpha) / std::hypot<float>(offset[0], offset[1]));
+	}
+	const float gap = fabs(alpha - 0.5f);
+	return (slope < 1e-6f || gap > reach * slope) ? -1.0f : fmin(gap / slope, reach);
+}
+
 void paintMap(
 	const SampleParam *param,
 	float *dstImg,
@@ -304,6 +314,8 @@ void paintMap(
 				float alphaRef = param->sample({curX, srcY});
 				Leaf stateRef = param->thresh(alphaRef);
 				float nearest = std::numeric_limits<float>::max();
+				const float offsRef = distanceAA ? aaOffset(param, {curX, srcY}, alphaRef, 0.5f) : -1.0f;
+
 				for (int32_t sX = curX - param->searchRadius, tX = curX + param->searchRadius; sX < tX; sX++) {
 					for (int32_t sY = srcY - param->searchRadius, tY = srcY + param->searchRadius; sY < tY; sY++) {
 						float alphaSmp = param->sample({sX, sY});
@@ -318,7 +330,7 @@ void paintMap(
 								hypot1 = 1 / cos(fabs(fmod(lastAng + pi_f32 * 2.25f, pi_f32 / 2.0f) - pi_f32 / 4.0f));
 							}
 							if (distanceAA) {
-								dist += hypot1 * (1 - fabs(alphaSmp - alphaRef));
+								dist -= fmax(0.0f, aaOffset(param, {sX, sY}, alphaSmp, 1.0f));
 							}
 							if (euclidean && dist > fRadius + hypot1) {
 								continue;
@@ -328,6 +340,7 @@ void paintMap(
 					}
 				}
 
+				nearest = std::clamp<float>(nearest, 0.0f, (offsRef >= 0.0f) ? offsRef : nearest);
 				nearest = fmin(0.5f, nearest * 0.5f / fRadius);
 				if (stateRef == OUT) {
 					nearest = -nearest;
