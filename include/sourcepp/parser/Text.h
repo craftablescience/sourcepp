@@ -5,6 +5,8 @@
 #include <tuple>
 #include <unordered_map>
 
+#include <sourcepp/String.h>
+
 class BufferStream;
 
 namespace sourcepp::parser::text {
@@ -22,6 +24,55 @@ using EscapeSequenceMap = std::unordered_map<char, char>;
 
 class Tokenizer {
 public:
+	class Result {
+		friend Tokenizer;
+
+	public:
+		[[nodiscard]] const std::vector<std::string_view>& getTokens() const;
+
+		[[nodiscard]] uint64_t size() const;
+
+		[[nodiscard]] uint64_t tell() const;
+
+		void seek(uint64_t head_);
+
+		[[nodiscard]] std::string_view next();
+
+		bool nextBool(bool& value);
+
+		template<std::integral T>
+		bool nextInt(T& value) {
+			return string::toInt(this->next(), value);
+		}
+
+		template<std::floating_point T>
+		bool nextFloat(T& value) {
+			return string::toFloat(this->next(), value);
+		}
+
+		[[nodiscard]] std::string_view peek() const;
+
+		bool peekBool(bool& value) const;
+
+		template<std::integral T>
+		bool peekInt(T& value) const {
+			return string::toInt(this->peek(), value);
+		}
+
+		template<std::floating_point T>
+		bool peekFloat(T& value) const {
+			return string::toFloat(this->peek(), value);
+		}
+
+		void skip();
+
+	protected:
+		Result() = default;
+
+		std::vector<std::string_view> tokens;
+		uint64_t head = 0;
+	};
+
 	Tokenizer() = default;
 
 	Tokenizer& setSingleLineCommentStart(std::string_view singleLineCommentStart_);
@@ -34,7 +85,7 @@ public:
 
 	Tokenizer& setEscapeSequences(const EscapeSequenceMap& escapeSequences_);
 
-	[[nodiscard]] std::vector<std::string_view> parse(std::string_view text, std::string& out) const;
+	[[nodiscard]] Result parse(std::string_view text, std::string& backingString) const;
 
 protected:
 	std::string_view singleLineCommentStart = DEFAULT_SINGLE_LINE_COMMENT_START;

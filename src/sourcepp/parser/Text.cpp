@@ -29,6 +29,48 @@ const parser::text::EscapeSequenceMap& parser::text::getDefaultEscapeSequencesOr
 	return useEscapes ? getDefaultEscapeSequences() : noEscapeSequences;
 }
 
+const std::vector<std::string_view>& parser::text::Tokenizer::Result::getTokens() const {
+	return this->tokens;
+}
+
+uint64_t parser::text::Tokenizer::Result::size() const {
+	return this->tokens.size();
+}
+
+uint64_t parser::text::Tokenizer::Result::tell() const {
+	return this->head;
+}
+
+void parser::text::Tokenizer::Result::seek(uint64_t head_) {
+	this->head = std::clamp<uint64_t>(head_, 0, this->tokens.size());
+}
+
+std::string_view parser::text::Tokenizer::Result::next() {
+	if (this->head >= this->tokens.size()) {
+		throw std::overflow_error{""};
+	}
+	return this->tokens[this->head++];
+}
+
+bool parser::text::Tokenizer::Result::nextBool(bool& value) {
+	return string::toBool(this->next(), value);
+}
+
+std::string_view parser::text::Tokenizer::Result::peek() const {
+	if (this->head >= this->tokens.size()) {
+		throw std::overflow_error{""};
+	}
+	return this->tokens[this->head];
+}
+
+bool parser::text::Tokenizer::Result::peekBool(bool& value) const {
+	return string::toBool(this->peek(), value);
+}
+
+void parser::text::Tokenizer::Result::skip() {
+	this->head++;
+}
+
 parser::text::Tokenizer& parser::text::Tokenizer::setSingleLineCommentStart(std::string_view singleLineCommentStart_) {
 	this->singleLineCommentStart = singleLineCommentStart_;
 	return *this;
@@ -54,12 +96,13 @@ parser::text::Tokenizer& parser::text::Tokenizer::setEscapeSequences(const Escap
 	return *this;
 }
 
-std::vector<std::string_view> parser::text::Tokenizer::parse(std::string_view text, std::string& out) const {
+parser::text::Tokenizer::Result parser::text::Tokenizer::parse(std::string_view text, std::string& backingString) const {
 	BufferStreamReadOnly stream{text};
-	out.resize(text.length());
-	BufferStream backing{out};
-	std::vector<std::string_view> tokens;
 
+	backingString.resize(text.length());
+	BufferStream backing{backingString};
+
+	Result result;
 	try {
 		while (stream.tell() < stream.size()) {
 			if (this->singleLineCommentStart.empty()) {
@@ -75,10 +118,10 @@ std::vector<std::string_view> parser::text::Tokenizer::parse(std::string_view te
 					eatWhitespaceAndComments(stream);
 				}
 			}
-			tokens.push_back(readStringToBuffer(stream, backing, /*this->quotes*/ {DEFAULT_QUOTES}, this->escapeSequences));
+			result.tokens.push_back(readStringToBuffer(stream, backing, /*this->quotes*/ {DEFAULT_QUOTES}, this->escapeSequences));
 		}
 	} catch (const std::overflow_error&) {}
-	return tokens;
+	return result;
 }
 
 bool parser::text::isNewLine(char c) {
