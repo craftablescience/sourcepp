@@ -6,6 +6,36 @@
 #define SOURCEPP_CONCAT_DETAIL(a, b) a##b
 #define SOURCEPP_CONCAT(a, b) SOURCEPP_CONCAT_DETAIL(a, b)
 
+/// Defaults copy constructors
+#define SOURCEPP_DEFAULT_COPY(Clazz) \
+	Clazz(const Clazz&) = default; \
+	Clazz& operator=(const Clazz&) = default
+
+/// Defaults move constructors
+#define SOURCEPP_DEFAULT_MOVE(Clazz) \
+	Clazz(Clazz&&) noexcept = default; \
+	Clazz& operator=(Clazz&&) noexcept = default
+
+// Defaults copy and move constructors
+#define SOURCEPP_DEFAULT_COPY_OR_MOVE(Clazz) \
+	SOURCEPP_DEFAULT_COPY(Clazz); \
+	SOURCEPP_DEFAULT_MOVE(Clazz)
+
+/// Deletes copy constructors
+#define SOURCEPP_NO_COPY(Clazz) \
+	Clazz(const Clazz&) = delete; \
+	Clazz& operator=(const Clazz&) = delete
+
+/// Deletes move constructors
+#define SOURCEPP_NO_MOVE(Clazz) \
+	Clazz(Clazz&&) noexcept = delete; \
+	Clazz& operator=(Clazz&&) noexcept = delete
+
+// Deletes copy and move constructors
+#define SOURCEPP_NO_COPY_OR_MOVE(Clazz) \
+	SOURCEPP_NO_COPY(Clazz); \
+	SOURCEPP_NO_MOVE(Clazz)
+
 /// Create a breakpoint in debug
 #ifdef DEBUG
 	#if defined(_MSC_VER)
