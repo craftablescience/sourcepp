@@ -35,6 +35,10 @@ internal sealed class Buffer(DLL.Buffer buf) : ManagedNativeObject
 	public T[] Read<T>()
 	{
 		ThrowIfDisposed();
-		return ReadSpan<T>().ToArray();
+		// The span points into native memory owned by this object. Allocating the array can trigger a GC, which would
+		// finalize this object (freeing the memory) mid-copy if nothing keeps it alive until the copy is done.
+		var result = ReadSpan<T>().ToArray();
+		GC.KeepAlive(this);
+		return result;
 	}
 }
