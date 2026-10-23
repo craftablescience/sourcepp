@@ -52,19 +52,11 @@ std::string_view parser::text::Tokenizer::Result::next() {
 	return this->tokens[this->head++];
 }
 
-bool parser::text::Tokenizer::Result::nextBool(bool& value) {
-	return string::toBool(this->next(), value);
-}
-
 std::string_view parser::text::Tokenizer::Result::peek() const {
 	if (this->head >= this->tokens.size()) {
 		throw std::overflow_error{""};
 	}
 	return this->tokens[this->head];
-}
-
-bool parser::text::Tokenizer::Result::peekBool(bool& value) const {
-	return string::toBool(this->peek(), value);
 }
 
 void parser::text::Tokenizer::Result::skip() {

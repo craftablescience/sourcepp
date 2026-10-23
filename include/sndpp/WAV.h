@@ -309,16 +309,14 @@ public:
 						auto token = tokens.next();
 						token == "VERSION"
 					) {
-						sourcepp::string::toFloat(tokens.next(), vdat.version);
+						tokens.next(vdat.version);
 					} else if (token == "PLAINTEXT") {
 						if (tokens.next() != "{") {
 							return chunk;
 						}
-						token = tokens.next();
-						while (token != "}") {
+						for (token = tokens.next(); token != "}"; token = tokens.next()) {
 							vdat.plaintext += token;
 							vdat.plaintext += ' ';
-							token = tokens.next();
 						}
 						if (!vdat.plaintext.empty()) {
 							vdat.plaintext.pop_back();
@@ -327,39 +325,43 @@ public:
 						if (tokens.next() != "{") {
 							return chunk;
 						}
-						for (token = tokens.next(); token == "WORD"; token = tokens.next()) {
+						while ((token = tokens.next()) == "WORD") {
 							auto& word = vdat.words.emplace_back();
 							word.word = tokens.next();
-							tokens.nextFloat(word.startTime);
-							tokens.nextFloat(word.endTime);
-							if (tokens.next() != "{") {
+							tokens.next(word.startTime);
+							tokens.next(word.endTime);
+							if ((token = tokens.next()) != "{") {
 								return chunk;
 							}
-							for (token = tokens.next(); token != "}"; token = tokens.next()) {
+							while (tokens.peek() != "}") {
 								auto& phoneme = word.phonemes.emplace_back();
-								tokens.nextInt(phoneme.code);
+								tokens.next(phoneme.code);
 								phoneme.name = tokens.next();
-								tokens.nextFloat(phoneme.startTime);
-								tokens.nextFloat(phoneme.endTime);
-								tokens.nextFloat(phoneme.volume);
+								tokens.next(phoneme.startTime);
+								tokens.next(phoneme.endTime);
+								tokens.next(phoneme.volume);
 							}
+							tokens.skip();
 						}
 					} else if (token == "EMPHASIS") {
-						if (tokens.next() != "{") {
+						if ((token = tokens.next()) != "{") {
 							return chunk;
 						}
-						for (token = tokens.next(); token != "}"; token = tokens.next()) {
+						while (tokens.peek() != "}") {
 							auto& emphasis = vdat.emphasis.emplace_back();
-							tokens.nextFloat(emphasis.time);
-							tokens.nextFloat(emphasis.value);
+							tokens.next(emphasis.time);
+							tokens.next(emphasis.value);
 						}
+						tokens.skip();
 					} else if (token == "OPTIONS") {
-						if (tokens.next() != "{") {
+						if ((token = tokens.next()) != "{") {
 							return chunk;
 						}
 						for (token = tokens.next(); token != "}"; token = tokens.next()) {
 							vdat.options[std::string{token}] = tokens.next();
 						}
+					} else {
+						return chunk;
 					}
 				}
 				chunk = vdat;

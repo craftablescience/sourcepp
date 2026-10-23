@@ -38,30 +38,34 @@ public:
 
 		[[nodiscard]] std::string_view next();
 
-		bool nextBool(bool& value);
-
-		template<std::integral T>
-		bool nextInt(T& value) {
-			return string::toInt(this->next(), value);
-		}
-
-		template<std::floating_point T>
-		bool nextFloat(T& value) {
-			return string::toFloat(this->next(), value);
+		template<typename T>
+		requires std::same_as<T, bool> || std::integral<T> || std::floating_point<T>
+		bool next(T& value) {
+			if constexpr (std::same_as<T, bool>) {
+				return string::toBool(this->next(), value);
+			} else if constexpr (std::integral<T>) {
+				return string::toInt(this->next(), value);
+			} else if constexpr (std::floating_point<T>) {
+				return string::toFloat(this->next(), value);
+			} else {
+				return false;
+			}
 		}
 
 		[[nodiscard]] std::string_view peek() const;
 
-		bool peekBool(bool& value) const;
-
-		template<std::integral T>
-		bool peekInt(T& value) const {
-			return string::toInt(this->peek(), value);
-		}
-
-		template<std::floating_point T>
-		bool peekFloat(T& value) const {
-			return string::toFloat(this->peek(), value);
+		template<typename T>
+		requires std::same_as<T, bool> || std::integral<T> || std::floating_point<T>
+		bool peek(T& value) {
+			if constexpr (std::same_as<T, bool>) {
+				return string::toBool(this->peek(), value);
+			} else if constexpr (std::integral<T>) {
+				return string::toInt(this->peek(), value);
+			} else if constexpr (std::floating_point<T>) {
+				return string::toFloat(this->peek(), value);
+			} else {
+				return false;
+			}
 		}
 
 		void skip();
