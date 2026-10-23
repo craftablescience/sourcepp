@@ -253,6 +253,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
     <td>
       <a href="https://quakewiki.org/wiki/.pak" target="_blank" rel="noreferrer">PAK</a> (Quake, WON Half-Life)
       <br> &bull; <a href="https://en.wikipedia.org/wiki/Sin_(video_game)" target="_blank" rel="noreferrer">SiN</a> modifications
+      <br> &bull; SiN Reloaded modifications
       <br> &bull; <a href="https://store.steampowered.com/app/824600/HROT" target="_blank" rel="noreferrer">HROT</a> modifications
     </td>
     <td align="center">✅</td>
@@ -546,6 +547,7 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - OL parser is based on [reverse-engineering work](https://github.com/erysdren/scratch/blob/main/kaitai/worldcraft_ol.ksy) by [@erysdren](https://github.com/erysdren).
   - ORE parser is based on [reverse-engineering work](https://github.com/erysdren/narbacular-drop-tools) by [@erysdren](https://github.com/erysdren).
   - REZ parser is based on [RezExtract](https://github.com/no-lith/RezExtract) by [@no-lith](https://github.com/no-lith).
+  - SiN Reloaded parser was contributed by [@erysdren](https://github.com/erysdren).
   - VPP parser was contributed by [@erysdren](https://github.com/erysdren).
   - WAD3 parser/writer was contributed by [@ozxybox](https://github.com/ozxybox).
 - `vtfpp`
