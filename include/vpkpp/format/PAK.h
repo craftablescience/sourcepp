@@ -24,6 +24,7 @@ class PAK : public PackFile {
 public:
 	enum class Type {
 		PAK,
+		DAIKATANA,
 		SIN,
 		HROT,
 	};
