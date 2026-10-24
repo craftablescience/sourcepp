@@ -16,12 +16,6 @@ using namespace ImageConversion;
 using math::Vec2i;
 using math::Vec2f32;
 
-enum Leaf : uint8_t {
-	IN,          // leaf is opaque
-	OUT,         // leaf is transparent
-	FIGUREITOUT, // leaf is mixed but small so you should brute force scan.
-};
-
 uint16_t ftoabsu16(float f) {
 	return static_cast<uint16_t>(std::clamp<uint16_t>(static_cast<int32_t>(fabs(f)), 0, UINT16_MAX));
 }
@@ -88,20 +82,20 @@ public:
 		, reduceX(reduceX)
 		, reduceY(reduceY)
 		, searchRadius(ftoabsu16(2.0f * std::max<float>(reduceX, reduceY) * distanceSpread))
-		// the second power of two after search radius
-		, granularity(uint16_t{4} << ftoabsu16(ceil(log2(static_cast<float>(this->searchRadius)))))
 		, offsX(sampleCentered ? reduceX / 2 : 0)
 		, offsY(sampleCentered ? reduceY / 2 : 0)
 		, alphaThreshold(alphaThreshold)
 		, edge(edge)
 	{}
 
-	float sample(Vec2i v) const {
-		return this->srcImg[indexWith(this->edge, v, this->imgWidth, this->imgHeight, this->pxLen, this->alphaOffs)];
+	// n.b.: "padded" by search radius so the distance transform can read past
+	// the edges in accordance with the edge policy
+	float samplePadded(Vec2i v) const {
+		return this->srcImg[indexWith(this->edge, v - this->searchRadius, this->imgWidth, this->imgHeight, this->pxLen, this->alphaOffs)];
 	}
 
-	Leaf thresh(float alpha) const {
-		return alpha >= this->alphaThreshold ? IN : OUT;
+	bool isInPadded(Vec2i v) const {
+		return this->samplePadded(v) >= this->alphaThreshold;
 	}
 
 	const float *const srcImg;
@@ -110,142 +104,10 @@ public:
 	const uint16_t imgWidth;
 	const uint16_t reduceX, reduceY;
 	const uint16_t searchRadius;
-	const uint16_t granularity;
 	const uint16_t offsX, offsY;
 	const uint8_t pxLen;
 	const uint8_t alphaOffs;
 	const ImageConversion::ResizeEdge edge;
-};
-
-// immutable map detailing where we can skip computation
-struct QuadTree {
-	QuadTree(const SampleParam *param, uint32_t &totalComputation) : root(this->scanImg(0, 0, param->imgWidth, param->imgHeight, param, totalComputation))
-	{}
-	~QuadTree() {
-		Node::wither(root);
-	}
-
-	struct Node;
-	using Branch = std::variant<Leaf, Node *>;
-	struct Node {
-		const std::array<const Branch, 4> branches;
-		Node(Branch nw, Branch ne, Branch sw, Branch se) : branches {nw, ne, sw, se} {};
-		~Node() {
-			for ( Branch branch : this->branches ) {
-				wither(branch);
-			}
-		}
-		static void wither(Branch c) {
-			if (holds_alternative<Node *>(c)) {
-				delete get<Node*>(c);
-			}
-		}
-	};
-
-	static bool brancheq(Branch a, Branch b) {
-		return holds_alternative<Leaf>(a) && holds_alternative<Leaf>(b) && get<Leaf>(a) == get<Leaf>(b);
-	}
-
-	const Branch root;
-private:
-	// TODO: cleverer scan to partition top-down?
-	static Branch scanImg(uint16_t x, uint16_t y, uint16_t w, uint16_t h, const SampleParam *param, uint32_t &totalComputation) {
-		if (w <= param->granularity || h <= param->granularity) {
-			// extend sensitivity to minimum safe distance. a safe leaf is a safe leaf, no need to peek.
-			int32_t ix = x - param->searchRadius + param->offsX, tx = x + w + param->searchRadius + param->offsX;
-			int32_t iy = y - param->searchRadius + param->offsY, ty = y + h + param->searchRadius + param->offsY;
-			Leaf curShade = param->thresh(param->sample({ix, iy}));
-
-			for (auto jx = ix; jx < tx; jx++) {
-				for (auto jy = iy; jy < ty; jy++) {
-					if (param->thresh(param->sample({jx, jy})) != curShade) {
-						totalComputation += w / param->reduceX * h / param->reduceY;
-						return FIGUREITOUT;
-					}
-				}
-			}
-
-			return curShade;
-		}
-
-		uint16_t hw = w / 2, hh = h / 2;
-		Branch iNW = scanImg(x,      y,      hw, hh, param, totalComputation);
-		Branch iNE = scanImg(x + hw, y,      hw, hh, param, totalComputation);
-		Branch iSW = scanImg(x,      y + hh, hw, hh, param, totalComputation);
-		Branch iSE = scanImg(x + hw, y + hh, hw, hh, param, totalComputation);
-
-		if (brancheq(iNW, iNE) && brancheq(iNE, iSW) && brancheq(iSW, iSE)) {
-			return get<Leaf>(iNW);
-		}
-		return new Node(iNW, iNE, iSW, iSE);
-	}
-};
-
-// traverse a QuadTree at one row of a leaf at a time
-class RasterCursor {
-public:
-	RasterCursor(const QuadTree *tree, uint16_t imgWidth, uint16_t imgHeight, uint16_t reduceX = 1, uint16_t reduceY = 1, uint16_t offsX = 0, uint16_t offsY = 0)
-		: tree(tree)
-		, imgWidth(imgWidth)
-		, imgHeight(imgHeight)
-		, reduceX(reduceX)
-		, reduceY(reduceY)
-		, offsX(offsX)
-		, curX(offsX)
-		, curY(offsY)
-	{
-		this->curShade = this->reorient();
-	}
-	RasterCursor(const QuadTree *tree, const SampleParam *param)
-		: RasterCursor(tree, param->imgWidth, param->imgHeight, param->reduceX, param->reduceY, param->offsX, param->offsY)
-	{}
-
-	bool getContiguousRun(Leaf &srcShade, uint16_t &srcY, uint16_t &srcX, uint16_t &dstW) {
-		srcX = this->curX;
-		srcY = this->curY;
-		dstW = 0;
-		srcShade = this->curShade = this->reorient();
-
-		while (this->curX < this->imgWidth && QuadTree::brancheq(srcShade, this->curShade)) {
-			auto blkSize = this->imgWidth >> this->depth;
-			this->curX += blkSize;
-			dstW += blkSize / this->reduceX;
-			this->curShade = this->reorient();
-		}
-
-		if (this->curX >= this->imgWidth) {
-			this->curX = this->offsX;
-			this->curY += this->reduceY;
-		}
-
-		return this->curY < this->imgHeight;
-	}
-private:
-	Leaf reorient() {
-		this->depth = 0;
-		this->curBranch = this->tree->root;
-		auto remX = this->curX, remY = this->curY;
-
-		while (std::holds_alternative<QuadTree::Node *>(this->curBranch)) {
-			auto benchX = this->imgWidth >> (this->depth + 1), benchY = this->imgHeight >> (this->depth + 1);
-			if (benchX < 2 || benchY < 2) {
-				return this->curShade; // would be nice to make this unrepresentable
-			}
-			auto bGtX = remX >= benchX, bGtY = remY >= benchY;
-			remX -= benchX * bGtX;
-			remY -= benchY * bGtY;
-			this->curBranch = std::get<QuadTree::Node *>(this->curBranch)->branches[bGtX | bGtY << 1];
-			this->depth++;
-		}
-
-		return get<Leaf>(this->curBranch);
-	}
-
-	const QuadTree *tree;
-	uint16_t curX, curY, depth;
-	const uint16_t imgWidth, imgHeight, reduceX, reduceY, offsX;
-	Leaf curShade;
-	QuadTree::Branch curBranch;
 };
 
 float vecDist(Vec2f32 v0, Vec2f32 v1) {
@@ -254,17 +116,97 @@ float vecDist(Vec2f32 v0, Vec2f32 v1) {
 
 using math::pi_f32;
 
+static constexpr float BIG_EPSILON = 0.05f;
+static constexpr float SMALL_EPSILON = 1e-6f;
+
 // scuffed at sharp angled points but uh. horseshoes, government work, etc
-float aaOffset(const SampleParam *param, Vec2i v, float alpha, float reach) {
+float aaOffsetPadded(const SampleParam *param, Vec2i v, bool outside) {
+	const float alpha = param->samplePadded(v);
+	const float reach = outside ? 1.0f : 0.5f;
 	float slope = 0.0f;
 	for (Vec2i offset : {Vec2i{-1, -1}, {0, -1}, {1, -1}, {-1, 0}, {1, 0}, {-1, 1}, {0, 1}, {1, 1}}) {
-		slope = fmax(slope, fabs(param->sample(v + offset) - alpha) / std::hypot<float>(offset[0], offset[1]));
+		slope = fmax(slope, fabs(param->samplePadded(v + offset) - alpha) / std::hypot<float>(offset[0], offset[1]));
 	}
 	const float gap = fabs(alpha - 0.5f);
-	return (slope < 1e-6f || gap > reach * slope) ? -1.0f : fmin(gap / slope, reach);
+	if (slope < SMALL_EPSILON || gap > reach * slope) {
+		return outside ? 0.0f : -1.0f;
+	}
+	return fmin(gap / slope, reach);
 }
 
-static constexpr float BIG_EPSILON = 0.05f;
+template<typename T>
+T sq(T f) {
+	return f * f;
+}
+
+static constexpr float inff = std::numeric_limits<float>::infinity();
+static constexpr double infd = std::numeric_limits<double>::infinity();
+
+// Distance Transforms of Sampled Functions
+// Pedro F. Felzenszwalb, Daniel P. Huttenlocher.
+// https://cs.brown.edu/people/pfelzens/papers/dt-final.pdf
+//
+// mostly just the 1D transform on page 6 (420) but:
+// - optionally report argmin of the envelope bc aa/dither need pixel positions
+//   - this still isn't perfect information on its own, but *is* enough to
+//     determine whether whipping out the ol raster scan is necessary
+// - cut off outside a particular window
+void distanceTransform1D(
+	const float *f,
+	int32_t n,
+	float *d,
+	int32_t *argmin,
+	int32_t window,
+	int32_t *v,
+	double *z,
+	int32_t first,
+	int32_t stride
+) {
+	int32_t q0 = 0;
+	while (q0 < n && std::isinf(f[q0])) {
+		q0++;
+	}
+	if (q0 == n) {
+		const int32_t m = (n - first + stride - 1) / stride;
+		std::fill(d, d + m, inff);
+		if (argmin) {
+			std::fill(argmin, argmin + m, -1);
+		}
+		return;
+	}
+
+	int32_t k = 0;
+	v[0] = q0;
+	z[0] = -infd;
+	z[1] = +infd;
+	for (int32_t q = q0 + 1; q < n; q++) {
+		if (std::isinf(f[q])) {
+			continue;
+		}
+	six: // i love academic pseudo algol very cool
+		const double s = ((f[q] + sq<double>(q)) - (f[v[k]] + sq<double>(v[k]))) / (2.0 * (q - v[k]));
+		if (s <= z[k]) {
+			k--;
+			goto six;
+		}
+		k++;
+		v[k] = q;
+		z[k] = s;
+		z[k + 1] = infd;
+	}
+
+	k = 0;
+	for (int32_t q = first, j = 0; q < n; q += stride, j++) {
+		while (z[k + 1] < q) {
+			k++;
+		}
+		const bool out = v[k] < q - window || v[k] > q + window - 1;
+		d[j] = out ? inff : f[v[k]] + sq<float>(q - v[k]);
+		if (argmin) {
+			argmin[j] = out ? -1 : v[k];
+		}
+	}
+}
 
 void paintMap(
 	const SampleParam *param,
@@ -275,77 +217,158 @@ void paintMap(
 	const float *tangentDiffusion,
 	bool *valveQuirks
 ) {
-	uint32_t totalComputation = 0;
-
-	const QuadTree tree(param, totalComputation);
-	RasterCursor cursor(&tree, param);
-
-	uint32_t iOut = dstAlphaOffs;
-	Leaf srcShade = FIGUREITOUT;
-	uint16_t srcY = 0, srcX = 0, dstW = 0;
+	const auto [padW, padH] = (math::Vec2ui{param->imgWidth, param->imgHeight} + 2 * param->searchRadius).values;
+	std::vector<uint8_t> mask(padW * padH); // vector<bool> was slower dont @ me
+	for (uint32_t padY = 0; padY < padH; padY++) {
+		for (uint32_t padX = 0; padX < padW; padX++) {
+			mask[padX * padH + padY] = param->isInPadded(Vec2i{padX, padY});
+		}
+	}
 
 	float fRadius = static_cast<float>(param->searchRadius);
 	uint16_t dstWidth = param->imgWidth / param->reduceX;
 	uint16_t dstHeight = param->imgHeight / param->reduceY;
 
-	uint32_t iGradW = 0;
-	std::vector<float> gradients = tangentDiffusion ? std::vector<float>(totalComputation, -pi_f32 - BIG_EPSILON) : std::vector<float>(0);
+	std::vector<float> gradients(tangentDiffusion ? static_cast<size_t>(dstWidth) * dstHeight : 0, -pi_f32 - BIG_EPSILON);
 
-	bool keepPainting = true;
-	do {
-		keepPainting = cursor.getContiguousRun(srcShade, srcY, srcX, dstW);
-		float fillDistance = 1.0f;
-		switch (srcShade) {
-		case OUT:
-			fillDistance = 0.0f;
-		case IN:
-			for (uint16_t i = 0; i < dstW; i++, iOut += dstPxLen) {
-				dstImg[iOut] = fillDistance;
+	const bool needArgmin = tangentDiffusion || distanceAA;
+	const size_t padMax = std::max(padW, padH);
+	std::vector<float> df2D(padW * dstHeight);
+	std::vector<float> df1D(padMax);
+	std::vector<int32_t> argmin2D(needArgmin ? padW * dstHeight : 0);
+	std::vector<int32_t> argmin1D(padMax);
+	std::vector<float> col(padH);
+	std::vector<int32_t> seedTally(needArgmin ? padW + 1 : 0);
+	std::vector<int32_t> v(padMax);
+	std::vector<double> z(padMax + 1);
+
+	for (uint8_t seed : {1, 0}) {
+		for (uint32_t padX = 0; padX < padW; padX++) {
+			for (uint32_t padY = 0; padY < padH; padY++) {
+				col[padY] = mask[padX * padH + padY] == seed ? 0.0f : inff;
 			}
-			break;
-		case FIGUREITOUT:
-		default:
-			// oh no we actually have to do work
-			for (uint16_t i = 0; i < dstW; i++, iGradW++, iOut += dstPxLen) {
-				int32_t curX = srcX + i * param->reduceX;
-				float alphaRef = param->sample({curX, srcY});
-				Leaf stateRef = param->thresh(alphaRef);
-				float nearest = std::numeric_limits<float>::max();
-				float nearestAng = -pi_f32 - BIG_EPSILON;
-				const float offsRef = distanceAA ? aaOffset(param, {curX, srcY}, alphaRef, 0.5f) : -1.0f;
-
-				for (int32_t sX = curX - param->searchRadius, tX = curX + param->searchRadius; sX < tX; sX++) {
-					for (int32_t sY = srcY - param->searchRadius, tY = srcY + param->searchRadius; sY < tY; sY++) {
-						float alphaSmp = param->sample({sX, sY});
-						Leaf stateSmp = param->thresh(alphaSmp);
-						if (stateSmp != stateRef) {
-							float dist = std::hypot<float>(sX - curX, sY - srcY);
-
-							if (distanceAA) {
-								dist -= fmax(0.0f, aaOffset(param, {sX, sY}, alphaSmp, 1.0f));
-							}
-
-							if (tangentDiffusion && dist < nearest) {
-								nearestAng = atan2(sY - srcY, sX - curX);
-							}
-							nearest = fmin(nearest, dist);
-						}
-					}
-				}
-
-				nearest = std::clamp<float>(nearest, 0.0f, (offsRef >= 0.0f) ? offsRef : nearest);
-				nearest = fmin(0.5f, nearest * 0.5f / fRadius);
-				if (stateRef == OUT) {
-					nearest = -nearest;
-				}
-
-				dstImg[iOut] = 0.5 + nearest;
-				if (tangentDiffusion) {
-					gradients[iGradW] = nearestAng;
+			distanceTransform1D(
+				col.data(), padH, df1D.data(),
+				needArgmin ? argmin1D.data() : nullptr,
+				param->searchRadius,
+				v.data(), z.data(),
+				param->offsY + param->searchRadius, param->reduceY
+			);
+			for (uint32_t dstY = 0; dstY < dstHeight; dstY++) {
+				df2D[dstY * padW + padX] = df1D[dstY];
+				if (needArgmin) {
+					argmin2D[dstY * padW + padX] = argmin1D[dstY];
 				}
 			}
 		}
-	} while (keepPainting);
+
+		for (uint32_t dstY = 0; dstY < dstHeight; dstY++) {
+			const int32_t padY = dstY * param->reduceY + param->offsY + param->searchRadius;
+			distanceTransform1D(
+				df2D.data() + dstY * padW, padW, df1D.data(),
+				needArgmin ? argmin1D.data() : nullptr,
+				padW,
+				v.data(), z.data(),
+				param->offsX + param->searchRadius, param->reduceX
+			);
+
+			// running count for quick ez checks below; cf. seedInWindow
+			if (needArgmin) {
+				seedTally[0] = 0;
+				for (uint32_t c = 0; c < padW; c++) {
+					seedTally[c + 1] = seedTally[c] + !std::isinf(df2D[dstY * padW + c]);
+				}
+			}
+			for (uint32_t dstX = 0; dstX < dstWidth; dstX++) {
+				const int32_t padX = dstX * param->reduceX + param->offsX + param->searchRadius;
+				if (mask[padX * padH + padY] == seed) {
+					continue;
+				}
+				const int32_t windowStart = padX - param->searchRadius;
+				const int32_t windowEnd = padX + param->searchRadius;
+				const bool seedInWindow = needArgmin && seedTally[windowEnd] > seedTally[windowStart];
+				float nearest = sqrtf(df1D[dstX]);
+				int32_t nearestX = seedInWindow ? argmin1D[dstX] : -1;
+				if (seedInWindow && nearest >= fRadius) {
+					float nearest2 = std::numeric_limits<float>::max();
+					int32_t windowCol = -1;
+					for (int32_t c = windowStart; c < windowEnd; c++) {
+						if (const float dist2 = df2D[dstY * padW + c] + sq<float>(padX - c); dist2 < nearest2) {
+							nearest2 = dist2;
+							windowCol = c;
+						}
+					}
+					if (windowCol >= 0) {
+						nearest = sqrtf(nearest2);
+						nearestX = windowCol;
+					}
+				}
+				int32_t nearestY = -1;
+				if (distanceAA) {
+					if (seedInWindow) {
+						const float outer = nearest + 1;
+						const float outer2 = sq(outer);
+						const float inner2 = sq(nearest) - 1;
+						const int32_t loX = -std::min<int32_t>(outer,     param->searchRadius);
+						const int32_t hiX = +std::min<int32_t>(outer + 1, param->searchRadius);
+						const float r2 = sq(param->searchRadius);
+						float preciseNearest = inff;
+
+						for (int32_t dX = loX; dX < hiX; dX++) {
+							const float dX2 = sq<float>(dX);
+							const float remHi = outer2 - dX2;
+							if (remHi < 0.0f || dX2 + r2 < inner2) {
+								continue;
+							}
+							const int32_t hi = sqrtf(remHi);
+							const int32_t lo = inner2 > dX2 ? ceilf(sqrtf(inner2 - dX2)) : 0;
+							const int32_t aaX = padX + dX;
+							const int32_t loY = -std::min<int32_t>(hi,     param->searchRadius);
+							const int32_t hiY = +std::min<int32_t>(hi + 1, param->searchRadius);
+							for (int32_t dY = loY; dY < hiY; dY++) {
+								if (-lo < dY && dY < lo) {
+									dY = lo - 1;
+									continue;
+								}
+								const int32_t aaY = padY + dY;
+								if (mask[aaX * padH + aaY] != seed) {
+									continue;
+								}
+								const float preciseDist = static_cast<float>(std::hypot(dX, dY)) - aaOffsetPadded(param, {aaX, aaY}, true);
+								if (preciseDist < preciseNearest) {
+									preciseNearest = preciseDist;
+									nearestX = aaX;
+									nearestY = aaY;
+								}
+							}
+						}
+						if (preciseNearest < inff) {
+							nearest = preciseNearest;
+						}
+					}
+					const float offsRef = aaOffsetPadded(param, {padX, padY}, false);
+					if (offsRef >= 0.0f) {
+						nearest = fmin(nearest, offsRef);
+					}
+				}
+
+				if (nearestX >= 0 && nearestY < 0) {
+					nearestY = argmin2D[dstY * padW + nearestX];
+				}
+				nearest = fmax(nearest, 0.0f);
+				nearest = fmin(0.5f, nearest * 0.5f / fRadius);
+				if (seed) {
+					nearest = -nearest;
+				}
+
+				const uint32_t iDst = dstY * dstWidth + dstX;
+				dstImg[iDst * dstPxLen + dstAlphaOffs] = 0.5 + nearest;
+				if (tangentDiffusion) {
+					gradients[iDst] = nearestX >= 0 ? atan2(nearestY - padY, nearestX - padX) : (-pi_f32 - BIG_EPSILON);
+				}
+			}
+		}
+	}
 
 	if (tangentDiffusion) {
 		// attempt to diffuse quantization error tangent to the gradient of the
@@ -379,12 +402,12 @@ void paintMap(
 		//     ⎣ SW+NE  S+N  SE+NW ⎦,
 		//
 		// yielding our per-destination-pixel kernel k. a neat property of this
-		// is that we can continue ignoring pixels we previously ignored thanks
-		// to the quadtree (and thus, never set any angle for): we're diffusing
-		// error tangent to the gradient, and that way lie only pixels where we
-		// also already set an angle. we can index angles independently, which,
-		// depending on the contents of the source image, might require a small
-		// fraction of the space compared to the distance map (or just as much)
+		// is that we can ignore pixels that aren't within radius of one of the
+		// parabolas (and thus, never set any angle for): we're diffusing error
+		// tangent to the gradient, and that way lie only pixels where we would
+		// also find a parabola. we can't index angles *independently* anymore,
+		// but oh well who cares. at least we can still commit to this terrible
+		// bit of torturing every single line of this explanation to 68 columns
 		static constexpr std::array<const int8_t, 8> hardSigns{0, 1, 1, 1, 0, -1, -1, -1};
 		// of course, in our case, y grows downward, so we really want is E..NW
 		// which, conveniently enough, is just 0..3, so no aux lookup table. if
@@ -393,35 +416,23 @@ void paintMap(
 		// preceding calculations can run in our flipped coordinates just fine.
 		static constexpr float eighth = pi_f32 / 4.0f;
 
-		RasterCursor diffCursor(&tree, dstWidth, dstHeight);
-		Leaf diffShade = FIGUREITOUT;
-		uint16_t diffY = 0, diffX = 0, diffW = 0;
-		uint32_t iGradR = 0;
-
-		bool keepDiffusing = true;
-		do {
-			keepDiffusing = diffCursor.getContiguousRun(diffShade, diffY, diffX, diffW);
-			if (diffShade != FIGUREITOUT) {
-				continue;
-			}
-			bool rightEdge = diffX + diffW >= dstWidth;
-
-			for (uint16_t i = 0; i < diffW; i++, iGradR++) {
-				float theta = gradients[iGradR];
+		const double quantum = *tangentDiffusion;
+		for (uint32_t diffY = 0; diffY < dstHeight; diffY++) {
+			for (uint32_t diffX = 0; diffX < dstWidth; diffX++) {
+				const float theta = gradients[diffY * dstWidth + diffX];
 				if (theta < -pi_f32 - BIG_EPSILON / 2.0f) {
 					continue;
 				}
 				float thetaNormal = fmod(theta + 2.5f * pi_f32, 2.0f * pi_f32);
 				uint8_t nEighths = static_cast<uint32_t>(std::floor(thetaNormal / eighth)) % 8;
-				double quantum = *tangentDiffusion;
-				Vec2i pos{diffX + i, diffY};
+				Vec2i pos{diffX, diffY};
 				uint32_t iDiff = indexWith(param->edge, pos, dstWidth, dstHeight, dstPxLen, dstAlphaOffs);
 				double curPx = dstImg[iDiff];
 
 				double quantized = std::round(curPx / quantum) * quantum;
 				float quantErr = curPx - quantized;
 				dstImg[iDiff] = quantized;
-				bool atRight = rightEdge && i >= diffW - 1;
+				bool atRight = diffX + 1 >= dstWidth;
 				bool bottomEdge = pos[1] >= dstHeight - 1;
 
 				if (atRight && bottomEdge) {
@@ -438,7 +449,7 @@ void paintMap(
 				dstImg[indexWith(param->edge, pos + offs0, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist1 / (dist0 + dist1);
 				dstImg[indexWith(param->edge, pos + offs1, dstWidth, dstHeight, dstPxLen, dstAlphaOffs)] += quantErr * dist0 / (dist0 + dist1);
 			}
-		} while (keepDiffusing);
+		}
 	}
 
 	if (valveQuirks) {
@@ -446,7 +457,7 @@ void paintMap(
 
 		auto blackOutAndWarn = [&](auto oi) {
 			float& px = dstImg[oi * dstPxLen + dstAlphaOffs];
-			if (fabs(px) > 0.000001f) {
+			if (fabs(px) > SMALL_EPSILON) {
 				*valveQuirks = true;
 			}
 			px = 0.0f;
