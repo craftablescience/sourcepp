@@ -166,7 +166,7 @@ void swizzleUncompressedImageDataXBOX(std::span<std::byte> inputData, std::span<
 		for (uint16_t y = 0; y < height; y++) {
 			for (uint16_t x = 0; x < width; x++) {
 				const auto codedIndex = zIndex(x, y, z);
-				for (uint32_t b = 0; b < stride; b++) {
+				for (int b = 0; b < stride; b++) {
 					if constexpr (ExistingDataIsSwizzled) {
 						outputData[linearIndex * stride + b] = inputData[codedIndex * stride + b];
 					} else {
@@ -469,7 +469,7 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly, bool hdr)
 	const auto readResources = [this, &stream](uint32_t resourceCount) {
 		// Read resource header info
 		this->resources.reserve(resourceCount);
-		for (int i = 0; i < resourceCount; i++) {
+		for (uint32_t i = 0; i < resourceCount; i++) {
 			auto& [type, flags_, data_] = this->resources.emplace_back();
 
 			auto typeAndFlags = stream.read<uint32_t>();
@@ -685,115 +685,113 @@ VTF::VTF(std::vector<std::byte>&& vtfData, bool parseHeaderOnly, bool hdr)
 			return;
 		}
 		case PLATFORM_XBOX: {
-			if (this->platform == PLATFORM_XBOX) {
-				uint16_t preloadSize = 0, imageOffset = 0;
-				stream
-					.read(this->flags)
-					.read(this->width)
-					.read(this->height)
-					.read(this->depth)
-					.read(this->frameCount)
-					.read(preloadSize)
-					.read(imageOffset)
-					.read(this->reflectivity[0])
-					.read(this->reflectivity[1])
-					.read(this->reflectivity[2])
-					.read(this->bumpMapScale)
-					.read(this->format)
-					.read(this->thumbnailWidth)
-					.read(this->thumbnailHeight)
-					.read(this->fallbackWidth)
-					.read(this->fallbackHeight)
-					.read(this->consoleMipScale)
-					.skip<uint8_t>(); // padding
+			uint16_t preloadSize = 0, imageOffset = 0;
+			stream
+				.read(this->flags)
+				.read(this->width)
+				.read(this->height)
+				.read(this->depth)
+				.read(this->frameCount)
+				.read(preloadSize)
+				.read(imageOffset)
+				.read(this->reflectivity[0])
+				.read(this->reflectivity[1])
+				.read(this->reflectivity[2])
+				.read(this->bumpMapScale)
+				.read(this->format)
+				.read(this->thumbnailWidth)
+				.read(this->thumbnailHeight)
+				.read(this->fallbackWidth)
+				.read(this->fallbackHeight)
+				.read(this->consoleMipScale)
+				.skip<uint8_t>(); // padding
 
-				const bool headerSizeIsAccurate = stream.tell() == headerSize;
+			const bool headerSizeIsAccurate = stream.tell() == headerSize;
 
-				this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
-				this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight);
+			this->mipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->width, this->height, this->depth);
+			this->fallbackMipCount = (this->flags & FLAG_V0_NO_MIP) ? 1 : ImageDimensions::getMaximumMipCount(this->fallbackWidth, this->fallbackHeight);
 
-				postHeaderReadTransform();
+			postHeaderReadTransform();
 
-				// Can't use VTF::getFaceCount yet because there's no image data
-				const auto faceCount = (this->flags & FLAG_V0_ENVMAP) ? 6 : 1;
+			// Can't use VTF::getFaceCount yet because there's no image data
+			const auto faceCount = (this->flags & FLAG_V0_ENVMAP) ? 6 : 1;
 
-				if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
-					this->thumbnailFormat = ImageFormat::EMPTY;
+			if (this->thumbnailWidth == 0 || this->thumbnailHeight == 0) {
+				this->thumbnailFormat = ImageFormat::EMPTY;
+			} else {
+				this->thumbnailFormat = ImageFormat::RGB888;
+				const auto thumbnailSize = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
+				if (!parseHeaderOnly) {
+					this->resources.push_back({
+						.type = Resource::TYPE_THUMBNAIL_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(thumbnailSize),
+					});
 				} else {
-					this->thumbnailFormat = ImageFormat::RGB888;
-					const auto thumbnailSize = ImageFormatDetails::getDataLength(this->thumbnailFormat, this->thumbnailWidth, this->thumbnailHeight);
-					if (!parseHeaderOnly) {
-						this->resources.push_back({
-							.type = Resource::TYPE_THUMBNAIL_DATA,
-							.flags = Resource::FLAG_NONE,
-							.data = stream.read_span<std::byte>(thumbnailSize),
-						});
-					} else {
-						stream.skip(thumbnailSize);
-					}
+					stream.skip(thumbnailSize);
 				}
+			}
 
-				if (this->format == ImageFormat::P8) {
-					const auto paletteSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
-					if (!parseHeaderOnly) {
-						this->resources.push_back({
-							.type = Resource::TYPE_PALETTE_DATA,
-							.flags = Resource::FLAG_NONE,
-							.data = stream.read_span<std::byte>(paletteSize),
-						});
-					} else {
-						stream.skip_u(paletteSize);
-					}
+			if (this->format == ImageFormat::P8) {
+				const auto paletteSize = 256 * sizeof(ImagePixel::BGRA8888) * this->frameCount;
+				if (!parseHeaderOnly) {
+					this->resources.push_back({
+						.type = Resource::TYPE_PALETTE_DATA,
+						.flags = Resource::FLAG_NONE,
+						.data = stream.read_span<std::byte>(paletteSize),
+					});
+				} else {
+					stream.skip_u(paletteSize);
 				}
+			}
 
-				bool ok;
-				auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
-				std::vector<std::byte> reorderedFallbackData;
-				if (this->hasFallbackData()) {
+			bool ok;
+			auto fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
+			std::vector<std::byte> reorderedFallbackData;
+			if (this->hasFallbackData()) {
+				if (stream.tell() + fallbackSize != preloadSize) {
+					// A couple XTFs that shipped with HL2 are missing the NO_MIP flag. We can detect them by checking the size of the fallback
+					fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, 1, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
 					if (stream.tell() + fallbackSize != preloadSize) {
-						// A couple XTFs that shipped with HL2 are missing the NO_MIP flag. We can detect them by checking the size of the fallback
-						fallbackSize = ImageFormatDetails::getDataLengthXBOX(false, this->format, 1, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight);
-						if (stream.tell() + fallbackSize != preloadSize) {
-							this->opened = false;
-							return;
-						}
-						this->fallbackMipCount = 1;
-						this->mipCount = 1;
-						this->flags |= FLAG_V0_NO_MIP;
-					}
-					reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
-					if (!ok) {
 						this->opened = false;
 						return;
 					}
-					::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+					this->fallbackMipCount = 1;
+					this->mipCount = 1;
+					this->flags |= FLAG_V0_NO_MIP;
 				}
-
-				this->opened = headerSizeIsAccurate;
-				if (parseHeaderOnly) {
+				reorderedFallbackData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(false, stream.read_span<std::byte>(fallbackSize), this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, ok);
+				if (!ok) {
+					this->opened = false;
 					return;
 				}
+				::swapImageDataEndianForConsole<true>(reorderedFallbackData, this->format, this->fallbackMipCount, this->frameCount, faceCount, this->fallbackWidth, this->fallbackHeight, 1, this->platform);
+			}
 
-				const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth);
-				std::vector<std::byte> reorderedImageData;
-				if (this->hasImageData()) {
-					reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, ok);
-					if (!ok) {
-						this->opened = false;
-						return;
-					}
-					::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, this->platform);
-				}
-
-				// By this point we cannot use spans over data, it will change here
-				if (this->hasFallbackData()) {
-					this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, reorderedFallbackData);
-				}
-				if (this->hasImageData()) {
-					this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
-				}
+			this->opened = headerSizeIsAccurate;
+			if (parseHeaderOnly) {
 				return;
 			}
+
+			const auto imageSize = ImageFormatDetails::getDataLengthXBOX(true, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth);
+			std::vector<std::byte> reorderedImageData;
+			if (this->hasImageData()) {
+				reorderedImageData = ::convertBetweenDDSAndVTFMipOrderForXBOX<true>(true, stream.seek(imageOffset).read_span<std::byte>(imageSize), this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, ok);
+				if (!ok) {
+					this->opened = false;
+					return;
+				}
+				::swapImageDataEndianForConsole<true>(reorderedImageData, this->format, this->mipCount, this->frameCount, faceCount, this->width, this->height, this->depth, this->platform);
+			}
+
+			// By this point we cannot use spans over data, it will change here
+			if (this->hasFallbackData()) {
+				this->setResourceInternal(Resource::TYPE_FALLBACK_DATA, reorderedFallbackData);
+			}
+			if (this->hasImageData()) {
+				this->setResourceInternal(Resource::TYPE_IMAGE_DATA, reorderedImageData);
+			}
+			return;
 		}
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
@@ -2366,6 +2364,7 @@ uint64_t VTF::estimateBakeSize(bool& isExact) const {
 						vtfSize += sizeof(uint64_t); // AXC header size
 						vtfSize += sizeof(uint32_t) * (2 + this->mipCount * this->frameCount * this->getFaceCount()); // AXC resource size
 					}
+					[[fallthrough]];
 				case 5:
 				case 4:
 				case 3:
@@ -2375,8 +2374,10 @@ uint64_t VTF::estimateBakeSize(bool& isExact) const {
 							vtfSize += resourceData.size(); // resource size
 						}
 					}
+					[[fallthrough]];
 				case 2:
 					vtfSize += sizeof(uint16_t); // depth header field
+					[[fallthrough]];
 				case 1:
 				case 0:
 					vtfSize += sizeof(uint32_t) * 9 + sizeof(float) * 4 + sizeof(uint16_t) * 4 + sizeof(uint8_t) * 3; // header fields
@@ -2424,6 +2425,7 @@ uint64_t VTF::estimateBakeSize(bool& isExact) const {
 			break;
 		case PLATFORM_PS3_PORTAL2:
 			vtfSize += sizeof(uint32_t); // align to 16 bytes
+			[[fallthrough]];
 		case PLATFORM_X360:
 		case PLATFORM_PS3_ORANGEBOX:
 			vtfSize += sizeof(uint32_t) * 7 + sizeof(float) * 4 + sizeof(uint16_t) * 5 + sizeof(uint8_t) * 6; // header fields

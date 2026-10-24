@@ -16,7 +16,7 @@ VTFPP_EXTERN typedef struct {
 	vtfpp_sht_sequence_frame_bounds_t bounds[4];
 } vtfpp_sht_sequence_frame_t;
 
-#define VTFPP_SHT_SEQUENCE_FRAME_INVALID (SOURCEPP_CAST_CTOR(vtfpp_sht_sequence_frame_t) {.duration = 0.f})
+#define VTFPP_SHT_SEQUENCE_FRAME_INVALID (SOURCEPP_CAST_CTOR(vtfpp_sht_sequence_frame_t) {.duration = 0.f, .bounds = {{0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 0.f}, {0.f, 0.f, 0.f, 0.f}}})
 
 VTFPP_EXTERN typedef struct {
 	uint32_t id;

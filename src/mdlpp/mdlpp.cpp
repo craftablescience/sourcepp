@@ -61,11 +61,11 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 		}
 	}
 
-	for (int bodyPartIndex = 0; bodyPartIndex < this->mdl.bodyParts.size(); bodyPartIndex++) {
+	for (size_t bodyPartIndex = 0; bodyPartIndex < this->mdl.bodyParts.size(); bodyPartIndex++) {
 		auto& mdlBodyPart = this->mdl.bodyParts.at(bodyPartIndex);
 		const auto& [vtxModels] = this->vtx.bodyParts.at(bodyPartIndex);
 
-		for (int modelIndex = 0; modelIndex < mdlBodyPart.models.size(); modelIndex++) {
+		for (size_t modelIndex = 0; modelIndex < mdlBodyPart.models.size(); modelIndex++) {
 			auto& mdlModel = mdlBodyPart.models.at(modelIndex);
 			const auto& [vtxModelLODs] = vtxModels.at(modelIndex);
 
@@ -73,7 +73,7 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 				continue;
 			}
 
-			for (int meshIndex = 0; meshIndex < mdlModel.meshes.size(); meshIndex++) {
+			for (size_t meshIndex = 0; meshIndex < mdlModel.meshes.size(); meshIndex++) {
 				auto& mdlMesh = mdlModel.meshes.at(meshIndex);
 				const auto& [vtxStripGroups, vtxMeshFlags] = vtxModelLODs.at(currentLOD).meshes.at(meshIndex);
 
@@ -86,13 +86,13 @@ BakedModel StudioModel::processModelData(int currentLOD) const {
 
 						// Remember to flip the winding order
 						if (strip.flags & VTX::Strip::FLAG_IS_TRILIST) {
-							for (int i = 0; i < strip.indices.size(); i += 3) {
+							for (size_t i = 0; i < strip.indices.size(); i += 3) {
 								addIndex(strip.indices[i+0]);
 								addIndex(strip.indices[i+2]);
 								addIndex(strip.indices[i+1]);
 							}
 						} else /* if (strip.flags & VTX::Strip::FLAG_IS_TRISTRIP) */ {
-							for (int i = 0; i < strip.indices.size() - 2; i++) {
+							for (size_t i = 0; i < strip.indices.size() - 2; i++) {
 								if (i & 1) {
 									addIndex(strip.indices[i+0]);
 									addIndex(strip.indices[i+2]);

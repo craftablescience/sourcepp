@@ -264,7 +264,7 @@ std::vector<std::byte> CmdSeq::bakeKeyValuesHPP() const {
 	auto& kvFile = kv.addChild("Command Sequences");
 	for (const auto& [seqName, seqCommands] : this->getSequences()) {
 		auto& kvSequence = kvFile.addChild(seqName);
-		for (int i = 1; i <= seqCommands.size(); i++) {
+		for (size_t i = 1; i <= seqCommands.size(); i++) {
 			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
 			auto& kvCommand = kvSequence.addChild(std::format("{}", i));
 			kvCommand["enable"] = enabled;
@@ -286,7 +286,7 @@ std::vector<std::byte> CmdSeq::bakeKeyValuesStrata() const {
 	auto& kvFile = kv.addChild("Command Sequences");
 	for (const auto& [seqName, seqCommands] : this->getSequences()) {
 		auto& kvSequence = kvFile.addChild(seqName);
-		for (int i = 1; i <= seqCommands.size(); i++) {
+		for (size_t i = 1; i <= seqCommands.size(); i++) {
 			const auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands[i - 1];
 			auto& kvCommand = kvSequence.addChild(std::format("{}", i));
 			kvCommand["enabled"] = enabled;

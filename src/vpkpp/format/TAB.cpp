@@ -1,4 +1,5 @@
 // ReSharper disable CppParameterMayBeConst
+// ReSharper disable CppRedundantParentheses
 // ReSharper disable CppRedundantQualifier
 
 #include <vpkpp/format/TAB.h>
@@ -105,7 +106,7 @@ std::unique_ptr<PackFile> TAB::open(const std::string& path, const EntryCallback
 		entry.length = reader.read<uint32_t>();
 		entry.archiveIndex = 0;
 
-		for (int j = 0; j < tab->numArchives; j++) {
+		for (uint32_t j = 0; j < tab->numArchives; j++) {
 			if (entry.offset < archiveAlignments[j]) {
 				entry.archiveIndex = j;
 				break;
@@ -146,7 +147,7 @@ std::optional<std::vector<std::byte>> TAB::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void TAB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void TAB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions) {
 	// note: NOT a CRC32! check TAB::hashFilePath
 	entry.crc32 = TAB::hashFilePath(path);
 	entry.length = buffer.size();
@@ -156,7 +157,7 @@ void TAB::addEntryInternal(Entry& entry, const std::string& path, std::vector<st
 	entry.offset = 0;
 }
 
-bool TAB::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool TAB::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
 	// Get the proper file output folder
 	const std::string outputDir = this->getBakeOutputDir(outputDir_);
 	const std::string outputPath = outputDir + '/' + this->getFilename();

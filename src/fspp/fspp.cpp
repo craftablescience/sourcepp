@@ -55,7 +55,7 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 	if (searchPathKVs.isInvalid()) {
 		return;
 	}
-	for (int i = 0; i < searchPathKVs.getChildCount(); i++) {
+	for (uint64_t i = 0; i < searchPathKVs.getChildCount(); i++) {
 		auto searches = string::split(string::toLower(searchPathKVs[i].getKey()), '+');
 		auto path = std::string{string::toLower(searchPathKVs[i].getValue())};
 
@@ -67,7 +67,7 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 		} else if (path.starts_with(GAMEINFO_PATH)) {
 			path = gameID + '/' + path.substr(GAMEINFO_PATH.length());
 		}
-		if (path.ends_with(".") && !path.ends_with("..")) {
+		if (path.ends_with('.') && !path.ends_with("..")) {
 			path.pop_back();
 		}
 		string::normalizeSlashes(path);
@@ -89,8 +89,7 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 				if (!this->searchPathVPKs.contains(search)) {
 					this->searchPathVPKs[search] = std::vector<std::unique_ptr<PackFile>>{};
 				}
-				auto packFile = PackFile::open(fullPath);
-				if (packFile) {
+				if (auto packFile = PackFile::open(fullPath)) {
 					this->searchPathVPKs[search].push_back(std::move(packFile));
 				}
 			}
@@ -102,7 +101,7 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 				if (path.ends_with("/*")) {
 					// Add the glob dir searchpath
 					if (const auto globParentPath = this->rootPath + '/' + path.substr(0, path.length() - 2); std::filesystem::exists(globParentPath) && std::filesystem::is_directory(globParentPath)) {
-						for (const auto directoryIterator : std::filesystem::directory_iterator{globParentPath, std::filesystem::directory_options::skip_permission_denied}) {
+						for (const auto& directoryIterator : std::filesystem::directory_iterator{globParentPath, std::filesystem::directory_options::skip_permission_denied}) {
 							auto globChildPath = std::filesystem::relative(directoryIterator.path(), this->rootPath).string();
 							string::normalizeSlashes(globChildPath);
 							this->searchPathDirs[search].push_back(globChildPath);
@@ -143,8 +142,8 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 		} else {
 			this->searchPathDirs["executable_path"] = {};
 		}
-		this->searchPathDirs["executable_path"].push_back("bin");
-		this->searchPathDirs["executable_path"].push_back("");
+		this->searchPathDirs["executable_path"].emplace_back("bin");
+		this->searchPathDirs["executable_path"].emplace_back("");
 	}
 
 	// Add PLATFORM if it doesn't exist, point it at "platform"
@@ -161,7 +160,7 @@ FileSystem::FileSystem(std::string_view gamePath, const FileSystemOptions& optio
 			}
 		}
 		if (!foundPlatform) {
-			this->searchPathDirs["game"].push_back("platform");
+			this->searchPathDirs["game"].emplace_back("platform");
 		}
 	}
 

@@ -141,7 +141,7 @@ void KV1BinaryElement::removeChild(unsigned int n) {
 }
 
 void KV1BinaryElement::removeChild(std::string_view childKey, int n) {
-	unsigned int count = 0;
+	int count = 0;
 	for (auto element = this->children.begin(); element != this->children.end(); ++element) {
 		if (string::iequals(element->getKey(), childKey)) {
 			if (n < 0 || count == n) {
@@ -198,9 +198,8 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool use64BitPointers)
 				case FLOAT:
 					element.setValue(stream.read<float>());
 					break;
-				case POINTER: {
-					const auto data32 = stream.read<uint32_t>();
-					if (use64BitPointers && data32 == KV1BinaryPointer::MAGIC_64_BIT) {
+				case POINTER:
+					if (const auto data32 = stream.read<uint32_t>(); use64BitPointers && data32 == KV1BinaryPointer::MAGIC_64_BIT) {
 						const auto data64 = stream.read<uint64_t>();
 						element.setValue(KV1BinaryPointer{
 							.v64 = data64,
@@ -213,7 +212,6 @@ KV1Binary::KV1Binary(std::span<const std::byte> kv1Data, bool use64BitPointers)
 						});
 					}
 					break;
-				}
 				case WSTRING: {
 					const auto len = stream.read<uint16_t>();
 					std::wstring value;
@@ -271,9 +269,8 @@ std::vector<std::byte> KV1Binary::bake() const {
 				case FLOAT:
 					stream.write(*element.getValue<float>());
 					break;
-				case POINTER: {
-					const auto pointer = *element.getValue<KV1BinaryPointer>();
-					if (pointer.is64Bit) {
+				case POINTER:
+					if (const auto pointer = *element.getValue<KV1BinaryPointer>(); pointer.is64Bit) {
 						stream
 							.write<uint32_t>(KV1BinaryPointer::MAGIC_64_BIT)
 							.write(pointer.v64);
@@ -281,7 +278,6 @@ std::vector<std::byte> KV1Binary::bake() const {
 						stream.write(pointer.v32);
 					}
 					break;
-				}
 				case WSTRING: {
 					const auto val = *element.getValue<std::wstring>();
 					stream

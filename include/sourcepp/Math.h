@@ -63,7 +63,7 @@ template<std::unsigned_integral T>
 
 [[nodiscard]] constexpr uint16_t paddingForAlignment(uint16_t alignment, uint64_t n) {
 	if (const auto rest = n % alignment; rest > 0) {
-		return alignment - rest;
+		return static_cast<uint16_t>(alignment - rest);
 	}
 	return 0;
 }

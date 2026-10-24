@@ -70,7 +70,7 @@ std::unique_ptr<PackFile> FGP::open(const std::string& path, const EntryCallback
 			reader.seek_in_u(reader.seek_in(sizeof(uint64_t) * 2, std::ios::end).read<uint64_t>());
 			if (reader.read<uint64_t>() == FGP_SOURCEPP_FILENAMES_SIGNATURE && reader.read<uint32_t>() == 1) {
 				const auto filepathCount = reader.read<uint32_t>();
-				for (int i = 0; i < filepathCount; i++) {
+				for (uint32_t i = 0; i < filepathCount; i++) {
 					const auto hash = reader.read<uint32_t>();
 					crackedHashes[hash] = fgp->cleanEntryPath(reader.read_string(reader.read<uint16_t>()));
 				}
@@ -182,7 +182,7 @@ std::size_t FGP::removeDirectory(const std::string& dirName) {
 	return false;
 }
 
-void FGP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void FGP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions) {
 	// note: NOT a CRC32! check FGP::hashFilePath
 	entry.crc32 = FGP::hashFilePath(this->cleanEntryPath(path));
 	entry.length = buffer.size();

@@ -163,7 +163,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_ELEMENT: {
 			const auto elements = this->getValue<std::vector<DMXValue::Element>>();
 			std::string out = "[";
-			for (int i = 0; i < elements.size(); i++) {
+			for (size_t i = 0; i < elements.size(); i++) {
 				if (elements[i].index == -2) {
 					out += std::format("{}GUID: {}{}", i == 0 ? "" : " ", elements[i].externalGUID, i == elements.size() - 1 ? "" : ",");
 				} else {
@@ -175,7 +175,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_INT32: {
 			const auto ints = this->getValue<std::vector<int32_t>>();
 			std::string out = "[";
-			for (int i = 0; i < ints.size(); i++) {
+			for (size_t i = 0; i < ints.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", ints[i], i == ints.size() - 1 ? "" : ",");
 			}
 			return out + ']';
@@ -183,7 +183,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_FLOAT: {
 			const auto floats = this->getValue<std::vector<float>>();
 			std::string out = "[";
-			for (int i = 0; i < floats.size(); i++) {
+			for (size_t i = 0; i < floats.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", floats[i], i == floats.size() - 1 ? "" : ",");
 			}
 			return out + ']';
@@ -191,7 +191,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_BOOL: {
 			const auto bools = this->getValue<std::vector<bool>>();
 			std::string out = "[";
-			for (int i = 0; i < bools.size(); i++) {
+			for (size_t i = 0; i < bools.size(); i++) {
 				// ReSharper disable once CppRedundantCastExpression
 				out += std::format("{}{}{}", i == 0 ? "" : " ", static_cast<bool>(bools[i]), i == bools.size() - 1 ? "" : ",");
 			}
@@ -200,7 +200,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_STRING: {
 			const auto strings = this->getValue<std::vector<std::string>>();
 			std::string out = "[";
-			for (int i = 0; i < strings.size(); i++) {
+			for (size_t i = 0; i < strings.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", strings[i], i == strings.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -208,7 +208,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_BYTEARRAY: {
 			const auto bytearrays = this->getValue<std::vector<DMXValue::ByteArray>>();
 			std::string out = "[";
-			for (int i = 0; i < bytearrays.size(); i++) {
+			for (size_t i = 0; i < bytearrays.size(); i++) {
 				std::stringstream hex;
 				hex << std::hex << std::setfill('0');
 				for (auto byte : bytearrays[i]) {
@@ -221,7 +221,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_UUID: {
 			const auto uuids = this->getValue<std::vector<DMXValue::UUID>>();
 			std::string out = "[";
-			for (int i = 0; i < uuids.size(); i++) {
+			for (size_t i = 0; i < uuids.size(); i++) {
 				std::stringstream hex;
 				hex << std::hex << std::setfill('0');
 				for (auto byte : uuids[i]) {
@@ -234,7 +234,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_TIME: {
 			const auto times = this->getValue<std::vector<DMXValue::Time>>();
 			std::string out = "[";
-			for (int i = 0; i < times.size(); i++) {
+			for (size_t i = 0; i < times.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", times[i].seconds, i == times.size() - 1 ? "" : ",");
 			}
 			return out + ']';
@@ -242,7 +242,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_COLOR: {
 			const auto colors = this->getValue<std::vector<DMXValue::Color>>();
 			std::string out = "[";
-			for (int i = 0; i < colors.size(); i++) {
+			for (size_t i = 0; i < colors.size(); i++) {
 				out += std::format("{}rgba({}, {}, {}, {}){}", i == 0 ? "" : " ", colors[i].r, colors[i].g, colors[i].b, colors[i].a, i == colors.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -250,7 +250,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_VECTOR2: {
 			const auto vecs = this->getValue<std::vector<DMXValue::Vector2>>();
 			std::string out = "[";
-			for (int i = 0; i < vecs.size(); i++) {
+			for (size_t i = 0; i < vecs.size(); i++) {
 				out += std::format("{}[{}, {}]{}", i == 0 ? "" : " ", vecs[i][0], vecs[i][1], i == vecs.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -258,7 +258,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_VECTOR3: {
 			const auto vecs = this->getValue<std::vector<DMXValue::Vector3>>();
 			std::string out = "[";
-			for (int i = 0; i < vecs.size(); i++) {
+			for (size_t i = 0; i < vecs.size(); i++) {
 				out += std::format("{}[{}, {}, {}]{}", i == 0 ? "" : " ", vecs[i][0], vecs[i][1], vecs[i][2], i == vecs.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -266,7 +266,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_VECTOR4: {
 			const auto vecs = this->getValue<std::vector<DMXValue::Vector4>>();
 			std::string out = "[";
-			for (int i = 0; i < vecs.size(); i++) {
+			for (size_t i = 0; i < vecs.size(); i++) {
 				out += std::format("{}[{}, {}, {}, {}]{}", i == 0 ? "" : " ", vecs[i][0], vecs[i][1], vecs[i][2], vecs[i][3], i == vecs.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -274,7 +274,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_EULER_ANGLES: {
 			const auto angles = this->getValue<std::vector<DMXValue::EulerAngles>>();
 			std::string out = "[";
-			for (int i = 0; i < angles.size(); i++) {
+			for (size_t i = 0; i < angles.size(); i++) {
 				out += std::format("{}[{}, {}, {}]{}", i == 0 ? "" : " ", angles[i][0], angles[i][1], angles[i][2], i == angles.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -282,7 +282,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_QUATERNION: {
 			const auto quats = this->getValue<std::vector<DMXValue::Quaternion>>();
 			std::string out = "[";
-			for (int i = 0; i < quats.size(); i++) {
+			for (size_t i = 0; i < quats.size(); i++) {
 				out += std::format("{}[{}, {}, {}, {}]{}", i == 0 ? "" : " ", quats[i][0], quats[i][1], quats[i][2], quats[i][3], i == quats.size() - 1 ? "" : ",\n");
 			}
 			return out + ']';
@@ -290,7 +290,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_MATRIX_4X4: {
 			const auto matrices = this->getValue<std::vector<DMXValue::Matrix4x4>>();
 			std::string out = "[";
-			for (int m = 0; m < matrices.size(); m++) {
+			for (size_t m = 0; m < matrices.size(); m++) {
 				out += m == 0 ? "[" : " [";
 				for (int i = 0; i < 4; i++) {
 					out += i == 0 ? "" : "  ";
@@ -307,7 +307,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_UINT64: {
 			const auto ints = this->getValue<std::vector<uint64_t>>();
 			std::string out = "[";
-			for (int i = 0; i < ints.size(); i++) {
+			for (size_t i = 0; i < ints.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", ints[i], i == ints.size() - 1 ? "" : ",");
 			}
 			return out + ']';
@@ -315,7 +315,7 @@ std::string DMXAttribute::getValueString() const {
 		case ARRAY_UINT8: {
 			const auto ints = this->getValue<std::vector<uint8_t>>();
 			std::string out = "[";
-			for (int i = 0; i < ints.size(); i++) {
+			for (size_t i = 0; i < ints.size(); i++) {
 				out += std::format("{}{}{}", i == 0 ? "" : " ", ints[i], i == ints.size() - 1 ? "" : ",");
 			}
 			return out + ']';
@@ -466,7 +466,7 @@ void DMXElement::removeAttribute(unsigned int n) {
 }
 
 void DMXElement::removeAttribute(std::string_view attributeKey, int n) {
-	unsigned int count = 0;
+	int count = 0;
 	for (auto attribute = this->attributes.begin(); attribute != this->attributes.end(); ++attribute) {
 		if (string::iequals(attribute->getKey(), attributeKey)) {
 			if (n < 0 || count == n) {
@@ -623,7 +623,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				std::vector<T> out;
 				auto size = stream.read<uint32_t>();
 				out.reserve(size);
-				for (int i = 0; i < size; i++) {
+				for (uint32_t i = 0; i < size; i++) {
 					// String arrays are always inline
 					out.push_back(std::get<T>(readValue(DMXValue::arrayIDToInnerID(type_), false)));
 				}
@@ -779,7 +779,7 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 				stringCount = stream.read<uint32_t>();
 			}
 			stringList.reserve(stringCount);
-			for (int i = 0; i < stringCount; i++) {
+			for (uint32_t i = 0; i < stringCount; i++) {
 				stringList.push_back(stream.read_string());
 			}
 		}
@@ -1014,7 +1014,7 @@ void DMX::removeElement(unsigned int n) {
 		for (auto& attribute : element.attributes) {
 			if (const auto attributeType = attribute.getValueType(); attributeType == DMXValue::ID::ELEMENT) {
 				auto elementRef = attribute.getValue<DMXValue::Element>();
-				if (elementRef.index > n) {
+				if (static_cast<uint32_t>(elementRef.index) > n) {
 					elementRef.index--;
 				}
 				attribute.setValue(elementRef);
@@ -1022,7 +1022,7 @@ void DMX::removeElement(unsigned int n) {
 				auto elementsRef = attribute.getValue<std::vector<DMXValue::Element>>();
 				bool shouldSet = false;
 				for (auto& [index, externalGUID] : elementsRef) {
-					if (index > n) {
+					if (static_cast<uint32_t>(index) > n) {
 						index--;
 						shouldSet = true;
 					}

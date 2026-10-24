@@ -49,6 +49,13 @@
 #include <sourcepp/Macros.h>
 #include <sourcepp/MathExtended.h>
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic ignored "-Wunused-value"
+#endif
+
 #define STB_IMAGE_IMPLEMENTATION
 #define STB_IMAGE_STATIC
 #define STBI_NO_FAILURE_STRINGS
@@ -63,6 +70,10 @@
 #define STB_IMAGE_WRITE_STATIC
 #define STBI_WRITE_NO_STDIO
 #include <stb_image_write.h>
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 #ifdef VTFPP_SUPPORT_EXR
 #include <tinyexr.h>
@@ -589,7 +600,7 @@ namespace {
 		VTFPP_CASE_CONVERT(BGRX5551,                {VTFPP_REMAP_FROM_8(pixel.b(), 5), VTFPP_REMAP_FROM_8(pixel.g(), 5), VTFPP_REMAP_FROM_8(pixel.r(), 5), 1});
 		VTFPP_CASE_CONVERT(BGRA4444,                {VTFPP_REMAP_FROM_8(pixel.b(), 4), VTFPP_REMAP_FROM_8(pixel.g(), 4), VTFPP_REMAP_FROM_8(pixel.r(), 4), VTFPP_REMAP_FROM_8(pixel.a(), 4)});
 		VTFPP_CASE_CONVERT(UV88,                    {pixel.r(), pixel.g()});
-		VTFPP_CASE_CONVERT(UVLX8888,                {pixel.r(), pixel.g(), pixel.b()});
+		VTFPP_CASE_CONVERT(UVLX8888,                {pixel.r(), pixel.g(), pixel.b(), 0xff});
 		VTFPP_CASE_CONVERT(RGBX8888,                {pixel.r(), pixel.g(), pixel.b(), 0xff});
 		VTFPP_CASE_CONVERT(CONSOLE_BGRX8888_LINEAR, {pixel.b(), pixel.g(), pixel.r(), 0xff});
 		VTFPP_CASE_CONVERT(CONSOLE_RGBA8888_LINEAR, {pixel.r(), pixel.g(), pixel.b(), pixel.a()});
@@ -1509,7 +1520,8 @@ std::vector<std::byte> ImageConversion::convertImageDataToFile(std::span<const s
 				info.uses_original_profile = false;
 			}
 
-			JxlPixelFormat pixelFormat{ .endianness = JXL_LITTLE_ENDIAN };
+			JxlPixelFormat pixelFormat{};
+			pixelFormat.endianness = JXL_LITTLE_ENDIAN;
 			std::vector<std::byte> imageDataConverted;
 
 			switch (ImageFormatDetails::containerFormat(format)) {
@@ -1655,7 +1667,8 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 		JxlDecoderCloseInput(decoder.get());
 
 		std::vector<std::byte> out;
-		JxlPixelFormat pixelFormat{ .endianness = JXL_LITTLE_ENDIAN };
+		JxlPixelFormat pixelFormat{};
+		pixelFormat.endianness = JXL_LITTLE_ENDIAN;
 		bool infoHasBeenSet = false;
 		while (true) {
 			switch (JxlDecoderProcessInput(decoder.get())) {
@@ -1842,7 +1855,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 							const auto jj = static_cast<uint64_t>(image.tiles[t].offset_y) * header.tile_size_y + j;
 							const auto idx = ii + jj * image.width;
 
-							if (ii >= image.width || jj >= image.height) {
+							if (ii >= static_cast<uint64_t>(image.width) || jj >= static_cast<uint64_t>(image.height)) {
 								continue;
 							}
 
@@ -1860,7 +1873,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 				}
 			} else {
 				auto** src = reinterpret_cast<C**>(image.images);
-				for (uint64_t i = 0; i < width * height; i++) {
+				for (uint64_t i = 0; i < static_cast<uint64_t>(width) * height; i++) {
 					if (r >= 0)        out[i * channelCount + 0] = src[r][i];
 					else if (hasRed)   out[i * channelCount + 0] = 0.f;
 					if (g >= 0)        out[i * channelCount + 1] = src[g][i];
@@ -2040,7 +2053,7 @@ std::vector<std::byte> ImageConversion::convertFileToImageData(std::span<const s
 					currentFrameSize = sizeof(P) * frame.width * frame.height;
 
 					// If the parameters are perfect we can memcpy all the data in
-					if (frame.width == width && frame.height == height && frame.x_offset == 0 && frame.y_offset == 0 && frame.blend_op == STBI_APNG_blend_op_source) {
+					if (frame.width == static_cast<uint32_t>(width) && frame.height == static_cast<uint32_t>(height) && frame.x_offset == 0 && frame.y_offset == 0 && frame.blend_op == STBI_APNG_blend_op_source) {
 						std::memcpy(out.data() + dstFrameOffset, stbImage.get() + srcFrameOffset, fullFrameSize);
 					} else {
 						// Check the blend op
@@ -2436,7 +2449,7 @@ void ImageConversion::gammaCorrectImageData(std::span<std::byte> imageData, Imag
 	static constexpr auto calculateGammaLUT = [](float gamma_, uint8_t channelSize) -> std::array<uint8_t, 256> {
 		const auto maxSize = static_cast<float>((1 << channelSize) - 1);
 		std::array<uint8_t, 256> gammaLUT{};
-		for (int i = 0; i < gammaLUT.size(); i++) {
+		for (size_t i = 0; i < gammaLUT.size(); i++) {
 			gammaLUT[i] = static_cast<uint8_t>(std::clamp(std::pow((static_cast<float>(i) + 0.5f) / maxSize, gamma_) * maxSize - 0.5f, 0.f, maxSize));
 		}
 		return gammaLUT;

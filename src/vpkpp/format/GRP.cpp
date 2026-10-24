@@ -40,7 +40,7 @@ std::unique_ptr<PackFile> GRP::open(const std::string& path, const EntryCallback
 
 	const auto dirSize = (GRP_FILENAME_MAX_SIZE + sizeof(uint32_t)) * (entryCount + 1);
 	uint32_t currentOffset = dirSize;
-	for (int i = 0; i < entryCount; i++) {
+	for (uint32_t i = 0; i < entryCount; i++) {
 		Entry entry = createNewEntry();
 
 		auto entryPath = grp->cleanEntryPath(reader.read_string(GRP_FILENAME_MAX_SIZE));

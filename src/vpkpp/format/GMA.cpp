@@ -105,7 +105,7 @@ std::optional<std::vector<std::byte>> GMA::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void GMA::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void GMA::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions) {
 	entry.length = buffer.size();
 	entry.crc32 = crypto::computeCRC32(buffer);
 

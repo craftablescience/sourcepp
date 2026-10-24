@@ -88,14 +88,14 @@ std::optional<std::vector<std::byte>> APK::readEntry(const std::string& path_) c
 	return stream.read_bytes(entry->length);
 }
 
-void APK::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void APK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions) {
 	entry.length = buffer.size();
 
 	// Offset will be reset when it's baked
 	entry.offset = 0;
 }
 
-bool APK::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool APK::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
 	// Get the proper file output folder
 	const std::string outputDir = this->getBakeOutputDir(outputDir_);
 	const std::string outputPath = outputDir + '/' + this->getFilename();
