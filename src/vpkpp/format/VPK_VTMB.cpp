@@ -51,7 +51,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 	}
 
 	if (vpkVTMB->knownArchives.empty()) {
-		uint32_t archiveIndex;
+		uint32_t archiveIndex = 0;
 		string::toInt(stem.substr(4), archiveIndex);
 		vpkVTMB->openNumbered(archiveIndex, path, callback);
 	}
@@ -68,8 +68,7 @@ void VPK_VTMB::openNumbered(uint32_t archiveIndex, const std::string& path, cons
 	const auto dirOffset = reader.read<uint32_t>();
 
 	// Make 100% sure
-	const auto version = reader.read<uint8_t>();
-	if (version != 0) {
+	if (const auto version = reader.read<uint8_t>(); version != 0) {
 		return;
 	}
 
@@ -116,7 +115,7 @@ std::optional<std::vector<std::byte>> VPK_VTMB::readEntry(const std::string& pat
 	return stream.read_bytes(entry->length);
 }
 
-void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void VPK_VTMB::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions) {
 	entry.archiveIndex = this->currentArchive;
 	entry.length = buffer.size();
 
@@ -124,7 +123,7 @@ void VPK_VTMB::addEntryInternal(Entry& entry, const std::string& path, std::vect
 	entry.offset = 0;
 }
 
-bool VPK_VTMB::bake(const std::string& outputDir_, BakeOptions options, const EntryCallback& callback) {
+bool VPK_VTMB::bake(const std::string& outputDir_, BakeOptions, const EntryCallback& callback) {
 	if (this->knownArchives.empty()) {
 		return false;
 	}

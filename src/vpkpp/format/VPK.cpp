@@ -412,8 +412,8 @@ void VPK::addEntryInternal(Entry& entry, const std::string&, std::vector<std::by
 	entry.archiveIndex = options.vpk_saveToDirectory ? VPK_DIR_INDEX : this->numArchives;
 	if (!options.vpk_saveToDirectory && !this->freedChunks.empty() && !this->hasCompression()) {
 		int64_t bestChunkIndex = -1;
-		std::size_t currentChunkGap = SIZE_MAX;
-		for (int64_t i = 0; i < this->freedChunks.size(); i++) {
+		size_t currentChunkGap = SIZE_MAX;
+		for (int64_t i = 0; i < static_cast<int64_t>(this->freedChunks.size()); i++) {
 			if (
 				(bestChunkIndex < 0 && this->freedChunks[i].length >= entry.length) ||
 				(bestChunkIndex >= 0 && this->freedChunks[i].length >= entry.length && this->freedChunks[i].length - entry.length < currentChunkGap)
@@ -569,7 +569,7 @@ bool VPK::bake(const std::string& outputDir_, BakeOptions options, const EntryCa
 
 	// Copy external binary blobs to the new dir
 	if (!outputDir_.empty()) {
-		for (uint32_t archiveIndex = 0; archiveIndex < this->numArchives; archiveIndex++) {
+		for (int32_t archiveIndex = 0; archiveIndex < this->numArchives; archiveIndex++) {
 			std::string from = getArchiveFilename(this->getTruncatedFilepath(), archiveIndex);
 			if (!std::filesystem::exists(from)) {
 				continue;
@@ -885,7 +885,7 @@ bool VPK::sign(const std::vector<std::byte>& privateKey, const std::vector<std::
 	if (dirFileBuffer.size() <= this->header2.signatureSectionSize) {
 		return false;
 	}
-	for (int i = 0; i < this->header2.signatureSectionSize; i++) {
+	for (uint32_t i = 0; i < this->header2.signatureSectionSize; i++) {
 		dirFileBuffer.pop_back();
 	}
 	this->footer2.publicKey = publicKey;

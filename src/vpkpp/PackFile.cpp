@@ -29,7 +29,7 @@ std::string joinPath(const std::vector<std::string>& list) {
 		return "";
 	}
 	std::string result = list.front();
-	for (int i = 1; i < list.size(); ++i) {
+	for (size_t i = 1; i < list.size(); ++i) {
 		result += '/' + list[i];
 	}
 	return result;

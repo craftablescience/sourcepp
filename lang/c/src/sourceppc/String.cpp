@@ -37,7 +37,7 @@ SOURCEPP_API sourcepp_string_array_t sourcepp_string_array_new(size_t size) {
 
 SOURCEPP_API void sourcepp_string_array_free(sourcepp_string_array_t* array) {
 	if (array->data) {
-		for (size_t i = 0; i < array->size; i++) {
+		for (int64_t i = 0; i < array->size; i++) {
 			if (char* str = array->data[i]) {
 				std::free(str);
 				array->data[i] = nullptr;

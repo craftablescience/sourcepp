@@ -64,7 +64,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 
 	// block headers!!!!!!
 	bool requestKey = false;
-	for (int i = 0; i < gcf->header.blockcount; i++) {
+	for (uint32_t i = 0; i < gcf->header.blockcount; i++) {
 		Block& block = gcf->blockdata.emplace_back();
 		reader.read(block);
 		if (block.isEncrypted()) {
@@ -102,7 +102,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 
 	// Fragmentation Map (list of dwords)
 
-	for (int i = 0; i < blkcount; i++) {
+	for (uint32_t i = 0; i < blkcount; i++) {
 		gcf->fragmap.push_back(reader.read<uint32_t>());
 	}
 
@@ -116,7 +116,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 
 	std::vector<DirectoryEntry2> direntries{};
 
-	for (int i = 0; i < gcf->dirheader.itemcount; i++) {
+	for (uint32_t i = 0; i < gcf->dirheader.itemcount; i++) {
 		DirectoryEntry2& entry = direntries.emplace_back();
 		reader.read(entry.entry_real);
 		auto currentoffset = reader.tell_in();
@@ -160,7 +160,7 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 	reader.skip_in<DirectoryMapHeader>();
 
 	// Directory Map entries
-	for (int i = 0; i < gcf->dirheader.itemcount; i++) {
+	for (uint32_t i = 0; i < gcf->dirheader.itemcount; i++) {
 		DirectoryMapEntry& entry = gcf->dirmap_entries.emplace_back();
 		reader.read(entry);
 	}
@@ -182,12 +182,12 @@ std::unique_ptr<PackFile> GCF::open(const std::string& path, const EntryCallback
 
 	//printf("%lu %lu\n", chksummapheader.checksum_count, chksummapheader.item_count);
 
-	for (int i = 0; i < chksummapheader.item_count; i++) {
+	for (uint32_t i = 0; i < chksummapheader.item_count; i++) {
 		auto& cur_entry = gcf->chksum_map.emplace_back();
 		reader.read(cur_entry);
 	}
 
-	for (int i = 0; i < chksummapheader.checksum_count; i++) {
+	for (uint32_t i = 0; i < chksummapheader.checksum_count; i++) {
 		auto& currentChecksum = gcf->checksums.emplace_back();
 		reader.read(currentChecksum);
 	}
@@ -211,7 +211,7 @@ std::vector<std::string> GCF::verifyEntryChecksums() const {
 		uint32_t idx = entry.crc32;
 		uint32_t count = this->chksum_map[idx].count;
 		uint32_t checksumstart = this->chksum_map[idx].firstindex;
-		for (int i = 0; i < count; i++) {
+		for (uint32_t i = 0; i < count; i++) {
 			uint32_t csum = this->checksums[checksumstart + i];
 			std::size_t toread = std::min(static_cast<std::size_t>(0x8000), tocheck);
 			const auto* data = bytes->data() + (i * 0x8000);

@@ -195,11 +195,17 @@ bool BSP::setLump(BSPLump lumpIndex, uint32_t version, std::span<const std::byte
 			return false;
 		}
 		this->stagedLumps[lump] = std::make_pair<Lump, std::vector<std::byte>>({
-			.version = version, .uncompressedLength = static_cast<uint32_t>(data.size()),
+			.offset = 0,
+			.length = 0,
+			.version = version,
+			.uncompressedLength = static_cast<uint32_t>(data.size()),
 		}, {compressedData->begin(), compressedData->end()});
 	} else {
 		this->stagedLumps[lump] = std::make_pair<Lump, std::vector<std::byte>>({
-			.version = version, .uncompressedLength = 0,
+			.offset = 0,
+			.length = 0,
+			.version = version,
+			.uncompressedLength = 0,
 		}, {data.begin(), data.end()});
 	}
 	return true;
@@ -258,6 +264,7 @@ bool BSP::setGameLump(BSPGameLump::Signature signature, uint16_t version, std::s
 		.version = version,
 		.offset = 0,
 		.uncompressedLength = static_cast<uint32_t>(data.size()),
+		.data = {},
 	};
 
 	if (compressLevel) {
@@ -286,8 +293,7 @@ void BSP::resetLump(BSPLump lumpIndex) {
 		this->stagedGameLumps = this->parseGameLumps(false);
 		return;
 	}
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
-	if (this->stagedLumps.contains(lump)) {
+	if (const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex); this->stagedLumps.contains(lump)) {
 		this->stagedLumps.erase(lump);
 	}
 }
@@ -378,7 +384,7 @@ bool BSP::bake(std::string_view outputPath) {
 	}
 
 	const auto lumpsHeaderOffset = stream.tell();
-	for (int i = 0; i < sizeof(Header::lumps); i++) {
+	for (size_t i = 0; i < sizeof(Header::lumps); i++) {
 		stream.write<uint8_t>(0);
 	}
 

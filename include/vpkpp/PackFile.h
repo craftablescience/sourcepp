@@ -10,7 +10,17 @@
 #include <vector>
 
 #include <sourcepp/Macros.h>
+
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
+#endif
+
 #include <tsl/htrie_map.h>
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 #include "Attribute.h"
 #include "Entry.h"
@@ -226,9 +236,18 @@ protected:
 
 	static std::unordered_map<std::string, std::vector<OpenFactoryFunction>>& getOpenExtensionRegistry();
 
+#ifdef __GNUC__
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wdangling-reference"
+#endif
+
 	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunctionBasic& factory);
 
 	static const OpenFactoryFunction& registerOpenExtensionForTypeFactory(std::string_view extension, const OpenFactoryFunction& factory);
+
+#ifdef __GNUC__
+#pragma GCC diagnostic pop
+#endif
 
 	std::string fullFilePath;
 	EntryTrie entries;

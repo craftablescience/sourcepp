@@ -80,18 +80,18 @@ public:
 		ImageConversion::ResizeEdge edge
 	)
 		: srcImg(srcImg)
-		, pxLen(pxLen)
-		, alphaOffs(alphaOffs)
-		, imgWidth(inWidth)
+		, alphaThreshold(alphaThreshold)
 		, imgHeight(inHeight)
-		, reduceX(reduceX)
-		, reduceY(reduceY)
+		, imgWidth(inWidth)
 		, searchRadius(ftoabsu16(2.0f * std::max<float>(reduceX, reduceY) * distanceSpread))
 		// the second power of two after search radius
 		, granularity(uint16_t{4} << ftoabsu16(ceil(log2(static_cast<float>(this->searchRadius)))))
 		, offsX(sampleCentered ? reduceX / 2 : 0)
 		, offsY(sampleCentered ? reduceY / 2 : 0)
-		, alphaThreshold(alphaThreshold)
+		, reduceX(reduceX)
+		, reduceY(reduceY)
+		, pxLen(pxLen)
+		, alphaOffs(alphaOffs)
 		, indexFn(indexBy(edge))
 	{}
 
@@ -185,13 +185,13 @@ class RasterCursor {
 public:
 	RasterCursor(const QuadTree *tree, uint16_t imgWidth, uint16_t imgHeight, uint16_t reduceX = 1, uint16_t reduceY = 1, uint16_t offsX = 0, uint16_t offsY = 0)
 		: tree(tree)
+		, curX(offsX)
+		, curY(offsY)
 		, imgWidth(imgWidth)
 		, imgHeight(imgHeight)
 		, reduceX(reduceX)
 		, reduceY(reduceY)
 		, offsX(offsX)
-		, curX(offsX)
-		, curY(offsY)
 	{
 		this->curShade = this->reorient();
 	}
@@ -291,6 +291,7 @@ void paintMap(
 		switch (srcShade) {
 		case OUT:
 			fillDistance = 0.0f;
+			[[fallthrough]];
 		case IN:
 			for (uint16_t i = 0; i < dstW; i++, iOut += dstPxLen) {
 				dstImg[iOut] = fillDistance;
@@ -390,7 +391,6 @@ void paintMap(
 		RasterCursor diffCursor(&tree, dstWidth, dstHeight);
 		uint32_t diffOut = dstAlphaOffs;
 		Leaf diffShade = FIGUREITOUT;
-		const uint32_t dstBufLen = dstWidth * dstHeight * dstPxLen;
 		uint16_t diffY = 0, diffX = 0, diffW = 0;
 		uint32_t iGradR = 0;
 

@@ -118,8 +118,8 @@ std::unique_ptr<PackFile> FPX::openInternal(const std::string& path, const Entry
 					entry.length += preloadedDataSize;
 				}
 
-				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > fpx->numArchives) {
-					fpx->numArchives = entry.archiveIndex;
+				if (entry.archiveIndex != VPK_DIR_INDEX && entry.archiveIndex > static_cast<uint32_t>(fpx->numArchives)) {
+					fpx->numArchives = static_cast<int32_t>(entry.archiveIndex);
 				}
 
 				fpx->entries.emplace(entryPath, entry);

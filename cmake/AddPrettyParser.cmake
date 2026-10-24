@@ -29,6 +29,18 @@ function(add_pretty_parser TARGET)
     target_link_libraries(${TARGET} PUBLIC ${PROJECT_NAME} ${OPTIONS_DEPS_PUBLIC})
     target_link_libraries(${TARGET} INTERFACE ${OPTIONS_DEPS_INTERFACE})
 
+    # Enable warnings, warnings are errors
+    if(PROJECT_IS_TOP_LEVEL)
+        if(MSVC)
+            target_compile_options(${TARGET} PRIVATE /W4 /WX)
+        else()
+            target_compile_options(${TARGET} PRIVATE -Wall -Wextra -Wpedantic)
+        endif()
+        set_target_properties(${TARGET} PROPERTIES
+                COMPILE_WARNING_AS_ERROR ON
+                LINK_WARNING_AS_ERROR ON)
+    endif()
+
     # Define DEBUG macro
     target_compile_definitions(${TARGET} PRIVATE "$<$<CONFIG:Debug>:DEBUG>")
 

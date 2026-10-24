@@ -35,7 +35,7 @@ uint64_t BSPEntityKeyValues::getKeyValuesCount() const {
 uint64_t BSPEntityKeyValues::getKeyValuesCount(std::string_view childKey) const {
 	uint64_t count = 0;
 	for (const auto& element : this->keyvalues) {
-		if (sourcepp::string::iequals(element.getKey(), childKey)) {
+		if (string::iequals(element.getKey(), childKey)) {
 			++count;
 		}
 	}
@@ -64,7 +64,7 @@ BSPEntityKeyValues::Element& BSPEntityKeyValues::operator[](std::string_view chi
 
 const BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view childKey) const {
 	for (const auto& element : this->keyvalues) {
-		if (sourcepp::string::iequals(element.getKey(), childKey)) {
+		if (string::iequals(element.getKey(), childKey)) {
 			return element;
 		}
 	}
@@ -73,7 +73,7 @@ const BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_vi
 
 BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view childKey) {
 	for (auto& element : this->keyvalues) {
-		if (sourcepp::string::iequals(element.getKey(), childKey)) {
+		if (string::iequals(element.getKey(), childKey)) {
 			return element;
 		}
 	}
@@ -83,7 +83,7 @@ BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view chi
 const BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view childKey, unsigned int n) const {
 	unsigned int count = 0;
 	for (const auto& element : this->keyvalues) {
-		if (sourcepp::string::iequals(element.getKey(), childKey)) {
+		if (string::iequals(element.getKey(), childKey)) {
 			if (count == n) {
 				return element;
 			}
@@ -96,7 +96,7 @@ const BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_vi
 BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view childKey, unsigned int n) {
 	unsigned int count = 0;
 	for (auto& element: this->keyvalues) {
-		if (sourcepp::string::iequals(element.getKey(), childKey)) {
+		if (string::iequals(element.getKey(), childKey)) {
 			if (count == n) {
 				return element;
 			}
@@ -107,9 +107,9 @@ BSPEntityKeyValues::Element& BSPEntityKeyValues::operator()(std::string_view chi
 }
 
 void BSPEntityKeyValues::removeKeyValue(std::string_view childKey, int n) {
-	unsigned int count = 0;
+	int count = 0;
 	for (auto element = this->keyvalues.begin(); element != this->keyvalues.end(); ++element) {
-		if (sourcepp::string::iequals(element->getKey(), childKey)) {
+		if (string::iequals(element->getKey(), childKey)) {
 			if (n < 0 || count == n) {
 				element = this->keyvalues.erase(element);
 				if (count == n) {
@@ -130,6 +130,6 @@ std::string BSPEntityKeyValues::bake(bool useEscapes) const {
 		out += parser::text::convertSpecialCharsToEscapes(elem.getValue(), parser::text::getDefaultEscapeSequencesOrNone(useEscapes));
 		out += "\"\n";
 	}
-	out += "}";
+	out += '}';
 	return out;
 }

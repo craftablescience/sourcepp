@@ -121,7 +121,7 @@ bool ZIP::isReadOnly() const noexcept {
 	return xzpVersion == 2 || xzpVersion == 3;
 }
 
-void ZIP::addEntryInternal(Entry& entry, const std::string& path, std::vector<std::byte>& buffer, EntryOptions options) {
+void ZIP::addEntryInternal(Entry& entry, const std::string&, std::vector<std::byte>& buffer, EntryOptions options) {
 	entry.flags = (static_cast<uint32_t>(options.zip_compressionType == EntryCompressionType::NO_OVERRIDE ? EntryCompressionType::NO_COMPRESS : options.zip_compressionType) << 16) | options.zip_compressionStrength;
 	entry.length = buffer.size();
 	entry.compressedLength = 0;

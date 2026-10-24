@@ -60,7 +60,8 @@ std::unique_ptr<PackFile> REZ::open(const std::string& path, const EntryCallback
 			if (rez->version != 1) {
 				return nullptr;
 			}
-			break;
+			// todo: v2 support
+			return nullptr;
 		default:
 			return nullptr;
 	}
