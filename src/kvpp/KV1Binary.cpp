@@ -2,6 +2,7 @@
 
 #include <kvpp/KV1Binary.h>
 
+#include <cstdlib>
 #include <format>
 #include <functional>
 #include <utility>
@@ -339,8 +340,10 @@ std::string KV1Binary::bakeText() const {
 				break;
 			}
 			case WSTRING: {
-				// todo: convert to ascii or utf-8
-				const auto val = "";
+				std::string value;
+				value.resize(std::wcstombs(nullptr, element.getValue<std::wstring>()->c_str(), 0));
+				std::wcstombs(value.data(), element.getValue<std::wstring>()->c_str(), value.size());
+				child = std::move(value);
 				break;
 			}
 			case COLOR_RGBA: {
