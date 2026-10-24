@@ -23,7 +23,7 @@ endif()
 
 
 # bufferstream
-add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream 5c040a17417a3cef650f49c41192b2c00ac1e865)
+add_sourcepp_remote_library(bufferstream https://github.com/craftablescience/BufferStream dd1b4da701430bf7540f247482b05cb4df93ddae)
 
 
 # compressonator
@@ -58,7 +58,7 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_JXL)
     set(JPEGXL_ENABLE_JNI                                     OFF CACHE INTERNAL "" FORCE)
     set(JPEGXL_ENABLE_OPENEXR                                 OFF CACHE INTERNAL "" FORCE)
     set(JPEGXL_ENABLE_WASM_THREADS ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl b5def9fb509d0f2421c8a5bcd7aa6f5a627363c4 EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl e47d2a2b5bb418f2947ce07f36cb048861db3820 EXCLUDE_FROM_ALL)
 endif()
 
 
@@ -97,13 +97,13 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_WEBP)
     set(WEBP_BUILD_FUZZTEST                        OFF CACHE INTERNAL "" FORCE)
     set(WEBP_USE_THREAD ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
     set(WEBP_NEAR_LOSSLESS                          ON CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(libwebp https://github.com/webmproject/libwebp 2549f353596b9990b5eeccbe03c898932ac8ab5c EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(libwebp https://github.com/webmproject/libwebp 1844042d1ca751e62e61df7617dba19c98588339 EXCLUDE_FROM_ALL)
 endif()
 
 
 # miniz
 if(SOURCEPP_USE_VPKPP OR SOURCEPP_USE_VTFPP)
-    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 77d0dce8627735138c51770d1799a1ef48f2117d)
+    add_sourcepp_remote_library(miniz https://github.com/richgel999/miniz 2948eebafc5b9f1c69bebed80333e403a09bd62d)
 endif()
 
 
@@ -138,7 +138,7 @@ endif()
 # qoi
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_QOI)
     if(NOT TARGET qoi)
-        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi 97bacc86a9c4abf5a2d452102dc26546c4c670b9)
+        add_sourcepp_remote_library(qoi https://github.com/phoboslab/qoi ffb2d2cb74a1de60819b21b939f7209aa53e91c1)
         add_library(qoi INTERFACE "${qoi_SOURCE_DIR}/qoi.h")
         target_include_directories(qoi INTERFACE "$<BUILD_INTERFACE:${qoi_SOURCE_DIR}>" "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>")
     endif()
@@ -154,7 +154,7 @@ endif()
 # tinyexr
 if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_EXR)
     if(NOT TARGET tinyexr)
-        add_sourcepp_remote_library(tinyexr https://github.com/syoyo/tinyexr 644148d0fd6b1b204a68a902dc963a70c749b417 DO_NOT_USE_CMAKELISTS)
+        add_sourcepp_remote_library(tinyexr https://github.com/syoyo/tinyexr 010383f267cba709568319fabe5c13b4b2c3188e DO_NOT_USE_CMAKELISTS)
         add_library(tinyexr STATIC "${tinyexr_SOURCE_DIR}/exr_reader.hh" "${tinyexr_SOURCE_DIR}/streamreader.hh" "${tinyexr_SOURCE_DIR}/tinyexr.cc" "${tinyexr_SOURCE_DIR}/tinyexr.h")
         target_include_directories(tinyexr PUBLIC "${tinyexr_SOURCE_DIR}")
         target_link_libraries(tinyexr PUBLIC miniz)
