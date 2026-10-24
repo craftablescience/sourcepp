@@ -55,12 +55,12 @@ std::unique_ptr<PackFile> REZ::open(const std::string& path, const EntryCallback
 				}
 			}
 			break;
-		case 0x2A: { // EOF (2)
+		case 0x2A: // EOF (2)
 			reader.skip_in(68).read(rez->version);
 			if (rez->version != 1) {
 				return nullptr;
 			}
-		}
+			break;
 		default:
 			return nullptr;
 	}
