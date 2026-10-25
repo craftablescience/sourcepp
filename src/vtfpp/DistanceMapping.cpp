@@ -334,7 +334,22 @@ void paintMap(
 								if (mask[aaX * padH + aaY] != seed) {
 									continue;
 								}
-								const float preciseDist = static_cast<float>(std::hypot(dX, dY)) - aaOffsetPadded(param, {aaX, aaY}, true);
+								// it would maybe make more "sense" to just say
+								// aa means you should set threshold 0.5, but
+								// threshold is useful to keep independent,
+								// because image editors are stupid and love
+								// discarding the rgb values of transparent
+								// pixels. even tgas. and as long as that stays
+								// the case, we want to enable the trick of
+								// exporting with a background at 1/255 alpha
+								// to force the image to retain rgb there.
+								// btw if you didn't know that trick and this
+								// is how you find out, you're welcome :^)
+								float offsSeed = aaOffsetPadded(param, {aaX, aaY}, true);
+								if (seed && param->samplePadded({aaX, aaY}) < 0.5f) {
+									offsSeed = -offsSeed;
+								}
+								const float preciseDist = static_cast<float>(std::hypot(dX, dY)) - offsSeed;
 								if (preciseDist < preciseNearest) {
 									preciseNearest = preciseDist;
 									nearestX = aaX;
