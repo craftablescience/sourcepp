@@ -1,5 +1,7 @@
 // ReSharper disable CppRedundantQualifier
 
+#include <cctype>
+
 #include <vpkpp/format/PAK.h>
 
 #include <filesystem>
@@ -14,6 +16,7 @@ std::unique_ptr<PackFile> PAK::create(const std::string& path, Type type) {
 		FileStream stream{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 		switch (type) {
 			case Type::PAK:
+			case Type::DAIKATANA:
 				stream << PAK_SIGNATURE;
 				break;
 			case Type::SIN:
@@ -43,6 +46,10 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 	auto packFile = std::unique_ptr<PackFile>(pak);
 
 	FileStream reader{pak->fullFilePath};
+
+	// Get total file size
+	reader.seek_in(0, std::ios::end);
+	const auto pakFileLength = reader.tell_in();
 	reader.seek_in(0);
 
 	if (const auto signature = reader.read<uint32_t>(); signature == PAK_SIGNATURE) {
@@ -91,9 +98,66 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 			}
 		}
 	} else {
+		// Directory offset and size
 		const auto directoryOffset = reader.read<uint32_t>();
-		// Directory size / file entry size
-		const auto fileCount = reader.read<uint32_t>() / (sizeof(uint32_t) * 2 + pak->getFilenameLength());
+		const auto directorySize = reader.read<uint32_t>();
+
+		// Check if it's a Daikatana PAK
+		bool isDaikatana = directorySize % 64 != 0;
+		const auto entrySize = sizeof(uint32_t) * 2 + pak->getFilenameLength();
+		const auto dkEntrySize = sizeof(uint32_t) * 4 + pak->getFilenameLength();
+
+		// Check again if it's a Daikatana PAK for this edge case
+		if (directorySize % 576 == 0) {
+			const auto numEntries = directorySize / dkEntrySize;
+
+			for (size_t i = 0; i < numEntries; i++) {
+				size_t j;
+
+				// check filename
+				auto entryPath = pak->cleanEntryPath(reader.read_string(pak->getFilenameLength()));
+
+				for (j = 0; j < pak->getFilenameLength(); j++) {
+					if (entryPath[j] == '\0' || !std::isalnum(entryPath[i])) {
+						break;
+					}
+				}
+
+				if (j == 0 || !std::isalnum(entryPath[i])) {
+					isDaikatana = false;
+					break;
+				}
+
+				uint32_t offset = reader.read<uint32_t>();
+				uint32_t length = reader.read<uint32_t>();
+
+				// check compression
+				uint32_t compressedLength = reader.read<uint32_t>();
+				uint32_t compressedType = reader.read<uint32_t>();
+				if (compressedType != 0 && compressedType != 1) {
+					isDaikatana = false;
+					break;
+				}
+
+				if (compressedType == 1) {
+					length = compressedLength;
+				}
+
+				// check offset
+				if (offset + length > pakFileLength) {
+					isDaikatana = false;
+					break;
+				}
+			}
+		}
+
+		// Set the type if we truly think it's a Daikatana PAK
+		if (isDaikatana == true) {
+			pak->type = Type::DAIKATANA;
+		}
+
+		// File count
+		const auto fileCount = directorySize / (isDaikatana ? dkEntrySize : entrySize);
 
 		reader.seek_in(directoryOffset);
 		for (uint32_t i = 0; i < fileCount; i++) {
@@ -104,6 +168,15 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 			entry.offset = reader.read<uint32_t>();
 			entry.length = reader.read<uint32_t>();
 
+			// Read extra data
+			if (isDaikatana) {
+				uint32_t compressedLength = reader.read<uint32_t>();
+				uint32_t compressedType = reader.read<uint32_t>();
+				if (compressedType == 1) {
+					entry.compressedLength = compressedLength;
+				}
+			}
+
 			pak->entries.emplace(entryPath, entry);
 
 			if (callback) {
@@ -113,6 +186,49 @@ std::unique_ptr<PackFile> PAK::open(const std::string& path, const EntryCallback
 	}
 
 	return packFile;
+}
+
+static std::vector<std::byte> dkDecompress(std::vector<std::byte> inputData) {
+	std::vector<std::byte> outputData{};
+	const uint8_t* inputDataPtr = reinterpret_cast<const uint8_t *>(inputData.data());
+	size_t inputDataPos = 0;
+
+	while (true) {
+		if (inputDataPos >= inputData.size()) {
+			break;
+		}
+
+		uint8_t code = inputDataPtr[inputDataPos++];
+
+		if (code == 255) {
+			// Terminator
+			break;
+		} else if (code < 64) {
+			// Uncompressed block
+			for (int i = 0; i <= code; i++) {
+				outputData.push_back(std::byte(inputDataPtr[inputDataPos++]));
+			}
+		} else if (code < 128) {
+			// Run length zero block
+			for (int i = 62; i < code; i++) {
+				outputData.push_back(std::byte(0));
+			}
+		} else if (code < 192) {
+			// Run length encoded block
+			uint8_t value = inputDataPtr[inputDataPos++];
+			for (int i = 126; i < code; i++) {
+				outputData.push_back(std::byte(value));
+			}
+		} else if (code < 254) {
+			// Reference previous data
+			uint8_t offset = inputDataPtr[inputDataPos++];
+			for (int i = 190; i < code; i++) {
+				outputData.push_back(outputData[outputData.size() - offset - 2]);
+			}
+		}
+	}
+
+	return outputData;
 }
 
 std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) const {
@@ -131,6 +247,12 @@ std::optional<std::vector<std::byte>> PAK::readEntry(const std::string& path_) c
 		return std::nullopt;
 	}
 	stream.seek_in_u(entry->offset);
+
+	// Check if we need to decompress the Daikatana PAK file
+	if (this->type == Type::DAIKATANA && entry->compressedLength > 0) {
+		return dkDecompress(stream.read_bytes(entry->compressedLength));
+	}
+
 	return stream.read_bytes(entry->length);
 }
 
@@ -266,6 +388,7 @@ void PAK::setType(Type type_) {
 uint32_t PAK::getSignature() const {
 	switch (this->type) {
 		case Type::PAK:
+		case Type::DAIKATANA:
 			return PAK_SIGNATURE;
 		case Type::SIN:
 			return PAK_SIN_SIGNATURE;
@@ -280,6 +403,7 @@ uint32_t PAK::getSignature() const {
 uint8_t PAK::getFilenameLength() const {
 	switch (this->type) {
 		case Type::PAK:
+		case Type::DAIKATANA:
 			return PAK_FILENAME_MAX_SIZE;
 		case Type::SIN:
 			return PAK_SIN_FILENAME_MAX_SIZE;

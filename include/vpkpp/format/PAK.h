@@ -26,6 +26,7 @@ class PAK : public PackFile {
 public:
 	enum class Type {
 		PAK,
+		DAIKATANA,
 		SIN,
 		SIN_RELOADED,
 		HROT,
