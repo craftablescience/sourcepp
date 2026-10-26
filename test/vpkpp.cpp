@@ -82,3 +82,17 @@ TEST(vpkpp, vpp_v3_big_read) {
 	EXPECT_EQ(vpp->getEntryCount(), 20);
 	EXPECT_TRUE(vpp->hasEntry("pretty.txt"));
 }
+
+TEST(vpkpp, pak_daikatana_read) {
+	const auto pak = PackFile::open(ASSET_ROOT "vpkpp/pak/daikatana.pak");
+	ASSERT_TRUE(pak);
+	VPKPP_PRINT_ALL_PATHS(pak);
+	EXPECT_EQ(pak->getEntryCount(), 1);
+	const auto path = "palette.bmp";
+	EXPECT_TRUE(pak->hasEntry(path));
+	const auto entry = pak->readEntry(path);
+	EXPECT_TRUE(entry);
+	const auto data = entry->data();
+	EXPECT_EQ(data[0], std::byte('B'));
+	EXPECT_EQ(data[1], std::byte('M'));
+}
