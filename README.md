@@ -538,6 +538,8 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - Support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
 - `mdlpp`
   - Most of the components of the parsers were contributed by [@cueki](https://github.com/cueki).
+- `sndpp`
+  - WAV's VDAT chunk parser was contributed by [@erysdren](https://github.com/erysdren).
 - `steampp`
   - Based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`
