@@ -58,7 +58,7 @@ if(SOURCEPP_USE_VTFPP AND SOURCEPP_VTFPP_SUPPORT_JXL)
     set(JPEGXL_ENABLE_JNI                                     OFF CACHE INTERNAL "" FORCE)
     set(JPEGXL_ENABLE_OPENEXR                                 OFF CACHE INTERNAL "" FORCE)
     set(JPEGXL_ENABLE_WASM_THREADS ${SOURCEPP_BUILD_WITH_THREADS} CACHE INTERNAL "" FORCE)
-    add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl e47d2a2b5bb418f2947ce07f36cb048861db3820 EXCLUDE_FROM_ALL)
+    add_sourcepp_remote_library(libjxl https://github.com/libjxl/libjxl 3de4501eda3f9802e4cfd333e3faab828d8d9223 EXCLUDE_FROM_ALL)
 endif()
 
 

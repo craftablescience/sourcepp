@@ -174,6 +174,25 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>
   <tr>
+    <td rowspan="3"><code>vcdpp</code><sup>*</sup></td>
+    <td><a href="https://developer.valvesoftware.com/wiki/Scenes.image" target="_blank" rel="noreferrer">IMAGE</a> (Scenes)</td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+    <td rowspan="3" align="center"></td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
+    <td>
+      <a href="https://developer.valvesoftware.com/wiki/VCD" target="_blank" rel="noreferrer">VCD</a> v1
+      <br> &bull; BVCD v1-4
+      <br> &bull; VCE v1
+      <br> &bull; XCD v??TODO?? (Xbox, Half-Life 2)
+    </td>
+    <td align="center">✅</td>
+    <td align="center">✅</td>
+  </tr>
+  <tr><!-- empty row to disable GitHub striped bg color --></tr>
+  <tr>
     <td rowspan="3"><code>vcryptpp</code></td>
     <td><a href="https://developer.valvesoftware.com/wiki/VICE" target="_blank" rel="noreferrer">VICE</a> encrypted files</td>
     <td align="center">✅</td>
@@ -538,6 +557,8 @@ These are only the tools and games using `sourcepp` that I know of. If you would
   - Support for DMX srctools formats was contributed by [@TeamSpen210](https://github.com/TeamSpen210).
 - `mdlpp`
   - Most of the components of the parsers were contributed by [@cueki](https://github.com/cueki).
+- `sndpp`
+  - WAV's VDAT chunk parser was contributed by [@erysdren](https://github.com/erysdren).
 - `steampp`
   - Based on the [SteamAppPathProvider](https://github.com/Trico-Everfire/SteamAppPathProvider) library by [@Trico Everfire](https://github.com/Trico-Everfire) and [Momentum Mod](https://momentum-mod.org) contributors.
 - `vpkpp`
