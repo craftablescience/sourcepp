@@ -240,11 +240,23 @@ public:
 
 	[[nodiscard]] const std::vector<Event>& getGlobalEvents() const;
 
+	[[nodiscard]] std::vector<Event>& getGlobalEvents();
+
 	[[nodiscard]] const std::vector<Actor>& getActors() const;
+
+	[[nodiscard]] std::vector<Actor>& getActors();
 
 	[[nodiscard]] const std::optional<Event::Ramp>& getSceneRamp() const;
 
+	[[nodiscard]] std::optional<Event::Ramp>& getSceneRamp();
+
 	[[nodiscard]] const FaceposerSettings& getFaceposerSettings() const;
+
+	[[nodiscard]] FaceposerSettings& getFaceposerSettings();
+
+	[[nodiscard]] std::vector<std::byte> bake() const;
+
+	bool bake(const std::filesystem::path& vcdPath) const; // NOLINT(*-use-nodiscard)
 
 protected:
 	Platform platform = Platform::UNKNOWN;

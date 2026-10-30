@@ -10,6 +10,7 @@
 #include <sourcepp/parser/Text.h>
 
 using namespace sourcepp;
+using namespace std::string_view_literals;
 using namespace vcdpp;
 
 namespace {
@@ -565,7 +566,15 @@ const std::vector<Event>& VCD::getGlobalEvents() const {
 	return this->globalEvents;
 }
 
+std::vector<Event>& VCD::getGlobalEvents() {
+	return this->globalEvents;
+}
+
 const std::vector<Actor>& VCD::getActors() const {
+	return this->actors;
+}
+
+std::vector<Actor>& VCD::getActors() {
 	return this->actors;
 }
 
@@ -573,6 +582,256 @@ const std::optional<Event::Ramp>& VCD::getSceneRamp() const {
 	return this->sceneRamp;
 }
 
+std::optional<Event::Ramp>& VCD::getSceneRamp() {
+	return this->sceneRamp;
+}
+
 const FaceposerSettings& VCD::getFaceposerSettings() const {
 	return this->faceposerSettings;
+}
+
+FaceposerSettings& VCD::getFaceposerSettings() {
+	return this->faceposerSettings;
+}
+
+std::vector<std::byte> VCD::bake() const {
+	// todo: pretty much everything
+
+	std::vector<std::byte> out;
+	BufferStream stream{out};
+
+	switch (this->platform) {
+		case Platform::VCD:
+		case Platform::VCE: {
+			if (this->platform == Platform::VCE) {
+				stream.write(std::format("// Choreo version {}:  <{}> Exported Events\n", this->version, this->globalEvents.size()), false);
+			} else {
+				stream.write(std::format("// Choreo version {}\n", this->version), false);
+			}
+
+			const auto writeEvent = [&stream](const Event& event, bool insideActor) {
+				const auto indentLine = [&stream, insideActor] {
+					if (insideActor) {
+						stream.write("\t\t"sv, false);
+					}
+				};
+				const auto indentProperty = [&stream, &indentLine] {
+					indentLine();
+					stream.write('\t');
+				};
+
+				indentLine();
+				stream.write("event "sv, false);
+				switch (event.type) {
+					case Event::Type::UNSPECIFIED:      stream.write("unspecified"sv,     false); break;
+					case Event::Type::SECTION:          stream.write("section"sv,         false); break;
+					case Event::Type::EXPRESSION:       stream.write("expression"sv,      false); break;
+					case Event::Type::LOOK_AT:          stream.write("lookat"sv,          false); break;
+					case Event::Type::MOVE_TO:          stream.write("moveto"sv,          false); break;
+					case Event::Type::SPEAK:            stream.write("speak"sv,           false); break;
+					case Event::Type::GESTURE:          stream.write("gesture"sv,         false); break;
+					case Event::Type::SEQUENCE:         stream.write("sequence"sv,        false); break;
+					case Event::Type::FACE:             stream.write("face"sv,            false); break;
+					case Event::Type::FIRE_TRIGGER:     stream.write("firetrigger"sv,     false); break;
+					case Event::Type::FLEX_ANIMATION:   stream.write("flexanimation"sv,   false); break;
+					case Event::Type::SUBSCENE:         stream.write("subscene"sv,        false); break;
+					case Event::Type::LOOP:             stream.write("loop"sv,            false); break;
+					case Event::Type::INTERRUPT:        stream.write("interrupt"sv,       false); break;
+					case Event::Type::STOP_POINT:       stream.write("stoppoint"sv,       false); break;
+					case Event::Type::PERMIT_RESPONSES: stream.write("permitresponses"sv, false); break;
+					case Event::Type::GENERIC:          stream.write("generic"sv,         false); break;
+					case Event::Type::CAMERA:           stream.write("camera"sv,          false); break;
+					case Event::Type::SCRIPT:           stream.write("script"sv,          false); break;
+				}
+				stream.write(std::format(" \"{}\"\n", event.name), false);
+				indentLine();
+				stream.write("{\n"sv, false);
+
+				indentProperty();
+				stream.write(std::format("time {}", event.startTime), false);
+				if (event.endTime != 0.f) {
+					stream.write(std::format(" {}", event.endTime), false);
+				}
+				stream.write('\n');
+
+				indentProperty();
+				stream.write(std::format("param \"{}\"\n", event.param), false);
+
+				if (!event.param2.empty()) {
+					stream.write(std::format("param2 \"{}\"\n", event.param2), false);
+				}
+
+				if (!event.param3.empty()) {
+					stream.write(std::format("param3 \"{}\"\n", event.param3), false);
+				}
+
+				if (event.fixedLength) {
+					indentProperty();
+					stream.write("fixedlength\n"sv, false);
+				}
+
+				// todo: do the rest of the properties
+
+				switch (event.type) {
+					case Event::Type::SPEAK:
+						stream.write('\n');
+
+						indentProperty();
+						stream.write("cctype \""sv, false);
+						switch (event.speechData.ccType) {
+						case Event::SpeechData::CCType::CC_MASTER:   stream.write("cc_master"sv,   false); break;
+						case Event::SpeechData::CCType::CC_SLAVE:    stream.write("cc_slave"sv,    false); break;
+						case Event::SpeechData::CCType::CC_DISABLED: stream.write("cc_disabled"sv, false); break;
+						}
+						stream.write("\"\n"sv, false);
+
+						indentProperty();
+						stream.write(std::format("cctoken \"{}\"\n", event.speechData.ccToken), false);
+
+						if (static_cast<bool>(event.speechData.ccFlags & Event::SpeechData::CCFlags::USING_COMBINED_FILE)) {
+							indentProperty();
+							stream.write("cc_usingcombinedfile\n"sv, false);
+						}
+						if (static_cast<bool>(event.speechData.ccFlags & Event::SpeechData::CCFlags::COMBINED_USING_GENDER_TOKEN)) {
+							indentProperty();
+							stream.write("cc_combinedusesgender\n"sv, false);
+						}
+						if (static_cast<bool>(event.speechData.ccFlags & Event::SpeechData::CCFlags::NO_ATTENUATE)) {
+							indentProperty();
+							stream.write("cc_noattenuate\n"sv, false);
+						}
+						break;
+					case Event::Type::GESTURE:
+						if (event.sequenceDuration != 0.f) {
+							stream.write('\n');
+
+							indentProperty();
+							stream.write(std::format("sequenceduration {}\n", event.sequenceDuration), false);
+						}
+						break;
+					case Event::Type::LOOP:
+						stream.write('\n');
+
+						indentProperty();
+						stream.write(std::format("loopcount \"{}\"\n", event.loopCount), false);
+						break;
+					default:
+						break;
+				}
+
+				indentLine();
+				stream.write("}\n"sv, false);
+			};
+
+			for (const auto& event : this->globalEvents) {
+				writeEvent(event, false);
+			}
+			if (this->platform == Platform::VCE) {
+				for (const auto& actor : this->actors) {
+					for (const auto& channel : actor.channels) {
+						for (const auto& event : channel.events) {
+							// todo: is this even necessary?
+							writeEvent(event, false);
+						}
+					}
+				}
+				break;
+			}
+
+			const auto writeActor = [&stream, &writeEvent](const Actor& actor) {
+				const auto writeChannel = [&stream, &writeEvent](const Actor::Channel& channel) {
+					const auto indentLine = [&stream] {
+						stream.write('\t');
+					};
+					const auto indentProperty = [&stream, &indentLine] {
+						indentLine();
+						stream.write('\t');
+					};
+
+					indentLine();
+					stream.write(std::format("channel \"{}\"\n", channel.name), false);
+					indentLine();
+					stream.write("{\n"sv, false);
+
+					for (const auto& event : channel.events) {
+						writeEvent(event, true);
+					}
+
+					if (!channel.active) {
+						indentProperty();
+						stream.write("active 0\n"sv, false);
+					}
+
+					indentLine();
+					stream.write("}\n"sv, false);
+				};
+
+				const auto indentProperty = [&stream] {
+					stream.write('\t');
+				};
+
+				stream.write(std::format("actor \"{}\"\n", actor.name), false);
+				stream.write("{\n"sv, false);
+
+				for (const auto& channel : actor.channels) {
+					writeChannel(channel);
+				}
+
+				if (!actor.faceposerModel.empty()) {
+					indentProperty();
+					stream.write(std::format("faceposermodel \"{}\"\n", actor.faceposerModel), false);
+				}
+
+				if (!actor.active) {
+					indentProperty();
+					stream.write("active 0\n"sv, false);
+				}
+
+				stream.write("}\n"sv, false);
+			};
+
+			for (const auto& actor : this->actors) {
+				writeActor(actor);
+			}
+
+			const auto writeFaceposerSettings = [&stream](const FaceposerSettings& settings) {
+				stream
+					.write("scalesettings\n{\n"sv, false)
+					.write(std::format("\t\"CChoreoView\" \"{}\"", settings.scaleSettings.choreoView), false)
+					.write(std::format("\t\"SceneRampTool\" \"{}\"", settings.scaleSettings.sceneRampTool), false)
+					.write(std::format("\t\"ExpressionTool\" \"{}\"", settings.scaleSettings.expressionTool), false)
+					.write(std::format("\t\"GestureTool\" \"{}\"", settings.scaleSettings.gestureTool), false)
+					.write(std::format("\t\"RampTool\" \"{}\"", settings.scaleSettings.rampTool), false)
+					.write("}\n"sv, false);
+
+				if (!settings.mapName.empty()) {
+					stream.write(std::format("mapname \"{}\"\n", settings.mapName), false);
+				}
+
+				stream.write(std::format("fps {}\n", settings.fps), false);
+
+				stream.write(std::format("snap {}\n", settings.snap ? "on" : "off"), false);
+
+				if (settings.ignorePhonemes.has_value()) {
+					stream.write(std::format("ignorePhonemes {}\n", *settings.ignorePhonemes ? "on" : "off"), false);
+				}
+			};
+
+			writeFaceposerSettings(this->faceposerSettings);
+
+			break;
+		}
+		case Platform::UNKNOWN:
+		case Platform::BVCD:
+		case Platform::XVCD: {
+			return {};
+		}
+	}
+
+	out.resize(stream.size());
+	return out;
+}
+
+bool VCD::bake(const std::filesystem::path& vcdPath) const {
+	return fs::writeFileBuffer(vcdPath, this->bake());
 }
