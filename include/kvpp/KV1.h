@@ -41,7 +41,7 @@ public:
 			return static_cast<bool>(this->getValue<int32_t>());
 		} else if constexpr (std::same_as<V, int32_t> || std::same_as<V, int64_t>) {
 			V out = 0;
-			if (this->value.length() == 10 && this->value.starts_with("0x") && sourcepp::parser::text::isNumber(this->value.substr(2))) {
+			if (this->value.length() == 10 && this->value.starts_with("0x") && sourcepp::string::isNumber(this->value.substr(2))) {
 				sourcepp::string::toInt(this->value.substr(2), out, 16);
 			} else {
 				sourcepp::string::toInt(this->value, out);

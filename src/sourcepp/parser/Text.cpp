@@ -1,7 +1,6 @@
 #include <sourcepp/parser/Text.h>
 
 #include <algorithm>
-#include <cctype>
 
 #include <BufferStream.h>
 
@@ -116,30 +115,6 @@ parser::text::Tokenizer::Result parser::text::Tokenizer::parse(std::string_view 
 	return result;
 }
 
-bool parser::text::isNewLine(char c) {
-	return c == '\n' || c == '\r';
-}
-
-bool parser::text::isNewLine(std::string_view str) {
-	return std::ranges::all_of(str, [](char c) { return isNewLine(c); });
-}
-
-bool parser::text::isWhitespace(char c) {
-	return c == ' ' || c == '\a' || c == '\f' || c == '\t' || c == '\v' || isNewLine(c);
-}
-
-bool parser::text::isWhitespace(std::string_view str) {
-	return std::ranges::all_of(str, [](char c) { return isWhitespace(c); });
-}
-
-bool parser::text::isNumber(char c) {
-	return std::isdigit(c);
-}
-
-bool parser::text::isNumber(std::string_view str) {
-	return std::ranges::all_of(str, [](char c) { return isNumber(c); });
-}
-
 std::string parser::text::convertSpecialCharsToEscapes(std::string_view str, const EscapeSequenceMap& escapeSequences) {
 	// Reverse escape sequences map (assume that it's bidirectional)
 	EscapeSequenceMap specialSequences;
@@ -177,13 +152,13 @@ std::string parser::text::convertEscapesToSpecialChars(std::string_view str, con
 }
 
 void parser::text::eatWhitespace(BufferStream& stream) {
-	while (stream.tell() < stream.size() && isWhitespace(stream.read<char>())) {}
-	if (stream.tell() == stream.size() && isWhitespace(stream.seek(-1, std::ios::cur).read<char>())) return;
+	while (stream.tell() < stream.size() && string::isWhitespace(stream.read<char>())) {}
+	if (stream.tell() == stream.size() && string::isWhitespace(stream.seek(-1, std::ios::cur).read<char>())) return;
 	stream.seek(-1, std::ios::cur);
 }
 
 void parser::text::eatSingleLineComment(BufferStream& stream) {
-	while (stream.tell() < stream.size() && !isNewLine(stream.read<char>())) {}
+	while (stream.tell() < stream.size() && !string::isNewLine(stream.read<char>())) {}
 }
 
 void parser::text::eatMultiLineComment(BufferStream& stream, std::string_view multiLineCommentEnd) {
@@ -248,10 +223,10 @@ std::string parser::text::readString(BufferStream& stream, std::initializer_list
 		out += c;
 	}
 
-	for (c = stream.read<char>(); (stopAtWhitespace && !isWhitespace(c)) || (!stopAtWhitespace && quoteUsed.second != c); stream >> c) {
+	for (c = stream.read<char>(); (stopAtWhitespace && !string::isWhitespace(c)) || (!stopAtWhitespace && quoteUsed.second != c); stream >> c) {
 		if (!escapeSequences.empty() && c == '\\') {
 			auto n = stream.read<char>();
-			if (stopAtWhitespace && isWhitespace(n)) {
+			if (stopAtWhitespace && string::isWhitespace(n)) {
 				break;
 			}
 			if (escapeSequences.contains(n)) {
@@ -287,10 +262,10 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 		backing << c;
 	}
 
-	for (c = stream.read<char>(); (stopAtWhitespace && !isWhitespace(c)) || (!stopAtWhitespace && quoteUsed.second != c); stream >> c) {
+	for (c = stream.read<char>(); (stopAtWhitespace && !string::isWhitespace(c)) || (!stopAtWhitespace && quoteUsed.second != c); stream >> c) {
 		if (!escapeSequences.empty() && c == '\\') {
 			auto n = stream.read<char>();
-			if (stopAtWhitespace && isWhitespace(n)) {
+			if (stopAtWhitespace && string::isWhitespace(n)) {
 				break;
 			}
 			if (escapeSequences.contains(n)) {
@@ -306,6 +281,7 @@ std::string_view parser::text::readStringToBuffer(BufferStream& stream, BufferSt
 	}
 
 	backing << '\0';
+	// ReSharper disable once CppRedundantCastExpression
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }
 
@@ -320,11 +296,11 @@ std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, 
 std::string parser::text::readUnquotedString(BufferStream& stream, std::string_view end, const EscapeSequenceMap& escapeSequences) {
 	std::string out;
 
-	for (char c = stream.read<char>(); !isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
+	for (char c = stream.read<char>(); !string::isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
 		if (!escapeSequences.empty() && c == '\\') {
 			if (auto n = stream.read<char>(); escapeSequences.contains(n)) {
 				out += escapeSequences.at(n);
-			} else if (isWhitespace(n) || end.find(n) != std::string_view::npos) {
+			} else if (string::isWhitespace(n) || end.find(n) != std::string_view::npos) {
 				break;
 			} else {
 				out += c;
@@ -341,11 +317,11 @@ std::string parser::text::readUnquotedString(BufferStream& stream, std::string_v
 std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, BufferStream& backing, std::string_view end, const EscapeSequenceMap& escapeSequences) {
 	const auto startSpan = backing.tell();
 
-	for (char c = stream.read<char>(); !isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
+	for (char c = stream.read<char>(); !string::isWhitespace(c) && end.find(c) == std::string_view::npos; c = stream.read<char>()) {
 		if (!escapeSequences.empty() && c == '\\') {
 			if (auto n = stream.read<char>(); escapeSequences.contains(n)) {
 				backing << escapeSequences.at(n);
-			} else if (isWhitespace(n) || end.find(n) != std::string_view::npos) {
+			} else if (string::isWhitespace(n) || end.find(n) != std::string_view::npos) {
 				break;
 			} else {
 				backing << c << n;
@@ -356,5 +332,6 @@ std::string_view parser::text::readUnquotedStringToBuffer(BufferStream& stream, 
 	}
 
 	backing << '\0';
+	// ReSharper disable once CppRedundantCastExpression
 	return {reinterpret_cast<const char*>(backing.data()) + startSpan, static_cast<std::string_view::size_type>(backing.tell() - 1 - startSpan)};
 }

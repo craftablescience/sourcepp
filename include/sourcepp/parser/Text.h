@@ -101,48 +101,6 @@ protected:
 };
 
 /**
- * If a char is a newline character.
- * @param c The char.
- * @return The char is a newline character.
- */
-[[nodiscard]] bool isNewLine(char c);
-
-/**
- * If a string is entirely composed of newline characters.
- * @param str The string.
- * @return The string is entirely composed of newline characters.
- */
-[[nodiscard]] bool isNewLine(std::string_view str);
-
-/**
- * If a char is a whitespace character.
- * @param c The char.
- * @return The char is a whitespace character.
- */
-[[nodiscard]] bool isWhitespace(char c);
-
-/**
- * If a string is entirely composed of whitespace characters.
- * @param str The string.
- * @return The string is entirely composed of whitespace characters.
- */
-[[nodiscard]] bool isWhitespace(std::string_view str);
-
-/**
- * If a char is a numerical character (0-9).
- * @param c The char.
- * @return The char is a numerical character.
- */
-[[nodiscard]] bool isNumber(char c);
-
-/**
- * If a string is entirely composed of numerical characters (0-9).
- * @param str The string.
- * @return The string is entirely composed of numerical characters.
- */
-[[nodiscard]] bool isNumber(std::string_view str);
-
-/**
  * Convert special characters like \\n to escaped special characters like \\\\n
  * @param str The string to convert
  * @param escapeSequences The escapes to convert

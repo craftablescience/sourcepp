@@ -171,9 +171,10 @@ void CmdSeq::parseKeyValuesHPP(const std::filesystem::path& path) {
 		for (const auto& kvCommand : kvSequence.getChildren()) {
 			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
 			string::toBool(kvCommand["enable"].getValue(), enabled);
-			const auto specialCmd = kvCommand["specialcmd"].getValue();
-			if (parser::text::isNumber(specialCmd)) {
-				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+			if (
+				const auto specialCmd = kvCommand["specialcmd"].getValue();
+				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special))
+			) {
 				if (special == Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS) {
 					special = Command::Special::COPY_FILE_IF_EXISTS;
 				}
@@ -197,9 +198,10 @@ void CmdSeq::parseKeyValuesStrata(const std::filesystem::path& path) {
 		for (const auto& kvCommand : kvSequence.getChildren()) {
 			auto& [enabled, special, executable, arguments, ensureFileExists, pathToTheoreticallyExistingFile, useProcessWindow, waitForKeypress] = seqCommands.emplace_back();
 			string::toBool(kvCommand["enabled"].getValue(), enabled);
-			const auto specialCmd = kvCommand["special_cmd"].getValue();
-			if (parser::text::isNumber(specialCmd)) {
-				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special));
+			if (
+				const auto specialCmd = kvCommand["special_cmd"].getValue();
+				string::toInt(specialCmd, reinterpret_cast<std::underlying_type_t<Command::Special>&>(special))
+			) {
 				if (special == Command::SPECIAL_COPY_FILE_IF_EXISTS_ALIAS) {
 					special = Command::Special::COPY_FILE_IF_EXISTS;
 				}
