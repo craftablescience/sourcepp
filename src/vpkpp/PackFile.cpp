@@ -109,8 +109,15 @@ void fixFilePathForWindows(std::string& path) {
 
 bool checkForExtractionEscapeAttempt(const std::filesystem::path& outputDir, const std::string& filepath) {
 	const auto absOutDir = std::filesystem::absolute(outputDir).lexically_normal();
+	auto absOutDirString = absOutDir.string();
+	sourcepp::string::normalizeSlashes(absOutDirString);
+	absOutDirString += '/';
+
 	const auto absFilePath = std::filesystem::absolute(outputDir / std::filesystem::path{filepath}).lexically_normal();
-	return !absFilePath.string().starts_with(absOutDir.string());
+	auto absFilePathString = absFilePath.string();
+	sourcepp::string::normalizeSlashes(absFilePathString);
+
+	return !absFilePathString.starts_with(absOutDirString);
 }
 
 } // namespace
