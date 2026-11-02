@@ -30,7 +30,7 @@ std::unique_ptr<PackFile> VPK_VTMB::open(const std::string& path, const EntryCal
 
 	// Extra check to make sure this is a VTMB VPK path
 	const auto stem = std::filesystem::path{path}.stem().string();
-	if (stem.length() != 7 || !stem.starts_with("pack") || !parser::text::isNumber(stem.substr(4))) {
+	if (stem.length() != 7 || !stem.starts_with("pack") || !string::isNumber(stem.substr(4))) {
 		return nullptr;
 	}
 

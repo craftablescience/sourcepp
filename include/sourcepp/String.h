@@ -12,6 +12,62 @@
 
 namespace sourcepp::string {
 
+/**
+ * If a char is a newline character.
+ * @param c The char.
+ * @return The char is a newline character.
+ */
+[[nodiscard]] bool isNewLine(char c);
+
+/**
+ * If a string is entirely composed of newline characters.
+ * @param str The string.
+ * @return The string is entirely composed of newline characters.
+ */
+[[nodiscard]] bool isNewLine(std::string_view str);
+
+/**
+ * If a char is a whitespace character.
+ * @param c The char.
+ * @return The char is a whitespace character.
+ */
+[[nodiscard]] bool isWhitespace(char c);
+
+/**
+ * If a string is entirely composed of whitespace characters.
+ * @param str The string.
+ * @return The string is entirely composed of whitespace characters.
+ */
+[[nodiscard]] bool isWhitespace(std::string_view str);
+
+/**
+ * If a char is a numerical character (0-9).
+ * @param c The char.
+ * @return The char is a numerical character.
+ */
+[[nodiscard]] bool isNumber(char c);
+
+/**
+ * If a string is entirely composed of numerical characters (0-9).
+ * @param str The string.
+ * @return The string is entirely composed of numerical characters.
+ */
+[[nodiscard]] bool isNumber(std::string_view str);
+
+/**
+ * If a char is a letter (a-z, A-Z) or a numerical character (0-9).
+ * @param c The char.
+ * @return The char is an alphanumeric character.
+ */
+[[nodiscard]] bool isAlphaNumeric(char c);
+
+/**
+ * If a string is entirely composed of alphanumeric characters (a-z, A-Z, 0-9).
+ * @param str The string.
+ * @return The string is entirely composed of alphanumeric characters.
+ */
+[[nodiscard]] bool isAlphaNumeric(std::string_view str);
+
 [[nodiscard]] bool contains(std::string_view s, char c);
 
 /// A very basic regex-like pattern checker for ASCII strings. Supports:

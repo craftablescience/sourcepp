@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <format>
+#include <locale>
 #include <random>
 #include <ranges>
 #include <sstream>
@@ -18,6 +19,38 @@ std::mt19937& getRandomGenerator() {
 } // namespace
 
 using namespace sourcepp;
+
+bool string::isNewLine(char c) {
+	return c == '\r' || c == '\n';
+}
+
+bool string::isNewLine(std::string_view str) {
+	return std::ranges::all_of(str, [](char c) { return isNewLine(c); });
+}
+
+bool string::isWhitespace(char c) {
+	return std::isspace(c, std::locale::classic());
+}
+
+bool string::isWhitespace(std::string_view str) {
+	return std::ranges::all_of(str, [](char c) { return isWhitespace(c); });
+}
+
+bool string::isNumber(char c) {
+	return std::isdigit(c, std::locale::classic());
+}
+
+bool string::isNumber(std::string_view str) {
+	return std::ranges::all_of(str, [](char c) { return isNumber(c); });
+}
+
+bool string::isAlphaNumeric(char c) {
+	return std::isalnum(c, std::locale::classic());
+}
+
+bool string::isAlphaNumeric(std::string_view str) {
+	return std::ranges::all_of(str, [](char c) { return isAlphaNumeric(c); });
+}
 
 bool string::contains(std::string_view s, char c) {
 	return std::ranges::find(s, c) != s.end();
