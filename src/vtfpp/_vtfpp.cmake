@@ -1,6 +1,7 @@
 add_pretty_parser(vtfpp
         DEPS bcdec libzstd_static miniz sourcepp_compression sourcepp_parser sourcepp_stb
         PRECOMPILED_HEADERS
+        "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/DDS.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/DistanceMapping.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/HOT.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/ImageConversion.h"
@@ -15,6 +16,7 @@ add_pretty_parser(vtfpp
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/VTF.h"
         "${CMAKE_CURRENT_SOURCE_DIR}/include/vtfpp/vtfpp.h"
         SOURCES
+        "${CMAKE_CURRENT_LIST_DIR}/DDS.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/DistanceMapping.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/HOT.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ImageConversion.cpp"
