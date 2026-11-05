@@ -6,7 +6,7 @@
 
 namespace bsppp {
 
-constexpr std::string_view BSP_EXTENSION = ".bsp";
+constexpr std::string_view VBSP_EXTENSION = ".bsp";
 
 /// Utility class for vpkpp integration - you need to include this header in a C++ file
 /// somewhere in your executable for automatic registration to work! Thanks C++
@@ -33,7 +33,7 @@ protected:
 	uint32_t mapRevision{};
 
 private:
-	VPKPP_REGISTER_PACKFILE_OPEN(BSP_EXTENSION, &PakLump::open);
+	VPKPP_REGISTER_PACKFILE_OPEN(VBSP_EXTENSION, &PakLump::open);
 };
 
 } // namespace bsppp

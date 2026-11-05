@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <format>
 
-#include <bsppp/BSP.h>
+#include <bsppp/format/VBSP.h>
 #include <FileStream.h>
 #include <mz.h>
 #include <mz_zip.h>
@@ -34,7 +34,7 @@ std::unique_ptr<PackFile> PakLump::open(const std::string& path, const EntryCall
 	auto packFile = std::unique_ptr<PackFile>(bsp);
 
 	{
-		bsppp::BSP reader{path};
+		VBSP reader{path};
 		if (!reader) {
 			// File failed to load, or has an invalid signature
 			return nullptr;
@@ -43,13 +43,13 @@ std::unique_ptr<PackFile> PakLump::open(const std::string& path, const EntryCall
 		bsp->version = reader.getVersion();
 		bsp->mapRevision = reader.getMapRevision();
 
-		if (auto pakFileLump = reader.getLumpData(BSPLump::PAKFILE)) {
+		if (auto pakFileLump = reader.getLumpData(VBSPLump::PAKFILE)) {
 			// Extract the paklump to a temp file
 			FileStream writer{bsp->tempPakLumpPath, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
 			writer.write(*pakFileLump);
 		} else {
 			// No paklump, create an empty zip
-			if (!ZIP::create(bsp->tempPakLumpPath)) {
+			if (!create(bsp->tempPakLumpPath)) {
 				return nullptr;
 			}
 		}
@@ -94,7 +94,7 @@ bool PakLump::bake(const std::string& outputDir_, BakeOptions options, const Ent
 	// If the output path is different, copy the entire BSP there
 	if (outputPath != this->fullFilePath) {
 		std::filesystem::copy_file(this->fullFilePath, outputPath, std::filesystem::copy_options::overwrite_existing);
-		PackFile::setFullFilePath(outputDir);
+		setFullFilePath(outputDir);
 	}
 
 	// Use temp folder so we can read from the current ZIP
@@ -108,11 +108,11 @@ bool PakLump::bake(const std::string& outputDir_, BakeOptions options, const Ent
 
 	// Write the new lump
 	{
-		bsppp::BSP writer{this->fullFilePath};
+		VBSP writer{this->fullFilePath};
 		if (!writer) {
 			return false;
 		}
-		writer.setLump(BSPLump::PAKFILE, 0, fs::readFileBuffer(this->tempZIPPath));
+		writer.setLump(VBSPLump::PAKFILE, 0, fs::readFileBuffer(this->tempZIPPath));
 		writer.bake();
 	}
 

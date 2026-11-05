@@ -1,6 +1,6 @@
 // ReSharper disable CppRedundantParentheses
 
-#include <bsppp/BSP.h>
+#include <bsppp/format/VBSP.h>
 
 #include <algorithm>
 #include <filesystem>
@@ -16,7 +16,7 @@ using namespace sourcepp;
 namespace {
 
 template<BufferStreamPODType T>
-[[nodiscard]] std::vector<T> parseLumpContents(const BSP& bsp, BSPLump lump, void(*callback)(const BSP&, BufferStreamReadOnly&, std::vector<T>&) = [](const BSP&, BufferStreamReadOnly& stream, std::vector<T>& out) {
+[[nodiscard]] std::vector<T> parseLumpContents(const VBSP& bsp, VBSPLump lump, void(*callback)(const VBSP&, BufferStreamReadOnly&, std::vector<T>&) = [](const VBSP&, BufferStreamReadOnly& stream, std::vector<T>& out) {
 	stream.read(out, stream.size() / sizeof(T));
 }) {
 	auto data = bsp.getLumpData(lump);
@@ -43,7 +43,7 @@ void parseAndUpgrade(BufferStreamReadOnly& stream, std::vector<New>& out) {
 
 } // namespace
 
-BSP::BSP(std::string path_, bool loadPatchFiles)
+VBSP::VBSP(std::string path_, bool loadPatchFiles)
 		: path(std::move(path_)) {
 	if (!this->readHeader()) {
 		this->path.clear();
@@ -68,18 +68,18 @@ BSP::BSP(std::string path_, bool loadPatchFiles)
 	}
 }
 
-BSP::operator bool() const {
+VBSP::operator bool() const {
 	return !this->path.empty();
 }
 
-BSP BSP::create(std::string path, uint32_t version, uint32_t mapRevision) {
+VBSP VBSP::create(std::string path, uint32_t version, uint32_t mapRevision) {
 	{
 		FileStream writer{path, FileStream::OPT_TRUNCATE | FileStream::OPT_CREATE_IF_NONEXISTENT};
-		writer << BSP_SIGNATURE << version;
+		writer << VBSP_SIGNATURE << version;
 		if (version == 27) {
 			writer.write<uint32_t>(0);
 		}
-		for (int i = 0; i < BSP_LUMP_COUNT; i++) {
+		for (int i = 0; i < VBSP_LUMP_COUNT; i++) {
 			writer
 				.write<uint32_t>(0)
 				.write<uint32_t>(0)
@@ -88,75 +88,75 @@ BSP BSP::create(std::string path, uint32_t version, uint32_t mapRevision) {
 		}
 		writer << mapRevision;
 	}
-	return BSP{std::move(path)};
+	return VBSP{std::move(path)};
 }
 
-uint32_t BSP::getVersion() const {
+uint32_t VBSP::getVersion() const {
 	return this->stagedVersion;
 }
 
-void BSP::setVersion(uint32_t version) {
+void VBSP::setVersion(uint32_t version) {
 	this->stagedVersion = version;
 }
 
-uint32_t BSP::getMapRevision() const {
+uint32_t VBSP::getMapRevision() const {
 	return this->stagedMapRevision;
 }
 
-void BSP::setMapRevision(uint32_t mapRevision) {
+void VBSP::setMapRevision(uint32_t mapRevision) {
 	this->stagedMapRevision = mapRevision;
 }
 
-bool BSP::isL4D2() const {
+bool VBSP::isL4D2() const {
 	return this->l4d2;
 }
 
-void BSP::setL4D2(bool isL4D2) {
+void VBSP::setL4D2(bool isL4D2) {
 	this->l4d2 = isL4D2;
 }
 
-bool BSP::isConsole() const {
+bool VBSP::isConsole() const {
 	return this->console;
 }
 
-void BSP::setConsole(bool isConsole) {
+void VBSP::setConsole(bool isConsole) {
 	this->console = isConsole;
 }
 
-bool BSP::hasLump(BSPLump lumpIndex) const {
+bool VBSP::hasLump(VBSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return false;
 	}
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 	return (this->stagedLumps.contains(lump) && this->stagedLumps.at(lump).first.length != 0 && this->stagedLumps.at(lump).first.offset != 0)
 		|| (this->header.lumps[lump].length != 0 && this->header.lumps[lump].offset != 0);
 }
 
-bool BSP::isLumpCompressed(BSPLump lumpIndex) const {
+bool VBSP::isLumpCompressed(VBSPLump lumpIndex) const {
 	if (this->hasLump(lumpIndex)) {
-		const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+		const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 		return (this->stagedLumps.contains(lump) && this->stagedLumps.at(lump).first.uncompressedLength > 0) || this->header.lumps[lump].uncompressedLength > 0;
 	}
 	return false;
 }
 
-uint32_t BSP::getLumpVersion(BSPLump lumpIndex) const {
+uint32_t VBSP::getLumpVersion(VBSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return 0;
 	}
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 	if (this->stagedLumps.contains(lump)) {
 		return this->stagedLumps.at(lump).first.version;
 	}
 	return this->header.lumps[lump].version;
 }
 
-std::optional<std::vector<std::byte>> BSP::getLumpData(BSPLump lumpIndex, bool noDecompression) const {
+std::optional<std::vector<std::byte>> VBSP::getLumpData(VBSPLump lumpIndex, bool noDecompression) const {
 	if (this->path.empty() || !this->hasLump(lumpIndex)) {
 		return std::nullopt;
 	}
 
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 	std::vector<std::byte> lumpBytes;
 
 	if (this->stagedLumps.contains(lump)) {
@@ -174,21 +174,21 @@ std::optional<std::vector<std::byte>> BSP::getLumpData(BSPLump lumpIndex, bool n
 	return lumpBytes;
 }
 
-bool BSP::setLump(BSPLump lumpIndex, uint32_t version, std::span<const std::byte> data, uint8_t compressLevel) {
-	if (this->path.empty() || lumpIndex == BSPLump::UNKNOWN) {
+bool VBSP::setLump(VBSPLump lumpIndex, uint32_t version, std::span<const std::byte> data, uint8_t compressLevel) {
+	if (this->path.empty() || lumpIndex == VBSPLump::UNKNOWN) {
 		return false;
 	}
-	if (lumpIndex == BSPLump::GAME_LUMP) {
+	if (lumpIndex == VBSPLump::GAME_LUMP) {
 		// Game lump needs to be modified with other methods
 		return false;
 	}
 
-	if (lumpIndex == BSPLump::PAKFILE) {
+	if (lumpIndex == VBSPLump::PAKFILE) {
 		// Paklump should use zip compression
 		compressLevel = 0;
 	}
 
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 	if (compressLevel > 0) {
 		auto compressedData = compression::compressValveLZMA(data, compressLevel);
 		if (!compressedData) {
@@ -205,7 +205,7 @@ bool BSP::setLump(BSPLump lumpIndex, uint32_t version, std::span<const std::byte
 	return true;
 }
 
-bool BSP::setLump(uint32_t version, std::span<const BSPEntityKeyValues> data, uint8_t compressLevel) {
+bool VBSP::setLump(uint32_t version, std::span<const BSPEntityKeyValues> data, uint8_t compressLevel) {
 	if (version > 1) {
 		return false;
 	}
@@ -218,10 +218,10 @@ bool BSP::setLump(uint32_t version, std::span<const BSPEntityKeyValues> data, ui
 	} else {
 		out.back() = '\0';
 	}
-	return this->setLump(BSPLump::ENTITIES, version, {reinterpret_cast<const std::byte*>(out.data()), out.size()}, compressLevel);
+	return this->setLump(VBSPLump::ENTITIES, version, {reinterpret_cast<const std::byte*>(out.data()), out.size()}, compressLevel);
 }
 
-bool BSP::isGameLumpCompressed(BSPGameLump::Signature signature) const {
+bool VBSP::isGameLumpCompressed(VBSPGameLump::Signature signature) const {
 	for (const auto& gameLump : this->stagedGameLumps) {
 		if (gameLump.signature == signature) {
 			return gameLump.isCompressed;
@@ -230,7 +230,7 @@ bool BSP::isGameLumpCompressed(BSPGameLump::Signature signature) const {
 	return false;
 }
 
-uint16_t BSP::getGameLumpVersion(BSPGameLump::Signature signature) const {
+uint16_t VBSP::getGameLumpVersion(VBSPGameLump::Signature signature) const {
 	for (const auto& gameLump : this->stagedGameLumps) {
 		if (gameLump.signature == signature) {
 			return gameLump.version;
@@ -239,7 +239,7 @@ uint16_t BSP::getGameLumpVersion(BSPGameLump::Signature signature) const {
 	return 0;
 }
 
-std::optional<std::vector<std::byte>> BSP::getGameLumpData(BSPGameLump::Signature signature) const {
+std::optional<std::vector<std::byte>> VBSP::getGameLumpData(VBSPGameLump::Signature signature) const {
 	for (const auto& gameLump : this->stagedGameLumps) {
 		if (gameLump.signature == signature) {
 			if (gameLump.isCompressed) {
@@ -251,8 +251,8 @@ std::optional<std::vector<std::byte>> BSP::getGameLumpData(BSPGameLump::Signatur
 	return std::nullopt;
 }
 
-bool BSP::setGameLump(BSPGameLump::Signature signature, uint16_t version, std::span<const std::byte> data, uint8_t compressLevel) {
-	BSPGameLump gameLump{
+bool VBSP::setGameLump(VBSPGameLump::Signature signature, uint16_t version, std::span<const std::byte> data, uint8_t compressLevel) {
+	VBSPGameLump gameLump{
 		.signature = signature,
 		.isCompressed = compressLevel > 0,
 		.version = version,
@@ -274,25 +274,25 @@ bool BSP::setGameLump(BSPGameLump::Signature signature, uint16_t version, std::s
 	return true;
 }
 
-void BSP::resetLump(BSPLump lumpIndex) {
+void VBSP::resetLump(VBSPLump lumpIndex) {
 	if (this->path.empty()) {
 		return;
 	}
-	if (lumpIndex == BSPLump::UNKNOWN) {
+	if (lumpIndex == VBSPLump::UNKNOWN) {
 		this->reset();
 		return;
 	}
-	if (lumpIndex == BSPLump::GAME_LUMP) {
+	if (lumpIndex == VBSPLump::GAME_LUMP) {
 		this->stagedGameLumps = this->parseGameLumps(false);
 		return;
 	}
-	const auto lump = static_cast<std::underlying_type_t<BSPLump>>(lumpIndex);
+	const auto lump = static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex);
 	if (this->stagedLumps.contains(lump)) {
 		this->stagedLumps.erase(lump);
 	}
 }
 
-void BSP::reset() {
+void VBSP::reset() {
 	if (this->path.empty()) {
 		return;
 	}
@@ -302,7 +302,7 @@ void BSP::reset() {
 	this->stagedMapRevision = this->header.mapRevision;
 }
 
-void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
+void VBSP::createLumpPatchFile(VBSPLump lumpIndex) const {
 	if (this->path.empty()) {
 		return;
 	}
@@ -317,7 +317,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		lumpLength,
 		lumpVersion,
 		lumpUncompressedLength
-	] = this->header.lumps.at(static_cast<std::underlying_type_t<BSPLump>>(lumpIndex));
+	] = this->header.lumps.at(static_cast<std::underlying_type_t<VBSPLump>>(lumpIndex));
 
 	const auto fsPath = std::filesystem::path{this->path};
 	const auto fsStem = (fsPath.parent_path() / fsPath.stem()).string();
@@ -340,7 +340,7 @@ void BSP::createLumpPatchFile(BSPLump lumpIndex) const {
 		.write(*lumpData);
 }
 
-bool BSP::setLumpFromPatchFile(const std::string& lumpFilePath) {
+bool VBSP::setLumpFromPatchFile(const std::string& lumpFilePath) {
 	if (this->path.empty()) {
 		return false;
 	}
@@ -354,15 +354,15 @@ bool BSP::setLumpFromPatchFile(const std::string& lumpFilePath) {
 	const auto index = reader.read<uint32_t>();
 	const auto version = reader.read<uint32_t>();
 	const auto length = reader.read<uint32_t>();
-	if (index > BSP_LUMP_COUNT || offset == 0 || length == 0) {
+	if (index > VBSP_LUMP_COUNT || offset == 0 || length == 0) {
 		return false;
 	}
 
-	this->setLump(static_cast<BSPLump>(index), version, reader.seek_in(offset).read_bytes(length));
+	this->setLump(static_cast<VBSPLump>(index), version, reader.seek_in(offset).read_bytes(length));
 	return true;
 }
 
-bool BSP::bake(std::string_view outputPath) {
+bool VBSP::bake(std::string_view outputPath) {
 	if (this->path.empty()) {
 		return false;
 	}
@@ -371,7 +371,7 @@ bool BSP::bake(std::string_view outputPath) {
 	BufferStream stream{out};
 	stream.set_big_endian(this->console);
 
-	stream << BSP_SIGNATURE << this->stagedVersion;
+	stream << VBSP_SIGNATURE << this->stagedVersion;
 	if (this->stagedVersion == 27) {
 		// Contagion funny
 		stream.write<uint32_t>(0);
@@ -384,8 +384,8 @@ bool BSP::bake(std::string_view outputPath) {
 
 	stream << this->stagedMapRevision;
 
-	for (auto i : BSP_LUMP_ORDER) {
-		if (!this->hasLump(static_cast<BSPLump>(i))) {
+	for (auto i : VBSP_LUMP_ORDER) {
+		if (!this->hasLump(static_cast<VBSPLump>(i))) {
 			const auto curPos = stream.tell();
 			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
 
@@ -412,7 +412,7 @@ bool BSP::bake(std::string_view outputPath) {
 			stream.pad(padding);
 		}
 
-		if (static_cast<BSPLump>(i) == BSPLump::GAME_LUMP && !this->stagedGameLumps.empty()) {
+		if (static_cast<VBSPLump>(i) == VBSPLump::GAME_LUMP && !this->stagedGameLumps.empty()) {
 			const auto gameLumpOffset = stream.tell();
 
 			bool oneOrMoreGameLumpCompressed = false;
@@ -423,7 +423,7 @@ bool BSP::bake(std::string_view outputPath) {
 				}
 			}
 			// NOLINTNEXTLINE(*-sizeof-container)
-			auto gameLumpCurrentOffset = !this->console * stream.tell() + sizeof(int32_t) + ((sizeof(BSPGameLump) - sizeof(BSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
+			auto gameLumpCurrentOffset = !this->console * stream.tell() + sizeof(int32_t) + ((sizeof(VBSPGameLump) - sizeof(VBSPGameLump::data)) * (this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed));
 			stream.write<uint32_t>(this->stagedGameLumps.size() + oneOrMoreGameLumpCompressed);
 
 			for (const auto& gameLump : this->stagedGameLumps) {
@@ -495,7 +495,7 @@ bool BSP::bake(std::string_view outputPath) {
 			continue;
 		}
 
-		if (const auto data = this->getLumpData(static_cast<BSPLump>(i), true)) {
+		if (const auto data = this->getLumpData(static_cast<VBSPLump>(i), true)) {
 			const auto curPos = stream.tell();
 			stream.seek_u(lumpsHeaderOffset + i * sizeof(Lump));
 
@@ -536,17 +536,17 @@ bool BSP::bake(std::string_view outputPath) {
 	return this->readHeader();
 }
 
-bool BSP::readHeader() {
+bool VBSP::readHeader() {
 	FileStream reader{this->path};
 	if (!reader) {
 		return false;
 	}
 	reader.seek_in(0);
 
-	if (const auto signature = reader.read<uint32_t>(); signature != BSP_SIGNATURE && signature != BSP_CONSOLE_SIGNATURE) {
+	if (const auto signature = reader.read<uint32_t>(); signature != VBSP_SIGNATURE && signature != VBSP_CONSOLE_SIGNATURE) {
 		// File is not a BSP
 		return false;
-	} else if (signature == BSP_CONSOLE_SIGNATURE) {
+	} else if (signature == VBSP_CONSOLE_SIGNATURE) {
 		this->console = true;
 		reader.set_big_endian(true);
 	}
@@ -569,15 +569,15 @@ bool BSP::readHeader() {
 	// than any lump version), it's probably a L4D2 BSP and those are lump versions!
 	if (this->header.version == 21) {
 		int i;
-		for (i = 0; i < BSP_LUMP_COUNT; i++) {
+		for (i = 0; i < VBSP_LUMP_COUNT; i++) {
 			if (this->header.lumps[i].offset > 1024) {
 				break;
 			}
 		}
-		this->l4d2 = i == BSP_LUMP_COUNT;
+		this->l4d2 = i == VBSP_LUMP_COUNT;
 		if (this->l4d2) {
 			// Swap fields around
-			for (i = 0; i < BSP_LUMP_COUNT; i++) {
+			for (i = 0; i < VBSP_LUMP_COUNT; i++) {
 				std::swap(this->header.lumps[i].offset, this->header.lumps[i].version);
 				std::swap(this->header.lumps[i].offset, this->header.lumps[i].length);
 			}
@@ -588,15 +588,15 @@ bool BSP::readHeader() {
 	return true;
 }
 
-std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
+std::vector<BSPEntityKeyValues> VBSP::parseEntities() const {
 	using namespace sourcepp;
 
-	const auto useEscapes = this->getLumpVersion(BSPLump::ENTITIES);
+	const auto useEscapes = this->getLumpVersion(VBSPLump::ENTITIES);
 	if (useEscapes > 1) {
 		return {};
 	}
 
-	auto data = this->getLumpData(BSPLump::ENTITIES);
+	auto data = this->getLumpData(VBSPLump::ENTITIES);
 	if (!data) {
 		return {};
 	}
@@ -655,75 +655,75 @@ std::vector<BSPEntityKeyValues> BSP::parseEntities() const {
 	return entities;
 }
 
-std::vector<BSPPlane> BSP::parsePlanes() const {
-	return ::parseLumpContents<BSPPlane>(*this, BSPLump::PLANES);
+std::vector<VBSPPlane> VBSP::parsePlanes() const {
+	return ::parseLumpContents<VBSPPlane>(*this, VBSPLump::PLANES);
 }
 
-std::vector<BSPTextureData> BSP::parseTextureData() const {
-	return ::parseLumpContents<BSPTextureData>(*this, BSPLump::TEXDATA);
+std::vector<VBSPTextureData> VBSP::parseTextureData() const {
+	return ::parseLumpContents<VBSPTextureData>(*this, VBSPLump::TEXDATA);
 }
 
-std::vector<BSPVertex> BSP::parseVertices() const {
-	return ::parseLumpContents<BSPVertex>(*this, BSPLump::VERTEXES);
+std::vector<VBSPVertex> VBSP::parseVertices() const {
+	return ::parseLumpContents<VBSPVertex>(*this, VBSPLump::VERTEXES);
 }
 
-std::vector<BSPNode> BSP::parseNodes() const {
-	return ::parseLumpContents<BSPNode>(*this, BSPLump::NODES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPNode>& out) {
-		if (const auto lumpVersion = bsp.getLumpVersion(BSPLump::NODES); lumpVersion == 1) {
-			stream.read(out, stream.size() / sizeof(BSPNode_v1));
+std::vector<VBSPNode> VBSP::parseNodes() const {
+	return ::parseLumpContents<VBSPNode>(*this, VBSPLump::NODES, [](const VBSP& bsp, BufferStreamReadOnly& stream, std::vector<VBSPNode>& out) {
+		if (const auto lumpVersion = bsp.getLumpVersion(VBSPLump::NODES); lumpVersion == 1) {
+			stream.read(out, stream.size() / sizeof(VBSPNode_v1));
 		} else if (lumpVersion == 0) {
-			::parseAndUpgrade<BSPNode_v0>(stream, out);
+			::parseAndUpgrade<VBSPNode_v0>(stream, out);
 		}
 	});
 }
 
-std::vector<BSPTextureInfo> BSP::parseTextureInfo() const {
-	return ::parseLumpContents<BSPTextureInfo>(*this, BSPLump::TEXINFO);
+std::vector<VBSPTextureInfo> VBSP::parseTextureInfo() const {
+	return ::parseLumpContents<VBSPTextureInfo>(*this, VBSPLump::TEXINFO);
 }
 
-std::vector<BSPFace> BSP::parseFaces() const {
-	return ::parseLumpContents<BSPFace>(*this, BSPLump::FACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
-		if (const auto lumpVersion = bsp.getLumpVersion(BSPLump::FACES); lumpVersion == 2) {
-			stream.read(out, stream.size() / sizeof(BSPFace_v2));
+std::vector<VBSPFace> VBSP::parseFaces() const {
+	return ::parseLumpContents<VBSPFace>(*this, VBSPLump::FACES, [](const VBSP& bsp, BufferStreamReadOnly& stream, std::vector<VBSPFace>& out) {
+		if (const auto lumpVersion = bsp.getLumpVersion(VBSPLump::FACES); lumpVersion == 2) {
+			stream.read(out, stream.size() / sizeof(VBSPFace_v2));
 		} else if (lumpVersion == 1) {
-			::parseAndUpgrade<BSPFace_v1>(stream, out);
+			::parseAndUpgrade<VBSPFace_v1>(stream, out);
 		}
 	});
 }
 
-std::vector<BSPEdge> BSP::parseEdges() const {
-	return ::parseLumpContents<BSPEdge>(*this, BSPLump::EDGES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPEdge>& out) {
-		if (const auto lumpVersion = bsp.getLumpVersion(BSPLump::EDGES); lumpVersion == 1) {
-			stream.read(out, stream.size() / sizeof(BSPEdge_v1));
+std::vector<VBSPEdge> VBSP::parseEdges() const {
+	return ::parseLumpContents<VBSPEdge>(*this, VBSPLump::EDGES, [](const VBSP& bsp, BufferStreamReadOnly& stream, std::vector<VBSPEdge>& out) {
+		if (const auto lumpVersion = bsp.getLumpVersion(VBSPLump::EDGES); lumpVersion == 1) {
+			stream.read(out, stream.size() / sizeof(VBSPEdge_v1));
 		} else if (lumpVersion == 0) {
-			::parseAndUpgrade<BSPEdge_v0>(stream, out);
+			::parseAndUpgrade<VBSPEdge_v0>(stream, out);
 		}
 	});
 }
 
-std::vector<BSPSurfEdge> BSP::parseSurfEdges() const {
-	return ::parseLumpContents<BSPSurfEdge>(*this, BSPLump::SURFEDGES);
+std::vector<VBSPSurfEdge> VBSP::parseSurfEdges() const {
+	return ::parseLumpContents<VBSPSurfEdge>(*this, VBSPLump::SURFEDGES);
 }
 
-std::vector<BSPBrushModel> BSP::parseBrushModels() const {
-	return ::parseLumpContents<BSPBrushModel>(*this, BSPLump::MODELS);
+std::vector<VBSPBrushModel> VBSP::parseBrushModels() const {
+	return ::parseLumpContents<VBSPBrushModel>(*this, VBSPLump::MODELS);
 }
 
-std::vector<BSPFace> BSP::parseOriginalFaces() const {
-	return ::parseLumpContents<BSPFace>(*this, BSPLump::ORIGINALFACES, [](const BSP& bsp, BufferStreamReadOnly& stream, std::vector<BSPFace>& out) {
+std::vector<VBSPFace> VBSP::parseOriginalFaces() const {
+	return ::parseLumpContents<VBSPFace>(*this, VBSPLump::ORIGINALFACES, [](const VBSP& bsp, BufferStreamReadOnly& stream, std::vector<VBSPFace>& out) {
 		// ORIGINALFACES lump version is always 0?
-		if (const auto lumpVersion = bsp.getLumpVersion(BSPLump::FACES); lumpVersion == 2) {
-			stream.read(out, stream.size() / sizeof(BSPFace_v2));
+		if (const auto lumpVersion = bsp.getLumpVersion(VBSPLump::FACES); lumpVersion == 2) {
+			stream.read(out, stream.size() / sizeof(VBSPFace_v2));
 		} else if (lumpVersion == 1) {
-			::parseAndUpgrade<BSPFace_v1>(stream, out);
+			::parseAndUpgrade<VBSPFace_v1>(stream, out);
 		}
 	});
 }
 
-std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
-	std::vector<BSPGameLump> lumps;
+std::vector<VBSPGameLump> VBSP::parseGameLumps(bool decompress) const {
+	std::vector<VBSPGameLump> lumps;
 
-	auto gameLumpData = this->getLumpData(BSPLump::GAME_LUMP);
+	auto gameLumpData = this->getLumpData(VBSPLump::GAME_LUMP);
 	if (!gameLumpData) {
 		return lumps;
 	}
@@ -755,7 +755,7 @@ std::vector<BSPGameLump> BSP::parseGameLumps(bool decompress) const {
 				nextOffset = lumps[i + 1].offset;
 			}
 			if (nextOffset == 0) {
-				static constexpr auto gameLumpID = static_cast<std::underlying_type_t<BSPLump>>(BSPLump::GAME_LUMP);
+				static constexpr auto gameLumpID = static_cast<std::underlying_type_t<VBSPLump>>(VBSPLump::GAME_LUMP);
 				nextOffset = this->header.lumps[gameLumpID].offset + this->header.lumps[gameLumpID].length;
 			}
 			if (!decompress) {
