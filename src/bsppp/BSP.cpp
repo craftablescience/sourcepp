@@ -531,7 +531,9 @@ bool BSP::bake(std::string_view outputPath) {
 		return false;
 	}
 
-	this->path = outputPath;
+	if (!outputPath.empty()) {
+		this->path = outputPath;
+	}
 	this->stagedLumps.clear();
 	return this->readHeader();
 }
