@@ -1044,8 +1044,8 @@ std::vector<std::byte> DMX::bake() const {
 	return {};
 }
 
-void DMX::bake(const std::filesystem::path& dmxPath) const {
-	fs::writeFileBuffer(dmxPath, this->bake());
+bool DMX::bake(const std::filesystem::path& dmxPath) const {
+	return fs::writeFileBuffer(dmxPath, this->bake());
 }
 
 DMXValue::UUID DMX::createRandomUUID() {

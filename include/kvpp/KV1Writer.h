@@ -370,8 +370,9 @@ public:
 		return buffer;
 	}
 
-	void bake(const std::filesystem::path& kv1Path) const {
-		sourcepp::fs::writeFileText(kv1Path, this->bake());
+	// NOLINTNEXTLINE(*-use-nodiscard)
+	bool bake(const std::filesystem::path& kv1Path) const {
+		return sourcepp::fs::writeFileText(kv1Path, this->bake());
 	}
 
 protected:

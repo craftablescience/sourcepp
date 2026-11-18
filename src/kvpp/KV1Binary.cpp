@@ -310,8 +310,8 @@ std::vector<std::byte> KV1Binary::bake() const {
 	return buffer;
 }
 
-void KV1Binary::bake(const std::filesystem::path& kv1Path) const  {
-	fs::writeFileBuffer(kv1Path, this->bake());
+bool KV1Binary::bake(const std::filesystem::path& kv1Path) const  {
+	return fs::writeFileBuffer(kv1Path, this->bake());
 }
 
 std::string KV1Binary::bakeText() const {

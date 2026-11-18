@@ -208,7 +208,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	void bake(const std::filesystem::path& kv1Path) const;
+	bool bake(const std::filesystem::path& kv1Path) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] std::string bakeText() const;
 

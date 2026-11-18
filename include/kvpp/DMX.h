@@ -819,7 +819,7 @@ public:
 
 	[[nodiscard]] std::vector<std::byte> bake() const;
 
-	void bake(const std::filesystem::path& dmxPath) const;
+	bool bake(const std::filesystem::path& dmxPath) const; // NOLINT(*-use-nodiscard)
 
 	[[nodiscard]] static constexpr bool isEncodingVersionValid(Encoding encodingType, int encodingVersion) {
 		switch (encodingType) {
