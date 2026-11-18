@@ -341,7 +341,7 @@ enum class ID : uint8_t {
 				case ID::STRING:             out = IDv1::STRING; break;
 				case ID::BYTEARRAY:          out = IDv1::BYTEARRAY; break;
 				case ID::UUID:               out = IDv1::UUID; break;
-				case ID::TIME:               out = IDv1::STRING; incompatible = true; break;
+				case ID::TIME:               out = IDv1::BYTEARRAY; incompatible = true; break;
 				case ID::COLOR:              out = IDv1::COLOR; break;
 				case ID::VECTOR2:            out = IDv1::VECTOR2; break;
 				case ID::VECTOR3:            out = IDv1::VECTOR3; break;
@@ -350,7 +350,7 @@ enum class ID : uint8_t {
 				case ID::QUATERNION:         out = IDv1::QUATERNION; break;
 				case ID::MATRIX_4X4:         out = IDv1::MATRIX_4X4; break;
 				case ID::UINT64:
-				case ID::UINT8:              out = IDv1::STRING; incompatible = true; break;
+				case ID::UINT8:              out = IDv1::BYTEARRAY; incompatible = true; break;
 				case ID::ARRAY_ELEMENT:      out = IDv1::ARRAY_ELEMENT; break;
 				case ID::ARRAY_INT32:        out = IDv1::ARRAY_INT32; break;
 				case ID::ARRAY_FLOAT:        out = IDv1::ARRAY_FLOAT; break;
@@ -358,7 +358,7 @@ enum class ID : uint8_t {
 				case ID::ARRAY_STRING:       out = IDv1::ARRAY_STRING; break;
 				case ID::ARRAY_BYTEARRAY:    out = IDv1::ARRAY_BYTEARRAY; break;
 				case ID::ARRAY_UUID:         out = IDv1::ARRAY_UUID; break;
-				case ID::ARRAY_TIME:         out = IDv1::ARRAY_STRING; incompatible = true; break;
+				case ID::ARRAY_TIME:         out = IDv1::ARRAY_BYTEARRAY; incompatible = true; break;
 				case ID::ARRAY_COLOR:        out = IDv1::ARRAY_COLOR; break;
 				case ID::ARRAY_VECTOR2:      out = IDv1::ARRAY_VECTOR2; break;
 				case ID::ARRAY_VECTOR3:      out = IDv1::ARRAY_VECTOR3; break;
@@ -367,7 +367,7 @@ enum class ID : uint8_t {
 				case ID::ARRAY_QUATERNION:   out = IDv1::ARRAY_QUATERNION; break;
 				case ID::ARRAY_MATRIX_4X4:   out = IDv1::ARRAY_MATRIX_4X4; break;
 				case ID::ARRAY_UINT64:
-				case ID::ARRAY_UINT8:        out = IDv1::ARRAY_STRING; incompatible = true; break;
+				case ID::ARRAY_UINT8:        out = IDv1::ARRAY_BYTEARRAY; incompatible = true; break;
 			}
 			return static_cast<std::byte>(out);
 		}
@@ -381,7 +381,7 @@ enum class ID : uint8_t {
 				case ID::BOOL:               out = IDv2::BOOL; break;
 				case ID::STRING:             out = IDv2::STRING; break;
 				case ID::BYTEARRAY:          out = IDv2::BYTEARRAY; break;
-				case ID::UUID:               out = IDv2::STRING; incompatible = true; break;
+				case ID::UUID:               out = IDv2::BYTEARRAY; incompatible = true; break;
 				case ID::TIME:               out = IDv2::TIME; break;
 				case ID::COLOR:              out = IDv2::COLOR; break;
 				case ID::VECTOR2:            out = IDv2::VECTOR2; break;
@@ -391,14 +391,14 @@ enum class ID : uint8_t {
 				case ID::QUATERNION:         out = IDv2::QUATERNION; break;
 				case ID::MATRIX_4X4:         out = IDv2::MATRIX_4X4; break;
 				case ID::UINT64:
-				case ID::UINT8:              out = IDv2::STRING; incompatible = true; break;
+				case ID::UINT8:              out = IDv2::BYTEARRAY; incompatible = true; break;
 				case ID::ARRAY_ELEMENT:      out = IDv2::ARRAY_ELEMENT; break;
 				case ID::ARRAY_INT32:        out = IDv2::ARRAY_INT32; break;
 				case ID::ARRAY_FLOAT:        out = IDv2::ARRAY_FLOAT; break;
 				case ID::ARRAY_BOOL:         out = IDv2::ARRAY_BOOL; break;
 				case ID::ARRAY_STRING:       out = IDv2::ARRAY_STRING; break;
 				case ID::ARRAY_BYTEARRAY:    out = IDv2::ARRAY_BYTEARRAY; break;
-				case ID::ARRAY_UUID:         out = IDv2::STRING; incompatible = true; break;
+				case ID::ARRAY_UUID:         out = IDv2::ARRAY_BYTEARRAY; incompatible = true; break;
 				case ID::ARRAY_TIME:         out = IDv2::ARRAY_TIME; break;
 				case ID::ARRAY_COLOR:        out = IDv2::ARRAY_COLOR; break;
 				case ID::ARRAY_VECTOR2:      out = IDv2::ARRAY_VECTOR2; break;
@@ -408,7 +408,7 @@ enum class ID : uint8_t {
 				case ID::ARRAY_QUATERNION:   out = IDv2::ARRAY_QUATERNION; break;
 				case ID::ARRAY_MATRIX_4X4:   out = IDv2::ARRAY_MATRIX_4X4; break;
 				case ID::ARRAY_UINT64:
-				case ID::ARRAY_UINT8:        out = IDv2::STRING; incompatible = true; break;
+				case ID::ARRAY_UINT8:        out = IDv2::ARRAY_BYTEARRAY; incompatible = true; break;
 			}
 			return static_cast<std::byte>(out);
 		}
@@ -422,7 +422,7 @@ enum class ID : uint8_t {
 				case ID::BOOL:               out = IDv3::BOOL; break;
 				case ID::STRING:             out = IDv3::STRING; break;
 				case ID::BYTEARRAY:          out = IDv3::BYTEARRAY; break;
-				case ID::UUID:               out = IDv3::STRING; incompatible = true; break;
+				case ID::UUID:               out = IDv3::BYTEARRAY; incompatible = true; break;
 				case ID::TIME:               out = IDv3::TIME; break;
 				case ID::COLOR:              out = IDv3::COLOR; break;
 				case ID::VECTOR2:            out = IDv3::VECTOR2; break;
@@ -439,7 +439,7 @@ enum class ID : uint8_t {
 				case ID::ARRAY_BOOL:         out = IDv3::ARRAY_BOOL; break;
 				case ID::ARRAY_STRING:       out = IDv3::ARRAY_STRING; break;
 				case ID::ARRAY_BYTEARRAY:    out = IDv3::ARRAY_BYTEARRAY; break;
-				case ID::ARRAY_UUID:         out = IDv3::STRING; incompatible = true; break;
+				case ID::ARRAY_UUID:         out = IDv3::ARRAY_BYTEARRAY; incompatible = true; break;
 				case ID::ARRAY_TIME:         out = IDv3::ARRAY_TIME; break;
 				case ID::ARRAY_COLOR:        out = IDv3::ARRAY_COLOR; break;
 				case ID::ARRAY_VECTOR2:      out = IDv3::ARRAY_VECTOR2; break;
@@ -522,7 +522,7 @@ using Generic = std::variant<
 	if (id == "bool")       return BOOL;
 	if (id == "string")     return STRING;
 	if (id == "binary")     return BYTEARRAY;
-	if (id == "elementid")   return UUID;
+	if (id == "elementid")  return UUID;
 	if (id == "time")       return TIME;
 	if (id == "color")      return COLOR;
 	if (id == "vector2")    return VECTOR2;

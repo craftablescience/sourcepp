@@ -80,7 +80,7 @@ The Python wrappers can be found on PyPI in the [sourcepp](https://pypi.org/proj
       <br> &bull; <a href="https://github.com/TeamSpen210/srctools" target="_blank" rel="noreferrer">srctools</a> encodings (<code>unicode_*</code>)
     </td>
     <td align="center">✅</td>
-    <td align="center">❌</td>
+    <td align="center">✅</td>
     <td rowspan="5" align="center">Python</td>
   </tr>
   <tr><!-- empty row to disable GitHub striped bg color --></tr>

@@ -1,4 +1,5 @@
 // ReSharper disable CppRedundantQualifier
+// ReSharper disable CppUseStructuredBinding
 
 #include <kvpp/DMX.h>
 
@@ -1018,8 +1019,325 @@ std::vector<std::byte> DMX::bake() const {
 		return {};
 	}
 
-	// todo: bake
-	return {};
+	std::vector<std::byte> dmxData;
+	BufferStream dmxStream{dmxData};
+
+	switch (this->encodingType) {
+		case ENCODING_INVALID:             return {};
+		case ENCODING_BINARY_OLD:          dmxStream.write(std::format("<!-- DMXVersion {}{}_v{} -->\n",               this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "binary",           this->encodingVersion),                                        true);  break;
+		case ENCODING_BINARY_OLD_SFM:      dmxStream.write(std::format("<!-- DMXVersion {}{}_v{} -->\n",               this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "sfm",              this->encodingVersion),                                        true);  break;
+		case ENCODING_KEYVALUES2_OLD:      dmxStream.write(std::format("<!-- DMXVersion {}{}_v{} -->\n",               this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "keyvalues2",       this->encodingVersion),                                        false); break;
+		case ENCODING_KEYVALUES2_FLAT_OLD: dmxStream.write(std::format("<!-- DMXVersion {}{}_v{} -->\n",               this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "keyvalues2_flat",  this->encodingVersion),                                        false); break;
+		case ENCODING_BINARY:              dmxStream.write(std::format("<!-- dmx encoding {}{} {} format {} {} -->\n", this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "binary",           this->encodingVersion, this->formatType, this->formatVersion), true);  break;
+		case ENCODING_BINARY_SEQIDS:       dmxStream.write(std::format("<!-- dmx encoding {}{} {} format {} {} -->\n", this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "binary_seqids",    this->encodingVersion, this->formatType, this->formatVersion), true);  break;
+		case ENCODING_KEYVALUES2:          dmxStream.write(std::format("<!-- dmx encoding {}{} {} format {} {} -->\n", this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "keyvalues2",       this->encodingVersion, this->formatType, this->formatVersion), false); break;
+		case ENCODING_KEYVALUES2_FLAT:     dmxStream.write(std::format("<!-- dmx encoding {}{} {} format {} {} -->\n", this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "keyvalues2_flat",  this->encodingVersion, this->formatType, this->formatVersion), false); break;
+		case ENCODING_KEYVALUES2_NOIDS:    dmxStream.write(std::format("<!-- dmx encoding {}{} {} format {} {} -->\n", this->encodingTypeHasUnicodePrefix ? "unicode_" : "", "keyvalues2_noids", this->encodingVersion, this->formatType, this->formatVersion), false); break;
+	}
+
+	const auto writeBinary = [this, &dmxStream] {
+		std::vector<std::byte> bodyData;
+		BufferStream bodyStream{bodyData};
+
+		// Version-specific conditionals
+		const bool isLegacyEncoding = this->encodingType == ENCODING_BINARY_OLD || this->encodingType == ENCODING_BINARY_OLD_SFM;
+		const DMXValue::IDVersion attributeIDVersion = isLegacyEncoding || this->encodingVersion < 3 ? DMXValue::IDVersion::V1 : this->encodingVersion < 9 ? DMXValue::IDVersion::V2 : DMXValue::IDVersion::V3;
+		const bool stringListExists = !isLegacyEncoding && this->encodingVersion > 1;
+		const bool elementNamesAndStringValuesAreStoredInStringList = !isLegacyEncoding && this->encodingVersion > 3;
+		const bool stringListLengthIsShort = this->encodingVersion < 4;
+		const bool stringListIndicesAreShort = this->encodingVersion < 5;
+		const bool tagStringExists = !isLegacyEncoding && this->encodingVersion > 5 && this->encodingVersion < 9;
+		const bool preloadAttributeListExists = !isLegacyEncoding && this->encodingVersion > 6;
+
+		// Helper to write a string either directly or to the string table
+		std::vector<std::string> stringList;
+		const auto writeStringToIndex = [stringListExists, stringListIndicesAreShort, &stringList](BufferStream& stream, std::string_view str) {
+			if (!stringListExists) {
+				stream.write(str);
+				return;
+			}
+			uint32_t index = 0;
+			if (str.empty()) {
+				// This is an intentional feature of the format
+				index = 0xffff;
+			} else {
+				bool found = false;
+				for (uint32_t i = 0; i < stringList.size(); i++) {
+					if (str == stringList[i]) {
+						index = i;
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					index = stringList.size();
+					stringList.emplace_back(str);
+				}
+			}
+			if (stringListIndicesAreShort) {
+				stream.write<uint16_t>(index);
+			} else {
+				stream.write<uint32_t>(index);
+			}
+		};
+
+		// Helper to read a value for an attribute
+		std::function<void(BufferStream&, const DMXValue::Generic&, bool)> writeValue;
+		writeValue = [&writeStringToIndex, &writeValue](BufferStream& stream, const DMXValue::Generic& value, bool useStringList) {
+			const auto writeArrayValue = [&stream, &writeValue, &value]<typename T> {
+				const auto& valueUnboxed = std::get<std::vector<T>>(value);
+				stream.write<uint32_t>(valueUnboxed.size());
+				for (const auto& valueUnboxedElement : valueUnboxed) {
+					// String arrays are always inline
+					writeValue(stream, {valueUnboxedElement}, false);
+				}
+			};
+			switch (static_cast<DMXValue::ID>(value.index())) {
+				using enum DMXValue::ID;
+				case INVALID:
+					break;
+				case ELEMENT: {
+					const auto& valueUnboxed = std::get<DMXValue::Element>(value);
+					stream.write(valueUnboxed.index);
+					if (valueUnboxed.index == -2) {
+						// Write out the ASCII GUID
+						stream.write(valueUnboxed.externalGUID);
+					}
+					break;
+				}
+				case INT32: stream.write(std::get<int32_t>(value)); break;
+				case FLOAT: stream.write(std::get<float>(value));   break;
+				case BOOL:  stream.write(std::get<bool>(value));    break;
+				case STRING:
+					if (
+						const auto& valueUnboxed = std::get<std::string>(value);
+						useStringList
+					) {
+						writeStringToIndex(stream, valueUnboxed);
+					} else {
+						stream.write(valueUnboxed);
+					}
+					break;
+				case BYTEARRAY: {
+					const auto& valueUnboxed = std::get<std::vector<std::byte>>(value);
+					stream.write<uint32_t>(valueUnboxed.size()) << valueUnboxed;
+					break;
+				}
+				case UUID: stream.write(std::get<DMXValue::UUID>(value)); break;
+				case TIME: {
+					const auto& valueUnboxed = std::get<DMXValue::Time>(value);
+					stream.write(static_cast<int32_t>(static_cast<double>(valueUnboxed.seconds) * 10000.0));
+					break;
+				}
+				case COLOR: {
+					const auto& valueUnboxed = std::get<DMXValue::Color>(value);
+					stream << valueUnboxed.r << valueUnboxed.g << valueUnboxed.b << valueUnboxed.a;
+					break;
+				}
+				case VECTOR2: {
+					const auto& valueUnboxed = std::get<DMXValue::Vector2>(value);
+					stream << valueUnboxed[0] << valueUnboxed[1];
+					break;
+				}
+				case VECTOR3: {
+					const auto& valueUnboxed = std::get<DMXValue::Vector3>(value);
+					stream << valueUnboxed[0] << valueUnboxed[1] << valueUnboxed[2];
+					break;
+				}
+				case VECTOR4: {
+					const auto& valueUnboxed = std::get<DMXValue::Vector4>(value);
+					stream << valueUnboxed[0] << valueUnboxed[1] << valueUnboxed[2] << valueUnboxed[3];
+					break;
+				}
+				case EULER_ANGLES: {
+					const auto& valueUnboxed = std::get<DMXValue::EulerAngles>(value);
+					stream << valueUnboxed[0] << valueUnboxed[1] << valueUnboxed[2];
+					break;
+				}
+				case QUATERNION: {
+					const auto& valueUnboxed = std::get<DMXValue::Quaternion>(value);
+					stream << valueUnboxed[0] << valueUnboxed[1] << valueUnboxed[2] << valueUnboxed[3];
+					break;
+				}
+				case MATRIX_4X4: {
+					const auto& valueUnboxed = std::get<DMXValue::Matrix4x4>(value);
+					stream
+						<< valueUnboxed[0][0] << valueUnboxed[0][1] << valueUnboxed[0][2] << valueUnboxed[0][3]
+						<< valueUnboxed[1][0] << valueUnboxed[1][1] << valueUnboxed[1][2] << valueUnboxed[1][3]
+						<< valueUnboxed[2][0] << valueUnboxed[2][1] << valueUnboxed[2][2] << valueUnboxed[2][3]
+						<< valueUnboxed[3][0] << valueUnboxed[3][1] << valueUnboxed[3][2] << valueUnboxed[3][3];
+					break;
+				}
+				case UINT64: stream.write(std::get<uint64_t>(value)); break;
+				case UINT8:  stream.write(std::get<uint8_t>(value));  break;
+				case ARRAY_ELEMENT:      writeArrayValue.operator()<DMXValue::Element>();      break;
+				case ARRAY_INT32:        writeArrayValue.operator()<int32_t>();                break;
+				case ARRAY_FLOAT:        writeArrayValue.operator()<float>();                  break;
+				case ARRAY_BOOL:         writeArrayValue.operator()<bool>();                   break;
+				case ARRAY_STRING:       writeArrayValue.operator()<std::string>();            break;
+				case ARRAY_BYTEARRAY:    writeArrayValue.operator()<std::vector<std::byte>>(); break;
+				case ARRAY_UUID:         writeArrayValue.operator()<DMXValue::UUID>();         break;
+				case ARRAY_TIME:         writeArrayValue.operator()<DMXValue::Time>();         break;
+				case ARRAY_COLOR:        writeArrayValue.operator()<DMXValue::Color>();        break;
+				case ARRAY_VECTOR2:      writeArrayValue.operator()<DMXValue::Vector2>();      break;
+				case ARRAY_VECTOR3:      writeArrayValue.operator()<DMXValue::Vector3>();      break;
+				case ARRAY_VECTOR4:      writeArrayValue.operator()<DMXValue::Vector4>();      break;
+				case ARRAY_EULER_ANGLES: writeArrayValue.operator()<DMXValue::EulerAngles>();  break;
+				case ARRAY_QUATERNION:   writeArrayValue.operator()<DMXValue::Quaternion>();   break;
+				case ARRAY_MATRIX_4X4:   writeArrayValue.operator()<DMXValue::Matrix4x4>();    break;
+				case ARRAY_UINT64:       writeArrayValue.operator()<uint64_t>();               break;
+				case ARRAY_UINT8:        writeArrayValue.operator()<uint8_t>();                break;
+			}
+		};
+
+		// Helper to read element attributes
+		const auto writeAttributes = [attributeIDVersion, &writeStringToIndex, &writeValue](BufferStream& stream, const DMXElement& element, bool useStringList) {
+			stream.write<uint32_t>(element.attributes.size());
+
+			for (const auto& attribute : element.attributes) {
+				writeStringToIndex(stream, attribute.getKey());
+
+				bool incompatible;
+				const auto encodedID = DMXValue::encodeID(attribute.getValueType(), attributeIDVersion, incompatible);
+				stream.write<std::byte>(static_cast<std::byte>(encodedID));
+
+				if (incompatible) {
+					if (DMXValue::arrayIDToInnerID(attribute.getValueType()) == attribute.getValueType()) {
+						std::vector<std::byte> bytearray;
+						BufferStream bytearrayStream{bytearray};
+						switch (attribute.getValueType()) {
+							default:                   break;
+							case DMXValue::ID::UUID:   bytearrayStream << std::get<DMXValue::UUID>(attribute.getValue());         break;
+							case DMXValue::ID::TIME:   bytearrayStream << std::get<DMXValue::Time>(attribute.getValue()).seconds; break;
+							case DMXValue::ID::UINT64: bytearrayStream << std::get<uint64_t>(attribute.getValue());               break;
+							case DMXValue::ID::UINT8:  bytearrayStream << std::get<uint8_t>(attribute.getValue());                break;
+						}
+						bytearray.resize(bytearrayStream.size());
+						writeValue(stream, bytearray, useStringList);
+					} else {
+						std::vector<std::vector<std::byte>> bytearrayArray;
+						switch (attribute.getValueType()) {
+							default:
+								break;
+							case DMXValue::ID::ARRAY_UUID:
+								for (
+									const auto& valueUnboxedArray = std::get<std::vector<DMXValue::UUID>>(attribute.getValue());
+									const auto& valueUnboxedElement : valueUnboxedArray
+								) {
+									BufferStream bytearrayStream{bytearrayArray.emplace_back()};
+									bytearrayStream << valueUnboxedElement;
+									bytearrayArray.back().resize(bytearrayStream.size());
+								}
+								break;
+							case DMXValue::ID::ARRAY_TIME:
+								for (
+									const auto& valueUnboxedArray = std::get<std::vector<DMXValue::Time>>(attribute.getValue());
+									const auto& valueUnboxedElement : valueUnboxedArray
+								) {
+									BufferStream bytearrayStream{bytearrayArray.emplace_back()};
+									bytearrayStream << valueUnboxedElement.seconds;
+									bytearrayArray.back().resize(bytearrayStream.size());
+								}
+								break;
+							case DMXValue::ID::ARRAY_UINT64:
+								for (
+									const auto& valueUnboxedArray = std::get<std::vector<uint64_t>>(attribute.getValue());
+									auto valueUnboxedElement : valueUnboxedArray
+								) {
+									BufferStream bytearrayStream{bytearrayArray.emplace_back()};
+									bytearrayStream << valueUnboxedElement;
+									bytearrayArray.back().resize(bytearrayStream.size());
+								}
+								break;
+							case DMXValue::ID::ARRAY_UINT8:
+								for (
+									const auto& valueUnboxedArray = std::get<std::vector<uint8_t>>(attribute.getValue());
+									auto valueUnboxedElement : valueUnboxedArray
+								) {
+									BufferStream bytearrayStream{bytearrayArray.emplace_back()};
+									bytearrayStream << valueUnboxedElement;
+									bytearrayArray.back().resize(bytearrayStream.size());
+								}
+								break;
+						}
+						writeValue(stream, bytearrayArray, useStringList);
+					}
+				} else {
+					writeValue(stream, attribute.getValue(), useStringList);
+				}
+			}
+		};
+
+		// Preload attributes
+		if (preloadAttributeListExists) {
+			dmxStream.write<uint32_t>(this->prefixAttributeContainers.size());
+			for (const auto& preloadElement : this->prefixAttributeContainers) {
+				writeAttributes(dmxStream, preloadElement, false);
+			}
+		}
+
+		// Write elements
+		bodyStream.write<uint32_t>(this->elements.size());
+
+		for (const auto& element : this->elements) {
+			writeStringToIndex(bodyStream, element.getType());
+			if (tagStringExists) {
+				// Ignore this value for now, DMX binary v6 is still too niche to care about preserving this
+				writeStringToIndex(bodyStream, "");
+			}
+			if (elementNamesAndStringValuesAreStoredInStringList) {
+				writeStringToIndex(bodyStream, element.getKey());
+			} else {
+				bodyStream.write(element.getKey());
+			}
+			bodyStream.write(element.getUUID());
+		}
+
+		// Write element attributes
+		for (const auto& element : this->elements) {
+			writeAttributes(bodyStream, element, elementNamesAndStringValuesAreStoredInStringList);
+		}
+
+		// String list
+		if (stringListExists) {
+			if (stringListLengthIsShort) {
+				dmxStream.write<uint16_t>(stringList.size());
+			} else {
+				dmxStream.write<uint32_t>(stringList.size());
+			}
+			for (const auto& str : stringList) {
+				dmxStream.write(str);
+			}
+		}
+
+		// Body
+		bodyData.resize(bodyStream.size());
+		dmxStream << bodyData;
+		return true;
+	};
+
+	bool parseSuccess = false;
+	switch (this->encodingType) {
+		case ENCODING_INVALID:
+			break;
+		case ENCODING_BINARY_OLD:
+		case ENCODING_BINARY_OLD_SFM:
+		case ENCODING_BINARY:
+		case ENCODING_BINARY_SEQIDS:
+			parseSuccess = writeBinary();
+			break;
+		case ENCODING_KEYVALUES2_OLD:
+		case ENCODING_KEYVALUES2:
+		case ENCODING_KEYVALUES2_FLAT_OLD:
+		case ENCODING_KEYVALUES2_FLAT:
+		case ENCODING_KEYVALUES2_NOIDS:
+			break;
+	}
+	if (!parseSuccess) {
+		return {};
+	}
+	dmxData.resize(dmxStream.size());
+	return dmxData;
 }
 
 bool DMX::bake(const std::filesystem::path& dmxPath) const {
