@@ -590,7 +590,8 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 		const bool elementNamesAndStringValuesAreStoredInStringList = !isLegacyEncoding && this->encodingVersion > 3;
 		const bool stringListLengthIsShort = this->encodingVersion < 4;
 		const bool stringListIndicesAreShort = this->encodingVersion < 5;
-		const bool preloadAttributeListExists = !isLegacyEncoding && this->encodingVersion > 5;
+		const bool tagStringExists = !isLegacyEncoding && this->encodingVersion > 5 && this->encodingVersion < 9;
+		const bool preloadAttributeListExists = !isLegacyEncoding && this->encodingVersion > 6;
 
 		// Eat the null terminator for the header.
 		if (stream.read<char>() != 0) {
@@ -599,15 +600,15 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 
 		// Helper to read a string index and get the string from the list
 		std::vector<std::string> stringList;
-		const auto readStringFromIndex = [stringListExists, stringListIndicesAreShort, &stringList](BufferStream& stream_) -> std::string {
+		const auto readStringFromIndex = [&stream, stringListExists, stringListIndicesAreShort, &stringList]() -> std::string {
 			if (!stringListExists) {
-				return stream_.read_string();
+				return stream.read_string();
 			}
 			uint32_t index;
 			if (stringListIndicesAreShort) {
-				index = stream_.read<uint16_t>();
+				index = stream.read<uint16_t>();
 			} else {
-				index = stream_.read<uint32_t>();
+				index = stream.read<uint32_t>();
 			}
 			if (index >= stringList.size()) {
 				// This is an intentional feature of the format
@@ -642,20 +643,13 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 					}
 					return value;
 				}
-				case INT32:
-					return stream.read<int32_t>();
-				case FLOAT:
-					return stream.read<float>();
-				case BOOL:
-					return stream.read<bool>();
-				case STRING:
-					return useStringList ? readStringFromIndex(stream) : stream.read_string();
-				case BYTEARRAY:
-					return stream.read_bytes(stream.read<uint32_t>());
-				case UUID:
-					return stream.read_bytes<16>();
-				case TIME:
-					return DMXValue::Time{static_cast<float>(static_cast<double>(stream.read<int32_t>()) / 10000.0)};
+				case INT32:     return stream.read<int32_t>();
+				case FLOAT:     return stream.read<float>();
+				case BOOL:      return stream.read<bool>();
+				case STRING:    return useStringList ? readStringFromIndex() : stream.read_string();
+				case BYTEARRAY: return stream.read_bytes(stream.read<uint32_t>());
+				case UUID:      return stream.read_bytes<16>();
+				case TIME:      return DMXValue::Time{static_cast<float>(static_cast<double>(stream.read<int32_t>()) / 10000.0)};
 				case COLOR: {
 					DMXValue::Color value{};
 					stream >> value.r >> value.g >> value.b >> value.a;
@@ -695,62 +689,42 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 						>> value[3][0] >> value[3][1] >> value[3][2] >> value[3][3];
 					return value;
 				}
-				case UINT64:
-					return stream.read<uint64_t>();
-				case UINT8:
-					return stream.read<uint8_t>();
-				case ARRAY_ELEMENT:
-					return readArrayValue.operator()<DMXValue::Element>(type);
-				case ARRAY_INT32:
-					return readArrayValue.operator()<int32_t>(type);
-				case ARRAY_FLOAT:
-					return readArrayValue.operator()<float>(type);
-				case ARRAY_BOOL:
-					return readArrayValue.operator()<bool>(type);
-				case ARRAY_STRING:
-					return readArrayValue.operator()<std::string>(type);
-				case ARRAY_BYTEARRAY:
-					return readArrayValue.operator()<std::vector<std::byte>>(type);
-				case ARRAY_UUID:
-					return readArrayValue.operator()<DMXValue::UUID>(type);
-				case ARRAY_TIME:
-					return readArrayValue.operator()<DMXValue::Time>(type);
-				case ARRAY_COLOR:
-					return readArrayValue.operator()<DMXValue::Color>(type);
-				case ARRAY_VECTOR2:
-					return readArrayValue.operator()<DMXValue::Vector2>(type);
-				case ARRAY_VECTOR3:
-					return readArrayValue.operator()<DMXValue::Vector3>(type);
-				case ARRAY_VECTOR4:
-					return readArrayValue.operator()<DMXValue::Vector4>(type);
-				case ARRAY_EULER_ANGLES:
-				return readArrayValue.operator()<DMXValue::EulerAngles>(type);
-				case ARRAY_QUATERNION:
-					return readArrayValue.operator()<DMXValue::Quaternion>(type);
-				case ARRAY_MATRIX_4X4:
-					return readArrayValue.operator()<DMXValue::Matrix4x4>(type);
-				case ARRAY_UINT64:
-					return readArrayValue.operator()<uint64_t>(type);
-				case ARRAY_UINT8:
-					return readArrayValue.operator()<uint8_t>(type);
+				case UINT64: return stream.read<uint64_t>();
+				case UINT8:  return stream.read<uint8_t>();
+				case ARRAY_ELEMENT:      return readArrayValue.operator()<DMXValue::Element>(type);
+				case ARRAY_INT32:        return readArrayValue.operator()<int32_t>(type);
+				case ARRAY_FLOAT:        return readArrayValue.operator()<float>(type);
+				case ARRAY_BOOL:         return readArrayValue.operator()<bool>(type);
+				case ARRAY_STRING:       return readArrayValue.operator()<std::string>(type);
+				case ARRAY_BYTEARRAY:    return readArrayValue.operator()<std::vector<std::byte>>(type);
+				case ARRAY_UUID:         return readArrayValue.operator()<DMXValue::UUID>(type);
+				case ARRAY_TIME:         return readArrayValue.operator()<DMXValue::Time>(type);
+				case ARRAY_COLOR:        return readArrayValue.operator()<DMXValue::Color>(type);
+				case ARRAY_VECTOR2:      return readArrayValue.operator()<DMXValue::Vector2>(type);
+				case ARRAY_VECTOR3:      return readArrayValue.operator()<DMXValue::Vector3>(type);
+				case ARRAY_VECTOR4:      return readArrayValue.operator()<DMXValue::Vector4>(type);
+				case ARRAY_EULER_ANGLES: return readArrayValue.operator()<DMXValue::EulerAngles>(type);
+				case ARRAY_QUATERNION:   return readArrayValue.operator()<DMXValue::Quaternion>(type);
+				case ARRAY_MATRIX_4X4:   return readArrayValue.operator()<DMXValue::Matrix4x4>(type);
+				case ARRAY_UINT64:       return readArrayValue.operator()<uint64_t>(type);
+				case ARRAY_UINT8:        return readArrayValue.operator()<uint8_t>(type);
 			}
 			return std::monostate{};
 		};
 
 		// Helper to read element attributes
 		const auto readAttributes = [&stream, attributeIDVersion, &readStringFromIndex, &readValue](DMXElement& element, bool useStringList) {
-			const auto attributeCount = stream.read<int32_t>();
+			const auto attributeCount = stream.read<uint32_t>();
 			element.attributes.reserve(attributeCount);
 
 			for (int i = 0; i < attributeCount; i++) {
 				element.attributes.push_back(DMXAttribute{});
 				auto& attribute = element.attributes.back();
 
-				attribute.setKey(readStringFromIndex(stream));
+				attribute.setKey(readStringFromIndex());
 
 				auto attributeID = DMXValue::ID::INVALID;
 				switch (attributeIDVersion) {
-					// ReSharper disable once CppDFAUnreachableCode
 					case DMXValue::IDVersion::V1: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv1>(stream.read<std::byte>())); break;
 					case DMXValue::IDVersion::V2: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv2>(stream.read<std::byte>())); break;
 					case DMXValue::IDVersion::V3: attributeID = DMXValue::decodeID(static_cast<DMXValue::IDv3>(stream.read<std::byte>())); break;
@@ -785,16 +759,20 @@ DMX::DMX(std::span<const std::byte> dmxData) {
 		}
 
 		// Read elements
-		const auto elementCount = stream.read<int32_t>();
+		const auto elementCount = stream.read<uint32_t>();
 		this->elements.reserve(elementCount);
 
 		for (int i = 0; i < elementCount; i++) {
 			this->elements.push_back(DMXElement{});
 			auto& element = this->elements.back();
 
-			element.setType(readStringFromIndex(stream));
+			element.setType(readStringFromIndex());
+			if (tagStringExists) {
+				// Ignore this value for now, DMX binary v6 is still too niche to care about preserving this
+				static_cast<void>(readStringFromIndex());
+			}
 			if (elementNamesAndStringValuesAreStoredInStringList) {
-				element.setKey(readStringFromIndex(stream));
+				element.setKey(readStringFromIndex());
 			} else {
 				element.setKey(stream.read_string());
 			}

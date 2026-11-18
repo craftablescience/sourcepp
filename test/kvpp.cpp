@@ -60,6 +60,16 @@ TEST(kvpp, dmx_binary_v5_read) {
 	EXPECT_EQ(dmx.getElementCount(), 473);
 }
 
+TEST(kvpp, dmx_binary_v6_dmx_v20) {
+	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v6_dmx_v20.dmx")};
+	ASSERT_TRUE(dmx);
+	EXPECT_EQ(dmx.getEncodingType(), DMX::ENCODING_BINARY);
+	EXPECT_EQ(dmx.getEncodingVersion(), 6);
+	EXPECT_EQ(dmx.getFormatType(), "dmx");
+	EXPECT_EQ(dmx.getFormatVersion(), 20);
+	EXPECT_EQ(dmx.getElementCount(), 14);
+}
+
 TEST(kvpp, dmx_binary_v9_model_v22) {
 	const DMX dmx{fs::readFileBuffer(ASSET_ROOT "kvpp/dmx/binary_v9_model_v22.dmx")};
 	ASSERT_TRUE(dmx);

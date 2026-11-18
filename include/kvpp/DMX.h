@@ -831,7 +831,7 @@ public:
 				return encodingVersion >= 1 && encodingVersion <= 9;
 			case ENCODING_BINARY:
 			case ENCODING_BINARY_SEQIDS:
-				return (encodingVersion >= 1 && encodingVersion <= 5) || encodingVersion == 9;
+				return (encodingVersion >= 1 && encodingVersion <= 6) || encodingVersion == 9;
 			case ENCODING_KEYVALUES2_OLD:
 			case ENCODING_KEYVALUES2_FLAT_OLD:
 				return encodingVersion == 1;
