@@ -30,6 +30,7 @@ option(SOURCEPP_USE_MDLPP          "Build mdlpp library"                 ${SOURC
 option(SOURCEPP_USE_SNDPP          "Build sndpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_STEAMPP        "Build steampp library"               ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_TOOLPP         "Build toolpp library"                ${SOURCEPP_LIBS_START_ENABLED})
+option(SOURCEPP_USE_VCDPP          "Build vcdpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VCRYPTPP       "Build vcryptpp library"              ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VPKPP          "Build vpkpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
 option(SOURCEPP_USE_VTFPP          "Build vtfpp library"                 ${SOURCEPP_LIBS_START_ENABLED})
@@ -73,6 +74,9 @@ if(SOURCEPP_USE_STEAMPP)
 endif()
 if(SOURCEPP_USE_TOOLPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
+endif()
+if(SOURCEPP_USE_VCDPP)
+    set(SOURCEPP_USE_VPKPP ON CACHE INTERNAL "" FORCE)
 endif()
 if(SOURCEPP_USE_VPKPP)
     set(SOURCEPP_USE_KVPP ON CACHE INTERNAL "" FORCE)
@@ -164,6 +168,7 @@ add_sourcepp_library(mdlpp                         TEST      ) # sourcepp::mdlpp
 add_sourcepp_library(sndpp                         TEST      ) # sourcepp::sndpp
 add_sourcepp_library(steampp  C CSHARP PYTHON      TEST      ) # sourcepp::steampp
 add_sourcepp_library(toolpp            PYTHON      TEST      ) # sourcepp::toolpp
+add_sourcepp_library(vcdpp                         TEST      ) # sourcepp::vcdpp
 add_sourcepp_library(vcryptpp C CSHARP PYTHON      TEST      ) # sourcepp::vcryptpp
 add_sourcepp_library(vpkpp    C CSHARP PYTHON      TEST      ) # sourcepp::vpkpp
 add_sourcepp_library(vtfpp    C CSHARP PYTHON      TEST BENCH) # sourcepp::vtfpp
@@ -179,7 +184,7 @@ sourcepp_test_setup_post()
 
 # Print options
 print_options(OPTIONS
-        USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCRYPTPP USE_VPKPP USE_VTFPP "\n"
+        USE_BSPPP USE_DMXPP USE_FSPP USE_GAMEPP USE_KVPP USE_MDLPP USE_SNDPP USE_STEAMPP USE_TOOLPP USE_VCDPP USE_VCRYPTPP USE_VPKPP USE_VTFPP "\n"
         BUILD_C_WRAPPERS BUILD_CSHARP_WRAPPERS BUILD_PYTHON_WRAPPERS BUILD_WASM_WRAPPERS "\n"
         BUILD_BENCHMARKS BUILD_WITH_TBB BUILD_WITH_THREADS BUILD_TESTS BUILD_TESTS_EXTRA BUILD_WIN7_COMPAT LINK_STATIC_MSVC_RUNTIME "\n")
 
