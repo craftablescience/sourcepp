@@ -13,6 +13,7 @@
 #include "ImageQuantize.h"
 #include "PPL.h"
 #include "PSFrames.h"
+#include "PVR.h"
 #include "SHT.h"
 #include "TTX.h"
 #include "VBF.h"
